@@ -12,6 +12,7 @@ namespace App\Support;
  *   ZF = 1              → «ZF = 1»
  *   [pociones] = 4      → «[pociones] = 04h»    (un byte de la variable)
  *   word [vida] = 10    → «word [vida] = 000Ah» (un word)
+ *   puerto 127 = 1      → «puerto 127 = 01h»   (lo que quedó en un puerto de in/out)
  */
 class AsmState
 {
@@ -44,6 +45,10 @@ class AsmState
         }
         if (in_array($lower, self::FLAGS, true)) {
             return strtoupper($name).' = '.($value ? '1' : '0');
+        }
+        // «puerto 199 = 1234»: lo que quedó en un puerto de in/out (D110, los aparatos de emu8086).
+        if (preg_match('/^puerto\s+(\w+)$/i', $name, $port) && ($number = self::parseValue($port[1])) !== null) {
+            return ($width === 16 ? 'word ' : '')."puerto {$number} = ".self::hex($value, $width);
         }
         if (preg_match('/^\[\s*(.+?)\s*\]$/', $name, $mem)) {
             return ($width === 16 ? 'word ' : '')."[{$mem[1]}] = ".self::hex($value, $width);

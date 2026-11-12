@@ -1,5 +1,6 @@
 // Ensamblador 8086 de la plataforma (D110): el subconjunto de MASM que usa este curso (.model small, .stack,
-// .data, .code, db/dw/dup/?, equ, offset, byte ptr/word ptr, proc/endp, macro/endm/local, end main).
+// .data, .code, db/dw/dd/dup/?, equ, offset, seg, byte/word/dword ptr, far ptr, proc [far]/endp, macro/endm/local,
+// end main). Desde 2026-11-11, todas las órdenes del 8086 (BCD, lds/les, in/out, iret, retf, lock, wait).
 // No genera código máquina: arma una lista de instrucciones ya analizadas, cada una con la dirección y el
 // tamaño que tendría en un 8086 de verdad (así IP, CALL/RET y la pila se ven como en emu8086), y la imagen
 // de los datos byte por byte. Los errores imitan los de JWasm/MASM (los que muestra el bestiario del curso).
@@ -17,19 +18,21 @@ const JCC = {
 const LOOPS = ['loop', 'loope', 'loopz', 'loopne', 'loopnz', 'jcxz'];
 const NOARGS = ['clc', 'stc', 'cmc', 'cld', 'std', 'cli', 'sti', 'nop', 'cbw', 'cwd', 'lahf', 'sahf', 'pushf',
     'popf', 'hlt', 'xlat', 'xlatb', 'movsb', 'movsw', 'lodsb', 'lodsw', 'stosb', 'stosw', 'cmpsb', 'cmpsw',
-    'scasb', 'scasw', 'into', 'iret'];
-const TWO = ['mov', 'add', 'adc', 'sub', 'sbb', 'cmp', 'and', 'or', 'xor', 'test', 'xchg', 'lea'];
+    'scasb', 'scasw', 'into', 'iret', 'aaa', 'aas', 'daa', 'das', 'wait'];
+const TWO = ['mov', 'add', 'adc', 'sub', 'sbb', 'cmp', 'and', 'or', 'xor', 'test', 'xchg', 'lea', 'lds', 'les'];
+const IO = ['in', 'out'];
 const ONE = ['inc', 'dec', 'neg', 'not', 'mul', 'imul', 'div', 'idiv', 'push', 'pop'];
 const SHIFTS = ['shl', 'sal', 'shr', 'sar', 'rol', 'ror', 'rcl', 'rcr'];
 const BRANCH = ['jmp', 'call'];
-const OTHER = ['ret', 'retn', 'int'];
-const PREFIXES = ['rep', 'repe', 'repz', 'repne', 'repnz'];
+const OTHER = ['ret', 'retn', 'retf', 'int', 'aam', 'aad'];
+const PREFIXES = ['rep', 'repe', 'repz', 'repne', 'repnz', 'lock'];
+const STRING_OPS = ['movsb', 'movsw', 'lodsb', 'lodsw', 'stosb', 'stosw', 'cmpsb', 'cmpsw', 'scasb', 'scasw'];
 const PRE186 = ['pusha', 'popa', 'enter', 'leave', 'bound', 'ins', 'outs', 'insb', 'outsb', 'movzx', 'movsx'];
-export const MNEMONICS = new Set([...Object.keys(JCC), ...LOOPS, ...NOARGS, ...TWO, ...ONE, ...SHIFTS, ...BRANCH, ...OTHER]);
+export const MNEMONICS = new Set([...Object.keys(JCC), ...LOOPS, ...NOARGS, ...TWO, ...IO, ...ONE, ...SHIFTS, ...BRANCH, ...OTHER]);
 
 // Palabras reservadas de MASM que no pueden ser nombres (el bestiario: «Syntax error: record»).
 const RESERVED = new Set(['record', 'name', 'length', 'size', 'type', 'mask', 'width', 'offset', 'ptr', 'byte',
-    'word', 'dup', 'proc', 'endp', 'macro', 'endm', 'end', 'equ', 'db', 'dw', 'dd', 'seg', 'short', 'near', 'far',
+    'word', 'dword', 'dup', 'proc', 'endp', 'macro', 'endm', 'end', 'equ', 'db', 'dw', 'dd', 'seg', 'short', 'near', 'far',
     'this', 'high', 'low', 'local', 'title', 'page', 'segment', 'ends', 'assume', 'org', 'label', 'struc', 'public',
     'extrn', 'include', 'mod', 'shl', 'shr', 'and', 'or', 'xor', 'not', 'eq', 'ne', 'lt', 'gt', 'le', 'ge',
     ...REG16, ...REG8, ...SREG, ...MNEMONICS, ...PREFIXES]);
@@ -173,6 +176,8 @@ class Expr {
         this.offset = false;
         this.ptr = 0;
         this.seg = null;
+        this.far = false;
+        this.segOf = false;
     }
 
     peek(v) {
@@ -187,9 +192,17 @@ class Expr {
             const b = this.tk[this.pos + 1];
             if (!a || a.t !== 'id') break;
             const w = a.v.toLowerCase();
-            if ((w === 'byte' || w === 'word') && b && b.t === 'id' && b.v.toLowerCase() === 'ptr') {
-                this.ptr = w === 'byte' ? 8 : 16;
+            if ((w === 'byte' || w === 'word' || w === 'dword') && b && b.t === 'id' && b.v.toLowerCase() === 'ptr') {
+                this.ptr = w === 'byte' ? 8 : w === 'word' ? 16 : 32;
                 this.pos += 2;
+            } else if (w === 'far' && b && b.t === 'id' && b.v.toLowerCase() === 'ptr') {
+                this.far = true;
+                this.pos += 2;
+            } else if (w === 'near' && b && b.t === 'id' && b.v.toLowerCase() === 'ptr') {
+                this.pos += 2;
+            } else if (w === 'seg') {
+                this.segOf = true;
+                this.pos++;
             } else if (w === 'offset') {
                 this.offset = true;
                 this.pos++;
@@ -306,10 +319,16 @@ function parseOperand(text, ctx, line) {
     if (v.regs.length && !ex.brackets) throw err.operands(line);
 
     const dataSym = v.sym && v.sym.kind === 'data';
+    if (ex.segOf) {
+        // seg nombre: el segmento donde vive (el de código para etiquetas y procedimientos, el de datos si no).
+        if (!v.sym || v.regs.length || ex.brackets) throw err.operands(line);
+        const code = v.sym.kind === 'label' || v.sym.kind === 'proc';
+        return { k: 'imm', v: 0, sym: { kind: 'segment', name: v.sym.name, code }, size: 0, label: null };
+    }
     if (ex.offset || (!ex.brackets && !dataSym)) {
         // Inmediato: número, constante, offset de una variable o dirección de una etiqueta.
         if (v.regs.length) throw err.operands(line);
-        return { k: 'imm', v: v.c, sym: v.sym, size: 0, label: v.sym && (v.sym.kind === 'label' || v.sym.kind === 'proc') ? v.sym : null };
+        return { k: 'imm', v: v.c, sym: v.sym, size: 0, far: ex.far, label: v.sym && (v.sym.kind === 'label' || v.sym.kind === 'proc') ? v.sym : null };
     }
 
     // Memoria.
@@ -352,15 +371,17 @@ function instructionSize(ins) {
     let n;
     if (NOARGS.includes(m)) n = 1;
     else if (m === 'int') n = a.v === 3 ? 1 : 2;
-    else if (m === 'ret' || m === 'retn') n = a ? 3 : 1;
-    else if (m === 'call') n = a.k === 'imm' ? 3 : 2 + modrmBytes(a);
-    else if (m === 'jmp') n = a.k === 'imm' ? (ins.short ? 2 : 3) : 2 + modrmBytes(a);
+    else if (m === 'ret' || m === 'retn' || m === 'retf') n = a ? 3 : 1;
+    else if (m === 'aam' || m === 'aad') n = 2;
+    else if (m === 'in' || m === 'out') n = (m === 'in' ? b : a).k === 'imm' ? 2 : 1;
+    else if (m === 'call') n = a.k === 'imm' ? (ins.far ? 5 : 3) : 2 + modrmBytes(a);
+    else if (m === 'jmp') n = a.k === 'imm' ? (ins.far ? 5 : ins.short ? 2 : 3) : 2 + modrmBytes(a);
     else if (JCC[m] || LOOPS.includes(m)) n = 2;
     else if (m === 'push' || m === 'pop') n = a.k === 'mem' ? 2 + modrmBytes(a) : 1;
     else if (m === 'inc' || m === 'dec') n = a.k === 'reg' && a.size === 16 ? 1 : 2 + modrmBytes(a);
     else if (['neg', 'not', 'mul', 'imul', 'div', 'idiv'].includes(m)) n = 2 + modrmBytes(a);
     else if (SHIFTS.includes(m)) n = 2 + modrmBytes(a);
-    else if (m === 'lea') n = 2 + modrmBytes(b);
+    else if (m === 'lea' || m === 'lds' || m === 'les') n = 2 + modrmBytes(b);
     else if (m === 'xchg') n = a.k === 'reg' && b.k === 'reg' && a.size === 16 && (a.r === 'ax' || b.r === 'ax') ? 1 : 2 + modrmBytes(a.k === 'mem' ? a : b);
     else if (m === 'mov') {
         if (a.k === 'reg' && b.k === 'imm') n = 1 + (a.size === 8 ? 1 : 2);
@@ -395,20 +416,44 @@ function checkOperands(ins, line) {
     const need = (n) => {
         if (ops.length !== n) throw err.operands(line);
     };
+    // Un cajón de 4 bytes (dd, dword ptr) solo sirve para lds, les y los saltos y llamadas lejanos.
+    if (ops.some((o) => o.k === 'mem' && o.size === 32) && !['lds', 'les', 'call', 'jmp'].includes(m)) throw err.size(line, sizeOf(a) / 8 || 4, sizeOf(b) / 8 || 4);
     if (NOARGS.includes(m)) return need(0);
     if (m === 'int') {
         need(1);
-        if (a.k !== 'imm') throw err.operands(line);
+        if (a.k !== 'imm' || a.v < 0 || a.v > 255) throw err.operands(line);
         return;
     }
-    if (m === 'ret' || m === 'retn') {
+    if (m === 'ret' || m === 'retn' || m === 'retf') {
         if (ops.length > 1 || (a && a.k !== 'imm')) throw err.operands(line);
+        return;
+    }
+    if (m === 'aam' || m === 'aad') {
+        // Sin operando divide/multiplica por 10; con uno, por esa base (el 8086 lo acepta aunque MASM no lo documente).
+        if (ops.length > 1 || (a && (a.k !== 'imm' || a.v < 0 || a.v > 255))) throw err.operands(line);
+        ins.size = 8;
+        return;
+    }
+    if (m === 'in' || m === 'out') {
+        need(2);
+        const [acc, port] = m === 'in' ? [a, b] : [b, a];
+        if (acc.k !== 'reg' || (acc.r !== 'al' && acc.r !== 'ax')) throw err.operands(line);
+        if (port.k === 'imm') {
+            if (port.v < 0 || port.v > 255) throw err.operands(line);
+        } else if (!(port.k === 'reg' && port.r === 'dx')) {
+            throw err.operands(line);
+        }
+        ins.size = acc.size;
         return;
     }
     if (JCC[m] || LOOPS.includes(m) || m === 'jmp' || m === 'call') {
         need(1);
         if ((JCC[m] || LOOPS.includes(m)) && (a.k !== 'imm' || !a.label)) throw err.operands(line);
+        if ((JCC[m] || LOOPS.includes(m)) && (a.far || a.label?.far)) throw err.operands(line);
         if (a.k === 'reg' && a.size !== 16) throw err.operands(line);
+        if (a.k === 'mem' && a.size === 8) throw err.operands(line);
+        // Lejano: «far ptr etiqueta», un procedimiento «proc far» o un puntero de 4 bytes (dword ptr, dd).
+        ins.far = (a.k === 'imm' && (a.far || Boolean(a.label?.far))) || (a.k === 'mem' && a.size === 32);
         return;
     }
     if (m === 'push' || m === 'pop') {
@@ -441,8 +486,9 @@ function checkOperands(ins, line) {
     }
     // Dos operandos.
     need(2);
-    if (m === 'lea') {
+    if (m === 'lea' || m === 'lds' || m === 'les') {
         if (a.k !== 'reg' || a.size !== 16 || b.k !== 'mem') throw err.operands(line);
+        if (m !== 'lea' && b.size && b.size !== 32) throw err.size(line, 4, b.size / 8);
         ins.size = 16;
         return;
     }
@@ -591,8 +637,9 @@ export function assemble(source) {
         const second = (words[1] ?? '').toLowerCase();
         // nombre proc / nombre endp
         if (second === 'proc') {
-            define(words[0], { kind: 'proc' }, line);
-            procs.push({ name: words[0], line });
+            const far = (words[2] ?? '').toLowerCase() === 'far';
+            define(words[0], { kind: 'proc', far }, line);
+            procs.push({ name: words[0], line, far });
             statements.push({ type: 'label', name: first, line, section });
             continue;
         }
@@ -611,22 +658,21 @@ export function assemble(source) {
         let dname = null;
         let dtype = null;
         let ditems = null;
-        if (first === 'db' || first === 'dw') {
+        if (first === 'db' || first === 'dw' || first === 'dd') {
             dtype = first;
             ditems = rest.slice(words[0].length);
-        } else if (second === 'db' || second === 'dw') {
+        } else if (second === 'db' || second === 'dw' || second === 'dd') {
             dname = words[0];
             dtype = second;
             ditems = rest.slice(rest.toLowerCase().indexOf(second, words[0].length) + 2);
         }
         if (dtype) {
-            if (dname) define(dname, { kind: 'data', size: dtype === 'db' ? 8 : 16 }, line);
+            if (dname) define(dname, { kind: 'data', size: dtype === 'db' ? 8 : dtype === 'dw' ? 16 : 32 }, line);
             statements.push({ type: 'data', name: dname?.toLowerCase(), dtype, items: ditems.trim(), line, section });
             continue;
         }
-        if (second === 'dd' || first === 'dd') throw err.cpu(line);
-        // Instrucción.
-        statements.push({ type: 'ins', text: rest, line, section });
+        // Instrucción (con el procedimiento en el que está: un ret dentro de un «proc far» es un retf).
+        statements.push({ type: 'ins', text: rest, line, section, far: Boolean(procs.at(-1)?.far) });
     }
     const lastLine = raw.length;
     if (procs.length) throw err.nesting(procs[procs.length - 1].line, procs[procs.length - 1].name);
@@ -639,6 +685,10 @@ export function assemble(source) {
         return s;
     };
     const ctx = { lookup };
+    // dd con el nombre de una etiqueta o variable: el desplazamiento se completa cuando se conocen las direcciones
+    // y el segmento lo pone la máquina al cargar el programa (como el «relocation» de un .EXE).
+    const relocs = [];
+    ctx.relocs = relocs;
     for (const st of statements) {
         if (st.type !== 'data') continue;
         if (st.section === 'code') {
@@ -660,7 +710,7 @@ export function assemble(source) {
         }
         if (st.type !== 'ins') continue;
         if (st.section !== 'code') throw err.syntax(st.line, st.text.split(/\s+/)[0]);
-        const ins = parseInstruction(st.text, ctx, st.line, symbols, address);
+        const ins = parseInstruction(st.text, ctx, st.line, symbols, address, st.far);
         ins.address = address;
         ins.length = instructionSize(ins);
         address += ins.length;
@@ -681,6 +731,12 @@ export function assemble(source) {
         }
     }
 
+    for (const r of relocs) {
+        const off = r.sym.kind === 'data' ? r.sym.offset : r.sym.address;
+        data[r.at] = (off + r.add) & 0xff;
+        data[r.at + 1] = ((off + r.add) >> 8) & 0xff;
+    }
+
     let entry = 0;
     if (entryName) {
         const s = symbols.get(entryName.toLowerCase());
@@ -688,7 +744,7 @@ export function assemble(source) {
         entry = s.address;
     }
     const byAddress = new Map(instructions.map((ins, i) => [ins.address, i]));
-    return { instructions, byAddress, data: Uint8Array.from(data), symbols, entry, stackSize, codeSize, lines: raw };
+    return { instructions, byAddress, data: Uint8Array.from(data), symbols, entry, stackSize, codeSize, lines: raw, relocs };
 }
 
 function evalConst(text, symbols, line) {
@@ -708,8 +764,10 @@ function evalConst(text, symbols, line) {
 
 function emitData(st, out, ctx) {
     const word = st.dtype === 'dw';
+    const dword = st.dtype === 'dd';
     const push = (v) => {
-        if (word) out.push(v & 0xff, (v >> 8) & 0xff);
+        if (dword) out.push(v & 0xff, (v >>> 8) & 0xff, (v >>> 16) & 0xff, (v >>> 24) & 0xff);
+        else if (word) out.push(v & 0xff, (v >> 8) & 0xff);
         else out.push(v & 0xff);
     };
     const items = splitTop(st.items);
@@ -723,6 +781,17 @@ function emitData(st, out, ctx) {
             return;
         }
         if (item === '?') return push(0);
+        if (dword) {
+            // dd nombre: un puntero lejano (desplazamiento y segmento); dd número: 4 bytes.
+            const ex = new Expr(tokenize(item, st.line), ctx, st.line);
+            const v = ex.parse();
+            if (v.regs.length || ex.brackets) throw err.operands(st.line);
+            if (v.sym && v.sym.kind !== 'equ') {
+                ctx.relocs.push({ at: out.length, sym: v.sym, add: v.c - (v.sym.offset ?? v.sym.address ?? 0), seg: v.sym.kind === 'data' ? 'data' : 'code' });
+                return push(0);
+            }
+            return push(v.c);
+        }
         const str = /^(['"])(.*)\1$/.exec(item);
         if (str && (!word || str[2].length !== 2)) {
             if (word && str[2].length > 2) throw err.operands(st.line);
@@ -744,7 +813,7 @@ function evalItem(text, ctx, line, allowOffset = false) {
     return v.c;
 }
 
-function parseInstruction(text, ctx, line, symbols, address) {
+function parseInstruction(text, ctx, line, symbols, address, inFarProc = false) {
     let rest = text;
     let prefix = null;
     let m = rest.split(/\s+/)[0].toLowerCase();
@@ -752,9 +821,8 @@ function parseInstruction(text, ctx, line, symbols, address) {
         prefix = m === 'repz' ? 'repe' : m === 'repnz' ? 'repne' : m;
         rest = rest.slice(m.length).trim();
         m = rest.split(/\s+/)[0].toLowerCase();
-        if (!['movsb', 'movsw', 'lodsb', 'lodsw', 'stosb', 'stosw', 'cmpsb', 'cmpsw', 'scasb', 'scasw'].includes(m)) {
-            throw err.syntax(line, m);
-        }
+        if (prefix !== 'lock' && !STRING_OPS.includes(m)) throw err.syntax(line, m);
+        if (prefix === 'lock' && !m) throw err.syntax(line, 'lock');
     }
     if (PRE186.includes(m)) throw err.cpu(line);
     if (!MNEMONICS.has(m)) throw err.syntax(line, rest.split(/\s+/)[0]);
@@ -765,6 +833,7 @@ function parseInstruction(text, ctx, line, symbols, address) {
         return parseOperand(o, ctx, line);
     }) : [];
     const ins = { m: m === 'retn' ? 'ret' : m === 'sal' ? 'shl' : m === 'xlatb' ? 'xlat' : m, ops, line, prefix, text: text.trim() };
+    if (m === 'ret' && inFarProc) ins.m = 'retf';
     if (JCC[m]) ins.cond = JCC[m];
     // Un JMP hacia atrás cercano entra en 2 bytes (corto); hacia adelante MASM lo deja de 3.
     if (m === 'jmp' && ops[0]?.k === 'imm' && ops[0].label && ops[0].label.address !== undefined) {

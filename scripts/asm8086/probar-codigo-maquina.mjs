@@ -105,7 +105,7 @@ for (const [name, code] of programs) {
     const image = [];
     const rows = [];
     for (const ins of program.instructions) {
-        const bytes = encode(ins, { dataSeg: DATA_SEG });
+        const bytes = encode(ins, { dataSeg: DATA_SEG, codeSeg: 0x0710 });
         if (!bytes) { bad++; console.log(`✗ ${name} línea ${ins.line}: sin codificar «${ins.text}»`); continue; }
         if (bytes.length !== ins.length) { bad++; console.log(`✗ ${name} línea ${ins.line}: «${ins.text}» da ${bytes.length} bytes y ocupa ${ins.length}`); }
         while (image.length < ins.address) image.push(0x90);

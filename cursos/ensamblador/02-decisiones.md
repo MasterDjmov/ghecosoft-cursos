@@ -7970,3 +7970,542 @@ Porque DI trabaja con ES, y en `.model small` ES no señala `.data` al empezar.
 
 #### Después de `repne scasb`, ¿cómo sabés si encontró la letra y dónde?
 Si ZF = 1, la encontró; está un cajón antes de donde quedó DI.
+
+## R02-N13 · Números en BCD: `aam`, `aad`, `aaa`, `aas`, `daa` y `das`
+
+```meta
+tipo: extra
+criatura: goblin
+padre: R02-N10
+precio: 0
+temas: maq.numeracion, prog.operadores
+```
+
+### Crónica
+
+En el pecho de {mentor} hay un reloj de bronce que nunca se detuvo. Muestra la hora con cifras de luz, pero cuando Nova mira su cajón por dentro, encuentra algo raro: la hora 19 no está guardada como `13h` (que sería 19 en hexa), sino como `19h`.
+
+—Los relojes de antes guardan cada cifra en su **medio byte** —explica {mentor}—. Se llama **BCD**. Para mí es más fácil mostrarlo; para hacer cuentas, necesito unas órdenes de ajuste.
+
+### Objetivos
+
+Entender el **BCD** (decimal codificado en binario, una cifra por medio byte), separar y juntar cifras con `aam` y
+`aad`, y ajustar sumas y restas de cifras con `aaa`, `aas`, `daa` y `das`.
+
+### Antes de empezar
+
+- Hexadecimal y medio byte (Clase 0 y Ruedas de bits y tablas).
+- `add`, `sub` y la bandera CF (Las cuentas del Gólem).
+- `div` por 10 para separar cifras (Las cuentas del Gólem).
+
+### Explicación
+
+#### Una cifra por medio byte
+En **BCD** (*binary coded decimal*), cada cifra decimal se guarda en 4 bits, sin convertirla a binario de verdad:
+
+| Número | En binario normal | En BCD empaquetado (dos cifras por byte) | En BCD desempaquetado (una por byte) |
+|---|---|---|---|
+| 19 | `13h` | `19h` | `01h 09h` |
+| 47 | `2Fh` | `47h` | `04h 07h` |
+
+La ventaja: para mostrar `19h` alcanza con mirar cada medio byte, sin dividir. La desventaja: las cuentas comunes
+dan cualquier cosa (`19h + 1` da `1Ah`, que no es una cifra), y hay que **ajustarlas**.
+
+#### Separar y juntar cifras: `aam` y `aad`
+- **`aam`** (*ASCII adjust after multiply*) divide AL por 10: deja las **decenas en AH** y las **unidades en AL**.
+  Con AL = 47, `aam` deja AX = `0407h`. Es el `div` por 10 de siempre, en una sola orden y sin preparar AH.
+- **`aad`** (*ASCII adjust before division*) hace lo contrario: AL = AH × 10 + AL, y AH = 0. Con AH = 3 y AL = 8,
+  `aad` deja AL = 38 (`26h`). Sirve para armar un número con dos teclas.
+
+#### Sumar y restar cifra con cifra: `aaa` y `aas`
+Con BCD **desempaquetado** (una cifra por byte): `7 + 5` da `0Ch`. **`aaa`** (*ASCII adjust after addition*) lo
+ajusta: AL = 2 y AH sube 1 (se lleva uno), o sea `0102h`: el 12. **`aas`** es lo mismo para las restas.
+
+#### Sumar y restar dos cifras por byte: `daa` y `das`
+Con BCD **empaquetado**: `19h + 1` da `1Ah`. **`daa`** (*decimal adjust after addition*) lo ajusta a `20h`. Si
+el resultado pasa de 99, prende CF. **`das`** es lo mismo para las restas: `20h − 1` da `1Fh`, y `das` lo deja en
+`19h`.
+
+Las seis van **después** de la cuenta, y siempre trabajan con AL (y AH).
+
+> **Puente con otras lenguas.** El BCD sigue vivo en los relojes de las placas madre (la BIOS da la hora en BCD
+> con `INT 1Ah`), en las calculadoras y en los sistemas de bancos escritos en COBOL, donde un centavo no se puede
+> perder por redondeo. Python tiene `decimal.Decimal` y Java `BigDecimal` por la misma razón: hacer cuentas en
+> decimal de verdad, no en binario. Y `aam` es el `divmod(n, 10)` de Python en una sola orden.
+
+### Código de ejemplo
+
+```asm
+.model small
+.stack 100h
+.data
+t1 db 'Con aam: $'
+t2 db 13, 10, 'Reloj: $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, t1
+    mov ah, 09h
+    int 21h
+    mov al, 47
+    aam                ; AH = 4, AL = 7
+    mov bx, ax
+    mov dl, bh
+    add dl, '0'
+    mov ah, 02h
+    int 21h
+    mov dl, bl
+    add dl, '0'
+    int 21h
+
+    lea dx, t2
+    mov ah, 09h
+    int 21h
+    mov al, 19h        ; 19 en BCD
+    add al, 1          ; 1Ah: no es una cifra
+    daa                ; 20h: ahora sí
+    mov bl, al
+    mov cl, 4
+    shr al, cl         ; la cifra de las decenas
+    add al, '0'
+    mov dl, al
+    mov ah, 02h
+    int 21h
+    mov dl, bl
+    and dl, 0Fh        ; la de las unidades
+    add dl, '0'
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+### Salida esperada
+
+```
+Con aam: 47
+Reloj: 20
+```
+
+### ¿Para qué sirve?
+
+Mostrar números en relojes, visores de siete segmentos y calculadoras (cada cifra va directo a su lugar), leer la
+hora del reloj de la compu, y hacer cuentas de plata sin errores de redondeo. Y `aam` es un atajo muy usado en
+emu8086 para mostrar números de dos cifras.
+
+### Errores habituales
+
+**Ogro: el ajuste antes de la cuenta.** `daa` y `aaa` van **después** del `add`; antes no ajustan nada.
+
+**Ogro: mezclar las dos formas.** `aaa` es para una cifra por byte; `daa`, para dos. Con el ajuste equivocado, el
+resultado no es BCD.
+
+**Goblin: `aam` con un número de más de dos cifras.** Con AL = 150, `aam` deja AH = 15: el 15 no es una cifra.
+Para tres cifras, primero dividí por 100.
+
+**Ogro: CF olvidado.** Si `daa` da más de 99, la cifra que sobra queda en CF: hay que llevarla al byte siguiente.
+
+### Micro-misión R02-N13-P1 · Las dos cifras de una vez
+
+```meta
+lugar: El reloj del pecho
+personajes: Nova, Gheco, Axón
+carta: aam | AL ÷ 10: decenas en AH, unidades en AL · como divmod(n, 10) en Python
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+El reloj del pecho de {mentor} marca **47** minutos, y Nova quiere mostrarlos en el ojo. —Con `div` tengo que poner AH en cero, preparar el 10 en una palanca… —suspira.
+
+#### Gheco sugiere
+**`aam`** divide AL por 10 en una sola orden: deja las **decenas en AH** y las **unidades en AL**. Con AL = 47, AX queda en `0407h`. Después, cada cifra se muestra con `+ '0'`.
+
+#### Desafío
+Completá la orden que separa las cifras, para que el ojo muestre **47**.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, 47
+    ___
+    mov bx, ax          ; BH = decenas, BL = unidades
+    mov dl, bh
+    add dl, '0'
+    mov ah, 02h
+    int 21h
+    mov dl, bl
+    add dl, '0'
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Salida esperada
+```
+47
+```
+
+#### Estado esperado
+```
+BX = 0407h
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, 47
+    aam
+    mov bx, ax          ; BH = decenas, BL = unidades
+    mov dl, bh
+    add dl, '0'
+    mov ah, 02h
+    int 21h
+    mov dl, bl
+    add dl, '0'
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+«47» en el ojo, con una orden menos. {mentor} hace sonar el reloj de su pecho, conforme. —Así me mostraban la hora mis constructores —dice.
+
+#### Imagen
+- Un reloj redondo de bronce en el pecho de un gólem gigante, con dos cifras de luz cian lisas (sin números legibles) que se separan en dos ventanitas.
+- Axón (gólem de bronce gigante con un único ojo redondo de cristal) se mira el pecho con el ojo brillando.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) toca el reloj con un dedo.
+- Gheco (gecko de luz cian con antiparras, chiquito) en su hombro.
+
+### Micro-misión R02-N13-P2 · Juntar las cifras
+
+```meta
+lugar: El reloj del pecho
+personajes: Nova, Gheco
+carta: aad | AL = AH × 10 + AL · AH = 0 · para armar un número con dos teclas
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Kira dejó escritas dos cifras para poner el reloj en hora: un **3** y un **8**. El reloj quiere un solo número: el 38.
+
+#### Gheco sugiere
+**`aad`** hace lo contrario que `aam`: junta las decenas de AH y las unidades de AL en un solo número: AL = AH × 10 + AL, y AH queda en 0. Con AH = 3 y AL = 8, AL queda en 38 (`26h`).
+
+#### Desafío
+Completá la orden que junta las cifras, para que AX quede en **38** (`0026h`).
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov ah, 3           ; las decenas
+    mov al, 8           ; las unidades
+    ___
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Estado esperado
+```
+AX = 38
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov ah, 3           ; las decenas
+    mov al, 8           ; las unidades
+    aad
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+AX = `0026h`: 38. El reloj del pecho se acomoda solo. —Una tecla y otra tecla, y un número —dice Nova—. Me sirve para leer números del teclado.
+
+#### Imagen
+- Dos ventanitas de bronce con cifras de luz lisas que se juntan en una sola, en un reloj redondo de bronce.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) junta las manos frente al reloj.
+- Gheco (gecko de luz cian con antiparras, chiquito) aplaude sobre el borde del reloj.
+
+### Micro-misión R02-N13-P3 · Me llevo uno, en BCD
+
+```meta
+lugar: El reloj del pecho
+personajes: Nova, Gheco
+carta: aaa | después de add con una cifra por byte · si pasa de 9: AL - 10 y AH + 1 · aas para restar
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+El contador de segundos guarda una cifra por byte: AL tiene un **7**. Nova le suma **5**, y en vez de 12 aparece `0Ch`. —¡Eso no es una cifra!
+
+#### Gheco sugiere
+Con una cifra por byte (BCD desempaquetado), después del `add` va **`aaa`**: si AL pasó de 9, le resta 10 y suma 1 en AH (se lleva uno). `7 + 5` queda AH = 1 y AL = 2: el 12. Para restas, `aas`.
+
+#### Desafío
+Completá la orden de ajuste, para que AX quede en `0102h` (un 1 y un 2).
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov ax, 7
+    add al, 5           ; 0Ch
+    ___
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Estado esperado
+```
+AX = 0102h
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov ax, 7
+    add al, 5           ; 0Ch
+    aaa
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+AH = 1, AL = 2. El contador de segundos marca **12**, cifra por cifra. —Como en la escuela —dice Nova—: siete más cinco, dos y me llevo uno.
+
+#### Imagen
+- Dos ruedas de bronce con cifras de luz lisas, una al lado de la otra, la de la izquierda girando un lugar, en el reloj de un gólem.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) cuenta con los dedos.
+- Gheco (gecko de luz cian con antiparras, chiquito) empuja la rueda de la izquierda.
+
+### Micro-misión R02-N13-P4 · El reloj que no sabe pasar del 19
+
+```meta
+lugar: El reloj del pecho
+personajes: Nova, Gheco, Axón
+criatura: goblin
+carta: daa | después de add con dos cifras por byte · 19h + 1 = 1Ah → daa → 20h · das para restar
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+El reloj marca las **19h**, en BCD. Pasa una hora, Nova le suma 1… y el reloj muestra un **1A**. Un goblin se ríe desde las agujas.
+
+#### Gheco sugiere
+`19h + 1` da `1Ah` para el procesador, que suma en binario. Con dos cifras por byte (BCD empaquetado), después del `add` va **`daa`**: si la cifra de la derecha pasó de 9, la corrige y se lleva uno a la de la izquierda. `1Ah` queda en `20h`.
+
+#### Desafío
+Agregá la orden de ajuste después de la suma, para que AL quede en `20h`.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, 19h         ; las 19, en BCD
+    add al, 1
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Estado esperado
+```
+AL = 20h
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, 19h         ; las 19, en BCD
+    add al, 1
+    daa
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+El reloj pasa a las **20**. El goblin se cae de las agujas. {mentor} se ríe por dentro: —Hacía siglos que no me acomodaba la hora.
+
+#### Imagen
+- Un reloj redondo de bronce en el pecho de un gólem, con las agujas moviéndose y una chispa cian en la ventanita de las cifras.
+- Un goblin verde y flaco de caricatura, con ropa de tela cerrada, cayéndose de las agujas.
+- Axón (gólem de bronce gigante con un único ojo redondo de cristal) mira hacia abajo, divertido.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) gira una perilla del reloj; Gheco (gecko de luz cian con antiparras, chiquito) se agarra de la perilla.
+
+### Micro-misión R02-N13-P5 · La cuenta regresiva
+
+```meta
+lugar: El reloj del pecho
+personajes: Nova, Gheco, Kira
+carta: das | después de sub con dos cifras por byte · 20h - 1 = 1Fh → das → 19h
+recompensa: xp 20, oro 20
+```
+
+#### Escena
+Kira programa una cuenta regresiva en el reloj para la próxima carrera del Gremio: faltan **20** minutos. Pasa uno, y hay que restarlo.
+
+#### Gheco sugiere
+`20h − 1` da `1Fh`: otra vez una cifra que no existe. Para restas en BCD empaquetado está **`das`** (*decimal adjust after subtraction*): `1Fh` queda en `19h`.
+
+#### Desafío
+Escribí las dos órdenes donde dice `; tus órdenes`: la resta de un minuto y su ajuste, para que AL quede en `19h`.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, 20h         ; faltan 20 minutos, en BCD
+    ; tus órdenes
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Estado esperado
+```
+AL = 19h
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, 20h         ; faltan 20 minutos, en BCD
+    sub al, 1
+    das
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+**19**. Kira pone a andar la cuenta regresiva y sale corriendo a avisarle al Gremio. —Ahora sé por qué los relojes nunca muestran un 1F —dice Nova.
+
+#### Imagen
+- Un reloj redondo de bronce con cifras de luz lisas que bajan, con un destello cian.
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) sale corriendo, saludando con la mano.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) mira el reloj, contenta.
+- Gheco (gecko de luz cian con antiparras, chiquito) sentado en la punta de una aguja.
+
+### Prueba del sello
+
+#### ¿Cómo se guarda el 47 en BCD empaquetado?
+Como `47h`: un 4 en el medio byte de arriba y un 7 en el de abajo.
+
+#### ¿Qué hace `aam`?
+Divide AL por 10: las decenas quedan en AH y las unidades en AL.
+
+#### ¿Por qué hace falta `daa` después de `add` en BCD?
+Porque el procesador suma en binario: `19h + 1` da `1Ah`, y `daa` lo corrige a `20h`.
+
+#### ¿Qué diferencia hay entre `aaa` y `daa`?
+`aaa` ajusta una cifra por byte; `daa`, dos cifras por byte.

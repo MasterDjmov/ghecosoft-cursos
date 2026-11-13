@@ -595,7 +595,7 @@ end main
 El visor del Gremio se enciende con un **1234** rojo. Desde el salón se oyen aplausos. Kira levanta el pulgar hacia el ojo de {mentor}.
 
 #### Imagen
-- Un salón de piedra del Gremio de las Forjas con un visor grande de cinco cifras rojas de luz en la pared, encendido (cifras sin forma legible).
+- Un salón de piedra del Gremio de las Forjas con un visor grande en la pared con cinco ventanitas de luz roja encendidas, lisas, sin cifras.
 - Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) levanta el pulgar.
 - Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) sostiene un cable fino que llega al visor.
 - Gheco (gecko de luz cian con antiparras, chiquito) aplaude sobre el visor.
@@ -667,7 +667,7 @@ end main
 **−42** en rojo. Gheco se esconde detrás de Nova. —No hacía falta mostrarlo tan grande —murmura.
 
 #### Imagen
-- Un visor grande de cifras rojas de luz con un signo menos al principio (cifras sin forma legible), en la pared de piedra del Gremio.
+- Un visor grande en la pared de piedra del Gremio, con una rayita roja de luz al principio y cuatro ventanitas de luz roja lisas, sin cifras.
 - Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) se ríe, mirando el visor.
 - Gheco (gecko de luz cian con antiparras, chiquito) se esconde detrás de su capa, avergonzado.
 
@@ -747,7 +747,7 @@ end main
 5, 4, 3, 2, 1… **0**. Kira sale disparada en la carrera. Con el paso a paso, Nova ve cada número aparecer en el visor del tablero.
 
 #### Imagen
-- Un visor grande de cifras rojas de luz en la pared de un salón de piedra, y abajo una pista de carreras con una línea de largada brillante.
+- Un visor grande con ventanitas de luz roja lisas, sin cifras, en la pared de un salón de piedra, y abajo una pista de carreras con una línea de largada brillante.
 - Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) sale corriendo desde la línea de largada.
 - Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) baja una banderita.
 - Gheco (gecko de luz cian con antiparras, chiquito) sentado arriba del visor.
@@ -822,7 +822,7 @@ end main
 **55** en el visor. Los del Gremio no lo pueden creer: —¡Más rápido que el contador! —Y sin convertir nada —dice Nova—. El visor hace la parte difícil.
 
 #### Imagen
-- Un visor grande de cifras rojas de luz encendido en la pared del Gremio, con una pila de monedas doradas lisas debajo.
+- Un visor grande con ventanitas de luz roja lisas, sin cifras, encendido en la pared del Gremio, con una pila de monedas doradas lisas debajo.
 - Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) cuenta con los dedos, sonriendo.
 - Gheco (gecko de luz cian con antiparras, chiquito) sentado sobre la pila de monedas.
 
@@ -1935,7 +1935,7 @@ Dos pasos, sin perder ninguno. El goblin se cae del gancho por el envión. —Pr
 - Una grúa de bronce girando un poquito en un puerto de carga de noche, con dos imanes encendidos en rojo en su motor.
 - Un goblin verde y flaco de caricatura, con ropa de tela cerrada, cayéndose del gancho de la grúa.
 - Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) espera con los brazos cruzados, paciente.
-- Gheco (gecko de luz cian con antiparras, chiquito) mira un relojito de bolsillo.
+- Gheco (gecko de luz cian con antiparras, chiquito) mira un relojito de bolsillo de esfera lisa, sin cifras.
 
 ### Micro-misión S01-N05-P3 · La vuelta de la grúa
 
@@ -3102,7 +3102,7 @@ end main
 3… 2… 1… 0. El visor vuelve a obedecer. El goblin, que esperaba ver el caos, frunce el ceño y se esconde detrás del semáforo.
 
 #### Imagen
-- Un taller de aparatos de bronce de noche, con un visor grande de cifras rojas de luz en la pared y una maraña de cables cruzados.
+- Un taller de aparatos de bronce de noche, con un visor grande de ventanitas de luz roja lisas, sin cifras, en la pared y una maraña de cables cruzados.
 - Un goblin verde y flaco de caricatura, con ropa de tela cerrada, se esconde detrás de un semáforo de bronce, frunciendo el ceño.
 - Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) cuenta con los dedos levantados.
 - Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) desenreda un cable; Gheco (gecko de luz cian con antiparras, chiquito) en su hombro.
@@ -3341,7 +3341,7 @@ Rojo. 3, 2, 1… **0**. ¡Verde! Los corredores salen disparados y la impresora 
 {mentor} hace brillar su ojo, orgulloso. —Ahora mis nervios llegan a todo el Gremio —dice—. Y vos sabés usarlos.
 
 #### Imagen
-- Una pista de carreras de noche en las Forjas, con un semáforo de bronce en verde, un visor grande de cifras rojas y una impresora sacando un papel, y corredores saliendo disparados.
+- Una pista de carreras de noche en las Forjas, con un semáforo de bronce en verde, un visor grande de ventanitas de luz roja lisas, sin cifras, y una impresora sacando un papel, y corredores saliendo disparados.
 - Axón (gólem de bronce gigante con un único ojo redondo de cristal) mira desde atrás, con el ojo brillando orgulloso.
 - Un goblin verde y flaco de caricatura, con ropa de tela cerrada, levanta las manos riéndose, derrotado.
 - Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) corre entre los corredores, festejando.

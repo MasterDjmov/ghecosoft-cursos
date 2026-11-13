@@ -1672,11 +1672,11 @@ end main
 ```
 
 #### Al superarla
-«Entre 60 y 80». El horno se pasa la tarde subiendo y bajando entre los dos números, sin pasarse nunca. El ogro fundidor se va a dormir la siesta, tranquilo.
+«Entre 60 y 80». El horno se pasa la tarde subiendo y bajando entre los dos números, sin pasarse nunca. El ogro fundidor se sienta a tomar un té, tranquilo.
 
 #### Imagen
 - Un horno de piedra y bronce con fuego tranquilo en una forja de noche, con un termómetro de bronce cuya columna cian está entre dos marcas lisas.
-- Un ogro grandote y torpe, con delantal de cuero cerrado, se acomoda para dormir la siesta en un banco.
+- Un ogro grandote y torpe, con delantal de cuero cerrado, sentado tranquilo en un banco de madera, toma una taza de té.
 - Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) le choca los cinco a Nova.
 - Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) sonríe; Gheco (gecko de luz cian con antiparras, chiquito) duerme sobre el termómetro.
 

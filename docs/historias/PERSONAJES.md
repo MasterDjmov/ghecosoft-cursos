@@ -1425,6 +1425,14 @@ Historia en [csharp.md](csharp.md).
 - **Cómo habla:** rápido y antes de tiempo; termina las frases de los demás, casi siempre mal.
 - Deja la insignia **Voz de la Ventanilla** y la **Campanilla Afinada**, otra parte de la melodía del Vidriero.
 
+### Dragón del Conservatorio
+- **Rol:** el jefe final de C#, en la Arena del Conservatorio (R06-N05). Se despierta cuando Ceci termina los proyectos: es el último monstruo de la Arena que ella misma programó.
+- **Qué error representa:** todo lo que se escribe sin ensayar, junto: los bordes sin cuidar, el turno contado tarde, los datos ordenados al revés, las pruebas en rojo y la fila que se mira sin avanzar.
+- **Cómo se lo vence:** soltando sus cinco escamas: `Math.Max` en sus escamas, el turno contado antes de pegar, `OrderByDescending`, las pruebas en verde y la melodía del Vidriero completa con `Dequeue()`.
+- **Qué es:** un **dragón de caricatura enorme** hecho de **partituras quemadas** plegadas como escamas (papel liso, sin letras ni notas escritas), con ojos de brasa naranja y el pecho que brilla como un horno; en el medio del pecho, una **escama de bronce con forma de sostenido**. Cada tres compases abre la boca y echa una llamarada naranja. Imponente pero no aterrador: apto para chicos.
+- **Cómo habla:** no habla: ruge en compases de tres, y se ríe con carcajadas de humo.
+- **Cómo termina:** cuando Ceci toca entera la melodía del Vidriero, sus partituras se alisan y salen volando como hojas en blanco. Deja la insignia **Maestra del Conservatorio** y la **Escama de Do Sostenido**, la última parte de la melodía.
+
 ## Las Crónicas en Inglés (Primaria y Secundaria)
 
 La historia unificada de los cursos de inglés ([ingles.md](ingles.md)). Imágenes generadas en Stitch el 2026-10-13, en el proyecto de los Talleres (`9229721314509917104`); los archivos, en `publicidad/logos cursos/personajes/Crónicas en Inglés/`.

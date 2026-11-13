@@ -364,7 +364,7 @@ return [
             // El taller de Don Cedro, el luthier del Conservatorio (aparece en el Taller de Instrumentos, R02).
             'shop' => ['name' => 'El taller de Don Cedro', 'keeper' => 'Don Cedro', 'portrait' => 'img/personajes/don-cedro.webp', 'figure' => 'img/personajes/don-cedro-cuerpo.webp',
                 'greeting' => '—Pasá, nena, y no toques nada que esté encolado. Cuerdas, arcos, resina… Todo lo que hay acá suena; lo que no suena, lo arreglo.'],
-            // El Conservatorio de Do Sostenido: los lugares siguen el recorrido de Ceci. Los de los actos II a V se suman con sus nodos.
+            // El Conservatorio de Do Sostenido: los lugares siguen el recorrido de Ceci, del Pórtico a la Arena.
             'expeditions' => [
                 'opens_after' => 'R01-N05',
                 'map' => 'img/mundos/conservatorio/mapa.webp',
@@ -387,6 +387,20 @@ return [
                         'text' => 'Filas y columnas de sillas. Los orcos se sientan en la fila que no existe.'],
                     ['code' => 'foso-de-la-orquesta', 'name' => 'El Foso de la Orquesta', 'node' => 'R01-N15', 'level' => 7, 'creatures' => ['orco', 'ogro'], 'x' => 50, 'y' => 25,
                         'text' => 'Donde cayó el Slime Desafinado todavía quedan gotitas verdes que zumban.'],
+                    ['code' => 'taller-de-instrumentos', 'name' => 'El Taller de Instrumentos', 'node' => 'R02-N01', 'level' => 8, 'creatures' => ['goblin', 'orco'], 'x' => 16, 'y' => 15,
+                        'text' => 'El taller de Don Cedro: violines a medio armar, virutas y planos. De noche, algún goblin prueba a encolar un tambor en un violín.'],
+                    ['code' => 'el-archivo', 'name' => 'El Archivo', 'node' => 'R03-N01', 'level' => 9, 'creatures' => ['orco', 'esqueleto'], 'x' => 89, 'y' => 12,
+                        'text' => 'La torre donde se guardan las partituras en listas, diccionarios y pilas. Los orcos buscan la página que no existe.'],
+                    ['code' => 'el-archivo-mudo', 'name' => 'El Archivo Mudo', 'node' => 'R04-N02', 'level' => 10, 'creatures' => ['troll', 'esqueleto'], 'x' => 95, 'y' => 30,
+                        'text' => 'El sótano debajo del Archivo, con cajones polvorientos y velas. Lo que no se guardó bien se borra solo.'],
+                    ['code' => 'ventanilla-de-pedidos', 'name' => 'La Ventanilla de Pedidos', 'node' => 'R05-N01', 'level' => 11, 'creatures' => ['ogro', 'troll'], 'x' => 11, 'y' => 70,
+                        'text' => 'Donde llegan las cartas del Puerto y las flechas de la Feria. A veces suena una campanilla que nadie tocó.'],
+                    ['code' => 'boveda-del-conservatorio', 'name' => 'La Bóveda', 'node' => 'R05-N05', 'level' => 12, 'creatures' => ['ogro', 'troll'], 'x' => 82, 'y' => 25,
+                        'text' => 'La puerta redonda de metal al pie de la torre. Adentro, cada corchea anotada; nada se pierde a medias.'],
+                    ['code' => 'arena-del-conservatorio', 'name' => 'La Arena del Conservatorio', 'node' => 'R06-N01', 'level' => 13, 'creatures' => ['goblin', 'ogro', 'dragon'], 'x' => 73, 'y' => 8,
+                        'text' => 'Gradas de madera y atriles alrededor de una arena de piedra. Donde se rinde el último examen: un juego entero.'],
+                    ['code' => 'jardin-de-los-setos', 'name' => 'El Jardín de los Setos', 'node' => 'R06-N03', 'level' => 13, 'creatures' => ['orco', 'ogro'], 'x' => 66, 'y' => 22,
+                        'text' => 'Un laberinto de setos detrás de la Arena, con gemas de cristal que suenan como campanitas y un guardián de piedra que nunca se cansa.'],
                 ],
             ],
         ],

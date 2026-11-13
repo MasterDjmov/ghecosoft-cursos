@@ -28,12 +28,12 @@ Región: **el Conservatorio de Do Sostenido** (C# se lee «do sostenido»), del 
 
 | Acto | Lugar | Jefe | Estado |
 |---|---|---|---|
-| I · Fundamentos | **La Sala de Ensayo** | el Slime Desafinado | Clase 0 y 4 nodos hechos (demostración) |
-| II · Objetos | el Taller de Instrumentos | la Quimera de las Mil Partituras | falta |
-| III · Colecciones y funciones | el Archivo y la batuta | la Hidra del Coro | falta |
-| IV · Errores y archivos | el Archivo Mudo | el Liche del Archivo Mudo | falta |
-| V · El mundo real | la Bóveda y la ventanilla | el Duende de la Ventanilla | texto hecho (2026-11-11) |
-| Proyectos | la Arena y el Libro Mayor | el Dragón del Conservatorio | falta |
+| I · Fundamentos | **La Sala de Ensayo** | el Slime Desafinado | hecho |
+| II · Objetos | el Taller de Instrumentos | la Quimera de las Mil Partituras | hecho |
+| III · Colecciones y funciones | el Archivo y la batuta | la Hidra del Coro | hecho |
+| IV · Errores y archivos | el Archivo Mudo | el Liche del Archivo Mudo | hecho |
+| V · El mundo real | la Bóveda y la ventanilla | el Duende de la Ventanilla | hecho |
+| VI · Proyectos | la Arena, el Jardín de los Setos y el Libro Mayor | el Dragón del Conservatorio | texto hecho (2026-11-13) |
 
 ## 4. Las criaturas en C#
 
@@ -47,3 +47,7 @@ Región: **el Conservatorio de Do Sostenido** (C# se lee «do sostenido»), del 
 | Troll | `NullReferenceException`, referencias compartidas |
 
 El **pergamino de la maldición** es el *stack trace*: los errores de compilación traen archivo, línea y columna.
+
+## 5. El final (Acto VI, 2026-11-13)
+
+Cada jefe deja una parte de la melodía del Vidriero (el Diapasón Verde, la Cuerda de la Quimera, la Partitura del Coro, el Compás Perdido, la Campanilla Afinada). En la Arena, el **Dragón del Conservatorio**, hecho de todas las partituras que alguien escribió sin ensayar, guarda la última: la **Escama de Do Sostenido**. Ceci rellena la partitura sin terminar con las notas de la cajita, la toca entera con el violín y la cajita juntos, y el dragón se deshace en hojas en blanco que salen volando. La cajita ya no suena desafinada: suena **incompleta, como si esperara otra voz** (`story.course_completed`): el vitral del portal, que también canta.

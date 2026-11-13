@@ -38,7 +38,7 @@ El docente pidió que el curso llegue a unos 30 nodos o más, como los demás, y
 | III · El Archivo y la batuta | 15–18 | R03-N01 a R03-N09 + el jefe R03-N10: `List`, `Dictionary`, `HashSet`/`Queue`/`Stack`, genéricos, `yield`, delegados y lambdas, eventos, LINQ (dos nodos, con `GroupBy`, `MaxBy` y extensiones) | la Hidra del Coro | **texto hecho (2026-11-10)**, sin escenas |
 | IV · El Archivo Mudo | 19–20 | R04-N01 a R04-N06 + el jefe R04-N07: `try`/`catch`/`finally`, `throw`, excepciones propias y `when`, archivos de texto, `using` con `StreamWriter`/`StreamReader`, CSV con `InvariantCulture`, JSON | el Liche del Archivo Mudo | **hecho** (2026-11-11): 35/35 escenas |
 | V · La Bóveda y la ventanilla | 21–24 | R05-N01 a R05-N07 + el jefe R05-N08: `async`/`await`, `WhenAll`/`WhenAny`/cancelar, la carrera y `SemaphoreSlim`, pruebas con xUnit, SQLite (la Bóveda), `WHERE`/`UPDATE`/`DELETE` y transacciones, API web (la ventanilla) | el Duende de la Ventanilla | **hecho** (2026-11-11): 40/40 escenas |
-| Proyectos | 25–27 | la Arena, Junta las Gemas y el Gremio | el Dragón del Conservatorio | falta |
+| VI · Proyectos | 25–27 | R06-N01 a R06-N04 + el jefe final R06-N05: la Arena en dos partes (clases abstractas, `override`, bordes con `Math.Min`/`Math.Max`, acciones con una interfaz y un `Dictionary`, la oleada en una `Queue`, la partida que avisa con un evento, el azar con semilla), Junta las Gemas (`record struct` con `operator +`, `HashSet`, fila y columna, el guardián con LINQ, el récord en JSON) y el Libro Mayor (capas, repositorio inyectado, reglas con excepciones, `with`, `GroupBy` y pruebas) | el Dragón del Conservatorio | **texto hecho (2026-11-13)**, sin escenas |
 
 **Los vínculos con otros lenguajes:** los encargos siguen llegando de otras regiones, y al terminar el tronco van **Sendas cruzadas**: el Teatro (con JS: Ceci y Hilván), el Gólem (con Ensamblador: qué hay debajo de C#), el Puerto (con PHP: una API en C# que habla con la de Elefa) y el Arcade (a la manera de Unity o Godot).
 
@@ -92,6 +92,14 @@ Material 21 a 24: asincronía, pruebas con xUnit, SQLite y API web. Lo que se pr
 
 **Escrito (2026-11-11):** `cursos/csharp/05-la-boveda-y-la-ventanilla.md`, 8 nodos, 40 micro-misiones y 8 encargos (Nilo, Hilván, el Gremio, Hilván, Hulda, el Gremio, Nima y el Gremio). `probar.mjs`: 56 de 56. Lugares nuevos: la Ventanilla de Pedidos y la Bóveda. El Duende: ficha, cuerpo (`fe731d81…`), retrato y hoja (`63ed137f…`) en el proyecto «Conservatorio - Actos IV y V»; insignia «Voz de la Ventanilla» y la **Campanilla Afinada** (ítem épico con imagen), otra parte de la melodía del Vidriero. Sin personajes nuevos fuera del jefe.
 
+### Los proyectos (Acto VI, 2026-11-13)
+
+**Escrito** en la rama `csharp-proyectos`: `cursos/csharp/06-proyectos.md`, 5 nodos, 25 micro-misiones y 5 encargos (Nima, el consultorio del pueblo, Hilván, Baldo y el Gremio). `probar.mjs`: 35 de 35. Del material (temas 25 a 27), con Ceci en vez de Kira, sin `args` (la semilla va fija: `new Random(7)`) y en un solo archivo por micro-misión; el Gremio del tema 27 pasa a ser **el Libro Mayor del taller de Don Cedro**. Cada micro-misión arregla o completa una pieza (la barra, curar sin pasarse, la piel del ogro, el fuego cada tres turnos, el turno gratis, el muerto que pega, filas y columnas, el guardián que se traba…).
+
+- Lugares nuevos: la Arena del Conservatorio, el Jardín de los Setos y el taller de Don Cedro.
+- El jefe final, **el Dragón del Conservatorio** (ficha en [historias/PERSONAJES.md](historias/PERSONAJES.md)): un dragón de partituras quemadas que cae cuando Ceci toca entera la melodía del Vidriero. Insignia «Maestra del Conservatorio» y la **Escama de Do Sostenido** (ítem legendario, sin imagen todavía), la última parte de la melodía.
+- **Faltan:** la hoja del Dragón, las 25 escenas (mientras tanto, el cartel «Escena en construcción»; el test de C# deja afuera a R06 hasta que estén) y la imagen de la Escama. En producción, después del deploy: `php artisan app:game-items`.
+
 ## 3. Lo que hay hoy
 
 5 nodos (Clase 0, Variables, Tipos, Cuentas y Comparar), 25 micro-misiones con su escena y 5 encargos de otras regiones. `micromisiones_completan: si`, como Java y PHP. Moneda: **corcheas**. `app:simulate-course csharp`: los 5 alumnos terminan y los 9 controles dan bien.
@@ -109,8 +117,8 @@ Personajes: **Ceci** (protagonista, 6 aspectos), **Clave** (líder) y **Bemol**,
 | Protagonista y 6 aspectos | hecho |
 | Simulación | hecho |
 | La tienda de Don Cedro, el luthier | hecho (fase 2, 2026-11-08): ficha, retrato y cuerpo (`36d7ce93…`), hoja (`cddb912e…`) en el proyecto de la Feria; aparece en el Taller de Instrumentos (R02) |
-| Expediciones y mapa | hecho: `public/img/mundos/conservatorio/mapa.webp` (proyecto de Stitch «Conservatorio - mapa», sin letras) y 9 lugares del Acto I; los de los actos II a V se suman con sus nodos (en el mapa ya están el taller del luthier, la torre del archivo con la bóveda y la arena) |
+| Expediciones y mapa | hecho: `public/img/mundos/conservatorio/mapa.webp` (proyecto de Stitch «Conservatorio - mapa», sin letras) y 16 lugares: los 9 del Acto I y, desde el 2026-11-13, el Taller de Instrumentos, el Archivo, el Archivo Mudo, la Ventanilla de Pedidos, la Bóveda, la Arena y el Jardín de los Setos |
 | Montura e ítems del Conservatorio | hecho: **Trino** (`public/img/monturas/trino/n1…n5`, del pajarito de notas al fénix de partituras); 16 ítems del taller y el Diapasón Verde (lo deja el Slime) con imagen: `php artisan app:item-images cursos/csharp/items --apply`, **falta en producción**; 4 recetas |
-| Jefe del bloque (Slime Desafinado) y el resto de los nodos | Acto I **hecho** (2026-11-07); siguen los actos II a V (§ 2 bis) |
+| Jefe del bloque (Slime Desafinado) y el resto de los nodos | actos I a V **hechos**; los proyectos (Acto VI) con el texto hecho y sin escenas; siguen las Sendas cruzadas (§ 2 bis) |
 | Temporada en las Crónicas en Inglés | **pendiente**: cuando el curso esté más avanzado |
 | Copia de las imágenes en `publicidad/logos cursos/personajes/` | **pendiente** |

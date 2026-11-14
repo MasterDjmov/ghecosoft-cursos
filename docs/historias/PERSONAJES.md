@@ -1433,6 +1433,14 @@ Historia en [csharp.md](csharp.md).
 - **Cómo habla:** no habla: ruge en compases de tres, y se ríe con carcajadas de humo.
 - **Cómo termina:** cuando Ceci toca entera la melodía del Vidriero, sus partituras se alisan y salen volando como hojas en blanco. Deja la insignia **Maestra del Conservatorio** y la **Escama de Do Sostenido**, la última parte de la melodía.
 
+### Apuntador Fantasma
+- **Rol:** el jefe de la Senda del Teatro de C# (S01-N04), en el agujero del apuntador del Teatro de la Feria, la noche del estreno.
+- **Qué error representa:** lo que se rompe entre dos lenguajes: los nombres con mayúscula que JavaScript no encuentra, las acciones mandadas como números, los nombres que C# no lee, las notas que viajan donde no deben y el guion que se manda sin haberlo ensayado.
+- **Cómo se lo vence:** con las opciones de `JsonSerializer` (`CamelCase`, `JsonStringEnumConverter`, `PropertyNameCaseInsensitive`), `[JsonIgnore]` y un `if` que no deja salir un guion con problemas.
+- **Qué es:** una **figura fantasmal transparente y celeste**, flaca y encorvada, con anteojitos en la punta de la nariz y un **libreto enorme** bajo el brazo; vive en el agujero del apuntador (la concha del borde del escenario). Gruñón pero no malo: apto para chicos.
+- **Cómo habla:** en susurros, siempre una palabra cambiada.
+- **Cómo termina:** cuando el guion pasa el ensayo, sale del agujero, aplaude despacito y se desvanece en chispas celestes, contento: alguien, por fin, ensayó. Deja la insignia **Guionista del Teatro** (las Sendas no dejan ítem).
+
 ### Bit Rebelde
 - **Rol:** el jefe de la Senda del Gólem de C# (S02-N04), adentro de Axón. Es un bit que se escapó de su palanca y no quiere volver.
 - **Qué error representa:** lo que se rompe por debajo: la orden mal partida, la palanca equivocada, la bandera que no se apaga, el salto al revés y el bucle que no termina.

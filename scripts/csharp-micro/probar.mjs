@@ -18,13 +18,13 @@ const clean = (s) => (s ?? '').split('\n').map((l) => l.trimEnd()).join('\n').tr
 const items = [];
 for (const file of fs.readdirSync(folder).filter((f) => f.endsWith('.md')).sort()) {
     const text = fs.readFileSync(path.join(folder, file), 'utf8');
-    for (const part of text.split(/^(?=### (?:Micro-misión|Encargo|Misión) |## R\d+-N\d+ )/m)) {
+    for (const part of text.split(/^(?=### (?:Micro-misión|Encargo|Misión) |## [RS]\d+-N\d+ )/m)) {
         const head = part.split('\n')[0];
         if (head.startsWith('## ')) {
             const code = block(part, 'Código de ejemplo');
             if (code) items.push({ id: `${head.slice(3, 10)} ejemplo`, code, want: block(part, 'Salida esperada'), stdin: block(part, 'Entrada de ejemplo') ?? '' });
         } else if (head.startsWith('### ')) {
-            const id = head.match(/R\d+-N\d+-\w+/)?.[0];
+            const id = head.match(/[RS]\d+-N\d+-\w+/)?.[0];
             const code = block(part, 'Solución') ?? block(part, 'Solución de referencia');
             const start = head.startsWith('### Micro') ? block(part, 'Código inicial') : null;
             items.push({ id, code, start, want: block(part, 'Salida esperada'), stdin: block(part, 'Entrada') ?? block(part, 'Entrada de ejemplo') ?? '' });

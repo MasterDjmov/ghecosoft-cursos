@@ -101,6 +101,29 @@ Material 21 a 24: asincronía, pruebas con xUnit, SQLite y API web. Lo que se pr
 - **Escenas (2026-11-13):** las 25, con la hoja del Dragón (`a616cbbc…`, dibujado primero en `53fe4104…`), su retrato y cuerpo en la enciclopedia, y la imagen de la Escama. Detalles aceptados: Don Cedro sale más alto que en su ficha en `R06-N04-P1`; en `R06-N02-P4` Bemol se ríe sin anteojos (pedirle que se los pusiera rehízo la escena con su cara repetida). Corregidas sobre la misma pantalla: el ogro con la panza al aire, Gheco grande debajo de la repisa, el cuarto frasco de resina (el texto dice tres), Bemol flaco y Clave sin la mecha blanca. El Diccionario de C# sigue con el retrato genérico del dragón (`beast.dragon` es compartido por todos los cursos).
 - En producción, después del deploy: `php artisan app:game-items` y `php artisan app:item-images cursos/csharp/items --apply`.
 
+### Las Sendas cruzadas (aprobadas por el docente el 2026-11-13, con los jefes y el orden propuestos)
+
+Igual que las de JS: cada Senda tiene 4 nodos (3 temas y un jefe), con 5 micro-misiones por nodo y sin encargos. Son optativas y no cuentan para terminar el curso. Se entra pagando en `comodin` y los nodos de adentro se pagan en la moneda del curso. Cada Senda brota del nodo del tronco donde se aprendió lo que necesita. Todo se escribe en C#: el otro lenguaje pone el personaje y el problema, nunca el código.
+
+| Senda | Brota de | Quién pide | Qué se aprende | ¿Hay que emular algo? |
+|---|---|---|---|---|
+| **S01 · El Teatro: el guion de los títeres** | R04-N06 (JSON) | Hilván (y Nima, de visita) | Una **máquina de estados** con `enum` y `switch` (los títeres pasan de «entra», «habla» y «sale»), la línea de tiempo de la función (`record` con el segundo de cada aviso, `OrderBy`), validar el guion antes de estrenarlo (que no haya un aviso antes de que el títere entre) y exportarlo en **JSON** para que el Teatro de JS lo lea | No: `System.Text.Json` ya anda |
+| **S02 · El Gólem: lo que hay debajo de C#** | R02-N05 (`struct` y `enum`) | Nova, desde Axón | Los tipos de tamaño fijo (`byte`, `ushort`, `int`) y cómo **dan la vuelta**; `checked` contra eso; binario y hexadecimal (`Convert.ToString(n, 2)`, `:X4`); las operaciones con bits (`&`, `|`, `^`, `<<`, `>>`) para prender y apagar las banderas del Gólem; y un **mini-intérprete** de cuatro órdenes (`MOV`, `ADD`, `CMP`, `JNZ`) con un `switch` como tabla de órdenes | No |
+| **S03 · El Puerto: dos ventanillas que se hablan** | R05-N07 (la ventanilla) | Elefa y Nilo (con Pico robando mensajes) | Pedirle datos a la API de PHP del Puerto con `HttpClient` (`GetFromJsonAsync`, `PostAsJsonAsync`); leer el código de estado y no confiar en lo que llega; reintentar con un tope y cancelar si tarda; y armar en la ventanilla de C# una ruta que **pasa el pedido** al Puerto y le agrega lo del Conservatorio | **Sí:** un **Puerto de mentira** en `Prelude/`, al que `HttpClient` le llega sin salir del navegador (como el Puerto de JS), con sus rutas, demoras y errores. Es la única pieza nueva del ejecutor |
+| **S04 · El Arcade: un juego a la manera de Unity y Godot** | R06-N02 (la partida de la Arena) | Bemol, que quiere hacer un arcade para la Feria | El **bucle del juego** con `Update(dt)` y un reloj de mentira, un `Vector2` propio (`struct` con `operator +`), los **componentes** (un objeto del juego que tiene «se mueve», «choca», «se dibuja», como en Unity) y las **señales** (eventos, como en Godot), los choques entre cajas, y la pantalla dibujada en texto, cuadro por cuadro. Las teclas llegan como una lista fija, así que la salida es siempre la misma y se puede comprobar | No hace falta: los cuadros se imprimen en la consola. Podría sumarse, más adelante, un tablero que los anime |
+
+**Tamaño:** 16 nodos, 80 micro-misiones y 80 escenas.
+
+**Jefes:** cuatro criaturas nuevas, cada una con su ficha, su hoja, su retrato y su insignia (como en las Sendas de JS, sin ítem). Los nombres son una propuesta:
+- **el Apuntador Fantasma**, que le sopla mal el guion a los títeres;
+- **el Bit Rebelde**, un bit que se escapó de su registro y prende banderas que no debía (el nombre «Desborde» ya lo usa el Orco del Acto I);
+- **la Gaviota de Mil Mensajes**, el palomar de Pico fuera de control;
+- **el Glitch del Arcade**, un sprite roto que se teletransporta.
+
+**La Senda del Gólem (S02), texto hecho (2026-11-13):** `cursos/csharp/08-senda-el-golem.md`, 4 nodos y 20 micro-misiones (tipos de tamaño fijo y `checked`; binario y hexa con `{n:B8}`, `{n:X4}` y `Convert.ToInt32(texto, 16)`; bits con `&`, `|`, `& ~`, `>>` y `[Flags]`; y el jefe, un intérprete de `MOV`, `ADD`, `DEC` y `JNZ` con las palancas en un `ushort[]` elegidas con `Enum.Parse` y el `switch` como tabla de órdenes). Brota de R02-N05, así que no usa `Dictionary` ni lambdas. `probar.mjs` ahora reconoce los nodos `S…`: 24 de 24. Como en las Sendas de JS, el jefe deja solo la insignia («Domadora de Bits»), sin ítem. El Bit Rebelde tiene ficha en [historias/PERSONAJES.md](historias/PERSONAJES.md). **Faltan** su hoja y las 20 escenas (con las hojas de Nova y Axón, que ya están en el proyecto de C#).
+
+**Orden propuesto:** primero S02 y S01, que no necesitan nada nuevo; después S03, con el Puerto de mentira; y al final S04. Se frena al terminar cada Senda (con texto y prueba de `probar.mjs`), y las escenas van después, de a poco con Stitch.
+
 ## 3. Lo que hay hoy
 
 5 nodos (Clase 0, Variables, Tipos, Cuentas y Comparar), 25 micro-misiones con su escena y 5 encargos de otras regiones. `micromisiones_completan: si`, como Java y PHP. Moneda: **corcheas**. `app:simulate-course csharp`: los 5 alumnos terminan y los 9 controles dan bien.

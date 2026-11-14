@@ -1433,6 +1433,14 @@ Historia en [csharp.md](csharp.md).
 - **Cómo habla:** no habla: ruge en compases de tres, y se ríe con carcajadas de humo.
 - **Cómo termina:** cuando Ceci toca entera la melodía del Vidriero, sus partituras se alisan y salen volando como hojas en blanco. Deja la insignia **Maestra del Conservatorio** y la **Escama de Do Sostenido**, la última parte de la melodía.
 
+### Bit Rebelde
+- **Rol:** el jefe de la Senda del Gólem de C# (S02-N04), adentro de Axón. Es un bit que se escapó de su palanca y no quiere volver.
+- **Qué error representa:** lo que se rompe por debajo: la orden mal partida, la palanca equivocada, la bandera que no se apaga, el salto al revés y el bucle que no termina.
+- **Cómo se lo vence:** con el Axón de mentira de Ceci, un intérprete en C#: `Split` por espacios y comas, `Enum.Parse` para elegir la palanca, la bandera del cero que se prende **y se apaga**, `JNZ` que salta con la bandera apagada y un tope de pasos.
+- **Qué es:** un **bichito de luz roja del tamaño de una moneda**, con forma de **interruptor** chiquito (una perilla en la cabeza), patitas cortas y ojos de chispa. Salta de interruptor en interruptor y los da vuelta. Travieso, no malo: apto para chicos.
+- **Cómo habla:** no habla: hace clic-clic y se ríe con chispitas.
+- **Cómo termina:** sin bucle donde esconderse, se queda quieto en el núcleo; Nova lo junta con las dos manos y lo devuelve a su palanca, donde encaja con un clic. Deja la insignia **Domadora de Bits** (las Sendas no dejan ítem).
+
 ## Las Crónicas en Inglés (Primaria y Secundaria)
 
 La historia unificada de los cursos de inglés ([ingles.md](ingles.md)). Imágenes generadas en Stitch el 2026-10-13, en el proyecto de los Talleres (`9229721314509917104`); los archivos, en `publicidad/logos cursos/personajes/Crónicas en Inglés/`.

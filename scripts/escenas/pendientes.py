@@ -172,6 +172,11 @@ REFS = {
             '05-la-boveda-y-la-ventanilla.md': 'en un conservatorio gótico de piedra lisa y oscura, de noche; si el lugar es la Bóveda, una bóveda de piedra con una puerta redonda de metal y engranajes de bronce, estantes con partituras enrolladas y faroles azules; si es la Ventanilla de Pedidos, una ventanilla de madera tallada con mostrador, un tubo de bronce para los pedidos y faroles',
             '04-el-archivo-mudo.md': 'en un conservatorio gótico de piedra lisa y oscura, de noche; si el lugar es el Archivo Mudo, un sótano de piedra debajo del archivo, con cajones polvorientos, estantes, velas, telarañas finas y faroles azules',
             '02-el-taller-de-instrumentos.md': 'en un conservatorio gótico de piedra lisa y oscura, de noche; si el lugar es el Taller de Instrumentos, un taller de luthier de madera cálida con mesas de trabajo, violines y chelos colgados, virutas, herramientas, faroles y velas',
+            # Las Sendas cruzadas (2026-11-15): cada una en el lugar de la región que visita.
+            '07-senda-el-teatro.md': 'en un teatro de títeres de feria, de noche, con un teatrito de madera de telón rojo, butacas de madera, títeres colgados, farolitos y guirnaldas de foquitos amarillos',
+            '08-senda-el-golem.md': 'adentro de un gólem gigante de bronce con pátina verde, remaches y engranajes a la vista, con salas de palancas grandes, paredes de interruptores con luces cian y un enorme ojo redondo de cristal; luz cálida de bronce y cian',
+            '09-senda-el-puerto.md': 'en la ventanilla de pedidos del conservatorio (una ventanilla de madera tallada con mostrador y un tubo de bronce) o, si el lugar es el muelle o el Puerto, en un puerto de noche con muelles de madera, barcos de vela, una torre de piedra con una campana de bronce y faroles violetas',
+            '10-senda-el-arcade.md': 'en el taller desordenado de un chico inventor, de madera, con una máquina de arcade de madera a medio armar con una pantalla de lucecitas en grilla, herramientas y cables; si el lugar es la Feria de las Luces, un puesto de feria de pueblo europea antigua de noche con farolitos y banderines de colores lisos',
         },
         'chars': [
             (r'\bCeci\b', 'Ceci', ['6d9cb3583ce9486fa80bf873f9fecc59'], 'Ceci es una chica de 15 años, bajita, de pecas, con pelo cobrizo en dos rodetes chiquitos y un saco de banda BORDÓ con botones dorados, largo hasta los muslos, abotonado hasta el cuello.'),
@@ -192,6 +197,8 @@ REFS = {
             (r'\b[Oo]rcos?\b', 'el Orco del Desborde', ['7a8f59387a2545509da51e5bce46317f'], ''),
             (r'\b[Oo]gros?\b', 'el ogro de la Feria', ['93ecb5ea185a4d848ad0d9c87b381c4d'],
              'El ogro es grandote y simpático, de piel GRIS AZULADA (nunca verde), pelo naranja desgreñado, nariz grande y redonda, dos colmillitos de abajo y orejas chicas pegadas a la cabeza.'),
+            (r'\bNova\b', 'Nova', ['3353452561924702120'], 'Nova es una chica de unos 15 años que FLOTA a unos centímetros del piso, de pelo rubio dorado que flota como en el agua, ojos cian brillantes, capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada y botas con suela cian.'),
+            (r'Bit Rebelde|bichito de luz roja', 'el Bit Rebelde', ['a69d87d5decc4dbba949bc4be9d7b5e0'], 'El Bit Rebelde es un bichito de luz roja MINÚSCULO, del tamaño de una moneda, con forma de interruptor (una perilla en la cabeza), patitas cortas y ojos de chispa.'),
             (r'\b[Tt]roll\b', 'el troll chiquito de feria', ['1d079c0700224221b55e0b9f9bb68949'],
              'El troll es chiquito, del alto de un nene de seis años: piel color musgo grisáceo, nariz de papa, pelo de paja y chaleco remendado (el de la izquierda en su referencia).'),
         ],

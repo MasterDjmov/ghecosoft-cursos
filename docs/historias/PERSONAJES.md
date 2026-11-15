@@ -1449,6 +1449,14 @@ Historia en [csharp.md](csharp.md).
 - **Cómo habla:** repite lo mismo mil veces, con mil voces.
 - **Cómo termina:** sin repetidos que la alimenten, se deshace en el aire y los sobres caen sobre la Feria como copos de nieve. Pico le deja a Ceci una carta de Elefa. Deja la insignia **Ventanilla del Puerto** (las Sendas no dejan ítem).
 
+### Glitch del Arcade
+- **Rol:** el jefe de la Senda del Arcade de C# (S04-N04). Aparece solo en la pantalla del arcade de Bemol la noche antes de llevarlo a la Feria.
+- **Qué error representa:** lo que rompe un juego: la pantalla con la fila y la columna al revés, el azar que no se puede repetir, la señal conectada mil veces, las vidas que no se terminan y la velocidad que depende de la compu.
+- **Cómo se lo vence:** `pantalla[y, x]`, `new Random(7)`, suscribirse una sola vez, `vidas <= 0` y `velocidad * dt`.
+- **Qué es:** un **sprite roto**, una figurita pixelada de colores imposibles y bordes deshilachados que **salta de un lugar a otro sin pasar por el medio** y tiembla cuando está quieto. Donde aterriza, las lucecitas se queman. Travieso, no malo: apto para chicos.
+- **Cómo habla:** no habla: chirría como una máquina vieja.
+- **Cómo termina:** cuando Ceci lo atrapa, se ordena: los colores se vuelven cuatro de verdad, los bordes se alisan y queda una figurita simpática que saluda. Bemol la deja de **mascota** del arcade. Deja la insignia **Creadora del Arcade** (las Sendas no dejan ítem).
+
 ### Bit Rebelde
 - **Rol:** el jefe de la Senda del Gólem de C# (S02-N04), adentro de Axón. Es un bit que se escapó de su palanca y no quiere volver.
 - **Qué error representa:** lo que se rompe por debajo: la orden mal partida, la palanca equivocada, la bandera que no se apaga, el salto al revés y el bucle que no termina.

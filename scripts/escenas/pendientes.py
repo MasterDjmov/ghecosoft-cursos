@@ -61,6 +61,10 @@ REFS = {
             '05-senda-taller-de-aparatos.md': 'en las Forjas de Hierro, una ciudad subterránea de forjas, de noche: talleres de bronce, hornos con fuego naranja, calles de piedra y cables finos de bronce que bajan del gólem gigante',
         },
         'chars': [
+            (r'Hilv[aá]n', 'Hilván', ['8578289199410683918'], 'Hilván es un HOMBRE ADULTO alto y delgado, de cara adulta y amable, piel clara, pelo negro, chaleco de terciopelo VIOLETA abotonado sobre camisa clara de mangas largas, con hilos dorados en los dedos.'),
+            (r'\bElefa\b|elefanta', 'Elefa', ['8578289199410684244'], 'Elefa es una elefanta enorme erguida en dos patas, con casco gris y violeta, armadura gris y violeta con sellos de lacre y un bastón coronado por un sello violeta.'),
+            (r'\bPico\b|gaviota regordeta', 'Pico', ['8578289199410687036'], 'Pico es una gaviota blanca y gris, regordeta, con una mancha violeta en un ala, del tamaño de una gaviota de verdad.'),
+            (r'Apuntador|[Ff]antasma transparente|figura fantasmal', 'el Apuntador Fantasma', ['814b91b44f2c4076b53ec4a7f4951ae3'], 'El Apuntador Fantasma es un fantasma viejo y flaco de luz celeste translúcida, con anteojitos, barbita blanca en punta, levita abotonada con moño y cola de fantasma en vez de piernas, del alto de un adulto.'),
             (r'\bNova\b', 'Nova', ['66dcc9173d064f0b981a1d937eb959ea', 'be0d6929ddbc4fce8ce8302f40291e44'],
              'Nova es una chica de 15 años (1,60 m) que flota a unos centímetros del piso: capa oscura de cuello alto con circuitos cian, túnica cerrada, calzas oscuras y botas con suela cian (ropa opaca y cerrada; nunca holograma translúcido).'),
             (r'Ax[oó]n', 'Axón', ['a3f048dbdb0144748446e592787f2bdb', 'c4b3a82e96bb49e689670d429bea0fba'],

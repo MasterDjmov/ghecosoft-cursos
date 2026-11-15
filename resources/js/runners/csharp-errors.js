@@ -35,7 +35,8 @@ const CURSES = {
     InvalidOperationException: ['Ogro', 'eso no se puede hacer en este momento (por ejemplo, usar la conexión antes de `Open()`, o pedirle algo a una colección vacía).'],
     TaskCanceledException: ['Ogro', 'la tarea se canceló antes de terminar.'],
     OperationCanceledException: ['Ogro', 'la tarea se canceló antes de terminar.'],
-    HttpRequestException: ['Esqueleto', 'el pedido no llegó a ningún lado: en el navegador no hay red. Hablale a la ventanilla con `app.CreateClient()`.'],
+    HttpRequestException: ['Esqueleto', 'el pedido falló. Si el mensaje trae un código (404, 500…), el Puerto o la ventanilla contestaron con un error: mirá `StatusCode` antes de leer. Si no, es que en el navegador no hay red: hablale al Puerto con `Puerto.CreateClient()` y a tu ventanilla con `app.CreateClient()`.'],
+    JsonException: ['Goblin', 'ese JSON no se puede leer: está roto o no tiene la forma del tipo que pediste (por ejemplo, una lista donde esperabas un objeto).'],
 };
 
 export function explainCsharpErrors(errors = []) {

@@ -1441,6 +1441,14 @@ Historia en [csharp.md](csharp.md).
 - **Cómo habla:** en susurros, siempre una palabra cambiada.
 - **Cómo termina:** cuando el guion pasa el ensayo, sale del agujero, aplaude despacito y se desvanece en chispas celestes, contento: alguien, por fin, ensayó. Deja la insignia **Guionista del Teatro** (las Sendas no dejan ítem).
 
+### Gaviota de Mil Mensajes
+- **Rol:** el jefe de la Senda del Puerto de C# (S03-N04). Nace una noche en que el palomar de Pico se descontrola: palomas, gaviotas y veinte años de sobres robados se juntan en el cielo y se posan sobre la Ventanilla del Conservatorio.
+- **Qué error representa:** una ventanilla que deja pasar todo: no le pregunta al Puerto, mezcla lo que no sirve, pasa los errores como si fueran éxitos, manda cartas vacías y repite mensajes.
+- **Cómo se lo vence:** con la ventanilla de Ceci como filtro: una ruta `async` que le pregunta al Puerto, `Where` con lo del Conservatorio, 502 cuando el Puerto falla, 400 a las cartas vacías y un `HashSet` contra los repetidos.
+- **Qué es:** una **gaviota gigante hecha de papeles y sobres arremolinados**, con alas de cartas que se despegan al moverse y **ojos de lacre violeta**. Chilla en todas las voces a la vez. Ruidosa pero no aterradora: apta para chicos.
+- **Cómo habla:** repite lo mismo mil veces, con mil voces.
+- **Cómo termina:** sin repetidos que la alimenten, se deshace en el aire y los sobres caen sobre la Feria como copos de nieve. Pico le deja a Ceci una carta de Elefa. Deja la insignia **Ventanilla del Puerto** (las Sendas no dejan ítem).
+
 ### Bit Rebelde
 - **Rol:** el jefe de la Senda del Gólem de C# (S02-N04), adentro de Axón. Es un bit que se escapó de su palanca y no quiere volver.
 - **Qué error representa:** lo que se rompe por debajo: la orden mal partida, la palanca equivocada, la bandera que no se apaga, el salto al revés y el bucle que no termina.

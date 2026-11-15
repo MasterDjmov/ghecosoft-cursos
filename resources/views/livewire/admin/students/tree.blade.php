@@ -69,6 +69,9 @@
                                 <flux:icon name="minus" variant="micro" class="shrink-0 text-ink-muted" />
                             @endif
                             <span @class(['flex-1 truncate', 'text-warning' => $step['stuck'], 'text-ink' => ! $step['stuck']])>{{ $step['title'] }}</span>
+                            @if ($step['helps'])
+                                <span class="flex items-center gap-1 text-xs text-primary-bright" title="Ayuda que pidió (D123)" data-test="journey-step-helps"><flux:icon name="lifebuoy" variant="micro" /> {{ $step['helps'] }}</span>
+                            @endif
                             @if ($step['fails'])
                                 <span class="font-mono text-xs text-ink-muted">{{ $step['fails'] }} {{ $step['fails'] === 1 ? 'fallo' : 'fallos' }}</span>
                             @endif

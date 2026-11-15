@@ -181,7 +181,7 @@ test('el alumno resuelve una misión desde la página del episodio', function ()
 
     Livewire::actingAs($student)->test(NodeView::class, ['course' => $course, 'node' => $course->rootNode])
         ->call('completeStep', $step->id, EnglishExercise::PASSED, '')
-        ->assertReturned(['ok' => true, 'xp' => $step->xp_reward]);
+        ->assertReturned(['ok' => true, 'xp' => $step->xp_reward, 'gold' => $step->gold_reward, 'halved' => false]);
 });
 
 test('decir la frase en voz alta da un poco de XP, una sola vez por micro-misión', function () {
@@ -213,7 +213,7 @@ test('una misión superada se puede repasar: se juega de nuevo sin volver a paga
         ->assertSee('Repasar')
         ->set('replay', $first->id)
         ->assertSeeHtml('data-test="en-replay-done"');
-    $page->call('completeStep', $first->id, EnglishExercise::PASSED, '')->assertReturned(['ok' => true, 'xp' => 0]);
+    $page->call('completeStep', $first->id, EnglishExercise::PASSED, '')->assertReturned(['ok' => true, 'xp' => 0, 'gold' => 0, 'halved' => false]);
     expect($student->fresh()->xp_total)->toBe($xp);
 
     // Una que todavía no superó no se «repasa»: sigue siendo la que toca.

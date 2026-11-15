@@ -13,6 +13,7 @@ use App\Models\NodeStepCompletion;
 use App\Models\NodeUnlock;
 use App\Models\NodeVisit;
 use App\Models\StepAttempt;
+use App\Models\StepHelp;
 use App\Models\Submission;
 use App\Models\User;
 use App\Models\XpTransaction;
@@ -20,7 +21,9 @@ use App\Services\ActivityLog;
 use App\Services\CourseImporter;
 use App\Services\PracticeSubmitter;
 use App\Services\StepCompleter;
+use App\Services\StepHelper;
 use App\Services\TreeAccess;
+use App\Support\LineDiff;
 use Livewire\Livewire;
 
 /*
@@ -219,7 +222,7 @@ test('desde la página del nodo se supera, se queda en pantalla y «Siguiente» 
 
     $component = Livewire::actingAs($student)->test(NodeView::class, ['course' => $course, 'node' => $course->rootNode]);
     $component->call('completeStep', $first->id, 'Hola, Valle', 'print("Hola, Valle")')
-        ->assertReturned(['ok' => true, 'xp' => 10])
+        ->assertReturned(['ok' => true, 'xp' => 10, 'gold' => 5, 'halved' => false])
         ->assertSee('data-test="step-success"', false);
 
     $component->call('completeStep', $first->id, 'otra cosa', 'print("otra cosa")')
@@ -561,4 +564,138 @@ test('el árbol del alumno muestra su recorrido: dónde se traba y sus respuesta
         ->assertSee('3 fallos')
         ->assertSee('He gos')
         ->assertSee('data-test="student-recent-fails"', false);
+});
+
+/*
+ * D123: «Necesito ayuda». Todo sale de comparar el código inicial con la solución; la solución llega de a una línea,
+ * una por cada intento fallido, y si vio alguna la micro-misión paga la mitad.
+ */
+
+test('la comparación de líneas marca lo que cambia entre el código inicial y la solución', function () {
+    $step = new NodeStep([
+        'starter_code' => "nombre = \"Mia\"\nprint(___)\nfin = 1",
+        'solution' => "nombre = \"Mia\"\nprint(nombre)\nprint(\"chau\")\nfin = 1",
+    ]);
+    $helper = app(StepHelper::class);
+
+    expect(collect(LineDiff::ops($step->starter_code, $step->solution))->pluck('op')->all())->toBe(['same', 'add', 'add', 'del', 'same'])
+        ->and($helper->whereLines($step))->toBe([1, 2])
+        ->and($helper->changedLines($step))->toBe([['number' => 2, 'text' => 'print(nombre)'], ['number' => 3, 'text' => 'print("chau")']]);
+
+    // Sin código inicial no hay dónde marcar: todo es nuevo.
+    expect($helper->whereLines(new NodeStep(['starter_code' => '', 'solution' => 'print(1)'])))->toBe([]);
+});
+
+test('la primera línea de la solución recién después de un fallo, y cada siguiente después de otro', function () {
+    $course = coursesWithSteps();
+    $student = studentWithRootOpen(['course' => $course, 'root' => $course->rootNode]);
+    [$first, $second] = $course->rootNode->steps()->get()->all();
+    app(StepCompleter::class)->complete($student, $first, 'Hola, Valle');
+    $component = Livewire::actingAs($student)->test(NodeView::class, ['course' => $course, 'node' => $course->rootNode]);
+
+    // Sin fallar todavía, nada.
+    $component->call('helpLine', $second->id, '')->assertReturned(fn ($r) => $r['ok'] && $r['wait'] && $r['lines'] === [] && $r['new'] === null);
+
+    $component->call('failStep', $second->id, 'output', 'uno', 'print("uno")');
+    // Elige la primera línea que todavía no está en su código: ya escribió print("uno").
+    $component->call('helpLine', $second->id, 'print("uno")')
+        ->assertReturned(fn ($r) => $r['ok'] && ! $r['wait'] && $r['new'] === 2 && $r['lines'] === [['number' => 2, 'text' => 'print("dos")']] && $r['solution'] === null);
+    // Otra sin un fallo nuevo, no.
+    $component->call('helpLine', $second->id, 'print("uno")')->assertReturned(fn ($r) => $r['wait'] && count($r['lines']) === 1);
+
+    $this->travel(2)->seconds();
+    $component->call('failStep', $second->id, 'output', 'uno', "print(\"uno\")\nprint(\"do\")");
+    // Con todas las líneas vistas, la solución completa.
+    $component->call('helpLine', $second->id, '')->assertReturned(fn ($r) => $r['new'] === 1 && count($r['lines']) === 2 && $r['solution'] === "print(\"uno\")\nprint(\"dos\")");
+
+    expect(StepHelp::where('user_id', $student->id)->where('kind', 'line')->pluck('line')->all())->toBe([2, 1]);
+
+    // Vio la solución: la mitad de XP (15 → 8).
+    $xp = $student->fresh()->xp_total;
+    $component->call('completeStep', $second->id, "uno\ndos", 'print("uno")')->assertReturned(['ok' => true, 'xp' => 8, 'gold' => 0, 'halved' => true]);
+    expect($student->fresh()->xp_total)->toBe($xp + 8);
+});
+
+test('vista la solución, el oro también es la mitad (para arriba)', function () {
+    config(['game.gold_enabled' => true]);
+    $course = coursesWithSteps();
+    $student = studentWithRootOpen(['course' => $course, 'root' => $course->rootNode]);
+    $first = $course->rootNode->steps()->first();
+    StepHelp::create(['user_id' => $student->id, 'node_step_id' => $first->id, 'course_id' => $course->id, 'kind' => 'line', 'line' => 1]);
+
+    app(StepCompleter::class)->complete($student, $first, 'Hola, Valle');
+
+    expect(CoinTransaction::where('user_id', $student->id)->whereHas('currency', fn ($q) => $q->where('code', Currency::GOLD))->sum('amount'))->toEqual(3)
+        ->and(XpTransaction::where('user_id', $student->id)->where('reason', XpReason::StepCompleted)->sum('amount'))->toEqual(5);
+});
+
+test('«¿Dónde toco?» devuelve los renglones y queda anotado; una ayuda inventada no', function () {
+    $course = coursesWithSteps();
+    $student = studentWithRootOpen(['course' => $course, 'root' => $course->rootNode]);
+    $first = $course->rootNode->steps()->first();
+    $component = Livewire::actingAs($student)->test(NodeView::class, ['course' => $course, 'node' => $course->rootNode]);
+
+    $component->call('helpWhere', $first->id)->assertReturned(['ok' => true, 'lines' => [1]]);
+    $component->call('helpLog', $first->id, 'compare');
+    $component->call('helpLog', $first->id, 'trampa');
+    $component->call('helpLog', $first->id, 'line');
+
+    expect(StepHelp::where('user_id', $student->id)->pluck('kind')->all())->toBe(['where', 'compare']);
+});
+
+test('no se pide ayuda de una micro-misión que todavía no puede jugar', function () {
+    $course = coursesWithSteps();
+    $student = studentWithRootOpen(['course' => $course, 'root' => $course->rootNode]);
+    $second = $course->rootNode->steps()->get()[1];
+
+    Livewire::actingAs($student)->test(NodeView::class, ['course' => $course, 'node' => $course->rootNode])
+        ->call('helpLine', $second->id, '')->assertReturned(['ok' => false, 'error' => 'Esta micro-misión todavía no está disponible.']);
+    expect(StepHelp::count())->toBe(0);
+});
+
+test('el staff y la Clase 0 de prueba ven las líneas sin fallar antes y sin dejar registros ni bajar premios', function () {
+    $course = coursesWithSteps();
+    $visitor = User::factory()->create();
+    $first = $course->rootNode->steps()->first();
+    $this->actingAs($visitor);
+
+    $r = app(StepHelper::class)->revealLine($visitor, $first, '');
+    expect($r['new'])->toBe(1)
+        ->and($r['solution'])->toBe('print("Hola, Valle")')
+        ->and(StepHelp::count())->toBe(0)
+        ->and(app(StepHelper::class)->usedSolution($visitor, $first))->toBeFalse();
+});
+
+test('la página muestra el botón de ayuda, sin la solución, y lo ya visto al volver', function () {
+    $course = coursesWithSteps();
+    $student = studentWithRootOpen(['course' => $course, 'root' => $course->rootNode]);
+
+    $html = $this->actingAs($student)->get(route('student.node', [$course, $course->rootNode]))->assertOk()->getContent();
+    expect($html)->toContain('data-test="step-help"')
+        ->and($html)->toContain('data-test="step-help-where"')
+        ->and($html)->toContain('data-test="step-help-compare"')
+        ->and($html)->toContain('data-test="step-help-line"')
+        ->and($html)->toContain('data-test="step-read"')
+        ->and($html)->not->toContain('Hola, Valle&quot;)')
+        ->and($html)->not->toContain('print(\\u0022Hola');
+
+    $first = $course->rootNode->steps()->first();
+    StepHelp::create(['user_id' => $student->id, 'node_step_id' => $first->id, 'course_id' => $course->id, 'kind' => 'line', 'line' => 1]);
+    $html = $this->actingAs($student)->get(route('student.node', [$course, $course->rootNode]))->getContent();
+    expect($html)->toContain('Hola, Valle');
+});
+
+test('el recorrido del alumno muestra qué ayuda pidió', function () {
+    $course = coursesWithSteps();
+    $student = studentWithRootOpen(['course' => $course, 'root' => $course->rootNode]);
+    $first = $course->rootNode->steps()->first();
+    app(ActivityLog::class)->visit($student, $course->rootNode);
+    foreach (['where', 'line', 'line'] as $kind) {
+        StepHelp::create(['user_id' => $student->id, 'node_step_id' => $first->id, 'course_id' => $course->id, 'kind' => $kind, 'line' => $kind === 'line' ? 1 : null]);
+    }
+
+    $this->actingAs(User::factory()->admin()->create())->get(route('admin.students.tree', [$student, $course]))
+        ->assertOk()
+        ->assertSee('data-test="journey-step-helps"', false)
+        ->assertSee('¿Dónde toco?, 2 líneas de la solución');
 });

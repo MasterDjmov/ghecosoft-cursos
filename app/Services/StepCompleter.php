@@ -8,6 +8,7 @@ use App\Models\CoinTransaction;
 use App\Models\Currency;
 use App\Models\NodeStep;
 use App\Models\NodeStepCompletion;
+use App\Models\StepHelp;
 use App\Models\User;
 use App\Models\XpTransaction;
 use Illuminate\Support\Facades\DB;
@@ -72,11 +73,12 @@ class StepCompleter
 
                 return false;
             }
-            // El staff prueba sin sumar XP.
-            if ($step->xp_reward > 0 && ! $user->isStaff()) {
-                $this->ledger->addXp($user, $step->xp_reward, XpReason::StepCompleted, $step, $step->node->course);
+            // El staff prueba sin sumar XP. D123: si vio líneas de la solución, la mitad.
+            $reward = $this->rewardFor($user, $step);
+            if ($reward['xp'] > 0 && ! $user->isStaff()) {
+                $this->ledger->addXp($user, $reward['xp'], XpReason::StepCompleted, $step, $step->node->course);
             }
-            $this->heroes->creditStep($user, $step);
+            $this->heroes->creditStep($user, $step, $reward['gold']);
             $this->inventory->creditStep($user, $step);
             $this->creditCoins($user, $step);
 
@@ -88,6 +90,23 @@ class StepCompleter
 
             return true;
         });
+    }
+
+    /**
+     * D123: lo que paga. Si con «Mostrame una línea» vio algún renglón de la solución, la mitad de XP y de oro
+     * (redondeando para arriba); las monedas del curso (D111) y los ítems no cambian.
+     *
+     * @return array{xp: int, gold: int, halved: bool}
+     */
+    public function rewardFor(User $user, NodeStep $step): array
+    {
+        $halved = StepHelp::where('user_id', $user->id)->where('node_step_id', $step->id)->where('kind', 'line')->exists();
+
+        return [
+            'xp' => $halved ? (int) ceil($step->xp_reward / 2) : $step->xp_reward,
+            'gold' => $halved ? (int) ceil($step->gold_reward / 2) : $step->gold_reward,
+            'halved' => $halved,
+        ];
     }
 
     /** D111: las monedas del curso de una micro-misión que vino de una misión, una sola vez. */

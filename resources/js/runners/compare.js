@@ -80,3 +80,25 @@ export function describeDifference(expected, got) {
 
     return null;
 }
+
+/**
+ * D123, «Comparemos»: lo esperado y lo que mostró el programa, renglón por renglón y uno al lado del otro. La
+ * primera fila distinta va marcada (`first`), y en las distintas los espacios se ven como «·» para que no pasen
+ * desapercibidos.
+ *
+ * @returns {Array<{want: string|null, have: string|null, ok: boolean, first: boolean}>}
+ */
+export function sideBySide(expected, got) {
+    const want = normalize(expected).split('\n');
+    const have = normalize(got).split('\n');
+    const show = (text) => (text === undefined ? null : text.replace(/ /g, '·').replace(/\t/g, '→'));
+    let firstSeen = false;
+
+    return Array.from({ length: Math.max(want.length, have.length) }, (_, i) => {
+        const ok = want[i] === have[i];
+        const first = !ok && !firstSeen;
+        if (first) firstSeen = true;
+
+        return ok ? { want: want[i], have: have[i], ok, first } : { want: show(want[i]), have: show(have[i]), ok, first };
+    });
+}

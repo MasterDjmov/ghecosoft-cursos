@@ -1,5 +1,6 @@
 import './live-alerts.js';
 import './tool-window.js';
+import './step-help.js';
 import { compareLines, describeDifference } from './runners/compare.js';
 import { englishStep, speak } from './runners/english.js';
 import { worldsCarousel } from './worlds-carousel.js';
@@ -233,6 +234,8 @@ document.addEventListener('alpine:init', () => {
         mismatch: null,
         // Si no coincide, la salida renglón por renglón con ✓ y ✗ (compareLines), para ver dónde corregir.
         lines: null,
+        // D123, «Comparemos»: lo que escribió el programa la última vez, sin los avisos del compilador ni STDERR.
+        programOutput: null,
         editor: null,
         // HTML y CSS (D76): la página dibujada en la caja aislada, el tamaño de pantalla y la pantalla completa.
         preview: '',
@@ -342,6 +345,7 @@ document.addEventListener('alpine:init', () => {
             this.matches = null;
             this.mismatch = null;
             this.lines = null;
+            this.programOutput = null;
             this.output = '';
 
             let result;
@@ -389,6 +393,7 @@ document.addEventListener('alpine:init', () => {
             const notices = result.stderr?.trim() ? `${result.output && !result.output.endsWith('\n') ? '\n' : ''}── STDERR ──\n${result.stderr.trim()}` : '';
             this.output = (compiler + result.output + (result.error ? separator + result.error : notices)).replace(/\n+$/, '') || '(sin salida)';
             this.error = Boolean(result.error);
+            this.programOutput = result.error ? null : (result.output ?? '');
             this.status = result.error ? (result.timedOut ? 'Tiempo agotado' : 'Error') : `Listo en ${result.ms} ms`;
             if (!result.error && config.expected) {
                 // Como el servidor (LocalCodeRunner::normalize); si no coincide, se dice dónde (sobre todo lo invisible).

@@ -233,19 +233,21 @@ class Heroes
     }
 
     /** El oro de una micro-misión superada, una sola vez (el staff prueba sin ganar). */
-    public function creditStep(User $user, NodeStep $step): void
+    public function creditStep(User $user, NodeStep $step, ?int $amount = null): void
     {
-        if (! config('game.gold_enabled') || $step->gold_reward <= 0 || $user->isStaff()) {
+        // D123: con líneas de la solución vistas, StepCompleter pasa la mitad.
+        $amount ??= $step->gold_reward;
+        if (! config('game.gold_enabled') || $amount <= 0 || $user->isStaff()) {
             return;
         }
         $gold = Currency::gold();
-        DB::transaction(function () use ($user, $step, $gold) {
+        DB::transaction(function () use ($user, $step, $gold, $amount) {
             User::whereKey($user->id)->lockForUpdate()->first();
             $paid = CoinTransaction::where('user_id', $user->id)->where('currency_id', $gold->id)
                 ->where('reason', CoinReason::StepCompleted)
                 ->where('source_type', $step->getMorphClass())->where('source_id', $step->id)->exists();
             if (! $paid) {
-                $this->ledger->credit($user, $gold, $step->gold_reward, CoinReason::StepCompleted, $step, $step->node->course);
+                $this->ledger->credit($user, $gold, $amount, CoinReason::StepCompleted, $step, $step->node->course);
             }
         });
     }

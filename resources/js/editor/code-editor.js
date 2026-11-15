@@ -31,6 +31,8 @@ const theme = EditorView.theme(
         '.cm-matchingBracket': { backgroundColor: 'rgba(34,211,238,0.2)', outline: 'none' },
         '.cm-tooltip': { backgroundColor: '#131b2e', border: '1px solid #334155' },
         '.cm-run-line': { backgroundColor: 'rgba(250,204,21,0.18)', boxShadow: 'inset 3px 0 0 #facc15' },
+        // D123, «¿Dónde toco?»: los renglones que hay que cambiar.
+        '.cm-help-line': { backgroundColor: 'rgba(245,158,11,0.14)', boxShadow: 'inset 3px 0 0 #f59e0b' },
         '.cm-tooltip-autocomplete > ul > li[aria-selected]': { backgroundColor: '#1d263d', color: '#22d3ee' },
     },
     { dark: true },
@@ -94,6 +96,23 @@ const activeLineField = StateField.define({
     provide: (f) => EditorView.decorations.from(f),
 });
 
+// D123, «¿Dónde toco?»: varios renglones marcados a la vez (se mueven con lo que se escribe).
+const setHelpLines = StateEffect.define();
+const helpLineMark = Decoration.line({ class: 'cm-help-line' });
+const helpLinesField = StateField.define({
+    create: () => Decoration.none,
+    update(deco, tr) {
+        for (const e of tr.effects) {
+            if (e.is(setHelpLines)) {
+                const lines = [...new Set(e.value ?? [])].filter((n) => n >= 1 && n <= tr.state.doc.lines).sort((a, b) => a - b);
+                return Decoration.set(lines.map((n) => helpLineMark.range(tr.state.doc.line(n).from)));
+            }
+        }
+        return deco.map(tr.changes);
+    },
+    provide: (f) => EditorView.decorations.from(f),
+});
+
 /**
  * @param {HTMLElement} parent
  * @param {{doc: string, language?: string, readOnly?: boolean, autocomplete?: boolean, onChange?: (code: string) => void, onRun?: () => void}} options
@@ -109,6 +128,7 @@ export function createEditor(parent, { doc, language = 'python', readOnly = fals
         EditorView.updateListener.of((update) => update.docChanged && onChange?.(update.state.doc.toString())),
         EditorView.contentAttributes.of({ 'aria-label': 'Editor de código', spellcheck: 'false' }),
         activeLineField,
+        helpLinesField,
     ];
     if (LANGUAGES[language]) extensions.push(LANGUAGES[language]());
     if (autocomplete) extensions.push(editorCompletions(language));
@@ -125,6 +145,13 @@ export function createEditor(parent, { doc, language = 'python', readOnly = fals
         markLine(line) {
             const effects = [setActiveLine.of(line)];
             if (line && line <= view.state.doc.lines) effects.push(EditorView.scrollIntoView(view.state.doc.line(line).from, { y: 'nearest', yMargin: 160 }));
+            view.dispatch({ effects });
+        },
+        /** Marca varios renglones (D123, «¿Dónde toco?») y trae el primero a la vista; [] los saca. */
+        markLines(lines) {
+            const effects = [setHelpLines.of(lines)];
+            const first = Math.min(...lines);
+            if (lines.length && first <= view.state.doc.lines) effects.push(EditorView.scrollIntoView(view.state.doc.line(first).from, { y: 'nearest', yMargin: 80 }));
             view.dispatch({ effects });
         },
         destroy() {

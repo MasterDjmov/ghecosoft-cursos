@@ -9,6 +9,7 @@ use App\Models\NodeStepCompletion;
 use App\Models\NodeUnlock;
 use App\Models\NodeVisit;
 use App\Models\StepAttempt;
+use App\Models\StepHelp;
 use App\Models\User;
 use App\Services\TreeAccess;
 use Carbon\CarbonInterface;
@@ -44,6 +45,9 @@ class StudentJourney
         $attempts = StepAttempt::where('user_id', $this->user->id)->where('course_id', $this->course->id)
             ->selectRaw('node_step_id, SUM(passed = 0) as fails, SUM(passed = 1) as passes, MAX(created_at) as last_at')
             ->groupBy('node_step_id')->get()->keyBy('node_step_id');
+        // D123: qué ayudas pidió en cada micro-misión.
+        $helps = StepHelp::where('user_id', $this->user->id)->where('course_id', $this->course->id)
+            ->get(['node_step_id', 'kind'])->groupBy('node_step_id');
         $done = NodeStepCompletion::where('user_id', $this->user->id)
             ->whereHas('step.node', fn ($q) => $q->where('course_id', $this->course->id))
             ->pluck('completed_at', 'node_step_id');
@@ -53,7 +57,7 @@ class StudentJourney
         // Por código (R00, R01-N01…, S01): la posición es dentro de cada rama.
         return Node::whereIn('id', $nodeIds)->with(['steps' => fn ($q) => $q->orderBy('position')])
             ->orderBy('code')->get()
-            ->map(function (Node $node) use ($unlocks, $visits, $attempts, $done, $states) {
+            ->map(function (Node $node) use ($unlocks, $visits, $attempts, $done, $helps, $states) {
                 $visit = $visits->get($node->id);
                 $steps = $node->steps->map(fn (NodeStep $step) => [
                     'id' => $step->id,
@@ -62,6 +66,7 @@ class StudentJourney
                     'done' => $done->has($step->id),
                     'fails' => (int) ($attempts->get($step->id)?->fails ?? 0),
                     'stuck' => ! $done->has($step->id) && (int) ($attempts->get($step->id)?->fails ?? 0) >= self::STUCK_FAILS,
+                    'helps' => self::helpSummary($helps->get($step->id)),
                 ]);
                 $completed = ($states[$node->id] ?? null) === TreeAccess::STATE_COMPLETED;
                 $lastActivity = collect([
@@ -89,6 +94,30 @@ class StudentJourney
                     'idle_since' => $idle ? $lastActivity : null,
                 ];
             });
+    }
+
+    /**
+     * D123: las ayudas de una micro-misión en pocas palabras («¿Dónde toco?, 2 líneas de la solución»); null si no pidió.
+     *
+     * @param  Collection<int, StepHelp>|null  $helps
+     */
+    public static function helpSummary(?Collection $helps): ?string
+    {
+        if (! $helps || $helps->isEmpty()) {
+            return null;
+        }
+        $kinds = $helps->pluck('kind');
+        $lines = $kinds->filter(fn ($k) => $k === 'line')->count();
+        $parts = collect(['where' => '¿Dónde toco?', 'compare' => 'Comparemos', 'read' => 'escuchó el desafío'])
+            ->filter(fn ($label, $kind) => $kinds->contains($kind))->values();
+        if ($lines) {
+            $parts->push($lines === 1 ? '1 línea de la solución' : "{$lines} líneas de la solución");
+        }
+        if ($parts->isEmpty() && $kinds->contains('offer')) {
+            $parts->push('Gheco le ofreció ayuda');
+        }
+
+        return $parts->implode(', ') ?: null;
     }
 
     /** @return Collection<int, StepAttempt> sus últimos fallos, con la micro-misión */

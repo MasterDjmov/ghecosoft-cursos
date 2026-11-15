@@ -10,6 +10,7 @@ use App\Services\ActivityLog;
 use App\Services\Heroes;
 use App\Services\NodeUnlocker;
 use App\Services\StepCompleter;
+use App\Services\StepHelper;
 use App\Services\TreeAccess;
 use App\Support\Glossary;
 use App\Support\Narrative;
@@ -82,8 +83,54 @@ class NodeView extends Component
             return ['ok' => false, 'error' => $e->getMessage()];
         }
         $log->attempt(auth()->user(), $step, true);
+        $paid = $new && ! auth()->user()->isStaff();
+        $reward = $completer->rewardFor(auth()->user(), $step);
 
-        return ['ok' => true, 'xp' => $new && ! auth()->user()->isStaff() ? $step->xp_reward : 0];
+        return ['ok' => true, 'xp' => $paid ? $reward['xp'] : 0, 'gold' => $paid ? $reward['gold'] : 0, 'halved' => $paid && $reward['halved']];
+    }
+
+    /**
+     * D123, «¿Dónde toco?»: los renglones del código inicial que hay que cambiar.
+     *
+     * @return array{ok: bool, lines?: list<int>, error?: string}
+     */
+    #[Renderless]
+    public function helpWhere(int $stepId, StepHelper $helper): array
+    {
+        return $this->help(fn () => ['lines' => $helper->where(auth()->user(), $this->node->steps()->findOrFail($stepId))]);
+    }
+
+    /**
+     * D123, «Mostrame una línea»: un renglón de la solución por cada intento fallido.
+     *
+     * @return array{ok: bool, lines?: list<array{number: int, text: string}>, new?: ?int, wait?: bool, solution?: ?string, error?: string}
+     */
+    #[Renderless]
+    public function helpLine(int $stepId, string $code, StepHelper $helper): array
+    {
+        return $this->help(fn () => $helper->revealLine(auth()->user(), $this->node->steps()->findOrFail($stepId), Str::limit($code, 20000, '')));
+    }
+
+    /** D123: anota una ayuda que no trae nada del servidor (Comparemos, escuchar, la oferta de Gheco). */
+    #[Renderless]
+    public function helpLog(int $stepId, string $kind, StepHelper $helper): void
+    {
+        $this->help(fn () => $helper->log(auth()->user(), $this->node->steps()->findOrFail($stepId), $kind) ?? []);
+    }
+
+    /** Las ayudas comparten el límite de pedidos y los errores en palabras. */
+    private function help(callable $action): array
+    {
+        $key = 'step-help:'.auth()->id();
+        if (RateLimiter::tooManyAttempts($key, 40)) {
+            return ['ok' => false, 'error' => 'Esperá un momento antes de pedir otra ayuda.'];
+        }
+        RateLimiter::hit($key, 60);
+        try {
+            return ['ok' => true, ...$action()];
+        } catch (InvalidArgumentException $e) {
+            return ['ok' => false, 'error' => $e->getMessage()];
+        }
     }
 
     /**

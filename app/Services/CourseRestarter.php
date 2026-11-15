@@ -23,7 +23,7 @@ class CourseRestarter
 {
     /** Lo que borra del curso. Un test revisa que estén todas. */
     public const WIPED = [
-        'expeditions', 'heroes', 'coin_transactions', 'xp_transactions', 'node_step_completions', 'step_attempts', 'node_visits',
+        'expeditions', 'heroes', 'coin_transactions', 'xp_transactions', 'node_step_completions', 'step_attempts', 'step_helps', 'node_visits',
         'practice_grants', 'node_unlocks', 'practice_marks', 'submission_comments', 'submissions', 'course_completions', 'user_badges',
     ];
 
@@ -60,6 +60,7 @@ class CourseRestarter
             $own = fn (string $table) => DB::table($table)->where('user_id', $user->id);
             $own('node_step_completions')->whereIn('node_step_id', $stepIds)->delete();
             $own('step_attempts')->where('course_id', $course->id)->delete();
+            $own('step_helps')->where('course_id', $course->id)->delete();
             $own('node_visits')->where('course_id', $course->id)->delete();
             $own('practice_grants')->whereIn('node_id', $nodeIds)->delete();
             $own('node_unlocks')->whereIn('node_id', $nodeIds)->delete();

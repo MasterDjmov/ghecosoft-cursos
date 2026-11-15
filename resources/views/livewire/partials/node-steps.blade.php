@@ -144,7 +144,13 @@
                     @if ($texts['challenge'])
                         <div class="flex items-start gap-2">
                             <flux:icon name="code-bracket" variant="mini" class="mt-0.5 shrink-0 text-warning" />
-                            <div class="markdown font-medium text-white">{!! $texts['challenge'] !!}</div>
+                            <div class="markdown min-w-0 flex-1 font-medium text-white" id="challenge-{{ $step->id }}">{!! $texts['challenge'] !!}</div>
+                            {{-- D123: escuchar el desafío con la voz del navegador (sin voz, no aparece). --}}
+                            <button type="button" x-data x-show="'speechSynthesis' in window" x-cloak title="Escuchar el desafío" aria-label="Escuchar el desafío" data-test="step-read"
+                                x-on:click="$dispatch('step-read', { id: {{ $step->id }} })"
+                                class="shrink-0 rounded-md p-1 text-ink-muted transition hover:bg-surface-high hover:text-white">
+                                <flux:icon name="speaker-wave" variant="mini" />
+                            </button>
                         </div>
                     @endif
 
@@ -164,6 +170,7 @@
                             </div>
                             {{-- D107: los fallos se avisan para las estadísticas (el mismo fallo seguido, una vez), con el código
                                  para que el docente lo vea en el Recorrido. --}}
+                            @include('livewire.partials.step-help', ['step' => $step, 'stepLanguage' => $stepLanguage])
                             <div x-data="{ lastFail: '', fail(kind) { const out = this.output ?? ''; const src = this.code ?? ''; if (this.lastFail === kind + out + src) return; this.lastFail = kind + out + src; this.$wire.failStep({{ $step->id }}, kind, out.slice(0, 500), src.slice(0, 20000)).catch(() => {}) } }"
                                 x-effect="if (! running && matches === false) fail('{{ filled($step->checks) ? 'checks' : 'output' }}'); else if (! running && error) fail('error')"></div>
                             {{-- Java (D85) sin el ejecutor abierto, o C y C++ (D98, D100) si el compilador del navegador no carga: se corre
@@ -231,7 +238,7 @@
                                 @endif
                                 @if ($gold && $step->gold_reward > 0)
                                     <li class="flex items-center gap-1.5 rounded-lg border border-warning/40 bg-warning/10 px-3 py-1.5 text-warning" data-test="step-gold">
-                                        <x-gold-icon class="size-4" /> <span x-text="result?.xp > 0 ? '+{{ $step->gold_reward }} de oro' : 'Oro (ya lo tenías o sos del staff)'"></span>
+                                        <x-gold-icon class="size-4" /> <span x-text="result?.gold > 0 ? '+' + result.gold + ' de oro' : 'Oro (ya lo tenías o sos del staff)'"></span>
                                     </li>
                                 @endif
                                 @if ($courseCoin && $step->coin_reward > 0)
@@ -248,6 +255,8 @@
                             @if ($step->card_body)
                                 <p class="font-mono text-xs text-ink-muted">{{ $step->card_body }}</p>
                             @endif
+                            {{-- D123: con líneas de la solución, la mitad (sin retarlo: lo importante es que siguió). --}}
+                            <p x-show="result?.halved" x-cloak class="text-xs text-ink-muted" data-test="step-halved">Usaste líneas de la solución, así que esta vez el premio es la mitad. ¡Lo importante es que la sacaste!</p>
                             @if ($inventory && $texts['unlocks'])
                                 <div class="markdown text-sm text-ink"><strong>Se abre:</strong> {!! $texts['unlocks'] !!}</div>
                             @endif

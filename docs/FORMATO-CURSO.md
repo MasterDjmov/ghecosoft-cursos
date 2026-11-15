@@ -208,7 +208,7 @@ consultas o marcas.
 #### Inspector         (solo HTML y CSS, obligatorio: qué revisar, un pedido por renglón; D102)
 #### Estado esperado   (solo Ensamblador 8086, D110: registros, banderas y memoria al llegar a fin:)
 #### Salida esperada   (obligatoria: con esto se comprueba)
-#### Solución          (oculta: nunca llega al alumno)
+#### Solución          (oculta: al alumno solo le llega de a un renglón si pide «Mostrame una línea», D123)
 #### Al superarla      (qué cambia en la historia)
 #### Imagen            (el pedido para generarla)
 ````

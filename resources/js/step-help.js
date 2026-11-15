@@ -6,6 +6,20 @@ import { sideBySide } from './runners/compare.js';
 const OFFER_FAILS = 2;
 const OFFER_IDLE_MS = 3 * 60 * 1000;
 
+// Las frases que se están leyendo (si nadie las guarda, Chrome puede descartarlas antes de que suenen).
+let queued = [];
+
+/** Las voces del navegador: en Chrome llegan un rato después de cargar la página. */
+function availableVoices() {
+    const now = speechSynthesis.getVoices();
+    if (now.length) return Promise.resolve(now);
+    return new Promise((resolve) => {
+        const done = () => resolve(speechSynthesis.getVoices());
+        speechSynthesis.addEventListener('voiceschanged', done, { once: true });
+        setTimeout(done, 1500);
+    });
+}
+
 document.addEventListener('alpine:init', () => {
     // config: { stepId, where: bool, compare: bool, line: bool, expected: string, state: { lines, solution } }
     window.Alpine.data('stepHelp', (config) => ({
@@ -24,6 +38,8 @@ document.addEventListener('alpine:init', () => {
         idleTimer: null,
         wasRunning: false,
         logged: {},
+        reading: false,
+        readError: null,
 
         init() {
             this.restartIdle();
@@ -132,16 +148,48 @@ document.addEventListener('alpine:init', () => {
             return 'speechSynthesis' in window;
         },
 
-        readAloud(element) {
+        /**
+         * Lee el desafío en voz alta. Chrome en Linux viene sin voces (hay que abrirlo con --enable-speech-dispatcher)
+         * y entonces speak() no suena ni avisa: si no hay ninguna voz, se dice. Va por oraciones porque Chrome corta
+         * las lecturas largas, y se guardan las frases para que no se pierdan antes de sonar.
+         */
+        async readAloud(element) {
             if (!this.canRead() || !element) return;
+            if (this.reading) {
+                speechSynthesis.cancel();
+                this.reading = false;
+                return;
+            }
+            this.readError = null;
+            const voices = await availableVoices();
+            if (!voices.length) {
+                this.helpOpen = true;
+                this.readError = 'Este navegador no tiene voces instaladas. Probá con otro (en Windows, Edge o Chrome ya traen voces en español).';
+                return;
+            }
+            const spanish = voices.find((v) => v.lang?.toLowerCase() === 'es-ar')
+                ?? voices.find((v) => v.lang?.toLowerCase().startsWith('es'));
+            const parts = element.innerText.replace(/[`*_#>]/g, ' ')
+                .split(/\n+|(?<=[.!?:;])\s+/).map((part) => part.trim()).filter(Boolean);
             speechSynthesis.cancel();
-            const text = element.innerText.replace(/[`*_#>]/g, ' ');
-            const voice = new SpeechSynthesisUtterance(text);
-            voice.lang = 'es-AR';
-            voice.rate = 0.95;
-            const spanish = speechSynthesis.getVoices().find((v) => v.lang?.toLowerCase().startsWith('es'));
-            if (spanish) voice.voice = spanish;
-            speechSynthesis.speak(voice);
+            queued = parts.map((part, i) => {
+                const utterance = new SpeechSynthesisUtterance(part);
+                utterance.lang = spanish?.lang ?? 'es-AR';
+                if (spanish) utterance.voice = spanish;
+                utterance.rate = 0.95;
+                if (i === parts.length - 1) utterance.onend = () => { this.reading = false; };
+                utterance.onerror = (e) => {
+                    this.reading = false;
+                    if (e.error !== 'canceled' && e.error !== 'interrupted') this.readError = `No se pudo leer en voz alta en este navegador (${e.error}).`;
+                };
+                return utterance;
+            });
+            this.reading = true;
+            // Chrome a veces se traga lo que se pide justo después de cancel(): un respiro antes de hablar.
+            setTimeout(() => {
+                if (speechSynthesis.paused) speechSynthesis.resume();
+                queued.forEach((utterance) => speechSynthesis.speak(utterance));
+            }, 80);
             this.logHelp('read');
         },
     }));

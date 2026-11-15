@@ -44,7 +44,8 @@
         <div x-show="canRead()" class="flex flex-col gap-1">
             <p class="font-medium text-white">1. Escuchá el desafío</p>
             <p class="text-ink-muted">A veces se entiende mejor oyéndolo.</p>
-            <flux:button size="sm" icon="speaker-wave" class="w-fit" x-on:click="readAloud(document.getElementById('challenge-{{ $step->id }}'))">Leémelo</flux:button>
+            <flux:button size="sm" icon="speaker-wave" class="w-fit" data-test="step-help-read" x-on:click="readAloud(document.getElementById('challenge-{{ $step->id }}'))"><span x-text="reading ? 'Parar' : 'Leémelo'">Leémelo</span></flux:button>
+            <p x-show="readError" x-cloak x-text="readError" class="text-warning" data-test="step-help-read-error"></p>
         </div>
 
         @if ($canWhere)

@@ -82,6 +82,12 @@ try {
     check('se abre el panel', await js(`${help}.querySelector("[data-test=step-help-panel]").offsetParent !== null`));
     await js(`${help}.scrollIntoView({ block: 'start' })`);
     await shot('1-panel');
+    // Escuchar: Chrome sin voces (headless, o Linux sin --enable-speech-dispatcher) avisa en vez de quedarse callado.
+    const voices = await js('speechSynthesis.getVoices().length');
+    await page('Runtime.evaluate', { expression: `${help}.querySelector("[data-test=step-help-read]").click()`, userGesture: true });
+    await sleep(1800);
+    if (voices === 0) check('sin voces, avisa', await js(`${help}.querySelector("[data-test=step-help-read-error]").offsetParent !== null`));
+    else check('con voces, lee sin error', await js(`Alpine.$data(${help}).readError`), null);
     // ¿Dónde toco?
     await js(`[...${help}.querySelectorAll("[data-test=step-help-where] button")][0].click()`);
     await until('document.querySelectorAll(".cm-help-line").length > 0');

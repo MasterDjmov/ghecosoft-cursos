@@ -146,6 +146,11 @@ Los colores se escriben en hexadecimal: `#` y seis cifras (rojo, verde y azul).
 #### Desafío
 Dibujá un cuadrado amarillo (`#ffd400`) en (50, 25), de 100 × 100.
 
+#### Pasos
+1. Elegí el color: `ctx.fillStyle = '#ffd400';`.
+2. Dibujá el cuadrado: `ctx.fillRect(50, 25, 100, 100);` (x, y, ancho, alto).
+3. Tocá **Ejecutar**. El lienzo tiene que mostrar `fillRect(50, 25, 100, 100) #ffd400`.
+
 #### Página
 ```html
 <style>
@@ -213,6 +218,12 @@ Con el borde de abajo pasa lo mismo, con el alto.
 
 #### Desafío
 Completá las cuatro esquinas en este orden: arriba a la izquierda, arriba a la derecha, abajo a la izquierda, abajo a la derecha.
+
+#### Pasos
+1. El (0, 0) es la esquina de arriba a la izquierda; x crece a la derecha e y crece hacia abajo.
+2. El lienzo mide 200 × 150 y cada cuadrado 20 × 20: arriba a la derecha va en `(180, 0)`.
+3. Abajo a la izquierda, en `(0, 130)`; abajo a la derecha, en `(180, 130)`.
+4. Reemplazá los `___` en ese orden y tocá **Ejecutar**.
 
 #### Página
 ```html
@@ -295,6 +306,11 @@ Lo que se dibuja después queda **encima**: el orden importa.
 #### Desafío
 Dibujá los dos círculos: el grande `#7e57c2`, de radio 50 con centro en (100, 75), y encima el chico `#ffd400`, de radio 20 en el mismo centro.
 
+#### Pasos
+1. Círculo grande: `ctx.beginPath();`, `ctx.fillStyle = '#7e57c2';`, `ctx.arc(100, 75, 50, 0, Math.PI * 2);` y `ctx.fill();`.
+2. Círculo chico, después (así queda encima): lo mismo con `'#ffd400'` y radio `20`.
+3. Tocá **Ejecutar** y compará con el lienzo esperado.
+
 #### Página
 ```html
 <style>
@@ -367,6 +383,11 @@ El nombre del contexto es exacto, con mayúsculas y minúsculas: revisalo letra 
 #### Desafío
 Arreglá el programa para que dibuje el vidrio verde.
 
+#### Pasos
+1. En `getContext('2D')` la D va en minúscula.
+2. Cambialo por `getContext('2d')`.
+3. Tocá **Ejecutar**. Tiene que aparecer el vidrio verde.
+
 #### Página
 ```html
 <style>
@@ -433,6 +454,11 @@ El paso (25) es el ancho del cuadrado más el espacio entre uno y otro. `forEach
 
 #### Desafío
 Dibujá un vidrio por color, en fila: cada uno de 30 × 30, a la altura `y = 100`; el primero en `x = 10` y cada uno 40 píxeles más a la derecha que el anterior.
+
+#### Pasos
+1. Recorré los colores con su posición: `colores.forEach((color, i) => { ... });`.
+2. Adentro: `ctx.fillStyle = color;` y `ctx.fillRect(10 + i * 40, 100, 30, 30);`.
+3. Tocá **Ejecutar**. Los vidrios tienen que quedar en x = 10, 50, 90…
 
 #### Página
 ```html
@@ -511,6 +537,13 @@ Dibujá el boceto en este orden:
 2. Sol `#ffd400`: círculo de radio 25 en (100, 70).
 3. Rayos `#ffd400`, de 4 de ancho: líneas del centro a (100, 10), (100, 130), (40, 70) y (160, 70).
 4. Texto `#ffffff` `'V.'` en (180, 140).
+
+#### Pasos
+1. Fondo: `ctx.fillStyle = '#0d1b3d';` y `ctx.fillRect(0, 0, 200, 150);`.
+2. Sol: `beginPath`, su color, `ctx.arc(100, 70, 25, 0, Math.PI * 2);` y `fill`.
+3. Rayos, dentro del `for`: `ctx.beginPath();`, `ctx.moveTo(100, 70);`, `ctx.lineTo(x, y);` y `ctx.stroke();`.
+4. Firma: `ctx.fillStyle = '#ffffff';` y `ctx.fillText('V.', 180, 140);`.
+5. Tocá **Ejecutar** y compará el orden con el lienzo esperado.
 
 #### Página
 ```html
@@ -743,6 +776,12 @@ requestAnimationFrame(cuadro);
 #### Desafío
 Completá `cuadro`: en cada cuadro, el vidrio avanza 2 píxeles a la derecha y se dibuja de 20 × 20 a la altura 40. (La comprobación corre 30 cuadros.)
 
+#### Pasos
+1. Dentro de `cuadro`, primero avanzá: `x += 2;`.
+2. Borrá y dibujá: `ctx.clearRect(0, 0, 200, 100);` y `ctx.fillRect(x, 40, 20, 20);`.
+3. Pedí el próximo cuadro: `requestAnimationFrame(cuadro);`.
+4. Tocá **Ejecutar**. Después de 30 cuadros, el vidrio tiene que estar en x = 60.
+
 #### Página
 ```html
 <style>
@@ -823,6 +862,11 @@ Por eso cada cuadro empieza borrando todo con `clearRect` y recién después dib
 
 #### Desafío
 Agregá el `clearRect` antes de dibujar.
+
+#### Pasos
+1. Sin borrar, cada cuadro se dibuja encima del anterior y deja estela.
+2. Antes del `fillRect`, agregá `ctx.clearRect(0, 0, 200, 100);`.
+3. Tocá **Ejecutar**. Tiene que quedar un solo vidrio.
 
 #### Página
 ```html
@@ -911,6 +955,11 @@ Y la distancia es velocidad por tiempo: si la velocidad está en píxeles **por 
 
 #### Desafío
 Completá el cálculo. (La comprobación corre 60 cuadros: un segundo.)
+
+#### Pasos
+1. `ahora` y `antes` están en milisegundos. Para pasarlos a segundos: `const dt = (ahora - antes) / 1000;`.
+2. Avanzá según la velocidad: `x += velocidad * dt;`.
+3. Tocá **Ejecutar**. En un segundo tiene que avanzar exactamente `velocidad` píxeles.
 
 #### Página
 ```html
@@ -1009,6 +1058,11 @@ Pensá cuándo toca cada borde: el izquierdo cuando su `x` es menor que 0, y el 
 #### Desafío
 Que el vidrio rebote en los dos bordes. (La comprobación corre 70 cuadros.)
 
+#### Pasos
+1. Donde dice `// rebotá en los bordes`, preguntá si se pasó por algún lado: `if (x < 0 || x + 20 > 200)`.
+2. Si se pasó, das vuelta la velocidad: `vx = -vx;`.
+3. Tocá **Ejecutar** y compará la posición final.
+
 #### Página
 ```html
 <style>
@@ -1099,6 +1153,12 @@ Se pueden declarar varias variables en una línea, separadas por comas: `let a =
 
 #### Desafío
 Hacé rebotar el vidrio en los cuatro bordes. (La comprobación corre 40 cuadros.)
+
+#### Pasos
+1. Mové en los dos ejes: `x += vx;` y `y += vy;`.
+2. Rebote a los costados: `if (x < 0 || x + lado > 160) vx = -vx;`.
+3. Rebote arriba y abajo: `if (y < 0 || y + lado > 100) vy = -vy;`.
+4. Tocá **Ejecutar** y compará con el lienzo esperado.
 
 #### Página
 ```html
@@ -1193,6 +1253,11 @@ const alto = 30 + 10 * Math.sin(ahora / 500);   // va de 20 a 40 y vuelve
 
 #### Desafío
 Hacé latir el sol: en cada cuadro, su radio es `20 + 5 * Math.sin(ahora / 300)`, con centro en (80, 50). (La comprobación corre 45 cuadros.)
+
+#### Pasos
+1. Hay un `___` en `const radio = ___;`.
+2. Escribí la cuenta del desafío: `20 + 5 * Math.sin(ahora / 300)`.
+3. Tocá **Ejecutar**. El `arc` tiene que tener centro en (80, 50).
 
 #### Página
 ```html
@@ -1406,6 +1471,11 @@ apretadas.has('a');       // ¿está? true o false
 #### Desafío
 Completá los dos eventos. (La comprobación aprieta la flecha derecha, después la de arriba, y suelta la derecha.)
 
+#### Pasos
+1. En el `keydown`, anotá la tecla: `teclas.add(e.key);`.
+2. En el `keyup`, borrala: `teclas.delete(e.key);`.
+3. Tocá **Ejecutar**. Al final tiene que quedar solo `ArrowUp`.
+
 #### Página
 ```html
 <style>
@@ -1494,6 +1564,11 @@ Así el movimiento es parejo mientras la tecla esté apretada, y no depende de c
 
 #### Desafío
 Mové la luciérnaga a la derecha con la flecha. (La comprobación la mantiene 1 segundo: 60 cuadros.)
+
+#### Pasos
+1. En `cuadro`, preguntá si la flecha está apretada: `if (teclas.has('ArrowRight'))`.
+2. Si está, avanzá: `luz.x += luz.velocidad * dt;`.
+3. Tocá **Ejecutar**. En un segundo avanza `luz.velocidad` píxeles.
 
 #### Página
 ```html
@@ -1601,6 +1676,12 @@ Si están apretadas las dos, se anulan y da 0: no se mueve. Con `dy` se hace lo 
 
 #### Desafío
 Mové en las cuatro direcciones. (La comprobación va medio segundo a la izquierda y medio segundo hacia arriba.)
+
+#### Pasos
+1. Donde dice `// sumá o restá según las cuatro flechas`, va un `if` por flecha.
+2. `ArrowLeft`: `dx -= 1`; `ArrowRight`: `dx += 1`; `ArrowUp`: `dy -= 1`; `ArrowDown`: `dy += 1`.
+3. Arriba resta porque la y crece hacia abajo.
+4. Tocá **Ejecutar** y compará la posición.
 
 #### Página
 ```html
@@ -1725,6 +1806,11 @@ El tope derecho es el ancho del lienzo **menos el tamaño** de la luciérnaga: s
 #### Desafío
 Que la luciérnaga no se salga por la derecha. (La comprobación aprieta la derecha 3 segundos.)
 
+#### Pasos
+1. Donde dice `// que no se salga`, encerrá la x entre 0 y el borde menos el ancho de la luciérnaga.
+2. Escribí `luz.x = Math.max(0, Math.min(luz.x, 200 - 16));`.
+3. Tocá **Ejecutar**. Tiene que quedar en x = 184.
+
 #### Página
 ```html
 <style>
@@ -1825,6 +1911,11 @@ Para que la diagonal mida lo mismo que un paso recto, cuando `dx` y `dy` son los
 
 #### Desafío
 Normalizá la diagonal. (La comprobación aprieta derecha y abajo durante 1 segundo.)
+
+#### Pasos
+1. Donde dice `// normalizá la diagonal`, preguntá si va en diagonal: `if (dx !== 0 && dy !== 0)`.
+2. Adentro, dividí las dos por `Math.SQRT2`: `dx /= Math.SQRT2;` y `dy /= Math.SQRT2;`.
+3. Tocá **Ejecutar** y compará la posición.
 
 #### Página
 ```html
@@ -1944,6 +2035,11 @@ Pero solo hay que impedirlo con las teclas **del juego**: si lo hacés con todas
 
 #### Desafío
 Evitá que las flechas y la barra muevan la página. (La comprobación aprieta derecha, la barra y la letra *a*.)
+
+#### Pasos
+1. En el `keydown`, preguntá si la tecla es del juego: `if (DEL_JUEGO.includes(e.key))`.
+2. Adentro: `e.preventDefault();`, `evitadas++;` y `document.querySelector('#evitadas').textContent = evitadas;`.
+3. Tocá **Ejecutar**. Tienen que quedar 2 evitadas (la *a* no cuenta).
 
 #### Página
 ```html
@@ -2139,6 +2235,11 @@ Con la `y` y el alto es igual. Chocan si se cumplen las cuatro comparaciones, un
 #### Desafío
 Escribí `chocan`.
 
+#### Pasos
+1. Dos rectángulos se tocan si se pisan en x y también en y.
+2. Escribí `return a.x < b.x + b.ancho && a.x + a.ancho > b.x && a.y < b.y + b.alto && a.y + a.alto > b.y;`.
+3. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```javascript
 function chocan(a, b) {
@@ -2201,6 +2302,11 @@ En el juego, rozar no cuenta. Compará las comparaciones del código con las de 
 #### Desafío
 Arreglá `chocan` para que la gema que solo roza no cuente.
 
+#### Pasos
+1. Con `<=` y `>=`, dos rectángulos que solo se rozan cuentan como choque.
+2. Cambiá los cuatro: `<=` por `<` y `>=` por `>`.
+3. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```javascript
 function chocan(a, b) {
@@ -2259,6 +2365,11 @@ const distancia = Math.hypot(p.x - q.x, p.y - q.y);
 
 #### Desafío
 Escribí `tocan`.
+
+#### Pasos
+1. Dos círculos se tocan si la distancia entre los centros es menor que la suma de los radios.
+2. Escribí `return Math.hypot(a.x - b.x, a.y - b.y) < a.radio + b.radio;`.
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```javascript
@@ -2325,6 +2436,11 @@ Para volver a asignar el arreglo, tiene que estar declarado con `let`.
 
 #### Desafío
 Completá `juntar`.
+
+#### Pasos
+1. Quedate con las gemas que no tocan: `gemas = gemas.filter((gema) => { ... });`.
+2. Adentro: `if (chocan(luz, gema)) { puntos++; return false; }` y después `return true;`.
+3. Tocá **Ejecutar**. Al final tienen que ser 3 puntos y quedar 0.
 
 #### Código inicial
 ```javascript
@@ -2423,6 +2539,14 @@ Si dibujás antes de juntar, en ese cuadro se ve una gema que ya no está.
 
 #### Desafío
 Completá `cuadro`. (La comprobación mantiene la derecha 1 segundo.)
+
+#### Pasos
+1. Después de mover, llamá a `juntar();`.
+2. Borrá: `ctx.clearRect(0, 0, 200, 60);`.
+3. Gemas: `ctx.fillStyle = '#4fc3f7';` y `for (const g of gemas) ctx.fillRect(g.x, g.y, g.ancho, g.alto);`.
+4. Luz: `ctx.fillStyle = '#ffd400';` y `ctx.fillRect(Math.round(luz.x), luz.y, luz.ancho, luz.alto);`.
+5. Puntos: `document.querySelector('#puntos').textContent = puntos;`.
+6. Tocá **Ejecutar**. Tienen que ser 2 puntos.
 
 #### Página
 ```html
@@ -2552,6 +2676,12 @@ Una trampa con valor negativo **resta** sola, sin ningún `if` especial.
 
 #### Desafío
 Completá `juntar` para que devuelva lo ganado en cada paso.
+
+#### Pasos
+1. Arrancá con `let ganado = 0;`.
+2. `cosas = cosas.filter((cosa) => { ... });`: si `chocan(luz, cosa)`, `ganado += cosa.valor;` y `return false;`; si no, `return true;`.
+3. Al final, `return ganado;`.
+4. Tocá **Ejecutar**. Tiene que quedar `Quedan: [ 'esmeralda' ]`.
 
 #### Código inicial
 ```javascript
@@ -2753,6 +2883,12 @@ Si la distancia es 0 (ya llegó), no se mueve: dividir por 0 rompe todo.
 #### Desafío
 Escribí `perseguir`.
 
+#### Pasos
+1. La distancia en cada eje: `const dx = objetivo.x - enemigo.x;` y `const dy = objetivo.y - enemigo.y;`.
+2. El largo: `const largo = Math.hypot(dx, dy);`.
+3. `if (largo > 1)`, avanzá: `enemigo.x += (dx / largo) * enemigo.velocidad * dt;` y lo mismo con `y` y `dy`.
+4. Tocá **Ejecutar**. Tiene que salir `35 35` y `100 100`.
+
 #### Código inicial
 ```javascript
 const luz = { x: 100, y: 100 };
@@ -2823,6 +2959,12 @@ Para que vaya siempre a la misma velocidad, hay que **normalizar**: dividir `dx`
 #### Desafío
 Arreglá `perseguir` para que en 1 segundo avance 40 píxeles, esté lejos o cerca.
 
+#### Pasos
+1. Multiplica por `dx` sin dividir: cuanto más lejos, más rápido.
+2. Agregá `const largo = Math.hypot(dx, dy);` y `if (largo === 0) return;`.
+3. En las dos cuentas, usá `(dx / largo)` y `(dy / largo)` en lugar de `dx` y `dy`.
+4. Tocá **Ejecutar**. Tiene que salir `Avanzó: 40`.
+
 #### Código inicial
 ```javascript
 function perseguir(enemigo, objetivo, dt) {
@@ -2891,6 +3033,11 @@ if (ahora > escudo.hasta) {
 #### Desafío
 Completá `golpear`. (La sombra la toca en los milisegundos 0, 500, 1200, 1300 y 2500.)
 
+#### Pasos
+1. Solo golpea si ya pasó la invulnerabilidad: `if (ahora > luz.invulnerableHasta)`.
+2. Adentro: `luz.vidas--;` y `luz.invulnerableHasta = ahora + 1000;`.
+3. Tocá **Ejecutar**. Tiene que terminar en `2500 ms: 0 vidas`.
+
 #### Código inicial
 ```javascript
 const luz = { vidas: 3, invulnerableHasta: -1 };
@@ -2957,6 +3104,12 @@ Para agregar varias a un arreglo, un `for` que cuente hasta esa cantidad y haga 
 
 #### Desafío
 Completá `lanzarOleada`.
+
+#### Pasos
+1. En la ronda `oleada` salen `2 ** (oleada - 1)` sombras.
+2. `for (let i = 0; i < 2 ** (oleada - 1); i++)` con `sombras.push({ x: 0, y: i * 10 });` adentro.
+3. Después del `for`, `oleada++;`.
+4. Tocá **Ejecutar**. Tienen que ser 1, 2, 4 y 8.
 
 #### Código inicial
 ```javascript
@@ -3027,6 +3180,12 @@ Es pasar lo que ya hiciste a una **clase** (R03): los datos de cada sombra en el
 
 #### Desafío
 Completá la clase: `perseguir` como en R05-N05-P2, y `dibujar` con un cuadrado `#311b92` de 10 × 10 en su posición redondeada. (La comprobación corre 60 cuadros con dos sombras.)
+
+#### Pasos
+1. En `perseguir`, lo mismo que en R05-N05-P2 pero con `this`: `const dx = objetivo.x - this.x;`, `const dy = objetivo.y - this.y;` y `const largo = Math.hypot(dx, dy);`.
+2. `if (largo > 0)`: `this.x += (dx / largo) * this.velocidad * dt;` y lo mismo con `y`.
+3. En `dibujar`: `ctx.fillStyle = '#311b92';` y `ctx.fillRect(Math.round(this.x), Math.round(this.y), 10, 10);`.
+4. Tocá **Ejecutar** y compará con el lienzo esperado.
 
 #### Página
 ```html
@@ -3163,6 +3322,11 @@ Después de restar la vida, mostrá las vidas en la página.
 
 #### Desafío
 Completá la parte del choque. (En la comprobación, la luz se queda quieta 3 segundos y la sombra la alcanza.)
+
+#### Pasos
+1. Donde dice `// el choque con cooldown`, preguntá las dos cosas juntas: `if (chocan(luz, sombra) && ahora > luz.invulnerableHasta)`.
+2. Adentro: `luz.vidas--;` y `luz.invulnerableHasta = ahora + 1000;`.
+3. Tocá **Ejecutar**. Tiene que quedar `#vidas: 1`.
 
 #### Página
 ```html
@@ -3389,6 +3553,11 @@ El cambio de estado va donde pasa lo que lo provoca: cuando se pierde la última
 #### Desafío
 Completá `perderVida`.
 
+#### Pasos
+1. Restá una vida: `juego.vidas--;`.
+2. Si llegó a cero, termina: `if (juego.vidas === 0) juego.estado = 'fin';`.
+3. Tocá **Ejecutar**. El golpe 3 tiene que dejar `0 vidas · fin`.
+
 #### Código inicial
 ```javascript
 const juego = { estado: 'jugando', vidas: 3 };
@@ -3456,6 +3625,12 @@ Fijate en la consigna el texto exacto de los dos casos.
 
 #### Desafío
 Completá `terminar`. (El récord guardado es 12.)
+
+#### Pasos
+1. Leé el récord guardado: `const record = Number(localStorage.getItem('record') ?? 0);`.
+2. Si `puntos > record`: `localStorage.setItem('record', puntos);` y ``console.log(`${puntos}: ¡Récord nuevo!`);``.
+3. Si no: ``console.log(`${puntos}: Récord: ${record}`);``.
+4. Tocá **Ejecutar**. Tiene que quedar `local record: 15`.
 
 #### Almacenamiento
 ```
@@ -3531,6 +3706,12 @@ Lo más seguro es que la misma función `reiniciar()` se use también para **emp
 
 #### Desafío
 Arreglá `reiniciar`.
+
+#### Pasos
+1. Las vidas y la ronda se ponen afuera de `reiniciar`, una sola vez.
+2. Pasá `juego.vidas = 3;` y `juego.ronda = 1;` adentro de `reiniciar`, debajo de `juego.puntos = 0;`.
+3. Borrá las dos líneas de afuera.
+4. Tocá **Ejecutar**. Las dos partidas tienen que arrancar con 3 vidas.
 
 #### Código inicial
 ```javascript
@@ -3618,6 +3799,14 @@ Completá las dos funciones:
 - `revisarGolpes(ahora)`: si alguna sombra toca a la luz y ya pasó el tiempo de invulnerabilidad, resta una vida (con un segundo de *cooldown*); si las vidas llegan a 0, termina (estado `'fin'`) y guarda el récord si lo superó.
 
 La comprobación juega: va a la derecha medio segundo (junta una gema), a la izquierda, y después se queda quieta hasta que las sombras la alcanzan.
+
+#### Pasos
+1. `juntarGemas`: `gemas = gemas.filter((g) => { ... });` con `if (chocan(luz, g)) { juego.puntos++; return false; }` y `return true;`.
+2. Después: `if (gemas.length === 0) nuevaRonda();`.
+3. `revisarGolpes`: arrancá con `if (ahora <= luz.invulnerableHasta) return;`.
+4. `if (sombras.some((s) => chocan(luz, s)))`: `juego.vidas--;` y `luz.invulnerableHasta = ahora + 1000;`.
+5. Adentro, `if (juego.vidas === 0)`: `juego.estado = 'fin';` y, si `juego.puntos > juego.record`, guardalo en `juego.record` y con `localStorage.setItem('record', juego.record);`.
+6. Tocá **Ejecutar** y compará con el estado esperado.
 
 #### Página
 ```html
@@ -3935,6 +4124,11 @@ Y al final se sacan, con `filter`, las que ya no tienen vida. `-=` resta y guard
 #### Desafío
 Completá `actualizar`.
 
+#### Pasos
+1. `for (const c of chispas)`: `c.x += c.vx * dt;`, `c.y += c.vy * dt;` y `c.vida -= dt;`.
+2. Después del `for`, sacá las apagadas: `chispas = chispas.filter((c) => c.vida > 0);`.
+3. Tocá **Ejecutar**. A los 2 s no tiene que quedar ninguna.
+
 #### Código inicial
 ```javascript
 let chispas = [
@@ -4023,6 +4217,12 @@ Con un `rotate` adentro de un `for`, cada dibujo queda girado un poco más que e
 
 #### Desafío
 Completá el giro: en cada cuadro, trasladá al centro (100, 75), rotá `ahora / 1000` radianes y dibujá los cuatro rayos con `fillRect(-4, -60, 8, 30)`, girando de a `Math.PI / 2` entre uno y otro. Después restaurá y dibujá el sol encima. (La comprobación corre 30 cuadros.)
+
+#### Pasos
+1. Donde dice el comentario: `ctx.save();`, `ctx.translate(100, 75);` y `ctx.rotate(ahora / 1000);`.
+2. `for (let i = 0; i < 4; i++)` con `ctx.fillRect(-4, -60, 8, 30);` y `ctx.rotate(Math.PI / 2);` adentro.
+3. Después del `for`, `ctx.restore();`.
+4. Tocá **Ejecutar** y compará con el lienzo esperado.
 
 #### Página
 ```html
@@ -4140,6 +4340,12 @@ Completá `avanzar` y `soltarFlecha`:
 - `soltarFlecha()` espera 2000 ms (con la promesa `esperar`), y después pone `vitral.moviendo = true` y escribe `¡El vitral se mueve!` en `#cartel`.
 
 La comprobación toca *Soltar la flecha*, espera 2 segundos y después deja correr el vitral 1 segundo.
+
+#### Pasos
+1. En `avanzar`: `this.angulo += this.velocidad * dt;`.
+2. En `soltarFlecha`: `await esperar(2000);`.
+3. Después: `vitral.moviendo = true;` y `document.querySelector('#cartel').textContent = '¡El vitral se mueve!';`.
+4. Tocá **Ejecutar**. Tiene que quedar `#cartel: ¡El vitral se mueve!`.
 
 #### Página
 ```html

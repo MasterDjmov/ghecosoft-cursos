@@ -175,6 +175,12 @@ Las opciones válidas van del `'0'` al `'4'`. Lo que sea menor que `'0'` o mayor
 #### Desafío
 Completá el rango para que, con el `9`, el ojo diga que la opción no existe.
 
+#### Pasos
+1. Hay dos `___`.
+2. El primero, el menor válido: `cmp al, '0'`.
+3. El segundo, el mayor: `cmp al, '4'`.
+4. Tocá **Ejecutar**. Tiene que salir `Esa opcion no existe.`
+
 #### Código inicial
 ```asm
 .model small
@@ -291,6 +297,11 @@ La suma no entra en 16 bits: AX dio la vuelta y se prendió **CF**. Justo despu�
 
 #### Desafío
 Tocá **Ejecutar** y mirá el resultado. Después agregá el salto que falta para que el Gólem avise que no entra.
+
+#### Pasos
+1. Si la suma se pasa de 16 bits, se prende CF.
+2. Después de `add ax, num2`, agregá `jc  desborde`.
+3. Tocá **Ejecutar**. Tiene que salir `El resultado no entra en 16 bits.`
 
 #### Código inicial
 ```asm
@@ -507,6 +518,14 @@ Compará num1 con num2. Si num1 es mayor o igual (`jae`), la resta es normal. Si
 #### Desafío
 Escribí la resta donde dice `; tus órdenes`, para que el ojo diga `300 - 1000 = -700`.
 
+#### Pasos
+1. Borrá `; tus órdenes`. `mov ax, num1`, `cmp ax, num2` y, si no es menor, `jae positivo`.
+2. Si es menor: mostrá el menos con `mov dl, '-'`, `mov ah, 02h` e `int 21h`.
+3. Restá al revés: `mov ax, num2`, `sub ax, num1` y `jmp resultado`.
+4. `positivo:` → `sub ax, num2`.
+5. `resultado:` → `call imprimir_numero`.
+6. Tocá **Ejecutar**. Tiene que salir `300 - 1000 = -700`.
+
 #### Código inicial
 ```asm
 .model small
@@ -686,6 +705,11 @@ Un enano quiere saber cuánto cuestan **300** cajones a **300** monedas cada uno
 
 #### Desafío
 Completá el salto para que el Gólem avise que el resultado no entra.
+
+#### Pasos
+1. Hay un `___` antes de `grande`.
+2. Si el resultado no entra en AX, `mul` prende CF: `jc`.
+3. Tocá **Ejecutar**. Tiene que salir `El resultado no entra en 16 bits.`
 
 #### Código inicial
 ```asm
@@ -902,6 +926,14 @@ Adentro de `dividir`, después de mostrar la cuenta: si `num2` es 0, saltá al m
 
 #### Desafío
 Escribí el resto de la rutina donde dice `; tus órdenes`.
+
+#### Pasos
+1. Borrá `; tus órdenes`. `cmp num2, 0` y `je  por_cero`.
+2. Dividí: `mov ax, num1`, `mov dx, 0` y `div num2`. Guardá el resto: `mov bx, dx`.
+3. `call imprimir_numero`, `lea dx, t_resto`, `call mostrar_cadena`, `mov ax, bx`, `call imprimir_numero` y `jmp fin_dividir`.
+4. `por_cero:` → `call nueva_linea`, `lea dx, t_cero` y `call mostrar_cadena`.
+5. La etiqueta `fin_dividir:`.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```asm
@@ -1152,6 +1184,15 @@ Un menú que se repite: mostrar la pregunta, leer la opción con la `01h` y **gu
 
 #### Desafío
 Escribí el programa principal donde dice `; tus órdenes`. Kira va a sumar 1250 y 750, restar 300 y 1000 (escribiendo primero `mil`, por error), dividir 100 por 7, probar la opción 9 y salir con el 0.
+
+#### Pasos
+1. Borrá `; tus órdenes`. El título: `lea dx, t_titulo` y `call mostrar_cadena`.
+2. `menu:` → mostrá `t_opcion`, leé una tecla (`mov ah, 01h`, `int 21h`), guardala en BL y `call nueva_linea`.
+3. Si es `'0'`, `je  salir`. Si está fuera de `'1'` a `'4'`, `no_existe`.
+4. `call pedir_numeros`. Después, según BL: `'1'` → `call sumar`, `'2'` → `call restar`, `'3'` → `call multiplicar` y si no, `call dividir`. Cada una sigue con `jmp otra`.
+5. `no_existe:` → `lea dx, t_noex` y `call mostrar_cadena`. `otra:` → `call nueva_linea` y `jmp menu`.
+6. `salir:` → `lea dx, t_chau` y `call mostrar_cadena`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```asm
@@ -1987,6 +2028,12 @@ Después del `cmp`, primero `je gano`. Si no ganó: se carga «Mas ALTO» y, si 
 #### Desafío
 Completá los dos saltos para que, con el 50, el ojo diga `Mas BAJO`.
 
+#### Pasos
+1. Hay dos `___`.
+2. Si es igual: `je  gano`.
+3. Si es menor (pista «más alto»): `jb  dar_pista`.
+4. Tocá **Ejecutar**. Tiene que salir `Mas BAJO`.
+
 #### Código inicial
 ```asm
 .model small
@@ -2237,6 +2284,13 @@ Calculá la distancia en BX: `dicho − secreto`. Si salió negativa (no salta e
 
 #### Desafío
 Escribí el cálculo donde dice `; tus órdenes`, para que con el 40 el ojo diga `Mas ALTO (muy cerca!)`.
+
+#### Pasos
+1. Borrá el comentario. La distancia: `mov bx, ax` y `sub bx, secreto`.
+2. Si dio negativa, dala vuelta: `jns positivo` y `neg bx`. Después, `positivo:`.
+3. `cmp bx, 3` y, si está lejos, `ja  lejos`.
+4. Si está cerca: `lea dx, t_cerca` y `call mostrar_cadena`. Después, `lejos:`.
+5. Tocá **Ejecutar**. Tiene que salir `Mas ALTO (muy cerca!)`.
 
 #### Código inicial
 ```asm
@@ -2489,6 +2543,14 @@ Un «hasta que» con la etiqueta `jugar:`. En cada vuelta: sumá 1 a `usados` y 
 
 #### Desafío
 Escribí el bucle de turnos donde dice `; tus órdenes`. Kira va a decir 50, 25, 37, 43 y 42.
+
+#### Pasos
+1. Borrá `; tus órdenes`. `jugar:` → `inc usados`.
+2. Mostrá `t_intento`, el número (`mov ax, usados` y `call imprimir_numero`) y `t_dos`.
+3. `call leer_numero`, `cmp ax, secreto` y `je  gano`.
+4. `call pista`, `dec quedan` y `jnz jugar`. Si se acabaron: `t_perdio` y `jmp terminado`.
+5. `gano:` → `t_gano` y el número de intentos (`mov ax, usados` y `call imprimir_numero`). Después, `terminado:`.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```asm
@@ -2862,6 +2924,11 @@ Lo inválido salta a `no_vale`, que muestra el aviso… y después va a `siguien
 
 #### Desafío
 Tocá **Ejecutar** y mirá cómo pierde. Después arreglá el final de `no_vale` para que lo inválido no cuente. Kira va a decir 50, cien, 150 y 42.
+
+#### Pasos
+1. Al final de `no_vale`, `jmp siguiente` cuenta el intento como gastado.
+2. Cambialo por `dec usados` y `jmp jugar`.
+3. Tocá **Ejecutar**. Tiene que salir `Intentos usados: 2`.
 
 #### Código inicial
 ```asm
@@ -3278,6 +3345,14 @@ El programa principal muestra el título y entra en un bucle: `call partida`, la
 
 #### Desafío
 Escribí el programa principal donde dice `; tus órdenes`. Kira va a jugar dos partidas (contestando `S` en mayúscula a la primera pregunta) y después `n`.
+
+#### Pasos
+1. Borrá `; tus órdenes`. El título: `lea dx, t_titulo` y `call mostrar_cadena`.
+2. `otra_partida:` → `call partida`.
+3. Preguntá: `lea dx, t_otra` y `call mostrar_cadena`. Leé: `mov ah, 01h` e `int 21h`.
+4. Pasala a minúscula: `or  al, 20h`. Si es `'s'`, `je  otra_partida`.
+5. Si no: `lea dx, t_chau` y `call mostrar_cadena`.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```asm
@@ -4031,6 +4106,12 @@ Kira le pega al autómata, que tenía **5** de vida, un golpe de **8**. El autó
 #### Desafío
 Ejecutá y mirá los cajones de las vidas. Después arreglá `quitar_vida` para que la vida nunca baje de 0.
 
+#### Pasos
+1. Al principio de `quitar_vida`: `cmp cl, [si]` y, si el golpe es mayor o igual, `jae queda_cero`.
+2. Después de `sub [si], cl`, agregá `ret`.
+3. `queda_cero:` → `mov byte ptr [si], 0` (y queda el `ret` de abajo).
+4. Tocá **Ejecutar**. `[vida_o]` tiene que quedar en 0.
+
 #### Código inicial
 ```asm
 .model small
@@ -4134,6 +4215,12 @@ Correr los bits un lugar a la izquierda (`shl`) multiplica por 2; a la derecha (
 #### Desafío
 Completá las dos órdenes para que el crítico de 7 haga **14** y el golpe de 9, con escudo, haga **4**.
 
+#### Pasos
+1. Hay dos `___`.
+2. El doble: `shl cl, 1`.
+3. La mitad: `shr dl, 1`.
+4. Tocá **Ejecutar**. CL tiene que quedar en 14 y DL en 4.
+
 #### Código inicial
 ```asm
 .model small
@@ -4215,6 +4302,13 @@ Con `shr al, 1` y `shr bl, 1` tenés los casilleros llenos y el total. Los vací
 
 #### Desafío
 Escribí el cuerpo de `barra` donde dice `; tus órdenes`.
+
+#### Pasos
+1. Borrá `; tus órdenes`. Cada `#` vale 2 de vida: `shr al, 1` y `shr bl, 1`. Los vacíos: `sub bl, al`.
+2. Los llenos: `mov cl, al`, `mov ch, 0`, `mov dl, '#'` y `mov ah, 02h`.
+3. `jcxz sin_llenos`, `llenos:` → `int 21h` y `loop llenos`. Después, `sin_llenos:`.
+4. Los vacíos: `mov cl, bl`, `mov dl, '.'`, `jcxz sin_vacios`, `vacios:` → `int 21h` y `loop vacios`. Después, `sin_vacios:`.
+5. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```asm
@@ -4373,6 +4467,13 @@ Un «hasta que»: leé una tecla con la `07h` (sin eco); si es menor que `'1'` o
 #### Desafío
 Escribí el cuerpo de `leer_accion` donde dice `; tus órdenes`. Kira va a apretar `x`, `5` y `2`.
 
+#### Pasos
+1. Borrá `; tus órdenes`. `otra_tecla:` → `mov ah, 07h` e `int 21h` (lee sin mostrar).
+2. Si está fuera de `'1'` a `'3'`, volvé: `cmp al, '1'`, `jb  otra_tecla`, `cmp al, '3'` y `ja  otra_tecla`.
+3. Guardala: `mov accion, al`.
+4. Mostrala: `mov dl, al`, `mov ah, 02h` e `int 21h`. Después, `call nueva_linea`.
+5. Tocá **Ejecutar**. Tiene que salir `2`.
+
 #### Código inicial
 ```asm
 .model small
@@ -4514,6 +4615,13 @@ Si `pociones` es 0, mostrá el mensaje de que no quedan y listo. Si no: restale 
 #### Desafío
 Escribí el cuerpo de `pocion` donde dice `; tus órdenes`.
 
+#### Pasos
+1. Borrá `; tus órdenes`. `cmp pociones, 0` y `je  sin_pociones`.
+2. `dec pociones` y `add vida_k, 10`. Que no pase de 30: `cmp vida_k, 30`, `jbe pocion_ok` y `mov vida_k, 30`.
+3. `pocion_ok:` → `lea dx, t_pocion`, `call mostrar_cadena` y `jmp pocion_fin`.
+4. `sin_pociones:` → `lea dx, t_sinpoc` y `call mostrar_cadena`. Después, `pocion_fin:`.
+5. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```asm
 .model small
@@ -4653,6 +4761,14 @@ Una etiqueta `ronda_nueva:`. En cada ronda: sumá 1 a `ronda` y mostrá el encab
 
 #### Desafío
 Escribí el programa principal donde dice `; tus órdenes`. Kira va a jugar 1, 1, 1, 3, 1, 2 y 1.
+
+#### Pasos
+1. Borrá `; tus órdenes`. `ronda_nueva:` → `inc ronda`.
+2. El título de la ronda: `t_ronda`, el número (`mov ax, ronda` y `call imprimir_numero`) y `t_rfin`.
+3. `call mostrar_estado` y `call turno_kira`. Si `cmp vida_o, 0` da igual, `je  gana`.
+4. `call turno_auto`. Si `cmp vida_k, 0` da igual, `je  pierde`. Si no, `jmp ronda_nueva`.
+5. `gana:` → `t_gana` y `jmp termino`. `pierde:` → `t_pierde`. Después, `termino:`.
+6. Tocá **Ejecutar** y compará ronda por ronda.
 
 #### Código inicial
 ```asm
@@ -5559,6 +5675,13 @@ Las escamas son los 8 bits de un byte. Un bucle de 8 vueltas: `shl bl, 1` empuja
 #### Desafío
 Escribí las órdenes desde cero, donde dice `; tus órdenes`.
 
+#### Pasos
+1. Borrá `; tus órdenes`. `mov bl, escamas`, `mov bh, 0` (el contador) y `mov cx, 8`.
+2. `contar:` → `shl bl, 1`. Si no hubo acarreo, `jnc apagada`; si hubo, `inc bh`.
+3. `apagada:` → `loop contar`.
+4. Mostrá BH: `mov dl, bh`, `add dl, '0'`, `mov ah, 02h` e `int 21h`.
+5. Tocá **Ejecutar**. Tiene que salir `Escamas encendidas: 5`.
+
 #### Código inicial
 ```asm
 .model small
@@ -5653,6 +5776,12 @@ El tesoro es un arreglo de **words**: recorrelo con SI (`lea si, tesoro`), sumá
 
 #### Desafío
 Escribí la suma donde dice `; tus órdenes`.
+
+#### Pasos
+1. Borrá `; tus órdenes`. `mov ax, 0`, `lea si, tesoro` y `mov cx, 5`.
+2. `sumar:` → `add ax, [si]`, `add si, 2` (son palabras) y `loop sumar`.
+3. `call imprimir_numero`.
+4. Tocá **Ejecutar**. Tiene que salir `13050`.
 
 #### Código inicial
 ```asm
@@ -5802,6 +5931,13 @@ La palabra ya está en la bolsa de la `0Ah`. Guardá la cantidad (`buffer+1`) en
 #### Desafío
 Escribí la comprobación donde dice `; tus órdenes`.
 
+#### Pasos
+1. Borrá `; tus órdenes`. La cantidad: `mov cl, buffer+1`, `mov ch, 0` y guardala en `mov bx, cx`.
+2. Apilá las letras: `lea si, buffer+2`, `apilar:` → `mov al, [si]`, `push ax`, `inc si` y `loop apilar`.
+3. Compará desapilando: `mov cx, bx`, `lea si, buffer+2` y `mov bl, 1`. `comparar:` → `pop ax` y `cmp al, [si]`. Si no son iguales, `mov bl, 0`. Después `igual:`, `inc si` y `loop comparar`.
+4. El cartel: `lea dx, t_si`. Si `cmp bl, 1` no da igual, `lea dx, t_no`. `mostrar:` → `mov ah, 09h` e `int 21h`.
+5. Tocá **Ejecutar**. Tiene que salir `Se lee igual al reves.`
+
 #### Código inicial
 ```asm
 .model small
@@ -5940,6 +6076,13 @@ En `turno_dragon`, donde dice `; tus órdenes`: dividí `ronda` por 3 (AX = rond
 
 #### Desafío
 Escribí el ataque del dragón. Kira va a jugar 1, 1, 2, 1, 3, 2, 1 y 1: se defiende justo en las rondas del fuego.
+
+#### Pasos
+1. Borrá el comentario. ¿Es ronda de fuego? `mov ax, ronda`, `mov bl, 3`, `div bl` y, si `cmp ah, 0` no da igual, `jne garra`.
+2. Fuego: `mov cl, 8`, `lea dx, t_fuego`, `call mostrar_cadena` y `jmp con_escudo`.
+3. `garra:` → `mov bl, 6`, `call azar`, `mov cl, al` y `add cl, 2`.
+4. `con_escudo:` → si `cmp defiende, 0` da igual, `je  sin_escudo`. Si se defiende: `shr cl, 1` y `mov defiende, 0`.
+5. Tocá **Ejecutar** y compará ronda por ronda.
 
 #### Código inicial
 ```asm

@@ -155,6 +155,11 @@ Kira conecta una cajita de prueba a los nervios del Gólem, en el puerto **110**
 #### Desafío
 Completá la orden que manda AL al puerto 110, para que el puerto quede con `A7h`.
 
+#### Pasos
+1. Hay un `___` antes de `110, al`.
+2. La orden que manda un byte a un puerto es `out`.
+3. Tocá **Ejecutar**. El puerto 110 tiene que quedar en `A7h`.
+
 #### Código inicial
 ```asm
 .model small
@@ -226,6 +231,11 @@ La cajita guarda lo que le mandan. Nova quiere comprobarlo: leer el puerto 110 y
 
 #### Desafío
 Completá la orden que lee el puerto 110 en AL, para que BL quede con `A7h`.
+
+#### Pasos
+1. Hay un `___` antes de `al, 110`.
+2. La orden que lee un puerto es `in`.
+3. Tocá **Ejecutar**. BL tiene que quedar en `A7h`.
 
 #### Código inicial
 ```asm
@@ -304,6 +314,11 @@ Con **AX**, `out` manda un **word**: el byte bajo (AL) al puerto 112 y el alto (
 #### Desafío
 Completá la palanca del `out`, para que en el puerto 112 quede el word `1234h`.
 
+#### Pasos
+1. Hay un `___` después de `out 112,`.
+2. Para mandar un word se usa AX: `ax`.
+3. Tocá **Ejecutar**. El puerto 112 tiene que quedar con `1234h`.
+
 #### Código inicial
 ```asm
 .model small
@@ -375,6 +390,11 @@ Escrito como número, el puerto entra en **un byte**: de 0 a 255. Para cualquier
 
 #### Desafío
 Tocá **Ejecutar** para ver el error. Después arreglalo con DX, para que el puerto 300 quede con un **5**.
+
+#### Pasos
+1. Escrito directo, el puerto llega hasta 255. Para el 300 hay que usar DX.
+2. Cambiá `out 300, al` por `mov dx, 300` y `out dx, al`.
+3. Tocá **Ejecutar**. El puerto 300 tiene que quedar en 5.
 
 #### Código inicial
 ```asm
@@ -546,6 +566,11 @@ El visor lee el **word** del puerto 199 y lo muestra en decimal: `mov ax, 1234` 
 #### Desafío
 Completá el puerto y la palanca, para que el visor muestre **1234**.
 
+#### Pasos
+1. Hay dos `___` en `out ___, ___`.
+2. El visor es el puerto `199` y el número está en `ax`: `out 199, ax`.
+3. Tocá **Ejecutar**. El visor tiene que mostrar 1234.
+
 #### Código inicial
 ```asm
 .model small
@@ -618,6 +643,11 @@ El visor lee el word **con signo**: `mov ax, -42` deja AX en `FFD6h`, y el visor
 #### Desafío
 Completá el número, para que el visor muestre **−42**.
 
+#### Pasos
+1. Hay un `___` en `mov ax, ___`.
+2. Escribí el número con su signo: `-42`.
+3. Tocá **Ejecutar**. El visor tiene que mostrar −42.
+
 #### Código inicial
 ```asm
 .model small
@@ -688,6 +718,11 @@ Dentro del bucle, cada vuelta manda CX al visor (`mov ax, cx` y `out 199, ax`). 
 
 #### Desafío
 Escribí las dos órdenes que mandan el 0 al visor después del bucle, donde dice `; tus órdenes`.
+
+#### Pasos
+1. Borrá `; tus órdenes`.
+2. `mov ax, 0` y `out 199, ax`.
+3. Tocá **Ejecutar**. El visor tiene que terminar en 0.
 
 #### Código inicial
 ```asm
@@ -769,6 +804,12 @@ Sumá con un bucle: AX empieza en 0 y en cada vuelta le sumás CX (10, 9, …, 1
 
 #### Desafío
 Escribí las órdenes desde cero, donde dice `; tus órdenes`, para que el visor muestre la suma: **55**.
+
+#### Pasos
+1. Borrá `; tus órdenes`. `mov ax, 0` y `mov cx, 10`.
+2. `suma:` → `add ax, cx` y `loop suma`.
+3. `out 199, ax`.
+4. Tocá **Ejecutar**. El visor tiene que mostrar 55.
 
 #### Código inicial
 ```asm
@@ -957,6 +998,11 @@ Cada esquina usa 3 bits: rojo (el de la derecha), amarillo y verde. El rojo de c
 #### Desafío
 Completá el número binario de «todo en rojo» y mandalo al semáforo.
 
+#### Pasos
+1. Hay un `___` en `mov ax, ___`.
+2. Cada esquina tiene 3 luces y el rojo es la luz de arriba: `0000001001001001b`.
+3. Tocá **Ejecutar**. El puerto 4 tiene que quedar en `0249h`.
+
 #### Código inicial
 ```asm
 .model small
@@ -1028,6 +1074,11 @@ Partí de «todo en rojo» (`0000001001001001b`). En la esquina de abajo (bits 0
 
 #### Desafío
 Completá el binario, para que la esquina de abajo quede en verde y las otras tres en rojo.
+
+#### Pasos
+1. Hay un `___` en el segundo `mov ax`.
+2. Igual que todo en rojo, pero la esquina de abajo (las 3 luces de la derecha) en verde: `0000001001001100b`.
+3. Tocá **Ejecutar**. El puerto 4 tiene que quedar en `024Ch`.
 
 #### Código inicial
 ```asm
@@ -1103,6 +1154,13 @@ La BIOS espera con **`INT 15h`**, función **86h**: CX:DX microsegundos. Un segu
 
 #### Desafío
 Completá la segunda espera de un segundo (entre el amarillo y el rojo), igual que la primera. Al terminar, el semáforo tiene que quedar todo en rojo.
+
+#### Pasos
+1. Hay tres `___`, igual que la primera espera.
+2. `mov dx, 4240h`.
+3. `mov ah, 86h`.
+4. `int 15h`.
+5. Tocá **Ejecutar**. El puerto 4 tiene que quedar en `0249h`.
 
 #### Código inicial
 ```asm
@@ -1200,6 +1258,13 @@ Las situaciones son words seguidos en `.data`. Con `lea si, situaciones` y un `l
 
 #### Desafío
 Completá las tres órdenes del bucle (donde dice `; tus órdenes`), para que el semáforo pase por las cuatro situaciones y termine con verde a la derecha (`0261h`).
+
+#### Pasos
+1. Borrá `; tus órdenes` dentro de `paso:`.
+2. Leé la situación de la tabla: `mov ax, [si]`.
+3. Mandala al semáforo: `out 4, ax`.
+4. Pasá a la siguiente (son words): `add si, 2`.
+5. Tocá **Ejecutar**. El puerto 4 tiene que terminar en `0261h`.
 
 #### Código inicial
 ```asm
@@ -1415,6 +1480,11 @@ Antes de prender nada, Nova quiere saber cómo está el horno. Kira le alcanza e
 #### Desafío
 Completá la orden que lee el termómetro, para que BL quede con la temperatura (0) y el calefactor siga apagado.
 
+#### Pasos
+1. Hay un `___` antes de `al, 125`.
+2. Leé el termómetro: `in`.
+3. Tocá **Ejecutar**. BL tiene que quedar en 0.
+
 #### Código inicial
 ```asm
 .model small
@@ -1489,6 +1559,12 @@ Primero `mov al, 1` y `out 127, al` para prender el calefactor. Después, un buc
 
 #### Desafío
 Completá el puerto del calefactor y el salto del bucle, para que el horno llegue a **60** grados (AL = 60) con el calefactor prendido.
+
+#### Pasos
+1. Hay dos `___`.
+2. El calefactor es el puerto `127`: `out 127, al`.
+3. Volvé mientras esté por debajo de 60: `jl calentar`.
+4. Tocá **Ejecutar**. AL tiene que quedar en 60.
 
 #### Código inicial
 ```asm
@@ -1570,6 +1646,12 @@ El bucle ya prende el calefactor cuando la temperatura es menor a 60. Falta la o
 
 #### Desafío
 Escribí la rama que apaga el calefactor, donde dice `; tus órdenes`, para que al terminar el ojo diga `Entre 60 y 80`.
+
+#### Pasos
+1. Borrá `; tus órdenes`. `cmp al, 80` y, si se pasó, `jg apagar`.
+2. Si no, `jmp sigue`.
+3. `apagar:` → `mov al, 0` y `out 127, al` (sigue el `jmp sigue` que ya está).
+4. Tocá **Ejecutar**. Tiene que salir `Entre 60 y 80`.
 
 #### Código inicial
 ```asm
@@ -1799,6 +1881,11 @@ Cada imán es un bit del puerto 7. El primero es el bit 0: `mov al, 001b` y `out
 #### Desafío
 Completá la orden que manda el paso al motor, para que el puerto 7 quede con `001b`.
 
+#### Pasos
+1. Hay un `___` antes de `7, al`.
+2. Mandá el paso: `out`.
+3. Tocá **Ejecutar**. El puerto 7 tiene que quedar en 1.
+
 #### Código inicial
 ```asm
 .model small
@@ -1870,6 +1957,12 @@ Al **leer** el puerto 7, el bit 7 dice si el motor está listo. Antes de cada pa
 
 #### Desafío
 Completá la espera antes del segundo paso, para que el puerto 7 termine con `011b`.
+
+#### Pasos
+1. Hay dos `___`.
+2. El bit de «listo» es el de más a la izquierda: `test al, 10000000b`.
+3. Mientras esté en 0 (ocupado), volvé: `jz espera`.
+4. Tocá **Ejecutar**. El puerto 7 tiene que quedar en 3.
 
 #### Código inicial
 ```asm
@@ -1954,6 +2047,12 @@ Recorré la tabla con SI: en cada vuelta, esperá a que el motor esté listo, ma
 
 #### Desafío
 Escribí el cuerpo del bucle, donde dice `; tus órdenes`, para que la grúa dé los cuatro pasos y el puerto 7 termine con `110b`.
+
+#### Pasos
+1. Borrá `; tus órdenes` dentro de `paso:`.
+2. La espera: `espera:` → `in al, 7`, `test al, 10000000b` y `jz espera`.
+3. El paso: `mov al, [si]`, `out 7, al` e `inc si`.
+4. Tocá **Ejecutar**. El puerto 7 tiene que terminar en 6.
 
 #### Código inicial
 ```asm
@@ -2144,6 +2243,11 @@ La función **05h** de DOS manda el carácter de DL a la impresora: `mov dl, 'K'
 #### Desafío
 Completá la función de DOS, para que la impresora imprima una **K**.
 
+#### Pasos
+1. Hay un `___` en `mov ah, ___`.
+2. La función de DOS que imprime en la impresora es `05h`.
+3. Tocá **Ejecutar**. La impresora tiene que mostrar `K`.
+
 #### Código inicial
 ```asm
 .model small
@@ -2218,6 +2322,11 @@ El texto termina en **0**. Recorrelo con SI: en cada vuelta, `mov al, [si]`; si 
 
 #### Desafío
 Completá la orden que manda la letra a la impresora, para que se imprima el recibo.
+
+#### Pasos
+1. Hay un `___` en `out ___, al`.
+2. La impresora es el puerto `130`.
+3. Tocá **Ejecutar**. Tiene que imprimirse `Pagado: 5 chispas`.
 
 #### Código inicial
 ```asm
@@ -2306,6 +2415,12 @@ Entre los dos renglones van el **13** (volver al principio) y el **10** (bajar u
 
 #### Desafío
 Completá los dos bytes que separan los renglones y el byte de hoja nueva, en la declaración del texto.
+
+#### Pasos
+1. Hay tres `___` en el texto.
+2. Entre los renglones: `13, 10` (vuelta y salto de renglón).
+3. Al final, hoja nueva: `12`.
+4. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```asm
@@ -2519,6 +2634,11 @@ Al puerto 9 se le manda la **orden**: el 1 es «avanzar». `mov al, 1` y `out 9,
 #### Desafío
 Completá la orden que manda AL al robot, para que avance un lugar.
 
+#### Pasos
+1. Hay un `___` antes de `9, al`.
+2. Mandá la orden al robot: `out`.
+3. Tocá **Ejecutar**. Tiene que salir `avanza a (2, 1)`.
+
 #### Código inicial
 ```asm
 .model small
@@ -2592,6 +2712,12 @@ El robot tarda en dar cada paso. Mientras camina, el **bit 1** del estado (puert
 
 #### Desafío
 Tocá **Ejecutar** y mirá la salida. Después completá la espera antes del segundo paso, para que el robot avance dos lugares.
+
+#### Pasos
+1. Hay dos `___`.
+2. El bit de «ocupado» es el 1: `test al, 00000010b`.
+3. Mientras esté prendido, esperá: `jnz ocupado`.
+4. Tocá **Ejecutar**. Tiene que avanzar dos lugares.
 
 #### Código inicial
 ```asm
@@ -2678,6 +2804,12 @@ La orden **4** es «examinar». Cuando termina, prende el **bit 0** del estado (
 
 #### Desafío
 Completá la espera del dato, para que BL quede con lo que examinó el robot (una pared: `FFh`).
+
+#### Pasos
+1. Hay dos `___`.
+2. El bit de «hay dato» es el 0: `test al, 00000001b`.
+3. Mientras esté apagado, esperá: `jz dato`.
+4. Tocá **Ejecutar**. BL tiene que quedar en `FFh`.
 
 #### Código inicial
 ```asm
@@ -2794,6 +2926,14 @@ Con la rutina `orden`, cada paso es una línea: `mov al, número` y `call orden`
 
 #### Desafío
 Escribí el recorrido donde dice `; tus órdenes`, para que el robot prenda la lámpara del túnel.
+
+#### Pasos
+1. Borrá `; tus órdenes`. Cada orden es `mov al, N` y `call orden`.
+2. Girá a la derecha: `mov al, 3`.
+3. Avanzá tres veces: `mov al, 1` tres veces, cada una con su `call orden`.
+4. Girá a la izquierda: `mov al, 2`.
+5. Prendé la lámpara: `mov al, 5`.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```asm
@@ -3008,6 +3148,13 @@ En el bucle: `mov ax, cx`, `out 199, ax` y `call segundo`. La rutina `segundo` g
 #### Desafío
 Completá las tres órdenes del cuerpo del bucle (qué mostrar, dónde y qué rutina llamar), para que el visor cuente 3, 2, 1 con su espera y termine en 0.
 
+#### Pasos
+1. Hay tres `___` dentro de `cuenta:`.
+2. Lo que se muestra es la cuenta: `mov ax, cx`.
+3. En el visor: `out 199, ax`.
+4. La espera: `call segundo`.
+5. Tocá **Ejecutar**. El visor tiene que terminar en 0.
+
 #### Código inicial
 ```asm
 .model small
@@ -3126,6 +3273,12 @@ Primero el semáforo: verde abajo y rojo en las otras tres (`0000001001001100b`)
 #### Desafío
 Completá el número del verde y el puerto de la impresora, para que el semáforo dé verde a los corredores y se imprima `Largada!`.
 
+#### Pasos
+1. Hay dos `___`.
+2. El verde de abajo: `0000001001001100b`.
+3. La impresora: `out 130, al`.
+4. Tocá **Ejecutar**. Tiene que imprimirse `Largada!`.
+
 #### Código inicial
 ```asm
 .model small
@@ -3231,6 +3384,13 @@ Ya tenés todas las piezas. En orden:
 
 #### Desafío
 Escribí el programa entero donde dice `; tus órdenes` (la rutina `segundo` ya está), para que la largada salga completa.
+
+#### Pasos
+1. Borrá `; tus órdenes`. Todo en rojo: `mov ax, 0000001001001001b` y `out 4, ax`.
+2. La cuenta: `mov cx, 3`, `cuenta:` → `mov ax, cx`, `out 199, ax`, `call segundo` y `loop cuenta`. Después, `mov ax, 0` y `out 199, ax`.
+3. Verde abajo: `mov ax, 0000001001001100b` y `out 4, ax`.
+4. El recibo: `lea si, recibo`. `letra:` → `mov al, [si]`, `cmp al, 0`, `je listo`, `out 130, al`, `inc si` y `jmp letra`. Después, `listo:`.
+5. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```asm

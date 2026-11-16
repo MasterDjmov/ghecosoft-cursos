@@ -9547,6 +9547,11 @@ Python trae muchas **bibliotecas**: herramientas ya hechas que se piden con `imp
 #### Desafío
 Calculá los viajes redondeando hacia arriba.
 
+#### Pasos
+1. Hay un `___` en el primer renglón.
+2. Traé el módulo de matemática: `import math`.
+3. Tocá **Ejecutar**. Tiene que salir `5`.
+
 #### Código inicial
 ```python
 ___
@@ -9600,6 +9605,10 @@ Y se usa sin el nombre de la biblioteca adelante: `mean(lista)` da el promedio.
 #### Desafío
 Traé `mean` y calculá el promedio.
 
+#### Pasos
+1. Arriba de todo, antes de `vidas = ...`, agregá: `from statistics import mean`.
+2. Tocá **Ejecutar**. Tiene que salir `17`.
+
 #### Código inicial
 ```python
 vidas = [10, 20, 8, 30]
@@ -9646,6 +9655,12 @@ La biblioteca `datetime` maneja fechas:
 
 #### Desafío
 Calculá la llegada y mostrala en formato argentino.
+
+#### Pasos
+1. Hay dos `___`.
+2. En `llegada = ___`: la salida más 30 días, `salida + timedelta(days=30)`.
+3. En el `strftime`: día/mes/año, `"%d/%m/%Y"`.
+4. Tocá **Ejecutar**. Tiene que salir `06/11/2026`.
 
 #### Código inicial
 ```python
@@ -9694,6 +9709,12 @@ Se escribe con el número entre comillas: `Decimal("0.1")`. Con `Decimal`, `0.1 
 
 #### Desafío
 Rehacé la cuenta de Baldo con `Decimal`.
+
+#### Pasos
+1. Arriba de todo: `from decimal import Decimal`.
+2. Cambiá `a = 0.1` por `a = Decimal("0.1")` y `b = 0.2` por `b = Decimal("0.2")`. Van con comillas.
+3. En el último `print`, compará con `Decimal("0.3")` en lugar de `0.3`.
+4. Tocá **Ejecutar**. Tienen que salir `0.3` y `True`.
 
 #### Código inicial
 ```python
@@ -9752,6 +9773,11 @@ Es más claro escribir `p.x` que `p[0]`.
 #### Desafío
 Creá el tipo y mostrá los campos por su nombre.
 
+#### Pasos
+1. Hay un `___` en `Criatura = ___`.
+2. Escribí `namedtuple("Criatura", "nombre vida")`: el nombre del tipo y sus campos separados por espacio.
+3. Tocá **Ejecutar**. Tiene que salir `slime tiene 10 de vida`.
+
 #### Código inicial
 ```python
 from collections import namedtuple
@@ -9803,6 +9829,11 @@ Por eso `if __name__ == "__main__":` separa lo que el archivo hace cuando lo eje
 
 #### Desafío
 Ejecutalo así como está: el pergamino es el archivo que se ejecuta. Completá la condición.
+
+#### Pasos
+1. Hay un `___` en el `if`.
+2. Cuando el archivo se ejecuta directo, `__name__` vale `"__main__"`: `if __name__ == "__main__":`
+3. Tocá **Ejecutar**. Tiene que salir `Para quien llegue.`
 
 #### Código inicial
 ```python
@@ -9869,6 +9900,14 @@ de la semana **en castellano** (pista: `fecha.weekday()` da 0 para el lunes).
 - Usa `date` y `timedelta`.
 - Muestra los días de viaje (19) y los que faltan para la luna llena (30).
 - Muestra las próximas 4 guardias con la fecha y el día en castellano (una lista propia con `weekday()`).
+
+#### Pasos
+1. Borrá el comentario. Escribí las tres fechas: `inicio = date(2026, 9, 7)`, `hoy = date(2026, 9, 26)` y `luna_llena = date(2026, 10, 26)`.
+2. La lista `DIAS = ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo"]`.
+3. `print("días de viaje:", (hoy - inicio).days)` y `print("faltan para la luna llena:", (luna_llena - hoy).days, "días")`.
+4. `for i in range(1, 5):` → `guardia = hoy + timedelta(days=3 * i)`.
+5. Adentro: `print(f"  guardia {i}: {guardia.strftime('%d/%m')} ({DIAS[guardia.weekday()]})")`.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```python
@@ -10235,6 +10274,11 @@ Un `NameError` dice que usaste un nombre que Python no conoce. Leé el error de 
 #### Desafío
 Encontrá el nombre mal escrito y corregilo.
 
+#### Pasos
+1. En el último `print`, `arma_Mia` está con mayúscula, pero la variable se llama `arma_mia`.
+2. Cambiala por `arma_mia`.
+3. Tocá **Ejecutar**. Tiene que salir `17`.
+
 #### Código inicial
 ```python
 def ataque(fuerza, arma):
@@ -10288,6 +10332,11 @@ La solución más clara para armar mensajes con números es un f-string: `f"Ten�
 #### Desafío
 Arreglá el mensaje del daño.
 
+#### Pasos
+1. No se puede sumar texto con un número (`"..." + danio`).
+2. Cambiá el `print` por uno con f-string: `print(f"Le hacés {danio} de daño")`.
+3. Tocá **Ejecutar**.
+
 #### Código inicial
 ```python
 danio = 17
@@ -10332,6 +10381,12 @@ Lo más simple: recorrer la lista directamente (`for x in lista:`), sin usar pos
 
 #### Desafío
 Arreglá el bucle.
+
+#### Pasos
+1. `range(len(cabezas) + 1)` da una vuelta de más y se pasa de la lista.
+2. Recorré la lista directo: `for cabeza in cabezas:`
+3. En el `print`, usá `{cabeza}` en lugar de `{cabezas[i]}`.
+4. Tocá **Ejecutar**. Tienen que salir las tres cabezas.
 
 #### Código inicial
 ```python
@@ -10382,6 +10437,11 @@ Con 10, 20 y 30, el promedio tiene que dar 20. ¿Da? Mirá la cuenta con cuidado
 #### Desafío
 Encontrá el error de lógica.
 
+#### Pasos
+1. Mirá el renglón del `promedio`: tiene un `+ 1` que sobra.
+2. Borralo: `promedio = sum(golpes) / len(golpes)`.
+3. Tocá **Ejecutar**. Tiene que salir `Promedio: 20.0`.
+
 #### Código inicial
 ```python
 golpes = [10, 20, 30]
@@ -10429,6 +10489,12 @@ Acá, `danio` calcula el golpe y `sigue_viva` contesta si la vida es mayor que 0
 
 #### Desafío
 Completá las dos funciones chicas; la tercera ya las usa.
+
+#### Pasos
+1. Hay dos `___`.
+2. En `danio`: `return fuerza + arma`.
+3. En `sigue_viva`: `return vida > 0`.
+4. Tocá **Ejecutar**. Tiene que salir `Cae en 6 turnos`.
 
 #### Código inicial
 ```python
@@ -10521,6 +10587,17 @@ Al salir, muestra el inventario final. Usá **una función por orden**.
 - Nunca queda oro negativo ni cantidades negativas.
 - Una orden mal escrita (objeto inexistente, cantidad que no es número, faltan palabras) muestra un aviso y el programa sigue.
 - Con la entrada de ejemplo, el resultado final es 70 de oro y 2 pociones.
+
+#### Pasos
+1. `def comprar(inventario, oro, objeto, cantidad):` devuelve `oro, mensaje`. Si el objeto no está en `PRECIOS`: `return oro, f"No vendemos {objeto}."`. Calculá `costo = PRECIOS[objeto] * cantidad`; si es mayor que el oro, `return oro, f"No te alcanza: {cantidad} {objeto} cuestan {costo}."`. Si alcanza, sumalo al inventario con `inventario.get(objeto, 0) + cantidad` y `return oro - costo, f"Compraste {cantidad} {objeto} por {costo}."`
+2. `def vender(...)`: si `inventario.get(objeto, 0) < cantidad`, `return oro, f"No tenés {cantidad} {objeto}."`. Si no, restá la cantidad (y borrá el objeto si queda en 0), `pago = PRECIOS[objeto] // 2 * cantidad` y `return oro + pago, f"Vendiste {cantidad} {objeto} por {pago}."`
+3. `def mostrar(inventario, oro):` → `print(f"Oro: {oro}")` y cada objeto de `sorted(inventario.items())` con `print(f"  {objeto:<10}{cantidad:>3}")`.
+4. Borrá los comentarios. `while True:` → `partes = input("> ").strip().lower().split()`. Si está vacío, `continue`.
+5. Si `partes[0] == "salir"`, `break`. Si es `"inventario"`, `mostrar(...)` y `continue`.
+6. Si la orden no es comprar ni vender, o `len(partes) != 3`, o `not partes[2].isdigit()`: mostrá el `"Usá: ..."` de la salida y `continue`.
+7. Llamá a `comprar` o `vender` con `partes[1]` y `int(partes[2])`, guardá `oro, mensaje = ...` y `print(mensaje)`.
+8. Después del bucle: `print("¡Hasta la próxima!")` y `mostrar(inventario, oro)`.
+9. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```python
@@ -10668,6 +10745,16 @@ Armá el informe:
 - `danio_por_criatura` y `derrotadas` son funciones que reciben los datos y **devuelven** el resultado (no usan variables globales).
 - El listado está ordenado de mayor a menor daño con `sorted(..., key=lambda ...)`.
 - `derrotadas` devuelve un `set` y las que siguen en pie se calculan con una resta de conjuntos.
+
+#### Pasos
+1. Borrá el comentario. Copiá `golpes` y `VIDA` de la consigna.
+2. `def danio_por_criatura(registro):` → `total = {}`, `for criatura, danio, _turno in registro:` → `total[criatura] = total.get(criatura, 0) + danio`, y `return total`.
+3. `def derrotadas(totales, vidas):` → `return {criatura for criatura, danio in totales.items() if danio >= vidas[criatura]}`.
+4. `totales = danio_por_criatura(golpes)`, `print("Daño por criatura:")` y un `for` con `sorted(totales.items(), key=lambda par: par[1], reverse=True)`. Mostrá cada una con `print(f"  {criatura:<8}{danio:>4}  ({danio / VIDA[criatura]:.0%} de su vida)")`.
+5. `golpeadas = Counter(criatura for criatura, _d, _t in golpes)` y `print("La más golpeada:", golpeadas.most_common(1)[0][0])`.
+6. El promedio: `sum(d for _c, d, _t in golpes) / len(golpes)` con `:.1f`.
+7. `print("Derrotadas:", sorted(derrotadas(totales, VIDA)))` y `print("Siguen en pie:", sorted(set(VIDA) - derrotadas(totales, VIDA)))`.
+8. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```python

@@ -305,6 +305,11 @@ print(toby.nombre)
 #### Desafío
 Completá el nombre del método que arma cada orco.
 
+#### Pasos
+1. Hay un `___` en el `def`.
+2. El método que arma cada objeto se llama `__init__` (dos guiones bajos de cada lado).
+3. Tocá **Ejecutar**. Tienen que salir `Grum 40` y `Brak 55`.
+
 #### Código inicial
 ```python
 class Orco:
@@ -368,6 +373,11 @@ Para que un número no baje de 0, `max(0, valor)` devuelve el más grande de los
 
 #### Desafío
 Escribí lo que hace `recibir`.
+
+#### Pasos
+1. Hay un `___` dentro de `recibir`.
+2. Restá el daño sin bajar de 0: `self.vida = max(0, self.vida - danio)`.
+3. Tocá **Ejecutar**. Tienen que salir `25` y `0`.
 
 #### Código inicial
 ```python
@@ -436,6 +446,11 @@ Lo que se guarda con `self.` es de **cada** objeto.
 
 #### Desafío
 Cada vez que se crea un orco, sumá uno al contador de la clase.
+
+#### Pasos
+1. Hay un `___` dentro de `__init__`.
+2. El contador es de la clase, así que se usa con su nombre: `Orco.creados += 1`.
+3. Tocá **Ejecutar**. Tiene que salir `Salieron del molde: 3`.
 
 #### Código inicial
 ```python
@@ -506,6 +521,11 @@ Sin él, `print` muestra algo como `<__main__.Perro object at 0x…>`.
 #### Desafío
 Completá el nombre del método para que `print` muestre la ficha.
 
+#### Pasos
+1. Hay un `___` en el `def`.
+2. El método que usa `print` se llama `__str__`.
+3. Tocá **Ejecutar**. Tiene que salir `Grum (40 de vida)`.
+
 #### Código inicial
 ```python
 class Orco:
@@ -563,6 +583,11 @@ Sirve para valores que se **calculan** a partir de otros, como el porcentaje de 
 
 #### Desafío
 Poné lo que falta arriba de `porcentaje`.
+
+#### Pasos
+1. Hay un `___` arriba de `def porcentaje`.
+2. Escribí `@property`: así se usa sin paréntesis.
+3. Tocá **Ejecutar**. Tiene que salir `A Tilo le queda 75%`.
 
 #### Código inicial
 ```python
@@ -640,6 +665,11 @@ Además arma `__repr__` (cómo se muestra) y `__eq__` (comparar con `==`). Un ca
 #### Desafío
 Poné el decorador que falta.
 
+#### Pasos
+1. Hay un `___` arriba de `class Libro`.
+2. Escribí `@dataclass`.
+3. Tocá **Ejecutar**. Tiene que salir `Libro(titulo='Crónicas del Valle', paginas=320)` y `True`.
+
 #### Código inicial
 ```python
 from dataclasses import dataclass
@@ -713,6 +743,15 @@ Probalo con `Vec2(3, 4)` y con `Vec2(0, 0)`.
 - `v / 2` funciona gracias a `__truediv__`.
 - `normalizado()` devuelve un objeto nuevo de largo 1 y no modifica el original.
 - El vector `(0, 0)` no provoca `ZeroDivisionError`.
+
+#### Pasos
+1. Dentro de la clase, debajo de los otros métodos: `def __truediv__(self, k):` → `return Vec2(self.x / k, self.y / k)`.
+2. Al final de la clase: `def normalizado(self):` → `largo = self.largo()`. Si `largo == 0`, `return Vec2(0, 0)`.
+3. Si no: `return self / largo` (usa el `__truediv__` de recién).
+4. Afuera de la clase: `flecha = Vec2(3, 4)` y `print(flecha / 2)`.
+5. `unidad = flecha.normalizado()` y `print(unidad, "largo:", unidad.largo())`.
+6. `print(Vec2(0, 0).normalizado())`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```python
@@ -827,6 +866,15 @@ Con Mia en `(2, 3)`, revisá una horda de tres enemigos: Slime en `(3, 3)`, Orco
 - `esta_cerca` usa la distancia y devuelve `True` o `False`.
 - Muestra que Slime y Goblin están cerca y Orco lejos.
 
+#### Pasos
+1. Borrá el comentario. `@dataclass` y `class Vec2:` con `x: float = 0.0` e `y: float = 0.0`.
+2. Su método: `def distancia(self, otro):` → `return math.hypot(self.x - otro.x, self.y - otro.y)`.
+3. `@dataclass` y `class Enemigo:` con `nombre: str`, `vida: int` y `pos: Vec2`.
+4. `def esta_cerca(self, objetivo, radio):` → `return self.pos.distancia(objetivo) <= radio`.
+5. `mia = Vec2(2, 3)` y la lista `horda` con `Enemigo("Slime", 20, Vec2(3, 3))`, `Enemigo("Orco", 40, Vec2(10, 1))` y `Enemigo("Goblin", 30, Vec2(2, 7))`.
+6. `for enemigo in horda:` → `alerta = "¡cerca!" if enemigo.esta_cerca(mia, radio=4) else "lejos"` y `print(f"{enemigo.nombre}: {alerta}")`.
+7. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```python
 from dataclasses import dataclass
@@ -910,6 +958,14 @@ Con un botín de cuatro ítems, mostrá la lista ordenada con `sorted()`, los do
 - `__lt__` compara por valor y con eso funcionan `sorted()` y `min()` sin `key=`.
 - `__repr__` muestra nombre y valor.
 - Muestra el botín ordenado, los dos más caros y el más barato.
+
+#### Pasos
+1. Borrá el comentario. `class Item:` con `def __init__(self, nombre, valor):` que guarda los dos.
+2. `def __lt__(self, otro):` → `return self.valor < otro.valor`.
+3. `def __repr__(self):` → `return f"{self.nombre} (${self.valor})"`.
+4. `botin = [Item("Espada", 120), Item("Poción", 25), Item("Llave", 100), Item("Pan", 3)]`.
+5. `print(sorted(botin))`, `print(sorted(botin, reverse=True)[:2])` y `print("el más barato:", min(botin))`.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```python
@@ -1333,6 +1389,11 @@ class Perro(Animal):
 #### Desafío
 Hacé que `Heroe` herede de `Entidad`.
 
+#### Pasos
+1. Hay un `___` en `class Heroe(___):`.
+2. Entre los paréntesis va la clase de la que hereda: `Entidad`.
+3. Tocá **Ejecutar**. Tiene que salir `Mia 75`.
+
 #### Código inicial
 ```python
 class Entidad:
@@ -1409,6 +1470,11 @@ Primero se arma lo de la base, después se agrega lo propio.
 #### Desafío
 Llamá al `__init__` de la base.
 
+#### Pasos
+1. Hay un `___` dentro del `__init__` de la subclase.
+2. Llamá al de la base con el nombre y 100 de vida: `super().__init__(nombre, 100)`.
+3. Tocá **Ejecutar**. Tiene que salir `Mia 100 2`.
+
 #### Código inicial
 ```python
 class Entidad:
@@ -1473,6 +1539,11 @@ Eso es el **polimorfismo**: la misma llamada, distintas respuestas. Para que fun
 
 #### Desafío
 Poné el nombre justo al método de la arquera.
+
+#### Pasos
+1. Hay un `___` en el `def` de `Arquera`.
+2. Tiene que llamarse igual que en las otras clases: `turno`.
+3. Tocá **Ejecutar**. Tiene que salir `Nima dispara una flecha`.
 
 #### Código inicial
 ```python
@@ -1552,6 +1623,11 @@ En Python no hace falta heredar para entrar en el bucle: alcanza con **tener el 
 #### Desafío
 Arreglá la torre para que juegue su turno como las demás.
 
+#### Pasos
+1. La ronda llama a `turno()`, pero la torre tiene `disparar()`.
+2. Cambiá `def disparar(self):` por `def turno(self):`.
+3. Tocá **Ejecutar**. Tiene que salir `La torre lanza una piedra`.
+
 #### Código inicial
 ```python
 class Orco:
@@ -1620,6 +1696,11 @@ Si una hija no escribe ese método, crear un objeto de ella da `TypeError` **ens
 
 #### Desafío
 Hacé que el gólem cumpla el contrato: que juegue su turno con «Gólem golpea el suelo».
+
+#### Pasos
+1. En `class Golem(Entidad):`, borrá el `pass`.
+2. En su lugar: `def turno(self):` y adentro `return "Gólem golpea el suelo"`.
+3. Tocá **Ejecutar**.
 
 #### Código inicial
 ```python
@@ -1693,6 +1774,15 @@ Probalo con `random.seed(1)`: un Rey Slime (200 de vida, 5 de daño) juega 6 tur
 - `Jefe` hereda de `Enemigo` y llama a `super().__init__`.
 - Cuenta los turnos y en los múltiplos de 3 pega el doble.
 - En los otros turnos reutiliza `super().turno(objetivo)`.
+
+#### Pasos
+1. Borrá el comentario. `class Jefe(Enemigo):` con `def __init__(self, nombre, vida, danio):` → `super().__init__(nombre, vida, danio)` y `self.turnos = 0`.
+2. `def turno(self, objetivo):` → `self.turnos += 1`.
+3. Si `self.turnos % 3 == 0`: `print(f"  ¡{self.nombre} entra en furia!")` y `objetivo.recibir(self.danio * 2)`.
+4. Si no: `super().turno(objetivo)`.
+5. El muñeco: `class Muñeco(Entidad):` con `def turno(self, objetivo):` → `pass`.
+6. `random.seed(1)`, `jefe = Jefe("Rey Slime", 200, 5)`, `muñeco = Muñeco("Muñeco de práctica", 100)` y `for _ in range(6):` → `jefe.turno(muñeco)`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```python
@@ -1839,6 +1929,16 @@ Armá una ronda con Mia (40), Tilo (25) y la curandera Sila contra un orco: dos 
 - `Curandero` no hereda de `Entidad`, pero la función `ronda` lo acepta igual.
 - Cura al aliado vivo con menos vida (`min(..., key=...)`).
 - La ronda llama a `turno()` sin preguntar la clase de cada uno.
+
+#### Pasos
+1. Borrá el comentario. `class Heroe(Entidad):` con `def turno(self, objetivo):` → `objetivo.recibir(10)`.
+2. `class Curandero:` (sin heredar). `__init__(self, nombre, aliados)` guarda `nombre`, `self.vida = 60` y `aliados`.
+3. `vivo()` → `return self.vida > 0`. `recibir(danio)` → `self.vida = max(0, self.vida - danio)`.
+4. `turno(self, objetivo)`: `vivos = [a for a in self.aliados if a.vivo()]`, `herido = min(vivos, key=lambda a: a.vida)`, `herido.vida += 15` y `print(f"  {self.nombre} cura a {herido.nombre} (vida {herido.vida})")`.
+5. `def ronda(entidades, objetivo):` → a cada una que esté viva, `e.turno(objetivo)`.
+6. `mia = Heroe("Mia", 40)`, `tilo = Heroe("Tilo", 25)`, `sila = Curandero("Sila", [mia, tilo])` y `orco = Enemigo("Orco", 60, 5)`.
+7. `random.seed(4)` y `for numero in range(1, 3):` → `print(f"--- ronda {numero} ---")`, `ronda([mia, tilo, sila], orco)` y `orco.turno(tilo)`.
+8. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```python
@@ -2000,6 +2100,15 @@ Antes de terminar, **probá** crear un `Picaro` sin `descripcion()` y leé el er
 - `descripcion` es abstracto en `Entidad` y cada subclase lo implementa.
 - Hay un comentario con el `TypeError` que apareció al faltar el método.
 - Un solo bucle muestra la ficha de toda la compañía.
+
+#### Pasos
+1. Borrá el comentario. `class Entidad(ABC):` con `__init__(self, nombre, vida)` y dos métodos con `@abstractmethod`: `turno(self, objetivo)` y `descripcion(self)`.
+2. `class Guerrero(Entidad):` con `turno` (adentro, `pass`) y `descripcion` → `return f"{self.nombre}, guerrero de primera línea ({self.vida} de vida)"`.
+3. Igual `Maga` (`"maga del fuego"`) y `Picaro` (`"pícaro sigiloso"`).
+4. Probá crear un `Picaro` sin `descripcion` y copiá el `TypeError` en un comentario.
+5. `compania = [Guerrero("Tilo", 150), Maga("Sila", 80), Picaro("Baldo", 90)]` y `print("La compañía:")`.
+6. `for integrante in compania:` → `print(" -", integrante.descripcion())`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```python
@@ -2444,6 +2553,11 @@ Lo que está en `try:` se **intenta**. Si lanza el error que nombrás en `except
 #### Desafío
 Atrapá el error de conversión: si el nivel no es un número, que valga 1.
 
+#### Pasos
+1. Hay un `___` en el `except`.
+2. El error de `int("tres")` se llama `ValueError`.
+3. Tocá **Ejecutar**. Tiene que salir `tres -> nivel 1`.
+
 #### Código inicial
 ```python
 for texto in ["7", "tres", "12"]:
@@ -2499,6 +2613,11 @@ Con `except KeyError as error:` guardás el error en una variable, para mostrar 
 
 #### Desafío
 Atrapá el error y mostrá qué faltó.
+
+#### Pasos
+1. Hay un `___` en el `except`.
+2. Buscar una clave que no está en un diccionario da `KeyError`.
+3. Tocá **Ejecutar**. Tiene que salir `Falta 'mapa'`.
 
 #### Código inicial
 ```python
@@ -2556,6 +2675,12 @@ El `finally` es para lo que no se puede olvidar: cerrar, guardar, apagar.
 
 #### Desafío
 Completá los dos bloques que faltan.
+
+#### Pasos
+1. Hay dos `___`.
+2. El primero (si no hubo error): `else`.
+3. El segundo (siempre): `finally`.
+4. Tocá **Ejecutar**. Tiene que salir `pergamino cerrado` dos veces.
 
 #### Código inicial
 ```python
@@ -2633,6 +2758,11 @@ Para leer, el modo es `"r"` (o ninguno), y se puede recorrer línea por línea c
 
 #### Desafío
 Escribí las notas, leelas línea por línea, y atrapá el error del archivo que falta.
+
+#### Pasos
+1. Hay un `___` en el último `except`.
+2. Abrir un archivo que no existe da `FileNotFoundError`.
+3. Tocá **Ejecutar**. Tiene que terminar con `No está: viajero.txt`.
 
 #### Código inicial
 ```python
@@ -2712,6 +2842,11 @@ Con `raise SinNafta("mensaje")` tu función **lanza** el aviso cuando algo está
 #### Desafío
 Lanzá el error cuando la página sea negativa.
 
+#### Pasos
+1. Hay un `___` antes de `PergaminoRoto(...)`.
+2. Para lanzar un error se usa `raise`.
+3. Tocá **Ejecutar**. Tiene que salir `Aviso: la página -2 no existe`.
+
 #### Código inicial
 ```python
 class PergaminoRoto(Exception):
@@ -2790,6 +2925,15 @@ Usala para pedir un nivel (1 a 10) y una cantidad de pociones (0 a 5).
 - Usa `try` / `except ValueError` alrededor de la conversión.
 - Vuelve a pedir si no es número o si está fuera de rango.
 - Con la entrada de ejemplo muestra `Nivel 7 con 2 pociones.`
+
+#### Pasos
+1. Borrá el comentario. `def pedir_entero(mensaje, minimo, maximo):` y adentro `while True:` → `texto = input(mensaje)`.
+2. `try:` → `numero = int(texto)`.
+3. `except ValueError:` → `print(f"'{texto}' no es un número entero.")` y `continue`.
+4. Si `minimo <= numero <= maximo`, `return numero`. Si no, `print(f"Tiene que estar entre {minimo} y {maximo}.")`.
+5. `nivel = pedir_entero("Nivel (1-10): ", 1, 10)` y `pociones = pedir_entero("Pociones (0-5): ", 0, 5)`.
+6. `print(f"Nivel {nivel} con {pociones} pociones.")`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```python
@@ -2874,6 +3018,16 @@ Probala primero sin archivo; después creá `config.txt` con `dificultad=difíci
 - Abre el archivo con `with` y `encoding="utf-8"`.
 - Lo leído del archivo pisa los valores por defecto (el idioma sigue en `es`).
 
+#### Pasos
+1. Borrá el comentario. `POR_DEFECTO = {"dificultad": "normal", "volumen": "7", "idioma": "es"}`.
+2. `def cargar_config(ruta):` → `config = dict(POR_DEFECTO)` (una copia).
+3. `try:` → `with open(ruta, encoding="utf-8") as f:` y `for linea in f:`. Si hay `"="`, `clave, valor = linea.strip().split("=", 1)` y `config[clave] = valor`.
+4. `except FileNotFoundError:` → `print(f"No encontré {ruta}: uso la configuración por defecto.")`. Al final, `return config`.
+5. `print(cargar_config("config.txt"))`.
+6. Creá el archivo: `Path("config.txt").write_text("dificultad=difícil\nvolumen=3\n", encoding="utf-8")` y volvé a mostrar `cargar_config`.
+7. Borralo: `Path("config.txt").unlink()`.
+8. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```python
 from pathlib import Path
@@ -2954,6 +3108,16 @@ Con 30 de oro, intentá comprar poción, espada (sin stock), poción y poción. 
 - Las dos excepciones heredan de `ErrorDeTienda`.
 - `comprar` usa `raise` y no imprime nada: avisa con la excepción.
 - El bucle atrapa primero `OroInsuficiente` y después `ErrorDeTienda`.
+
+#### Pasos
+1. Borrá el comentario. `class ErrorDeTienda(Exception):` con un docstring adentro.
+2. `class OroInsuficiente(ErrorDeTienda):` con `__init__(self, precio, oro)` → `super().__init__(f"cuesta {precio} y tenés {oro}")` y `self.faltan = precio - oro`.
+3. `class SinStock(ErrorDeTienda):` → `pass`.
+4. `PRECIOS = {"poción": 12, "espada": 60}` y `STOCK = {"poción": 3, "espada": 0}`.
+5. `def comprar(objeto, oro):` → si el stock es 0, `raise SinStock(f"no quedan {objeto}")`; si el precio es mayor que el oro, `raise OroInsuficiente(PRECIOS[objeto], oro)`. Si no, restá 1 al stock y `return oro - PRECIOS[objeto]`.
+6. `oro = 30` y `for objeto in ["poción", "espada", "poción", "poción"]:` → `try:` `oro = comprar(objeto, oro)` y el `print` de compra.
+7. `except OroInsuficiente as error:` → `print(f"No alcanza: {error} (faltan {error.faltan}).")`. Después `except ErrorDeTienda as error:` → `print(f"No se pudo: {error}.")`.
+8. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```python
@@ -3328,6 +3492,11 @@ Fijate en los cambios: `True`/`False` pasan a `true`/`false`, y `None` a `null`.
 #### Desafío
 Convertí la nota a texto JSON.
 
+#### Pasos
+1. Hay un `___` en `json.___(...)`.
+2. De diccionario a texto es `dumps` (con **s** de *string*): `json.dumps(nota, ensure_ascii=False)`.
+3. Tocá **Ejecutar**. Tiene que salir el JSON y `str`.
+
 #### Código inicial
 ```python
 import json
@@ -3379,6 +3548,11 @@ Sila descuelga una tira vieja: la crónica de un aventurero que pasó hace años
 
 #### Desafío
 Convertí el texto y mostrá lo que se pide.
+
+#### Pasos
+1. Hay un `___` en `json.___(texto)`.
+2. De texto a diccionario es `loads`: `json.loads(texto)`.
+3. Tocá **Ejecutar**. Tiene que salir `Nima 5` y `brújula`.
 
 #### Código inicial
 ```python
@@ -3435,6 +3609,12 @@ Para archivos, las mismas funciones **sin la `s`**:
 
 #### Desafío
 Guardá y volvé a cargar la partida.
+
+#### Pasos
+1. Hay dos `___`.
+2. Para escribir en un archivo, `dump` (sin **s**): `json.dump(partida, f, indent=2, ensure_ascii=False)`.
+3. Para leer de un archivo, `load`: `cargada = json.load(f)`.
+4. Tocá **Ejecutar**. Tiene que salir `Mia 12` y `True`.
 
 #### Código inicial
 ```python
@@ -3501,6 +3681,12 @@ Para rearmarla al cargar: `Heroe(**datos)`. El `**` reparte el diccionario como 
 
 #### Desafío
 Completá la conversión y la reconstrucción.
+
+#### Pasos
+1. Hay dos `___`.
+2. En `json.dumps(___(tilo))`: la dataclass pasa a diccionario con `asdict`.
+3. En `Heroe(___datos)`: `**datos` reparte el diccionario como argumentos.
+4. Tocá **Ejecutar**. Tiene que terminar con `True`.
 
 #### Código inicial
 ```python
@@ -3582,6 +3768,11 @@ Al abrir un CSV, `newline=""` deja que la biblioteca `csv` maneje los fines de l
 
 #### Desafío
 Arreglá la suma.
+
+#### Pasos
+1. Lo que lee el CSV siempre es texto, y no se puede sumar a un número.
+2. Convertilo: `total += int(fila["cantidad"])`.
+3. Tocá **Ejecutar**. Tiene que salir `Vendió 10 cosas`.
 
 #### Código inicial
 ```python
@@ -3666,6 +3857,15 @@ Probá con un guardado viejo (`{"heroe": "Mia", "gemas": 3}`) y uno nuevo.
 - Un guardado nuevo no cambia al cargarlo.
 - Al guardar, siempre queda la versión actual.
 
+#### Pasos
+1. Borrá el comentario. `VERSION = 2`.
+2. `def migrar(datos):` → si `datos.get("version", 1) < 2`, agregá `datos["mapa"] = "cripta-01"` y `datos["version"] = 2`. Al final, `return datos`.
+3. `def cargar(texto):` → `return migrar(json.loads(texto))`.
+4. `def guardar(datos):` → `return json.dumps({**datos, "version": VERSION}, ensure_ascii=False)`.
+5. `viejo = '{"heroe": "Mia", "gemas": 3}'` y `nuevo = '{"heroe": "Tilo", "gemas": 5, "mapa": "torre-02", "version": 2}'`.
+6. `print(cargar(viejo))`, `print(cargar(nuevo))` y `print(guardar(cargar(viejo)))`.
+7. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```python
 import json
@@ -3744,6 +3944,16 @@ Guardá **tres** partidas (una dataclass `Partida` con `heroe`, `mapa` y `gemas`
 - Guarda una lista de diccionarios con `asdict` y `json.dump`.
 - Al cargar reconstruye cada `Partida` con `Partida(**d)`.
 - Compara lo cargado con lo original y da `True`.
+
+#### Pasos
+1. Borrá el comentario. `@dataclass` y `class Partida:` con `heroe: str`, `mapa: str` y `gemas: int`.
+2. `RUTA = Path("slots.json")`.
+3. `def guardar_slots(slots):` → `with RUTA.open("w", encoding="utf-8") as f:` y `json.dump([asdict(p) for p in slots], f, indent=2, ensure_ascii=False)`.
+4. `def cargar_slots():` → abrí `RUTA` y `return [Partida(**d) for d in json.load(f)]`.
+5. `slots = [Partida("Mia", "cripta-01", 7), Partida("Tilo", "torre-02", 12), Partida("Sila", "valle", 0)]` y `guardar_slots(slots)`.
+6. `for numero, partida in enumerate(cargar_slots(), start=1):` → `print(f"Slot {numero}: {partida.heroe} en {partida.mapa} ({partida.gemas} gemas)")`.
+7. `print("¿se recuperó todo?", cargar_slots() == slots)` y `RUTA.unlink()`.
+8. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```python
@@ -3844,6 +4054,14 @@ Calculá el total de cada vendedor con `csv.DictReader` y escribí un `resumen.c
 - Lee con `csv.DictReader` y convierte los montos a número.
 - Acumula en un diccionario por vendedor.
 - Escribe el resumen con `csv.writer`, ordenado de mayor a menor.
+
+#### Pasos
+1. Borrá el comentario. Copiá la planilla en `DATOS = """..."""`, `RUTA = Path("ventas.csv")` y `RUTA.write_text(DATOS, encoding="utf-8")`.
+2. `por_vendedor = {}`. Abrí con `RUTA.open(newline="", encoding="utf-8")` y `for fila in csv.DictReader(f):` → sumá `int(fila["monto"])` en `por_vendedor[fila["vendedor"]]` (con `.get(..., 0)`).
+3. Abrí `Path("resumen.csv")` con `"w"` y `escritor = csv.writer(f, lineterminator="\n")`.
+4. `escritor.writerow(["vendedor", "total"])`. Después, para cada par de `sorted(por_vendedor.items(), key=lambda par: par[1], reverse=True)`, `escritor.writerow([vendedor, total])`.
+5. `print(Path("resumen.csv").read_text(encoding="utf-8"), end="")` y borrá los dos archivos con `.unlink()`.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```python
@@ -4072,6 +4290,11 @@ Los datos que vienen de afuera pueden venir incompletos. Antes de usar una clave
 #### Desafío
 Mostrá la vida de cada uno, o avisá si el campo falta.
 
+#### Pasos
+1. Hay un `___` en el `if`.
+2. Preguntá si la clave está: `"vida" in r`.
+3. Tocá **Ejecutar**. Tiene que salir `Brak: le borraron la vida`.
+
 #### Código inicial
 ```python
 registros = [
@@ -4136,6 +4359,11 @@ Los datos de afuera también pueden traer **el tipo equivocado**: una palabra do
 #### Desafío
 Sumá solo las vidas que son números.
 
+#### Pasos
+1. Hay un `___` en el `if`.
+2. Preguntá si es un entero: `isinstance(v, int)`.
+3. Tocá **Ejecutar**. Tiene que salir `Vida total: 215`.
+
 #### Código inicial
 ```python
 vidas = [80, "mucha", 95, "???", 40]
@@ -4193,6 +4421,11 @@ Si el texto no es un JSON válido (por ejemplo, está cortado), `json.loads` lan
 
 #### Desafío
 Leé los pergaminos que se puedan y contá los rotos.
+
+#### Pasos
+1. Hay un `___` en el `except`.
+2. El error de un JSON cortado es `json.JSONDecodeError`.
+3. Tocá **Ejecutar**. Tiene que salir `Rotos: 1`.
 
 #### Código inicial
 ```python
@@ -4255,6 +4488,11 @@ En una dataclass, `__post_init__` se ejecuta justo después del `__init__` que e
 
 #### Desafío
 Escribí el nombre del método que valida.
+
+#### Pasos
+1. Hay un `___` en el `def`.
+2. El método que la dataclass llama después de armar el objeto es `__post_init__`.
+3. Tocá **Ejecutar**. Tienen que salir dos `Rechazado`.
 
 #### Código inicial
 ```python
@@ -4332,6 +4570,12 @@ Y `raise MiError(...) from error` **traduce** un error de bajo nivel (como `JSON
 
 #### Desafío
 Completá el decorador y la traducción del error.
+
+#### Pasos
+1. Hay dos `___`.
+2. Arriba de `def desde_json(cls, crudo):`, el decorador `@classmethod`.
+3. En el `raise`, entre el error nuevo y `error`: `from`.
+4. Tocá **Ejecutar**. Tiene que salir `Aviso: la nota viene cortada`.
 
 #### Código inicial
 ```python
@@ -4450,6 +4694,17 @@ Al final guardá la compañía en JSON, reconstruila y mostrá sus integrantes y
 - `Heroe` valida en `__post_init__`.
 - `desde_json` es un `@classmethod` y reconstruye la compañía con sus héroes.
 - Resultado: Mia, Tilo, Sila y Baldo, con nivel promedio 5.8.
+
+#### Pasos
+1. Borrá el comentario. `class ErrorDeCompania(Exception):` con un docstring.
+2. `@dataclass class Heroe:` con `nombre: str`, `clase: str` y `nivel: int = 1`. En `__post_init__`: si `not self.nombre.strip()`, `raise ErrorDeCompania("el héroe necesita un nombre")`; si el nivel no está entre 1 y 50, `raise ErrorDeCompania(f"nivel {self.nivel} fuera de rango (1-50)")`.
+3. `class Compania:` con `MAXIMO = 4` y `__init__(self, nombre)` → `self.nombre` y `self.heroes = []`.
+4. `sumar(self, heroe)`: si ya hay 4, `raise ErrorDeCompania(f"la compañía ya tiene {self.MAXIMO} integrantes")`. Si el nombre está repetido (`any(...)`), `raise ErrorDeCompania(f"{heroe.nombre} ya está en la compañía")`. Si no, `append`.
+5. `nivel_promedio()` y `a_json()` → `json.dumps({"nombre": self.nombre, "heroes": [asdict(h) for h in self.heroes]}, ensure_ascii=False)`.
+6. `@classmethod def desde_json(cls, texto):` → `datos = json.loads(texto)`, `compania = cls(datos["nombre"])` y `compania.sumar(Heroe(**d))` por cada héroe.
+7. `compania = Compania("Los del Valle")`, los `pedidos` de la consigna y `for nombre, clase, nivel in pedidos:` con `try:` `sumar(Heroe(...))` y `print(f"+ {nombre or '(sin nombre)'}")`. En el `except ErrorDeCompania as error:`, `print(f"x {error}")`.
+8. Guardá con `a_json()`, reconstruí con `Compania.desde_json(...)` y mostrá el último renglón (copialo de la salida).
+9. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```python
@@ -4594,6 +4849,16 @@ pergaminos = [
 - Usa una excepción propia y `raise ... from` para el JSON inválido.
 - Revisa que existan los campos y su tipo con `isinstance`.
 - Se salvan 2 de 6 pergaminos, con 19 gemas.
+
+#### Pasos
+1. Borrá el comentario. `class PergaminoCorrupto(Exception):` con un docstring y `CAMPOS = {"heroe": str, "vida": int, "gemas": int}`.
+2. `def leer_pergamino(texto):` → `try:` `datos = json.loads(texto)`. En `except json.JSONDecodeError as error:` → `raise PergaminoCorrupto(f"no es JSON válido ({error.msg})") from error`.
+3. Si `not isinstance(datos, dict)`: `raise PergaminoCorrupto("no es un objeto JSON")`.
+4. `for campo, tipo in CAMPOS.items():` → si falta, `raise PergaminoCorrupto(f"falta el campo '{campo}'")`. Si no es de ese tipo, `raise PergaminoCorrupto(f"'{campo}' tendría que ser {tipo.__name__}")`.
+5. Al final, `return datos`. Copiá la lista `pergaminos` de la consigna.
+6. `sanos = []` y `for numero, texto in enumerate(pergaminos, start=1):`. Con `try`, `sanos.append(...)` y `print(f"pergamino {numero}: ok")`. En el `except`, `print(f"pergamino {numero}: corrupto, {error}")`.
+7. El total: `print(f"Se salvaron {len(sanos)} de {len(pergaminos)}. Gemas recuperadas: {sum(d['gemas'] for d in sanos)}")`.
+8. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```python

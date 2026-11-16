@@ -269,6 +269,12 @@ Cuando termines, tocá **Ejecutar**.
 #### Desafío
 Hacé que el pergamino diga exactamente: `Me llamo Mia y vengo de muy lejos.`
 
+#### Pasos
+1. Debajo del comentario, escribí `print(`.
+2. Adentro, entre comillas, la frase exacta: `"Me llamo Mia y vengo de muy lejos."`
+3. Cerrá con `)`. Queda: `print("Me llamo Mia y vengo de muy lejos.")`
+4. Tocá **Ejecutar**. Tiene que aparecer la frase.
+
 #### Código inicial
 ```python
 # Escribí abajo tu primer conjuro
@@ -326,6 +332,11 @@ Python primero hace la cuenta de la derecha (3 + 2) y después la guarda.
 
 #### Desafío
 Completá la línea que falta para que Mia pase de 0 a 5 escamas.
+
+#### Pasos
+1. Buscá la línea `escamas = ___`.
+2. Cambiá `___` por `escamas + 5`. Queda: `escamas = escamas + 5`
+3. Tocá **Ejecutar**. Tiene que salir `Mia tiene 5 escamas` en la segunda línea.
 
 #### Código inicial
 ```python
@@ -385,6 +396,12 @@ Lo que va después de un `#` es un **comentario**: Python lo ignora. Son notas p
 #### Desafío
 Armá la ficha en una sola línea con un f-string.
 
+#### Pasos
+1. Buscá `print(f"___")`.
+2. Cambiá `___` por el texto de la ficha. Las variables van entre llaves: `{nombre}`, `{escamas}`.
+3. Escribí: `{nombre} - aprendiz de maga - {escamas} escamas - le faltan {10 - escamas} para romper el primer sello`
+4. Tocá **Ejecutar** y compará con la salida esperada.
+
 #### Código inicial
 ```python
 nombre = "Mia"
@@ -440,6 +457,12 @@ En la plataforma no hay teclado de verdad: lo que se «tipea» va en la pestaña
 
 #### Desafío
 Que el pergamino le pregunte a Mia y le conteste con lo que ella responda.
+
+#### Pasos
+1. Buscá `print(f"___")`.
+2. Cambiá `___` por `Buscás {deseo}. Acá eso se consigue escribiendo.`
+3. `{deseo}` se reemplaza por lo que respondió Mia.
+4. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```python
@@ -501,6 +524,13 @@ Arreglá el primer error y ejecutá de nuevo: recién ahí aparece el siguiente.
 #### Desafío
 Ejecutalo tal como está, leé el error y corregilo. Hay **dos** errores: cuando arregles el primero, aparece el segundo.
 
+#### Pasos
+1. Tocá **Ejecutar** y leé el error.
+2. En la primera línea falta cerrar las comillas: agregá `"` después de `brillan`.
+3. Ejecutá de nuevo. Ahora el error es de indentación.
+4. Borrá los dos espacios del principio de la segunda línea (`print` tiene que empezar pegado al borde).
+5. Tocá **Ejecutar**. Tienen que salir las dos líneas.
+
 #### Código inicial
 ```python
 print("Las escamas brillan)
@@ -556,6 +586,13 @@ Usá **una sola** variable `oro`, reasignala en cada paso y mostrá cuánto qued
 - Usa una sola variable `oro` y la reasigna en cada paso (`oro = oro - 8`…).
 - Muestra el oro después de cada movimiento.
 - El resultado final es 9.
+
+#### Pasos
+1. Borrá el comentario. Escribí `oro = 25` y `print(f"Oro inicial: {oro}")`
+2. La poción: `oro = oro - 8` y `print(f"Compra una poción (8): quedan {oro}")`
+3. La piel: `oro = oro + 12` y `print(f"Vende una piel de lobo (12): ahora tiene {oro}")`
+4. La posada: `oro = oro - 20` y `print(f"Paga la posada (20): quedan {oro}")`
+5. Tocá **Ejecutar**. Tiene que terminar en 9.
 
 #### Código inicial
 ```python
@@ -622,6 +659,13 @@ Este programa tiene **tres** errores. Ejecutalo, leé el traceback, corregí el 
 **Para superarla:**
 - El programa corre sin errores.
 - Se corrigieron los tres errores: la comilla sin cerrar, la indentación de más y el nombre `Vida`.
+
+#### Pasos
+1. Tocá **Ejecutar** y leé el último renglón del error.
+2. Primer error: agregá `"` después de `aparece`, para cerrar las comillas.
+3. Segundo error: borrá los espacios del principio de `vida = 30`.
+4. Tercer error: en el último `print`, cambiá `{Vida}` por `{vida}`, con minúscula.
+5. Tocá **Ejecutar** después de cada arreglo. Al final tienen que salir las dos líneas.
 
 #### Código inicial
 ```python

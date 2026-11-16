@@ -270,6 +270,12 @@ Cada valor de Python tiene un **tipo**, que dice qué clase de dato es:
 #### Desafío
 Mostrá el tipo de cada uno de estos cinco valores, uno por línea.
 
+#### Pasos
+1. Hay dos `___`.
+2. El primero (tercera línea) tiene que ser un texto: cambialo por `"7"`, con comillas.
+3. El segundo (última línea) es «nada»: cambialo por `None`, con N mayúscula.
+4. Tocá **Ejecutar**. Tienen que salir `str` y `NoneType` donde estaban los `___`.
+
 #### Código inicial
 ```python
 print(type(12))
@@ -333,6 +339,12 @@ print(int("4") + int("5"))   # 9
 #### Desafío
 Convertí los precios antes de sumar.
 
+#### Pasos
+1. Buscá la línea `total = ___`.
+2. Convertí cada texto a número: `int(a)`, `float(b)` (tiene decimales) e `int(c)`.
+3. Queda: `total = int(a) + float(b) + int(c)`
+4. Tocá **Ejecutar**. Tiene que salir `Total: 22.5`.
+
 #### Código inicial
 ```python
 a = "12"
@@ -388,6 +400,11 @@ Para mostrar o comparar, **redondeá**: `round(x, 2)` deja 2 decimales.
 #### Desafío
 Mostrá el vuelto tal cual y después compará el vuelto **redondeado** con 0.3.
 
+#### Pasos
+1. Buscá la línea `print(___ == 0.3)`.
+2. Cambiá `___` por `round(vuelto, 2)`: redondea a 2 decimales.
+3. Tocá **Ejecutar**. La segunda línea tiene que decir `True`.
+
 #### Código inicial
 ```python
 vuelto = 0.1 + 0.2
@@ -437,6 +454,11 @@ Python puede tratar cualquier valor como verdadero o falso. `bool(valor)` te dic
 #### Desafío
 Mostrá en una línea qué bolsas tienen algo.
 
+#### Pasos
+1. Hay un `___` adentro del tercer `bool(...)`.
+2. Cambialo por `0`, el número cero, sin comillas.
+3. Tocá **Ejecutar**. Tiene que salir `False True False False`.
+
 #### Código inicial
 ```python
 print(bool(""), bool("0"), bool(___), bool(None))
@@ -483,6 +505,13 @@ En un f-string, después del valor podés poner `:` y un **formato** que dice c�
 
 #### Desafío
 Completá los tres `___` con el formato justo para que el cartel quede prolijo.
+
+#### Pasos
+1. Hay tres `___`, uno en cada `print`, después de los dos puntos.
+2. En la caja: `,.2f` (separador de miles y 2 decimales).
+3. En el puesto: `03` (3 cifras, con ceros adelante).
+4. En el descuento: `.0%` (como porcentaje, sin decimales).
+5. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```python
@@ -541,6 +570,14 @@ con 2 decimales.
 - Muestra qué pasa al unir los tres textos sin convertir.
 - Convierte con `int()`/`float()` antes de sumar.
 - Muestra el total real con 2 decimales (22.50).
+
+#### Pasos
+1. Borrá el comentario. Escribí `espada = "12"`, `escudo = "3.5"` y `pocion = "7"`.
+2. Calculá: `total = int(espada) + float(escudo) + int(pocion)`
+3. Mostrá: `print("Sin convertir:", espada + escudo + pocion)`
+4. Mostrá: `print("Total real:", total)`
+5. Mostrá: `print(f"Total con formato: {total:.2f} monedas")`
+6. Tocá **Ejecutar**. La última línea tiene que decir `22.50 monedas`.
 
 #### Código inicial
 ```python
@@ -612,6 +649,14 @@ y el nivel 3 como `003`.
 - La vida se ve como `63/90 (70%)`, calculando el porcentaje.
 - El nivel 3 se ve como `003`.
 
+#### Pasos
+1. Borrá el comentario. Escribí `nombre = "Mia"`, `oro = 15230.5`, `vida = 63` y `vida_max = 90`.
+2. `print(f"Heroína: {nombre}")`
+3. `print(f"Oro:     {oro:,.2f}")` (copiá los espacios de la salida esperada).
+4. `print(f"Vida:    {vida}/{vida_max} ({vida / vida_max:.0%})")`
+5. `print(f"Nivel:   {3:03}")`
+6. Tocá **Ejecutar** y compará, espacios incluidos.
+
 #### Código inicial
 ```python
 # Escribí tu programa acá
@@ -680,6 +725,14 @@ verificalo con `type()`.
 **Para superarla:**
 - Muestra con `type()` el tipo y el valor de cada una de las cinco expresiones.
 - Deja anotada (en comentarios) la predicción de cada línea antes de ejecutar.
+
+#### Pasos
+1. Borrá el comentario. Un `print` por expresión, con su tipo y su valor.
+2. El primero: `print(type(10 / 2), 10 / 2)`
+3. Igual con `"7" + "2"`, `True + True`, `int("08")` y `3 * 1.0`.
+4. El último: `print(type(None), None)`
+5. Al lado de cada uno, con `#`, anotá qué creés que da antes de ejecutar.
+6. Tocá **Ejecutar** y fijate en cuáles acertaste.
 
 #### Código inicial
 ```python
@@ -1101,6 +1154,12 @@ Como repartir 17 caramelos en bolsitas de 5: salen 3 bolsitas y sobran 2. `//` y
 #### Desafío
 Completá con los operadores que faltan.
 
+#### Pasos
+1. Hay dos `___`.
+2. En `Golpes enteros`, cambiá `___` por `//` (división entera).
+3. En `Le queda`, cambiá `___` por `%` (lo que sobra).
+4. Tocá **Ejecutar**. Tienen que salir 7 y 1.
+
 #### Código inicial
 ```python
 vida = 50
@@ -1156,6 +1215,12 @@ Para cambiar una variable usando su propio valor hay atajos:
 
 #### Desafío
 Escribí cada paso con un atajo y mostrá la energía después de cada uno.
+
+#### Pasos
+1. Hay tres `___`, uno por paso.
+2. El primero resta 5: `-=`. El segundo suma 3: `+=`. El tercero duplica: `*=`.
+3. Quedan: `energia -= 5`, `energia += 3` y `energia *= 2`.
+4. Tocá **Ejecutar**. Tienen que salir 15, 18 y 36.
 
 #### Código inicial
 ```python
@@ -1218,6 +1283,13 @@ Se pueden encadenar como en matemática: `0 <= edad < 18`. Ojo: un solo `=` **gu
 
 #### Desafío
 Escribí las tres comparaciones.
+
+#### Pasos
+1. Hay tres `___`.
+2. El primero pregunta si Mia es más fuerte: `>`.
+3. El segundo, si está entre 10 y 20: `<`. Queda `10 <= fuerza_mia < 20`.
+4. El tercero, si los textos son iguales: `==`.
+5. Tocá **Ejecutar**. Tienen que salir `False`, `True` y `False`.
 
 #### Código inicial
 ```python
@@ -1282,6 +1354,13 @@ Un truco útil: `apodo or "Sin nombre"` da `apodo` si tiene algo y, si está vac
 #### Desafío
 Escribí la regla del puente con `and`, `or` y `not`, y el título con `or`.
 
+#### Pasos
+1. Buscá `pasa = ___`.
+2. Cambiá `___` por `(nivel >= 5 and tiene_llave) or (es_maga and not maldita)`.
+3. Buscá `{___}` en la última línea.
+4. Cambiá `___` por `titulo or 'Aprendiz'` (con comillas simples adentro).
+5. Tocá **Ejecutar**. Tienen que salir `True` y `Aprendiz`.
+
 #### Código inicial
 ```python
 nivel = 3
@@ -1342,6 +1421,13 @@ Tres preguntas más:
 
 #### Desafío
 Completá las tres preguntas del Guardián.
+
+#### Pasos
+1. Hay tres `___`.
+2. El primero pregunta si una palabra está adentro del texto: `in`.
+3. El segundo pregunta si es «nada»: `is`. Queda `llave is None`.
+4. El tercero es la misma cuenta con paréntesis: `(2 + 3) * 4`.
+5. Tocá **Ejecutar**. Tienen que salir `True`, `True` y `14 20`.
 
 #### Código inicial
 ```python
@@ -1408,6 +1494,14 @@ solo `//` y `%`, y mostralo también como `01:06:40`.
 - Muestra `4000 segundos = 1 h 6 min 40 s`.
 - Muestra el formato reloj `01:06:40`.
 
+#### Pasos
+1. Borrá el comentario. Escribí `total = 4000`.
+2. `horas = total // 3600` y `resto = total % 3600`
+3. `minutos = resto // 60` y `segundos = resto % 60`
+4. Mostrá: `print(f"{total} segundos = {horas} h {minutos} min {segundos} s")`
+5. Mostrá: `print(f"Formato reloj: {horas:02}:{minutos:02}:{segundos:02}")`
+6. Tocá **Ejecutar**. Tiene que salir `01:06:40`.
+
 #### Código inicial
 ```python
 # Escribí tu programa acá
@@ -1472,6 +1566,16 @@ por qué cambia el resultado.
 - Evalúa la regla con paréntesis para Mia (True), Sila (True) y Baldo (False).
 - Prueba la regla sin paréntesis con el aprendiz y muestra que cambia el resultado.
 - Explica en un comentario que `and` se evalúa antes que `or`.
+
+#### Pasos
+1. Borrá el comentario. Mia: `nivel = 6`, `tiene_llave = True`, `es_mago = False`, `maldito = False`.
+2. `print("Mia puede entrar:", nivel >= 5 and (tiene_llave or es_mago) and not maldito)`
+3. Sila: cambiá `nivel = 5`, `tiene_llave = False`, `es_mago = True`, y el mismo `print` con `"Sila puede entrar: "` (con un espacio al final del texto).
+4. Baldo: `nivel = 8`, `tiene_llave = True`, `es_mago = False`, `maldito = True`, y el `print` con `"Baldo puede entrar: "`.
+5. El aprendiz: `nivel = 1`, `tiene_llave = False`, `es_mago = True`, `maldito = False`.
+6. Sin paréntesis: `print("Aprendiz, SIN parentesis:", nivel >= 5 and tiene_llave or es_mago and not maldito)`. Y con paréntesis, la regla de siempre con `"Aprendiz, CON parentesis:"`.
+7. En un comentario `#`, explicá que `and` se hace antes que `or`.
+8. Tocá **Ejecutar** y compará renglón por renglón.
 
 #### Código inicial
 ```python
@@ -1568,6 +1672,13 @@ de ejecutarla: `ataque - defensa * 2`, `(ataque - defensa) * 2`,
 **Para superarla:**
 - Anota en comentarios la predicción de cada una de las seis líneas.
 - Ejecuta y compara: explica al menos las que no acertó.
+
+#### Pasos
+1. Borrá el comentario. Escribí `ataque = 20` y `defensa = 6`.
+2. Un `print` por expresión, en el orden del desafío. El primero: `print(ataque - defensa * 2)`
+3. Son seis: `ataque - defensa * 2`, `(ataque - defensa) * 2`, `ataque // defensa + 1`, `ataque % defensa ** 2`, `not ataque > 10 or defensa` y `1 < ataque < 10`.
+4. Al lado de cada uno, con `#`, anotá qué creés que da antes de ejecutar.
+5. Tocá **Ejecutar** y explicá con un comentario las que no acertaste.
 
 #### Código inicial
 ```python
@@ -1988,6 +2099,13 @@ También se puede escribir un texto de varias líneas entre comillas triples `""
 #### Desafío
 Arreglá el cartel con `\n` y `\"`.
 
+#### Pasos
+1. Buscá la línea `cartel = "Se busca: "aprendiz" que sepa runas"`.
+2. Cambiá el espacio después de `Se busca:` por `\n` (salto de línea).
+3. Delante de cada comilla de `aprendiz` poné una barra: `\"aprendiz\"`.
+4. Queda: `cartel = "Se busca:\n\"aprendiz\" que sepa runas"`
+5. Tocá **Ejecutar**. Tienen que salir dos líneas.
+
 #### Código inicial
 ```python
 cartel = "Se busca: "aprendiz" que sepa runas"
@@ -2044,6 +2162,12 @@ print(t[0], t[-1])   # p o
 #### Desafío
 Mostrá la primera letra, la última y el mensaje al derecho.
 
+#### Pasos
+1. Hay tres `___`.
+2. La primera letra es la posición `0`. La última, la `-1`.
+3. Para darlo vuelta, el tercer `___` es `::-1`.
+4. Tocá **Ejecutar**. Tiene que salir `o N` y la frase al derecho.
+
 #### Código inicial
 ```python
 mensaje = "otnirebaL le ne somev soN"
@@ -2097,6 +2221,12 @@ nombre = nombre.upper()
 #### Desafío
 Hacé que el título quede guardado en mayúsculas.
 
+#### Pasos
+1. Buscá la línea `titulo.upper()`.
+2. `upper()` no cambia la variable: hay que guardar el resultado.
+3. Cambiala por `titulo = titulo.upper()`
+4. Tocá **Ejecutar**. Tiene que salir en mayúsculas.
+
 #### Código inicial
 ```python
 titulo = "casa de los copistas"
@@ -2147,6 +2277,12 @@ Como cada uno devuelve un texto nuevo, se pueden **encadenar**: `texto.strip().t
 
 #### Desafío
 Limpiá el cartel encadenando los dos métodos. Los corchetes muestran dónde empieza y termina.
+
+#### Pasos
+1. Buscá la línea `limpio = cartel`.
+2. Agregale al final `.strip().title()`: `strip` saca los espacios de los bordes y `title` pone mayúscula en cada palabra.
+3. Queda: `limpio = cartel.strip().title()`
+4. Tocá **Ejecutar**. Tiene que salir `[Oficina De Las Runas]`.
 
 #### Código inicial
 ```python
@@ -2201,6 +2337,12 @@ Así las columnas de una tabla quedan derechas. Y `len(texto)` cuenta las letras
 
 #### Desafío
 Armá la tabla con las columnas alineadas: el pedido a la izquierda (10 lugares) y la cantidad a la derecha (5 lugares).
+
+#### Pasos
+1. En las tres primeras líneas, a cada texto de la izquierda agregale `:<10` antes de la `}`. Ejemplo: `{'Pedido':<10}`
+2. A cada cosa de la derecha agregale `:>5`. Ejemplo: `{'Cant.':>5}` y `{3:>5}`
+3. No toques la última línea (`len`).
+4. Tocá **Ejecutar** y fijate que las barras `|` queden una debajo de la otra.
 
 #### Código inicial
 ```python
@@ -2268,6 +2410,14 @@ nombre en mayúsculas centrado en 30 caracteres.
 - Arma las iniciales `M.L.V.` usando índices.
 - Muestra el largo y el nombre en mayúsculas centrado en 30 caracteres.
 
+#### Pasos
+1. Borrá el comentario. Escribí `entrada = "   mia la VALIENTE   "`.
+2. Limpiá: `limpio = entrada.strip().title()` y mostrá `print(f"Nombre: [{limpio}]")`
+3. Iniciales: las letras están en las posiciones 0, 4 y 7. `print(f"Iniciales: {limpio[0]}.{limpio[4]}.{limpio[7]}.")`
+4. El largo: `print(f"Largo sin espacios de borde: {len(limpio)}")`
+5. Centrado: `print(f"Para el cartel: {limpio.upper():^30}|")`
+6. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```python
 # Escribí tu programa acá
@@ -2329,6 +2479,14 @@ Probá también con `"El orco ataca"`.
 - Normaliza el texto (minúsculas y sin espacios) antes de comparar.
 - Compara con el texto dado vuelta (`[::-1]`).
 - Dice que "Anita lava la tina" es palíndromo y "El orco ataca" no.
+
+#### Pasos
+1. Borrá el comentario. Escribí `frase = "Anita lava la tina"`.
+2. Normalizá: `normalizada = frase.lower().replace(" ", "")`
+3. Mostrá: `print(f'"{frase}" -> "{normalizada}"')` (afuera comillas simples, adentro dobles).
+4. Compará con el texto dado vuelta: `print("¿Es palíndromo?", normalizada == normalizada[::-1])`
+5. Repetí los pasos 2 a 4 con `frase = "El orco ataca"`.
+6. Tocá **Ejecutar**. Tienen que salir `True` y `False`.
 
 #### Código inicial
 ```python
@@ -2398,6 +2556,13 @@ nivel, a la derecha.
 - Muestra los encabezados NOMBRE, CLASE y NIVEL.
 - Nombres y clases alineados a la izquierda; el nivel, a la derecha.
 - Las columnas quedan parejas en todas las filas.
+
+#### Pasos
+1. Borrá el comentario. Encabezado: `print(f"{'NOMBRE':<8}{'CLASE':<12}{'NIVEL':>6}")`
+2. La raya: `print("-" * 26)`
+3. Una fila por personaje con los mismos anchos: `print(f"{'Mia':<8}{'maga':<12}{3:>6}")`
+4. Seguí con Tilo (guerrero, 5), Sila (maga, 4) y Baldo (picaro, 2; sin tilde).
+5. Tocá **Ejecutar** y compará columna por columna.
 
 #### Código inicial
 ```python
@@ -2884,6 +3049,12 @@ Python revisa en orden y ejecuta **solo el primero** que se cumple. Fijate en lo
 #### Desafío
 Completá la decisión para la baldosa del medio, que no tiene trampa pero sí cofre.
 
+#### Pasos
+1. Hay dos `___`, al principio de dos renglones.
+2. El primero (antes de `cofre:`) es `elif`: «si no, y si…».
+3. El segundo es `else`: «si no, en cualquier otro caso». Queda `else:`
+4. Tocá **Ejecutar**. Tiene que salir `Abrís el cofre: 15 de oro.`
+
 #### Código inicial
 ```python
 trampa = False
@@ -2947,6 +3118,12 @@ Antes de cada vuelta pregunta; cuando la respuesta es «no», sigue con lo de ab
 
 #### Desafío
 La luz aparece cuando la distancia llega a 0. Cada paso acorta 3 metros. Completá la condición y el paso.
+
+#### Pasos
+1. Hay dos `___`.
+2. En el `while`, cambiá `___` por `distancia > 0` (repetí mientras falte camino).
+3. Adentro, cambiá `___` por `-=`. Queda `distancia -= 3`.
+4. Tocá **Ejecutar**. Tienen que salir 4 pasos y `¡Se ve la luz!`.
 
 #### Código inicial
 ```python
@@ -3017,6 +3194,12 @@ Usá `for` cuando sabés cuántas vueltas hay, y `while` cuando no.
 #### Desafío
 Completá los dos `range`. En la sala 4, mostrá los números en una sola línea separados por espacio.
 
+#### Pasos
+1. Hay dos `range(___)`.
+2. El primero cuenta de 1 a 5: `range(1, 6)` (el último número no se incluye).
+3. El segundo va de 0 a 8 de dos en dos: `range(0, 9, 2)`.
+4. Tocá **Ejecutar**. La última línea tiene que ser `0 2 4 6 8`.
+
 #### Código inicial
 ```python
 for losa in range(___):
@@ -3077,6 +3260,12 @@ Un `for` puede tener un `else` abajo: corre **solo si el bucle terminó sin `bre
 
 #### Desafío
 Las vacías (2 y 4) se saltean con `continue`; en la del ogro (5), `break`. Completá.
+
+#### Pasos
+1. Hay dos `___`, solos en su renglón.
+2. El primero (puertas 2 y 4): `continue` (saltea y sigue con la próxima).
+3. El segundo (puerta 5, el ogro): `break` (corta el bucle).
+4. Tocá **Ejecutar**. Tienen que salir las puertas 1, 3 y 5.
 
 #### Código inicial
 ```python
@@ -3152,6 +3341,12 @@ Es más claro que una cadena larga de `elif`.
 #### Desafío
 La salida está al norte. Completá los casos.
 
+#### Pasos
+1. Hay dos `case ___:`.
+2. El primero junta este y oeste: `case "este" | "oeste":`
+3. El segundo atrapa todo lo demás: `case _:` (un guion bajo solo).
+4. Tocá **Ejecutar**. Con `norte` tiene que salir `¡la salida!`.
+
 #### Código inicial
 ```python
 orden = input("¿Hacia dónde? ")
@@ -3223,6 +3418,11 @@ Gheco señala un número diminuto grabado en el borde de la mesa: **7**.
 
 #### Desafío
 Fijá la semilla 7, tirá tres dados, mostralos y decí si salís.
+
+#### Pasos
+1. Buscá el `___` debajo de `import random`.
+2. Cambialo por `random.seed(7)`: fija la semilla para que los dados salgan siempre igual.
+3. Tocá **Ejecutar**. Tiene que salir `suma 9`.
 
 #### Código inicial
 ```python
@@ -3297,6 +3497,15 @@ número si no es de ninguno.
 - Recorre del 1 al 30 con `for` y `range`.
 - Revisa primero el caso de múltiplo de 3 **y** de 5.
 - Muestra Martillo, Yunque, MartilloYunque o el número, según corresponda.
+
+#### Pasos
+1. Borrá el comentario. Escribí `for n in range(1, 31):`
+2. Adentro, primero el caso de los dos: `if n % 3 == 0 and n % 5 == 0:` → `print("MartilloYunque")`
+3. `elif n % 3 == 0:` → `print("Martillo")`
+4. `elif n % 5 == 0:` → `print("Yunque")`
+5. `else:` → `print(n)`
+6. Ojo con la sangría: todo lo de adentro del `for` va corrido 4 espacios, y lo de adentro de cada `if`, 8.
+7. Tocá **Ejecutar**. El 15 y el 30 tienen que decir `MartilloYunque`.
 
 #### Código inicial
 ```python
@@ -3394,6 +3603,15 @@ toma una (+15); si no, ataca con `randint(4, 9)`. El orco pega con
 - El bucle sigue mientras los dos tengan vida.
 - Toma poción solo con menos de 10 de vida y si le quedan; si no, ataca.
 - Muestra quién gana.
+
+#### Pasos
+1. Debajo de `import random`, borrá el comentario. Escribí `random.seed(7)`, `vida_mia = 30`, `vida_orco = 40`, `pociones = 2` y `turno = 1`.
+2. `while vida_mia > 0 and vida_orco > 0:`
+3. Adentro: si `vida_mia < 10 and pociones > 0`, restá una poción, sumá 15 de vida y mostrá `f"turno {turno}: Mia toma una poción -> vida {vida_mia} (quedan {pociones})"`.
+4. Si no (`else`): `golpe = random.randint(4, 9)`, restalo al orco, mostrá `f"turno {turno}: Mia pega {golpe} -> orco {max(vida_orco, 0)}"` y, si `vida_orco <= 0`, `break`.
+5. Después (afuera del `if`/`else`, adentro del `while`): el orco pega `random.randint(3, 8)`, restalo a Mia y mostrá `f"         orco pega {golpe} -> Mia {max(vida_mia, 0)}"` (9 espacios al principio). Sumá `turno += 1`.
+6. Afuera del `while`: `print("¡Victoria!" if vida_mia > 0 else "Mia cae... fin de la partida")`
+7. Tocá **Ejecutar** y compará turno por turno.
 
 #### Código inicial
 ```python
@@ -3496,6 +3714,15 @@ intentos y dejá que escriba `me rindo` para terminar.
 - Elige el número con `random.seed(2026)` y `randint(1, 50)`.
 - Rechaza lo que no sea un número sin cortar el programa.
 - Dice "más alto" o "más bajo", cuenta los intentos y acepta `me rindo`.
+
+#### Pasos
+1. Debajo de `import random`, borrá el comentario. Escribí `random.seed(2026)`, `secreto = random.randint(1, 50)` e `intentos = 0`.
+2. `while True:` y adentro: `texto = input("Tu número (o 'me rindo'): ").strip().lower()`
+3. Si `texto == "me rindo"`: mostrá `f"El número era {secreto}."` y `break`.
+4. Si `not texto.isdigit()`: `print("  Eso no es un número.")` y `continue` (dos espacios al principio del mensaje).
+5. Si es número: `intentos += 1` y `numero = int(texto)`.
+6. Si es menor: `print("  Más alto.")`; si es mayor: `print("  Más bajo.")`; si no: `print(f"¡Correcto! Lo adivinaste en {intentos} intentos.")` y `break`.
+7. Tocá **Ejecutar** y compará renglón por renglón.
 
 #### Código inicial
 ```python
@@ -4009,6 +4236,12 @@ Cada uno tiene su posición, contando desde **0** como en los textos: `colores[0
 #### Desafío
 Mostrá lo primero, lo último y cuántas cosas hay.
 
+#### Pasos
+1. Hay tres `___`.
+2. Lo primero es la posición `0`. Lo último, la `-1`.
+3. En `len(___)`, poné el nombre de la lista: `mochila`.
+4. Tocá **Ejecutar**. Tienen que salir `pergamino`, `espiral de junco` y `3`.
+
 #### Código inicial
 ```python
 mochila = ["pergamino", "llave del puente", "espiral de junco"]
@@ -4058,6 +4291,11 @@ Gheco te mira. Vos mirás la lista de la compañía, que hasta ahora tenía dos 
 
 #### Desafío
 Sumá a Tilo a la compañía.
+
+#### Pasos
+1. Buscá el `___` solo en su renglón.
+2. Cambialo por `compania.append("Tilo")`: `append` agrega al final.
+3. Tocá **Ejecutar**. Tiene que salir `Somos 3`.
 
 #### Código inicial
 ```python
@@ -4110,6 +4348,12 @@ Dos formas de sacar:
 
 #### Desafío
 Sacá una de las piedras y comé el pan (el último).
+
+#### Pasos
+1. Hay dos `___`, después de `bolsa.`.
+2. El primero saca una cosa por su nombre: `remove`.
+3. El segundo saca la última: `pop`.
+4. Tocá **Ejecutar**. Tiene que salir `Te comés: pan`.
 
 #### Código inicial
 ```python
@@ -4164,6 +4408,12 @@ Las dos aceptan `reverse=True` para ordenar al revés.
 
 #### Desafío
 Mostrá la guardia en orden y al revés, sin cambiar la lista original.
+
+#### Pasos
+1. Hay dos `print(___)`.
+2. El primero: `sorted(compania)` (devuelve una copia ordenada).
+3. El segundo: `sorted(compania, reverse=True)` (al revés).
+4. Tocá **Ejecutar**. La última línea tiene que mostrar la lista original sin cambios.
 
 #### Código inicial
 ```python
@@ -4220,6 +4470,12 @@ for numero, fruta in enumerate(frutas, start=1):
 #### Desafío
 Pasá lista numerando desde 1.
 
+#### Pasos
+1. Buscá `for ___ in ___:`.
+2. El primer `___`: `numero, nombre` (dos variables).
+3. El segundo: `enumerate(compania, start=1)` (numera desde 1).
+4. Tocá **Ejecutar**. Tienen que salir los tres nombres numerados.
+
 #### Código inicial
 ```python
 compania = ["Mia", "Gheco", "Tilo"]
@@ -4273,6 +4529,12 @@ Se lee: «`n * 3` para cada `n` de `numeros`». Con un `if` al final, además **
 #### Desafío
 Doblá las cantidades y filtrá los precios baratos.
 
+#### Pasos
+1. Hay dos `___`.
+2. `dobles = [c * 2 for c in cantidades]` (cada cantidad por 2).
+3. `baratos = [p for p in precios if p < 5]` (solo los menores que 5).
+4. Tocá **Ejecutar**. Tienen que salir `[4, 2, 6]` y `[3, 4]`.
+
 #### Código inicial
 ```python
 cantidades = [2, 1, 3]
@@ -4325,6 +4587,12 @@ Una lista puede tener listas adentro: un **mapa** es una lista de filas, y cada 
 
 #### Desafío
 Mostrá qué hay en la esquina de la ermita (última fila, última columna) y en la casilla del medio.
+
+#### Pasos
+1. Hay cuatro `___`: dos en cada `print`. El primero es la fila y el segundo la columna.
+2. La ermita está en la última fila y la última columna: `mapa[2][2]`.
+3. El medio: `mapa[1][1]`.
+4. Tocá **Ejecutar**. Tienen que salir `E` y `.`.
 
 #### Código inicial
 ```python
@@ -4386,6 +4654,12 @@ x, y = (3, 5)   # x vale 3, y vale 5
 
 #### Desafío
 Guardá la ermita como tupla y desempaquetala.
+
+#### Pasos
+1. Hay dos `___`.
+2. En `ermita = ___`, escribí la tupla `(2, 2)`.
+3. En `fila, col = ___`, escribí `ermita`: así se separa en dos variables.
+4. Tocá **Ejecutar**. Tiene que salir `Fila 2, columna 2`.
 
 #### Código inicial
 ```python
@@ -4449,6 +4723,16 @@ junto con cuántas gemas tiene.
 - Agrega los objetos con `append`/`extend`.
 - Saca la poción solo si está (`in`) y tira lo último con `pop()`.
 - Muestra la mochila ordenada y numerada con `enumerate`, y cuántas gemas hay (`count`).
+
+#### Pasos
+1. Borrá el comentario. Escribí `mochila = ["antorcha", "cuerda", "poción"]` y `print("al salir:", mochila)`.
+2. Agregá: dos veces `mochila.append("gema")` y `mochila.extend(["llave oxidada", "pan"])`. Mostrá `print("después del cofre:", mochila)`.
+3. La poción: `if "poción" in mochila:` → `mochila.remove("poción")` y `print("tomó la poción")`.
+4. Lo último: `tirado = mochila.pop()` y `print("tiró:", tirado)`.
+5. Ordená: `mochila.sort()` y `print(f"mochila ordenada ({len(mochila)} objetos):")`.
+6. Numerá: `for i, objeto in enumerate(mochila, start=1):` → `print(f"  {i}. {objeto}")` (dos espacios al principio).
+7. Al final: `print("gemas:", mochila.count("gema"))`.
+8. Tocá **Ejecutar** y compará renglón por renglón.
 
 #### Código inicial
 ```python
@@ -4537,6 +4821,15 @@ por qué?
 - Calcula el promedio de puntos.
 - Explica en un comentario el orden de Tilo y Ana (desempata por el segundo valor de la tupla).
 
+#### Pasos
+1. Borrá el comentario. Copiá la lista: `resultados = [(120, "Mia"), (95, "Tilo"), (150, "Sila"), (95, "Ana"), (60, "Baldo")]`
+2. Ordená: `ranking = sorted(resultados, reverse=True)` y `print("RANKING")`.
+3. `for puesto, (puntos, nombre) in enumerate(ranking, start=1):` → `print(f"{puesto}. {nombre:<5} {puntos:>4}")`
+4. El podio: `podio = [nombre for puntos, nombre in ranking[:3]]` y `print("podio:", podio)`.
+5. El promedio: `promedio = sum([puntos for puntos, nombre in resultados]) / len(resultados)` y `print(f"promedio: {promedio:.1f}")`.
+6. En un comentario `#`, explicá por qué Tilo queda antes que Ana: empatan en puntos y se desempata por el nombre.
+7. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```python
 # Escribí tu programa acá
@@ -4615,6 +4908,16 @@ Mostrá el mapa antes y después.
 - Encuentra a K con dos `for` y `enumerate`.
 - Cuenta las gemas y mueve a K solo si a la derecha hay piso.
 - Muestra el mapa antes y después.
+
+#### Pasos
+1. Borrá el comentario. Armá el mapa, una fila por renglón con `list(...)`: `"#######"`, `"#K..G.#"`, `"#.#G#.#"`, `"#G....#"`, `"#######"`.
+2. Escribí `fila_k = -1`, `col_k = -1` y `gemas = 0`.
+3. Recorré: `for f, fila in enumerate(mapa):` y adentro `for c, celda in enumerate(fila):`
+4. Si `celda == "K"`, guardá `fila_k = f` y `col_k = c`. Si `celda == "G"`, `gemas += 1`.
+5. Mostrá `print(f"Mia está en fila {fila_k}, columna {col_k}")` y `print("gemas en el mapa:", gemas)`.
+6. Si `mapa[fila_k][col_k + 1] == "."`: poné `"."` donde estaba K, `"K"` a la derecha y `print("Mia avanza a la derecha")`.
+7. Mostrá el mapa: `for fila in mapa:` → `print("".join(fila))`.
+8. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```python
@@ -5101,6 +5404,12 @@ print(perro["edad"])   # 4
 #### Desafío
 Mostrá la vida y la debilidad del slime.
 
+#### Pasos
+1. Hay dos `___`.
+2. El primero: `"vida"`, con comillas (es el nombre de la clave).
+3. El segundo: `"debilidad"`.
+4. Tocá **Ejecutar**. Tienen que salir `10` y `fuego`.
+
 #### Código inicial
 ```python
 slime = {"vida": 10, "ataque": 2, "debilidad": "fuego"}
@@ -5150,6 +5459,12 @@ Para preguntar sin riesgo, `d.get(clave, "algo")`: devuelve el valor si la clave
 #### Desafío
 Buscá al troll sin que aparezca el orco.
 
+#### Pasos
+1. Buscá `print(vida["troll"])`: da error porque el troll no está.
+2. Cambiá `vida["troll"]` por `vida.get("troll", "No está anotado")`.
+3. `get` devuelve el segundo valor cuando la clave no existe.
+4. Tocá **Ejecutar**. Tiene que salir `No está anotado`.
+
 #### Código inicial
 ```python
 vida = {"slime": 10, "goblin": 15, "orco": 30}
@@ -5194,6 +5509,12 @@ Le contás al Ermitaño el goblin del mercado. Era más fuerte de lo que dice el
 
 #### Desafío
 Corregí al goblin y agregá al murciélago.
+
+#### Pasos
+1. Hay dos `___`, cada uno en su renglón.
+2. El primero corrige al goblin: `vida["goblin"] = 20`
+3. El segundo agrega al murciélago: `vida["murciélago"] = 8`
+4. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```python
@@ -5246,6 +5567,12 @@ for nombre, edad in edades.items():
 #### Desafío
 Mostrá cada criatura con su vida.
 
+#### Pasos
+1. Buscá `for ___ in ___:`.
+2. El primer `___`: `nombre, v`.
+3. El segundo: `vida.items()` (da cada clave con su valor).
+4. Tocá **Ejecutar**. Tienen que salir las tres criaturas.
+
 #### Código inicial
 ```python
 vida = {"slime": 10, "goblin": 20, "murciélago": 8}
@@ -5297,6 +5624,12 @@ La primera vez que aparece `x`, `get` da 0 (no estaba) y queda en 1. Las siguien
 #### Desafío
 Completá la línea que cuenta.
 
+#### Pasos
+1. Adentro del `for` hay un `___`.
+2. Cambialo por `cuenta[h] = cuenta.get(h, 0) + 1`
+3. Toma lo que había (o 0 si es la primera vez) y le suma 1.
+4. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```python
 huellas = ["slime", "goblin", "slime", "slime", "goblin", "troll"]
@@ -5347,6 +5680,11 @@ Contar es tan común que Python trae una herramienta: `Counter`, de la bibliotec
 #### Desafío
 Usá `Counter` para saber cuál huella aparece más.
 
+#### Pasos
+1. Buscá `cuenta = ___`.
+2. Cambiá `___` por `Counter(huellas)`.
+3. Tocá **Ejecutar**. Tiene que salir `[('slime', 3)]`.
+
 #### Código inicial
 ```python
 from collections import Counter
@@ -5394,6 +5732,11 @@ Como no tiene orden, para mostrarlo prolijo usá `sorted(conjunto)`, que devuelv
 
 #### Desafío
 Armá el índice sin repetidos y en orden alfabético.
+
+#### Pasos
+1. Buscá `indice = ___`.
+2. Cambiá `___` por `set(huellas)`: un `set` no guarda repetidos.
+3. Tocá **Ejecutar**. Tienen que salir tres nombres.
 
 #### Código inicial
 ```python
@@ -5444,6 +5787,12 @@ Los conjuntos se combinan como en matemática:
 
 #### Desafío
 Mostrá lo que sirve contra los dos y lo que sirve solo contra el troll.
+
+#### Pasos
+1. Hay dos `___`.
+2. El primero (lo que sirve contra los dos): `&`.
+3. El segundo (solo contra el troll): `-`.
+4. Tocá **Ejecutar**. Tienen que salir `{'luz'}` y `{'fuego'}`.
 
 #### Código inicial
 ```python
@@ -5505,6 +5854,15 @@ recorriendo el diccionario y buscá `"dragón"` sin que el programa falle.
 - Lista las débiles al fuego con una comprehension.
 - Encuentra la de más vida recorriendo el diccionario.
 - Busca "dragón" con `get` o `in`, sin que el programa falle.
+
+#### Pasos
+1. Borrá el comentario. Armá `bestiario = { ... }` con tres claves. Cada una es otro diccionario:
+2. `"slime": {"vida": 10, "ataque": 2, "debil_a": ["fuego"]}`, `"goblin": {"vida": 20, "ataque": 5, "debil_a": ["luz"]}`, `"orco": {"vida": 45, "ataque": 8, "debil_a": ["hielo", "rayo"]}`.
+3. Agregá el ogro: `bestiario["ogro"] = {"vida": 90, "ataque": 12, "debil_a": ["fuego", "veneno"]}`
+4. Los débiles al fuego: `debiles_fuego = [nombre for nombre, datos in bestiario.items() if "fuego" in datos["debil_a"]]` y `print("débiles al fuego:", debiles_fuego)`.
+5. El de más vida: `mas_fuerte = ""`, `vida_max = -1` y un `for nombre, datos in bestiario.items():` que guarda el mayor. Mostrá `print(f"la más resistente: {mas_fuerte} ({vida_max} de vida)")`.
+6. El dragón: `datos = bestiario.get("dragón")`; si `datos is None`, `print("'dragón' no está en el bestiario todavía")`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```python
@@ -5591,6 +5949,15 @@ vale 0).
 - Cuenta los objetos con `Counter` y muestra los dos más comunes.
 - Calcula el valor total con el diccionario de precios, usando 0 para lo que no tiene precio (`get(obj, 0)`).
 
+#### Pasos
+1. Debajo del `import`, borrá el comentario. La lista: `caidas = ["oro", "gema", "oro", "poción", "oro", "gema", "hueso", "oro", "poción"]`
+2. Contá: `botin = Counter(caidas)`. Mostrá `print("botín:", dict(botin))`, `print("total de objetos:", sum(botin.values()))` y `print("los 2 más comunes:", botin.most_common(2))`.
+3. Los precios: `precios = {"oro": 1, "gema": 25, "poción": 8}` y `total = 0`.
+4. `for objeto, cantidad in botin.items():` → `precio = precios.get(objeto, 0)` y `total += precio * cantidad`.
+5. En el mismo `for`: `print(f"  {objeto:<7} x{cantidad}  = {precio * cantidad}")`
+6. Al final: `print("valor total:", total)`.
+7. Tocá **Ejecutar**. Tiene que salir `valor total: 70`.
+
 #### Código inicial
 ```python
 from collections import Counter
@@ -5674,6 +6041,15 @@ cubre? ¿Qué les falta?
 - Responde las tres preguntas con `&`, `|` y `-`.
 - Verifica si la compañía cubre la Torre del Hielo con `<=` (o `issubset`).
 - Muestra lo que les falta.
+
+#### Pasos
+1. Borrá el comentario. Los conjuntos: `mia = {"espada", "escudo", "fuego"}`, `sila = {"fuego", "hielo", "curación", "rayo"}` y `tilo = {"hacha", "escudo", "fuego"}`.
+2. `print("los tres saben:", sorted(mia & sila & tilo))`
+3. `print("entre todos:", sorted(mia | sila | tilo))`
+4. `print("solo Sila:", sorted(sila - mia - tilo))`
+5. La torre: `requeridas = {"hielo", "escudo", "sigilo"}` y `tiene_la_compania = mia | sila | tilo`.
+6. `print("¿la compañía cubre todo?", requeridas <= tiene_la_compania)` y `print("les falta aprender:", sorted(requeridas - tiene_la_compania))`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```python
@@ -6075,6 +6451,12 @@ Para una copia de verdad, una lista nueva con los mismos elementos: `lista.copy(
 #### Desafío
 Ejecutá el código y completá lo que imprime el respaldo. Después, cambiá la segunda línea para que el respaldo sea una copia de verdad: `compania.copy()`.
 
+#### Pasos
+1. Tocá **Ejecutar** una vez y mirá: el respaldo también perdió a Tilo.
+2. Buscá la línea `respaldo = compania`.
+3. Cambiala por `respaldo = compania.copy()`.
+4. Tocá **Ejecutar**. El respaldo tiene que seguir teniendo a Tilo.
+
 #### Código inicial
 ```python
 compania = ["Mia", "Gheco", "Tilo"]
@@ -6129,6 +6511,11 @@ Hay una diferencia importante entre **modificar** y **reasignar**:
 
 #### Desafío
 Completá: el primer resultado tiene que mostrar que `b` no cambió.
+
+#### Pasos
+1. Buscá `a = ___`.
+2. Cambiá `___` por `a + ["bestiario"]`: arma una lista nueva y `b` queda como estaba.
+3. Tocá **Ejecutar**. La segunda línea tiene que ser `['llave']`.
 
 #### Código inicial
 ```python
@@ -6185,6 +6572,12 @@ Dos listas con lo mismo adentro son `==`, pero si se crearon por separado, no so
 #### Desafío
 Completá las dos comparaciones.
 
+#### Pasos
+1. Hay dos `___`.
+2. El primero pregunta si tienen lo mismo adentro: `==`.
+3. El segundo pregunta si son el mismo cofre: `is`.
+4. Tocá **Ejecutar**. Tienen que salir `True` y `False`.
+
 #### Código inicial
 ```python
 cofre1 = ["oro", "gema"]
@@ -6235,6 +6628,11 @@ Ejecutalo y mirá cómo cambiar una casilla del original también cambia la copi
 
 #### Desafío
 Ejecutalo y mirá cómo la copia también cambia. No hay que arreglar nada todavía: completá el `print` de la copia.
+
+#### Pasos
+1. No hay que cambiar nada de lo que está.
+2. Agregá una línea al final: `print(copia)`.
+3. Tocá **Ejecutar**. La copia también tiene la `X`: eso es lo que hay que ver.
 
 #### Código inicial
 ```python
@@ -6287,6 +6685,11 @@ Acordate de traer la biblioteca con `import copy`.
 
 #### Desafío
 Usá `deepcopy` para que el respaldo quede limpio.
+
+#### Pasos
+1. Buscá `respaldo = mapa.copy()`.
+2. Cambiala por `respaldo = copy.deepcopy(mapa)`.
+3. Tocá **Ejecutar**. El respaldo tiene que salir sin la `X`.
 
 #### Código inicial
 ```python
@@ -6354,6 +6757,14 @@ compania = respaldo
 - Explica en un comentario por qué `respaldo = compania` no copia la lista.
 - Arregla el respaldo con `.copy()` (o `list(...)`).
 - Muestra que el respaldo conserva a Tilo.
+
+#### Pasos
+1. Borrá la última línea (`print(compania)`) y la de `compania = respaldo`: las vas a volver a escribir.
+2. Cambiá `respaldo = compania` por `respaldo = compania.copy()`.
+3. Arriba, en un comentario `#`, explicá que `respaldo = compania` no copia: las dos variables apuntan a la misma lista.
+4. Después del `remove`, mostrá `print("después de la batalla:", compania)` y `print("respaldo:", respaldo)`.
+5. Restaurá: `compania = respaldo` y `print("compañía restaurada:", compania)`.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```python
@@ -6434,6 +6845,15 @@ Mostrá también qué habría pasado con una copia superficial.
 - Guarda el checkpoint con `copy.deepcopy`.
 - Mueve a K y junta la gema; después vuelve al checkpoint y lo muestra igual que al principio.
 - Muestra qué habría pasado con una copia superficial.
+
+#### Pasos
+1. Debajo del `import`, borrá el comentario. El mapa: `mapa = [list("#####"), list("#K.G#"), list("#####")]`
+2. Guardá: `checkpoint = copy.deepcopy(mapa)`.
+3. Mové a Mia: `mapa[1][1] = "."` y `mapa[1][3] = "K"`.
+4. Mostrá: `print("mapa actual:")` y `for fila in mapa:` → `print("  " + "".join(fila))`.
+5. Volvé: `mapa = copy.deepcopy(checkpoint)`, `print("vuelta al checkpoint:")` y el mismo `for` para mostrarlo.
+6. La copia superficial: `malo = mapa.copy()`, `mapa[1][2] = "X"` y `print("¿la copia superficial se ensució?", malo[1][2] == "X")`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```python
@@ -6535,6 +6955,12 @@ d = {"items": []}; e = d.copy(); e["items"].append("gema"); print(d)
 **Para superarla:**
 - Anota la predicción de cada bloque en un comentario.
 - Ejecuta y explica los casos que no acertó (sobre todo `[[0] * 2] * 2` y `d.copy()`).
+
+#### Pasos
+1. Borrá el comentario. Copiá los cinco bloques del desafío, uno por renglón (podés separar con `;` o en varias líneas).
+2. Al lado de cada `print`, con `#`, anotá qué creés que muestra antes de ejecutar.
+3. Tocá **Ejecutar** y compará con lo que anotaste.
+4. Explicá con un comentario los que no acertaste: `[[0] * 2] * 2` repite la misma fila, y `d.copy()` comparte la lista de adentro.
 
 #### Código inicial
 ```python
@@ -7049,6 +7475,12 @@ saludar()
 #### Desafío
 Definí `curar` y llamala dos veces.
 
+#### Pasos
+1. Buscá el `___` del primer renglón.
+2. Cambialo por `def curar():` (con los dos puntos al final).
+3. La línea de abajo ya está corrida 4 espacios: eso la mete adentro de la función.
+4. Tocá **Ejecutar**. Tiene que salir la frase dos veces.
+
 #### Código inicial
 ```python
 ___
@@ -7108,6 +7540,11 @@ Al llamar, los valores se reparten en orden: `nombre` recibe `"Ana"` y `veces` r
 #### Desafío
 Agregá los parámetros y curá a Tilo con 5 y a Gheco con 1.
 
+#### Pasos
+1. Buscá `def curar(___):`.
+2. Cambiá `___` por `nombre, puntos` (los dos datos que recibe).
+3. Tocá **Ejecutar**. Tienen que salir Tilo con 5 y Gheco con 1.
+
 #### Código inicial
 ```python
 def curar(___):
@@ -7165,6 +7602,11 @@ No es lo mismo que `print`: `print` solo **muestra** en pantalla; `return` **ent
 
 #### Desafío
 Hacé que `curar` devuelva la vida nueva.
+
+#### Pasos
+1. Adentro de la función hay un `___`.
+2. Cambialo por `return vida + puntos`.
+3. Tocá **Ejecutar**. Tiene que salir `Tilo tiene 14 de vida.`
 
 #### Código inicial
 ```python
@@ -7226,6 +7668,12 @@ Al llamar, podés nombrar el dato (`saludo="Chau"`): se lee mejor.
 #### Desafío
 Poné 10 por defecto y usá el nombre en la segunda llamada.
 
+#### Pasos
+1. Hay dos `___`.
+2. El primero, pegado a `puntos`: `=10`. Queda `def curar(vida, puntos=10):`
+3. El segundo, en la última línea: `puntos=25`. Queda `curar(4, puntos=25)`.
+4. Tocá **Ejecutar**. Tienen que salir 14 y 29.
+
 #### Código inicial
 ```python
 def curar(vida, puntos___):
@@ -7281,6 +7729,11 @@ cociente, resto = dividir(17, 5)
 
 #### Desafío
 Devolvé los dos valores.
+
+#### Pasos
+1. Buscá `return ___`.
+2. Cambiá `___` por `vida, vida < 10`: devuelve dos cosas separadas por coma.
+3. Tocá **Ejecutar**. Tiene que salir `¿En peligro? True`.
 
 #### Código inicial
 ```python
@@ -7339,6 +7792,11 @@ Adentro, `numeros` es una tupla con todos los que llegaron, y la podés recorrer
 
 #### Desafío
 Completá el parámetro y el total.
+
+#### Pasos
+1. Buscá `def tomar(___):`.
+2. Cambiá `___` por `*pociones`: el asterisco junta todos los valores que le pasen.
+3. Tocá **Ejecutar**. Tienen que salir 10 y 40.
 
 #### Código inicial
 ```python
@@ -7405,6 +7863,12 @@ def agregar(x, lista=None):
 #### Desafío
 Arreglá la función para que cada bolsa sea nueva.
 
+#### Pasos
+1. En el `def`, cambiá `bolsa=[]` por `bolsa=None`.
+2. Abajo del `def`, agregá: `if bolsa is None:` y, corrida 4 espacios más, `bolsa = []`.
+3. Así cada llamada arma una bolsa nueva.
+4. Tocá **Ejecutar**. Tienen que salir `['vida']` y `['maná']`.
+
 #### Código inicial
 ```python
 def armar_bolsa(pocion, bolsa=[]):
@@ -7470,6 +7934,13 @@ dados de `caras` lados y devuelva la suma. Probá `tirar(3)` y
 **Para superarla:**
 - Define `tirar(cantidad, caras=6)` y devuelve la suma con `return`.
 - Prueba `tirar(3)` y `tirar(2, caras=20)` con `random.seed(10)`.
+
+#### Pasos
+1. Debajo del `import`, borrá el comentario. Escribí `def tirar(cantidad, caras=6):`
+2. Adentro: `total = 0`, `for _ in range(cantidad):` → `total += random.randint(1, caras)`, y `return total`.
+3. Afuera de la función: `random.seed(10)`.
+4. Probá: `print("3 dados de 6:", tirar(3))`, `print("2 dados de 20:", tirar(2, caras=20))` y `print("1 dado de 4:", tirar(1, 4))`.
+5. Tocá **Ejecutar**. Tienen que salir 10, 35 y 1.
 
 #### Código inicial
 ```python
@@ -7542,6 +8013,14 @@ pasás nombres?
 - Devuelve una lista de diccionarios, uno por nombre.
 - Muestra qué devuelve sin nombres (una lista vacía).
 
+#### Pasos
+1. Borrá el comentario. Escribí `def crear_compania(*nombres, vida=100):`
+2. Adentro, una sola línea: `return [{"nombre": nombre, "vida": vida} for nombre in nombres]`
+3. Probá: `print(crear_compania("Mia", "Tilo", "Sila"))`
+4. `print(crear_compania("Baldo", vida=70))`
+5. Y sin nombres: `print(crear_compania())`
+6. Tocá **Ejecutar**. La última línea tiene que ser `[]`.
+
 #### Código inicial
 ```python
 # Escribí tu programa acá
@@ -7605,6 +8084,15 @@ empieza en 0.
 - Define `aplicar_buff(stats, **cambios)`.
 - Devuelve un diccionario **nuevo** y el original queda igual.
 - Una estadística que no existía empieza en 0.
+
+#### Pasos
+1. Borrá el comentario. Escribí `def aplicar_buff(stats, **cambios):`
+2. Adentro: `nuevos = stats.copy()` (así no tocás el original).
+3. `for clave, extra in cambios.items():` → `nuevos[clave] = nuevos.get(clave, 0) + extra`
+4. `return nuevos`
+5. Afuera: `mia = {"vida": 80, "ataque": 12, "defensa": 4}` y `bendecida = aplicar_buff(mia, ataque=5, defensa=2, suerte=1)`.
+6. Mostrá `print("original:", mia)` y `print("bendecida:", bendecida)`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```python
@@ -8101,6 +8589,11 @@ Si necesitás el valor afuera, la función lo **devuelve** con `return`, y quien
 #### Desafío
 Hacé que la cámara devuelva el eco y guardalo afuera.
 
+#### Pasos
+1. Adentro de `camara`, debajo de `eco = ...`, agregá `return eco` (corrido 4 espacios, igual que la línea de arriba).
+2. Afuera, cambiá `camara()` por `eco = camara()`.
+3. Tocá **Ejecutar**. Tiene que salir el eco.
+
 #### Código inicial
 ```python
 def camara():
@@ -8152,6 +8645,11 @@ Si una función **asigna** una variable (con `=` o `+=`), Python la toma como lo
 
 #### Desafío
 Agregá la línea que falta.
+
+#### Pasos
+1. Adentro de `gritar`, antes de `gritos += 1`, agregá una línea: `global gritos`.
+2. Tiene que quedar corrida 4 espacios, igual que la de abajo.
+3. Tocá **Ejecutar**. Tiene que salir `Gritaron 2 veces`.
 
 #### Código inicial
 ```python
@@ -8214,6 +8712,12 @@ Es una tabla de acciones: reemplaza una cadena larga de `if`.
 
 #### Desafío
 Completá la tabla y llamá al conjuro que pide la orden.
+
+#### Pasos
+1. Hay tres `___`.
+2. En el diccionario: `luz` y `calma`, sin comillas y sin paréntesis (la función misma).
+3. En la última línea, cambiá `___` por `()`: los paréntesis la ejecutan.
+4. Tocá **Ejecutar**. Tiene que salir `La cueva se ilumina.`
 
 #### Código inicial
 ```python
@@ -8283,6 +8787,11 @@ Ordena las tuplas por su segundo valor.
 #### Desafío
 Ordená por vida, de menor a mayor.
 
+#### Pasos
+1. Buscá `key=___`.
+2. Cambiá `___` por `lambda c: c[1]`: ordena por el segundo dato de cada tupla (la vida).
+3. Tocá **Ejecutar**. El primero tiene que ser el murciélago.
+
 #### Código inicial
 ```python
 criaturas = [("murciélago", 8), ("goblin", 20), ("slime", 10)]
@@ -8334,6 +8843,11 @@ Una función **recursiva** se llama a sí misma con algo más chico. Para contar
 
 #### Desafío
 Completá la llamada recursiva.
+
+#### Pasos
+1. Buscá `total += ___`.
+2. Cambiá `___` por `contar(cosa)`: la función se llama a sí misma con el cofre de adentro.
+3. Tocá **Ejecutar**. Tiene que salir `15`.
 
 #### Código inicial
 ```python
@@ -8407,6 +8921,14 @@ ejecute, o avise si no existe.
 - Define tres hechizos como funciones `(objetivo, poder)`.
 - Los guarda en un diccionario (sin paréntesis: la función, no su resultado).
 - `lanzar` busca con `get` y avisa si el hechizo no existe.
+
+#### Pasos
+1. Borrá el comentario. Tres funciones con `(objetivo, poder)`:
+2. `fuego` devuelve `f"{objetivo} recibe {poder * 3} de daño de fuego"`; `hielo`, `f"{objetivo} queda congelado {poder} turnos"`; `curar`, `f"{objetivo} recupera {poder * 5} de vida"`.
+3. El diccionario: `GRIMORIO = {"fuego": fuego, "hielo": hielo, "curar": curar}`
+4. `def lanzar(palabra, objetivo, poder=2):` → `hechizo = GRIMORIO.get(palabra)`. Si `hechizo is None`, devolvé `f"'{palabra}' no es un hechizo conocido"`; si no, `return hechizo(objetivo, poder)`.
+5. Probá: `print(lanzar("fuego", "el ogro"))`, `print(lanzar("hielo", "el troll", poder=3))`, `print(lanzar("curar", "Tilo"))` y `print(lanzar("volar", "Sila"))`.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```python
@@ -8492,6 +9014,14 @@ con `key=lambda`.
 - Usa `key=lambda` en todos los casos.
 - Encuentra la de menos vida con `min(..., key=...)`.
 
+#### Pasos
+1. Borrá el comentario. La lista `compania` con cuatro diccionarios: Mia (nivel 3, vida 90), Tilo (5, 140), Sila (4, 70) y Baldo (4, 85). Cada uno: `{"nombre": "Mia", "nivel": 3, "vida": 90}`.
+2. Por vida: `por_vida = sorted(compania, key=lambda p: p["vida"], reverse=True)` y `print("por vida:", [p["nombre"] for p in por_vida])`.
+3. Por nombre: igual con `key=lambda p: p["nombre"]` y `"por nombre:"`.
+4. Por nivel: `key=lambda p: (-p["nivel"], p["nombre"])` y `print("por nivel:", [(p["nombre"], p["nivel"]) for p in por_nivel])`.
+5. La de menos vida: `print("la de menos vida:", min(compania, key=lambda p: p["vida"])["nombre"])`.
+6. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```python
 # Escribí tu programa acá
@@ -8562,6 +9092,14 @@ cámara nueva.
 - Recorre todas las casillas y cuenta una cámara nueva por cada piso sin explorar.
 - Usa la función recursiva `explorar` para marcar cada cámara entera.
 - Muestra la cantidad de cámaras (3) y el tamaño de cada una.
+
+#### Pasos
+1. No toques la cueva ni `explorar`. Trabajá debajo del último comentario.
+2. Escribí `camaras = []`.
+3. Recorré todas las casillas: `for f in range(len(cueva)):` y adentro `for c in range(len(cueva[f])):`
+4. Si `cueva[f][c] == "."`, es una cámara nueva: `camaras.append(explorar(cueva, f, c))`.
+5. Mostrá: `print("cámaras encontradas:", len(camaras))` y `print("tamaño de cada una:", camaras)`.
+6. Tocá **Ejecutar**. Tienen que salir 3 y `[4, 18, 2]`.
 
 #### Código inicial
 ```python

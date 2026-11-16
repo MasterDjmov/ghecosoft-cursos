@@ -318,6 +318,13 @@ Cada tipo tiene su marcador: `%d` para `int`, `%f` para `double` (`%.1f` muestra
 #### Desafío
 Declará las tres variables con el tipo correcto.
 
+#### Pasos
+1. Hay tres `___`, uno al principio de cada variable.
+2. `clavos` guarda 120, un número entero: cambiá su `___` por `int`.
+3. `peso` guarda 2.5, un número con decimales: cambiá su `___` por `double`.
+4. `sello` guarda `'K'`, una sola letra: cambiá su `___` por `char`.
+5. Tocá **Ejecutar**. Tienen que salir las tres líneas.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -389,6 +396,12 @@ Un `int` es mucho más grande: llega a más de dos mil millones, así que ahí e
 #### Desafío
 Cambiá el tipo del cajón para que entren 256 clavos.
 
+#### Pasos
+1. Buscá la línea `unsigned char cajon = 255;`.
+2. Borrá `unsigned char` y escribí `int` en su lugar. Queda: `int cajon = 255;`
+3. No cambies nada más.
+4. Tocá **Ejecutar**. Tiene que salir `clavos en el cajon: 256`.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -450,6 +463,12 @@ printf("%zu\n", sizeof(char));   // 1
 
 #### Desafío
 Completá con `sizeof` para mostrar cuánto ocupa cada tipo.
+
+#### Pasos
+1. Hay tres `___`, uno en cada `printf`.
+2. Cambiá cada `___` por la palabra `sizeof`. Por ejemplo: `sizeof(char)`.
+3. No toques los paréntesis ni lo que está adentro.
+4. Tocá **Ejecutar**. Tienen que salir 1, 4 y 8.
 
 #### Código inicial
 ```c
@@ -516,6 +535,12 @@ printf("%.1f\n", (double) a / b);   // 3.5
 
 #### Desafío
 Convertí la cuenta para que el reparto sea justo.
+
+#### Pasos
+1. Buscá la línea `double cada_uno = lingotes / compradores;`.
+2. Escribí `(double) ` justo antes de `lingotes`, del lado derecho del `=`.
+3. Queda: `double cada_uno = (double) lingotes / compradores;`
+4. Tocá **Ejecutar**. Tiene que salir `3.5`.
 
 #### Código inicial
 ```c
@@ -593,6 +618,16 @@ flechas. Elegí el tipo de cada variable y mostralas con el formato correcto.
 - Muestra cada valor con el formato correcto de `printf`.
 - Explica en un comentario por qué 3 500 millones no entra en un `int`.
 
+#### Pasos
+1. Borrá la línea `/* Escribí tu programa acá */`. Ahí van seis variables, una por renglón.
+2. `int nivel = 12;` y `long long experiencia = 3500000000LL;`
+3. `double prob_critico = 0.15;` y `char rango = 'S';`
+4. `bool tiene_escudo = true;` y `unsigned int flechas = 40;`
+5. Arriba de la experiencia, en un comentario `/* … */`, explicá por qué no entra en un `int` (un `int` llega a poco más de 2 100 millones).
+6. Mostralas con dos `printf`. El primero: `printf("Tizon | nivel %d | exp %lld\n", nivel, experiencia);`
+7. El segundo: `printf("crítico %.2f | rango %c | escudo %d | flechas %u\n", prob_critico, rango, tiene_escudo, flechas);`
+8. Tocá **Ejecutar** y compará con la salida esperada.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -668,6 +703,14 @@ pasa? Arreglalo con un tipo más grande.
 **Para superarla:**
 - Muestra que 255 + 1 en un `uint8_t` da 0.
 - Lo arregla con un tipo más grande y muestra 256.
+
+#### Pasos
+1. Borrá la línea `/* Escribí tu programa acá */`.
+2. Escribí `uint8_t cofre = 255;` y mostralo: `printf("Cofre lleno: %u\n", cofre);`
+3. Sumale una: `cofre = cofre + 1;` y mostralo: `printf("Entra una moneda más: %u\n", cofre);` (va a dar 0).
+4. Ahora el cofre grande: `uint16_t cofre_grande = 255;` y después `cofre_grande = cofre_grande + 1;`
+5. Mostralo: `printf("Con uint16_t: %u\n", cofre_grande);`
+6. Tocá **Ejecutar**. Tienen que salir 255, 0 y 256.
 
 #### Código inicial
 ```c
@@ -752,6 +795,15 @@ máximo de `char`, `short`, `int`, `long` y `unsigned int`, usando
 - Muestra tamaño, mínimo y máximo de los cinco tipos.
 - Usa `sizeof` y las constantes de `<limits.h>` (no números escritos a mano).
 - Usa `%zu` para `sizeof`.
+
+#### Pasos
+1. Borrá la línea `/* Escribí tu programa acá */`. Van seis `printf`: el título y uno por tipo.
+2. El título: `printf("%-10s %6s %23s %23s\n", "tipo", "bytes", "mínimo", "máximo");`
+3. `char`: `printf("%-10s %6zu %22d %22d\n", "char", sizeof(char), CHAR_MIN, CHAR_MAX);`
+4. Repetí el mismo `printf` para `short` (con `SHRT_MIN`, `SHRT_MAX`) y para `int` (con `INT_MIN`, `INT_MAX`).
+5. Para `long`, cambiá los dos `%22d` por `%22ld` y usá `LONG_MIN`, `LONG_MAX`.
+6. Para `"unsigned"`: `sizeof(unsigned int)`, el mínimo es `0` y el máximo `UINT_MAX` con `%22u`.
+7. Tocá **Ejecutar** y compará columna por columna.
 
 #### Código inicial
 ```c
@@ -1181,6 +1233,12 @@ Como repartir 23 caramelos en bolsitas de 4: salen 5 bolsitas completas y sobran
 #### Desafío
 Completá los dos operadores.
 
+#### Pasos
+1. Hay dos `___`, uno en cada `printf`.
+2. En la línea de `cajas`, cambiá `___` por `/` (cuántas cajas completas).
+3. En la línea de `sueltas`, cambiá `___` por `%` (lo que sobra).
+4. Tocá **Ejecutar**. Tienen que salir 3 y 2.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -1243,6 +1301,12 @@ Si querés que la suma vaya primero, encerrala entre **paréntesis**: `3 * (2 + 
 
 #### Desafío
 Agregá los paréntesis para que el envío se cobre por cada herradura.
+
+#### Pasos
+1. Buscá la línea `int total = herraduras * precio + envio;`.
+2. Poné un paréntesis `(` antes de `precio` y otro `)` después de `envio`.
+3. Queda: `int total = herraduras * (precio + envio);`
+4. Tocá **Ejecutar**. Tiene que salir `total: 9 lingotes`.
 
 #### Código inicial
 ```c
@@ -1310,6 +1374,13 @@ En `vidas = vidas + 1` el `=` no es «igual» como en matemática: quiere decir 
 
 #### Desafío
 Completá con los operadores cortos para que la cuenta termine en 5.
+
+#### Pasos
+1. Hay cuatro `___`.
+2. En los dos primeros (`golpes___;`), cambiá `___` por `++`. Queda `golpes++;`
+3. En el tercero, cambiá `___` por `+=`. Queda `golpes += 5;`
+4. En el cuarto, cambiá `___` por `-=`. Queda `golpes -= 2;`
+5. Tocá **Ejecutar**. Tiene que salir `golpes contados: 5`.
 
 #### Código inicial
 ```c
@@ -1383,6 +1454,12 @@ Ojo: un solo `=` **guarda** un valor; dos `==` **preguntan** si son iguales. Con
 #### Desafío
 Completá las comparaciones.
 
+#### Pasos
+1. Hay dos `___`.
+2. En la línea de `alcanza`, cambiá `___` por `>=` («mayor o igual»).
+3. En la línea de `faltan exactamente 3`, cambiá `___` por `==` (dos signos igual: «es igual a»).
+4. Tocá **Ejecutar**. Tienen que salir 0 y 1.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -1454,6 +1531,16 @@ con ceros hasta 2 cifras; se ve a fondo en el 05).
 - Usa solo `/` y `%` para separar horas, minutos y segundos.
 - Muestra `4000 segundos = 1 h 6 min 40 s`.
 - Muestra el formato reloj `01:06:40` con `%02d`.
+
+#### Pasos
+1. Borrá la línea `/* Escribí tu programa acá */`.
+2. Escribí `int total = 4000;`
+3. Las horas: `int horas = total / 3600;`
+4. Los minutos: `int minutos = total % 3600 / 60;`
+5. Los segundos: `int segundos = total % 60;`
+6. Mostrá: `printf("%d s = %d h %d min %d s\n", total, horas, minutos, segundos);`
+7. Y el reloj: `printf("%02d:%02d:%02d\n", horas, minutos, segundos);`
+8. Tocá **Ejecutar**. Tiene que salir `01:06:40` en la segunda línea.
 
 #### Código inicial
 ```c
@@ -1532,6 +1619,16 @@ nivel 1 y explicá por qué cambia el resultado.
 **Para superarla:**
 - Evalúa la regla con paréntesis para Kira (1), Hulda (1) y Chispa (0).
 - Muestra que sin los paréntesis el aprendiz de nivel 1 pasa, y explica que `&&` se evalúa antes que `||`.
+
+#### Pasos
+1. Borrá la línea `/* Escribí tu programa acá */`.
+2. Kira: `int nivel = 6, llave = 1, magia = 0, maldito = 0;`
+3. La regla: `printf("Kira pasa: %d\n", nivel >= 5 && (llave || magia) && !maldito);`
+4. Hulda: cambiá los valores (`nivel = 5; llave = 0; magia = 1; maldito = 0;`) y copiá el mismo `printf` con `Hulda pasa:`.
+5. Chispa: `nivel = 8; llave = 1; magia = 0; maldito = 1;` y el mismo `printf` con `Chispa pasa:`.
+6. El aprendiz: `nivel = 1; llave = 0; magia = 1; maldito = 0;` y dos `printf`: `Aprendiz, con paréntesis:` (la regla igual) y `Aprendiz, sin paréntesis:` con `(nivel >= 5 && llave) || (magia && !maldito)`.
+7. Agregá un comentario: sin paréntesis, `&&` se hace antes que `||`.
+8. Tocá **Ejecutar**. Tiene que dar 1, 1, 0, 0 y 1.
 
 #### Código inicial
 ```c
@@ -1626,6 +1723,15 @@ Con `ataque = 20` y `defensa = 6`, anotá qué da cada línea
 - Deja anotada la predicción de cada expresión en un comentario.
 - Muestra el resultado real de las siete expresiones.
 - Usa `%.2f` para la división con `double`.
+
+#### Pasos
+1. Borrá la línea `/* Escribí tu programa acá */`.
+2. Escribí `int ataque = 20;` y `int defensa = 6;`
+3. Por cada expresión, un `printf("%d\n", …);` con la expresión adentro. La primera: `printf("%d\n", ataque - defensa * 2);`
+4. Al lado de cada una, en un comentario `/* … */`, anotá qué creés que da **antes** de ejecutar.
+5. La última es con decimales: `printf("%.2f\n", (double) ataque / defensa);`
+6. Son siete `printf`, en el orden del desafío.
+7. Tocá **Ejecutar** y fijate en cuáles acertaste.
 
 #### Código inicial
 ```c
@@ -2021,6 +2127,12 @@ printf("%x\n", 255);    // ff
 #### Desafío
 Mostrá la combinación en hexadecimal y el número `0xFF` en decimal.
 
+#### Pasos
+1. Hay dos `%___`, uno en cada `printf`.
+2. En la línea de `combinacion en hexa`, cambiá `___` por `x`. Queda `%x` (hexadecimal).
+3. En la línea de `0xFF en decimal`, cambiá `___` por `d`. Queda `%d` (decimal).
+4. Tocá **Ejecutar**. Tienen que salir `ad` y `255`.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -2082,6 +2194,12 @@ Para **prender** un bit sin tocar los demás se usa `|` («o» de bits): `estado
 
 #### Desafío
 Encendé el bit de QUEMADO en el estado de Kira.
+
+#### Pasos
+1. Buscá la línea `estado = ___;`.
+2. Cambiá `___` por `estado | QUEMADO`. El `|` enciende el bit.
+3. Queda: `estado = estado | QUEMADO;`
+4. Tocá **Ejecutar**. Tiene que salir `estado de Kira: 6`.
 
 #### Código inicial
 ```c
@@ -2156,6 +2274,12 @@ Juntos, `estado & ~DORMIDO` apaga ese bit y deja los demás como estaban.
 #### Desafío
 Apagá solo el bit DORMIDO.
 
+#### Pasos
+1. Buscá la línea `estado = estado & ___;`.
+2. Cambiá `___` por `~DORMIDO`. El `~` da vuelta los bits: queda todo encendido menos DORMIDO.
+3. Queda: `estado = estado & ~DORMIDO;`
+4. Tocá **Ejecutar**. Tienen que salir 3 y 2.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -2225,6 +2349,12 @@ Es como agregar o sacar un cero al final de un número en base 10, que multiplic
 
 #### Desafío
 Completá los desplazamientos.
+
+#### Pasos
+1. Hay tres `___`.
+2. En `un soplido` y en `tres soplidos`, cambiá `___` por `<<` (empuja a la izquierda: duplica).
+3. En `se enfria a la mitad`, cambiá `___` por `>>` (empuja a la derecha: divide por 2).
+4. Tocá **Ejecutar**. Tienen que salir 200, 800 y 50.
 
 #### Código inicial
 ```c
@@ -2302,6 +2432,16 @@ habilidades de todo el equipo juntas (`|`), las que Kira y Hulda tienen en comú
 - Define cada habilidad como un bit distinto (`1 << n` o potencias de 2).
 - Enciende con `|=`, apaga con `&= ~` y pregunta con `&`.
 - Muestra las habilidades del equipo (`|`), las comunes entre Kira y Hulda (`&`) y si alguien tiene sigilo.
+
+#### Pasos
+1. Arriba de `int main`, definí las cinco banderas, una por renglón: `#define NADAR (1u << 0)`, `TREPAR` con `<< 1`, `FORJAR` con `<< 2`, `CURAR` con `<< 3` y `SIGILO` con `<< 4`.
+2. Borrá `/* Escribí tu programa acá */`. Escribí `uint8_t kira = NADAR | TREPAR;`, `uint8_t tizon = FORJAR | TREPAR;` y `uint8_t hulda = CURAR;`
+3. Hulda aprende a nadar: `hulda |= NADAR;`. Tizón deja de trepar: `tizon &= ~TREPAR;`
+4. Primer `printf`: `printf("Kira: %#04x  Tizon: %#04x  Hulda: %#04x\n", kira, tizon, hulda);`
+5. Segundo: `printf("¿Tizon trepa? %d  ¿Hulda nada? %d\n", (tizon & TREPAR) != 0, (hulda & NADAR) != 0);`
+6. Juntá y compará: `uint8_t equipo = kira | tizon | hulda;` y `uint8_t en_comun = kira & hulda;`
+7. Mostralos como en la salida esperada: `El equipo puede: …  Kira y Hulda en común: … (nadar)` y `¿Alguien tiene sigilo? %d` con `(equipo & SIGILO) != 0`.
+8. Tocá **Ejecutar** y compará renglón por renglón (ojo con los dos espacios entre datos).
 
 #### Código inicial
 ```c
@@ -2400,6 +2540,16 @@ el alfa.
 - Calcula el gris como promedio de R, G y B.
 - Arma el color gris con `<<` y `|`, conservando el alfa.
 
+#### Pasos
+1. Borrá `/* Escribí tu programa acá */`. Escribí `uint32_t color = 0x3366CCFFu;`
+2. Separá cada parte con `>>` y `& 0xFF`: `unsigned int r = (color >> 24) & 0xFF;`
+3. Igual para `g` (con `>> 16`), `b` (con `>> 8`) y `a` (sin correr: `color & 0xFF`).
+4. Mostrá: `printf("0x%08X -> R=%u G=%u B=%u A=%u\n", color, r, g, b, a);`
+5. El gris: `unsigned int gris = (r + g + b) / 3;`
+6. Armalo: `uint32_t en_gris = (gris << 24) | (gris << 16) | (gris << 8) | a;`
+7. Mostrá: `printf("en gris (%u): 0x%08X\n", gris, en_gris);`
+8. Tocá **Ejecutar**. Tiene que salir `0x777777FF`.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -2478,6 +2628,15 @@ Multiplicá y dividí con `<<` y `>>`.
 - Usa `n & 1` para saber si 37 es impar.
 - Usa `n & (n - 1)` para decidir si 64 y 96 son potencias de 2.
 - Multiplica y divide con `<<` y `>>`.
+
+#### Pasos
+1. Borrá `/* Escribí tu programa acá */`. Escribí `unsigned int n = 37;`
+2. Impar: `printf("%u es impar: %u\n", n, n & 1u);`
+3. Cambiá `n = 64;` y mostrá: `printf("%u es potencia de 2: %d\n", n, (n & (n - 1)) == 0);`
+4. Cambiá `n = 96;` y copiá el mismo `printf`.
+5. Multiplicar: `printf("5 << 3 = %u (5 * 8)\n", 5u << 3);`
+6. Dividir: `printf("200 >> 2 = %u (200 / 4)\n", 200u >> 2);`
+7. Tocá **Ejecutar**. Tienen que salir 1, 1, 0, 40 y 50.
 
 #### Código inicial
 ```c
@@ -2873,6 +3032,13 @@ printf("[%5d]\n", 42);    // [   42]
 #### Desafío
 Completá los formatos para que la tabla quede alineada.
 
+#### Pasos
+1. Hay seis `%___`: tres en la línea de `espada` y tres en la de `escudo`.
+2. El primero de cada línea es el nombre (texto, 8 lugares a la izquierda): `%-8s`.
+3. El segundo es el stock (entero, 5 lugares): `%5d`.
+4. El tercero es el precio (decimal, 8 lugares, 2 decimales): `%8.2f`.
+5. Tocá **Ejecutar** y fijate que las columnas queden debajo de los títulos.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -2942,6 +3108,11 @@ Acá no hace falta tipear: la entrada ya está cargada.
 #### Desafío
 Completá el `scanf` para que lea la edad (la entrada ya está cargada).
 
+#### Pasos
+1. Buscá la línea `scanf("%d", ___);`.
+2. Cambiá `___` por `&edad`. El `&` le dice a `scanf` dónde guardar el dato.
+3. Tocá **Ejecutar**. Tiene que salir `Edad de Chispa: 30`.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -3010,6 +3181,13 @@ scanf("%d %lf", &dia, &temperatura);
 
 #### Desafío
 Completá el formato y las direcciones.
+
+#### Pasos
+1. Buscá la línea `scanf("___", ___, ___);`. Tiene tres `___`.
+2. El primero, adentro de las comillas: `%d %lf` (un entero y un decimal).
+3. El segundo: `&piezas`. El tercero: `&peso`.
+4. Queda: `scanf("%d %lf", &piezas, &peso);`
+5. Tocá **Ejecutar**. Tiene que salir `10.0 kg en total`.
 
 #### Código inicial
 ```c
@@ -3081,6 +3259,11 @@ En el código vas a ver `if (…) { … } else { … }`: si la condición se cum
 
 #### Desafío
 Completá la condición para avisar cuando lo que llega no es un número.
+
+#### Pasos
+1. Buscá la línea del `if`, la que tiene `sscanf(…) ___`.
+2. Cambiá `___` por `!= 1`. `sscanf` devuelve cuántos datos pudo leer: si no es 1, no era un número.
+3. Tocá **Ejecutar**. Tiene que salir `Eso no es una altura: uno ochenta`.
 
 #### Código inicial
 ```c
@@ -3167,6 +3350,15 @@ hacia arriba con enteros es `(a + b - 1) / b`). Probalo con 23 y 9.
 - Lee ataque y defensa con `fgets` + `sscanf`.
 - Muestra el daño normal y el crítico alineados con `%4d`.
 - Calcula los golpes para 60 de vida redondeando hacia arriba con enteros.
+
+#### Pasos
+1. Borrá `/* Escribí tu programa acá */`. Escribí `char linea[100];` y `int ataque = 0, defensa = 0;`
+2. Pedí el ataque: `printf("Ataque de Kira: ");`, después `fgets(linea, sizeof(linea), stdin);` y `sscanf(linea, "%d", &ataque);`
+3. Lo mismo para la defensa, con `printf("Defensa del orco: ");` y `&defensa`.
+4. Calculá: `int danio = ataque - defensa;` y `int critico = danio * 2;`
+5. Mostrá: `printf("\nDaño normal:  %4d\n", danio);` (dos espacios después de los dos puntos) y `printf("Daño crítico: %4d\n", critico);`
+6. Los golpes: `printf("Golpes para vencer un orco de 60 de vida: %d\n", (60 + danio - 1) / danio);`
+7. Tocá **Ejecutar**. Tienen que salir 14, 28 y 5.
 
 #### Código inicial
 ```c
@@ -3262,6 +3454,14 @@ Tizón, Hulda y Chispa en columnas alineadas, y el oro del grupo con 8 cifras
 - Muestra las cuatro filas en columnas alineadas con anchos fijos.
 - Muestra el oro del grupo con 8 cifras (`00004250`).
 
+#### Pasos
+1. Borrá `/* Escribí tu programa acá */`.
+2. Los títulos: `printf("%-8s %5s %5s %6s\n", "nombre", "nivel", "vida", "prec");`
+3. Una fila por personaje, con el mismo formato: `printf("%-8s %5d %5d %6.1f\n", "Kira", 7, 120, 87.5);`
+4. Las otras tres: Tizon (9, 160, 72.25), Hulda (6, 80, 91.0) y Chispa (8, 95, 99.9).
+5. El oro con 8 cifras: `printf("Oro del grupo: %08d\n", 4250);`
+6. Tocá **Ejecutar** y compará columna por columna.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -3342,6 +3542,15 @@ convirtió. ¿Cuál es la más peligrosa?
 **Para superarla:**
 - Lee las tres alturas y muestra el valor que quedó y lo que devolvió `sscanf` para cada una.
 - Explica en un comentario que `1,80` es la más peligrosa: convierte 1 dato y queda 1.00 sin aviso.
+
+#### Pasos
+1. Borrá `/* Escribí tu programa acá */`. Escribí `char linea[100];` y `double altura = 0.0;`
+2. Primera altura: `printf("Altura con punto: ");`, `fgets(linea, sizeof(linea), stdin);` e `int n1 = sscanf(linea, "%lf", &altura);`
+3. Mostrala: `printf("-> leí %.2f (convertidos: %d)\n", altura, n1);`
+4. Segunda: igual con `Altura con coma: ` y `n2`. El `printf` termina en `  <- ¡se perdió el ,80!`
+5. Tercera: `Altura en palabras: `; antes del `sscanf` poné `altura = -1.0;` y usá `n3`. Mostrá `printf("-> altura sigue en %.2f (convertidos: %d)\n", altura, n3);`
+6. Arriba, en un comentario, explicá que `1,80` es la más peligrosa: lee 1, dice que convirtió 1 dato y no avisa.
+7. Tocá **Ejecutar** y compará con la salida esperada.
 
 #### Código inicial
 ```c
@@ -3847,6 +4056,11 @@ Sin `else`, cuando la condición es mentira simplemente no pasa nada. Son **dos 
 #### Desafío
 Agregá el `else` para que, si el horno ya está muy caliente, se baje el fuego.
 
+#### Pasos
+1. Buscá la línea `} ___ {`.
+2. Cambiá `___` por `else`. Queda: `} else {`
+3. Tocá **Ejecutar**. Tiene que salir `bajar el fuego`.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -3925,6 +4139,12 @@ C prueba las condiciones **en orden**, de arriba hacia abajo, y entra en la **pr
 #### Desafío
 Completá las condiciones para mandar a Kira (140 piezas forjadas) a su piso.
 
+#### Pasos
+1. Hay dos `___`.
+2. En el `if`, cambiá `___` por `<`. Queda `piezas < 50`.
+3. En el `else if`, cambiá `___` por `<=`. Queda `piezas <= 200`.
+4. Tocá **Ejecutar**. Tiene que salir `Piso de los yunques`.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -3998,6 +4218,12 @@ Una variable con 1 o 0 sirve sola como condición: `if (tiene_llave)` es lo mism
 
 #### Desafío
 Completá la condición: entre 800 y 1000 grados, y con agua.
+
+#### Pasos
+1. En el `if` hay dos `___`.
+2. Cambiá los dos por `&&` («y»: tienen que cumplirse todas).
+3. Queda: `if (grados >= 800 && grados <= 1000 && hay_agua)`
+4. Tocá **Ejecutar**. Tiene que salir `Se puede templar`.
 
 #### Código inicial
 ```c
@@ -4077,6 +4303,12 @@ C salta al `case` que coincide y ejecuta desde ahí. `break;` dice «listo, sal�
 
 #### Desafío
 Agregá el `break` que falta para que Chispa pague solo lo que pidió.
+
+#### Pasos
+1. Buscá `case 2:` y la línea de abajo, `printf("Templar: 5 lingotes\n");`.
+2. Debajo de ese `printf`, agregá una línea nueva con `break;`.
+3. Sin el `break`, el programa sigue de largo y también cobra el pulido.
+4. Tocá **Ejecutar**. Tiene que salir solo `Templar: 5 lingotes`.
 
 #### Código inicial
 ```c
@@ -4170,6 +4402,15 @@ fundido. Rechazá temperaturas negativas y lo que no sea un número.
 **Para superarla:**
 - Usa `else if` en orden para los cinco estados del metal.
 - Rechaza lo que no es un número (`sscanf` distinto de 1) y las temperaturas negativas.
+
+#### Pasos
+1. Borrá `/* Escribí tu programa acá */`. Escribí `char linea[100];` y `int grados = 0;`
+2. Pedí el dato: `printf("Temperatura del hierro (°C): ");` y `fgets(linea, sizeof(linea), stdin);`
+3. Si no es un número: `if (sscanf(linea, "%d", &grados) != 1) {` mostrá `"\nEso no es una temperatura.\n"` y `return 0;` `}`
+4. Después, `printf("\n");`
+5. Una cadena de `if` / `else if`, en este orden: `grados < 0` (imposible), `< 500` (frío), `< 900` (rojo oscuro), `< 1200` (naranja), `<= 1538` (amarillo blanco), y `else` (fundido).
+6. El mensaje del naranja tiene que ser exacto: `Naranja: ideal para forjar.` Los otros, como quieras.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```c
@@ -4269,6 +4510,15 @@ Aceptá `x` como sinónimo de `*` y no dividas por cero.
 - Lee la cuenta con `sscanf(linea, "%lf %c %lf", ...)` y exige que convierta 3 datos.
 - Resuelve con `switch`, aceptando `x` como `*` (dos `case` juntos).
 - No divide por cero: avisa.
+
+#### Pasos
+1. Borrá `/* Escribí tu programa acá */`. Escribí `char linea[100];`, `double a = 0.0, b = 0.0;` y `char op = ' ';`
+2. Pedí la cuenta: `printf("Cuenta (por ejemplo 12.5 * 4): ");` y `fgets(linea, sizeof(linea), stdin);`
+3. Si `sscanf(linea, "%lf %c %lf", &a, &op, &b) != 3`, mostrá un aviso de formato inválido y `return 0;`
+4. `printf("\n");` y después `switch (op) {`
+5. Un `case` por operador. Para `*` y `x` van dos `case` juntos: `case '*':` y abajo `case 'x': printf("%.2f * %.2f = %.2f\n", a, b, a * b); break;`
+6. En `case '/'`, si `b == 0.0` avisá que no se puede dividir por cero.
+7. Tocá **Ejecutar**. Tiene que salir `12.50 * 4.00 = 50.00`.
 
 #### Código inicial
 ```c
@@ -4371,6 +4621,15 @@ es pifia y un 20 es crítico; si no, acierta si `tirada + 3 >= 15`.
 - Trata aparte el 1 (pifia) y el 20 (crítico).
 - Si no, acierta con `tirada + 3 >= 15`.
 - Rechaza tiradas fuera de 1 a 20.
+
+#### Pasos
+1. Borrá `/* Escribí tu programa acá */`. Escribí `char linea[100];`, `int dificultad = 15;`, `int bonus = 3;` e `int t = 0;`
+2. Pedí la tirada: `printf("Tirada del d20: ");` y `fgets(linea, sizeof(linea), stdin);`
+3. Rechazá lo inválido: `if (sscanf(linea, "%d", &t) != 1 || t < 1 || t > 20)` → mostrá `"\nUn d20 da de 1 a 20.\n"` y `return 0;`
+4. `printf("\n");`
+5. En orden: `if (t == 1)` pifia; `else if (t == 20)` crítico; `else if (t + bonus >= dificultad)` acierta; `else` falla.
+6. El acierto se muestra así: `printf("Acierta (%d + %d >= %d).\n", t, bonus, dificultad);`
+7. Tocá **Ejecutar**. Con 12 tiene que salir `Acierta (12 + 3 >= 15).`
 
 #### Código inicial
 ```c
@@ -4928,6 +5187,14 @@ Este ejemplo muestra vuelta 1, vuelta 2 y vuelta 3. El paso puede ser otro: con 
 #### Desafío
 Completá el `for` para contar de 10 a 40 de diez en diez.
 
+#### Pasos
+1. En el `for` hay tres `___`.
+2. El primero (dónde empieza): `10`.
+3. El segundo (hasta dónde): `<=`. Queda `golpes <= 40`.
+4. El tercero (cuánto suma cada vuelta): `+= 10`.
+5. Queda: `for (int golpes = 10; golpes <= 40; golpes += 10)`
+6. Tocá **Ejecutar**. Tienen que salir 10, 20, 30 y 40.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -5004,6 +5271,11 @@ La condición tiene que decir cuándo **seguir**, no cuándo parar. Si nunca se 
 #### Desafío
 Corregí la condición: soplar mientras el horno esté por debajo de 900 grados.
 
+#### Pasos
+1. Buscá la línea `while (grados > 2000) {`.
+2. Cambiá `> 2000` por `< 900`. Queda: `while (grados < 900) {`
+3. Tocá **Ejecutar**. Tiene que salir `4 soplidos: horno a 900 grados`.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -5078,6 +5350,11 @@ Ojo: después del `while (…)` va `;`.
 
 #### Desafío
 Completá la condición para repetir mientras la cantidad no esté entre 1 y 10.
+
+#### Pasos
+1. Buscá la línea `} while (___);`.
+2. Cambiá `___` por `cantidad < 1 || cantidad > 10`. El `||` es «o»: repite si es muy chica o muy grande.
+3. Tocá **Ejecutar**. Tiene que salir `al intento 3`.
 
 #### Código inicial
 ```c
@@ -5154,6 +5431,12 @@ Los dos empiezan en 0, **antes** del bucle (si empezaran adentro, se borrarían 
 
 #### Desafío
 Completá el acumulador y el contador.
+
+#### Pasos
+1. Adentro del `while` hay dos `___;`.
+2. El primero suma el peso al total: `total += peso;`
+3. El segundo cuenta una bolsa más: `bolsas++;`
+4. Tocá **Ejecutar**. Tiene que salir `4 bolsas, 40 kg, promedio 10.00 kg`.
 
 #### Código inicial
 ```c
@@ -5242,6 +5525,15 @@ Del 1 al 30: si el número es múltiplo de 3,
 - Recorre del 1 al 30 con un `for`.
 - Pregunta primero por los múltiplos de 3 y 5 a la vez (o arma el texto por partes).
 - Muestra "Martillo", "Yunque", "MartilloYunque" o el número.
+
+#### Pasos
+1. Borrá `/* Escribí tu programa acá */`. Escribí `for (int n = 1; n <= 30; n++) {`
+2. Primero el caso de los dos: `if (n % 3 == 0 && n % 5 == 0)` → `printf("MartilloYunque\n");`
+3. Después `else if (n % 3 == 0)` → `printf("Martillo\n");`
+4. Después `else if (n % 5 == 0)` → `printf("Yunque\n");`
+5. Si no: `else` → `printf("%d\n", n);`
+6. Cerrá el `for` con `}`.
+7. Tocá **Ejecutar**. El 15 y el 30 tienen que decir `MartilloYunque`.
 
 #### Código inicial
 ```c
@@ -5352,6 +5644,14 @@ ahorro cada 4 semanas.
 - Suma 50 por semana y el 5 % de lo ahorrado.
 - Muestra el ahorro cada 4 semanas y cuántas semanas tarda en llegar a 1000.
 
+#### Pasos
+1. Borrá `/* Escribí tu programa acá */`. Escribí `double ahorro = 0.0;` e `int semana = 0;`
+2. Repetí mientras no llegue: `while (ahorro < 1000.0) {`
+3. Adentro: `semana++;`, `ahorro += 50.0;` y el 5 %: `ahorro += ahorro * 0.05;`
+4. Cada 4 semanas: `if (semana % 4 == 0)` → `printf("semana %2d: %7.2f\n", semana, ahorro);`
+5. Cerrá el `while` y mostrá: `printf("Lo logra en la semana %d, con %.2f de oro.\n", semana, ahorro);`
+6. Tocá **Ejecutar**. Tiene que salir `semana 14`.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -5442,6 +5742,15 @@ como intento. (En el 09 el número va a salir al azar.)
 - El número secreto es 37 y hay 6 intentos.
 - Responde "más alto" o "más bajo".
 - Lo que no sea un número del 1 al 50 no gasta intento.
+
+#### Pasos
+1. Borrá `/* Escribí tu programa acá */`. Escribí `const int SECRETO = 37;`, `char linea[100];`, `int intentos = 0;` e `int adivino = 0;`
+2. Repetí: `while (intentos < 6 && !adivino) {`
+3. Adentro, pedí: `printf("Intento %d: ", intentos + 1);` y `if (fgets(linea, sizeof(linea), stdin) == NULL) break;`
+4. Si no es un número del 1 al 50 (`sscanf(linea, "%d %c", &n, &sobra) != 1 || n < 1 || n > 50`), mostrá `"tiene que ser un número del 1 al 50.\n"` y `continue;` (no suma intento). Declará antes `int n;` y `char sobra;`.
+5. Si es válido: `intentos++;` y después `if (n == SECRETO) adivino = 1;`, `else if (n < SECRETO)` → `"más alto\n"`, `else` → `"más bajo\n"`.
+6. Afuera del `while`: si `adivino`, `printf("¡Correcto! Era %d. Lo lograste en %d intentos.\n", SECRETO, intentos);`; si no, `"No lo adivinaste. Era %d.\n"`.
+7. Tocá **Ejecutar** y compará renglón por renglón.
 
 #### Código inicial
 ```c
@@ -6005,6 +6314,12 @@ Se usa (se **llama**) así: `doble(7)` da `14`. Se escribe arriba de `main`.
 #### Desafío
 Completá la función: el daño es el ataque menos la defensa.
 
+#### Pasos
+1. Adentro de la función `danio` hay un `___`.
+2. Cambialo por `return ataque - defensa;`
+3. `return` devuelve el resultado a quien llamó a la función.
+4. Tocá **Ejecutar**. Tienen que salir 11 y 13.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -6080,6 +6395,12 @@ Por eso la función tiene que **devolver** el valor nuevo con `return`, y quien 
 
 #### Desafío
 Hacé que `curar` devuelva la vida nueva y guardala.
+
+#### Pasos
+1. Buscá `void curar(int vida)` y cambiá `void` por `int` (ahora devuelve un número).
+2. Adentro, cambiá `vida = vida + 30;` por `return vida + 30;`
+3. En `main`, buscá `curar(vida_tizon);` y cambiala por `vida_tizon = curar(vida_tizon);`
+4. Tocá **Ejecutar**. Tiene que salir `vida de Tizon: 80`.
 
 #### Código inicial
 ```c
@@ -6159,6 +6480,12 @@ Cada vez que llamás a `turno()` devuelve uno más: 1, 2, 3…
 
 #### Desafío
 Hacé que la función recuerde la cuenta.
+
+#### Pasos
+1. Buscá la línea `int cuenta = 0;` adentro de `espadazo`.
+2. Escribí `static ` delante. Queda: `static int cuenta = 0;`
+3. `static` hace que la variable no se borre entre llamadas.
+4. Tocá **Ejecutar**. Tiene que salir `Espadazos: 3`.
 
 #### Código inicial
 ```c
@@ -6246,6 +6573,12 @@ int cuenta_regresiva(int n)
 #### Desafío
 Completá el caso base y la llamada recursiva.
 
+#### Pasos
+1. Hay dos `___`.
+2. En `return ___;` (adentro del `if`), cambiá `___` por `0`: una cadena de 0 no tiene eslabones.
+3. En `return 1 + ___;`, cambiá `___` por `eslabones(n - 1)`: la función se llama a sí misma con uno menos.
+4. Tocá **Ejecutar**. Tiene que salir `7 eslabones`.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -6330,6 +6663,16 @@ ataques de Kira (ataque 15) contra un orco (defensa 4, vida 60).
 - Escribe `es_critico` y `danio_final` (mínimo 1, el doble si es crítico).
 - La tirada sale de `tirada_del_turno(turno)`.
 - Simula hasta 5 ataques contra el orco y muestra la vida que le queda.
+
+#### Pasos
+1. Arriba de `main`, escribí los tres prototipos: `int tirada_del_turno(int turno);`, `bool es_critico(int tirada);` e `int danio_final(int ataque, int defensa, bool critico);`
+2. Abajo de `main`, escribí las tres funciones. `tirada_del_turno` devuelve `turno * 7 % 20 + 1`. `es_critico` devuelve `tirada >= 15`.
+3. `danio_final`: `int base = ataque - defensa;`, si `base < 1` vale 1, y devuelve `critico ? base * 2 : base`.
+4. En `main`: `int vida_orco = 60;` y `for (int turno = 1; turno <= 5 && vida_orco > 0; turno++) {`
+5. En cada turno: la tirada, si es crítico, el daño con `danio_final(15, 4, critico)`, restalo a `vida_orco` (si queda negativa, ponela en 0).
+6. Mostrá: `printf("turno %d: tirada %2d%s -> daño %2d, orco %d\n", turno, tirada, critico ? " CRÍTICO" : "", danio, vida_orco);`
+7. Al final: `printf("%s\n", vida_orco == 0 ? "el orco cayó" : "el orco sigue en pie");`
+8. Tocá **Ejecutar** y compará renglón por renglón.
 
 #### Código inicial
 ```c
@@ -6443,6 +6786,15 @@ max)` (usando las dos anteriores) y `es_par`.
 - Declara los prototipos antes de `main` (o define las funciones antes).
 - Muestra pruebas de cada una.
 
+#### Pasos
+1. Arriba de `main`, los prototipos: `int maximo(int a, int b);`, `int minimo(int a, int b);`, `int limitar(int valor, int min, int max);` y `bool es_par(int n);`
+2. Abajo de `main`, las funciones. `maximo` devuelve `a > b ? a : b`; `minimo`, `a < b ? a : b`.
+3. `limitar` usa las dos: `return minimo(maximo(valor, min), max);`
+4. `es_par` devuelve `n % 2 == 0`.
+5. En `main`, un `printf` por prueba, como en la salida esperada. Ejemplo: `printf("maximo(7, 12) = %d\n", maximo(7, 12));`
+6. El último muestra dos: `printf("es_par(10) = %d  es_par(7) = %d\n", es_par(10), es_par(7));`
+7. Tocá **Ejecutar** y compará renglón por renglón.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -6546,6 +6898,14 @@ Dos recursiones, cada una con su caso base:
 - `potencia` y `suma_digitos` son recursivas, sin `pow` ni bucles.
 - Cada una tiene su caso base.
 - Muestra, por ejemplo, 2^10 = 1024 y la suma de dígitos de 2026 = 10.
+
+#### Pasos
+1. Arriba de `main`, los prototipos: `long long potencia(int base, int exp);` e `int suma_digitos(int n);`
+2. `potencia`: si `exp == 0` devuelve `1`; si no, `return base * potencia(base, exp - 1);`
+3. `suma_digitos`: si `n < 10` devuelve `n`; si no, `return n % 10 + suma_digitos(n / 10);`
+4. En `main`, cuatro `printf`: `"2^10 = %lld\n"` con `potencia(2, 10)`, `"3^4 = %lld\n"` con `potencia(3, 4)`.
+5. Y `"suma de dígitos de 2026 = %d\n"` con `suma_digitos(2026)`, y lo mismo con `7`.
+6. Tocá **Ejecutar**. Tienen que salir 1024, 81, 10 y 7.
 
 #### Código inicial
 ```c
@@ -7016,6 +7376,11 @@ El preprocesador cambia cada `VIDAS_INICIALES` por `3` en todo el programa. Si m
 #### Desafío
 Definí la constante para que todo el programa use 10.
 
+#### Pasos
+1. Arriba de `int main` hay un `___` solo en su renglón.
+2. Cambialo por `#define PIEZAS_POR_CAJA 10` (sin `=` y sin `;`).
+3. Tocá **Ejecutar**. Tienen que salir 4 y 7.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -7083,6 +7448,12 @@ La solución es poner paréntesis en cada parámetro y en toda la macro: `#defin
 #### Desafío
 Arreglá la macro para que `CUBO(2+1)` dé 27.
 
+#### Pasos
+1. Buscá la línea `#define CUBO(a) a*a*a`.
+2. Poné cada `a` entre paréntesis y todo entre otros paréntesis.
+3. Queda: `#define CUBO(a) ((a) * (a) * (a))`
+4. Tocá **Ejecutar**. Tiene que salir `CUBO(2+1) = 27`.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -7149,6 +7520,12 @@ La macro ya está escrita arriba: `#define SWAP(tipo, a, b) …`. Se usa como un
 
 #### Desafío
 Usá la macro para intercambiar los precios y los pesos.
+
+#### Pasos
+1. Hay dos `___;`.
+2. El primero intercambia los precios: `SWAP(int, precio_espada, precio_escudo);`
+3. El segundo intercambia los pesos: `SWAP(double, peso_espada, peso_escudo);`
+4. Tocá **Ejecutar**. La espada tiene que quedar con 45 lingotes y 2.0 kg.
 
 #### Código inicial
 ```c
@@ -7228,6 +7605,11 @@ Lo que no se cumple, el compilador ni lo ve: es como si no estuviera escrito. Se
 
 #### Desafío
 Completá la condición para que con `MODO` en 1 se compile el modo práctica.
+
+#### Pasos
+1. Adentro de `main`, el primer renglón es `___`.
+2. Cambialo por `#if MODO == 1` (empieza con `#`, sin punto y coma).
+3. Tocá **Ejecutar**. Tiene que salir `modo practica: horno a 600 grados`.
 
 #### Código inicial
 ```c
@@ -7311,6 +7693,15 @@ lingotes y cuántos sobran.
 - Usa `#define` para la constante y las tres macros, con un paréntesis en cada parámetro y otro alrededor de todo.
 - `AREA(3+1, 2)` da 8 (sin paréntesis daría 5).
 - Muestra las cajas completas y los lingotes que sobran.
+
+#### Pasos
+1. Arriba de `int main`, escribí `#define LINGOTES_POR_CAJA 12`.
+2. Debajo, las tres macros: `#define AREA(base, altura) ((base) * (altura))`
+3. `#define MENOR(a, b) ((a) < (b) ? (a) : (b))`
+4. `#define EN_RANGO(x, min, max) ((x) >= (min) && (x) <= (max))`
+5. En `main`, un `printf` por prueba. Ejemplo: `printf("AREA(3+1, 2) = %d\n", AREA(3+1, 2));` Igual con `MENOR(7, 4)` y los dos `EN_RANGO`.
+6. Al final: `int lingotes = 100;` y `printf("%d lingotes: %d cajas de %d y sobran %d\n", lingotes, lingotes / LINGOTES_POR_CAJA, LINGOTES_POR_CAJA, lingotes % LINGOTES_POR_CAJA);`
+7. Tocá **Ejecutar** y compará renglón por renglón.
 
 #### Código inicial
 ```c
@@ -7401,6 +7792,15 @@ solo copia texto).
 - Las tres macros tienen un paréntesis en cada parámetro y otro alrededor de todo.
 - `CUBO(2+1)` da 27, `DOBLE(3)*2` da 12 y `MITAD(10+4)` da 7.
 - Muestra también el valor que daba la versión rota (7, 9 y 12).
+
+#### Pasos
+1. Arreglá las tres macros: cada parámetro entre paréntesis y todo entre paréntesis.
+2. `#define CUBO(a) ((a) * (a) * (a))`, `#define DOBLE(x) ((x) + (x))` y `#define MITAD(x) ((x) / 2)`
+3. Borrá el comentario de `main`. Primer `printf`: `printf("CUBO(2+1)   = %2d  (la rota daba 7)\n", CUBO(2+1));`
+4. Segundo: `"DOBLE(3)*2  = %2d  (la rota daba 9)\n"` con `DOBLE(3)*2`.
+5. Tercero: `"MITAD(10+4) = %2d  (la rota daba 12)\n"` con `MITAD(10+4)`.
+6. Cuarto: `printf("Ninguna herradura banana.\n");`
+7. Ojo con los espacios: copialos de la salida esperada. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```c
@@ -7494,6 +7894,16 @@ otros valores y `-DDEPURAR`.
 - Usa `#ifndef` con `#error` cuando falta `NIVEL`.
 - Usa `#if`, `#elif`, `#else` y `#endif` para los tres niveles.
 - Usa `#ifdef DEPURAR` para el detalle de depuración.
+
+#### Pasos
+1. Arriba de `int main`, escribí `#define NIVEL 1`.
+2. Debajo, el aviso si falta: `#ifndef NIVEL`, después `#error Falta definir NIVEL (0, 1 o 2)` y `#endif`.
+3. Borrá el comentario de `main`. Escribí `#if NIVEL >= 2` → `printf("horno a 1200 grados\n");`
+4. `#elif NIVEL == 1` → `printf("horno a 600 grados\n");`
+5. `#else` → `printf("horno apagado\n");` y cerrá con `#endif`.
+6. Después: `#ifdef DEPURAR`, un `printf` con `__LINE__` y `#endif`.
+7. Por último: `printf("nivel elegido: %d\n", NIVEL);`
+8. Tocá **Ejecutar**. Tienen que salir `horno a 600 grados` y `nivel elegido: 1`.
 
 #### Código inicial
 ```c
@@ -7908,6 +8318,12 @@ Las dos devuelven un `double`, así que se muestran con `%.0f` (sin decimales).
 #### Desafío
 Usá `ceil` y `floor`.
 
+#### Pasos
+1. Hay dos `___`.
+2. En `cajas necesarias`, cambiá `___` por `ceil` (redondea para arriba).
+3. En `cajas llenas`, cambiá `___` por `floor` (redondea para abajo).
+4. Tocá **Ejecutar**. Tienen que salir 5 y 4.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -7971,6 +8387,12 @@ La diagonal de un rectángulo sale del teorema de Pitágoras: la raíz de (ancho
 
 #### Desafío
 Calculá la diagonal con `sqrt` y `pow`.
+
+#### Pasos
+1. Buscá la línea `double diagonal = ___;`.
+2. Cambiá `___` por `sqrt(pow(ancho, 2) + pow(alto, 2))`.
+3. `pow(ancho, 2)` es ancho al cuadrado; `sqrt` es la raíz cuadrada.
+4. Tocá **Ejecutar**. Tiene que salir `diagonal: 5.0`.
 
 #### Código inicial
 ```c
@@ -8036,6 +8458,12 @@ Un bucle que lee hasta el final de la línea pregunta por dos cosas: que no sea 
 
 #### Desafío
 Completá el bucle que lee el cartel de a un carácter hasta el fin de la línea.
+
+#### Pasos
+1. Hay dos `___`.
+2. En el `if`, cambiá `___` por `isdigit`. Queda `if (isdigit(c))`: pregunta si es un número.
+3. En el `putchar`, cambiá `___` por `toupper`. Queda `putchar(toupper(c));`: lo pasa a mayúscula.
+4. Tocá **Ejecutar**. Tiene que salir el cartel en mayúsculas y `(2 numeros)`.
 
 #### Código inicial
 ```c
@@ -8120,6 +8548,11 @@ Como la cuenta es fija, sale **siempre** la misma secuencia, en cualquier compu.
 #### Desafío
 Completá la tirada del dado.
 
+#### Pasos
+1. Buscá la línea `int dado = ___;`.
+2. Cambiá `___` por `semilla % 6 + 1`. El `% 6` da de 0 a 5; el `+ 1`, de 1 a 6.
+3. Tocá **Ejecutar**. Tienen que salir 6, 4, 6, 1 y 6.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -8203,6 +8636,16 @@ de vida y le quedan pociones, toma una (+15) en lugar de atacar.
 - Usa `srand(4)` y una función `tirar(minimo, maximo)`.
 - Kira toma poción (+15) si tiene menos de 10 de vida y le quedan.
 - Muestra cada turno y quién gana.
+
+#### Pasos
+1. Arriba de `main`, el prototipo: `int tirar(int minimo, int maximo);`. Abajo de `main`, la función: `return minimo + rand() % (maximo - minimo + 1);`
+2. En `main`, borrá el comentario. Escribí `srand(4);` e `int vida_kira = 30, pociones = 2, vida_orco = 40, turno = 0;`
+3. Repetí: `while (vida_kira > 0 && vida_orco > 0) {` y adentro `turno++;`
+4. Si `vida_kira < 10 && pociones > 0`: `pociones--;`, `vida_kira += 15;` y `printf("T%d: Kira toma una poción -> vida %d (quedan %d)\n", turno, vida_kira, pociones);`
+5. Si no: `int golpe = tirar(5, 10);`, restalo al orco (sin bajar de 0) y `printf("T%d: Kira pega %d -> orco %d\n", turno, golpe, vida_orco);`
+6. Después, si el orco sigue vivo: `golpe = tirar(4, 9)`, restalo a Kira (sin bajar de 0) y `printf("    el orco pega %d -> Kira %d\n", golpe, vida_kira);` (cuatro espacios al principio).
+7. Afuera del `while`: `printf("%s\n", vida_kira > 0 ? "¡Ganó Kira!" : "Ganó el orco...");`
+8. Tocá **Ejecutar** y compará turno por turno.
 
 #### Código inicial
 ```c
@@ -8314,6 +8757,15 @@ respuestas y comentá cómo sería con `time(NULL)`.
 - Usa `rand() % 50 + 1` con `srand(2026)`.
 - Reutiliza las reglas del oráculo del 07.
 - Comenta cómo sería con `time(NULL)`.
+
+#### Pasos
+1. Partí del oráculo del 07 (el de los bucles): es igual, salvo el número secreto.
+2. Borrá el comentario. Escribí `srand(2026);` con el comentario `/* jugando: srand(time(NULL)); */` al lado.
+3. El secreto: `int secreto = rand() % 50 + 1;`
+4. El resto como en el 07: `char linea[100];`, `int intentos = 0, adivino = 0;` y el `while (intentos < 6 && !adivino)`.
+5. Si no adivinó: `printf("%s\n", n < secreto ? "más alto" : "más bajo");`
+6. Al final: `"¡Correcto! Lo lograste en %d intentos.\n"` o `"No lo adivinaste. Era %d.\n"`.
+7. Tocá **Ejecutar** y compará renglón por renglón.
 
 #### Código inicial
 ```c
@@ -8427,6 +8879,16 @@ como `_` y el resto como `?`, y al final cuántos hubo de cada tipo.
 - Lee carácter por carácter con `getchar` hasta el Enter o el fin de la entrada.
 - Usa `toupper`, `isdigit`, `isspace` de `ctype.h`.
 - Muestra al final cuántos hubo de cada tipo.
+
+#### Pasos
+1. Borrá el comentario. Escribí `int letras = 0, digitos = 0, espacios = 0, otros = 0;` e `int c;`
+2. Pedí: `printf("Escribí una línea: ");`
+3. Leé de a una letra: `while ((c = getchar()) != EOF && c != '\n') {`
+4. Adentro: `if (isalpha(c))` → `letras++;` y `putchar(toupper(c));`
+5. `else if (isdigit(c))` → `digitos++;` y `putchar(c);` · `else if (isspace(c))` → `espacios++;` y `putchar('_');`
+6. `else` → `otros++;` y `putchar('?');`
+7. Al final: `printf("\nletras %d, dígitos %d, espacios %d, otros %d\n", letras, digitos, espacios, otros);`
+8. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```c

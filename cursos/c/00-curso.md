@@ -687,6 +687,14 @@ alineada con `\t`.
 - Alinea los valores con `\t`.
 - Compila sin advertencias con `-Wall -Wextra`.
 
+#### Pasos
+1. Borrá la línea `/* Escribí tu programa acá */`.
+2. En su lugar escribí un `printf` por cada línea de la ficha: son cinco.
+3. La primera: `printf("=== FICHA ===\n");`
+4. Las otras cuatro llevan `\t` entre el título y el dato. Por ejemplo: `printf("Nombre:\tKira\n");`
+5. Seguí igual con `Clase:` (Espadachina), `Región:` (Las Forjas de Hierro) y `Mentor:` (Maese Ferrum).
+6. Tocá **Ejecutar** y compará con la salida esperada, letra por letra.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -773,6 +781,12 @@ int main(void)
 - Compila sin errores ni advertencias.
 - Muestra las dos líneas del pergamino.
 
+#### Pasos
+1. Arriba de todo, antes de `int main`, agregá la línea `#include <stdio.h>`.
+2. Buscá `printf("Kira conoce a Tizon.\n")`: le falta el `;` al final. Agregalo.
+3. Buscá `Printf` con P mayúscula. Cambiala por `printf`, con minúscula.
+4. Tocá **Ejecutar**. Tienen que salir las dos líneas.
+
 #### Código inicial
 ```c
 int main(void) {
@@ -846,6 +860,14 @@ una frase entre comillas debajo. Vas a necesitar `\\` y `\"`.
 - Dibuja la espada usando `\\` para la barra invertida.
 - Muestra la frase entre comillas con `\"`.
 - Compila sin advertencias.
+
+#### Pasos
+1. Borrá la línea `/* Escribí tu programa acá */`.
+2. Escribí un `printf` por cada renglón del dibujo, copiando los espacios de la salida esperada.
+3. Donde el dibujo tiene `\`, escribí `\\` (dos barras). Ejemplo: `printf("      /\\\n");`
+4. Para las comillas de la frase, escribí `\"`. Ejemplo: `printf("\"Forjada en C\", dice la hoja.\n");`
+5. Cada `printf` termina con `\n` adentro de las comillas y `;` afuera.
+6. Tocá **Ejecutar** y compará renglón por renglón.
 
 #### Código inicial
 ```c

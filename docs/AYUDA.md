@@ -68,12 +68,12 @@ Se frena al final de cada fase para que el docente lo pruebe con sus alumnos.
 
 Estado: fase 1 en producción. Fase 2 arrancada (commit bd27962b, falta `git push` + `scripts/deploy.sh --cursos`).
 
-**Pregunta abierta al docente (esperar respuesta antes de escribir más):** los 5 Pasos de muestra (C R00-N01-P1 a P5, en `cursos/c/00-curso.md`) son muy directos: casi dicen la respuesta («escribí `printf`»). ¿Así, o que guíen sin dar el código exacto («el comando que muestra texto») y dejar la línea exacta a «Mostrame una línea» (medio premio)?
+**Resuelto (2026-11-15): al docente le gustó el tono directo; se sigue así.** Era: los 5 Pasos de muestra (C R00-N01-P1 a P5, en `cursos/c/00-curso.md`) son muy directos: casi dicen la respuesta («escribí `printf`»). ¿Así, o que guíen sin dar el código exacto («el comando que muestra texto») y dejar la línea exacta a «Mostrame una línea» (medio premio)?
 
 **Después, en orden:**
-1. Pasos del resto de los 10 primeros nodos de C: R00-N01 (P6–P8), R01-N01 a R01-N09 (`cursos/c/00-curso.md` y `01-templar-el-metal.md`; ~66 micro-misiones). Va `#### Pasos` justo después de `#### Desafío`, con las reglas de § 8.2. Leer cada código inicial y solución: contar bien los `___`.
+1. ~~Pasos de los 10 primeros nodos de C~~ hechos (71/71, 2026-11-15): R00-N01, R01-N01 a R01-N09 (`cursos/c/00-curso.md` y `01-templar-el-metal.md`; ~66 micro-misiones). Va `#### Pasos` justo después de `#### Desafío`, con las reglas de § 8.2. Leer cada código inicial y solución: contar bien los `___`.
 2. Revisar e importar: `php artisan app:import-course cursos/c` y luego con `--apply`. Commit por nodo o tanda.
-3. Frenar para que el docente pruebe. Luego los demás cursos (10 primeros nodos de cada uno: Python 88, Java 70, PHP 66, Ensamblador 62, C++ 61, JS 59, HTML 56, C# 50 micro-misiones).
+3. Frenar para que el docente pruebe (C hecho: falta su OK). Luego los demás cursos. Herramientas: `ver.py carpeta R01-N02` muestra desafío/inicial/solución/salida de las que no tienen Pasos y `poner.py carpeta pasos.txt` (bloques `@@ CODIGO` + texto) los inserta; si se perdieron del scratchpad, rehacerlos (30 líneas cada uno) (10 primeros nodos de cada uno: Python 88, Java 70, PHP 66, Ensamblador 62, C++ 61, JS 59, HTML 56, C# 50 micro-misiones).
 4. Las ayudas en *Admin → Estadísticas* (tabla `step_helps`, `StepHelp::KINDS`; hoy solo salen en el Recorrido del alumno, `StudentJourney::helpSummary`).
 5. Fase 3: modo enfoque (§ 3).
 

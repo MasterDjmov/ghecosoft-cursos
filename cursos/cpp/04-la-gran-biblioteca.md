@@ -3204,6 +3204,12 @@ for (auto it = desde; it != hasta; ++it) {
 #### Desafío
 Mostrá todos los libros del tema.
 
+#### Pasos
+1. `find` devuelve solo el primer libro del tema.
+2. Cambialo por `auto [desde, hasta] = indice.equal_range("mapas");`.
+3. Recorré `for (auto it = desde; it != hasta; ++it)` y mostrá `"mapas: " << it->second`.
+4. Tocá **Ejecutar**. Tienen que salir los tres libros.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -3272,6 +3278,11 @@ Para «todo lo que empieza con L hasta P»: desde `lower_bound("L")` hasta `lowe
 
 #### Desafío
 Incluí las palabras que empiezan con P.
+
+#### Pasos
+1. `upper_bound("P")` corta antes de las palabras que empiezan con P.
+2. Cambialo por `nombres.lower_bound("Q")`.
+3. Tocá **Ejecutar**. Tiene que salir `Poleas`.
 
 #### Código inicial
 ```cpp
@@ -3350,6 +3361,12 @@ Así sabés si estaba sin buscar antes.
 
 #### Desafío
 Avisá con los repetidos usando lo que devuelve `insert`.
+
+#### Pasos
+1. Después de insertar, `contains` siempre da verdadero.
+2. Usá lo que devuelve `insert`: `auto [it, nuevo] = visitas.insert(nombre);`.
+3. Mostrá `*it << ": " << (nuevo ? "primera vez" : "ya habia venido")`.
+4. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -3437,6 +3454,13 @@ de actividades.
 **Para superarla:**
 - Usa `equal_range` para un día y `lower_bound`/`upper_bound` para el rango.
 - Permite varias actividades el mismo día.
+
+#### Pasos
+1. `std::multimap<int, std::string> agenda;` y leé órdenes.
+2. `agendar`: leé día y actividad y `agenda.insert({dia, actividad});`.
+3. `dia N`: `auto [ini, fin] = agenda.equal_range(dia);`, `"Día " << dia << ":"` y, si `ini == fin`, `" libre"`; si no, cada actividad.
+4. `semana desde hasta`: `"Del " << desde << " al " << hasta << ":"` y `for (auto it = agenda.lower_bound(desde); it != agenda.upper_bound(hasta); ++it)` → `" " << it->first << "-" << it->second`.
+5. Al final: `"Total de actividades: " << agenda.size()`. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -3553,6 +3577,13 @@ nombre). Mostrá el top 3, cuántas partidas hay y la peor (con `rbegin`).
 - El conjunto se mantiene ordenado solo: no hay `sort`.
 - Acepta partidas repetidas (es `multiset`).
 
+#### Pasos
+1. `struct Marca { int puntos = 0; std::string nombre; }` con `operator>` → `puntos != o.puntos ? puntos > o.puntos : nombre < o.nombre`.
+2. `std::multiset<Marca, std::greater<Marca>> ranking;` y leé `nombre puntos`, insertando.
+3. `"Top 3:"` y los primeros tres con `"  " << pos << ". " << nombre << " " << puntos`.
+4. `"Partidas registradas: "` y `"Peor partida: "` con `ranking.rbegin()`.
+5. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```cpp
 #include <functional>
@@ -3654,6 +3685,12 @@ solo las palabras que aparecen en **dos o más** líneas, con sus números.
 **Para superarla:**
 - Usa un `set` como valor del `map` para no repetir líneas.
 - Filtra las que aparecen en una sola línea.
+
+#### Pasos
+1. `std::map<std::string, std::set<int>> indice;`.
+2. Por cada línea (numerada): `std::istringstream palabras(linea);` y cada palabra → `indice[p].insert(numero);`.
+3. Recorré `for (const auto& [palabra, lineas] : indice)`: si `lineas.size() < 2`, `continue;`. Si no, `palabra << ":"` y cada número.
+4. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -4104,6 +4141,11 @@ Ojo: el valor inicial decide el tipo de la suma. Con `0` suma en `int` y corta l
 #### Desafío
 Sumá los pesos con decimales.
 
+#### Pasos
+1. Con `0`, `accumulate` suma enteros y pierde los decimales.
+2. Cambialo por `0.0`.
+3. Tocá **Ejecutar**. Tiene que salir `Peso total: 8 kg`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -4170,6 +4212,12 @@ v.erase(std::remove_if(v.begin(), v.end(), regla), v.end());
 
 #### Desafío
 Completá el *erase-remove*.
+
+#### Pasos
+1. `remove_if` corre los que quedan, pero no achica el vector.
+2. Envolvelo en un `erase`: `libros.erase(std::remove_if(...), libros.end());`.
+3. Mostrá `"Quedan " << libros.size() << " libros:"` y cada uno.
+4. Tocá **Ejecutar**. Tiene que salir `Quedan 3 libros: 120 300 210`.
 
 #### Código inicial
 ```cpp
@@ -4241,6 +4289,11 @@ v.erase(std::unique(v.begin(), v.end()), v.end());
 
 #### Desafío
 Ordená antes de quitar repetidos.
+
+#### Pasos
+1. `unique` solo saca los repetidos que están juntos.
+2. Antes, ordená: `std::sort(temas.begin(), temas.end());`.
+3. Tocá **Ejecutar**. Tiene que salir `Temas: mapas relojes vapor`.
 
 #### Código inicial
 ```cpp
@@ -4330,6 +4383,14 @@ Mostrá las notas ordenadas con `ostream_iterator`.
 **Para superarla:**
 - No hay bucles escritos a mano.
 - La mediana contempla cantidad par e impar.
+
+#### Pasos
+1. Leé todo: `std::vector<int> notas(std::istream_iterator<int>(std::cin), std::istream_iterator<int>{});`.
+2. Promedio: `std::accumulate(notas.begin(), notas.end(), 0.0) / notas.size()`. Menor y mayor: `auto [menor, mayor] = std::minmax_element(...)`.
+3. Aprobados: `std::count_if(..., [](int n) { return n >= 6; })`. Todos rindieron: `std::all_of(..., [](int n) { return n >= 1; })`.
+4. Mediana: copiá, ordená y, si la cantidad es impar, la del medio; si es par, el promedio de las dos del medio (`/ 2.0`).
+5. Mostrá los renglones de la salida y las ordenadas con `std::copy(..., std::ostream_iterator<int>(std::cout, " "))`.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -4439,6 +4500,14 @@ lambda `mas_rapido` para las tres cosas.
 - Usa `partial_sort` y `nth_element`.
 - Reutiliza la misma lambda de comparación.
 - Funciona con menos de 3 corredores.
+
+#### Pasos
+1. `struct Corredor { std::string nombre; int segundos = 0; };` y leé los corredores.
+2. `auto mas_rapido = [](const Corredor& a, const Corredor& b) { return a.segundos < b.segundos; };`.
+3. Podio: copiá, `std::size_t k = std::min<std::size_t>(3, podio.size());`, `std::partial_sort(podio.begin(), podio.begin() + k, podio.end(), mas_rapido);` y mostrá los `k` primeros.
+4. Mediana: otra copia, `auto medio = copia.begin() + copia.size() / 2;` y `std::nth_element(copia.begin(), medio, copia.end(), mas_rapido);`.
+5. Último: `std::max_element(carrera.begin(), carrera.end(), mas_rapido)`. Copiá los textos de la salida.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -4556,6 +4625,14 @@ siga ordenada. Al final, comprobá con `std::is_sorted`.
 **Para superarla:**
 - Usa `lower_bound` para buscar y para insertar en orden.
 - La lista sigue ordenada al final.
+
+#### Pasos
+1. La lista de socios, `std::sort` y `socios.erase(std::unique(...), socios.end());`. Mostrá `"socios únicos"`.
+2. Por cada número: `auto it = std::lower_bound(socios.begin(), socios.end(), n);`.
+3. Si `it != socios.end() && *it == n`: `"es socio (posición " << it - socios.begin() << ")"`.
+4. Si no: `": no es socio"`, `"; el siguiente número es " << *it` si hay, y `socios.insert(it, n);`.
+5. Al final: `"Ahora hay "`, el tamaño y `std::is_sorted(...)`.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -5011,6 +5088,11 @@ Contador r = std::for_each(v.begin(), v.end(), Contador{});
 #### Desafío
 Usá el functor que devuelve `for_each`.
 
+#### Pasos
+1. `for_each` trabaja con una copia de `c` y devuelve esa copia.
+2. Cambiá las dos líneas por `Contador c = std::for_each(palancas.begin(), palancas.end(), Contador{});`.
+3. Tocá **Ejecutar**. Tiene que salir `Palancas arriba: 3`.
+
 #### Código inicial
 ```cpp
 #include <algorithm>
@@ -5088,6 +5170,11 @@ Con un mapa de texto a `std::function` se arma una tabla de órdenes: cada palab
 
 #### Desafío
 Colgá la tarjeta que falta.
+
+#### Pasos
+1. Falta la tarjeta de la campana, entre la caldera y la compuerta.
+2. Agregá `{"campana", [] { std::cout << "Oto sirve el guiso\n"; }},`.
+3. Tocá **Ejecutar**. Tiene que salir `Oto sirve el guiso`.
 
 #### Código inicial
 ```cpp
@@ -5183,6 +5270,11 @@ Acá cada elemento es una regla (una `std::function`), y la pregunta es si la pr
 #### Desafío
 Exigí todas las reglas.
 
+#### Pasos
+1. `any_of` acepta si se cumple una sola regla.
+2. Cambialo por `std::all_of`.
+3. Tocá **Ejecutar**. Solo el 40 tiene que salir aceptado.
+
 #### Código inicial
 ```cpp
 #include <algorithm>
@@ -5272,6 +5364,13 @@ contar los que están entre 10 y 30 y entre 0 y 9.
 **Para superarla:**
 - Usa el functor que devuelve `for_each`.
 - `EnRango` se configura en su construcción y su `operator()` es `const`.
+
+#### Pasos
+1. `struct Estadistica` con `cantidad`, `long long suma` y `maximo`. `operator()(int x)`: actualizá el máximo (o el primero), sumá uno y sumá `x`. `promedio() const`.
+2. `struct EnRango { int desde; int hasta; bool operator()(int x) const { return desde <= x && x <= hasta; } };`.
+3. Leé los números con `istream_iterator`. `Estadistica e = std::for_each(v.begin(), v.end(), Estadistica{});` y el renglón con los cuatro datos.
+4. `std::count_if(v.begin(), v.end(), EnRango{10, 30})` y lo mismo con `{0, 9}`.
+5. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -5378,6 +5477,13 @@ avisá que no existe. Al final, listá las operaciones.
 **Para superarla:**
 - Las operaciones son lambdas guardadas en el map.
 - Agregar una operación no cambia el bucle principal.
+
+#### Pasos
+1. `std::map<std::string, std::function<double(double, double)>> ops = { ... };` con `suma`, `resta`, `por`, `potencia` (`std::pow`) e `hipotenusa` (`std::hypot`), cada una como lambda.
+2. Después: `ops["promedio"] = [](double a, double b) { return (a + b) / 2; };`.
+3. Leé `nombre a b`. `auto it = ops.find(nombre);`. Si no está, `nombre << ": no existe"`; si está, `nombre << "(" << a << ", " << b << ") = " << it->second(a, b)`.
+4. Al final, `"Operaciones:"` y cada nombre.
+5. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -5490,6 +5596,14 @@ Al final, puntos y logros.
 **Para superarla:**
 - `suscribir` devuelve un identificador y `desuscribir` lo usa.
 - Quien emite no sabe quién escucha.
+
+#### Pasos
+1. `class Eventos` con `using Oyente = std::function<void(const std::string&)>;`, `int siguiente_ = 1;` y `std::map<std::string, std::map<int, Oyente>> oyentes_;`.
+2. `suscribir(evento, f)`: `int id = siguiente_++;`, `oyentes_[evento][id] = std::move(f);` y `return id;`. `desuscribir(evento, id)` → `oyentes_[evento].erase(id);`.
+3. `emitir(evento, dato)`: llamá a cada oyente de ese evento con `f(dato)`.
+4. En `main`: suscribí la suma de puntos (`[&puntos]` con `std::stoi(d)`), el festejo (guardá su id) y los logros del jefe (`[&logros]`).
+5. Leé `evento dato`: con `"silencio"`, desuscribí el festejo, `"  (sin festejos)"` y `continue;`. Si no, `bus.emitir(evento, dato);`.
+6. Al final: `"Puntos: " << puntos << ", logros: " << logros`. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -5999,6 +6113,11 @@ El orden importa: primero se filtra y después se transforma lo que quedó.
 #### Desafío
 Ordená los lentes.
 
+#### Pasos
+1. Primero se duplica y después se filtran los pares: quedan todos.
+2. Invertí el orden: primero `std::views::filter(...)` y después `std::views::transform(...)`.
+3. Tocá **Ejecutar**. Tiene que salir `Paginas: 4 8 12`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -6077,6 +6196,11 @@ std::ranges::sort(alumnos, std::less{}, &Alumno::edad);
 
 #### Desafío
 Ordená de mayor a menor.
+
+#### Pasos
+1. `std::less{}` ordena de menor a mayor.
+2. Cambialo por `std::greater{}`.
+3. Tocá **Ejecutar**. Tiene que empezar con `Lyn 340`.
 
 #### Código inicial
 ```cpp
@@ -6163,6 +6287,11 @@ Con `| std::views::reverse` los recorre al revés.
 #### Desafío
 Hacé que la cuenta arranque en 5.
 
+#### Pasos
+1. `iota(1, 5)` llega hasta el 4: el final no se incluye.
+2. Cambialo por `std::views::iota(1, 6)`.
+3. Tocá **Ejecutar**. Tiene que salir `Cierre: 5 4 3 2 1`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -6242,6 +6371,13 @@ entre corchetes.
 - Ninguna función copia texto: todo son vistas.
 - El `std::string` de la línea sigue vivo mientras se usan las vistas.
 - Contempla campos vacíos.
+
+#### Pasos
+1. `std::vector<std::string_view> partir(std::string_view texto, char sep)`: `inicio = 0` y un `while (true)`. `pos = texto.find(sep, inicio);` y `partes.push_back(texto.substr(inicio, pos - inicio));`. Si `pos == std::string_view::npos`, `break;`; si no, `inicio = pos + 1;`.
+2. `std::string_view recortar(std::string_view s)`: mientras empiece con espacio, `s.remove_prefix(1);`; mientras termine con espacio, `s.remove_suffix(1);`.
+3. En `main`: `std::string linea;` (el texto vive acá) y por cada línea `auto campos = partir(linea, ',');`.
+4. Mostrá `campos.size() << " campos:"` y cada uno como `" [" << recortar(c) << "]"`.
+5. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -6357,6 +6493,13 @@ Normalizá un `vector` de lecturas de un sensor, un `std::array` de viento y sol
 - Las mismas funciones sirven para `vector` y `array`.
 - La versión que modifica recibe `span<double>` y la que lee `span<const double>`.
 
+#### Pasos
+1. `void normalizar(std::span<double> datos)`: si está vacío o el mayor (`*std::max_element(...)`) es 0, no hagas nada. Si no, dividí cada uno (`for (double& x : datos)`).
+2. `void mostrar(std::span<const double> datos)` → cada valor con un espacio.
+3. En `main`: `std::fixed << std::setprecision(2)`. `std::vector<double> sensor = {12, 30, 24, 6, 15};` y `std::array<double, 4> viento = {3, 9, 18, 36};`. Normalizá y mostrá los dos.
+4. `std::vector<double> temps = {10, 20, 40, 5, 8};` y `normalizar(std::span(temps).first(3));`. Mostralo entero.
+5. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```cpp
 #include <algorithm>
@@ -6468,6 +6611,14 @@ del taller de "vapor" (con `std::ranges::find` y una proyección).
 **Para superarla:**
 - Usa proyecciones (`&Artifice::nivel`, `&Artifice::taller`).
 - Encadena views con `|`.
+
+#### Pasos
+1. `struct Artifice { std::string nombre; std::string taller; int nivel = 0; };` y leelos.
+2. `std::ranges::sort(gremio, std::ranges::greater{}, &Artifice::nivel);`.
+3. Los 3 primeros: `gremio | std::views::take(3)` → `nombre << "(" << nivel << ")"`.
+4. Los de relojes: `gremio | std::views::filter([](const Artifice& x) { return x.taller == "relojes"; }) | std::views::transform([](const Artifice& x) { return x.nombre; })`.
+5. `std::ranges::count_if(gremio, [](const Artifice& x) { return x.nivel < 3; })` y `std::ranges::find(gremio, "vapor", &Artifice::taller)`. Copiá los títulos de la salida.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -6968,6 +7119,11 @@ Y `end()` igual.
 #### Desafío
 Completá lo que necesita el `for` de rango.
 
+#### Pasos
+1. El `for` de rango necesita `begin()` y `end()`.
+2. Debajo de `begin()`, agregá `auto end() const { return libros_.end(); }`.
+3. Tocá **Ejecutar**. Tienen que salir `Poleas` y `Vapor`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -7056,6 +7212,11 @@ La clase guarda solo las últimas `N` lecturas en un `std::deque`: después de a
 
 #### Desafío
 Hacé que el estante guarde solo las últimas `N`.
+
+#### Pasos
+1. Después del `push_back`, si hay más de `N`, sacá el más viejo.
+2. Agregá `if (datos_.size() > N) { datos_.pop_front(); }`.
+3. Tocá **Ejecutar**. Tiene que salir `Ultimas lecturas: 90 95 70`.
 
 #### Código inicial
 ```cpp
@@ -7164,6 +7325,11 @@ Con eso, el `for` de rango ya puede recorrerlo.
 
 #### Desafío
 Hacé que el iterador diga su valor.
+
+#### Pasos
+1. `operator*` devuelve siempre 0.
+2. Cambialo por `return actual_;`.
+3. Tocá **Ejecutar**. Tiene que salir `Cuenta: 1 2 3 4 5`.
 
 #### Código inicial
 ```cpp
@@ -7278,6 +7444,14 @@ son múltiplos de 3 (`count_if`).
 - El iterador tiene los `using` y los operadores mínimos.
 - Funcionan el `for` de rango, `accumulate` y `count_if`.
 - El recorrido termina aunque `hasta - desde` no sea múltiplo del paso, y con rangos vacíos.
+
+#### Pasos
+1. `class Rango` con `desde_`, `hasta_` y `paso_` (si el paso no es positivo, 1).
+2. Una clase `iterator` adentro, con los cinco `using` (`iterator_category = std::forward_iterator_tag`, `value_type = int`, `difference_type`, `pointer` y `reference`), `actual_` y `paso_`.
+3. En el iterador: `operator*` → `actual_`, `++` (prefijo y sufijo) suma el paso y `operator==` compara `actual_`.
+4. `begin()` → `iterator(desde_, paso_)`. `end()`: `int pasos = (hasta_ > desde_) ? (hasta_ - desde_ + paso_ - 1) / paso_ : 0;` y `iterator(desde_ + pasos * paso_, paso_)`.
+5. En `main`, por cada línea: `Rango r(desde, hasta, paso);`, los números, `" | suma " << std::accumulate(r.begin(), r.end(), 0)` y los múltiplos de 3 con `std::count_if`.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -7419,6 +7593,15 @@ final, mostrá los dos con una plantilla `mostrar` que use `std::for_each`.
 **Para superarla:**
 - La política es un parámetro de la plantilla.
 - Los dos anillos funcionan con `for_each`.
+
+#### Pasos
+1. `enum class AlLlenarse { Pisar, Rechazar };` y `template <typename T, std::size_t N, AlLlenarse politica = AlLlenarse::Pisar> class Anillo` con `std::array<T, N> datos_{}`, `ini_`, `fin_` y `tam_`.
+2. `push(v)`: si está lleno y la política es `Rechazar`, `false`. Si no, guardá en `fin_`, avanzalo con `% N` y, si ya estaba lleno, avanzá también `ini_`. Si no, `tam_++`.
+3. `pop()`: si está vacío, `false`; si no, avanzá `ini_` y `tam_--`.
+4. Un `iterator` con su posición `p_`: `operator*` → `a_->datos_[(a_->ini_ + p_) % N]`. `begin()` → posición 0 y `end()` → `tam_`.
+5. `template <typename C> void mostrar(titulo, const C& c)` con `std::for_each`.
+6. En `main`: `Anillo<std::string, 3> historial;` y `Anillo<std::string, 3, AlLlenarse::Rechazar> sala;`. `entra`: a los dos (si la sala rechaza, `"La sala está llena: " << quien << " espera"`). `sale`: `sala.pop();`. Al final, mostrá los dos.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -7604,6 +7787,15 @@ su suma, la cima, y reemplazá los pozos (negativos) por 0 con `std::replace_if`
 - No escribe un iterador: reutiliza los del vector.
 - El `operator()` tiene versión `const` y no `const`.
 - Funciona con algoritmos que modifican (`replace_if`).
+
+#### Pasos
+1. `template <typename T> class Matriz` con `filas_`, `columnas_` y `std::vector<T> datos_(filas * columnas, inicial)`.
+2. `T& operator()(f, c)` y su versión `const` → `datos_[f * columnas_ + c]`. Getters `filas()` y `columnas()`.
+3. Prestá los iteradores del vector: `begin()` y `end()`, en versión normal y `const`.
+4. Una plantilla `mostrar(const Matriz<T>& m)` que muestra fila por fila, separando con espacios.
+5. En `main`: leé filas y columnas, `Matriz<int> alturas(filas, columnas);` y `for (int& x : alturas) std::cin >> x;`. Mostrala, `"Suma: "` con `accumulate` y `"Cima: "` con `max_element`.
+6. `std::replace_if(alturas.begin(), alturas.end(), [](int x) { return x < 0; }, 0);`, `"Sin pozos:"` y mostrala.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -7984,6 +8176,11 @@ Una `std::priority_queue` de pares los ordena por el **primer** valor del par (y
 #### Desafío
 Ordená los tentáculos por fuerza.
 
+#### Pasos
+1. La cola de prioridad ordena por el primer valor del par.
+2. Dalo vuelta: `std::priority_queue<std::pair<int, std::string>>`, `push({fuerza, pasillo})` y `auto [f, p] = tentaculos.top();`.
+3. Tocá **Ejecutar**. Tiene que empezar con `sur (fuerza 75)`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -8076,6 +8273,11 @@ Después recorrés el mapa: cada tema con su lista de libros, y los temas salen 
 
 #### Desafío
 Agrupá los libros por tema.
+
+#### Pasos
+1. Todos los libros van al estante `"todo"`.
+2. Cambialo por `estantes[tema].push_back(titulo);`.
+3. Tocá **Ejecutar**. Tiene que salir `mapas: Atlas Caminos`.
 
 #### Código inicial
 ```cpp
@@ -8175,6 +8377,11 @@ for (const auto& o : oyentes_) {
 
 #### Desafío
 Hacé que la alarma avise a todos los oyentes.
+
+#### Pasos
+1. Después del `std::cout` de la alarma, avisá a cada oyente.
+2. Agregá `for (const auto& o : oyentes_) { o(pasillo); }`.
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -8276,6 +8483,11 @@ Si el buscador solo usa un `for` de rango y `==`, sirve para cualquier contenedo
 
 #### Desafío
 Convertí el buscador en una plantilla.
+
+#### Pasos
+1. Arriba de la función, agregá `template <typename Contenedor>`.
+2. Cambiá el tipo del primer parámetro por `const Contenedor& c`.
+3. Tocá **Ejecutar**. Tienen que salir las dos páginas.
 
 #### Código inicial
 ```cpp
@@ -8399,6 +8611,14 @@ a mano.
 **Para superarla:**
 - `leer_opcion` limpia el error con `clear` e `ignore`.
 - Usa algoritmos con lambdas en cada operación.
+
+#### Pasos
+1. `struct Tarea { std::string texto; bool hecha = false; }` con `urgente() const` → empieza con `'!'`.
+2. `int leer_opcion()`: `while (!(std::cin >> op))`: si `std::cin.eof()`, `return 0;`. Si no, `std::cin.clear();`, `std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');` y `"Opción inválida, escribí un número: "`. Después, otro `ignore` y `return op;`.
+3. `mostrar(tareas)` con `std::for_each`: `n++ << ". [" << (t.hecha ? "x" : " ") << "] " << t.texto`, o `"(no hay tareas)"`.
+4. El menú: copiá el texto de la salida y leé con `leer_opcion()`. 1: `getline` y rechazá vacías o repetidas (`std::any_of`). 2: mostrar. 3: marcar por número (o `"No existe la tarea "`).
+5. 4: `std::erase_if` de las hechas y `"Borradas: "`. 5: `std::stable_sort` (urgentes primero, después alfabético) y mostrar. 6: el resumen con `std::count_if`.
+6. Al salir: `"¡Hasta luego!"`. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -8631,6 +8851,15 @@ En cada turno: mover a Lima, recoger, mover perseguidores, combatir y limpiar.
 - Usa `optional` para los datos que pueden faltar y pregunta antes de usarlos.
 - Usa un índice espacial con `unordered_map`.
 - Las muertes se avisan por un evento (`std::function`).
+
+#### Pasos
+1. `struct Posicion { int x = 0; int y = 0; }` con `operator==` por defecto. `struct Entidad` con id, nombre, símbolo, `pos`, `std::optional<int> vida`, `std::optional<int> ataque` y `bool persigue`.
+2. `class Mundo` con `entidades_`, `siguiente_` y una lista de oyentes de muerte (`std::function<void(const Entidad&)>`). `crear(e)` asigna el id. `buscar(id)` → `std::ranges::find(entidades_, id, &Entidad::id)` (o `nullptr`).
+3. `mover_perseguidores(objetivo)`: con `std::views::filter` de los que persiguen, un paso en x y, si ya está en esa x, en y.
+4. `combatir(id)`: un `std::unordered_map<int, std::vector<int>>` de casilla (`y * 100 + x`) a ids. Con cada enemigo vivo y con ataque en la casilla de Lima, intercambian golpes y se muestra el choque.
+5. `recoger(pos)`: `std::erase_if` de lo que no tiene vida en esa casilla, devolviendo los nombres. `limpiar_muertos()`: avisá a los oyentes y borralos. `dibujar(ancho, alto)` con un `std::map` de casillas a símbolos.
+6. En `main`: creá a Lima, los dos tentáculos, el Kraken y la poción (datos de la consigna). Suscribí el aviso de muerte. Por cada paso: mover a Lima, recoger (+20 de vida), mover perseguidores, combatir y limpiar. Dibujá al principio y al final, y el renglón final.
+7. Tocá **Ejecutar** y compará turno por turno.
 
 #### Código inicial
 ```cpp

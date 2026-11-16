@@ -140,6 +140,12 @@ El `=` no es «igual» como en matemática: quiere decir «guardá esto en la ca
 #### Desafío
 Creá la constante `nombre` con el texto `Nima` y la variable `fichas` con el número `3`.
 
+#### Pasos
+1. Borrá el comentario `// Creá nombre y fichas acá`.
+2. Escribí `const nombre = 'Nima';`
+3. Y en otra línea `let fichas = 3;`
+4. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```javascript
 // Creá nombre y fichas acá
@@ -193,6 +199,11 @@ Hay atajos para cambiar una variable usando su propio valor:
 
 #### Desafío
 Después de los dos tiros, `tiros` tiene que valer 2 y `fichas` tiene que valer 1.
+
+#### Pasos
+1. Debajo de `// Primer tiro`, escribí `tiros++;` y `fichas -= 1;`
+2. Debajo de `// Segundo tiro`, lo mismo: `tiros++;` y `fichas -= 1;`
+3. Tocá **Ejecutar**. Tienen que salir 2 tiros y 1 ficha.
 
 #### Código inicial
 ```javascript
@@ -257,6 +268,11 @@ Fijate cuál de las dos cajitas tiene que poder cambiar, y creala con `let`.
 #### Desafío
 Arreglá la declaración que corresponde para que el programa ande.
 
+#### Pasos
+1. Buscá `const premios = 0;`: `premios` cambia después, y una `const` no se puede cambiar.
+2. Cambiá `const` por `let`. Queda: `let premios = 0;`
+3. Tocá **Ejecutar**. Tiene que salir `Nima ganó 1 premio`.
+
 #### Código inicial
 ```javascript
 const nombre = 'Nima';
@@ -313,6 +329,12 @@ Lo que va entre `${ }` se calcula y se mete en el texto. Se llama **plantilla de
 #### Desafío
 Completá los dos carteles usando `${…}` con las variables `puesto` y `precio`.
 
+#### Pasos
+1. Hay dos `___`, adentro de textos con comillas invertidas.
+2. El primero: `${puesto}`.
+3. El segundo: `${precio * 3}`.
+4. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```javascript
 const puesto = 'Tiro al blanco';
@@ -365,6 +387,12 @@ Nima hizo 5 tiros y acertó 4. Guardá esos datos y mostrá la pizarra **exactam
 - `Tiros: 5`
 - `Aciertos: 4`
 - `Fichas ganadas: 12`
+
+#### Pasos
+1. Cambiá el comentario por tres líneas: `const tiros = 5;`, `const aciertos = 4;` y `const fichasGanadas = aciertos * 3;`
+2. Mostrá cuatro líneas con `console.log` y comillas invertidas. La primera: `` console.log(`Jugadora: ${jugadora}`); ``
+3. Las otras: `Tiros: ${tiros}`, `Aciertos: ${aciertos}` y `Fichas ganadas: ${fichasGanadas}`.
+4. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```javascript
@@ -423,6 +451,12 @@ Acumulá las fichas de las tres rondas (6, 3 y 9) y mostrá el total parcial des
 - `Ronda 1: 6`
 - `Ronda 2: 9`
 - `Ronda 3: 18`
+
+#### Pasos
+1. Debajo de `let total = 0;`, sumá la primera ronda: `total += 6;`
+2. Mostrala: `` console.log(`Ronda 1: ${total}`); ``
+3. Repetí con `total += 3;` y `Ronda 2`, y con `total += 9;` y `Ronda 3`.
+4. Tocá **Ejecutar**. Tienen que salir 6, 9 y 18.
 
 #### Código inicial
 ```javascript
@@ -588,6 +622,11 @@ Cada valor tiene un **tipo**, que dice qué clase de dato es:
 #### Desafío
 Mostrá el tipo de cada una de las tres variables, una por línea.
 
+#### Pasos
+1. Hay tres `console.log(___)`.
+2. Cambiá cada `___` por `typeof` y el nombre de la variable: `typeof ficha`, `typeof cartel` y `typeof prendida`.
+3. Tocá **Ejecutar**. Tienen que salir `number`, `string` y `boolean`.
+
 #### Código inicial
 ```javascript
 const ficha = 5;
@@ -645,6 +684,11 @@ Para sumar, primero convertí el texto a número con `Number(...)`: `Number('20'
 #### Desafío
 Hacé que el total sea 4, convirtiendo el cartel a número.
 
+#### Pasos
+1. Buscá `const total = delCartel + fichas;`.
+2. Cambiá `delCartel` por `Number(delCartel)`: convierte el texto en número.
+3. Tocá **Ejecutar**. Tiene que salir `Total: 4`.
+
 #### Código inicial
 ```javascript
 const delCartel = '2';
@@ -699,6 +743,11 @@ Usá siempre `===`: así nadie te engaña con un número disfrazado de texto.
 #### Desafío
 Hacé que la balanza diga `false`: la ficha y el papel **no** son lo mismo.
 
+#### Pasos
+1. Buscá `ficha == papel`.
+2. Cambiá `==` por `===` (tres iguales: compara también el tipo).
+3. Tocá **Ejecutar**. Tiene que salir `false`.
+
 #### Código inicial
 ```javascript
 const ficha = 1;
@@ -747,6 +796,11 @@ Cuando una cuenta no da un número (por ejemplo, `Number('hola')`), JavaScript d
 
 #### Desafío
 Reemplazá la comparación por `Number.isNaN(vuelto)` para que diga `true`.
+
+#### Pasos
+1. Buscá `vuelto === NaN`.
+2. Cambialo por `Number.isNaN(vuelto)`.
+3. Tocá **Ejecutar**. Tiene que salir `true`.
 
 #### Código inicial
 ```javascript
@@ -797,6 +851,11 @@ Convertí cada cartel con `Number(...)` antes de sumar. Mostrá primero la cuent
 Mostrá exactamente:
 - `El Goblin dice: 345`
 - `La verdad: 12`
+
+#### Pasos
+1. Buscá el comentario `// Mostrá la verdad`.
+2. Cambialo por `console.log('La verdad:', Number(a) + Number(b) + Number(c));`
+3. Tocá **Ejecutar**. Tiene que salir `La verdad: 12`.
 
 #### Código inicial
 ```javascript
@@ -851,6 +910,12 @@ Dos formas de decir «no hay nada»:
 
 #### Desafío
 Declará `cajaNueva` **sin valor** y `cajaVaciada` con `null`, para que el programa muestre lo que se espera.
+
+#### Pasos
+1. Borrá el comentario `// Declará las dos cajas`.
+2. Escribí `let cajaNueva;` (sin valor: queda `undefined`).
+3. Y `const cajaVaciada = null;`
+4. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```javascript
@@ -1042,6 +1107,11 @@ Lo que está en las primeras llaves se ejecuta si la condición se cumple; lo de
 #### Desafío
 Completá la condición para que muestre `Pasás a la calesita` si hay 3 fichas o más, y `Te faltan fichas` si no.
 
+#### Pasos
+1. Buscá `if (___)`.
+2. Cambiá `___` por `fichas >= 3`.
+3. Tocá **Ejecutar**. Tiene que salir `Pasás a la calesita`.
+
 #### Código inicial
 ```javascript
 const fichas = 5;
@@ -1101,6 +1171,12 @@ JavaScript prueba **en orden** y entra solo en el primero que se cumple. Por eso
 
 #### Desafío
 Completá las condiciones para que a 1,2 m le toque el caballito mediano.
+
+#### Pasos
+1. Hay dos `___`.
+2. En el `if`: `altura >= 1.5`.
+3. En el `else if`: `altura >= 1.1`.
+4. Tocá **Ejecutar**. Tiene que salir `Caballito mediano`.
 
 #### Código inicial
 ```javascript
@@ -1169,6 +1245,12 @@ Compara con `===`. Cada caso termina con `break` (si no, sigue de largo con el d
 
 #### Desafío
 Completá el `switch` con los tres juegos, para que el `'calesita'` muestre `3 fichas`.
+
+#### Pasos
+1. Buscá el comentario `// Agregá la calesita (3) y los títeres (1)`.
+2. Cambialo por: `case 'calesita':`, `console.log('3 fichas');` y `break;`
+3. Y debajo: `case 'titeres':`, `console.log('1 ficha');` y `break;`
+4. Tocá **Ejecutar**. Tiene que salir `3 fichas`.
 
 #### Código inicial
 ```javascript
@@ -1240,6 +1322,12 @@ Si 0 es un valor válido (cero vueltas), usá `??`.
 #### Desafío
 Cambiá `||` por `??` para que las 0 vueltas se respeten, pero el que no tiene dato siga con 3.
 
+#### Pasos
+1. Hay dos `|| 3`.
+2. Cambiá los dos `||` por `??`. Ejemplo: `vueltasDeNima ?? 3`.
+3. `??` solo usa el 3 si no hay dato (`null` o `undefined`), no si es 0.
+4. Tocá **Ejecutar**. Tienen que salir 0 y 3.
+
 #### Código inicial
 ```javascript
 const vueltasDeNima = 0;
@@ -1292,6 +1380,12 @@ Con `?.` (**encadenamiento opcional**) no explota: `jugadora.caballito?.color` d
 #### Desafío
 Arreglá la línea que explota para que muestre `Color: sin elegir`.
 
+#### Pasos
+1. Buscá `jugadora.caballito.color`.
+2. Cambialo por `jugadora.caballito?.color ?? 'sin elegir'`.
+3. `?.` no explota si `caballito` no existe; `??` pone el texto de reemplazo.
+4. Tocá **Ejecutar**. Tiene que salir `Color: sin elegir`.
+
 #### Código inicial
 ```javascript
 const jugadora = { nombre: 'Nima' };
@@ -1343,6 +1437,11 @@ Para elegir entre dos textos en una línea, el **ternario**: `puede ? 'Pasa' : '
 
 #### Desafío
 Completá la condición para que muestre `Nima: No pasa`.
+
+#### Pasos
+1. Buscá `const puede = ___;`.
+2. Cambiá `___` por `(altura >= 1.4 && fichas >= 4) || paseDorado`.
+3. Tocá **Ejecutar**. Tiene que salir `Nima: No pasa`.
 
 #### Código inicial
 ```javascript
@@ -1526,6 +1625,11 @@ Para contar hacia atrás, arrancá alto y usá `i--`.
 #### Desafío
 Completá el `for` para que cuente del 5 al 1, y después muestre `¡Fuego!`.
 
+#### Pasos
+1. Buscá `for (___)`.
+2. Cambiá `___` por `let i = 5; i >= 1; i--` (empieza en 5, sigue mientras sea 1 o más, resta 1).
+3. Tocá **Ejecutar**. Tienen que salir 5, 4, 3, 2, 1 y `¡Fuego!`.
+
 #### Código inicial
 ```javascript
 for (___) {
@@ -1585,6 +1689,11 @@ for (const color of colores) {
 #### Desafío
 Recorré el arreglo con `for…of` y mostrá `Cohete rojo`, `Cohete verde`, etc.
 
+#### Pasos
+1. Cambiá el comentario `// Recorrelos acá` por `for (const cohete of cohetes) {`
+2. Adentro: `` console.log(`Cohete ${cohete}`); `` y cerrá con `}`.
+3. Tocá **Ejecutar**. Tienen que salir los cuatro cohetes.
+
 #### Código inicial
 ```javascript
 const cohetes = ['rojo', 'verde', 'violeta', 'dorado'];
@@ -1637,6 +1746,12 @@ Dos órdenes para controlar un bucle desde adentro:
 
 #### Desafío
 Completá los dos `if` para que los mojados se salteen y el roto corte el bucle.
+
+#### Pasos
+1. Cambiá el comentario por dos líneas.
+2. `if (cohete === 'mojado') continue;` (saltea este y sigue).
+3. `if (cohete === 'roto') break;` (corta el bucle).
+4. Tocá **Ejecutar**. Tienen que salir rojo, verde y `Fin del show`.
 
 #### Código inicial
 ```javascript
@@ -1699,6 +1814,12 @@ Adentro, algo tiene que cambiar para que alguna vez deje de cumplirse: restá lo
 
 #### Desafío
 Completá el `while` para que muestre `Cohetes: 3` y `Sobran: 2`.
+
+#### Pasos
+1. Buscá `while (___)`.
+2. Cambiá `___` por `polvora >= 6` (alcanza para un cohete más).
+3. Adentro del `while`: `polvora -= 6;` y `cohetes++;`
+4. Tocá **Ejecutar**. Tienen que salir 3 cohetes y 2 de sobra.
 
 #### Código inicial
 ```javascript
@@ -1764,6 +1885,11 @@ En cada vuelta, `tamaño` es un nombre, y `precios[tamaño]` es su valor.
 #### Desafío
 Mostrá cada tamaño con su precio, así: `chico: 1 fichas`, `mediano: 3 fichas`, `grande: 5 fichas`.
 
+#### Pasos
+1. Debajo de `precios`, escribí `for (const tamaño in precios) {`
+2. Adentro: `` console.log(`${tamaño}: ${precios[tamaño]} fichas`); `` y cerrá con `}`.
+3. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```javascript
 const precios = { chico: 1, mediano: 3, grande: 5 };
@@ -1815,6 +1941,12 @@ Mostrá cada tanda con sus cohetes numerados, así:
 - `Tanda 1: * * * *`
 - `Tanda 2: * * * *`
 - `Tanda 3: * * * *`
+
+#### Pasos
+1. Buscá el comentario `// Agregale un ' *' por cada uno de los 4 cohetes`.
+2. Cambialo por `for (let cohete = 1; cohete <= 4; cohete++) {`
+3. Adentro: `renglon += ' *';` y cerrá con `}`.
+4. Tocá **Ejecutar**. Cada tanda tiene que tener cuatro asteriscos.
 
 #### Código inicial
 ```javascript
@@ -1983,6 +2115,12 @@ Cada elemento de un arreglo tiene una posición, que se cuenta desde **0**:
 #### Desafío
 Mostrá el primer pan, el último y cuántos hay.
 
+#### Pasos
+1. Hay tres `___`.
+2. El primero: `panes[0]`. El último: `panes[panes.length - 1]`.
+3. La cantidad: `panes.length`.
+4. Tocá **Ejecutar**. Tienen que salir miel, chocolate y 5.
+
 #### Código inicial
 ```javascript
 const panes = ['miel', 'nuez', 'canela', 'miel', 'chocolate'];
@@ -2035,6 +2173,12 @@ Los arreglos tienen **métodos** (funciones que se usan con un punto) para cambi
 
 #### Desafío
 Agregá `'canela'` y `'anis'` al final, vendé el primero y mostrá cómo quedó la bandeja.
+
+#### Pasos
+1. Cambiá el comentario por dos líneas.
+2. `bandeja.push('canela', 'anis');` (agrega al final).
+3. `bandeja.shift();` (saca el primero).
+4. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```javascript
@@ -2089,6 +2233,11 @@ Se lee: «para cada `pan`, quedate con él si no es `'quemado'`». `!==` es «di
 
 #### Desafío
 Armá el arreglo `buenos` sin los quemados.
+
+#### Pasos
+1. Buscá `const buenos = ___;`.
+2. Cambiá `___` por `bandeja.filter((pan) => pan !== 'quemado')` (se queda con los que no están quemados).
+3. Tocá **Ejecutar**. La bandeja original tiene que seguir con 5.
 
 #### Código inicial
 ```javascript
@@ -2145,6 +2294,11 @@ Devuelve cada precio multiplicado por 2. El arreglo original no cambia.
 #### Desafío
 Armá `nuevos` con cada precio aumentado en 1.
 
+#### Pasos
+1. Buscá `const nuevos = ___;`.
+2. Cambiá `___` por `precios.map((p) => p + 1)` (a cada precio le suma 1).
+3. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```javascript
 const precios = [2, 3, 1, 4];
@@ -2200,7 +2354,13 @@ Arranca con `total` en 0 (el último dato) y, por cada `v`, suma. Al final da la
 Para contar los que cumplen algo: filtrá primero y mirá el `length` del resultado.
 
 #### Desafío
-Mostrá `Total: 23` y `Ventas grandes: 2`.
+Mostrá `Total: 23` y `Ventas grandes: 3`.
+
+#### Pasos
+1. Hay dos `___`.
+2. El total: `ventas.reduce((suma, v) => suma + v, 0)`.
+3. Las grandes: `ventas.filter((v) => v > 3).length`.
+4. Tocá **Ejecutar**. Tienen que salir 23 y 3.
 
 #### Código inicial
 ```javascript
@@ -2254,6 +2414,12 @@ Para el primero que cumpla una condición, `find`: `find((p) => p.precio > 3)` d
 
 #### Desafío
 Mostrá `Miel al doble: [ 4, 6 ]` y `Primero caro: chocolate`.
+
+#### Pasos
+1. Hay dos `___`.
+2. `mielDoble`: `panes.filter((p) => p.sabor === 'miel').map((p) => p.precio * 2)`.
+3. `caro`: `panes.find((p) => p.precio > 3)` (el primero que cumple).
+4. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```javascript
@@ -2443,6 +2609,11 @@ Cada `nombre: valor` es una **propiedad**, separadas por comas. Se lee con un pu
 #### Desafío
 Creá el objeto `oso` con `nombre` `'Oso'`, `precio` `10` y `color` `'marrón'`.
 
+#### Pasos
+1. Buscá `const oso = ___;`.
+2. Cambiá `___` por `{ nombre: 'Oso', precio: 10, color: 'marrón' }`.
+3. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```javascript
 const oso = ___;
@@ -2493,6 +2664,12 @@ Las propiedades de un objeto se pueden cambiar:
 
 #### Desafío
 Agregá `quedan: 5`, cambiá el precio a `7` y borrá el `color`.
+
+#### Pasos
+1. Cambiá el comentario `// Actualizá la etiqueta` por tres líneas.
+2. `cometa.quedan = 5;` y `cometa.precio = 7;`
+3. `delete cometa.color;`
+4. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```javascript
@@ -2549,6 +2726,11 @@ Crea las variables `nombre` y `precio` con los valores del objeto. Con `= 'algo'
 #### Desafío
 Desestructurá `paquete` para que el programa muestre los tres datos.
 
+#### Pasos
+1. Cambiá el comentario `// Desarmalo en una sola línea` por:
+2. `const { nombre, precio, color = 'sin color' } = paquete;` (`color` no existe, así que toma el valor por defecto).
+3. Tocá **Ejecutar**. Tiene que salir `Silbato 2 sin color`.
+
 #### Código inicial
 ```javascript
 const paquete = { nombre: 'Silbato', precio: 2 };
@@ -2599,6 +2781,11 @@ Para una copia de verdad: `const oferta = { ...farol };`. Los tres puntos (`...`
 
 #### Desafío
 Arreglá la copia para que el original siga a 8.
+
+#### Pasos
+1. Buscá `const oferta = farol;`: no copia, las dos apuntan al mismo objeto.
+2. Cambialo por `const oferta = { ...farol };` (una copia nueva).
+3. Tocá **Ejecutar**. El original tiene que seguir en 8.
 
 #### Código inicial
 ```javascript
@@ -2657,6 +2844,11 @@ En cada vuelta tenés el nombre y la cantidad. Si la cantidad es 0, mostrá `ago
 #### Desafío
 Mostrá cada premio con su cantidad, o `agotado` si es 0: `oso: 3`, `cometa: agotado`, `silbato: 12`, `farol: 1`.
 
+#### Pasos
+1. Debajo de `stock`, escribí `for (const [premio, cantidad] of Object.entries(stock)) {`
+2. Adentro: `` console.log(`${premio}: ${cantidad === 0 ? 'agotado' : cantidad}`); `` y cerrá con `}`.
+3. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```javascript
 const stock = { oso: 3, cometa: 0, silbato: 12, farol: 1 };
@@ -2711,6 +2903,12 @@ El `try { … } catch (error) { … }` ya viene escrito: **prueba** lo que está
 
 #### Desafío
 Armá `todos` y `regalo`. Si el regalo quedó congelado, el intento de cambiarle el precio falla (el `try` ya está escrito).
+
+#### Pasos
+1. Hay dos `___`.
+2. `todos`: `[...chicos, ...grandes]` (junta los dos arreglos).
+3. `regalo`: `Object.freeze({ ...farol, precio: 0 })` (una copia con precio 0, congelada).
+4. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```javascript
@@ -2918,6 +3116,11 @@ Entre los paréntesis van los **parámetros** (los datos que recibe), y `return`
 #### Desafío
 Escribí la función `saludar` para que el programa muestre los dos saludos.
 
+#### Pasos
+1. Cambiá el comentario por `function saludar(nombre) {`
+2. Adentro: `` return `¡Bienvenida a la Feria, ${nombre}!`; `` y cerrá con `}`.
+3. Tocá **Ejecutar**. Tienen que salir los dos saludos.
+
 #### Código inicial
 ```javascript
 // Escribí la función saludar acá
@@ -2976,6 +3179,11 @@ Si llamás `tocar('vals')`, `veces` vale 1.
 #### Desafío
 Completá la función para que devuelva la canción repetida, separada por espacios y con una nota al final: `'la '.repeat(3)` da `'la la la '`.
 
+#### Pasos
+1. Buscá `function tocar(cancion, ___)`.
+2. Cambiá `___` por `veces = 1` (si no lo pasan, vale 1).
+3. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```javascript
 function tocar(cancion, ___) {
@@ -3032,6 +3240,12 @@ Recibe `n` y devuelve `n * 2`, todo en una línea. Si es una sola expresión, no
 
 #### Desafío
 Escribí `triple` y `esPar` como flechas (`esPar` devuelve `true` si el número es par: `n % 2 === 0`).
+
+#### Pasos
+1. Hay dos `___`.
+2. `triple`: `(n) => n * 3`.
+3. `esPar`: `(n) => n % 2 === 0`.
+4. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```javascript
@@ -3093,6 +3307,11 @@ Después, para sumarlas, `reduce`.
 #### Desafío
 Escribí `juntar` para que sume todos sus argumentos.
 
+#### Pasos
+1. En `function juntar(___)`, cambiá `___` por `...monedas` (junta todos los argumentos en un arreglo).
+2. El otro `___`, adentro: `return monedas.reduce((total, m) => total + m, 0);`
+3. Tocá **Ejecutar**. Tienen que salir 3, 16 y 0.
+
 #### Código inicial
 ```javascript
 function juntar(___) {
@@ -3152,6 +3371,11 @@ repetir(3, (i) => console.log('vuelta', i));
 
 #### Desafío
 Completá `repetir` y usala para mostrar `Vuelta 1`, `Vuelta 2` y `Vuelta 3`.
+
+#### Pasos
+1. Adentro de `repetir`, cambiá el comentario por `for (let i = 1; i <= veces; i++) {` → `accion(i);` `}`
+2. Abajo, en `repetir(3, ___);`, cambiá `___` por `` (n) => console.log(`Vuelta ${n}`) ``.
+3. Tocá **Ejecutar**. Tienen que salir las tres vueltas.
 
 #### Código inicial
 ```javascript
@@ -3215,6 +3439,11 @@ const organito = {
 
 #### Desafío
 Arreglá el método para que muestre `Suena La Cumparsita`.
+
+#### Pasos
+1. Buscá `tocar: () => ...`: una flecha no tiene su propio `this`.
+2. Cambiala por un método común: `tocar() {`, adentro `` return `Suena ${this.cancion}`; `` y `},`.
+3. Tocá **Ejecutar**. Tiene que salir `Suena La Cumparsita`.
 
 #### Código inicial
 ```javascript
@@ -3314,6 +3543,12 @@ Convertí cada cartel con `Number(...)`, quedate solo con los que **no** son `Na
 #### Desafío
 Mostrá los válidos y el total de verdad: `Válidos: [ 3, 5, 10, 4 ]` y `Total: 22`.
 
+#### Pasos
+1. Hay dos `___`.
+2. `validos`: `carteles.map(Number).filter((n) => !Number.isNaN(n))` (convierte cada cartel y se queda con los que son números).
+3. `total`: `validos.reduce((suma, n) => suma + n, 0)`.
+4. Tocá **Ejecutar**. Tiene que salir `Total: 22`.
+
 #### Código inicial
 ```javascript
 const carteles = ['3', '5', 'diez', '10', '4', 'mucho'];
@@ -3365,6 +3600,11 @@ Recorré los pares con `for…of` y desarmá cada uno en dos variables: `for (co
 
 #### Desafío
 Mostrá `El Goblin cobra: 4` (con `==`) y `Pares iguales de verdad: 1` (con `===`).
+
+#### Pasos
+1. Buscá el comentario `// contá los iguales de verdad`.
+2. Cambialo por `if (a === b) deVerdad++;`
+3. Tocá **Ejecutar**. Tienen que salir 4 y 1.
 
 #### Código inicial
 ```javascript
@@ -3429,6 +3669,12 @@ El Goblin le da a cada jugador 10 fichas «si no tiene ninguna». Pero también 
 
 #### Desafío
 Escribí la función `fichasDe` para que muestre `Nima: 4`, `Bruno: 0` y `Tati: 10`.
+
+#### Pasos
+1. Buscá `return jugador.bolsa.fichas || 10;`.
+2. Cambialo por `return jugador.bolsa?.fichas ?? 10;`
+3. `?.` no explota si no hay bolsa, y `??` respeta el 0 de Bruno.
+4. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```javascript
@@ -3507,6 +3753,14 @@ Completá las funciones para que el programa muestre exactamente:
 - `Ronda 4: 7`
 - `Total: 24`
 - `¡Nima gana el doble!`
+
+#### Pasos
+1. En `puntosDe`, cambiá el comentario por `const puntos = Number(ronda.puntos);` y `return Number.isNaN(puntos) ? 0 : puntos;`
+2. En el `for`, cambiá el comentario por `const puntos = puntosDe(ronda);` y `const rota = Number.isNaN(Number(ronda.puntos)) ? ' (rota)' : '';`
+3. Y debajo: `` console.log(`Ronda ${ronda.numero}: ${puntos}${rota}`); ``
+4. En `const total = ___;`, cambiá `___` por `rondas.reduce((suma, ronda) => suma + puntosDe(ronda), 0)`.
+5. Cambiá el último comentario por `console.log(total > 20 ? '¡Nima gana el doble!' : 'Gana el Goblin');`
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```javascript

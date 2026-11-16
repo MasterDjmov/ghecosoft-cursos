@@ -134,6 +134,12 @@ En la página, el elemento `#bienvenida` pasa a decir **Pasen y vean**.
 #### Desafío
 Hacé que el cartel diga `Avenida de los Faroles`.
 
+#### Pasos
+1. Hay dos `___`.
+2. El primero busca el cartel: `document.querySelector('#avenida')`.
+3. El segundo es el texto: `'Avenida de los Faroles'`, con comillas.
+4. Tocá **Ejecutar** y mirá el Estado.
+
 #### Página
 ```html
 <style>
@@ -198,6 +204,10 @@ Al agregar la clase, el elemento cambia de aspecto solo: no hace falta tocar col
 
 #### Desafío
 Prendé el farol `#primero`.
+
+#### Pasos
+1. Debajo de la línea que busca el farol, agregá `farol.classList.add('prendido');`
+2. Tocá **Ejecutar**. El primer farol tiene que tener la clase `prendido`.
 
 #### Página
 ```html
@@ -267,6 +277,11 @@ El `for…of` (el de R01) pasa por cada elemento de la lista, y adentro le hacé
 #### Desafío
 Prendé **todos** los faroles.
 
+#### Pasos
+1. Debajo de `faroles`, escribí `for (const farol of faroles) {`
+2. Adentro: `farol.classList.add('prendido');` y cerrá con `}`.
+3. Tocá **Ejecutar**. Tienen que quedar 5 prendidos.
+
 #### Página
 ```html
 <style>
@@ -335,6 +350,11 @@ Para preguntar lo contrario («si **no** la tiene»), se pone `!` adelante: `!pu
 
 #### Desafío
 Prendé los faroles que no tienen la clase `roto`.
+
+#### Pasos
+1. Adentro del `for`, rodeá la línea `farol.classList.add('prendido');` con un `if`.
+2. `if (!farol.classList.contains('roto')) {` … `}` (prendé solo si no está roto).
+3. Tocá **Ejecutar**. Los rotos tienen que quedar apagados.
 
 #### Página
 ```html
@@ -416,6 +436,11 @@ toldo.setAttribute('title', 'Toldo de la calesita');
 #### Desafío
 Dale a `#pan` el fondo `goldenrod` y el `title` `Pan con miel`.
 
+#### Pasos
+1. Debajo de `vidriera`, escribí `vidriera.style.backgroundColor = 'goldenrod';`
+2. Y `vidriera.setAttribute('title', 'Pan con miel');`
+3. Tocá **Ejecutar** y mirá el Estado.
+
 #### Página
 ```html
 <style>
@@ -478,6 +503,11 @@ El problema casi nunca está en esa línea, sino en el **selector**: mirá en el
 
 #### Desafío
 Arreglá el selector para que el farol de la fuente se prenda.
+
+#### Pasos
+1. Buscá `document.querySelector('.fuente')`: el punto busca una clase, y la fuente tiene un id.
+2. Cambiá `'.fuente'` por `'#fuente'`.
+3. Tocá **Ejecutar**. El farol de la fuente tiene que prenderse.
 
 #### Página
 ```html

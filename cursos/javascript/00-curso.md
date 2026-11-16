@@ -215,6 +215,11 @@ Tocá **Ejecutar** (o Ctrl+Enter): JavaScript corre acá mismo, en tu navegador.
 #### Desafío
 Completá la instrucción para que Nima salude a la Feria.
 
+#### Pasos
+1. Buscá el `___` al principio de la línea.
+2. Cambialo por `console.log` (muestra en la consola).
+3. Tocá **Ejecutar**. Tiene que salir `¡Hola, Feria!`.
+
 #### Código inicial
 ```javascript
 ___('¡Hola, Feria!');
@@ -258,6 +263,11 @@ Un error muy común: un texto que no se cierra. Toda comilla que abre un texto t
 
 #### Desafío
 Arreglá el programa para que ande.
+
+#### Pasos
+1. Mirá el texto: abre con `'` pero no cierra.
+2. Agregá `'` después de `Feria`, antes del `)`.
+3. Tocá **Ejecutar**. Tiene que salir `Nima llegó a la Feria`.
 
 #### Código inicial
 ```javascript
@@ -305,6 +315,12 @@ console.log('Tiros:', 3 * 2);   // Tiros: 6
 
 #### Desafío
 Reemplazá los `___` por las cuentas: los tiros son 3 por ronda y 2 rondas; las fichas, 2 por tiro.
+
+#### Pasos
+1. Hay dos `___`.
+2. Los tiros: `3 * 2` (3 por ronda, 2 rondas).
+3. Las fichas: `3 * 2 * 2` (2 fichas por cada tiro).
+4. Tocá **Ejecutar**. Tienen que salir 6 y 12.
 
 #### Código inicial
 ```javascript
@@ -356,6 +372,11 @@ console.log('esto sí se muestra');
 
 #### Desafío
 «Apagá» la línea que dice que el blanco está quieto, sin borrarla, para que el programa muestre solo las otras dos.
+
+#### Pasos
+1. Buscá la línea `console.log('El blanco está quieto');`.
+2. Escribí `//` al principio: queda como comentario y no se ejecuta.
+3. Tocá **Ejecutar**. Tienen que salir solo las otras dos líneas.
 
 #### Código inicial
 ```javascript
@@ -411,6 +432,11 @@ Mirá el orden de la salida: lo que está dentro de un `setTimeout` sale **despu
 
 #### Desafío
 Hacé que *¡Suelta la flecha!* salga **después** de que aparezca el blanco: metela en un `setTimeout` de 2500 ms, igual que el blanco.
+
+#### Pasos
+1. Buscá `console.log('¡Suelta la flecha!');`.
+2. Metelo en un `setTimeout`, igual que el blanco: `setTimeout(() => console.log('¡Suelta la flecha!'), 2500);`
+3. Tocá **Ejecutar**. La flecha tiene que salir última.
 
 #### Código inicial
 ```javascript
@@ -468,6 +494,11 @@ document.querySelector('#cartel').textContent = 'Abierto';
 
 #### Desafío
 Cambiá el texto del cartel por `Abierto`.
+
+#### Pasos
+1. Buscá `cartel.textContent = '___';`.
+2. Cambiá `___` por `Abierto` (dentro de las comillas).
+3. Tocá **Ejecutar**. El cartel tiene que decir `Abierto`.
 
 #### Página
 ```html
@@ -537,6 +568,12 @@ Después de ejecutar, ¡tocá el botón en la página!
 
 #### Desafío
 Completá el código para que, al tocar **Prender**, el farol se prenda (que tenga la clase `prendido`) y el cartel diga `Farol prendido`.
+
+#### Pasos
+1. Buscá el comentario `// ¿Qué pasa cuando tocan la palanca?`.
+2. Cambialo por `farol.classList.add('prendido');`
+3. Debajo, agregá `cartel.textContent = 'Farol prendido';`
+4. Tocá **Ejecutar** y después el botón **Prender**.
 
 #### Página
 ```html

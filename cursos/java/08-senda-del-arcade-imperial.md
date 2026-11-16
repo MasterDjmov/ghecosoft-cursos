@@ -272,6 +272,11 @@ El **estado** del juego (dónde está la nave, cuántos puntos hay) va en una cl
 #### Desafío
 Completá el método que mueve la nave: suma la velocidad a la posición.
 
+#### Pasos
+1. Hay un `___` dentro de `actualizar`.
+2. Sumá la velocidad a la posición: `x += velocidad`.
+3. Tocá **Ejecutar**. En el cuadro 1 tiene que estar en `x=14`.
+
 #### Código inicial
 ```java
 public class Lienzo {
@@ -360,6 +365,11 @@ En cada cuadro, la pelota avanza con su velocidad; si pasa un borde, la velocida
 #### Desafío
 Completá el rebote: si se pasa del borde derecho (100) o del izquierdo (0), la velocidad se invierte.
 
+#### Pasos
+1. Hay un `___` dentro del `if` del borde.
+2. La velocidad cambia de signo: `vx = -vx`.
+3. Tocá **Ejecutar**. Tiene que salir `Posiciones: 95 95 80 65 50 35 20 5`.
+
 #### Código inicial
 ```java
 public class Rebote {
@@ -429,6 +439,11 @@ La posición avanza `velocidad * dt`, donde `dt` es el tiempo del cuadro en segu
 
 #### Desafío
 Completá el avance: la velocidad por el tiempo del cuadro.
+
+#### Pasos
+1. Hay un `___` en `x += ___;`.
+2. La velocidad por el tiempo del cuadro: `velocidad * dt`.
+3. Tocá **Ejecutar**. Las tres líneas tienen que dar `200.0`.
 
 #### Código inicial
 ```java
@@ -1232,6 +1247,11 @@ Se guarda qué teclas están apretadas en un `Set`: al apretar, `add`; al soltar
 #### Desafío
 Completá la condición del movimiento a la derecha.
 
+#### Pasos
+1. Hay un `___` en el `if` del movimiento.
+2. Se mueve si la tecla está apretada: `apretadas.contains("DERECHA")`.
+3. Tocá **Ejecutar**. Tiene que quedar en `x=65`.
+
 #### Código inicial
 ```java
 import java.util.HashSet;
@@ -1312,6 +1332,11 @@ Para que la nave no se salga: `x = Math.max(0, Math.min(ANCHO - TAM, x))`. Si se
 #### Desafío
 Completá el encierro de la posición entre 0 y `ANCHO - TAM`.
 
+#### Pasos
+1. Hay un `___` en `x = ___;`.
+2. Encerrala entre 0 y `ANCHO - TAM`: `Math.max(0, Math.min(ANCHO - TAM, x))`.
+3. Tocá **Ejecutar**. Tiene que frenar en `x=180`.
+
 #### Código inicial
 ```java
 public class Bordes {
@@ -1379,6 +1404,11 @@ Los estados van en un `enum`. Al apretar una tecla, un `switch` sobre el estado 
 
 #### Desafío
 Completá la transición de la pausa: con P, vuelve a JUGANDO.
+
+#### Pasos
+1. Hay un `___` en el `case PAUSA`.
+2. Con P vuelve a jugar: `Estado.JUGANDO`.
+3. Tocá **Ejecutar**. Tiene que salir `P -> JUGANDO`.
 
 #### Código inicial
 ```java
@@ -2396,6 +2426,11 @@ En la máquina de las monedas, la nave tiene que juntar monedas que caen. ¿Cóm
 #### Desafío
 Completá la pregunta: ¿la nave toca esta moneda?
 
+#### Pasos
+1. Hay un `___` en `boolean toca = ___;`.
+2. Preguntale a la nave si se superpone: `nave.intersects(monedas[i])`.
+3. Tocá **Ejecutar**. Las monedas 1 y 3 tienen que salir atrapadas.
+
 #### Código inicial
 ```java
 import java.awt.Rectangle;
@@ -2460,6 +2495,11 @@ No se puede sacar de una lista mientras se la recorre con for-each. `monedas.rem
 
 #### Desafío
 Ejecutalo, mirá el error y reemplazá el for-each por un `removeIf`.
+
+#### Pasos
+1. Borrar dentro de un for-each rompe el recorrido.
+2. Borrá el `for` entero (con su `if`) y escribí `monedas.removeIf(m -> nave.intersects(m));`.
+3. Tocá **Ejecutar**. Tiene que salir `Monedas en pantalla: 1`.
 
 #### Código inicial
 ```java
@@ -2528,6 +2568,11 @@ Con `new Random(42)`, la secuencia es siempre la misma. Cada moneda sale en `r.n
 
 #### Desafío
 Completá el cálculo del cuadro de la animación: cambia cada 3 ticks, entre 4 cuadros.
+
+#### Pasos
+1. Hay un `___` en `int cuadro = ___;`.
+2. Cada 3 ticks cambia, entre 4 cuadros: `(tick / 3) % 4`.
+3. Tocá **Ejecutar**. Tiene que salir `000111222333`.
 
 #### Código inicial
 ```java
@@ -3523,6 +3568,11 @@ Cada `Entidad` tiene posición y velocidad y sabe `actualizar()`. El `Mundo` las
 #### Desafío
 Completá el tick del mundo: que cada entidad se actualice.
 
+#### Pasos
+1. Hay un `___` dentro del `for`.
+2. Que cada entidad se actualice: `e.actualizar()`.
+3. Tocá **Ejecutar**. Tiene que salir `Tick 2: roca y=10 moneda y=16`.
+
 #### Código inicial
 ```java
 import java.util.ArrayList;
@@ -3642,6 +3692,11 @@ Las reglas van en un solo lugar: según qué tocó la nave, se suman puntos o se
 #### Desafío
 Completá la regla de la roca: resta una vida.
 
+#### Pasos
+1. Hay un `___` en el caso de la roca.
+2. Restá una vida: `vidas--`.
+3. Tocá **Ejecutar**. Tiene que terminar en `vidas=0 FIN`.
+
 #### Código inicial
 ```java
 public class Reglas {
@@ -3736,6 +3791,11 @@ El récord se guarda en un archivo. Se lee con `Files.readString`, se compara co
 
 #### Desafío
 Completá la condición: si el puntaje nuevo supera al récord.
+
+#### Pasos
+1. Hay un `___` en el `if`.
+2. Hay récord nuevo si el puntaje supera al guardado: `puntaje > record`.
+3. Tocá **Ejecutar**. Tiene que salir `Récord guardado: 150`.
 
 #### Código inicial
 ```java

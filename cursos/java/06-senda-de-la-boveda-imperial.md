@@ -249,6 +249,11 @@ Debajo de los Archivos, una escalera de piedra baja a la **Bóveda Imperial**. E
 #### Desafío
 Leé las líneas del archivo.
 
+#### Pasos
+1. Hay un `___` en `List<String> lineas = ___;`.
+2. Leé todas las líneas del archivo: `Files.readAllLines(ruta)`.
+3. Tocá **Ejecutar**. Tiene que salir `Registros: 3`.
+
 #### Código inicial
 ```java
 import java.nio.file.Files;
@@ -322,6 +327,11 @@ Cada línea se corta con `split(",")`. Si no tiene 3 partes, o la cantidad no es
 
 #### Desafío
 Completá la condición de línea incompleta: no tiene 3 partes.
+
+#### Pasos
+1. Hay un `___` en el `if`.
+2. Está incompleta si no tiene 3 partes: `p.length != 3`.
+3. Tocá **Ejecutar**. Tiene que salir `Incompleta: seda,5`.
 
 #### Código inicial
 ```java
@@ -400,6 +410,11 @@ La Bóveda tiene sus ajustes: cuántos escribas trabajan y a qué hora cierra. L
 
 #### Desafío
 Leé la hora de cierre con un valor por defecto de "20".
+
+#### Pasos
+1. Hay un `___` en el último `println`.
+2. Leé la propiedad con un valor por defecto: `leer.getProperty("cierre", "20")`.
+3. Tocá **Ejecutar**. Tiene que salir `Cierra a las: 20`.
 
 #### Código inicial
 ```java
@@ -1133,6 +1148,11 @@ En el segundo piso, los registros no están en libros: están en **tablas**, con
 #### Desafío
 Agregá a Baldo, de 55 años, con un `INSERT`.
 
+#### Pasos
+1. Hay un `___` antes del `SELECT`.
+2. Copiá el `INSERT` de Nadia y cambiá los datos: `INSERT INTO viajero (nombre, edad) VALUES ('Baldo', 55)`.
+3. Tocá **Ejecutar**. Tiene que salir `3 | Baldo | 55`.
+
 #### Código inicial
 ```sql
 CREATE TABLE viajero (
@@ -1192,6 +1212,11 @@ En la tabla de cargamentos, casi todo sale del Puerto. —Que la tabla lo ponga 
 #### Desafío
 Completá el valor por defecto del origen: 'Puerto'.
 
+#### Pasos
+1. Hay un `___` al final de la columna `origen`.
+2. El valor por defecto se pone con `DEFAULT 'Puerto'`.
+3. Tocá **Ejecutar**. Tiene que salir `sal | 30 | Puerto`.
+
 #### Código inicial
 ```sql
 CREATE TABLE cargamento (
@@ -1250,6 +1275,11 @@ Llega mercadería nueva y se vende otra. Un **ogro** le sugiere a Zed un `UPDATE
 
 #### Desafío
 Completá el `WHERE` del `UPDATE`: solo la sal.
+
+#### Pasos
+1. Hay un `___` en el `WHERE` del `UPDATE`.
+2. Solo la sal: `descripcion = 'sal'`.
+3. Tocá **Ejecutar**. Tiene que salir `sal | 20`.
 
 #### Código inicial
 ```sql
@@ -1910,6 +1940,11 @@ En el tercer piso, la Oráculo de las Tablas responde preguntas. Zed le pregunta
 #### Desafío
 Completá el orden: de mayor a menor edad.
 
+#### Pasos
+1. Hay un `___` en el `ORDER BY`.
+2. De mayor a menor edad: `edad DESC`.
+3. Tocá **Ejecutar**. Tiene que empezar con `Sor Ana | 62`.
+
 #### Código inicial
 ```sql
 CREATE TABLE viajero (nombre TEXT, edad INTEGER, origen TEXT);
@@ -1964,6 +1999,11 @@ La Oráculo quiere saber de qué lugares llegó más de un viajero, y cuántos. 
 
 #### Desafío
 Completá el filtro de grupos: más de un viajero.
+
+#### Pasos
+1. Hay un `___` después del `GROUP BY`.
+2. Para filtrar grupos se usa `HAVING`: `HAVING COUNT(*) > 1`.
+3. Tocá **Ejecutar**. Tienen que salir Puerto y Academia.
 
 #### Código inicial
 ```sql
@@ -2020,6 +2060,11 @@ Los barcos están en una tabla y los cargamentos en otra. La Oráculo pide cada 
 
 #### Desafío
 Completá la condición del `JOIN`: el barco del cargamento.
+
+#### Pasos
+1. Hay un `___` después del `ON`.
+2. El cargamento apunta a su barco: `c.barco_id = b.id`.
+3. Tocá **Ejecutar**. Tiene que salir `Ceibo | NULL`.
 
 #### Código inicial
 ```sql
@@ -2718,6 +2763,11 @@ En el cuarto piso, la base trabaja sola: pasa nombres a mayúsculas, redondea pr
 #### Desafío
 Completá el `COALESCE` para los que no tienen oficio.
 
+#### Pasos
+1. Hay un `___` antes de `AS oficio`.
+2. Si el oficio es `NULL`, poné un texto: `COALESCE(oficio, 'sin oficio')`.
+3. Tocá **Ejecutar**. Tiene que salir `ZED | sin oficio | 12.46`.
+
 #### Código inicial
 ```sql
 CREATE TABLE viajero (nombre TEXT, oficio TEXT, deuda REAL);
@@ -2766,6 +2816,11 @@ La Bóveda clasifica los cargamentos por peso: liviano, mediano o pesado, sin qu
 
 #### Desafío
 Completá el caso mediano: más de 30 kilos.
+
+#### Pasos
+1. Hay un `___` entre los dos casos.
+2. Agregá el caso: `WHEN kilos > 30 THEN 'mediano'`.
+3. Tocá **Ejecutar**. Tiene que salir `café | mediano`.
 
 #### Código inicial
 ```sql
@@ -2821,6 +2876,11 @@ Un trigger se dispara con un `INSERT`, `UPDATE` o `DELETE`. Adentro, `NEW` es la
 
 #### Desafío
 Completá el `UPDATE` del trigger: restá la cantidad vendida.
+
+#### Pasos
+1. Hay un `___` en el `SET stock = ___`.
+2. Restá la cantidad de la venta nueva: `stock - NEW.cantidad`.
+3. Tocá **Ejecutar**. Tiene que salir `Café Fuerte | 15`.
 
 #### Código inicial
 ```sql
@@ -3461,6 +3521,11 @@ Si se arma la consulta con `+`, lo que escribe el usuario pasa a ser parte del S
 #### Desafío
 Completá la consulta segura: el nombre va como un `?`.
 
+#### Pasos
+1. Hay un `___` en la consulta segura.
+2. El valor va como un signo de pregunta: `?`.
+3. Tocá **Ejecutar**. Tiene que salir `Con PreparedStatement: ... nombre = ?`.
+
 #### Código inicial
 ```java
 public class Inyeccion {
@@ -3520,6 +3585,11 @@ Todo lo que se declara entre los paréntesis del `try (...)` se cierra al salir,
 
 #### Desafío
 Declará la conexión adentro de los paréntesis del `try`.
+
+#### Pasos
+1. Hay un `___` dentro de `try (___)`.
+2. Declará la conexión adentro: `Conexion c = new Conexion()`.
+3. Tocá **Ejecutar**. Tiene que salir `Conexión cerrada` antes del error.
 
 #### Código inicial
 ```java
@@ -3609,6 +3679,11 @@ Con `AS` se le pone nombre a cada columna del resultado: `COUNT(*) AS cantidad`.
 
 #### Desafío
 Poné el alias `cantidad` a la cuenta.
+
+#### Pasos
+1. Hay un `___` después de `COUNT(*)`.
+2. Ponele nombre a la columna: `AS cantidad`.
+3. Tocá **Ejecutar**. El encabezado tiene que decir `cantidad`.
 
 #### Código inicial
 ```sql
@@ -4512,6 +4587,13 @@ El DAO es una **interfaz** (`ViajeroDAO`) con las operaciones. Una implementaci�
 #### Desafío
 Completá el `insertar`: asigná el siguiente id, guardá y devolvé el id.
 
+#### Pasos
+1. Hay un `___` dentro de `insertar`.
+2. Calculá el id: `int id = ++secuencia;`.
+3. Guardalo: `tabla.add(new Viajero(id, nombre));`.
+4. Devolvelo: `return id;`.
+5. Tocá **Ejecutar**. Tiene que salir `Id de Nadia: 2`.
+
 #### Código inicial
 ```java
 import java.util.ArrayList;
@@ -4616,6 +4698,11 @@ El DAO viejo devolvía `null` cuando no encontraba a alguien, y el **troll** apa
 #### Desafío
 Completá el `buscar`: el primero con ese id.
 
+#### Pasos
+1. Hay un `___` en el `return` de `buscar`.
+2. Con un stream: `TABLA.stream().filter(v -> v.id() == id).findFirst()`.
+3. Tocá **Ejecutar**. Tiene que salir `9: no existe`.
+
 #### Código inicial
 ```java
 import java.util.List;
@@ -4692,6 +4779,11 @@ El DAO atrapa la `SQLException` y lanza una excepción **propia**, con un mensaj
 
 #### Desafío
 Completá el `throw`: una `DatoInvalidoException` con el mensaje y la causa.
+
+#### Pasos
+1. Hay un `___` en el `throw`.
+2. Creá la excepción con el mensaje y la causa: `new DatoInvalidoException("ese pasaporte ya está registrado", e)`.
+3. Tocá **Ejecutar**. Tiene que salir `(código 23505)`.
 
 #### Código inicial
 ```java
@@ -5832,6 +5924,11 @@ Entre `BEGIN;` y `COMMIT;`, las operaciones forman una sola unidad: se confirman
 #### Desafío
 Confirmá la transacción al final.
 
+#### Pasos
+1. Hay un `___` después de los `UPDATE`.
+2. Para confirmar la transacción: `COMMIT`.
+3. Tocá **Ejecutar**. Tiene que salir `Zed | 120`.
+
 #### Código inicial
 ```sql
 CREATE TABLE cofre (dueno TEXT PRIMARY KEY, denarios INTEGER CHECK (denarios >= 0));
@@ -5887,6 +5984,11 @@ A mitad de una transferencia, Zed se da cuenta de que el monto estaba mal: ya sa
 #### Desafío
 Deshacé la transacción.
 
+#### Pasos
+1. Hay un `___` después del `UPDATE`.
+2. Para deshacer: `ROLLBACK`.
+3. Tocá **Ejecutar**. Zed tiene que seguir con 120.
+
 #### Código inicial
 ```sql
 CREATE TABLE cofre (dueno TEXT PRIMARY KEY, denarios INTEGER);
@@ -5938,6 +6040,11 @@ En una carga larga, Baldo registra tres productos. El tercero estaba mal. No qui
 
 #### Desafío
 Volvé al punto de guardado, sin deshacer los dos primeros.
+
+#### Pasos
+1. Hay un `___` antes del `COMMIT`.
+2. Volvé al punto de guardado: `ROLLBACK TO antes_del_tercero`.
+3. Tocá **Ejecutar**. No tiene que salir la Ganzúa de Oro.
 
 #### Código inicial
 ```sql
@@ -6805,6 +6912,11 @@ Con `LEFT JOIN viajero v ON v.id = c.viajero_id`, los cargamentos cuyo viajero n
 #### Desafío
 Completá la condición que deja solo a los huérfanos.
 
+#### Pasos
+1. Hay un `___` en el `WHERE`.
+2. Los huérfanos no tienen viajero: `v.id IS NULL`.
+3. Tocá **Ejecutar**. Tienen que salir `vitral` y `seda`.
+
 #### Código inicial
 ```sql
 CREATE TABLE viajero (id INTEGER PRIMARY KEY, nombre TEXT);
@@ -6860,6 +6972,11 @@ Para que el Liche no vuelva, el esquema nuevo **no deja** crear huérfanos: cada
 
 #### Desafío
 Completá la regla del borrado: en cascada.
+
+#### Pasos
+1. Hay un `___` después de `ON DELETE`.
+2. Para borrar en cascada: `CASCADE`.
+3. Tocá **Ejecutar**. Tiene que quedar `1`.
 
 #### Código inicial
 ```sql
@@ -6919,6 +7036,11 @@ La carga va entre `BEGIN` y `COMMIT`. El informe une las dos tablas con `JOIN` y
 
 #### Desafío
 Completá la suma de los kilos de cada viajero.
+
+#### Pasos
+1. Hay un `___` antes de `AS total`.
+2. Sumá los kilos: `SUM(c.kilos)`.
+3. Tocá **Ejecutar**. Tiene que salir `Baldo | 2 | 120`.
 
 #### Código inicial
 ```sql

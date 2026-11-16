@@ -239,6 +239,11 @@ Los `import javax.swing.…` de arriba traen los componentes de las ventanas de 
 #### Desafío
 Registrá la reacción del botón: que muestre «Tocaron: » y el texto del botón.
 
+#### Pasos
+1. Hay un `___` en `saludar.___(...)`.
+2. El método que registra la reacción del botón es `addActionListener`.
+3. Tocá **Ejecutar**. Tiene que salir `Tocaron: Saludar` dos veces.
+
 #### Código inicial
 ```java
 import javax.swing.JButton;
@@ -297,6 +302,11 @@ Un `JTextField` guarda lo que escribió el usuario (`getText()`) y un `JLabel` m
 
 #### Desafío
 Completá el listener: el cartel muestra «Bienvenida, » y lo que hay en el campo.
+
+#### Pasos
+1. Hay un `___` dentro de `cartel.setText(...)`.
+2. Uní el saludo con lo del campo: `"Bienvenida, " + nombre.getText()`.
+3. Tocá **Ejecutar**. Tiene que salir `Bienvenida, Nadia`.
 
 #### Código inicial
 ```java
@@ -370,6 +380,11 @@ En el Palacio hay un solo empleado que atiende las ventanas: el **hilo de evento
 
 #### Desafío
 Completá el método que le pasa la tarea al hilo de eventos y espera.
+
+#### Pasos
+1. Hay un `___` en `SwingUtilities.___(...)`.
+2. El que pasa la tarea al hilo de eventos y espera es `invokeAndWait`.
+3. Tocá **Ejecutar**. Tiene que salir `La tarea ya terminó` al final.
 
 #### Código inicial
 ```java
@@ -1071,6 +1086,11 @@ Con `GridLayout(0, 3)`, las columnas son 3 y las filas se calculan: hacen falta 
 #### Desafío
 Completá la cuenta de filas: los botones divididos por las columnas, redondeando para arriba.
 
+#### Pasos
+1. Hay un `___` en `int filas = ___;`.
+2. División redondeando para arriba: `(botones + columnas - 1) / columnas`.
+3. Tocá **Ejecutar**. Con 10 botones tienen que salir 4 filas.
+
 #### Código inicial
 ```java
 public class Grilla {
@@ -1131,6 +1151,11 @@ El panel principal del Palacio se divide como un mapa: arriba el título, abajo 
 
 #### Desafío
 Agregá la barra de estado en el sur.
+
+#### Pasos
+1. Hay un `___` en `BorderLayout.___`.
+2. El sur es `SOUTH`.
+3. Tocá **Ejecutar**. Tiene que salir `South: 3 viajeros cargados`.
 
 #### Código inicial
 ```java
@@ -1205,6 +1230,11 @@ Con `GridBagLayout`, cada componente lleva sus `GridBagConstraints`: `gridx` es 
 
 #### Desafío
 Completá la columna del campo: va a la derecha de su etiqueta.
+
+#### Pasos
+1. Hay un `___` en `campo.gridx = ___;`.
+2. La etiqueta está en la columna 0, así que el campo va en la `1`.
+3. Tocá **Ejecutar**. Los campos tienen que estar en `(1, ...)`.
 
 #### Código inicial
 ```java
@@ -1989,6 +2019,11 @@ Un combo puede guardar **objetos**: muestra su `toString()` y `getSelectedItem()
 #### Desafío
 Leé el arma elegida del modelo.
 
+#### Pasos
+1. Hay un `___` en `Arma elegida = ___;`.
+2. Leé lo elegido y convertilo a `Arma`: `(Arma) modelo.getSelectedItem()`.
+3. Tocá **Ejecutar**. Tiene que salir `Eligió Arco, daño 9`.
+
 #### Código inicial
 ```java
 import javax.swing.DefaultComboBoxModel;
@@ -2064,6 +2099,11 @@ Los `JRadioButton` agrupados en un `ButtonGroup` se excluyen: si se marca uno, s
 #### Desafío
 Agregá el segundo botón al grupo.
 
+#### Pasos
+1. Hay un `___` debajo de `grupo.add(infanteria);`.
+2. Agregá el otro botón: `grupo.add(caballeria)`.
+3. Tocá **Ejecutar**. Tiene que salir `Infantería: false`.
+
 #### Código inicial
 ```java
 import javax.swing.ButtonGroup;
@@ -2136,6 +2176,11 @@ Un `JSlider` (y una `JProgressBar`) tiene mínimo y máximo. Si se pide un valor
 
 #### Desafío
 Leé el valor que quedó en la barra después de pedir 15.
+
+#### Pasos
+1. Hay un `___` en el `println`.
+2. Leé el valor de la barra: `tamanio.getValue()`.
+3. Tocá **Ejecutar**. Tiene que salir `Pidió 15, quedó en 10`.
 
 #### Código inicial
 ```java
@@ -3055,6 +3100,11 @@ Un `AbstractTableModel` propio responde `getRowCount()`, `getColumnCount()` y `g
 #### Desafío
 Completá el `getValueAt`: columna 0, el nombre; si no, el oficio.
 
+#### Pasos
+1. Hay un `___` en el `return` de `getValueAt`.
+2. Columna 0, el nombre; si no, el oficio: `columna == 0 ? v.nombre() : v.oficio()`.
+3. Tocá **Ejecutar**. Tiene que salir `Nadia | aduanera`.
+
 #### Código inicial
 ```java
 import java.util.List;
@@ -3150,6 +3200,11 @@ Llega Baldo a la biblioteca y hay que sumarlo al registro. Con el modelo por def
 #### Desafío
 Agregá la fila de Baldo, «mercader».
 
+#### Pasos
+1. Hay un `___` en `modelo.___(...)`.
+2. Igual que el renglón de arriba: `addRow`.
+3. Tocá **Ejecutar**. Tiene que salir `Baldo - mercader`.
+
 #### Código inicial
 ```java
 import javax.swing.table.DefaultTableModel;
@@ -3219,6 +3274,11 @@ Un árbol se arma con `DefaultMutableTreeNode`: `region.add(new DefaultMutableTr
 
 #### Desafío
 Agregá la región «Torre» a la raíz.
+
+#### Pasos
+1. Hay un `___` debajo de `imperio.add(muralla);`.
+2. Agregá la Torre: `imperio.add(torre)`.
+3. Tocá **Ejecutar**. Tiene que salir `Imperio: 2 regiones`.
 
 #### Código inicial
 ```java
@@ -4154,6 +4214,11 @@ Un `JMenuItem` lleva su atajo con `setAccelerator(KeyStroke.getKeyStroke("contro
 #### Desafío
 Poné el atajo «control N» en el ítem «Nueva ficha».
 
+#### Pasos
+1. Hay un `___` en `nueva.setAccelerator(___)`.
+2. Igual que el de Guardar: `KeyStroke.getKeyStroke("control N")`.
+3. Tocá **Ejecutar**. Tiene que salir `Nueva ficha: ctrl pressed N`.
+
 #### Código inicial
 ```java
 import javax.swing.JMenu;
@@ -4230,6 +4295,11 @@ Se guardan las ventanas internas abiertas en un mapa por nombre. Antes de crear 
 
 #### Desafío
 Completá la condición: la ventana ya está abierta.
+
+#### Pasos
+1. Hay un `___` en el `if`.
+2. Ya está abierta si el mapa la tiene: `abiertas.containsKey(nombre)`.
+3. Tocá **Ejecutar**. Tiene que salir `Ventanas en el escritorio: 2`.
 
 #### Código inicial
 ```java
@@ -4318,6 +4388,11 @@ La barra de estado es un `JLabel` que se actualiza con `setText(...)` después d
 
 #### Desafío
 Completá el texto de la barra con la cantidad de fichas y el usuario.
+
+#### Pasos
+1. Hay un `___` dentro de `barra.setText(...)`.
+2. Armá el texto: `"Fichas abiertas: " + fichas + " | Usuario: " + usuario`.
+3. Tocá **Ejecutar**. Tiene que salir `Fichas abiertas: 2 | Usuario: Zed`.
 
 #### Código inicial
 ```java
@@ -5221,6 +5296,11 @@ Un `SwingWorker` hace la tarea lenta en `doInBackground()`, en otro hilo, mientr
 #### Desafío
 Completá el método que arranca al mensajero.
 
+#### Pasos
+1. Hay un `___` en `mensajero.___()`.
+2. El método que arranca un `SwingWorker` es `execute`.
+3. Tocá **Ejecutar**. Primero tiene que salir `La ventana sigue atendiendo...`.
+
 #### Código inicial
 ```java
 import javax.swing.SwingWorker;
@@ -5299,6 +5379,11 @@ Si `doInBackground()` lanza una excepción, `get()` lanza una `ExecutionExceptio
 #### Desafío
 Completá el `catch` con la excepción que envuelve al error del mensajero.
 
+#### Pasos
+1. Hay un `___` en el `catch`.
+2. El error de la tarea llega envuelto en `ExecutionException`.
+3. Tocá **Ejecutar**. Tiene que salir `No se pudo: la Bóveda está cerrada`.
+
 #### Código inicial
 ```java
 import java.util.concurrent.ExecutionException;
@@ -5376,6 +5461,11 @@ El mensajero vuelve, pero no puede tocar la ventana él mismo: solo el que atien
 
 #### Desafío
 Completá el `done()`: poné en la etiqueta «Viajeros: » y el resultado.
+
+#### Pasos
+1. Hay un `___` dentro del `try` de `done()`.
+2. Poné el resultado en la etiqueta: `etiqueta.setText("Viajeros: " + get())`.
+3. Tocá **Ejecutar**. Tiene que salir `Viajeros: 10000`.
 
 #### Código inicial
 ```java
@@ -6589,6 +6679,11 @@ En MVC, la vista solo junta los datos y llama al **controlador**. El controlador
 #### Desafío
 Completá el controlador: si el nombre es válido, que el DAO lo guarde.
 
+#### Pasos
+1. Hay un `___` antes del `return "Guardado: "`.
+2. Pedile al DAO que lo guarde: `dao.insertar(nombre)`.
+3. Tocá **Ejecutar**. Tiene que salir `En la tabla: [Baldo]`.
+
 #### Código inicial
 ```java
 import java.util.ArrayList;
@@ -6693,6 +6788,11 @@ El controlador recibe una `Vista` (interfaz con `mostrarMensaje`). En la aplicac
 #### Desafío
 Completá la llamada: el controlador le pide a la vista que muestre el mensaje.
 
+#### Pasos
+1. Hay un `___` debajo del `String mensaje`.
+2. Pedile a la vista que lo muestre: `vista.mostrarMensaje(mensaje)`.
+3. Tocá **Ejecutar**. Tienen que salir los dos `[Vista]`.
+
 #### Código inicial
 ```java
 public class VistaInterfaz {
@@ -6779,6 +6879,11 @@ El código viejo tenía la clave de la Bóveda escrita adentro, a la vista de cu
 
 #### Desafío
 Completá la lectura del usuario desde las propiedades.
+
+#### Pasos
+1. Hay un `___` en `String usuario = ___;`.
+2. Igual que la url, con su clave: `p.getProperty("db.usuario")`.
+3. Tocá **Ejecutar**. Tiene que salir `Usuario: palacio`.
 
 #### Código inicial
 ```java
@@ -8187,6 +8292,11 @@ El Tribunal de las Actas pone el pergamino sobre la mesa: un acta es un **formul
 #### Desafío
 Completá la condición de nota inválida: no es `null` y está fuera de 1 a 10.
 
+#### Pasos
+1. Hay un `___` en el `if` de `registrar`.
+2. No es `null` y está fuera de 1 a 10: `r.nota() != null && (r.nota() < 1 || r.nota() > 10)`.
+3. Tocá **Ejecutar**. Tiene que salir `Rechazado: nota inválida para Mira`.
+
 #### Código inicial
 ```java
 import java.util.ArrayList;
@@ -8314,6 +8424,11 @@ Un `HashSet` de alumnos dice si ya estaba (`add` devuelve `false`). Antes de agr
 #### Desafío
 Completá la condición de aula llena.
 
+#### Pasos
+1. Hay un `___` en el `if`.
+2. Está llena si ya hay tantos como la capacidad: `inscriptos.size() >= CAPACIDAD`.
+3. Tocá **Ejecutar**. Tiene que salir `Sol: el aula está llena`.
+
 #### Código inicial
 ```java
 import java.util.HashSet;
@@ -8401,6 +8516,11 @@ Con un stream: `filter(r -> r.nota() != null)` deja los presentes; `mapToInt(Reg
 
 #### Desafío
 Completá el filtro de los presentes.
+
+#### Pasos
+1. Hay un `___` en el `filter`.
+2. Presentes son los que tienen nota: `r.nota() != null`.
+3. Tocá **Ejecutar**. Tiene que salir `Presentes: 3 de 4`.
 
 #### Código inicial
 ```java

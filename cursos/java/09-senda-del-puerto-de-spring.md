@@ -657,6 +657,11 @@ En JPA, `save(entidad)` guarda y, si la entidad no tiene id, la base le asigna u
 #### Desafío
 Completá el `save`: si el cargamento no tiene id, asignale el siguiente de la secuencia.
 
+#### Pasos
+1. Hay un `___` dentro del `if (c.id == null)`.
+2. Asignale el siguiente: `c.id = ++secuencia`.
+3. Tocá **Ejecutar**. Tiene que salir `En la tabla: 2`.
+
 #### Código inicial
 ```java
 import java.util.LinkedHashMap;
@@ -767,6 +772,11 @@ En Spring Data, declarar `List<Cargamento> findByDestino(String destino)` alcanz
 #### Desafío
 Completá el filtro de `findByDestino`.
 
+#### Pasos
+1. Hay un `___` en el `filter`.
+2. Los que van a ese destino: `c.destino().equals(destino)`.
+3. Tocá **Ejecutar**. Tiene que salir `A la Torre: 1`.
+
 #### Código inicial
 ```java
 import java.util.List;
@@ -840,6 +850,11 @@ En una relación de dos lados, al agregar un cargamento al barco hay que actuali
 
 #### Desafío
 Completá el método `agregar`: además de sumarlo a la lista, el cargamento tiene que saber en qué barco va.
+
+#### Pasos
+1. Hay un `___` debajo de `cargamentos.add(c);`.
+2. El cargamento guarda su barco: `c.barco = this`.
+3. Tocá **Ejecutar**. Tiene que salir `El café va en: Garza`.
 
 #### Código inicial
 ```java
@@ -3275,6 +3290,11 @@ Pedir los barcos y después, por cada uno, sus cargamentos son N+1 consultas. Si
 #### Desafío
 Completá la versión de una consulta: agrupá todos los cargamentos por barco.
 
+#### Pasos
+1. Hay un `___` en `Collectors.___()`.
+2. Para juntarlos en una lista: `toList`.
+3. Tocá **Ejecutar**. Tiene que salir `Todo junto: 1 consulta`.
+
 #### Código inicial
 ```java
 import java.util.List;
@@ -3385,6 +3405,11 @@ En una transacción, si algo falla, se vuelve atrás lo que se había hecho. Ac�
 #### Desafío
 Completá el `catch`: restaurá el estado guardado antes de empezar.
 
+#### Pasos
+1. Hay un `___` en el `catch`.
+2. Volvé al estado guardado: `stock = antes`.
+3. Tocá **Ejecutar**. Tiene que salir `Garza: 6, Bagre: 4`.
+
 #### Código inicial
 ```java
 import java.util.HashMap;
@@ -3478,6 +3503,11 @@ El controlador recibe el pedido, el servicio valida y busca en el repositorio, y
 
 #### Desafío
 Completá el caso del barco que no existe: 404.
+
+#### Pasos
+1. Hay un `___` en el `return` del `if`.
+2. Armá la respuesta: `"404 no existe el barco " + p.barco()`.
+3. Tocá **Ejecutar**. Tiene que salir `404 no existe el barco Ceibo`.
 
 #### Código inicial
 ```java

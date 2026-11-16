@@ -6779,6 +6779,12 @@ Ojo: si el array tiene lugar para 10 pero cargaste 4, recorré hasta la **cantid
 #### Desafío
 Completá el recorrido y la suma.
 
+#### Pasos
+1. Hay dos `___`.
+2. En el `for`: `cantidad` (cuántas fichas hay cargadas).
+3. En la suma: `registro[i].fuerza`.
+4. Tocá **Ejecutar**. Tiene que salir `promedio: 18.00`.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -6867,6 +6873,12 @@ if (pos == -1) {
 
 #### Desafío
 Completá la comparación y lo que se devuelve si no está.
+
+#### Pasos
+1. Hay dos `___`.
+2. En el `if`: `v[i].legajo == legajo`.
+3. En el último `return`: `-1` (no está).
+4. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```c
@@ -6973,6 +6985,11 @@ Para decidir el orden conviene una función `va_antes(a, b)` que conteste «¿`a
 
 #### Desafío
 Completá el desempate.
+
+#### Pasos
+1. Buscá el `return ___;` del final.
+2. Cambiá `___` por `strcmp(a->nombre, b->nombre) < 0` (si empatan, va antes el que viene primero en el abecedario).
+3. Tocá **Ejecutar**. Hulda tiene que quedar antes que Tizon.
 
 #### Código inicial
 ```c
@@ -7089,6 +7106,11 @@ int comparar(const void *a, const void *b)
 #### Desafío
 Completá la comparación.
 
+#### Pasos
+1. Buscá `return ___;`.
+2. Cambiá `___` por `x->precio - y->precio` (negativo si `x` va antes).
+3. Tocá **Ejecutar**. Tienen que quedar del más barato al más caro.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -7192,6 +7214,16 @@ devuelve el puesto, o `-1` si no entró.
 - El tablero queda siempre ordenado de mayor a menor.
 - `insertar` corre hacia atrás los de abajo; si está lleno, el último se cae.
 - Devuelve el puesto o `-1`.
+
+#### Pasos
+1. Arriba de `main`: `#define TOP 5`, `typedef struct { char nombre[12]; int puntos; } Record;` y `typedef struct { Record lista[TOP]; int cantidad; } Tablero;`
+2. `int insertar(Tablero *t, const char *nombre, int puntos)`: buscá la posición con `int pos = 0;` y `while (pos < t->cantidad && t->lista[pos].puntos >= puntos) pos++;`
+3. Si `pos == TOP`, `return -1;`. Si `t->cantidad < TOP`, `t->cantidad++;`
+4. Corré de atrás hacia adelante: `for (int i = t->cantidad - 1; i > pos; i--) t->lista[i] = t->lista[i - 1];`
+5. Guardá con `snprintf` el nombre y los puntos en `t->lista[pos]` y `return pos;`
+6. `mostrar`: `printf("  %d. %-6s %4d\n", i + 1, ...)` por cada récord.
+7. En `main`: los nombres `{ "Kira", "Chispa", "Hulda", "Tizon", "Nyx", "Kira", "Ferrum" }` y puntos `{ 420, 380, 510, 150, 90, 600, 200 }`. Por cada uno, insertá y mostrá `"%-6s %3d: entra en el puesto %d\n"` (con `pos + 1`) o `"%-6s %3d: no entra al tablero\n"`. Después `"\n"` y `mostrar(&tablero);`
+8. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```c
@@ -7331,6 +7363,15 @@ por nombre.
 - Devuelve un puntero a la de mejor daño por kilo.
 - Ordena con `qsort` por daño de mayor a menor y, si empatan, por nombre.
 
+#### Pasos
+1. Arriba de `main`: `typedef struct { char nombre[16]; int danio; double peso; } Arma;`
+2. `int comparar_armas(const void *a, const void *b)`: si los daños son distintos, `return y->danio - x->danio;` (de mayor a menor); si no, `return strcmp(x->nombre, y->nombre);`
+3. `const Arma *mejor_relacion(const Arma armas[], int n)`: recorré y quedate con la de mayor `danio / peso`.
+4. En `main`, el array: Hacha (28, 6.0), Daga (9, 0.8), Espada (20, 3.5), Maza (20, 5.0), Lanza (18, 3.0) y Estoque (14, 1.2).
+5. Mostrá `"livianas (menos de 3 kg):"` con las de `peso < 3.0`, y `printf("mejor daño por kilo: %s (%.1f)\n", ...)`.
+6. `qsort(armas, n, sizeof(Arma), comparar_armas);`, `"por daño:\n"` y cada una con `"  %-8s %2d  %.1f kg\n"`.
+7. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -7463,6 +7504,15 @@ vacías.
 - Menú para agregar, buscar, quitar y listar.
 - No repite nombres ni se pasa de la capacidad.
 - Valida todo con `pedir_entero` y un `pedir_texto` que no acepta vacíos.
+
+#### Pasos
+1. Arriba de `main`: `#define MAX_MIEMBROS 3`, un `struct Miembro` (nombre y nivel) y un `struct Compania` (array de miembros y cantidad).
+2. Copiá `pedir_entero` del 13 (con el mensaje `"\n  tiene que ser un número entre %d y %d.\n"`). Escribí `pedir_texto`: igual, pero sin el Enter y rechazando la línea vacía con `"\n  no puede estar vacío.\n"`.
+3. `int posicion(const Compania *c, const char *nombre)`: busca con `strcmp` y devuelve la posición o `-1`.
+4. En `main`: un `while (opcion != 0)` que muestra `"\n1) agregar  2) buscar  3) quitar  4) listar  0) salir\n"` y pide `"Opción: "` (0 a 4).
+5. Con un `switch`: 1 agrega (avisando si está completa o si el nombre ya está), 2 busca, 3 quita (corriendo los de atrás) y 4 lista (o `"(vacía)"`). Copiá cada mensaje de la salida esperada.
+6. Al salir: `printf("¡Hasta la próxima!\n");`
+7. Tocá **Ejecutar** y compará renglón por renglón.
 
 #### Código inicial
 ```c
@@ -7726,6 +7776,15 @@ con dos decimales.
 - Usa un array de structs (nombre, notas y promedio) y una función que calcula el promedio.
 - Ordena con burbuja usando una función de comparación con desempate por nombre (`strcmp`).
 - Kira, Hulda y Tizon empatan en 8.00 y quedan en orden alfabético.
+
+#### Pasos
+1. Arriba de `main`: `#define CANT 5` y `typedef struct { char nombre[12]; int notas[3]; double promedio; } Aprendiz;`
+2. `double promedio(const int notas[3])` → `return (notas[0] + notas[1] + notas[2]) / 3.0;`
+3. `bool va_antes(const Aprendiz *a, const Aprendiz *b)`: si los promedios son distintos, `return a->promedio > b->promedio;`; si no, `return strcmp(a->nombre, b->nombre) < 0;`
+4. `void ordenar(Aprendiz v[], int n)`: burbuja; si `va_antes(&v[i + 1], &v[i])`, intercambialos.
+5. En `main`: cargá los cinco con sus notas (Kira 8, 9, 7; Tizon 9, 9, 6; Hulda 10, 6, 8; Chispa 5, 6, 4; Brasa 9, 9, 8), calculá cada promedio y `ordenar(v, CANT);`
+6. Mostrá `"CUADRO DE HONOR DE LA FORJA\n"` y cada uno con `printf("%d. %-7s %5.2f\n", i + 1, v[i].nombre, v[i].promedio);`
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```c

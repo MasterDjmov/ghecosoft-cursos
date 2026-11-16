@@ -136,6 +136,11 @@ La consigna pide no mover las líneas: tocá solo los números.
 #### Desafío
 Hacé que la salida sea: `Sale la flecha`, `Saeta anota`, `Responden las Forjas`, `Responde el Puerto`.
 
+#### Pasos
+1. La que tarda menos sale primero.
+2. Intercambiá los tiempos: el Puerto con `3000` y las Forjas con `1000`.
+3. Tocá **Ejecutar** y compará el orden.
+
 #### Código inicial
 ```javascript
 console.log('Sale la flecha');
@@ -186,6 +191,10 @@ Ejecutá y fijate en qué lugar sale cada mensaje.
 
 #### Desafío
 Agregá `console.log('Fin')` al final del programa, y observá: la flecha de 0 sale última igual.
+
+#### Pasos
+1. Al final del programa, agregá `console.log('Fin');`.
+2. Tocá **Ejecutar**. La flecha de 0 ms tiene que salir después de `Fin`.
 
 #### Código inicial
 ```javascript
@@ -244,6 +253,11 @@ Lo que usa el dato tiene que ir **adentro** de la función que se ejecuta cuando
 #### Desafío
 Que se vea `Respuesta: ¡Recibido, Nima!`.
 
+#### Pasos
+1. El `console.log` de abajo se ejecuta antes de que llegue la respuesta.
+2. Movelo adentro del `setTimeout`, debajo de `respuesta = ...`.
+3. Tocá **Ejecutar**. Tiene que salir `Respuesta: ¡Recibido, Nima!`.
+
 #### Código inicial
 ```javascript
 let respuesta;
@@ -300,6 +314,11 @@ A los 1000 ms, `cocinar` llama a `alTerminar` con el texto, y se muestra `Pochoc
 
 #### Desafío
 Completá `mandarFlecha`.
+
+#### Pasos
+1. Hay un renglón vacío dentro de `mandarFlecha`.
+2. Escribí `` setTimeout(() => alLlegar(`Respuesta de ${destino}`), 1000); ``.
+3. Tocá **Ejecutar**. Primero tiene que salir `La flecha ya salió`.
 
 #### Código inicial
 ```javascript
@@ -363,6 +382,12 @@ Cada nivel se corre un poco a la derecha, y con muchos se forma una **pirámide*
 
 #### Desafío
 Mandá las tres en cadena para que salgan, en orden, las tres respuestas y al final `Las tres volvieron`.
+
+#### Pasos
+1. Borrá el comentario. Adentro de la primera flecha: `mandarFlecha('Puerto', (r2) => {`.
+2. Adentro: `console.log(r2);` y `mandarFlecha('lado de las Forjas', (r3) => {`.
+3. Adentro de esa: `console.log(r3);` y `console.log('Las tres volvieron');`. Cerrá las dos con `});`.
+4. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```javascript
@@ -429,6 +454,11 @@ En el evento del botón, primero cambiá el cartel y después dejá anotado, con
 
 #### Desafío
 Completá el evento de *Soltar*. (La comprobación suelta, toca la campana a los 1 s y espera hasta los 3 s.)
+
+#### Pasos
+1. En el renglón vacío del click: `cartel.textContent = 'Flecha en camino';`.
+2. Después: `setTimeout(() => { cartel.textContent = 'Flecha de vuelta'; }, 3000);`.
+3. Tocá **Ejecutar**. La campanada del segundo 1 tiene que ver `Flecha en camino`.
 
 #### Página
 ```html
@@ -637,6 +667,10 @@ Para fabricar una promesa propia: `new Promise((resolve) => { … })`. Adentro, 
 #### Desafío
 Usá `.then` para mostrar la respuesta.
 
+#### Pasos
+1. Cambiá el comentario por `flecha.then((respuesta) => console.log(respuesta));`.
+2. Tocá **Ejecutar**. Primero sale `La flecha salió` y después la respuesta.
+
 #### Código inicial
 ```javascript
 const flecha = new Promise((resolve) => {
@@ -701,6 +735,11 @@ Además de `resolve`, la promesa recibe `reject`: llamar a `reject(new Error('�
 
 #### Desafío
 Completá la cadena.
+
+#### Pasos
+1. Debajo del `.then`, agregá `.catch((error) => console.log('Se perdió:', error.message))`.
+2. Y `.finally(() => console.log('Saeta anota el viaje'));`.
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```javascript
@@ -769,6 +808,11 @@ La función **devuelve** la promesa con `return`: así quien la llama puede pone
 #### Desafío
 Completá `mandar`.
 
+#### Pasos
+1. En `mandar`: `return new Promise((resolve, reject) => {`.
+2. Adentro: `setTimeout(() => {` y, si `destino === 'la Niebla'`, `` reject(new Error(`La flecha a ${destino} se perdió`)); ``; si no, `` resolve(`Respuesta de ${destino}`); ``. Cerralo con `}, 1000);`.
+3. Cerrá la promesa con `});`. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```javascript
 function mandar(destino) {
@@ -835,6 +879,12 @@ Lo del final va en un último `then`.
 
 #### Desafío
 Encadená las tres para que salgan en orden y al final `Las tres volvieron`.
+
+#### Pasos
+1. En el renglón vacío del primer `.then`: `return mandar('el Puerto');`.
+2. Abajo: `.then((r2) => { console.log(r2); return mandar('las Forjas'); })`.
+3. Y `.then((r3) => { console.log(r3); console.log('Las tres volvieron'); });`.
+4. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```javascript
@@ -907,6 +957,11 @@ Revisá cada `then` de la cadena: el que pide la próxima tiene que tener `retur
 #### Desafío
 Arreglalo para que salga: `Respuesta de el Valle`, `Respuesta de el Puerto`, `Fin del viaje`.
 
+#### Pasos
+1. Sin `return`, el `.then` siguiente no espera la segunda flecha.
+2. Cambiá `mandar('el Puerto');` por `return mandar('el Puerto');`.
+3. Tocá **Ejecutar**. `Fin del viaje` tiene que salir al final.
+
 #### Código inicial
 ```javascript
 function mandar(destino) {
@@ -974,6 +1029,12 @@ Encadená los pasos con `return` (como en R04-N02-P4), y al final el `catch` y e
 
 #### Desafío
 Completá la cadena.
+
+#### Pasos
+1. Después de `mandar('el Puerto')`: `.then((r) => { console.log(r); return mandar('las Forjas'); })`.
+2. Otro igual que manda a `'la Niebla'`, y `.then((r) => console.log(r))`.
+3. `.catch((error) => console.log('Error:', error.message))` y `.finally(() => console.log('Se apaga el farol de la galería'));`.
+4. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```javascript
@@ -1179,6 +1240,11 @@ Se lee de arriba abajo, como si no hubiera espera. En esta caja se puede usar `a
 #### Desafío
 Esperá la respuesta con `await` y mostrala.
 
+#### Pasos
+1. Hay un `___` en `const respuesta = ___;`.
+2. Esperá la promesa: `await mandar('el Puerto')`.
+3. Tocá **Ejecutar**. La respuesta tiene que salir antes de `Sigo`.
+
 #### Código inicial
 ```javascript
 function mandar(destino) {
@@ -1246,6 +1312,12 @@ Cada `await` espera al anterior: salen en orden. Después hay que **llamarla**, 
 
 #### Desafío
 Escribí `viaje`.
+
+#### Pasos
+1. Borrá el comentario. `async function viaje() {`.
+2. `const r1 = await mandar('el Valle');` y `console.log(r1);`.
+3. `const r2 = await mandar('el Puerto');` y `console.log(r2);`. Cerrá con `}`.
+4. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```javascript
@@ -1317,6 +1389,12 @@ try {
 #### Desafío
 Atajá el error.
 
+#### Pasos
+1. Envolvé las dos líneas en un `try {`.
+2. `} catch (error) { console.log('Se perdió:', error.message); }`.
+3. `finally { console.log('Saeta anota'); }`.
+4. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```javascript
 function mandar(destino) {
@@ -1380,6 +1458,11 @@ Buscá la línea que llama a la función que devuelve una promesa y fijate qué 
 
 #### Desafío
 Que se vea la respuesta.
+
+#### Pasos
+1. Sin `await`, `respuesta` es la promesa, no el texto.
+2. Cambialo por `const respuesta = await mandar('el Puerto');`.
+3. Tocá **Ejecutar**. Tiene que salir `Respuesta de el Puerto`.
 
 #### Código inicial
 ```javascript
@@ -1447,6 +1530,12 @@ for (const plato of menu) {
 
 #### Desafío
 Que las tres respuestas salgan antes que `Todas volvieron`.
+
+#### Pasos
+1. `forEach` no espera a las funciones `async`.
+2. Cambiá `destinos.forEach(async (destino) => {` por `for (const destino of destinos) {`.
+3. Y el `});` del final por `}`.
+4. Tocá **Ejecutar**. `Todas volvieron` tiene que salir al final.
 
 #### Código inicial
 ```javascript
@@ -1516,6 +1605,11 @@ Esperá cada noticia, armá la carta con un *template literal* y devolvela. Copi
 
 #### Desafío
 Completá `armarCarta` para que devuelva `Querida Sila: en la Feria hay faroles nuevos y en el Puerto llegaron barcos. Nima.`
+
+#### Pasos
+1. En `armarCarta`: `const feria = await noticias('la Feria');` y `const puerto = await noticias('el Puerto');`.
+2. `` return `Querida Sila: en la Feria ${feria} y en el Puerto ${puerto}. Nima.`; ``.
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```javascript
@@ -1707,6 +1801,12 @@ Mostrá primero el objeto entero para ver qué propiedades trae.
 #### Desafío
 Pedile el saludo al Puerto y mostralo como `Elefa: ¡Hola, Nima! …`.
 
+#### Pasos
+1. Hay dos `___`.
+2. El pedido: `await fetch('/puerto/hola')`.
+3. Los datos: `await respuesta.json()`.
+4. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```javascript
 const respuesta = ___;
@@ -1759,6 +1859,11 @@ Se pueden encadenar: el `map` trabaja sobre lo que dejó el `filter`.
 
 #### Desafío
 Mostrá los nombres de los puestos abiertos.
+
+#### Pasos
+1. Debajo de `puestos`, filtrá los abiertos y quedate con los nombres: `const abiertos = puestos.filter((p) => p.abierto).map((p) => p.nombre);`.
+2. `console.log('Abiertos:', abiertos);`.
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```javascript
@@ -1815,6 +1920,12 @@ Cuando sale mal, el Puerto igual manda un JSON, con una propiedad `error` que ex
 
 #### Desafío
 Manejá la respuesta de error.
+
+#### Pasos
+1. Antes de usar los datos, preguntá si salió bien: `if (!respuesta.ok) {`.
+2. Adentro: `` console.log(`No se pudo (${respuesta.status}): ${datos.error}`); ``.
+3. En el `else`, el `console.log` que ya estaba.
+4. Tocá **Ejecutar**. Tiene que salir `No se pudo (404)`.
 
 #### Código inicial
 ```javascript
@@ -1878,6 +1989,12 @@ Cuando guarda algo nuevo, el Puerto contesta con el código `201` (*creado*) y d
 #### Desafío
 Mandá el mensaje y mostrá el status y el `id` que le dio el Puerto.
 
+#### Pasos
+1. Hay un renglón vacío en las opciones del `fetch`.
+2. `method: 'POST',` y `headers: { 'Content-Type': 'application/json' },`.
+3. `body: JSON.stringify({ de: 'Nima', texto: 'Saludos desde la Feria' }),`.
+4. Tocá **Ejecutar**. Tiene que salir `Status: 201`.
+
 #### Código inicial
 ```javascript
 const respuesta = await fetch('/puerto/mensajes', {
@@ -1932,6 +2049,12 @@ En la función: hacé el `POST`, leé el JSON y, según `respuesta.ok`, devolvé
 
 #### Desafío
 Completá `enviar` y probala con un mensaje vacío y uno bueno.
+
+#### Pasos
+1. En `enviar`: un `fetch('/puerto/mensajes', { ... })` con `method: 'POST'`, el `Content-Type` y `body: JSON.stringify({ de: 'Bruno', texto })`.
+2. `const datos = await respuesta.json();`.
+3. Si `!respuesta.ok`: `` return `Rechazado: ${datos.error}`; ``. Si no: `` return `Guardado con número ${datos.id}`; ``.
+4. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```javascript
@@ -1996,6 +2119,12 @@ Con `fetch` pueden salir mal **dos cosas distintas**:
 
 #### Desafío
 Completá `pedir` y probala con las cuatro direcciones.
+
+#### Pasos
+1. En `pedir`: un `try {` con `const respuesta = await fetch(url);`.
+2. Si `!respuesta.ok`: `` return `Error ${respuesta.status}`; ``. Si no: `return await respuesta.json();`.
+3. `} catch (error) {` → `` return `Falló: ${error.name}`; ``.
+4. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```javascript
@@ -2165,6 +2294,11 @@ El `[pan, torta] =` es la desestructuración de R01: saca cada resultado del arr
 #### Desafío
 Pedí las tres cosas juntas y mostrá la temperatura, cuántos puestos y cuántos héroes hay.
 
+#### Pasos
+1. Hay un `___` después de `const [clima, puestos, heroes] =`.
+2. Pedí las tres a la vez: `await Promise.all([pedir('/puerto/clima'), pedir('/puerto/puestos'), pedir('/puerto/heroes')])`.
+3. Tocá **Ejecutar**. Tiene que tardar 500 ms.
+
 #### Código inicial
 ```javascript
 const pedir = async (url) => (await fetch(url)).json();
@@ -2215,6 +2349,11 @@ Con dos `await` seguidos, la segunda pregunta **no sale** hasta que vuelve la pr
 
 #### Desafío
 Que tarde lo de la más lenta (500 ms) y no la suma.
+
+#### Pasos
+1. Con dos `await` seguidos, una espera a la otra.
+2. Cambialos por `const [heroes, puestos] = await Promise.all([pedir('/puerto/heroes'), pedir('/puerto/puestos')]);`.
+3. Tocá **Ejecutar**. Tiene que salir `Tardó 500 ms`.
 
 #### Código inicial
 ```javascript
@@ -2276,6 +2415,12 @@ for (const r of resultados) {
 
 #### Desafío
 Mostrá el resultado de cada invitación.
+
+#### Pasos
+1. Hay un `___` en `const resultados = ___;`.
+2. Esperá todas, salgan bien o mal: `await Promise.allSettled(urls.map(invitar))`.
+3. `for (const r of resultados)`: si `r.status === 'fulfilled'`, `console.log('Volvió:', r.value)`; si no, `console.log('No volvió:', r.reason.message)`.
+4. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```javascript
@@ -2347,6 +2492,11 @@ Si a los 3000 ms no volvió, el `fetch` se cancela y **lanza** un error cuyo `er
 #### Desafío
 Cancelá el pedido a los 2 segundos y avisalo.
 
+#### Pasos
+1. En el `fetch`, agregá el límite de tiempo: `fetch('/puerto/lento', { signal: AbortSignal.timeout(2000) })`.
+2. En el `catch`: `if (error.name === 'TimeoutError') console.log('La flecha tardó demasiado');`.
+3. Tocá **Ejecutar**. Tiene que salir `Pasaron 2000 ms`.
+
 #### Código inicial
 ```javascript
 try {
@@ -2408,6 +2558,11 @@ Fijate quién tiene que ganar y con cuántos milisegundos tira cada uno.
 #### Desafío
 Mostrá `Ganó Nima`.
 
+#### Pasos
+1. Hay un `___` en `const ganadora = ___;`.
+2. La primera que llega: `await Promise.race([flecha('Bruno', 900), flecha('Nima', 600)])`.
+3. Tocá **Ejecutar**. Tiene que salir `Ganó Nima`.
+
 #### Código inicial
 ```javascript
 const flecha = (quien, ms) => new Promise((resolve) => setTimeout(() => resolve(quien), ms));
@@ -2465,6 +2620,13 @@ Al cancelar, el `fetch` lanza un error con `name` igual a `'AbortError'`. El con
 
 #### Desafío
 Completá los dos botones. (La comprobación pide, espera 1 s y cancela.)
+
+#### Pasos
+1. En *Pedir*: `control = new AbortController();` y `estado.textContent = 'Esperando…';`.
+2. Un `try` con `const respuesta = await fetch('/puerto/lento', { signal: control.signal });` y `estado.textContent = (await respuesta.json()).mensaje;`.
+3. En el `catch`: `if (error.name === 'AbortError') estado.textContent = 'Cancelado';`.
+4. En *Cancelar*: `control?.abort();`.
+5. Tocá **Ejecutar**. Tiene que quedar `Cancelado`.
 
 #### Página
 ```html
@@ -2687,6 +2849,10 @@ El texto del `new Error(…)` es el que después se lee en `error.message`, en e
 #### Desafío
 Completá `apuntar`.
 
+#### Pasos
+1. En el renglón vacío de `apuntar`: `if (distancia > 500) throw new Error('Demasiado lejos');`.
+2. Tocá **Ejecutar**. Tiene que salir `800: Demasiado lejos`.
+
 #### Código inicial
 ```javascript
 function apuntar(distancia) {
@@ -2763,6 +2929,11 @@ El `super(…)` recibe el mensaje; `this.name` es el nombre que se ve en el erro
 #### Desafío
 Escribí la clase.
 
+#### Pasos
+1. Borrá el comentario. `class FlechaPerdida extends Error {`.
+2. `constructor(destino) {` con `` super(`La flecha a ${destino} se perdió`); ``, `this.name = 'FlechaPerdida';` y `this.destino = destino;`.
+3. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```javascript
 // escribí FlechaPerdida acá
@@ -2836,6 +3007,11 @@ Fijate en la consigna el texto de cada caso y qué dato del error usa.
 
 #### Desafío
 Completá el `catch`.
+
+#### Pasos
+1. En el `catch`: si `error instanceof FlechaPerdida`, `` console.log(`Reintentar a ${error.destino}`); ``.
+2. Si es `DireccionEquivocada`: `` console.log(`Descartar: ${error.message}`); ``.
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```javascript
@@ -2938,6 +3114,12 @@ Cuando aparezca el error escondido, leelo: dice qué nombre no existe y en qué 
 #### Desafío
 Hacé que el error escondido aparezca, y después arreglalo (está en `mandar`: `destno`).
 
+#### Pasos
+1. Cambiá el comentario del `catch`: si es `FlechaPerdida`, `console.log('Se perdió en la niebla');`; si no, `throw error;`.
+2. Tocá **Ejecutar**: ahora se ve el error escondido.
+3. Arreglalo en `mandar`: `destno` va con **i**, `destino`.
+4. Tocá **Ejecutar**. Tiene que salir `Llegó a el Puerto`.
+
 #### Código inicial
 ```javascript
 class FlechaPerdida extends Error {}
@@ -3009,6 +3191,12 @@ Si el `for` termina sin que ningún intento haya salido bien, recién ahí, abaj
 #### Desafío
 Completá la función. (La flecha de prueba se pierde en los intentos 1 y 2, y llega en el 3.)
 
+#### Pasos
+1. En `mandarConReintentos`: `for (let intento = 1; intento <= 3; intento++) {`.
+2. Adentro: `try { return await mandar(destino, intento); }` y `` catch (error) { console.log(`Intento ${intento} falló: ${error.message}`); } ``.
+3. Después del `for`: `throw new Error('Se rindió');`.
+4. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```javascript
 function mandar(destino, intento) {
@@ -3079,6 +3267,12 @@ Buscá dónde se apaga el farol y movelo al lugar que corre siempre.
 
 #### Desafío
 Que el farol quede apagado después de los dos envíos.
+
+#### Pasos
+1. Si hay error, el farol no se apaga.
+2. Sacá `farol.classList.remove('prendido');` del `try`.
+3. Ponelo en un `finally { ... }` después del `catch`.
+4. Tocá **Ejecutar**. El farol tiene que quedar apagado.
 
 #### Página
 ```html
@@ -3307,6 +3501,10 @@ El `for…of` pide uno por vuelta hasta que se terminan.
 #### Desafío
 Completá el generador.
 
+#### Pasos
+1. Dentro de `carcaj`: `yield 'roja';`, `yield 'verde';` y `yield 'azul';`.
+2. Tocá **Ejecutar**. Tienen que salir las tres flechas.
+
 #### Código inicial
 ```javascript
 function* carcaj() {
@@ -3373,6 +3571,10 @@ Llamalo una vez más de las que hay `yield`, y mirá qué da la última.
 #### Desafío
 Mostrá los cuatro resultados de `next()`.
 
+#### Pasos
+1. Debajo de `const c = carcaj();`, escribí cuatro veces `console.log(c.next());`.
+2. Tocá **Ejecutar**. El último tiene que tener `done: true`.
+
 #### Código inicial
 ```javascript
 function* carcaj() {
@@ -3438,6 +3640,11 @@ Quien lo recorre es el que decide cuándo parar, con `break` (sale del `for…of
 #### Desafío
 Mostrá `Flecha 1` a `Flecha 5`.
 
+#### Pasos
+1. En `numerar`: `let n = 1;` y `while (true) yield n++;`.
+2. En el `for`, antes del `console.log`: `if (n > 5) break;`.
+3. Tocá **Ejecutar**. Tiene que llegar a `Flecha 5`.
+
 #### Código inicial
 ```javascript
 function* numerar() {
@@ -3498,6 +3705,11 @@ Un generador puede **recorrer a otro** y entregar solo algunos de sus valores. A
 
 #### Desafío
 Completá `tomar` para que `[...tomar(3, numerar())]` dé `[ 1, 2, 3 ]`.
+
+#### Pasos
+1. En `tomar`: si `cantidad <= 0`, `return;`.
+2. `for (const flecha of carcaj) {` con `yield flecha;`, `cantidad--;` y `if (cantidad === 0) return;`.
+3. Tocá **Ejecutar**. Tiene que salir `[ 1, 2, 3 ]`.
 
 #### Código inicial
 ```javascript
@@ -3577,6 +3789,11 @@ for (const p of new Fila('ana', 'leo')) console.log(p);   // ANA, LEO
 #### Desafío
 Hacé que la ronda se pueda recorrer.
 
+#### Pasos
+1. Dentro de la clase, agregá `*[Symbol.iterator]() {`.
+2. Adentro: `` for (const t of this.tiradores) yield `turno de ${t}`; ``.
+3. Tocá **Ejecutar**. Tienen que salir los tres turnos.
+
 #### Código inicial
 ```javascript
 class Ronda {
@@ -3646,6 +3863,11 @@ Juntá lo del nodo: un generador infinito que va cambiando su número en cada vu
 
 #### Desafío
 Mostrá `Oleada 1: 1` hasta `Oleada 6: 32`.
+
+#### Pasos
+1. En `oleadas`: `let cantidad = 1;` y `while (true) {` con `yield cantidad;` y `cantidad *= 2;`.
+2. En el `for`: `` console.log(`Oleada ${numero}: ${cantidad}`); ``, `if (numero === 6) break;` y `numero++;`.
+3. Tocá **Ejecutar**. Tiene que llegar a `Oleada 6: 32`.
 
 #### Código inicial
 ```javascript
@@ -3757,6 +3979,11 @@ Por eso el orden importa: el pedido que inicia la sesión tiene que **terminar**
 #### Desafío
 Que se vea `Sesión de Nima · 12 fichas` y que en las cookies quede la sesión.
 
+#### Pasos
+1. El login no se espera: el perfil se pide antes de tener la sesión.
+2. Cambiá `const login = fetch(...)` por `await fetch(...)` (sin la variable).
+3. Tocá **Ejecutar**. Tiene que salir `Sesión de Nima · 12 fichas`.
+
 #### Estado
 ```
 cookies
@@ -3814,6 +4041,12 @@ La cancelada lanza un `AbortError`: atajalo y no hagas nada con él.
 
 #### Desafío
 Que el cartel muestre el último puesto buscado. (La comprobación busca el 1 —que tarda 800 ms— y enseguida el 2 —que tarda 200 ms—.)
+
+#### Pasos
+1. Al principio de `buscar`, cancelá la búsqueda anterior: `anterior?.abort();`.
+2. `const control = new AbortController();` y `anterior = control;`.
+3. En el `fetch`, agregá `{ signal: control.signal }`.
+4. Tocá **Ejecutar**. El cartel tiene que decir `Pan con miel`.
 
 #### Página
 ```html
@@ -3938,6 +4171,14 @@ Completá `pedir` y `granNoche` para que la salida sea:
 - `Sesión cerrada`
 - `Error del Puerto (401): Usuario o clave incorrectos.`
 - `Sesión cerrada`
+
+#### Pasos
+1. En `pedir`: `const respuesta = await fetch(url, opciones);` y `const datos = await respuesta.json();`. Si `!respuesta.ok`, `throw new ErrorDelPuerto(respuesta.status, datos.error);`. Si no, `return datos;`.
+2. En `granNoche`, borrá los comentarios del `try`. Login: `await pedir('/puerto/login', comoJSON({ usuario: 'nima', clave }));` y `console.log('Sesión iniciada');`.
+3. Los tres a la vez: `const [perfil, clima, puestos] = await Promise.all([pedir('/puerto/perfil'), pedir('/puerto/clima'), pedir('/puerto/puestos')]);`. Contá los abiertos y mostrá el renglón de la salida.
+4. El mensaje: `const mensaje = await pedir('/puerto/mensajes', comoJSON({ de: 'Nima', texto: 'Te espero en la Gran Noche' }));` y `` console.log(`Mensaje ${mensaje.id} para Nilo`); ``.
+5. En el `finally`: `await pedir('/puerto/salir', { method: 'POST' });` y `console.log('Sesión cerrada');`.
+6. Tocá **Ejecutar** y compará.
 
 #### Estado
 ```

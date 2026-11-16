@@ -271,6 +271,11 @@ Cada dato de adentro es un **campo**, y se usa con un punto: `m.edad`. Se pueden
 #### Desafío
 Sumá los pisos de todas las torres.
 
+#### Pasos
+1. En el `for`, `total += 1;` cuenta torres, no pisos.
+2. Cambialo por `total += t.pisos;`.
+3. Tocá **Ejecutar**. Tiene que salir `Pisos en total: 35`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -362,6 +367,11 @@ Adentro del método, los campos se usan directamente, sin punto. Se llama con el
 #### Desafío
 Completá el método `altura`.
 
+#### Pasos
+1. En `altura`, cambiá `return 0;`.
+2. Cada piso mide 3 metros: `return pisos * 3;`.
+3. Tocá **Ejecutar**. Tiene que salir `Reloj: 36 metros`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -450,6 +460,11 @@ Así nadie puede poner un dato inválido a mano: para cambiarlo, hay que pasar p
 
 #### Desafío
 Adelantá el reloj con el método, no tocando el dato.
+
+#### Pasos
+1. `hora_` es privado: no se puede tocar desde `main`.
+2. Cambiá `r.hora_ = 25;` por `r.avanzar(2);`.
+3. Tocá **Ejecutar**. Tiene que salir `Hora: 1`.
 
 #### Código inicial
 ```cpp
@@ -542,6 +557,14 @@ la pieza más cara (por precio unitario) y las que tienen menos de 10 unidades.
 - Define `struct Pieza` con valores por defecto.
 - Guarda las piezas en un vector y las recorre.
 - `valor` recibe la pieza por `const&`.
+
+#### Pasos
+1. Arriba de `main`: `struct Pieza { std::string nombre; int cantidad = 0; double precio = 0.0; };`.
+2. `double valor(const Pieza& p)` → `return p.cantidad * p.precio;`.
+3. En `main`, borrá el comentario. `std::vector<Pieza> piezas;`, `Pieza p;` y `while (std::cin >> p.nombre >> p.cantidad >> p.precio) piezas.push_back(p);`.
+4. Recorré con un índice: mostrá `nombre: cantidad x $precio = $valor`, sumá al total y guardá el índice de la más cara.
+5. `"Total: $"`, `"La pieza más cara: "` y `"Con poco stock (menos de 10):"` con los que tienen `cantidad < 10`.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -664,6 +687,14 @@ por defecto; escalá la puerta ×2 y la baldosa ×0.5.
 - Los métodos que consultan son `const`.
 - `informe` recibe `const Rectangulo&` (por eso necesita los `const`).
 
+#### Pasos
+1. `struct Rectangulo { double ancho = 1.0; double alto = 1.0; ... };`.
+2. Métodos `const`: `area()` → `ancho * alto`, `perimetro()` → `2 * (ancho + alto)` y `es_cuadrado()` → `ancho == alto`.
+3. `void escalar(double factor)` multiplica los dos.
+4. `void informe(const Rectangulo& r)`: `r.ancho << " x " << r.alto << ": área " << r.area() << ", perímetro " << r.perimetro()` y `" (cuadrado)"` si lo es.
+5. En `main`: `Rectangulo puerta{2.0, 3.5};` y `Rectangulo baldosa;`. Informá los dos, escalá la puerta por 2 y la baldosa por 0.5, e informá otra vez.
+6. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -769,6 +800,14 @@ nada), `dentro()` y `total()`. La entrada es una secuencia de `e` (entra) y `s`
 - Los datos son `private` y terminan en `_`.
 - `salir` nunca deja el contador en negativo.
 - Los getters son `const`.
+
+#### Pasos
+1. `class Contador` con `private: int dentro_ = 0; int total_ = 0;`.
+2. `public:` → `entrar()` suma a los dos. `salir()` resta a `dentro_` solo si es mayor que 0.
+3. Getters `const`: `int dentro() const` e `int total() const`.
+4. En `main`: `Contador puerta;` y `while (std::cin >> c)`: con `'e'`, `entrar()`; con `'s'`, `salir()`.
+5. Mostrá `"Adentro: "` y `"Entraron en total: "`.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -1306,6 +1345,11 @@ Lo que va después de los dos puntos es la **lista de inicialización**: cada da
 #### Desafío
 Hacé que el constructor guarde lo que recibe.
 
+#### Pasos
+1. El constructor no guarda nada.
+2. Agregá la lista de inicialización: `Automata(std::string n, int b) : nombre_(n), bateria_(b) {}`.
+3. Tocá **Ejecutar**. Tiene que salir `[Cucu] bateria 80%`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -1390,6 +1434,11 @@ Sirve para ordenar antes de irse: cerrar archivos, devolver memoria…
 
 #### Desafío
 Completá el destructor.
+
+#### Pasos
+1. El destructor está vacío.
+2. Adentro: `std::cout << "se apaga " << nombre_ << "\n";`.
+3. Tocá **Ejecutar**. Se apagan al revés: Rueca, Pinza y Cucu.
 
 #### Código inicial
 ```cpp
@@ -1483,6 +1532,11 @@ Cada `new` necesita su `delete`. Si te lo olvidás, el objeto queda ocupando mem
 
 #### Desafío
 Apagá el autómata al final del turno.
+
+#### Pasos
+1. El autómata se creó con `new` y nadie lo borra.
+2. Antes del `return 0;`, agregá `delete a;`.
+3. Tocá **Ejecutar**. Tiene que salir `se apaga Batidora`.
 
 #### Código inicial
 ```cpp
@@ -1581,6 +1635,14 @@ Pista: `((x % 1440) + 1440) % 1440` deja cualquier entero entre 0 y 1439.
 - El constructor deja el reloj siempre en un estado válido.
 - Guarda un solo dato privado.
 - Maneja minutos negativos.
+
+#### Pasos
+1. `class Reloj` con un solo dato privado: `int minutos_totales_;`.
+2. Constructor `Reloj(int horas, int minutos) : minutos_totales_(0) { avanzar(horas * 60 + minutos); }`.
+3. `avanzar(int minutos)` → `minutos_totales_ = ((minutos_totales_ + minutos) % 1440 + 1440) % 1440;`.
+4. `mostrar() const`: `h = minutos_totales_ / 60`, `m = minutos_totales_ % 60` y un `"0"` adelante si son menores a 10.
+5. En `main`, los relojes de la solución: `a(9, 45)` y +30, `b(23, 150)`, `c(0, -15)` y `c.avanzar(-1440 * 3)`.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -1688,6 +1750,14 @@ tercero, que recorta cada valor a 0..255 con `std::clamp`. Agregá `mostrar()` y
 - Hay tres constructores y dos delegan en el tercero.
 - El de un parámetro es `explicit`.
 - Los valores fuera de rango se recortan en la lista de inicialización.
+
+#### Pasos
+1. `class Color` con `int r_, g_, b_;` privados.
+2. El de tres: `Color(int r, int g, int b) : r_(std::clamp(r, 0, 255)), g_(std::clamp(g, 0, 255)), b_(std::clamp(b, 0, 255)) {}`.
+3. Los otros dos delegan: `Color() : Color(128, 128, 128) {}` y `explicit Color(int gris) : Color(gris, gris, gris) {}`.
+4. `mostrar() const` → `"rgb(" << r_ << ", " << g_ << ", " << b_ << ")\n"`. `mezclar(const Color& otro) const` → `Color((r_ + otro.r_) / 2, ...)`.
+5. En `main`: `gris`, `oscuro(40)`, `cobre(184, 115, 51)` y `fuera(300, -20, 90)`. Mostralos y `cobre.mezclar(oscuro).mostrar();`.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -1805,6 +1875,13 @@ int main()
 
 **Para superarla:**
 - El constructor es `explicit` y usa lista de inicialización.
+
+#### Pasos
+1. `class Guardia` con `explicit Guardia(const std::string& nombre) : nombre_(nombre)` que muestra `"entra "` y el nombre.
+2. El destructor `~Guardia()` muestra `"sale "` y el nombre.
+3. Copiá la función `ronda` y el `main` de la consigna.
+4. Antes de ejecutar, anotá en un papel el orden que creés.
+5. Tocá **Ejecutar** y compará con tu papel.
 
 #### Código inicial
 ```cpp
@@ -2256,6 +2333,11 @@ Como el dato es privado, el único camino para cambiarlo es un método, y ahí s
 #### Desafío
 Hacé que `subir` cuide la regla de la caldera.
 
+#### Pasos
+1. Al principio de `subir`: `if (presion_ + n > 100) {`.
+2. Adentro: `std::cout << "No se puede: pasaria de 100\n";` y `return;`.
+3. Tocá **Ejecutar**. Tiene que salir `Presion: 90`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -2351,6 +2433,10 @@ if (!caja.sacar(5)) {
 
 #### Desafío
 Hacé que `sacar` no deje el stock en negativo.
+
+#### Pasos
+1. Al principio de `sacar`: `if (n > cantidad_) { return false; }`.
+2. Tocá **Ejecutar**. Tiene que salir `No alcanza para 3`.
 
 #### Código inicial
 ```cpp
@@ -2451,6 +2537,11 @@ Si los minutos pasan de 59, cada 60 minutos son una hora más: primero sumás a 
 
 #### Desafío
 Completá `normalizar`.
+
+#### Pasos
+1. En `normalizar`, antes de la línea de los minutos, pasá las horas que sobran.
+2. Agregá `horas_ = (horas_ + minutos_ / 60) % 24;`.
+3. Tocá **Ejecutar**. Tiene que salir `1:10`.
 
 #### Código inicial
 ```cpp
@@ -2564,6 +2655,14 @@ resultado y el saldo, y al final un resumen. Todo con 2 decimales.
 - El saldo nunca queda negativo.
 - Las acciones devuelven `bool` y `main` muestra si se aceptaron.
 - No hay setters: solo acciones y getters `const`.
+
+#### Pasos
+1. `class Cuenta` con `titular_`, `double saldo_ = 0` y `std::vector<double> historial_` privados, y `explicit Cuenta(const std::string& titular)`.
+2. `bool depositar(double monto)`: si `monto <= 0`, `false`. Si no, sumá, `historial_.push_back(monto)` y `true`.
+3. `bool extraer(double monto)`: si `monto <= 0 || monto > saldo_`, `false`. Si no, restá, guardá `-monto` y `true`.
+4. `saldo() const` y `resumen() const` → `titular_ << ": " << historial_.size() << " movimientos, saldo $" << saldo_`.
+5. En `main`: `std::cout << std::fixed << std::setprecision(2);` y `Cuenta cuenta("Lima");`. `while (std::cin >> op >> monto)`: con `'d'` depositá; si no, extraé. Mostrá `op << " " << monto << (ok ? " ok" : " rechazado") << " -> $" << cuenta.saldo()`.
+6. Al final, `cuenta.resumen();`. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -2702,6 +2801,14 @@ Agregá `sumar`, `multiplicar` (devuelven una fracción nueva), `valor()` y
 - La normalización es un método privado que llama el constructor.
 - Las operaciones devuelven fracciones nuevas, que también quedan normalizadas.
 
+#### Pasos
+1. `class Fraccion` con `int num_, den_;` privados. Constructor: `Fraccion(int num, int den) : num_(num), den_(den == 0 ? 1 : den) { normalizar(); }`.
+2. `normalizar()` privado: si `den_ < 0`, cambiá el signo de los dos. Después, `int d = std::gcd(num_, den_);` y, si `d > 1`, dividí los dos por `d`.
+3. `sumar(const Fraccion& o) const` → `Fraccion(num_ * o.den_ + o.num_ * den_, den_ * o.den_)`. `multiplicar` → `Fraccion(num_ * o.num_, den_ * o.den_)`.
+4. `valor()` → `static_cast<double>(num_) / den_`. `mostrar()`: el numerador y, si `den_ != 1`, `"/" << den_`.
+5. Una función `linea(const Fraccion& f)` que muestra la fracción, `" = "` y el valor. En `main`, las cinco de la consigna.
+6. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -2831,6 +2938,14 @@ Mostrá el resultado de cada acción, la mochila al final y el lugar libre.
 **Para superarla:**
 - La invariante es: el peso nunca supera la capacidad.
 - Los datos (objetos, pesos) son privados.
+
+#### Pasos
+1. `class Mochila` con `capacidad_`, `int peso_ = 0` y dos vectores privados: `objetos_` y `pesos_`.
+2. `bool agregar(const std::string& objeto, int peso)`: si `peso <= 0 || peso_ + peso > capacidad_`, `false`. Si no, guardalo en los dos vectores y sumá el peso.
+3. `bool quitar(const std::string& objeto)`: buscá el primero con ese nombre, restá su peso y borralo de los dos vectores con `erase(... begin() + i)`.
+4. `libre() const` → `capacidad_ - peso_`. `mostrar() const` → `"Mochila (" << peso_ << "/" << capacidad_ << "):"` y los objetos.
+5. En `main`: `Mochila m(20);` y `while (std::cin >> accion >> objeto)`. Con `"+"`, leé el peso y mostrá `"Guardado: "` o `"No entra: "`. Con `"-"`, `"Sacado: "` o `"No está: "`.
+6. `m.mostrar();` y `"Lugar libre: "`. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -3417,6 +3532,11 @@ Después podés escribir `p1 + p2` como con números. Sumar dos tramos es sumar 
 #### Desafío
 Corregí `operator+`.
 
+#### Pasos
+1. `operator+` devuelve `a` sin sumar nada.
+2. Cambialo por `return {a.x + b.x, a.y + b.y};`.
+3. Tocá **Ejecutar**. Tiene que salir `Camino total: (4, 7)`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -3503,6 +3623,11 @@ Acá «menor» quiere decir «más nota», así que los mejores quedan primero.
 
 #### Desafío
 Hacé que la tabla empiece por el puntaje más alto.
+
+#### Pasos
+1. `std::sort` pone primero al «menor» según `operator<`.
+2. Dalo vuelta: `return puntos > otra.puntos;`.
+3. Tocá **Ejecutar**. Tiene que empezar con `Lyn 340`.
 
 #### Código inicial
 ```cpp
@@ -3594,6 +3719,11 @@ Una función amiga no es un método, pero puede ver lo privado.
 
 #### Desafío
 Hacé que la clase le dé permiso al operador.
+
+#### Pasos
+1. El operador `<<` no puede leer los datos privados de `Mapa`.
+2. Dentro de la clase, debajo del constructor: `friend std::ostream& operator<<(std::ostream& os, const Mapa& m);`.
+3. Tocá **Ejecutar**. Tiene que salir `Torre del reloj en (4, 7)`.
 
 #### Código inicial
 ```cpp
@@ -3702,6 +3832,15 @@ que la posición menos 4 pasos es el inicio.
 - `+` y `-` reutilizan `+=` y `-=`.
 - `*` funciona con el número a la izquierda y a la derecha.
 - `<<` devuelve el stream.
+
+#### Pasos
+1. `struct Vec2 { double x = 0; double y = 0; ... };` con `operator+=` y `operator-=` que cambian `x` e `y` y hacen `return *this;`.
+2. Adentro también: `double largo() const { return std::hypot(x, y); }` y `bool operator==(const Vec2&) const = default;`.
+3. Afuera: `Vec2 operator+(Vec2 a, const Vec2& b) { return a += b; }` y lo mismo con `-`.
+4. Los dos `*`: `Vec2 operator*(const Vec2& v, double k) { return {v.x * k, v.y * k}; }` y `Vec2 operator*(double k, const Vec2& v) { return v * k; }`.
+5. `std::ostream& operator<<(std::ostream& os, const Vec2& v)` → `return os << "(" << v.x << ", " << v.y << ")";`.
+6. En `main`: `inicio{2, 3}`, `paso{1.5, -0.5}` y `pos = inicio`. Cuatro veces `pos += paso;` con `"Paso " << i << ": " << pos`. Después, los tres renglones de la salida (usá `std::boolalpha` y `pos - 4 * paso == inicio`).
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -3817,6 +3956,14 @@ convierte en fracción. Mostrá: 1/2 + 1/3, 1/2 × 1/3, si 1/2 == 2/4, la suma
 **Para superarla:**
 - La fracción sigue normalizada después de cada operación.
 - `==` funciona porque las fracciones están normalizadas.
+
+#### Pasos
+1. `class Fraccion` como la del nodo anterior, con `Fraccion(int num = 0, int den = 1)` y el `normalizar()` privado.
+2. `operator+=`: `num_ = num_ * o.den_ + o.num_ * den_;`, `den_ = den_ * o.den_;`, `normalizar();` y `return *this;`. `operator*=` igual, multiplicando.
+3. `bool operator==(const Fraccion&) const = default;` y los getters `num()` y `den()`.
+4. Afuera: `operator+` y `operator*` que usan `+=` y `*=`. `operator<<` muestra el numerador y, si `den() != 1`, `"/" << den()`.
+5. En `main`: `a(1, 2)`, `b(1, 3)` y `c(2, 4)`, con los tres primeros renglones. La suma con un bucle: `suma += Fraccion(1, n * (n + 1));` para `n` de 1 a 4. Y `Fraccion(3) + Fraccion(1, 4)`.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -3952,6 +4099,15 @@ mostrá cuánto tiempo hay entre la primera y la última salida.
 **Para superarla:**
 - `Hora` se muestra con `<<` como `07:05`.
 
+#### Pasos
+1. `struct Hora { int h = 0; int m = 0; }` con `minutos() const` → `h * 60 + m` y `operator<` que compara los minutos.
+2. `operator<<` para `Hora`: `(t.h < 10 ? "0" : "") << t.h << ":" << (t.m < 10 ? "0" : "") << t.m`.
+3. `struct Salida { Hora hora; std::string destino; }` con `operator<` → `hora < o.hora`.
+4. En `main`: `std::vector<Salida> tablero;`, `Salida s;`, `char dos_puntos;` y `while (std::cin >> s.hora.h >> dos_puntos >> s.hora.m >> s.destino) tablero.push_back(s);`.
+5. `std::sort(tablero.begin(), tablero.end());` y mostrá `x.hora << "  " << x.destino`.
+6. La diferencia: `int total = tablero.back().hora.minutos() - tablero.front().hora.minutos();`, `Hora espera{total / 60, total % 60};` y `"Entre el primero y el último: " << espera`.
+7. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```cpp
 #include <algorithm>
@@ -4075,6 +4231,14 @@ Recordá: `(a + bi) * (c + di) = (ac - bd) + (ad + bc)i`.
 - Los datos son privados y no hay getters: los operadores son amigos.
 - `<<` y `>>` devuelven el stream para poder encadenar.
 - El signo de la parte imaginaria se muestra bien (`1 - 4i`, no `1 + -4i`).
+
+#### Pasos
+1. `class Complejo` con `int re_, im_;` privados y `Complejo(int re = 0, int im = 0)`.
+2. Amigas dentro de la clase: `friend Complejo operator+(const Complejo& a, const Complejo& b) { return {a.re_ + b.re_, a.im_ + b.im_}; }`, y lo mismo con `-`.
+3. El producto: `{a.re_ * b.re_ - a.im_ * b.im_, a.re_ * b.im_ + a.im_ * b.re_}`. `==` compara las dos partes.
+4. `<<`: muestra `re_`; si `im_ < 0`, `" - " << -im_ << "i"`; si no, `" + " << im_ << "i"`. `>>` → `return is >> c.re_ >> c.im_;`.
+5. En `main`: `Complejo a, b;` y `while (std::cin >> a >> b)` con los cuatro renglones (copialos de la salida).
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -4525,6 +4689,11 @@ El reloj no hace todo solo: le pide a su péndulo que haga su parte, llamando a 
 #### Desafío
 Hacé que el reloj delegue en su péndulo.
 
+#### Pasos
+1. En el método del reloj, después de `std::cout << "[tic]";`, falta mover el péndulo.
+2. Agregá `pendulo_.oscilar();`.
+3. Tocá **Ejecutar**. Tiene que salir `Oscilaciones: 4`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -4632,6 +4801,11 @@ Si querés que una parte se arme antes que otra, cambiá el orden de las declara
 #### Desafío
 Hacé que la caja se arme antes que el péndulo.
 
+#### Pasos
+1. Los miembros se arman en el orden en que están declarados.
+2. Poné `Caja caja_;` arriba de `Pendulo pendulo_;`.
+3. Tocá **Ejecutar**. Tiene que salir primero `se arma la caja`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -4720,6 +4894,11 @@ El tablero **tiene** un vector de relojes. Para el total, recorrés `relojes_` c
 
 #### Desafío
 Completá el total del tablero.
+
+#### Pasos
+1. El total solo cuenta el primer reloj.
+2. Cambialo por un bucle: `int total = 0;`, `for (const Reloj& r : relojes_) total += r.dientes();` y `return total;`.
+3. Tocá **Ejecutar**. Tiene que salir `Dientes del tablero: 900`.
 
 #### Código inicial
 ```cpp
@@ -4851,6 +5030,14 @@ el cierre: ventas, total y stock.
 **Para superarla:**
 - `Tienda` no guarda productos ni dinero: delega en `Deposito` y `Caja`.
 - Las ventas imposibles no cambian nada.
+
+#### Pasos
+1. `struct Producto { std::string nombre; int stock = 0; int precio = 0; };`.
+2. `class Deposito` con un `std::vector<Producto>`, `cargar(p)` y `int sacar(nombre, cantidad)`: si lo encuentra y alcanza, resta y devuelve `p.precio * cantidad`; si no, `-1`. Agregá `listar() const` → `"  " << nombre << ": " << stock`.
+3. `class Caja` con `total_` y `ventas_`, `cobrar(int monto)` y los getters.
+4. `class Tienda` con un `Deposito` y una `Caja` privados. `vender(nombre, cantidad)`: `int monto = deposito_.sacar(...)`. Si es negativo, `"No se puede vender "`; si no, `caja_.cobrar(monto)` y `"Vendido: "` (copiá los textos). `cierre()` muestra ventas, total y el stock.
+5. En `main`: cargá los tres productos, leé `while (std::cin >> nombre >> cantidad)` y vendé. Al final, `tienda.cierre();`.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -5027,6 +5214,14 @@ Mostrá cada carga (y lo que no entró) y el informe final.
 - `Tren` recorre sus vagones por referencia para cargarlos.
 - La carga que no entra en un vagón pasa al siguiente del mismo tipo.
 
+#### Pasos
+1. `class Vagon` con tipo, capacidad y `int carga_ = 0`. `int cargar(int toneladas)`: `int entra = std::min(toneladas, capacidad_ - carga_);`, sumalo y `return toneladas - entra;`.
+2. Getters `tipo()`, `carga()` y `capacidad()`.
+3. `class Tren` con nombre y `std::vector<Vagon>`, `enganchar(v)` e `int cargar(tipo, toneladas)`: `for (Vagon& v : vagones_)` y, si es del tipo y queda carga, `toneladas = v.cargar(toneladas);`. Devolvé lo que quedó.
+4. `informe() const`: el nombre, cada vagón con `"  vagón " << i + 1 << " (" << tipo << "): " << carga << "/" << capacidad` y el total.
+5. En `main`: `Tren tren("El Carbonero");` con carbón 30, agua 20, carbón 30 y hierro 40. Leé las cargas, mostrá cada una y, si sobró, `": no entraron " << sobra << " t"`. Al final, `tren.informe();`.
+6. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```cpp
 #include <algorithm>
@@ -5187,6 +5382,14 @@ las declaraciones): ¿cambia algo? ¿Qué dice `-Wall`?
 
 **Para superarla:**
 - Las piezas se pasan por la lista de inicialización.
+
+#### Pasos
+1. `class Pieza` con `explicit Pieza(const std::string& nombre)` que muestra `"  arma "` y un destructor que muestra `"  desarma "`.
+2. `class Reloj` con tres piezas privadas, en este orden: `caja_`, `pendulo_` y `agujas_`.
+3. Constructor: `Reloj() : caja_("caja"), pendulo_("péndulo"), agujas_("agujas") { std::cout << "  el reloj está listo\n"; }`. Destructor: `"  se apaga el reloj\n"`.
+4. En `main`: `"Construir:\n"`, un bloque `{ Reloj r; std::cout << "Destruir:\n"; }`.
+5. Antes de ejecutar, anotá el orden que esperás.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -5736,6 +5939,11 @@ Se lee «un `Perro` es un `Animal`». La parte de `Animal` se tiene que construi
 #### Desafío
 Construí la parte de `Automata` dentro del de carga.
 
+#### Pasos
+1. El constructor de `AutomataCarga` no arma la parte de `Automata`.
+2. Agregala primera en la lista: `: Automata(n, 100), kilos_(500)`.
+3. Tocá **Ejecutar**. Tiene que salir `Grua (bateria 100%)`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -5840,6 +6048,11 @@ void mostrar() const {
 
 #### Desafío
 Reutilizá la ficha de la base.
+
+#### Pasos
+1. Dentro del `mostrar` de la derivada, antes del `std::cout`, llamá al de la base.
+2. Agregá `Automata::mostrar();`.
+3. Tocá **Ejecutar**. Tiene que salir `Centinela (bateria 90%) - turno noche`.
 
 #### Código inicial
 ```cpp
@@ -5946,6 +6159,11 @@ Los datos `private` de la base no los ve **nadie** de afuera, ni siquiera las de
 
 #### Desafío
 Cambiá el acceso del dato para que el jardinero lo pueda usar.
+
+#### Pasos
+1. `private` no deja que la derivada vea `energia_`.
+2. Cambiá `private:` por `protected:`.
+3. Tocá **Ejecutar**. Tiene que salir `Le queda 20`.
 
 #### Código inicial
 ```cpp
@@ -6056,6 +6274,14 @@ cantidad de asientos y `costo_por_persona(km, precio_litro)`) y `Moto` (2 ruedas
 **Para superarla:**
 - Las derivadas llaman al constructor de la base con los valores que corresponden.
 - Usan los métodos heredados sin reescribirlos.
+
+#### Pasos
+1. `class Vehiculo` con `patente_`, `ruedas_` y `consumo_` `protected`, y su constructor.
+2. `combustible_para(double km) const` → `km * consumo_ / 100`. `ficha() const` → `patente_ << ": " << ruedas_ << " ruedas, " << consumo_ << " l/100 km"`.
+3. `class Auto : public Vehiculo` con `asientos_`: `Auto(patente, asientos) : Vehiculo(patente, 4, 7.5), asientos_(asientos) {}`. `costo_por_persona(km, precio_litro)` → `combustible_para(km) * precio_litro / asientos_`.
+4. `class Moto : public Vehiculo`: `Moto(patente, bool con_sidecar) : Vehiculo(patente, con_sidecar ? 3 : 2, con_sidecar ? 4.5 : 3.0) {}` y `hacer_willy()`.
+5. En `main`: `Auto familiar("AB123CD", 5)`, `Moto rapida("A012BCD", false)` y `Moto carga("A999ZZZ", true)`. Mostrá los renglones de la salida.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -6185,6 +6411,15 @@ es un golpe, mientras siga viva.
 - Cada `estado()` reutiliza el de su base con `Base::estado()`.
 - El enfurecimiento pasa una sola vez.
 - `Jefe` no resta la vida a mano: usa la de `Entidad`.
+
+#### Pasos
+1. `class Entidad` con `nombre_`, `vida_`, `vida_max_` y `ataque_` `protected`. `recibir_dano(n)` → `vida_ = std::max(0, vida_ - n);`, `vivo()` y `estado()` → `nombre_ << ": vida " << vida_ << "/" << vida_max_ << ", ataque " << ataque_`.
+2. `class Enemigo : public Entidad` con `oro_`. Su `estado()`: `Entidad::estado();` y `", oro " << oro_`.
+3. `class Jefe : public Enemigo` con `int fase_ = 1;` y constructor `Enemigo(nombre, vida, ataque, 100)`.
+4. `Jefe::recibir_dano(n)`: `Entidad::recibir_dano(n);`. Si `fase_ == 1 && vida_ <= vida_max_ / 2 && vivo()`: fase 2, `ataque_ *= 2`, `oro_ *= 3` y `"¡" << nombre_ << " se enfurece!\n"`.
+5. `Jefe::estado()`: `Enemigo::estado();` y `", fase " << fase_`.
+6. En `main`: `Jefe quimera("Quimera", 100, 12);` y `while (std::cin >> golpe && quimera.vivo())` → golpe, estado y salto de renglón. Al final, `"La Quimera resiste."` o `"La Quimera cae."`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -6331,6 +6566,13 @@ el orden que esperás. ¿Por qué `Nieta` no llama explícitamente a `Base`?
 
 **Para superarla:**
 - `Derivada` llama al constructor de `Base` con un texto.
+
+#### Pasos
+1. `class Base` con `explicit Base(const std::string& quien)` → `"  base de " << quien` y `~Base()` → `"  ~base"`.
+2. `class Derivada : public Base`: `Derivada() : Base("derivada") { ... "  cuerpo de derivada" ... }` y su destructor `"  ~derivada"`.
+3. `class Nieta : public Derivada`: constructor `"  cuerpo de nieta"` y destructor `"  ~nieta"`.
+4. En `main`: `"Nace una nieta:\n"` y un bloque `{ Nieta n; std::cout << "Muere la nieta:\n"; }`.
+5. Antes de ejecutar, anotá el orden que esperás. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -6815,6 +7057,11 @@ Los autómatas se guardan como `std::unique_ptr<Automata>`: un puntero que es **
 #### Desafío
 Hacé que cada autómata trabaje a su manera.
 
+#### Pasos
+1. En la base, agregá `virtual` adelante de `void trabajar() const`.
+2. En las dos derivadas, agregá `override` después de `const`.
+3. Tocá **Ejecutar**. Tienen que salir `levanta cajas` y `enciende una chispa`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -6922,6 +7169,12 @@ zoo.push_back(std::make_unique<Perro>());
 #### Desafío
 Guardá la batidora sin rebanarla.
 
+#### Pasos
+1. Un `std::vector<Automata>` guarda solo la parte de la base: la batidora se «rebana».
+2. Cambialo por `std::vector<std::unique_ptr<Automata>> cocina;` y `cocina.push_back(std::make_unique<Batidora>());`.
+3. En el `for`: `for (const auto& a : cocina)` y `a->trabajar();`.
+4. Tocá **Ejecutar**. Tiene que salir `bate el guiso de Oto`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -7010,6 +7263,11 @@ Por eso conviene poner siempre `override`: si no coincide con ninguno de la base
 
 #### Desafío
 Hacé que el jardinero redefina de verdad el método.
+
+#### Pasos
+1. El `trabajar` del jardinero no tiene `const`, así que es otro método distinto.
+2. Cambialo por `void trabajar() const override { ... }`.
+3. Tocá **Ejecutar**. Tiene que salir `riega las macetas`.
 
 #### Código inicial
 ```cpp
@@ -7109,6 +7367,15 @@ grande. Todo con 2 decimales.
 - `Figura` es abstracta y tiene destructor virtual.
 - Las derivadas usan `override`.
 - El recorrido no pregunta el tipo: llama a los métodos virtuales.
+
+#### Pasos
+1. `class Figura` con `virtual ~Figura() = default;` y tres virtuales puros: `area()`, `perimetro()` y `nombre()` (todos `const` y `= 0`).
+2. `Circulo(r)`: `std::numbers::pi * r_ * r_` y `2 * std::numbers::pi * r_`, nombre `"círculo"`.
+3. `Rectangulo(a, b)`: `a_ * b_` y `2 * (a_ + b_)`, nombre `a_ == b_ ? "cuadrado" : "rectángulo"`.
+4. `Triangulo(a, b, c)`: perímetro la suma; área con `double s = perimetro() / 2;` y `std::sqrt(s * (s - a_) * (s - b_) * (s - c_))`.
+5. En `main`: `std::vector<std::unique_ptr<Figura>> vitral;`. Leé el tipo y, según sea `"c"`, `"r"` o `"t"`, los números y `vitral.push_back(std::make_unique<...>(...))`.
+6. `std::fixed << std::setprecision(2)`. Mostrá cada una (`nombre`, área y perímetro), sumá y guardá la mayor (`f.get()`). Al final, `"Vidrio total: "` y `"La pieza más grande: "`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -7286,6 +7553,15 @@ constructor con `using Automata::Automata;`.
 - `trabajar()` no es `const`: algunos autómatas guardan estado.
 - La cuadrilla es un vector de `unique_ptr<Automata>`.
 
+#### Pasos
+1. `class Automata` con `explicit Automata(const std::string& nombre)`, destructor virtual, `virtual int trabajar() = 0;`, `virtual int costo_por_hora() const = 0;` y `nombre()`.
+2. `Cargador`: `using Automata::Automata;`, produce 30 y cuesta 12.
+3. `Soldador`: guarda `int horas_ = 0;`. `trabajar()` → `horas_++;` y `return horas_ % 3 == 0 ? 0 : 45;`. Cuesta 20.
+4. `Aprendiz`: guarda `int ritmo_ = 0;`. `trabajar()` → `ritmo_ += 5;` y `return ritmo_;`. Cuesta 4.
+5. En `main`: el vector con `make_unique<Cargador>("Cargo-1")`, `<Soldador>("Chispa")` y `<Aprendiz>("Tuerca")`. Leé las horas.
+6. Para cada uno, sumá `trabajar()` las horas que sean, calculá el costo y mostrá `nombre << ": produjo " << produccion << ", costó " << costo << ", rinde " << produccion - costo`.
+7. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -7427,6 +7703,14 @@ cada una. Explicá en un comentario por qué la primera y la última "se equivoc
 **Para superarla:**
 - Muestra las cuatro formas.
 - El comentario explica el rebanado.
+
+#### Pasos
+1. `class Pieza` con destructor virtual y `virtual std::string describir() const { return "una pieza cualquiera"; }`.
+2. `class Engranaje : public Pieza` con `describir() const override` → `"un engranaje de 24 dientes"`.
+3. Tres funciones: `por_valor(Pieza p)`, `por_referencia(const Pieza& p)` y `por_puntero(const Pieza* p)`. Cada una muestra su nombre (copiá los espacios de la salida) y `describir()`.
+4. En `main`: `Engranaje e;`, las tres llamadas (`&e` para el puntero) y `Pieza copia = e;` con `"copia:          "`.
+5. Agregá un comentario: por valor y en la copia se guarda solo la parte `Pieza` (se «rebana»).
+6. Antes de ejecutar, anotá qué esperás. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp

@@ -372,6 +372,11 @@ Las líneas de alrededor son la **caja** de todo programa en C++: `#include <ios
 #### Desafío
 Completá la instrucción para que Bron se presente.
 
+#### Pasos
+1. Buscá el `___` al principio de la línea.
+2. Cambialo por `std::cout` (la salida por pantalla).
+3. Tocá **Ejecutar**. Tiene que salir la frase de Bron.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -429,6 +434,11 @@ Leé siempre el **primer** error: los demás muchas veces son consecuencia de es
 
 #### Desafío
 Encontrá lo que falta para que el programa compile.
+
+#### Pasos
+1. Buscá `std::cout << "Engranaje 1: listo\n"`.
+2. Le falta el `;` al final. Agregalo después de la comilla.
+3. Tocá **Ejecutar**. Tienen que salir los dos engranajes.
 
 #### Código inicial
 ```cpp
@@ -495,6 +505,11 @@ Muestra `Tengo 15 manzanas`. Fijate en los espacios: van adentro de las comillas
 #### Desafío
 Hacé que el programa muestre el resultado de la cuenta.
 
+#### Pasos
+1. Buscá `"200 - 47"`: entre comillas es un texto, no una cuenta.
+2. Sacale las comillas. Queda: `<< 200 - 47 <<`
+3. Tocá **Ejecutar**. Tiene que salir `Faltan 153 engranajes`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -549,6 +564,11 @@ Si no le decís que baje de línea, `std::cout` sigue escribiendo en el mismo re
 
 #### Desafío
 Hacé que cada paso del plano salga en su propia línea.
+
+#### Pasos
+1. Ninguno de los cuatro textos tiene `\n` al final.
+2. Agregá `\n` antes de la comilla de cierre en los cuatro. Ejemplo: `"Plano del porton\n"`.
+3. Tocá **Ejecutar**. Tienen que salir cuatro renglones.
 
 #### Código inicial
 ```cpp
@@ -625,6 +645,12 @@ línea, con el valor separado por `\t`.
 - Muestra nombre, clase, región y mentor, uno por línea.
 - Separa los valores con `\t`.
 - Compila sin advertencias con `-Wall -Wextra`.
+
+#### Pasos
+1. Borrá el comentario `// Escribí tu programa acá`.
+2. Un `std::cout << "...";` por renglón. El primero: `"=== FICHA ===\n"`.
+3. Los otros cuatro llevan `\t` entre el título y el dato: `"Nombre:\tLima\n"`, `"Clase:\tArtífice\n"`, `"Región:\tLa Ciudadela de los Artífices\n"` y `"Mentor:\tTesla\n"`.
+4. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -707,6 +733,12 @@ int main()
 - Compila sin errores ni advertencias.
 - Muestra las dos líneas del plano.
 
+#### Pasos
+1. Arriba de todo, agregá `#include <iostream>` (y una línea vacía).
+2. Al final de `std::cout << "Lima llega a la Ciudadela.\n"` agregá el `;`.
+3. Cambiá `cout <<` por `std::cout <<` en la segunda línea.
+4. Tocá **Ejecutar** después de cada arreglo. Al final tienen que salir las dos líneas.
+
 #### Código inicial
 ```cpp
 int main() {
@@ -778,6 +810,12 @@ necesitar `\\` para cada barra invertida y `\"` para las comillas.
 - Dibuja el engranaje usando `\\` para la barra invertida.
 - Muestra la frase entre comillas con `\"`.
 - Compila sin advertencias.
+
+#### Pasos
+1. Borrá el comentario. Escribí un `std::cout << "...\n";` por renglón del dibujo, copiando los espacios de la salida esperada.
+2. Donde el dibujo tiene `\`, escribí `\\`. Ejemplo: `std::cout << "    _/\\_/\\_\n";`
+3. Para las comillas de la frase, `\"`: `std::cout << "\"Cada diente cuenta\", dice Tesla.\n";`
+4. Tocá **Ejecutar** y compará renglón por renglón.
 
 #### Código inicial
 ```cpp

@@ -267,6 +267,11 @@ Para mostrar una variable: `std::cout << vidas << "\n";`.
 #### Desafío
 Cambiá el tipo del cajón para que no se pierdan los decimales.
 
+#### Pasos
+1. Buscá `int kilos = 3.75;`.
+2. Cambiá `int` por `double`: `int` solo guarda enteros.
+3. Tocá **Ejecutar**. Tiene que salir `3.75 kg`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -327,6 +332,11 @@ Como repartir 23 caramelos en bolsitas de 4: salen 5 bolsitas completas y sobran
 
 #### Desafío
 Calculá lo que sobra con el operador del resto.
+
+#### Pasos
+1. Buscá `int sobran = tuercas - cajas;`.
+2. Cambiá el `-` por `%` (el resto de la división).
+3. Tocá **Ejecutar**. Tiene que salir `Sobran: 2`.
 
 #### Código inicial
 ```cpp
@@ -402,6 +412,11 @@ std::cout << static_cast<double>(a) / b;   // 4.5
 #### Desafío
 Convertí a propósito para que el promedio tenga decimales.
 
+#### Pasos
+1. Buscá `double promedio = minutos / vueltas;`.
+2. Cambiá `minutos` por `static_cast<double>(minutos)`.
+3. Tocá **Ejecutar**. Tiene que salir `3.5 minutos`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -475,6 +490,14 @@ cubrirla.
 **Para superarla:**
 - Usa `const double` para las medidas.
 - Calcula área, perímetro y baldosas con operadores (no escribe los resultados a mano).
+
+#### Pasos
+1. Borrá el comentario. Escribí `const double ANCHO = 12.5;` y `const double LARGO = 8.0;`
+2. Calculá: `double area = ANCHO * LARGO;` y `double perimetro = 2 * (ANCHO + LARGO);`
+3. Mostrá: `std::cout << "Base de la torre: " << ANCHO << " x " << LARGO << " m\n";`
+4. `"Área: " << area << " m²\n"` y `"Perímetro: " << perimetro << " m\n"`.
+5. Las baldosas: `std::cout << "Baldosas de 0.5 x 0.5: " << area / (0.5 * 0.5) << "\n";`
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -555,6 +578,14 @@ decimales) y una comprobación: `a_cada_uno * artifices + sobran` tiene que dar
 - Usa `static_cast<double>` para el promedio exacto.
 - La comprobación da 1000.
 
+#### Pasos
+1. Borrá el comentario. Escribí `int engranajes = 1000;` e `int artifices = 7;`
+2. `int a_cada_uno = engranajes / artifices;` e `int sobran = engranajes % artifices;`
+3. Mostrá: `"A cada artífice: "`, `"Sobran: "`.
+4. `"Promedio exacto: " << static_cast<double>(engranajes) / artifices`
+5. `"Comprobación: " << a_cada_uno * artifices + sobran`
+6. Tocá **Ejecutar**. La comprobación tiene que dar 1000.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -626,6 +657,12 @@ a horas, minutos y segundos usando solo `/` y `%`.
 **Para superarla:**
 - Usa división entera y resto.
 - Muestra `45296 segundos son 12 h 34 min 56 s`.
+
+#### Pasos
+1. Borrá el comentario. Escribí `int total = 45296;`
+2. `int horas = total / 3600;`, `int minutos = total % 3600 / 60;` e `int segundos = total % 60;`
+3. Mostrá: `std::cout << total << " segundos son " << horas << " h " << minutos << " min " << segundos << " s\n";`
+4. Tocá **Ejecutar**. Tiene que salir `12 h 34 min 56 s`.
 
 #### Código inicial
 ```cpp
@@ -986,6 +1023,11 @@ Para leer una línea entera, con espacios, se usa `std::getline(std::cin, texto)
 #### Desafío
 Leé el pedido entero.
 
+#### Pasos
+1. Buscá `std::cin >> pedido;`: `>>` lee solo hasta el primer espacio.
+2. Cambiala por `std::getline(std::cin, pedido);` (lee la línea entera).
+3. Tocá **Ejecutar**. Tiene que salir `Pedido: Dos ruedas dentadas`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -1054,6 +1096,11 @@ std::cin >> dia >> mes;
 
 #### Desafío
 Leé también el precio y mostrá el total.
+
+#### Pasos
+1. Buscá `std::cin >> cantidad;`.
+2. Agregale `>> precio` antes del `;`. Queda: `std::cin >> cantidad >> precio;`
+3. Tocá **Ejecutar**. Tiene que salir `3 x 250 = 750`.
 
 #### Código inicial
 ```cpp
@@ -1130,6 +1177,13 @@ Ojo: `setw` vale solo para el dato que viene justo después; las otras quedan pu
 #### Desafío
 Dale ancho a la columna de los nombres y dos decimales a los precios.
 
+#### Pasos
+1. Arriba de los tres `std::cout`, agregá: `std::cout << std::fixed << std::setprecision(2);` (dos decimales siempre).
+2. En cada línea, después de `std::cout`, agregá `<< std::left << std::setw(10)` antes del nombre.
+3. Ejemplo: `std::cout << std::left << std::setw(10) << "Guiso" << 12.5 << "\n";`
+4. En la del pan, cambiá `3` por `3.0`.
+5. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -1202,6 +1256,14 @@ Ciudadela. Mostrá el registro, la cantidad de caracteres del nombre y la inicia
 **Para superarla:**
 - Lee líneas completas con `std::getline`.
 - Muestra el registro, el largo y la inicial con `nombre[0]`.
+
+#### Pasos
+1. Borrá el comentario. Escribí `std::string nombre;` y `std::string oficio;`
+2. Pedí: `std::cout << "Nombre completo: ";` y `std::getline(std::cin, nombre);`
+3. Igual con `"Oficio: "` y `oficio`. Después `std::cout << "\n";`
+4. Mostrá: `"Registrado: " << nombre << " (" << oficio << ")\n"`
+5. `"Letras del nombre (con espacios): " << nombre.size()` y `"Inicial: " << nombre[0]`.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -1296,6 +1358,15 @@ avisá y terminá con `return 1`.
 - Revisa que las lecturas numéricas no fallen.
 - Muestra el total con `std::fixed` y `std::setprecision(2)`.
 
+#### Pasos
+1. Borrá el comentario. Escribí `std::string producto;`, `double precio = 0;` e `int cantidad = 0;`
+2. Pedí el producto: `std::cout << "Producto: ";` y `std::getline(std::cin, producto);`
+3. El precio: `std::cout << "Precio: ";` y `if (!(std::cin >> precio)) {` → `std::cout << "\nPrecio inválido.\n";` y `return 1;` `}`
+4. Igual con la cantidad (`"Cantidad: "` y `"\nCantidad inválida.\n"`).
+5. `std::cout << "\n" << std::fixed << std::setprecision(2);`
+6. `std::cout << cantidad << " x " << producto << " a $" << precio << " = $" << precio * cantidad << "\n";`
+7. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -1389,6 +1460,14 @@ cantidad a la derecha en 8. Al final, el total. (Usá nombres sin tildes: `setw`
 - Encadena las lecturas con `>>`.
 - Alinea con `std::setw`, `std::left` y `std::right`.
 - Muestra el total.
+
+#### Pasos
+1. Borrá el comentario. Escribí `std::string m1, m2, m3;` e `int c1 = 0, c2 = 0, c3 = 0;`
+2. Pedí: `std::cout << "Tres materiales con su cantidad (nombre cantidad): ";` y `std::cin >> m1 >> c1 >> m2 >> c2 >> m3 >> c3;`. Después `std::cout << "\n";`
+3. El título: `std::cout << std::left << std::setw(12) << "Material" << std::right << std::setw(8) << "Cant." << "\n";`
+4. Una fila por material con el mismo formato: `<< m1 <<` … `<< c1 <<`.
+5. El total: igual, con `"TOTAL"` y `c1 + c2 + c3`.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -1820,6 +1899,13 @@ C++ prueba en orden y entra en la **primera** que se cumple; las demás ni las m
 #### Desafío
 Ordená las condiciones para que cada lluvia abra las compuertas que corresponden.
 
+#### Pasos
+1. Las condiciones están al revés: `lluvia > 0` atrapa todo.
+2. Cambiá el primer `if` por `if (lluvia > 50)` con `"Abrir tres compuertas\n"`.
+3. Dejá el `else if (lluvia > 20)` como está.
+4. Cambiá el otro `else if` por `else if (lluvia > 0)` con `"Abrir una compuerta\n"`.
+5. Tocá **Ejecutar**. Tiene que salir `Abrir dos compuertas`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -1902,6 +1988,11 @@ Para pedir dos cosas a la vez se juntan las condiciones:
 
 #### Desafío
 Corregí la condición del termómetro.
+
+#### Pasos
+1. Buscá `grados >= 80 || grados <= 95`.
+2. Cambiá `||` por `&&`: tienen que cumplirse las dos.
+3. Tocá **Ejecutar**. Tiene que salir `Todavia no`.
 
 #### Código inicial
 ```cpp
@@ -1989,6 +2080,11 @@ C++ salta al `case` que coincide y ejecuta desde ahí **hacia abajo**, hasta enc
 
 #### Desafío
 Agregá lo que falta para que cada letra mande a una sola torre.
+
+#### Pasos
+1. Debajo de `std::cout << "Torre del reloj\n";` agregá `break;`
+2. Debajo de `std::cout << "Torre de las poleas\n";` agregá `break;`
+3. Tocá **Ejecutar**. Tiene que salir solo `Torre del reloj`.
 
 #### Código inicial
 ```cpp
@@ -2086,6 +2182,15 @@ falta todo.
 - Combina condiciones con `&&`.
 - Cubre los cuatro casos con `if`/`else if`/`else`.
 
+#### Pasos
+1. Borrá el comentario. Escribí `int nivel = 0;` y `std::string llave;`
+2. Pedí: `"Nivel: "` → `std::cin >> nivel;` y `"¿Tenés llave? (si/no): "` → `std::cin >> llave;`. Después `std::cout << "\n";`
+3. `bool tiene_llave = (llave == "si");`
+4. `if (nivel >= 5 && tiene_llave)` → `"La puerta se abre.\n"`; `else if (nivel >= 5)` → `"Te falta la llave.\n"`.
+5. `else if (tiene_llave)` → `"La llave gira, pero la puerta no reconoce a alguien de nivel " << nivel << ".\n"`.
+6. `else` → `"Volvé cuando seas más fuerte y tengas la llave.\n"`.
+7. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -2175,6 +2280,15 @@ avisá. Si la operación no existe, también.
 - Usa `switch` con `break` en cada caso.
 - Acepta `*` y `x` para multiplicar (dos `case` juntos).
 - Evita dividir por cero.
+
+#### Pasos
+1. Borrá el comentario. Escribí `double a = 0, b = 0;` y `char op = ' ';`
+2. Pedí: `std::cout << "Cuenta (ej: 8 * 3): ";`, `std::cin >> a >> op >> b;` y `std::cout << "\n";`
+3. `switch (op) {` con un `case` por operación. Ejemplo: `case '+': std::cout << a << " + " << b << " = " << a + b << "\n"; break;`
+4. Para multiplicar, dos `case` juntos: `case '*':` y `case 'x':`.
+5. En `case '/'`: si `b == 0`, `"No se puede dividir por cero.\n"`; si no, la división.
+6. `default:` → `"Operación desconocida: " << op << "\n"`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -2271,6 +2385,13 @@ operador ternario para los dos mensajes.
 - Escribe la condición con `%`, `&&` y `||`.
 - Usa el operador ternario.
 - 1900 no es bisiesto; 2000 y 2024 sí.
+
+#### Pasos
+1. Borrá el comentario. Escribí `int anio = 0;`, pedí `"Año: "`, `std::cin >> anio;` y `std::cout << "\n";`
+2. La regla: `bool bisiesto = (anio % 4 == 0 && anio % 100 != 0) || anio % 400 == 0;`
+3. Mostrá: `std::cout << anio << (bisiesto ? " es bisiesto" : " no es bisiesto") << "\n";`
+4. Y: `std::cout << "Febrero tiene " << (bisiesto ? 29 : 28) << " días.\n";`
+5. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -2714,6 +2835,11 @@ Este da 3 vueltas: 0, 1 y 2. Contá con cuidado: si arranca en 0, `i <= 3` darí
 #### Desafío
 Hacé que la cinta mande exactamente diez tuercas.
 
+#### Pasos
+1. Buscá `i <= 10` en el `for`.
+2. Cambiá `<=` por `<`: empezando en 0, `< 10` da diez vueltas.
+3. Tocá **Ejecutar**. Tiene que salir `Tuercas enviadas: 10`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -2776,6 +2902,10 @@ Al terminar el bucle, el total ya tiene la suma de todas las vueltas.
 
 #### Desafío
 Completá la suma dentro del bucle.
+
+#### Pasos
+1. Adentro del `for`, debajo del `std::cout`, agregá `total += 2 * i;`
+2. Tocá **Ejecutar**. Tiene que salir `Total: 30`.
 
 #### Código inicial
 ```cpp
@@ -2860,6 +2990,11 @@ Se lee: «para cada `char` `c` de `palabra`». Para contar algo, un contador que
 
 #### Desafío
 Contá también los tropiezos.
+
+#### Pasos
+1. Buscá el `if` que cuenta las `buenas` y su `}` de cierre.
+2. Antes de esa `}`, agregá: `} else if (c == 'o') {` y adentro `tropiezos++;`
+3. Tocá **Ejecutar**. Tiene que salir `tropiezos: 3`.
 
 #### Código inicial
 ```cpp
@@ -2952,6 +3087,15 @@ es 0, mostrá "No hubo lecturas."
 - Lee dentro de la condición del `while` y frena en el 0.
 - Usa contador, acumulador, máximo y mínimo.
 - El máximo y el mínimo arrancan con la primera lectura.
+
+#### Pasos
+1. Borrá el comentario. Escribí `int cantidad = 0;`, `int suma = 0;`, `int maximo = 0;`, `int minimo = 0;` e `int valor = 0;`
+2. `std::cout << "Lecturas (0 para terminar):\n";`
+3. `while (std::cin >> valor && valor != 0) {`
+4. Adentro: si `cantidad == 0 || valor > maximo`, `maximo = valor;`. Igual con el mínimo (`valor < minimo`). Después `suma += valor;` y `cantidad++;`
+5. Si `cantidad == 0`: `"No hubo lecturas.\n"` y `return 0;`
+6. Mostrá: `"Lecturas: "`, `"Suma: "`, `"Promedio: " << static_cast<double>(suma) / cantidad` y `"Máximo: " << maximo << ", mínimo: " << minimo`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -3050,6 +3194,15 @@ usaron (es `pisos * pisos`).
 - Usa bucles anidados: uno para los pisos, otros para espacios y engranajes.
 - La pirámide queda centrada.
 
+#### Pasos
+1. Borrá el comentario. Escribí `int pisos = 0;`, pedí `"Pisos: "`, `std::cin >> pisos;` y `std::cout << "\n";`
+2. `for (int piso = 1; piso <= pisos; piso++) {`
+3. Adentro, los espacios: `for (int espacio = 0; espacio < pisos - piso; espacio++)` → `std::cout << " ";`
+4. Los engranajes: `for (int e = 0; e < 2 * piso - 1; e++)` → `std::cout << "o";`
+5. Después, `std::cout << "\n";` y cerrá el `for` de los pisos.
+6. Al final: `std::cout << "Engranajes usados: " << pisos * pisos << "\n";`
+7. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -3135,6 +3288,14 @@ acertaste o se acabaron los intentos (y cuál era).
 - El número secreto y los intentos son constantes.
 - El bucle termina al acertar o al agotar los intentos.
 - Da una pista después de cada intento fallido.
+
+#### Pasos
+1. Borrá el comentario. Escribí `const int SECRETO = 37;`, `const int INTENTOS = 5;`, `int intento = 0;` y `bool acerto = false;`
+2. `for (int i = 1; i <= INTENTOS && !acerto; i++) {`
+3. Adentro: `std::cout << "Intento " << i << ": ";`; si `!(std::cin >> intento)`, `break;`. Después `std::cout << "\n";`
+4. Si `intento == SECRETO`: `acerto = true;`. Si es menor: `"Más alto.\n"`. Si no: `"Más bajo.\n"`.
+5. Afuera: si `acerto`, `"¡Acertaste! Era " << SECRETO << ".\n"`; si no, `"Se acabaron los intentos. Era " << SECRETO << ".\n"`.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -3617,6 +3778,11 @@ Se usa (se **llama**) así: `doble(7)` da `14`. Se escribe arriba de `main`.
 #### Desafío
 Completá el cuerpo de la función.
 
+#### Pasos
+1. Adentro de la función, buscá `return 0;`.
+2. Cambiala por `return engranajes * por_engranaje;`
+3. Tocá **Ejecutar**. Tienen que salir 120, 720 y 60.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -3692,6 +3858,11 @@ void mostrar(const std::string& t) { ... }
 
 #### Desafío
 Agregá la versión que falta.
+
+#### Pasos
+1. Arriba de `int main()`, agregá una tercera versión de `anunciar` que reciba un decimal.
+2. `void anunciar(double x)` y abajo `{`, `std::cout << "decimal " << x << "\n";` y `}`.
+3. Tocá **Ejecutar**. Tiene que salir `decimal 2.5`.
 
 #### Código inicial
 ```cpp
@@ -3785,6 +3956,11 @@ void saludar(std::string nombre = "amigo")
 #### Desafío
 Dale a `veces` el valor 1 por defecto.
 
+#### Pasos
+1. Buscá `void tocar(int veces)`.
+2. Cambialo por `void tocar(int veces = 1)`.
+3. Tocá **Ejecutar**. Tiene que salir una campanada y después tres.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -3869,6 +4045,13 @@ abajo, con sus prototipos. Mostrá: 12 m, 70 kg, 100 °C y −40 °C convertidos
 **Para superarla:**
 - Declara las tres funciones con prototipos antes de `main`.
 - Cada función recibe un `double` y devuelve un `double`.
+
+#### Pasos
+1. Arriba de `int main()`, los prototipos: `double metros_a_pies(double metros);`, `double kilos_a_libras(double kilos);` y `double celsius_a_fahrenheit(double c);`
+2. Abajo de `main`, las funciones. `metros_a_pies` devuelve `metros * 3.28084`; `kilos_a_libras`, `kilos * 2.20462`; `celsius_a_fahrenheit`, `c * 9 / 5 + 32`.
+3. En `main`, borrá el comentario. `std::cout << "12 m = " << metros_a_pies(12) << " pies\n";`
+4. Igual: `"70 kg = "` … `" libras\n"`, `"100 °C = "` … `" °F\n"` y `"-40 °C = "` … `" °F\n"`.
+5. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -3957,6 +4140,14 @@ para dos `double`. La de tres tiene que **reutilizar** la de dos. Probalas con
 - Hay tres funciones llamadas `maximo`.
 - La versión de tres enteros llama a la de dos.
 
+#### Pasos
+1. Arriba de `main`: `int maximo(int a, int b) { return a > b ? a : b; }`
+2. `int maximo(int a, int b, int c) { return maximo(maximo(a, b), c); }` (reutiliza la de dos).
+3. `double maximo(double a, double b) { return a > b ? a : b; }`
+4. En `main`, borrá el comentario. `std::cout << "maximo(3, 9) = " << maximo(3, 9) << "\n";`
+5. Igual con `(4, 12, 7)` y `(2.5, 1.75)`.
+6. Tocá **Ejecutar**. Tienen que salir 9, 12 y 2.5.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -4039,6 +4230,15 @@ máximo. Probala con: `barra(50)`, `barra(30, 40)`, `barra(7, 10, 10)`,
 **Para superarla:**
 - Usa parámetros por defecto para `maximo`, `ancho` y `relleno`.
 - Recorta el valor fuera de rango.
+
+#### Pasos
+1. Arriba de `main`: `void barra(int valor, int maximo = 100, int ancho = 20, char relleno = '#')`
+2. Adentro: si `valor < 0`, `valor = 0;`; si `valor > maximo`, `valor = maximo;`
+3. `int llenos = valor * ancho / maximo;` y `std::cout << "[";`
+4. `for (int i = 0; i < ancho; i++)` → `std::cout << (i < llenos ? relleno : '.');`
+5. Al final: `std::cout << "] " << valor << "/" << maximo << "\n";`
+6. En `main`, borrá el comentario y llamá: `barra(50);`, `barra(30, 40);`, `barra(7, 10, 10);`, `barra(3, 4, 8, '=');` y `barra(150);`
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -4495,6 +4695,11 @@ sumar_uno(puntos);   // puntos ahora vale 5
 #### Desafío
 Hacé que la función ajuste la presión de verdad.
 
+#### Pasos
+1. Buscá `void ajustar(int p)`.
+2. Cambiá `int p` por `int& p`: el `&` hace que la función reciba la variable original, no una copia.
+3. Tocá **Ejecutar**. Tiene que salir `Presion de la olla: 75`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -4567,6 +4772,11 @@ Quien la llama le pasa sus variables, y al volver ya tienen los resultados.
 
 #### Desafío
 Hacé que los dos resultados lleguen a `main`.
+
+#### Pasos
+1. Buscá la línea de `void repartir(...)`.
+2. Agregá `&` a los dos últimos parámetros: `int& por_caja, int& sobran`.
+3. Tocá **Ejecutar**. Tiene que salir `Por caja: 7, sobran: 5`.
 
 #### Código inicial
 ```cpp
@@ -4647,6 +4857,11 @@ Para que el cambio llegue afuera, la función tiene que recibir las **dos** vari
 
 #### Desafío
 Hacé que el intercambio llegue a `main`.
+
+#### Pasos
+1. Buscá `void cambiar(std::string a, std::string b)`.
+2. Agregá `&` a los dos: `std::string& a, std::string& b`.
+3. Tocá **Ejecutar**. Mañana tiene que quedar Lima y tarde Bron.
 
 #### Código inicial
 ```cpp
@@ -4736,6 +4951,14 @@ Empezá con 80 de vida (máximo 100): recibí 35 de daño, curá 70 y recibí 25
 - Las dos funciones reciben la vida por referencia.
 - La vida se mantiene entre 0 y el máximo.
 
+#### Pasos
+1. Arriba de `main`: `void recibir_dano(int& vida, int dano)` → `vida -= dano;` y, si `vida < 0`, `vida = 0;`
+2. `void curar(int& vida, int cantidad, int maximo)` → `vida += cantidad;` y, si `vida > maximo`, `vida = maximo;`
+3. En `main`, borrá el comentario. `const int MAXIMO = 100;` e `int vida = 80;`
+4. `recibir_dano(vida, 35);` y `std::cout << "Tras 35 de daño: " << vida << "\n";`
+5. `curar(vida, 70, MAXIMO);` y `"Tras curar 70: "`. Después `recibir_dano(vida, 250);` y `"Tras 250 de daño: "`.
+6. Tocá **Ejecutar**. Tienen que salir 45, 100 y 0.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -4822,6 +5045,13 @@ mostralos ordenados.
 **Para superarla:**
 - `ordenar3` usa `intercambiar`.
 - Funciona con cualquier orden de entrada (probá también con repetidos).
+
+#### Pasos
+1. Arriba de `main`: `void intercambiar(int& a, int& b)` → `int tmp = a;`, `a = b;` y `b = tmp;`
+2. `void ordenar3(int& a, int& b, int& c)`: tres `if`. Si `a > b`, `intercambiar(a, b);`. Si `b > c`, `intercambiar(b, c);`. Y otra vez si `a > b`, `intercambiar(a, b);`
+3. En `main`, borrá el comentario. `int a = 0, b = 0, c = 0;`, pedí `"Tres números: "`, `std::cin >> a >> b >> c;` y `std::cout << "\n";`
+4. `ordenar3(a, b, c);` y `std::cout << "Ordenados: " << a << " " << b << " " << c << "\n";`
+5. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -4918,6 +5148,14 @@ Probala con 47 / 5 y con 10 / 0.
 **Para superarla:**
 - Devuelve el éxito con `bool` y los resultados por referencia.
 - No divide por cero.
+
+#### Pasos
+1. Arriba de `main`: `bool dividir(int a, int b, int& cociente, int& resto)`.
+2. Adentro: si `b == 0`, `return false;`. Si no: `cociente = a / b;`, `resto = a % b;` y `return true;`
+3. En `main`, borrá el comentario. `int cociente = 0, resto = 0;`
+4. `if (dividir(47, 5, cociente, resto))` → `std::cout << "47 / 5 = " << cociente << " resto " << resto << "\n";`
+5. `if (!dividir(10, 0, cociente, resto))` → `std::cout << "10 / 0: no se puede\n";`
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -5371,6 +5609,11 @@ En el código, el índice es `std::size_t`: un entero sin negativos, el tipo que
 #### Desafío
 Arreglá la condición del bucle.
 
+#### Pasos
+1. Buscá `i <= dientes.size()` en el `for`.
+2. Cambiá `<=` por `<`: la última posición es `size() - 1`.
+3. Tocá **Ejecutar**. Tiene que salir `172`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -5443,6 +5686,11 @@ std::sort(v.begin(), v.end());
 
 #### Desafío
 Ordená los tiempos antes de mostrarlos.
+
+#### Pasos
+1. Buscá la línea `std::cout << "Tiempos:";`.
+2. Justo arriba, agregá `std::sort(tiempos.begin(), tiempos.end());`
+3. Tocá **Ejecutar**. Los tiempos tienen que salir de menor a mayor.
 
 #### Código inicial
 ```cpp
@@ -5528,6 +5776,11 @@ Un vector de vectores es una **tabla**: cada elemento es una fila, y cada fila e
 #### Desafío
 Marcá el engranaje en el lugar correcto.
 
+#### Pasos
+1. Buscá `tablero[2][1] = 'X';`.
+2. El primer número es la fila y el segundo la columna. Cambialo por `tablero[1][2] = 'X';`
+3. Tocá **Ejecutar**. La X tiene que quedar en la fila del medio.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -5611,6 +5864,15 @@ elemento del medio de las ordenadas: posición `size() / 2`).
 - Guarda las notas en un `std::vector<int>` con `push_back`.
 - Descarta las notas fuera de 1 a 10.
 - Ordena con `std::sort` y calcula la mediana.
+
+#### Pasos
+1. Borrá el comentario. Escribí `std::vector<int> notas;` e `int nota = 0;`
+2. `while (std::cin >> nota)` → si `nota >= 1 && nota <= 10`, `notas.push_back(nota);`
+3. Si `notas.empty()`: `"No hay notas.\n"` y `return 0;`
+4. `int suma = 0;`, `int aprobados = 0;` y `for (int n : notas)` → `suma += n;` y, si `n >= 6`, `aprobados++;`
+5. Ordená: `std::sort(notas.begin(), notas.end());`
+6. Mostrá: `"Notas válidas: " << notas.size()`, `"Promedio: " << static_cast<double>(suma) / notas.size()`, `"Aprobados: "`, `"Ordenadas:"` (con un `for` que muestre `" " << n`) y `"Mediana: " << notas[notas.size() / 2]`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -5726,6 +5988,15 @@ piezas se colocaron.
 - Usa un vector de vectores para la grilla.
 - Valida los límites y las casillas ocupadas.
 - Dibuja con una función que recibe el plano por `const&`.
+
+#### Pasos
+1. Arriba de `main`: `void dibujar(const std::vector<std::vector<char>>& plano)` con dos `for` que muestran cada `char` y un `"\n"` por fila.
+2. En `main`, borrá el comentario. `int filas = 0, columnas = 0, piezas = 0;` y `std::cin >> filas >> columnas >> piezas;`
+3. La grilla: `std::vector<std::vector<char>> plano(filas, std::vector<char>(columnas, '.'));` e `int colocadas = 0;`
+4. `for (int i = 0; i < piezas; i++)` → leé `f`, `c` y `tipo`.
+5. Si está fuera (`f < 0 || f >= filas || c < 0 || c >= columnas`): `"Fuera del plano: " << f << "," << c << "\n"`. Si `plano[f][c] != '.'`: `"Ocupado: "` igual. Si no: `plano[f][c] = tipo;` y `colocadas++;`
+6. Al final: `dibujar(plano);` y `"Piezas colocadas: " << colocadas << "\n"`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -5844,6 +6115,15 @@ Al final, mostrá cuántos quedan y quién es el último.
 - Usa `insert` y `erase` con `begin() + posición`.
 - Quita los repetidos con `std::find`.
 - Muestra la fila con una función que recibe `const std::vector<std::string>&`.
+
+#### Pasos
+1. Arriba de `main`: `void mostrar(const std::vector<std::string>& fila)` → `"Fila:"`, un `for` que muestra `" " << nombre` y `"\n"`.
+2. En `main`, borrá el comentario. `std::vector<std::string> fila = {"Bron", "Lyn", "Lima", "Lyn", "Oto"};` y `mostrar(fila);`
+3. Tesla segunda: `fila.insert(fila.begin() + 1, "Tesla");` y `mostrar(fila);`
+4. Atender: `std::cout << "Atendido: " << fila.front() << "\n";`, `fila.erase(fila.begin());` y `mostrar(fila);`
+5. Sin repetidos: `std::vector<std::string> sin_repetir;` y un `for`; si `std::find(sin_repetir.begin(), sin_repetir.end(), nombre) == sin_repetir.end()`, `push_back`. Después `fila = sin_repetir;` y `mostrar(fila);`
+6. Al final: `std::cout << "Quedan " << fila.size() << ", el último es " << fila.back() << "\n";`
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -6268,6 +6548,11 @@ La **semilla** decide la secuencia: con la misma semilla salen siempre los mismo
 #### Desafío
 Leé la semilla de la entrada en lugar de usar siempre la 7.
 
+#### Pasos
+1. Buscá `std::mt19937 gen(7);`.
+2. Cambiá el `7` por `semilla` (la variable que se leyó arriba).
+3. Tocá **Ejecutar**. Tienen que salir 4, 1 y 3.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -6342,6 +6627,11 @@ La distancia en línea recta entre dos puntos sale del teorema de Pitágoras: es
 #### Desafío
 Calculá la distancia en línea recta.
 
+#### Pasos
+1. Buscá `double distancia = dx + dy;`.
+2. Cambiá `dx + dy` por `std::hypot(dx, dy)` (la distancia en línea recta).
+3. Tocá **Ejecutar**. Tiene que salir `Distancia: 5`.
+
 #### Código inicial
 ```cpp
 #include <cmath>
@@ -6408,6 +6698,11 @@ El manómetro de la caldera tiene una aguja que va de 0 a 100. Cuando la presió
 
 #### Desafío
 Limitá la aguja al rango del manómetro.
+
+#### Pasos
+1. Buscá `int aguja = presion;`.
+2. Cambiá `presion` por `std::clamp(presion, 0, 100)`: lo deja entre 0 y 100.
+3. Tocá **Ejecutar**. Tienen que salir 0, 45 y 100.
 
 #### Código inicial
 ```cpp
@@ -6493,6 +6788,15 @@ espacio adelante. Al final, mostrá la suma más común.
 - Usa `std::mt19937` con la semilla leída y `std::uniform_int_distribution<int>(1, 6)`.
 - Cuenta en un vector indexado por la suma.
 - Dibuja el histograma y encuentra la suma más común (tiene que ser 7 o muy cerca).
+
+#### Pasos
+1. Borrá el comentario. Leé la semilla: `unsigned semilla = 0;` y `std::cin >> semilla;`
+2. `std::mt19937 gen(semilla);`, `std::uniform_int_distribution<int> dado(1, 6);` y `std::vector<int> veces(13, 0);`
+3. Tirá: `for (int i = 0; i < 1200; i++)` → `veces[dado(gen) + dado(gen)]++;`
+4. `int mas_comun = 2;` y `for (int suma = 2; suma <= 12; suma++) {`
+5. Adentro: `std::cout << (suma < 10 ? " " : "") << suma << ": ";`, un `for` que muestra `veces[suma] / 10` asteriscos, y `std::cout << " " << veces[suma] << "\n";`. Si `veces[suma] > veces[mas_comun]`, `mas_comun = suma;`
+6. Al final: `std::cout << "La suma más común: " << mas_comun << "\n";`
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -6595,6 +6899,15 @@ decimales (usá `std::hypot`) y cuál es la más cercana.
 - Calcula la distancia con `std::hypot`.
 - Guarda nombres y distancias en vectores.
 - Muestra la más cercana.
+
+#### Pasos
+1. Borrá el comentario. Escribí `double tx = 0, ty = 0;`, `int n = 0;` y `std::cin >> tx >> ty >> n;`
+2. `std::vector<std::string> nombres;` y `std::vector<double> distancias;`
+3. `for (int i = 0; i < n; i++)` → leé `nombre`, `x` e `y`; `nombres.push_back(nombre);` y `distancias.push_back(std::hypot(x - tx, y - ty));`
+4. `std::cout << std::fixed << std::setprecision(2);` y `std::size_t cerca = 0;`
+5. Recorré: mostrá `nombres[i] << ": " << distancias[i] << "\n"` y, si `distancias[i] < distancias[cerca]`, `cerca = i;`
+6. Al final: `std::cout << "La más cercana: " << nombres[cerca] << "\n";`
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -6703,6 +7016,15 @@ Leé una semilla y abrí 10 cofres. Cada cofre tira un número de 1 a 100: hasta
 - El generador se crea una vez en `main` y se pasa por referencia.
 - Las probabilidades salen de una sola tirada de 1 a 100.
 - Muestra el recuento de cada tipo.
+
+#### Pasos
+1. Arriba de `main`: `std::string abrir_cofre(std::mt19937& gen)`.
+2. Adentro: `std::uniform_int_distribution<int> tirada(1, 100);` e `int t = tirada(gen);`. Si `t <= 60`, `"común"`; si `t <= 90`, `"raro"`; si no, `"épico"`.
+3. En `main`, borrá el comentario. Leé `semilla`, creá `std::mt19937 gen(semilla);` e `int comunes = 0, raros = 0, epicos = 0;`
+4. `for (int i = 1; i <= 10; i++)` → `std::string botin = abrir_cofre(gen);` y `std::cout << "Cofre " << i << ": " << botin << "\n";`
+5. Contá cada tipo con `if`/`else if`/`else`.
+6. Al final: `std::cout << "Comunes " << comunes << ", raros " << raros << ", épicos " << epicos << "\n";`
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -7012,6 +7334,11 @@ Adentro, compará cada orden con `==` (con `std::string` sí compara las letras)
 #### Desafío
 Contá cada tipo de orden.
 
+#### Pasos
+1. Adentro del `while`, agregá: `if (orden == "girar") {` → `giros++;`
+2. `} else if (orden == "golpear") {` → `golpes++;` `}`
+3. Tocá **Ejecutar**. Tiene que salir `Giros: 3, golpes: 2`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -7089,6 +7416,11 @@ Como la función devuelve dos cosas, las recibe por referencia (`int& menor, int
 
 #### Desafío
 Completá la búsqueda de la placa más blanda.
+
+#### Pasos
+1. Buscá el `if` que guarda el `mayor` y su `}`.
+2. Debajo, agregá otro: `if (p < menor) {` → `menor = p;` `}`
+3. Tocá **Ejecutar**. Tiene que salir `Mas blanda: 9, mas dura: 58`.
 
 #### Código inicial
 ```cpp
@@ -7194,6 +7526,11 @@ Con una semilla fija, la secuencia es siempre la misma: por eso la del Autómata
 #### Desafío
 Usá la semilla del Autómata y simulá cinco movimientos.
 
+#### Pasos
+1. Buscá `std::mt19937 gen(1);` y cambiá el `1` por `47`.
+2. En el `for`, cambiá `i <= 3` por `i <= 5`.
+3. Tocá **Ejecutar**. Tienen que salir cinco golpes.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -7265,6 +7602,12 @@ Para detener al Autómata hay que llegar a su corazón de vapor con la secuencia
 
 #### Desafío
 Escribí la función que decide la acción de cada placa.
+
+#### Pasos
+1. Adentro de la función, buscá `return "esperar";`.
+2. Cambiala por: `if (dureza % 2 == 0) {` → `return "girar";` `}`
+3. Y debajo: `return "golpear";`
+4. Tocá **Ejecutar**. Tiene que salir `Giros: 3`.
 
 #### Código inicial
 ```cpp
@@ -7419,6 +7762,16 @@ Escribí al menos las funciones `pedir_opcion`, `recibir(int& vida, int dano)` y
 - Valida la opción y sobrevive a que se termine la entrada.
 - Usa un único generador con la semilla leída.
 - Respeta el orden de las tiradas y las reglas de cargas y pociones.
+
+#### Pasos
+1. Arriba de `main`: `const int VIDA_LIMA = 60;` y `const int VIDA_AUTOMATA = 70;`
+2. `int pedir_opcion()`: repetí `std::cout << "Tu turno (1 atacar, 2 curar, 3 cargar): ";`. Si no se pudo leer, `"\n"` y `return 0;`. Después `"\n"`; si está entre 1 y 3, devolvela; si no, `"Opción inválida.\n"`.
+3. `void recibir(int& vida, int dano)`: resta y no baja de 0. `void barra(const std::string& nombre, int vida, int maximo)`: `nombre << " ["`, 10 casillas (`#` si `i < vida * 10 / maximo`, si no `.`) y `"] " << vida << "/" << maximo << "\n"`.
+4. En `main`: leé la semilla, `std::mt19937 gen(semilla);`, `golpe(6, 12)`, `moneda(0, 1)`, y `lima`, `automata`, `carga = 0`, `pociones = 2`, `turno = 1`.
+5. `while (lima > 0 && automata > 0)`: `"--- Turno " << turno << " ---\n"`, `barra("Lima    ", ...)` y `barra("Autómata", ...)`, y `int op = pedir_opcion();`. Si es 0: `"Lima se retira del duelo.\n"` y `return 0;`
+6. Opción 1: `golpe(gen) + carga * 8`, carga a 0, `recibir(automata, dano)`. Opción 2: poción (+20 sin pasar el máximo) o pierde el turno. Opción 3: `carga++`. Copiá los mensajes de la salida esperada.
+7. Si el Autómata sigue: `int dano = golpe(gen);`; si `moneda(gen) == 1`, `dano /= 2;` y el mensaje del tropiezo. `recibir(lima, dano);` y el mensaje. `turno++;`
+8. Al final, el mensaje de quién ganó. Tocá **Ejecutar** y compará turno por turno.
 
 #### Código inicial
 ```cpp
@@ -7669,6 +8022,16 @@ golpe y devuelve cuántas placas nuevas se rompieron.
 - `golpear` recibe el vector por referencia y devuelve las placas rotas.
 - Respeta los bordes del vector y no baja de 0.
 - Termina al romperse todas las placas o al terminarse la entrada.
+
+#### Pasos
+1. Arriba de `main`: `void mostrar(const std::vector<int>& placas)` → cada placa como `"[" << i << ":" << placas[i] << "]"` y un `"\n"` al final.
+2. `int golpear(std::vector<int>& placas, int pos, int fuerza)`: `int rotas = 0;` y `for (int d = -1; d <= 1; d++)` → `int i = pos + d;`. Si `i` está fuera o la placa ya está en 0, `continue;`
+3. El daño: `fuerza` si `d == 0`, si no `fuerza / 2`. `placas[i] = std::max(0, placas[i] - dano);` y, si quedó en 0, `rotas++;`. Devolvé `rotas`.
+4. En `main`, borrá el comentario. `std::vector<int> placas = {30, 30, 40, 50, 40, 30, 30};`, `mostrar(placas);` e `int pos = 0, fuerza = 0, golpes = 0;`
+5. `while (std::cin >> pos >> fuerza)` → `golpes++;`. Si la posición está fuera: `"Golpe al aire.\n"` y `continue;`
+6. `int rotas = golpear(placas, pos, fuerza);`, `"Golpe en " << pos << " por " << fuerza`, y si hubo rotas `": ¡" << rotas << " placa(s) rota(s)!"`. Después `"\n"` y `mostrar(placas);`
+7. Si todas están en 0 (`std::count(placas.begin(), placas.end(), 0) == ...size()`), mostrá el mensaje del final y terminá. Si se termina la entrada, mostrá cuántas quedan enteras. Copiá los mensajes de la salida esperada.
+8. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp

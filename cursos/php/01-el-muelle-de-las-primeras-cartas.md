@@ -258,6 +258,12 @@ Dentro de un texto entre comillas **dobles**, PHP reemplaza la variable por su v
 #### Desafío
 Creá las variables `$barco` ("Gaviota") y `$peso` (12.5) para que el programa las muestre.
 
+#### Pasos
+1. Buscá el comentario `// Creá $barco y $peso acá`.
+2. Debajo, escribí `$barco = "Gaviota";`
+3. Y en otra línea `$peso = 12.5;`
+4. Tocá **Ejecutar**. Tienen que salir el barco y el peso.
+
 #### Código inicial
 ```php
 <?php
@@ -316,6 +322,11 @@ Cada valor tiene un **tipo**, que dice qué clase de dato es:
 
 #### Desafío
 Mostrá el tipo de cada cajón con `gettype`.
+
+#### Pasos
+1. Hay cuatro `___`.
+2. Cambiá cada uno por `gettype(...)` con su variable: `gettype($a)`, `gettype($b)`, `gettype($c)` y `gettype($d)`.
+3. Tocá **Ejecutar**. Tienen que salir `integer`, `double`, `string` y `boolean`.
 
 #### Código inicial
 ```php
@@ -385,6 +396,11 @@ Para un peso con medio kilo hace falta un `float`.
 #### Desafío
 Cambiá la conversión para que no se pierda el medio kilo.
 
+#### Pasos
+1. Buscá `$peso = (int) $etiqueta;`.
+2. Cambiá `(int)` por `(float)`: `int` corta los decimales.
+3. Tocá **Ejecutar**. Tiene que salir `12.5 kg`.
+
 #### Código inicial
 ```php
 <?php
@@ -442,6 +458,12 @@ Se declara con `const`, se escribe en MAYÚSCULAS (por costumbre) y se usa **sin
 
 #### Desafío
 Convertí la tarifa en una constante y borrá la línea que la pisa.
+
+#### Pasos
+1. Cambiá la primera línea `$tarifa = 3;` por `const TARIFA = 3;`
+2. Borrá la línea `$tarifa = 30;` entera.
+3. En la cuenta, cambiá `$tarifa` por `TARIFA` (sin `$`).
+4. Tocá **Ejecutar**. Tiene que salir `A pagar: 36 sellos`.
 
 #### Código inicial
 ```php
@@ -505,6 +527,15 @@ máxima del barco en kilos. Mostrá el manifiesto con `echo` y, al final, el
 **Para superarla:**
 - Usa una variable para cada dato y una constante para la capacidad.
 - El peso total se calcula con las variables.
+
+#### Pasos
+1. Borrá el comentario. Escribí `const CAPACIDAD = 800;`
+2. Las variables: `$barco = "El Albatros";`, `$cajones = 15;`, `$pesoCajon = 42.5;` y `$fragil = false;`
+3. Mostrá: `echo "MANIFIESTO DE CARGA\n";` y `echo "Barco: ", $barco, "\n";`
+4. Igual con `"Cajones: "` y `"Peso por cajón: ", $pesoCajon, " kg\n"`.
+5. El total: `echo "Peso total: ", $cajones * $pesoCajon, " kg de ", CAPACIDAD, "\n";`
+6. Al final: `var_dump($barco, $cajones, $pesoCajon, $fragil);`
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -588,6 +619,14 @@ kilo. Convertí cada uno al tipo correcto con *casting* y mostrá:
 - Convierte con `(int)` y `(float)`, no escribe los números a mano.
 - Usa `round` para los dos decimales.
 
+#### Pasos
+1. Borrá el comentario. Los papeles: `$papelCajones = "15";`, `$papelKilos = "42.5";` y `$papelImpuesto = "3.99";`
+2. Convertí: `$cajones = (int) $papelCajones;`, `$kilos = (float) $papelKilos;` y `$impuestoPorKilo = (float) $papelImpuesto;`
+3. Mostrá: `var_dump($cajones, $kilos, $impuestoPorKilo);`
+4. Calculá: `$pesoTotal = $cajones * $kilos;` y `$impuesto = $pesoTotal * $impuestoPorKilo;`
+5. Mostrá: `echo "Peso total: ", $pesoTotal, " kg\n";`, `echo "Impuesto: ", round($impuesto, 2), "\n";` y `echo "Impuesto truncado: ", (int) $impuesto, "\n";`
+6. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```php
 <?php
@@ -664,6 +703,12 @@ valores separados por coma).
 
 **Para superarla:**
 - Muestra los diez valores y su conversión a `bool`.
+
+#### Pasos
+1. Borrá el comentario. Una línea por valor: `var_dump(valor, (bool) valor);`
+2. La primera: `var_dump(0, (bool) 0);`
+3. Seguí con `1`, `-1`, `""`, `" "`, `"0"`, `"0.0"`, `"false"`, `null` y `0.0`, en ese orden.
+4. Tocá **Ejecutar** y fijate cuáles dan `false`.
 
 #### Código inicial
 ```php
@@ -1027,6 +1072,12 @@ Como repartir 23 caramelos en bolsitas de 4: salen 5 bolsitas y sobran 3. (La `/
 #### Desafío
 Completá las dos cuentas.
 
+#### Pasos
+1. Hay dos `___`.
+2. En `$llenas = ___;` escribí `intdiv($cajones, $porBodega)` (división entera).
+3. En `$sobran = ___;` escribí `$cajones % $porBodega` (lo que sobra).
+4. Tocá **Ejecutar**. Tienen que salir 7 y 5.
+
 #### Código inicial
 ```php
 <?php
@@ -1089,6 +1140,11 @@ En el código vas a ver `if (…) { … } else { … }`: si la condición se cum
 #### Desafío
 Cambiá la comparación para que la carta no se entregue al casillero equivocado.
 
+#### Pasos
+1. Buscá el `if` con `==`.
+2. Cambiá `==` por `===` (tres iguales: compara también el tipo y el texto exacto).
+3. Tocá **Ejecutar**. Tiene que salir `No es este casillero`.
+
 #### Código inicial
 ```php
 <?php
@@ -1148,6 +1204,11 @@ Dos atajos para elegir un valor:
 
 #### Desafío
 Completá la etiqueta con `??` y con el ternario.
+
+#### Pasos
+1. Buscá `$nombre = $remitente;` y agregá ` ?? "Desconocido"` antes del `;`.
+2. Buscá `$cuidado = $fragil;` y agregá ` ? "si" : "no"` antes del `;`.
+3. Tocá **Ejecutar**. Tienen que salir `Desconocido` y `si`.
 
 #### Código inicial
 ```php
@@ -1209,6 +1270,11 @@ Es muy útil para ordenar.
 
 #### Desafío
 Completá las tres comparaciones con `<=>`.
+
+#### Pasos
+1. En las tres líneas hay una resta entre paréntesis: `(8 - 12)`, `(12 - 12)` y `(15 - 12)`.
+2. Cambiá cada `-` por `<=>`. Ejemplo: `(8 <=> 12)`.
+3. Tocá **Ejecutar**. Tienen que salir -1, 0 y 1.
 
 #### Código inicial
 ```php
@@ -1272,6 +1338,14 @@ usá `% 24`). Mostrá los minutos siempre con dos cifras usando
 **Para superarla:**
 - Usa `intdiv` y `%` para horas y minutos.
 - El cálculo de "dentro de 600 minutos" da la vuelta con `% 24`.
+
+#### Pasos
+1. Borrá el comentario. Escribí `$minutosDelDia = 937;`
+2. `$horas = intdiv($minutosDelDia, 60);` y `$minutos = $minutosDelDia % 60;`
+3. Mostrá: `echo "Ahora son las ", $horas, ":", str_pad($minutos, 2, "0", STR_PAD_LEFT), "\n";`
+4. Después: `$despues = $minutosDelDia + 600;`, `$horasDespues = intdiv($despues, 60) % 24;` y `$minutosDespues = $despues % 60;`
+5. Mostrá igual con `"En 600 minutos: "`.
+6. Tocá **Ejecutar**. Tienen que salir `15:37` y `1:37`.
 
 #### Código inicial
 ```php
@@ -1341,6 +1415,13 @@ Al final, mostrá una línea que diga cuántos pares son **realmente** iguales (
 **Para superarla:**
 - Compara cada par con `==` y con `===`.
 - Cuenta con una variable los pares iguales con `===`.
+
+#### Pasos
+1. Borrá el comentario. Escribí `$iguales = 0;`
+2. Por cada par, dos líneas. El primero: `var_dump(100 == "100", 100 === "100");` y `$iguales += (int) (100 === "100");`
+3. Repetí con los otros cinco pares: `"1e2"` y `"100"`, `"abc"` y `0`, `null` y `false`, `"0"` y `false`, `" 1"` y `1`.
+4. Al final: `echo "Pares realmente iguales: ", $iguales, "\n";`
+5. Tocá **Ejecutar**. Tiene que salir `0`.
 
 #### Código inicial
 ```php
@@ -1433,6 +1514,15 @@ Con los datos del barco *La Tortuga* (carga 950 kg, capacidad 1000, capitán
 **Para superarla:**
 - Usa `&&`, `||` y `!==` (para el `null`).
 - La decisión final sale de un ternario.
+
+#### Pasos
+1. Borrá el comentario. Los datos: `$carga = 950;`, `$capacidad = 1000;`, `$capitan = "Nilo";`, `$clima = "tormenta";` y `$tamano = "grande";`
+2. Las reglas: `$pesoOk = $carga <= $capacidad;` y `$tieneCapitan = $capitan !== null;`
+3. `$climaOk = $clima === "bueno" || $tamano === "grande";`
+4. Mostrá: `var_dump($pesoOk, $tieneCapitan, $climaOk);`
+5. `echo "Capitán: ", $capitan ?? "sin capitán", "\n";`
+6. La decisión: `echo $pesoOk && $tieneCapitan && $climaOk ? "Puede zarpar" : "Se queda en el muelle", "\n";`
+7. Tocá **Ejecutar**. Tiene que salir `Puede zarpar`.
 
 #### Código inicial
 ```php
@@ -1800,6 +1890,12 @@ Se pueden combinar, una adentro de otra: `ucwords(trim($x))` primero limpia y de
 #### Desafío
 Limpiá la dirección para que quede prolija.
 
+#### Pasos
+1. Buscá `echo "[" . $direccion . "]\n";`.
+2. Cambiá `$direccion` por `ucwords(trim($direccion))`.
+3. `trim` saca los espacios de los bordes y `ucwords` pone mayúscula a cada palabra.
+4. Tocá **Ejecutar**. Tiene que salir `[Muelle Tres, Casillero Doce]`.
+
 #### Código inicial
 ```php
 <?php
@@ -1848,6 +1944,12 @@ PHP tiene dos tipos de comillas, y no son iguales:
 
 #### Desafío
 Arreglá la etiqueta para que muestre el destino y el salto de línea.
+
+#### Pasos
+1. Buscá `echo 'Destino: $destino\n';`.
+2. Cambiá las comillas simples `'` por dobles `"`: solo las dobles reemplazan `$destino` y entienden `\n`.
+3. Queda: `echo "Destino: $destino\n";`
+4. Tocá **Ejecutar**. Tiene que salir `Destino: Valle de la Serpiente`.
 
 #### Código inicial
 ```php
@@ -1898,6 +2000,12 @@ Las funciones que empiezan con `mb_` cuentan letras de verdad: `mb_strlen("ñand
 
 #### Desafío
 Usá las funciones `mb_` para contar y pasar a mayúsculas.
+
+#### Pasos
+1. Cambiá `strlen` por `mb_strlen`.
+2. Cambiá `strtoupper` por `mb_strtoupper`.
+3. Las funciones `mb_` cuentan bien las letras con tilde y la ñ.
+4. Tocá **Ejecutar**. Tienen que salir `5` y `ÑANDÚ`.
 
 #### Código inicial
 ```php
@@ -1950,6 +2058,12 @@ Para mostrar plata prolija:
 
 #### Desafío
 Completá el recibo con el formato argentino.
+
+#### Pasos
+1. Cambiá la línea de `Envios` por `printf("Envios: %d\n", $envios);`
+2. Cambiá la línea de `Total` por `echo "Total: " . number_format($monto, 2, ',', '.') . " sellos\n";`
+3. `number_format` usa coma para los decimales y punto para los miles.
+4. Tocá **Ejecutar**. Tiene que salir `1.234,50 sellos`.
 
 #### Código inicial
 ```php
@@ -2021,6 +2135,15 @@ Armá la etiqueta:
 **Para superarla:**
 - Usa `trim`, `mb_strtolower`, `ucwords`, `str_replace`, `mb_strlen` y `str_repeat`.
 - El ancho del recuadro se calcula, no se escribe a mano.
+
+#### Pasos
+1. Borrá el comentario. Escribí `$remitente = "  nilo   de las FORJAS  ";` y `$destino = "  lía del valle  ";`
+2. Limpiá: `$remitente = ucwords(mb_strtolower(trim($remitente)));` y dos veces `$remitente = str_replace("  ", " ", $remitente);`
+3. `$destino = ucwords(mb_strtolower(trim($destino)));`
+4. Armá: `$de = "De: $remitente";`, `$para = "Para: $destino";` y `$ancho = max(mb_strlen($de), mb_strlen($para)) + 4;`
+5. Arriba y abajo: `echo str_repeat("*", $ancho), "\n";`
+6. En el medio: `echo "* ", $de, str_repeat(" ", $ancho - mb_strlen($de) - 4), " *\n";` y lo mismo con `$para`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -2105,6 +2228,15 @@ Mostrá:
 - Usa `trim` y `strtolower`, y encuentra el `@` con `strpos` o `explode`.
 - Los asteriscos se calculan con `str_repeat` y el largo del usuario.
 
+#### Pasos
+1. Borrá el comentario. Escribí `$mail = strtolower(trim("  Iara.Valdez@Puerto.COM.ar "));`
+2. Buscá el `@`: `$arroba = strpos($mail, "@");`
+3. Cortá: `$usuario = substr($mail, 0, $arroba);` y `$dominio = substr($mail, $arroba + 1);`
+4. Mostrá: `"Mail: $mail\n"`, `"Usuario: $usuario\n"` y `"Dominio: $dominio\n"`.
+5. `echo "¿Es de Argentina? ", str_ends_with($dominio, ".ar") ? "sí" : "no", "\n";`
+6. Oculto: `echo "Oculto: ", $usuario[0], str_repeat("*", strlen($usuario) - 1), "@", $dominio, "\n";`
+7. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```php
 <?php
@@ -2177,6 +2309,14 @@ el precio más caro escrito con `number_format` a la argentina.
 **Para superarla:**
 - Usa `printf` con anchos (`%-10s`, `%6.1f`, `%10.2f`).
 - El precio final usa `number_format` con coma decimal.
+
+#### Pasos
+1. Borrá el comentario. El título: `printf("%-10s%6s%10s\n", "Destino", "Kg", "Precio");`
+2. La raya: `echo str_repeat("-", 26), "\n";`
+3. Una fila por destino: `printf("%-10s%6.1f%10.2f\n", "Valle", 2.5, 1800);`
+4. Igual con `"Forjas", 10, 5250.5` e `"Imperio", 25, 12999.99`.
+5. Al final: `echo "El envío más caro: $", number_format(12999.99, 2, ',', '.'), "\n";`
+6. Tocá **Ejecutar** y compará columna por columna.
 
 #### Código inicial
 ```php
@@ -2538,6 +2678,11 @@ $nombre = trim(fgets(STDIN));
 #### Desafío
 Leé el nombre de la entrada y saludá a quien escribió.
 
+#### Pasos
+1. Buscá `$nombre = "cliente";`.
+2. Cambiá `"cliente"` por `trim(fgets(STDIN))`: lee lo que escribieron y saca el Enter.
+3. Tocá **Ejecutar**. Tiene que salir `Hola, Rosaura. Pase.`
+
 #### Código inicial
 ```php
 <?php
@@ -2591,6 +2736,13 @@ Si no lo es, avisá y no calcules nada.
 
 #### Desafío
 Validá el peso antes de calcular: si no es un número, mostrá «Peso invalido: escribilo con numeros.».
+
+#### Pasos
+1. Debajo de la línea que lee el peso, escribí `if (is_numeric($peso)) {`.
+2. Adentro del `if` quedan las dos líneas del cálculo y el `echo` de `A pagar`.
+3. Cerrá con `} else {` y adentro: `echo "Peso invalido: escribilo con numeros.\n";`
+4. Cerrá con `}`.
+5. Tocá **Ejecutar**. Con la entrada de prueba tiene que salir el aviso.
 
 #### Código inicial
 ```php
@@ -2655,6 +2807,12 @@ Para repartir las partes en variables de una vez:
 #### Desafío
 Separá el renglón en sus tres datos.
 
+#### Pasos
+1. Debajo de la línea que lee, escribí `[$nombre, $destino, $kilos] = explode(",", $renglon);`
+2. `explode` corta el texto en cada coma.
+3. Cambiá el `echo` de `Pedido` por tres: `"Cliente: $nombre\n"`, `"Destino: $destino\n"` y `"Kilos: $kilos\n"`.
+4. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```php
 <?php
@@ -2710,6 +2868,11 @@ Cortá el renglón con `explode(" ", ...)` (en cada espacio) y convertí cada pa
 
 #### Desafío
 Calculá la superficie del paquete.
+
+#### Pasos
+1. Debajo de la línea que lee, escribí `[$ancho, $alto] = explode(" ", $renglon);` (corta en el espacio).
+2. Cambiá `$superficie = 0;` por `$superficie = (float) $ancho * (float) $alto;`
+3. Tocá **Ejecutar**. Tiene que salir `Superficie: 9 m2`.
 
 #### Código inicial
 ```php
@@ -2777,6 +2940,14 @@ saluda. Leé los dos datos (limpiando espacios), y mostrá:
 
 **Para superarla:**
 - Lee con `fgets(STDIN)` y limpia con `trim`.
+
+#### Pasos
+1. Borrá el comentario. Pedí: `echo "Nombre: ";` y `$nombre = ucwords(strtolower(trim(fgets(STDIN))));`
+2. Pedí: `echo "Ciudad: ";` y `$ciudad = trim(fgets(STDIN));`
+3. `echo "\n";` y el saludo: `echo "Bienvenida, $nombre de $ciudad.\n";`
+4. Las letras: `echo "Tu nombre tiene ", mb_strlen($nombre), " letras.\n";`
+5. Al revés: `echo "Al revés: ", strtoupper(strrev($nombre)), "\n";`
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -2852,6 +3023,14 @@ Al final, mostrá el total con un decimal y cuántos pesos fueron inválidos.
 **Para superarla:**
 - Acepta coma y punto.
 - Los pesos inválidos se informan y no rompen el programa.
+
+#### Pasos
+1. Borrá el comentario. Escribí `$total = 0;` y `$invalidos = 0;`
+2. Para el primer paquete: `echo "Peso 1: ";` y `$texto = str_replace(",", ".", trim(fgets(STDIN)));`
+3. `if (is_numeric($texto)) {` → `$total += (float) $texto;` `} else {` → `echo "Peso inválido: «{$texto}»\n";` y `$invalidos++;` `}`
+4. Copiá los pasos 2 y 3 para `Peso 2: ` y `Peso 3: `.
+5. Al final: `printf("\nTotal: %.1f kg (%d inválido/s)\n", $total, $invalidos);`
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -3397,6 +3576,13 @@ PHP prueba **en orden** y entra solo en el primero que se cumple; `else` es para
 #### Desafío
 Completá las decisiones para que cada carga vaya a su camino.
 
+#### Pasos
+1. Borrá la línea `echo "A la torre\n";`. La vas a poner adentro del `else`.
+2. Escribí `if ($carga === "pescado") {` → `echo "A la izquierda\n";`
+3. `} elseif ($carga === "madera") {` → `echo "Al frente\n";`
+4. `} else {` → `echo "A la torre\n";` y cerrá con `}`.
+5. Tocá **Ejecutar**. Con la entrada de prueba tiene que salir `A la izquierda`.
+
 #### Código inicial
 ```php
 <?php
@@ -3452,6 +3638,12 @@ Antes de calcular, revisá que los datos sirvan. Primero los casos inválidos, c
 
 #### Desafío
 Agregá la guardia: «Peso imposible.» si el peso es menor o igual a 0 o mayor a 1000.
+
+#### Pasos
+1. Debajo de la línea que lee el peso, escribí `if ($peso <= 0 || $peso > 1000) {` → `echo "Peso imposible.\n";`
+2. `} else {` y adentro el `echo` de `Carro aceptado` que ya estaba.
+3. Cerrá con `}`.
+4. Tocá **Ejecutar**. Con la entrada de prueba tiene que salir `Peso imposible.`
 
 #### Código inicial
 ```php
@@ -3517,6 +3709,13 @@ Compara con `===` y devuelve el valor del primer caso que coincide. Si ninguno c
 #### Desafío
 Completá el `match` para cada barco: velero y bote a la dársena 1, remolcador a la 2, carguero a la 3 y cualquier otro a «revision».
 
+#### Pasos
+1. Adentro del `match`, arriba de `default`, agregá tres renglones.
+2. `"velero", "bote" => "1",`
+3. `"remolcador" => "2",`
+4. `"carguero" => "3",` (cada renglón termina con coma).
+5. Tocá **Ejecutar**. Tiene que salir `Darsena: 2`.
+
 #### Código inicial
 ```php
 <?php
@@ -3579,6 +3778,12 @@ Si un caso no tiene `break`, sigue de largo y ejecuta también el de abajo. Fija
 
 #### Desafío
 Agregá los `break` que faltan para que cada caso haga solo lo suyo.
+
+#### Pasos
+1. Debajo de `echo "Al frente\n";` agregá `break;`
+2. Debajo de `echo "A la izquierda\n";` agregá `break;`
+3. El `default` es el último: no necesita `break`.
+4. Tocá **Ejecutar**. Tiene que salir solo `Al frente`.
 
 #### Código inicial
 ```php
@@ -3658,6 +3863,15 @@ precio final.
 **Para superarla:**
 - Usa `if`/`elseif`/`else` o `match (true)` para la tarifa.
 - Valida la edad con una cláusula de guarda.
+
+#### Pasos
+1. Borrá el comentario. Pedí la edad: `echo "Edad: ";` y `$edad = filter_var(trim(fgets(STDIN)), FILTER_VALIDATE_INT, ['options' => ['min_range' => 0, 'max_range' => 120]]);`
+2. Pedí: `echo "¿Estudiante? (si/no): ";`, `$estudiante = strtolower(trim(fgets(STDIN))) === "si";` y `echo "\n";`
+3. La guarda: `if ($edad === false) {` → `echo "Edad inválida.\n";` y `exit(1);` `}`
+4. La tarifa: `if ($edad < 3)` bebé, 0; `elseif ($edad <= 12)` niño, 2500; `elseif ($edad <= 64)` adulto, 5000; `else` jubilado, 2500. Guardá `$categoria` y `$tarifa` en cada caso.
+5. Si es estudiante: `$tarifa *= 0.8;`
+6. Mostrá: `echo "Categoría: $categoria", $estudiante ? " (estudiante)" : "", "\n";` y `echo "Pasaje: $", number_format($tarifa, 2, ',', '.'), "\n";`
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -3767,6 +3981,14 @@ reduce, 0 en cualquier otro caso.
 - Usa `match` con varios valores en una rama (`"azul", "violeta" =>`).
 - Tiene un `default`.
 
+#### Pasos
+1. Borrá el comentario. Pedí: `echo "Color: ";`, `$color = strtolower(trim(fgets(STDIN)));` y `echo "\n";`
+2. `$accion = match ($color) {` con `"verde" => "Avanzar",`, `"amarillo" => "Reducir la velocidad",`, `"rojo" => "Detenerse",`
+3. `"azul", "violeta" => "Ceder el paso a la guardia",` y `default => "Semáforo roto: llamar al capitán del puerto",` y cerrá con `};`
+4. `$velocidad = match (true) {` con `$accion === "Avanzar" => 20,`, `$accion === "Reducir la velocidad" => 5,` y `default => 0,` y `};`
+5. Mostrá: `echo "Acción: $accion\n";` y `echo "Velocidad máxima: $velocidad nudos\n";`
+6. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```php
 <?php
@@ -3853,6 +4075,14 @@ la regla como **una sola** condición con `&&`, `||` y `%`.
 **Para superarla:**
 - La regla es una sola expresión con `%`, `&&` y `||`.
 - Para 1900, 2000 y 2028 da los resultados correctos.
+
+#### Pasos
+1. Borrá el comentario. Escribí `for ($i = 1; $i <= 3; $i++) {`
+2. Adentro: `$anio = (int) trim(fgets(STDIN));`
+3. La regla: `$bisiesto = ($anio % 4 === 0 && $anio % 100 !== 0) || $anio % 400 === 0;`
+4. `$dias = $bisiesto ? 366 : 365;`
+5. Mostrá: `echo $anio, ": ", $bisiesto ? "bisiesto" : "común", " ($dias días)\n";` y cerrá el `for`.
+6. Tocá **Ejecutar**. Tienen que salir 1900 común, 2000 y 2028 bisiestos.
 
 #### Código inicial
 ```php
@@ -4310,6 +4540,11 @@ Adentro, algo tiene que cambiar para que la condición alguna vez deje de cumpli
 #### Desafío
 Hacé que el bucle termine cuando no quedan cajones.
 
+#### Pasos
+1. Adentro del `while`, arriba del `echo`, agregá `$cajones--;` (resta 1).
+2. Sin esto, `$cajones` siempre vale 4 y el bucle no termina nunca.
+3. Tocá **Ejecutar**. Tiene que terminar en `Barco vacio.`
+
 #### Código inicial
 ```php
 <?php
@@ -4372,6 +4607,12 @@ Tiene tres partes: el **arranque** (`$i = 1`), la **condición** (`$i <= 3`, se 
 #### Desafío
 Reemplazá los `echo` sueltos por un `for` que numere los cinco barcos.
 
+#### Pasos
+1. Borrá los cuatro `echo` (fijate que falta el barco 4).
+2. Escribí `for ($i = 1; $i <= 5; $i++) {`
+3. Adentro: `echo "Barco $i: amarre listo\n";` y cerrá con `}`.
+4. Tocá **Ejecutar**. Tienen que salir los cinco barcos.
+
 #### Código inicial
 ```php
 <?php
@@ -4429,6 +4670,12 @@ En cada vuelta, `$cajon` es el elemento que toca. Adentro, `continue;` saltea lo
 
 #### Desafío
 Salteá los cajones rotos y sumá solo los kilos de los sanos.
+
+#### Pasos
+1. Adentro del `foreach`, arriba del `echo`, escribí `if ($kilos === "roto") {` → `continue;` `}`
+2. `continue` saltea el resto y sigue con el próximo cajón.
+3. En la suma, sacá el `(int)`: queda `$total += $kilos;`
+4. Tocá **Ejecutar**. Tiene que salir `Total: 45 kg`.
 
 #### Código inicial
 ```php
@@ -4499,6 +4746,12 @@ Los paréntesis de adentro guardan el renglón en `$linea` y, a la vez, pregunta
 
 #### Desafío
 Leé todos los pesos, mostralos y sumalos.
+
+#### Pasos
+1. Cambiá la línea `$renglon = fgets(STDIN);` por `while (($renglon = fgets(STDIN)) !== false) {`
+2. Las tres líneas de abajo (`$peso`, `echo` y `$total +=`) quedan adentro del `while`.
+3. Cerrá el `while` con `}` antes del `echo` del total.
+4. Tocá **Ejecutar**. Tiene que salir `Total: 49 kg`.
 
 #### Código inicial
 ```php
@@ -4574,6 +4827,14 @@ mostrá cuántos cajones se pueden cargar como máximo sin pasar los 250 kg.
 **Para superarla:**
 - Usa `for` de 1 a 10.
 - Cuenta los renglones que no exceden con un contador.
+
+#### Pasos
+1. Borrá el comentario. Pedí: `echo "Peso de un cajón (kg): ";`, `$peso = (float) trim(fgets(STDIN));` y `echo "\n";`
+2. `$maximo = 0;` y `for ($i = 1; $i <= 10; $i++) {`
+3. Adentro: `$total = $i * $peso;` y `printf("%2d cajón/es: %7.1f kg%s\n", $i, $total, $total > 250 ? " <- excede" : "");`
+4. Si `$total <= 250`: `$maximo++;`
+5. Al final: `echo "Máximo sin pasar 250 kg: $maximo cajón/es\n";`
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -4657,6 +4918,15 @@ logró.
 **Para superarla:**
 - Usa `do-while` con un contador de intentos.
 - Corta a los 3 intentos.
+
+#### Pasos
+1. Borrá el comentario. Escribí `const CLAVE = "ancla";`, `const MAX_INTENTOS = 3;` y `$intentos = 0;`
+2. `do {` → `echo "Clave: ";`, `$clave = trim(fgets(STDIN));`, `$intentos++;` y `$correcta = $clave === CLAVE;`
+3. Si `!$correcta && $intentos < MAX_INTENTOS`: `echo "Incorrecta. Te quedan ", MAX_INTENTOS - $intentos, " intento/s.\n";`
+4. Cerrá: `} while (!$correcta && $intentos < MAX_INTENTOS);`
+5. Si `!$correcta`: `echo "Almacén bloqueado.\n";` y `exit(1);`
+6. Si no: `echo "Adelante. Acertaste en el intento $intentos.\n";`
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -4745,6 +5015,15 @@ el total de pasajeros, el promedio (dos decimales) y el barco con más pasajeros
 - Lee con `while (($linea = fgets(STDIN)) !== false)`.
 - Usa `continue` para los vacíos y `break` para `FIN`.
 - Calcula total, promedio y máximo con acumuladores.
+
+#### Pasos
+1. Borrá el comentario. Escribí `$barcos = 0;`, `$pasajeros = 0;`, `$mayor = "";` y `$maxPasajeros = -1;`
+2. `while (($linea = fgets(STDIN)) !== false) {` → `$linea = trim($linea);`
+3. Si `$linea === ""`: `continue;`. Si `$linea === "FIN"`: `break;`
+4. `[$nombre, $cantidad] = explode(";", $linea);`, `$cantidad = (int) $cantidad;` y `echo "Llegó $nombre con $cantidad pasajeros\n";`
+5. Sumá: `$barcos++;`, `$pasajeros += $cantidad;` y, si `$cantidad > $maxPasajeros`, guardá el número y el nombre.
+6. Al final: `"Barcos: $barcos\n"`, `"Pasajeros: $pasajeros\n"`, `printf("Promedio: %.2f\n", $barcos > 0 ? $pasajeros / $barcos : 0);` y `"El más lleno: $mayor ($maxPasajeros)\n"`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -5174,6 +5453,12 @@ Si pedís una clave que no está, PHP muestra un aviso. Para usar 0 cuando falta
 #### Desafío
 Leé el stock sin que aparezca el orco: lo que no está, cuenta como 0.
 
+#### Pasos
+1. En las dos líneas `echo`, cambiá `$stock['harina']` por `($stock['harina'] ?? 0)`.
+2. Lo mismo con la sal: `($stock['sal'] ?? 0)`.
+3. `?? 0` da 0 cuando la clave no existe.
+4. Tocá **Ejecutar**. Tiene que salir `Sal: 0`.
+
 #### Código inicial
 ```php
 <?php
@@ -5232,6 +5517,12 @@ Pasa por cada par, sin olvidarse de ninguno.
 #### Desafío
 Mostrá el inventario entero con un `foreach`.
 
+#### Pasos
+1. Borrá los dos `echo` escritos a mano.
+2. Escribí `foreach ($stock as $producto => $cantidad) {`
+3. Adentro: `echo "$producto: $cantidad\n";` y cerrá con `}`.
+4. Tocá **Ejecutar**. Tienen que salir los tres productos.
+
 #### Código inicial
 ```php
 <?php
@@ -5283,6 +5574,11 @@ Un `if` adentro del bucle elige cuáles mostrar.
 
 #### Desafío
 Mostrá solo los barcos de más de 500 kilos.
+
+#### Pasos
+1. Adentro del `foreach`, rodeá el `echo` con `if ($b['kilos'] > 500) {` … `}`.
+2. Cambiá el `echo` por `echo $b['nombre'] . ": " . $b['kilos'] . " kg\n";`
+3. Tocá **Ejecutar**. Tienen que salir Albatros y Tortuga.
 
 #### Código inicial
 ```php
@@ -5352,6 +5648,13 @@ Funciones para resumir una lista:
 
 #### Desafío
 Completá el resumen.
+
+#### Pasos
+1. Cambiá cada `?` por una función. Cajones: `" . count($pesos) . "`
+2. Total: `array_sum($pesos)`. El más pesado: `max($pesos)`.
+3. Antes del último `echo`, agregá `sort($pesos);`
+4. Ordenados: `implode(", ", $pesos)`.
+5. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -5424,6 +5727,14 @@ La bodega tiene este stock: `harina` 40, `sal` 12, `yerba` 25, `aceite` 7,
 **Para superarla:**
 - Usa un array asociativo y `ksort`/`arsort`.
 - Calcula el máximo y el total con funciones de arrays.
+
+#### Pasos
+1. Borrá el comentario. Escribí `$stock = ["harina" => 40, "sal" => 12, "yerba" => 25, "aceite" => 7, "azúcar" => 18];`
+2. Ordená por nombre: `ksort($stock);`, `echo "Inventario:\n";` y un `foreach` que muestre `"  $producto: $cantidad\n"`.
+3. El camión: otro `foreach ($stock as $producto => $cantidad)`; si `$cantidad < 15`, `$stock[$producto] += 30;`
+4. Ordená de mayor a menor: `arsort($stock);`, `echo "Después del camión:\n";` y el mismo `foreach` para mostrar.
+5. Al final: `echo "Más stock: ", array_key_first($stock), " (", max($stock), ")\n";` y `echo "Total: ", array_sum($stock), "\n";`
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -5530,6 +5841,15 @@ fila. Después:
 - Guarda los datos en una lista de arrays asociativos.
 - Ordena con `usort` y `<=>`, y filtra con `array_filter`.
 
+#### Pasos
+1. Borrá el comentario. Armá `$alumnos = [ ... ];` con una fila por alumno: `["nombre" => "Iara", "notas" => [8, 9, 7]],` y así Nilo, Ivo y Olmo.
+2. El promedio: `foreach ($alumnos as $i => $alumno) {` → `$alumnos[$i]["promedio"] = array_sum($alumno["notas"]) / count($alumno["notas"]);`
+3. Ordená: `usort($alumnos, fn($a, $b) => $b["promedio"] <=> $a["promedio"]);`
+4. Mostrá: `foreach ($alumnos as $a)` → `printf("%-5s %4.1f %s\n", $a["nombre"], $a["promedio"], $a["promedio"] >= 6 ? "aprobado" : "a recuperar");`
+5. Los que desaprobaron: `$desaprobados = array_filter($alumnos, fn($a) => $a["promedio"] < 6);`
+6. `echo "A recuperar: ", implode(", ", array_column($desaprobados, "nombre")), "\n";`
+7. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```php
 <?php
@@ -5614,6 +5934,15 @@ palabras de menos de 3 letras. Mostrá las **5** más frecuentes (con `arsort` y
 **Para superarla:**
 - Cuenta con un array asociativo (`$cuenta[$palabra] = ($cuenta[$palabra] ?? 0) + 1`).
 - Usa `arsort` y `array_slice` para las 5 primeras.
+
+#### Pasos
+1. Borrá el comentario. Escribí `$signos = [".", ",", "¡", "!", "¿", "?"];` y `$cuenta = [];`
+2. `while (($linea = fgets(STDIN)) !== false) {` → `$limpia = str_replace($signos, "", mb_strtolower(trim($linea)));`
+3. `foreach (explode(" ", $limpia) as $palabra) {` → si `mb_strlen($palabra) < 3`, `continue;`
+4. Contá: `$cuenta[$palabra] = ($cuenta[$palabra] ?? 0) + 1;`
+5. Después del `while`: `arsort($cuenta);`
+6. Mostrá las 5 primeras: `foreach (array_slice($cuenta, 0, 5) as $palabra => $veces)` → `echo "$palabra: $veces\n";`
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -6101,6 +6430,11 @@ Recibe datos entre paréntesis (los **parámetros**) y **devuelve** un resultado
 #### Desafío
 Escribí la función `tarifa` y usala para los tres barcos.
 
+#### Pasos
+1. Cambiá el comentario por la función. Primera línea: `function tarifa(float $kilos): float`
+2. Abajo, `{`, adentro `return $kilos * 3 + 10;` y cerrá con `}`.
+3. Tocá **Ejecutar**. Tienen que salir 70, 460 y 22.
+
 #### Código inicial
 ```php
 <?php
@@ -6159,6 +6493,11 @@ Lo que llega como texto se convierte **a propósito**, a la vista, antes de pasa
 
 #### Desafío
 Arreglá la llamada para que la oficina reciba un número.
+
+#### Pasos
+1. Buscá `tarifa($pedido)` en la última línea.
+2. Cambialo por `tarifa((int) $pedido)`: convierte el texto a número antes de pasarlo.
+3. Tocá **Ejecutar**. Tiene que salir `A pagar: 70`.
 
 #### Código inicial
 ```php
@@ -6227,6 +6566,13 @@ function saludar(string $nombre, bool $gritando = false) { ... }
 #### Desafío
 Escribí una sola función `tarifa` con `$urgente` opcional.
 
+#### Pasos
+1. Borrá la función `tarifaUrgente` entera.
+2. Cambiá la primera línea de `tarifa` por `function tarifa(int $kilos, bool $urgente = false): int`
+3. Adentro: `$precio = $kilos * 3 + 10;` y `return $urgente ? $precio * 2 : $precio;`
+4. En el último `echo`, cambiá `tarifaUrgente(10)` por `tarifa(10, urgente: true)`.
+5. Tocá **Ejecutar**. Tienen que salir 40 y 80.
+
 #### Código inicial
 ```php
 <?php
@@ -6292,6 +6638,12 @@ Acá, `abrir($n)` muestra que abre la caja `$n` y, si `$n` es mayor que 1, se ll
 
 #### Desafío
 Completá la función recursiva.
+
+#### Pasos
+1. Adentro de `abrir`, debajo del `echo`, agregá: `if ($n > 1) {`
+2. Adentro del `if`: `abrir($n - 1);` (la función se llama a sí misma con una caja menos).
+3. Cerrá el `if` con `}`.
+4. Tocá **Ejecutar**. Tienen que salir las cajas 3, 2 y 1.
 
 #### Código inicial
 ```php
@@ -6378,6 +6730,15 @@ Mostrá el resultado de llamar a cada una con los datos del ejemplo.
 **Para superarla:**
 - Las cinco funciones tienen tipos y `return` (no hacen `echo` adentro).
 - Usa un valor por defecto y un parámetro variádico.
+
+#### Pasos
+1. Borrá el comentario. Primera función: `function areaRectangulo(float $ancho, float $alto): float { return $ancho * $alto; }`
+2. `function precioFinal(float $precio, float $descuento = 0): float { return $precio * (1 - $descuento / 100); }`
+3. `function esPar(int $n): bool { return $n % 2 === 0; }`
+4. `iniciales(string $nombreCompleto): string`: `$resultado = "";`, `foreach (explode(" ", trim($nombreCompleto)) as $parte)`; si `$parte !== ""`, sumale `mb_strtoupper(mb_substr($parte, 0, 1)) . "."`. Devolvé `$resultado`.
+5. `function promedio(float ...$numeros): float { return count($numeros) === 0 ? 0 : array_sum($numeros) / count($numeros); }`
+6. Mostrá cada una con un `echo`, en el orden y con los textos de la salida esperada (por ejemplo `echo "Área: ", areaRectangulo(4.5, 2), "\n";`).
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -6496,6 +6857,15 @@ Mostrá tres cambios del ejemplo y un intento con una moneda que no existe
 - `convertir` reusa `aPesos`.
 - Ninguna función hace `echo` salvo el programa principal.
 
+#### Pasos
+1. Borrá el comentario. La constante: `const COTIZACIONES = ["denario" => 1250.0, "lingote" => 3400.0, "escama" => 820.0, "engranaje" => 2100.0];`
+2. `aPesos(float $cantidad, string $moneda): float`: si `!isset(COTIZACIONES[$moneda])`, devolvé `-1`; si no, `$cantidad * COTIZACIONES[$moneda]`.
+3. `convertir(float $cantidad, string $de, string $a): float`: `$pesos = aPesos($cantidad, $de);`; si `$pesos < 0` o no existe `$a`, `-1`; si no, `round($pesos / COTIZACIONES[$a], 2)`.
+4. `nombreMoneda(string $moneda, float $cantidad): string`: devuelve la moneda, con `"s"` si la cantidad no es 1.
+5. `mostrarCambio(...)`: si `convertir` da menos de 0, devolvé `"Moneda desconocida: ..."` con la que falta; si no, arma `number_format($cantidad, 0, ',', '.') . " " . nombreMoneda(...) . " = " . number_format($resultado, 2, ',', '.') . " " . nombreMoneda(...)`.
+6. Mostrá: `echo mostrarCambio(10, "denario", "lingote"), "\n";`, y lo mismo con `(1, "lingote", "escama")`, `(250, "escama", "engranaje")` y `(5, "perla", "denario")`.
+7. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```php
 <?php
@@ -6601,6 +6971,14 @@ manera, para 2 hay 2, y para `n` es la suma de las maneras para `n - 1` y para
 **Para superarla:**
 - `maneras` es recursiva, con los casos base.
 - `manerasRapido` usa un array `static` como memoria.
+
+#### Pasos
+1. Borrá el comentario. `function maneras(int $n): int`: si `$n <= 2`, devolvé `$n`; si no, `return maneras($n - 1) + maneras($n - 2);`
+2. `function manerasRapido(int $n): int`: primera línea adentro, `static $memoria = [];`
+3. Si `$n <= 2`, devolvé `$n`. Si `!isset($memoria[$n])`, guardá `$memoria[$n] = manerasRapido($n - 1) + manerasRapido($n - 2);`. Devolvé `$memoria[$n]`.
+4. Mostrá: `foreach ([1, 2, 3, 10, 20] as $escalones)` → `printf("%2d escalones: %d / %d\n", $escalones, maneras($escalones), manerasRapido($escalones));`
+5. Y: `echo "80 escalones: ", manerasRapido(80), "\n";`
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -7078,6 +7456,12 @@ Arriba, `file_put_contents('tarifas.php', …)` crea el archivo de prueba, escri
 #### Desafío
 Traé el tomo de las tarifas con `require` y usalo.
 
+#### Pasos
+1. Buscá `$tarifas = [];`.
+2. Cambiá `[]` por `require 'tarifas.php'`. Queda: `$tarifas = require 'tarifas.php';`
+3. `require` trae lo que devuelve el otro archivo.
+4. Tocá **Ejecutar**. Tienen que salir 3 y 6.
+
 #### Código inicial
 ```php
 <?php
@@ -7133,6 +7517,11 @@ Si un archivo se trae dos veces con `require`, se carga dos veces (y si define f
 #### Desafío
 Hacé que el tomo se cargue una sola vez.
 
+#### Pasos
+1. Hay dos líneas `require 'etiquetas.php';`.
+2. Cambiá las dos por `require_once 'etiquetas.php';` (carga el archivo una sola vez).
+3. Tocá **Ejecutar**. Tiene que salir `[FARO]`.
+
 #### Código inicial
 ```php
 <?php
@@ -7185,6 +7574,11 @@ Comparalo exacto, con `=== false`, para contar solo las que de verdad no se entr
 
 #### Desafío
 Arreglá el dato para que el programa encuentre la carta pendiente y muestre para quién es.
+
+#### Pasos
+1. En la tercera carta, cambiá `'entregada' => 0` por `'entregada' => false`. El `===` compara también el tipo: `0` no es `false`.
+2. Adentro del `if`, debajo de `$pendientes++;`, agregá `echo "Sin entregar: para " . $c['para'] . "\n";`
+3. Tocá **Ejecutar**. Tiene que salir `Sin entregar: para quien llegue`.
 
 #### Código inicial
 ```php
@@ -7265,6 +7659,13 @@ estaba mal.
 **Para superarla:**
 - Corrige los cuatro errores sin cambiar los textos.
 - Cada corrección tiene un comentario que explica qué estaba mal.
+
+#### Pasos
+1. En el `foreach`, cambiá `$total = $carga;` por `$total += $carga;` (sumar, no pisar). Arriba, un comentario `//` que lo explique.
+2. En el `return`, cambiá `count($carga)` por `count($cargas)` (con s: el array entero). Con su comentario.
+3. En el primer `echo`, la función se llama `promedioDeCargas` (con s). Corregila y rodeala con `round(..., 2)`: `round(promedioDeCargas($barcos), 2)`. Con su comentario.
+4. En el último `echo`, cambiá `"albatros"` por `"Albatros"`: las claves distinguen mayúsculas. Con su comentario.
+5. Tocá **Ejecutar**. Tienen que salir `576.67 kg` y `1200 kg`.
 
 #### Código inicial
 ```php

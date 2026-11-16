@@ -281,6 +281,11 @@ Tocá **Ejecutar**: PHP corre acá mismo, en tu navegador (la primera vez lo baj
 #### Desafío
 Completá la instrucción para que Nilo conteste.
 
+#### Pasos
+1. Buscá el `___` en la segunda línea.
+2. Cambialo por `echo` (muestra el texto).
+3. Tocá **Ejecutar**. Tiene que salir `Si, aca estamos.`
+
 #### Código inicial
 ```php
 <?php
@@ -326,6 +331,11 @@ En PHP, cada instrucción termina con punto y coma `;`, como el punto al final d
 
 #### Desafío
 Encontrá lo que falta para que el programa ande.
+
+#### Pasos
+1. Buscá `echo "Escalon 1: listo\n"`.
+2. Le falta el `;` al final. Agregalo después de la comilla.
+3. Tocá **Ejecutar**. Tienen que salir los dos escalones.
 
 #### Código inicial
 ```php
@@ -380,6 +390,11 @@ echo "Hola\n"; // esto es una nota
 #### Desafío
 Convertí la nota en un comentario para que el programa ande y muestre solo el recorrido.
 
+#### Pasos
+1. Buscá la línea `Pase por el faro y despues por el sendero`.
+2. Escribí `//` al principio: así PHP la ignora.
+3. Tocá **Ejecutar**. Tienen que salir Faro, Sendero y Puerto.
+
 #### Código inicial
 ```php
 <?php
@@ -430,6 +445,12 @@ Si no le decís que baje de línea, `echo` sigue escribiendo en el mismo rengló
 
 #### Desafío
 Hacé que salgan tres renglones separados.
+
+#### Pasos
+1. Los dos primeros `echo` no tienen `\n` al final del texto.
+2. En `"Nilo"`, agregá `\n` antes de la comilla de cierre: `"Nilo\n"`.
+3. Lo mismo en `"Mensajero"`: `"Mensajero\n"`.
+4. Tocá **Ejecutar**. Tienen que salir tres renglones.
 
 #### Código inicial
 ```php
@@ -498,6 +519,14 @@ exactamente así:
 - Empieza con `<?php` y cada instrucción termina en `;`.
 - Usa `\"` para las comillas y `\n` para los saltos de línea.
 
+#### Pasos
+1. Borrá el comentario. Un `echo "...\n";` por renglón.
+2. El primero: `echo "==== AVISO DE LLEGADA ====\n";`
+3. Tres datos: `"Barco: La Gaviota\n"`, `"Viene de: el Valle de la Serpiente\n"` y `"Trae: cartas y especias\n"`.
+4. La línea vacía: `echo "\n";`
+5. El sello: `echo "Sello: \"PUEDE AMARRAR\"\n";` (las comillas de adentro llevan `\`).
+6. Tocá **Ejecutar** y compará renglón por renglón.
+
 #### Código inicial
 ```php
 <?php
@@ -565,6 +594,13 @@ cambies los textos.
 **Para superarla:**
 - Se ejecuta sin errores.
 
+#### Pasos
+1. Arriba de todo, agregá una línea con `<?php`.
+2. En `echo "La carta dice:\n"` falta el `;` al final. Agregalo.
+3. En la tercera línea, el texto abre con `'` y cierra con `"`. Cambiá la `'` por `"`.
+4. Cambiá `Echo` por `echo`, en minúscula (anda igual, pero se escribe así).
+5. Tocá **Ejecutar** después de cada arreglo. Al final tienen que salir las cuatro líneas.
+
 #### Código inicial
 ```php
 echo "La carta dice:\n"
@@ -627,6 +663,13 @@ dentro del programa: un guiso (1200) más un pan (300) más un mate cocido (450)
 **Para superarla:**
 - El menú sale de un único `echo` con `\n`.
 - El total se calcula con `+`, no se escribe a mano.
+
+#### Pasos
+1. Borrá el comentario. Escribí un solo `echo "...";` con todo el menú.
+2. Adentro, los renglones pegados con `\n`: `FONDA LA TROMPA ALEGRE\n----------------------\nGuiso ........ 1200\n...` y terminá con `\n`.
+3. Copiá los puntos y espacios de la salida esperada.
+4. El total: `echo "Total: ", 1200 + 300 + 450, "\n";`
+5. Tocá **Ejecutar**. Tiene que salir `Total: 1950`.
 
 #### Código inicial
 ```php

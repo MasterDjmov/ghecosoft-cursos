@@ -298,6 +298,11 @@ Lo que está en `try` se intenta; si algo tira una alarma, el programa salta al 
 #### Desafío
 Atrapá la alarma para que el Taller siga andando.
 
+#### Pasos
+1. Envolvé los dos `std::cout` del reparto en un `try { ... }`.
+2. Después: `catch (const std::exception& e) { std::cout << "Alarma: " << e.what() << "\n"; }`.
+3. Tocá **Ejecutar**. Tiene que salir `El Taller sigue andando`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -380,6 +385,12 @@ Los `catch` se prueban **en orden**. Si el de `std::exception` va primero, se qu
 
 #### Desafío
 Ordená los `catch`.
+
+#### Pasos
+1. El `catch` general atrapa todo antes que el específico.
+2. Poné primero `catch (const std::out_of_range&)` con `"no existe esa pieza"`.
+3. Y después `catch (const std::exception&)` con `"falla general"`.
+4. Tocá **Ejecutar**. Tiene que salir `Pieza 7: no existe esa pieza`.
 
 #### Código inicial
 ```cpp
@@ -467,6 +478,11 @@ La línea de `using` le presta el constructor de la base (el que recibe el mensa
 
 #### Desafío
 Tirá la falla con su propio tipo.
+
+#### Pasos
+1. El `throw` usa un error genérico.
+2. Cambialo por `throw FallaDeAndamio("se rompio el tablon " + std::to_string(piso));`.
+3. Tocá **Ejecutar**. Tiene que salir `La red ataja a Bron: se rompio el tablon 3`.
 
 #### Código inicial
 ```cpp
@@ -581,6 +597,13 @@ sobra.
 - Detecta los sobrantes y lanza con un mensaje claro.
 - Un error no corta la suma.
 
+#### Pasos
+1. `int a_entero(const std::string& s)`: `std::size_t usados = 0;` y, dentro de un `try`, `n = std::stoi(s, &usados);`.
+2. `catch (const std::invalid_argument&)` → `throw std::invalid_argument("no es un número");`.
+3. Si `usados != s.size()`: `throw std::invalid_argument("sobran caracteres: \"" + s.substr(usados) + "\"");`. Si no, `return n;`.
+4. En `main`: por cada palabra, un `try` con `suma += a_entero(palabra);`. `catch (const std::out_of_range&)` → `": no entra en un int"`. `catch (const std::invalid_argument& e)` → `e.what()`. Contá los errores.
+5. Al final: `"Suma: " << suma << " (" << errores << " errores)"`. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -684,6 +707,14 @@ cantidad`. Atrapá `SinStock` (mostrando sus datos) y después `std::exception`.
 **Para superarla:**
 - Los `catch` van del más específico al más general.
 - La excepción propia lleva los datos del error.
+
+#### Pasos
+1. `class SinStock : public std::runtime_error` con `SinStock(producto, pedido, hay) : std::runtime_error("no alcanza el stock de " + producto), pedido_(pedido), hay_(hay) {}` y sus getters.
+2. `class Deposito` con `std::map<std::string, int> stock_`, `cargar(p, n)` y `cuanto(p)`.
+3. `sacar(p, n)`: si `n <= 0`, `std::invalid_argument("la cantidad tiene que ser positiva")`. Si no existe, `std::out_of_range("no existe el producto " + p)`. Si no alcanza, `throw SinStock(p, n, it->second);`. Si no, restá.
+4. En `main`: cargá 10 engranajes y 4 resortes. Por cada pedido, un `try` con `sacar` y `"Salen ... (quedan ...)"`.
+5. `catch (const SinStock& e)` → `e.what() << ": pidieron " << e.pedido() << ", hay " << e.hay()`. Después `catch (const std::exception& e)` → `"Error: " << e.what()`.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -823,6 +854,14 @@ anotá qué líneas esperás ver en el segundo caso y en qué orden.
 
 **Para superarla:**
 - Solo `main` tiene `try`/`catch`.
+
+#### Pasos
+1. `struct Registro` con `nombre`, un constructor que muestra `"  entra a "` y un destructor que muestra `"  sale de "`.
+2. `int dividir(a, b)`: `Registro r("dividir");` y, si `b == 0`, `throw std::domain_error("división por cero");`.
+3. `int promedio(v)`: `Registro r("promedio");`, sumá y `return dividir(suma, static_cast<int>(v.size()));`.
+4. `void informe(v)`: `Registro r("informe");`, el promedio y los dos `std::cout` de la salida.
+5. En `main`: para `{4, 8, 6}` y para un vector vacío, `"Con " << datos.size() << " datos:"` y un `try` con `informe(datos)`. En el `catch (const std::domain_error& e)`, `"  main atrapa: "`.
+6. Antes de ejecutar, anotá el orden que esperás. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -1323,6 +1362,11 @@ Cuando un `assert` salta, casi nunca está mal el `assert`: está mal **quien ll
 #### Desafío
 Corregí la llamada para que la suposición se cumpla.
 
+#### Pasos
+1. Se pide promediar 5 pasos y hay 4.
+2. Cambiá el `5` por `pasos.size()`.
+3. Tocá **Ejecutar**. Tiene que salir `Promedio: 5.5`.
+
 #### Código inicial
 ```cpp
 #include <cassert>
@@ -1412,6 +1456,11 @@ Si la lectura falla, el bucle termina antes de usar el dato.
 #### Desafío
 Leé en la condición del bucle.
 
+#### Pasos
+1. `eof()` se entera tarde y el bucle lee una vez de más.
+2. Cambiá el `while` por `while (std::cin >> paso)` y borrá el `std::cin >> paso;` de adentro.
+3. Tocá **Ejecutar**. Tiene que salir `Lecturas: 3, suma: 15`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -1486,6 +1535,11 @@ Adentro del bucle no declares otra: usá la de afuera.
 
 #### Desafío
 Sacá la variable que tapa a la otra.
+
+#### Pasos
+1. Dentro del `for`, `int total = 0;` crea otra variable que tapa la de afuera.
+2. Borrá ese renglón.
+3. Tocá **Ejecutar**. Tiene que salir `Engranajes: 49`.
 
 #### Código inicial
 ```cpp
@@ -1587,6 +1641,12 @@ muestra cuántos quedan, el total y el más caro.
 - Corrige los tres bugs (sin inicializar, uno de más, parámetro por valor).
 - Deja un comentario explicando cada uno.
 - Compila sin advertencias y sin errores del sanitizador.
+
+#### Pasos
+1. Bug 1: en `total`, `double t;` no tiene valor inicial. Cambialo por `double t = 0;` y dejá un comentario.
+2. Bug 2: en `mas_caro`, el `for` va hasta `<= items.size()` y lee uno de más. Cambialo por `<` y dejá un comentario.
+3. Bug 3: `quitar_sin_stock` recibe el vector por valor y borra en una copia. Cambialo por `std::vector<Item>& items` y dejá un comentario.
+4. Tocá **Ejecutar**. Tiene que salir `Ítems: 3`.
 
 #### Código inicial
 ```cpp
@@ -1751,6 +1811,13 @@ detener el programa.
 - Los `assert` verifican suposiciones del programador, no la entrada.
 - La entrada inválida se informa sin cortar el programa.
 
+#### Pasos
+1. `std::string en_letras(int nota)`: `assert(nota >= 1 && nota <= 10 && "la nota tiene que estar entre 1 y 10");` y devolvé el nombre de un vector de `"uno"` a `"diez"`.
+2. `std::vector<int> repartir(int total, int partes)`: `assert(partes > 0);`, `std::vector<int> r(partes, total / partes);` y sumá 1 a las primeras `total % partes`. Después, `assert` de que suman el total.
+3. En `main`: por cada nota, si está fuera de 1 a 10, `nota << ": nota inválida"` y `continue;` (con `if`, no con `assert`). Si no, `nota << ": " << en_letras(nota)`.
+4. Al final: `"Reparto de 17 en 5:"` y los números de `repartir(17, 5)`.
+5. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```cpp
 #include <cassert>
@@ -1885,6 +1952,13 @@ de más a menos puntos (y por nombre si empatan). Usá `const&`, `std::erase_if`
 - Compila sin advertencias con `-Wall -Wextra -Wshadow`.
 - No borra mientras recorre con un iterador.
 - Recibe el vector por `const&`.
+
+#### Pasos
+1. Cambiá el parámetro por `const std::vector<Jugador>& jugadores`.
+2. Adentro: `std::vector<Jugador> copia = jugadores;` y `std::erase_if(copia, [minimo](const Jugador& j) { return j.puntos < minimo; });`.
+3. `std::ranges::sort(copia, [](const Jugador& a, const Jugador& b) { return a.puntos != b.puntos ? a.puntos > b.puntos : a.nombre < b.nombre; });`.
+4. Borrá los dos `for` viejos y armá los nombres con `for (const auto& j : copia) nombres.push_back(j.nombre);`.
+5. Agregá `#include <algorithm>` arriba y un comentario con lo que estaba mal. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -2381,6 +2455,11 @@ La regla del bisiesto: divisible por 4 y **no** por 100, **o** divisible por 400
 #### Desafío
 Arreglá la función, no las pruebas.
 
+#### Pasos
+1. La función dice que 1900 es bisiesto.
+2. Cambiá el `return` por `(anio % 4 == 0 && anio % 100 != 0) || anio % 400 == 0`.
+3. Tocá **Ejecutar**. Tiene que salir `3 de 3 pruebas pasan`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -2480,6 +2559,11 @@ Para contar palabras sin sorpresas, leelas con un `std::istringstream` y `>>`: s
 #### Desafío
 Hacé que la función pase la prueba del cartel vacío.
 
+#### Pasos
+1. Contar espacios da 1 con el cartel vacío.
+2. Cambialo por `std::istringstream ss(cartel);`, `std::string p;`, `int n = 0;` y `while (ss >> p) n++;`.
+3. Tocá **Ejecutar**. Tiene que salir `3 de 3 pruebas pasan`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -2566,6 +2650,11 @@ La invariante de la caldera: la presión siempre entre 0 y 100. `subir` ya la cu
 
 #### Desafío
 Hacé que `bajar` cuide la regla.
+
+#### Pasos
+1. `bajar` deja la presión negativa.
+2. Cambialo por `void bajar(int n) { if (presion_ - n >= 0) presion_ -= n; }`.
+3. Tocá **Ejecutar**. Tiene que salir `6 de 6 pasos cumplen la regla`.
 
 #### Código inicial
 ```cpp
@@ -2677,6 +2766,14 @@ puesto (`< 7`) y mirá qué prueba lo detecta.
 - Prueba los dos lados del borde (7 y 8 caracteres).
 - Prueba cada regla por separado.
 - El programa devuelve 1 si alguna prueba falla.
+
+#### Pasos
+1. `int pasaron = 0, fallaron = 0;` y `void comprobar(bool condicion, const std::string& descripcion)`: si falla, sumá y mostrá `"FALLA: " << descripcion`.
+2. `bool contrasenia_segura(const std::string& c)`: si `c.size() < 8`, `false`. Recorré con `unsigned char`: si hay espacio, `false`; anotá si hay mayúscula, minúscula y dígito.
+3. `return mayus && minus && digito;`.
+4. En `main`, los nueve `comprobar(...)` de la consigna (con 7 y 8 caracteres justos).
+5. `pasaron << " pasaron, " << fallaron << " fallaron"` y `return fallaron == 0 ? 0 : 1;`.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -2791,6 +2888,13 @@ total.
 **Para superarla:**
 - Las pruebas están agrupadas en funciones.
 - Se prueban las invariantes, no solo las cuentas.
+
+#### Pasos
+1. Agregá el contador `pasaron`/`fallaron` y la función `comprobar` (como en la misión anterior).
+2. `void probar_construccion()`: `Fraccion(2, 4) == Fraccion(1, 2)`, el signo de `Fraccion(3, -6)` en el numerador (`num() == -1 && den() == 2`), `Fraccion(5, 0).den() == 1` y `Fraccion(0, 7) == Fraccion(0, 1)`.
+3. `void probar_operaciones()`: `1/2 + 1/3 == 5/6`, `2/3 * 3/2 == 1`, `1/2 + (-1/2) == 0` y `Fraccion(3) + Fraccion(1, 4) == Fraccion(13, 4)`.
+4. En `main`: `"Construcción:"`, `probar_construccion();`, `"Operaciones:"`, `probar_operaciones();` y el total.
+5. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -2950,6 +3054,14 @@ los tiempos, por `std::cerr`. Escribí una función plantilla `medir_us(lambda)`
 **Para superarla:**
 - Mide con `steady_clock` y `duration_cast`.
 - Encuentra los mismos números con los tres métodos.
+
+#### Pasos
+1. `template <typename F> long long medir_us(F&& f)`: `t0 = std::chrono::steady_clock::now();`, `f();`, `t1` y `std::chrono::duration_cast<std::chrono::microseconds>(t1 - t0).count()`.
+2. `const int N = 200000;`. El vector con `v.push_back((i * 7919) % N);`, `std::set<int> s(v.begin(), v.end());` y una copia ordenada.
+3. Tres mediciones, cada una con `x` de 0 a N de a 100: `std::find` en `v`, `s.contains(x)` y `std::binary_search` en el ordenado. Contá los encontrados.
+4. Por `std::cout`: `"Búsquedas: "`, `"Encontrados: "` (los tres) y `"¿Ganó la búsqueda lineal? "`.
+5. Por `std::cerr`, los tres tiempos.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -3427,6 +3539,11 @@ La mochila es un mapa de nombre a cantidad. Para que **apile**, al agregar sumá
 #### Desafío
 Hacé que la mochila apile.
 
+#### Pasos
+1. `items_[nombre] = cantidad;` pisa lo que había.
+2. Cambialo por `items_[nombre] += cantidad;`.
+3. Tocá **Ejecutar**. Tiene que salir `pocion x5`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -3523,6 +3640,11 @@ Primero, si tiene poca vida, huye; si no, si está cerca, ataca; si no, patrulla
 #### Desafío
 Ordená las decisiones por prioridad.
 
+#### Pasos
+1. Con poca vida tiene que huir aunque esté cerca: esa regla va primero.
+2. Poné primero `if (vida < 30) { return "huir"; }` y después `else if (distancia <= 2) { return "atacar"; }`.
+3. Tocá **Ejecutar**. Tiene que salir `vida 20, distancia 1: huir`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -3605,6 +3727,12 @@ El combate sigue **mientras** al guiso le quede vida: `while (vida > 0)`.
 
 #### Desafío
 Usá la semilla acordada y peleá hasta el final.
+
+#### Pasos
+1. Cambiá la semilla: `std::mt19937 gen(2026);`.
+2. Cambiá el `for` por `while (vida > 0)`.
+3. Al final: `std::cout << "El guiso violeta cae en " << golpe << " golpes\n";`.
+4. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -3697,6 +3825,14 @@ Mostrá cada turno con la posición y el estado de cada guardia.
 - Los estados son un `enum class`.
 - Cada guardia decide solo con su distancia a Lima.
 - La patrulla cambia de sentido en los bordes.
+
+#### Pasos
+1. `enum class Estado { Patrulla, Alerta, Persigue, Ataca };` y `a_texto(e)` con un `switch`.
+2. `class Guardia` con nombre, `pos_`, `vision_`, `int paso_ = 1` y `Estado estado_`.
+3. `actuar(int lima)`: `int d = std::abs(lima - pos_);`. Si `d <= 1`, ataca. Si `d <= vision_`, persigue y da un paso hacia Lima. Si `d <= vision_ + 2`, alerta (no se mueve). Si no, patrulla: `pos_ += paso_;` y, si llega a 0 o a 20, `paso_ = -paso_;`.
+4. `informe()` → `nombre_ + "@" + std::to_string(pos_) + " " + a_texto(estado_)`.
+5. En `main`: `{{"G1", 5, 3}, {"G2", 18, 5}}` y `lima = 0`. Por cada tecla: `lima += (tecla == 'd') - (tecla == 'i');`, `"T" << turno++ << " Lima@" << lima << ":"` y cada guardia actúa y se informa.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -3854,6 +3990,14 @@ ataque (base 5 + bonus del arma equipada).
 - `sacar` devuelve `optional` y quien llama decide según el tipo.
 - Las pociones se apilan y la mochila respeta sus 4 lugares.
 - El arma anterior vuelve a la mochila al equipar otra.
+
+#### Pasos
+1. `enum class Tipo { Pocion, Arma, Llave };` y `struct Item { std::string nombre; Tipo tipo; int valor = 0; int cantidad = 1; };`.
+2. `class Mochila` con un vector. `agregar(nuevo)`: si ya está y es poción, sumá la cantidad. Si ya hay 4 lugares, `false`. Si no, `push_back` y `true`.
+3. `std::optional<Item> sacar(nombre)`: si no está, `std::nullopt`. Si está, devolvé una copia con cantidad 1 y restá (si queda en 0, `erase`). `mostrar()` → `"  ["`, cada uno como `nombre << " x" << cantidad` y `"]"`.
+4. En `main`: `vida = 50`, `ataque = 5` y `std::optional<Item> arma;`. `juntar`: el tipo con `starts_with("pocion")` o `"llave"`; el valor es 15, el largo del nombre o 0. `"Junta "` o `"No entra "`.
+5. `usar`: si no está, `"No tiene "`. Poción: `vida = std::min(60, vida + valor)`. Arma: si había una, volvela con `m.agregar(*arma)`, `arma = it;` y `"Equipa ..."`. Llave: `"Usa ... en una puerta"`.
+6. Después de cada orden, `m.mostrar();`. Al final, `"Final: vida ..., ataque ..."`. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -4046,6 +4190,14 @@ el campeón.
 **Para superarla:**
 - Un único generador con la semilla leída, pasado por referencia.
 - El daño nunca es menor que 1.
+
+#### Pasos
+1. `struct Luchador { std::string nombre; int vida; int ataque; int defensa; };`.
+2. `int golpe(const Luchador& atacante, Luchador& defensor, std::mt19937& gen)`: `std::uniform_int_distribution<int> variacion(-2, 2);`, `dano = std::max(1, atacante.ataque + variacion(gen) - defensor.defensa);` y restá sin bajar de 0.
+3. `Luchador pelear(Luchador a, Luchador b, std::mt19937& gen)`: mientras los dos vivan, `a` golpea y, si `b` sigue vivo, devuelve. Contá las rondas, mostrá `"  " << a.nombre << " vs " << b.nombre << ": gana ..."` y devolvé el ganador.
+4. En `main`: leé la semilla y `std::mt19937 gen(semilla);`. La `base` con los cuatro luchadores de la consigna.
+5. Mientras quede más de uno: `"Ronda " << numero++ << ":"`, peleen de a pares y el ganador recupera su vida original (buscalo en `base` con `std::ranges::find`).
+6. `"Campeón: "`. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -4632,6 +4784,11 @@ Si el personaje avanza lo mismo en cada vuelta, en una compu rápida (más vuelt
 #### Desafío
 Mové el autómata con el tiempo de cada vuelta.
 
+#### Pasos
+1. `x += velocidad;` no usa el tiempo de cada vuelta.
+2. Cambialo por `x += velocidad * dt;`.
+3. Tocá **Ejecutar**. Tiene que terminar en `x = 40`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -4700,6 +4857,11 @@ En `Pausa`, la `p` tiene que volver a `Jugando` (si no, la pausa es para siempre
 
 #### Desafío
 Hacé que la pausa vuelva al juego.
+
+#### Pasos
+1. En el `case Estado::Pausa:`, antes del `break`, falta volver.
+2. Agregá `if (tecla == "p") e = Estado::Jugando;`.
+3. Tocá **Ejecutar**. Tiene que salir `p -> jugando`.
 
 #### Código inicial
 ```cpp
@@ -4832,6 +4994,11 @@ Si dibujás antes de actualizar, la pantalla muestra siempre la vuelta anterior.
 #### Desafío
 Ordená las tres partes del bucle.
 
+#### Pasos
+1. Primero se actualiza y después se dibuja.
+2. Subí `x += paso;` arriba del `std::cout`.
+3. Tocá **Ejecutar**. La vuelta 1 tiene que dibujar en `x = 2`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -4909,6 +5076,13 @@ el récord.
 **Para superarla:**
 - Un `enum class` para las pantallas y un `switch` por estado.
 - Los eventos que no corresponden a la pantalla actual no hacen nada.
+
+#### Pasos
+1. `enum class Pantalla { Titulo, Menu, Jugando, Pausa, GameOver };` y `nombre(p)` con un `switch` (`"Título"`, `"Menú"`, `"Jugando"`, `"Pausa"` y `"Game Over"`).
+2. `struct Partida` con `pantalla = Pantalla::Titulo`, `puntos = 0`, `vidas = 3` y `record = 0`.
+3. `void evento(Partida& p, const std::string& e)` con un `switch (p.pantalla)` y las reglas de la consigna. En `golpe`: `--p.vidas == 0` → guardá el récord con `std::max` y pasá a `GameOver`.
+4. En `main`: por cada evento, guardá la pantalla de antes y aplicá el evento. Mostrá `e << ": " << nombre(antes)`, `" -> " << nombre(nueva)` si cambió y, si está jugando, `" (" << puntos << " pts, " << vidas << " vidas)"`.
+5. Al final: `"Récord: "`. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -5081,6 +5255,14 @@ cuadros duró. Probá después con `dt = 0.01` y `dt = 0.1`: ¿cambia mucho?
 - El aterrizaje deja la altura en 0 exacto.
 - Con distintos `dt` el salto dura casi lo mismo en segundos.
 
+#### Pasos
+1. `struct Cuerpo { double y = 0; double vy = 0; bool en_el_piso = true; };`.
+2. `saltar(c)`: si está en el piso, `c.vy = 6;` y `en_el_piso = false`.
+3. `actualizar(c, dt)`: si está en el piso, nada. Si no, `c.vy += -20 * dt;` y `c.y += c.vy * dt;`. Si `c.y <= 0`, dejalo en 0, `vy = 0` y en el piso.
+4. En `main`: leé `dt`, `std::fixed << std::setprecision(2)` y `saltar(lima);`. `while (!lima.en_el_piso || cuadros == 0)`: actualizá, contá el cuadro y guardá la máxima.
+5. Si `cuadros % 5 == 0` o aterrizó: `"t=" << cuadros * dt << "s altura " << lima.y`. Al final, `"Altura máxima: ... m, ... cuadros"`.
+6. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```cpp
 #include <algorithm>
@@ -5207,6 +5389,14 @@ pierde. La entrada es una palabra con una tecla por cuadro.
 **Para superarla:**
 - Las tres funciones están separadas y `dibujar` no cambia el mundo.
 - Las rocas que salen se borran con `erase_if`.
+
+#### Pasos
+1. `struct Roca { int x; int y; };` y `struct Mundo` con `ancho = 7`, `alto = 6`, `lima = 3`, el vector de rocas, `esquivadas = 0` y `viva = true`.
+2. `entrada(m, tecla)`: `'i'` y `'d'` mueven a Lima sin salirse.
+3. `actualizar(m, cuadro)`: todas las rocas bajan (`r.y++`). Si una queda en la fila de abajo en la columna de Lima, `viva = false`. Borrá las que salen con `std::erase_if` y sumalas a esquivadas. Si `cuadro % 2 == 0`, una roca nueva en `{(cuadro * 5 + 1) % m.ancho, 0}`.
+4. `dibujar(const Mundo& m, int cuadro)`: una grilla de `'.'`, las rocas como `'o'` y Lima como `'@'` (o `'X'` si perdió). `"cuadro " << cuadro << ":"` y cada fila con `"  "` adelante.
+5. En `main`: por cada tecla, `entrada`, `actualizar` y, si `cuadro % 3 == 0` o perdió, `dibujar`. Si perdió, cortá.
+6. El mensaje final con las esquivadas. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -5638,6 +5828,11 @@ Recorré con dos `for` anidados y, si la baldosa es `M`, guardá su fila y su co
 #### Desafío
 Encontrá también al Minotauro.
 
+#### Pasos
+1. Después del `if` que encuentra a Bron, falta buscar la `'M'`.
+2. Agregá `else if (mapa[f][c] == 'M') { mf = f; mc = c; }`.
+3. Tocá **Ejecutar**. Tiene que salir `Minotauro en (3, 7)`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -5736,6 +5931,12 @@ Estar en la misma fila no alcanza para verse: puede haber una pared en el medio.
 #### Desafío
 Tené en cuenta las paredes.
 
+#### Pasos
+1. La función no mira las paredes.
+2. Recorré las columnas del medio: `for (int c = std::min(c1, c2) + 1; c < std::max(c1, c2); c++)`. Si `mapa[fila][c] == '#'`, `return false;`.
+3. Al final, `return true;`.
+4. Tocá **Ejecutar**. Tiene que salir `Fila 1 (...): no lo ve`.
+
 #### Código inicial
 ```cpp
 #include <algorithm>
@@ -5827,6 +6028,12 @@ Si falta o sobra alguna, lanzá un `std::runtime_error` con un mensaje que diga 
 
 #### Desafío
 Validá el plano antes de jugarlo.
+
+#### Pasos
+1. Después de contar, validá.
+2. Si `b != 1`: `throw std::runtime_error("tiene " + std::to_string(b) + " Bron");`.
+3. Si `m != 1`: `throw std::runtime_error("tiene " + std::to_string(m) + " Minotauros");`.
+4. Tocá **Ejecutar**. Tiene que salir `Plano 3: tiene 2 Bron`.
 
 #### Código inicial
 ```cpp
@@ -5944,6 +6151,12 @@ Si llegás a la `M`, mostrá en cuántos pasos.
 
 #### Desafío
 Revisá las paredes en cada paso del camino.
+
+#### Pasos
+1. Después de calcular la casilla nueva: `pasos++;`. Si `mapa[nf][nc] == '#'`, `"Pared en el paso " << pasos` y `return 0;`.
+2. Mové a Bron (`f = nf; c = nc;`) y sacá el `pasos++` de abajo.
+3. Si llegó a `'M'`: `"Bron llega al Minotauro en " << pasos << " pasos"` y `return 0;`.
+4. Tocá **Ejecutar**. Tiene que salir `Bron llega al Minotauro en 7 pasos`.
 
 #### Código inicial
 ```cpp
@@ -6079,6 +6292,14 @@ El programa guarda, carga y muestra. Después, cada línea de la entrada es una
 **Para superarla:**
 - Los errores de formato lanzan `ArchivoRoto` con el número de línea.
 - Una carga fallida no corta el programa.
+
+#### Pasos
+1. `class ArchivoRoto : public std::runtime_error` con constructor `(int linea, const std::string& motivo)` → `"línea " + std::to_string(linea) + ": " + motivo`.
+2. `struct Partida` con heroína, `x`, `y`, `vida`, `llave` y `enemigos_vencidos`. `guardar(p, ruta)`: `"LABERINTO 1"` y una línea por dato (`heroina`, `posicion x y`, `vida`, `llave 0/1` y `vencidos ...`).
+3. `Partida cargar(ruta)`: si no abre, `std::runtime_error("no existe " + ruta)`. Si la primera línea no es `"LABERINTO 1"`, `ArchivoRoto(1, "no es una partida guardada")`.
+4. Leé cada línea con su número y la clave: `posicion` inválida → `"posición inválida"`; `vida` fuera de 1 a 30 → `"vida fuera de rango"`; clave desconocida → `"clave desconocida \"" + clave + "\""`. Contá los campos; si son menos de 5, `"faltan datos"`.
+5. `mostrar(p)` y, en `main`, guardá a Lima (4, 3, vida 23, con llave, vencidos rata y goblin), cargá y mostrá. Por cada línea de la entrada, reemplazá esa línea del archivo, `"Rompo la línea ..."`, intentá cargar (atrapando `ArchivoRoto` → `"  Partida dañada, "` y `std::exception` → `"  Error: "`) y volvé a guardar.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp

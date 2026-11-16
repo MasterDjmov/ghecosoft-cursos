@@ -244,6 +244,11 @@ Acá no hay servidor: el pedido se simula con un array, igual al que PHP arma so
 #### Desafío
 Armá la lista HTML de barcos que pide el cilindro.
 
+#### Pasos
+1. Entre `echo "<ul>\n";` y `echo "</ul>\n";`, agregá un `foreach ($barcos as $b) {`.
+2. Adentro: `echo "  <li>$b</li>\n";`.
+3. Tocá **Ejecutar**. Tienen que salir los tres `<li>`.
+
 #### Código inicial
 ```php
 <?php
@@ -303,6 +308,11 @@ Un `<tr>` por cada viaje, con un `<td>` por dato, y una primera fila de encabeza
 
 #### Desafío
 Completá las filas de la tabla con los viajes.
+
+#### Pasos
+1. Antes de `echo "</table>\n";`, agregá `foreach ($viajes as $v) {`.
+2. Adentro: `echo "<tr><td>{$v['destino']}</td><td>{$v['hora']}</td></tr>\n";`.
+3. Tocá **Ejecutar**. Tienen que salir Forjas y Valle.
 
 #### Código inicial
 ```php
@@ -369,6 +379,11 @@ Escribí una función que, según si el barco existe, devuelva el código y el t
 
 #### Desafío
 Devolvé 404 cuando el barco no existe.
+
+#### Pasos
+1. Al principio de la función: `if (!in_array($barco, $barcos, true)) {`.
+2. Adentro: `return "404 No encontrado: $barco";`.
+3. Tocá **Ejecutar**. Tiene que salir `404 No encontrado: Fantasma`.
 
 #### Código inicial
 ```php
@@ -966,6 +981,12 @@ Acá no hay servidor: el pedido se simula con un array, igual al que PHP arma so
 #### Desafío
 Filtrá los barcos según el destino que llega en la dirección.
 
+#### Pasos
+1. Antes del `foreach`: `$pedido = trim($_GET['destino'] ?? '');` y `$encontrados = 0;`.
+2. En el `foreach`, envolvé el `echo` en `if ($pedido === '' || $destino === $pedido) {` y sumá `$encontrados++;`.
+3. Después: si `$encontrados === 0`, `echo "No hay barcos a $pedido\n";`.
+4. Tocá **Ejecutar**. Tiene que salir `No hay barcos a la luna`.
+
 #### Código inicial
 ```php
 <?php
@@ -1028,6 +1049,10 @@ Para armar la parte de los datos de una dirección (`?destino=Valle&dia=3`), `ht
 #### Desafío
 Armá el enlace con `http_build_query`.
 
+#### Pasos
+1. Cambiá el `echo` por `echo "/barcos?" . http_build_query(['destino' => $destino, 'pagina' => $pagina]) . "\n";`.
+2. Tocá **Ejecutar**. Los espacios tienen que salir como `+`.
+
 #### Código inicial
 ```php
 <?php
@@ -1077,6 +1102,13 @@ Si piden una página menor que 1 o mayor que la última, se usa la primera (o la
 
 #### Desafío
 Mostrá la página pedida, cuidando que exista.
+
+#### Pasos
+1. `$porPagina = 3;` y `$ultima = (int) ceil(count($barcos) / $porPagina);`.
+2. Cambiá la línea de `$pagina` por `$pagina = max(1, min($ultima, (int) ($_GET['pagina'] ?? 1)));`.
+3. `echo "Pagina $pagina de $ultima\n";`.
+4. En el `array_slice`, usá `$porPagina` en lugar del 3.
+5. Tocá **Ejecutar**. Tiene que salir `Pagina 3 de 3` y `Delfin`.
 
 #### Código inicial
 ```php
@@ -1705,6 +1737,13 @@ Acá no hay servidor: el pedido se simula con un array, igual al que PHP arma so
 #### Desafío
 Validá el peso (un número positivo) y el destino (no vacío).
 
+#### Pasos
+1. Borrá el `echo`. `$errores = [];`, `$peso = trim($_POST['peso'] ?? '');` y `$destino = trim($_POST['destino'] ?? '');`.
+2. Si `!is_numeric($peso) || $peso <= 0`: `$errores['peso'] = 'El peso tiene que ser un numero mayor que 0.';`.
+3. Si `$destino === ''`: `$errores['destino'] = 'Falta el destino.';`.
+4. Si no hay errores, `echo "Envio aceptado: $peso kg a $destino\n";`. Si hay, `foreach ($errores as $campo => $error)` → `echo "$campo: $error\n";`.
+5. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```php
 <?php
@@ -1771,6 +1810,11 @@ Antes de meterlo en el HTML, pasalo por `htmlspecialchars(...)`, por si trae com
 #### Desafío
 Mostrá el campo del nombre con lo que ya había escrito el cliente.
 
+#### Pasos
+1. `$nombre = $_POST['nombre'] ?? '';`.
+2. En el `input`, poné el valor escapado: `'<input name="nombre" value="' . htmlspecialchars($nombre) . '">'`.
+3. Tocá **Ejecutar**. Las comillas tienen que salir como `&quot;`.
+
 #### Código inicial
 ```php
 <?php
@@ -1825,6 +1869,11 @@ Según el método: con `GET` se muestra el formulario vacío; con `POST` se proc
 
 #### Desafío
 Completá la función para que haga una cosa u otra según el método.
+
+#### Pasos
+1. Al principio de la función: `if ($metodo === 'GET') {`.
+2. Adentro: `return "Formulario vacio para completar";`.
+3. Tocá **Ejecutar**. Tiene que salir `Formulario vacio para completar`.
 
 #### Código inicial
 ```php
@@ -1891,6 +1940,11 @@ in_array($destino, $permitidos, true)
 
 #### Desafío
 Rechazá los destinos que no están en la lista.
+
+#### Pasos
+1. Envolvé el `echo` en `if (in_array($destino, $permitidos, true)) {`.
+2. En el `else`: `echo "Destino no permitido: $destino\n";`.
+3. Tocá **Ejecutar**. Tiene que salir `Destino no permitido: la cueva del goblin`.
 
 #### Código inicial
 ```php
@@ -2592,6 +2646,11 @@ Acá la sesión se simula con un array `$libreta` que dura de un pedido al sigui
 #### Desafío
 Hacé que el mozo se acuerde del pedido de la clienta.
 
+#### Pasos
+1. Dentro del `if ($pide !== null)`, antes del `return`: `$libreta['pedido'] = $pide;`.
+2. Cambiá el último `return` por `return isset($libreta['pedido']) ? "Ya sale su {$libreta['pedido']}" : "Perdon, ¿que queria?";`.
+3. Tocá **Ejecutar**. Tiene que salir `Ya sale su guiso de pescado`.
+
 #### Código inicial
 ```php
 <?php
@@ -2662,6 +2721,11 @@ La libreta guarda los datos **por id**: `$sesiones[$ficha]['pedido']`. Así no s
 
 #### Desafío
 Guardá y leé el pedido de cada cliente según su ficha.
+
+#### Pasos
+1. Cada ficha tiene su lugar: cambiá `$sesiones['pedido']` por `$sesiones[$ficha]['pedido']`.
+2. Hacelo en los dos lugares: al guardar y al leer.
+3. Tocá **Ejecutar**. Tiene que salir `Ficha B2: empanadas`.
 
 #### Código inicial
 ```php
@@ -2748,6 +2812,11 @@ Si el plato no estaba, `?? 0` arranca en 0.
 #### Desafío
 Sumá los platos a la cuenta y mostrala.
 
+#### Pasos
+1. La línea de adentro pisa el carrito entero.
+2. Cambiala por `$sesion['carrito'][$plato] = ($sesion['carrito'][$plato] ?? 0) + $cantidad;`.
+3. Tocá **Ejecutar**. Tiene que salir `guiso x2`.
+
 #### Código inicial
 ```php
 <?php
@@ -2819,6 +2888,12 @@ Guardalo en una variable y después borralo de la sesión con `unset($sesion['fl
 
 #### Desafío
 Hacé que el mensaje se muestre una sola vez.
+
+#### Pasos
+1. Guardá el mensaje en una variable: `$mensaje = $sesion['flash'] ?? '(sin mensajes)';`.
+2. Borralo de la sesión: `unset($sesion['flash']);`.
+3. `return $mensaje;`.
+4. Tocá **Ejecutar**. La segunda vez tiene que salir `(sin mensajes)`.
 
 #### Código inicial
 ```php
@@ -3501,6 +3576,10 @@ Si mostrás tal cual un texto que escribió alguien, puede traer código escondi
 #### Desafío
 Escapá cada aviso antes de mostrarlo en el tablero.
 
+#### Pasos
+1. En el `echo`, escapá el aviso: `echo "<p>" . htmlspecialchars($a) . "</p>\n";`.
+2. Tocá **Ejecutar**. El `<script>` tiene que salir como `&lt;script&gt;`.
+
 #### Código inicial
 ```php
 <?php
@@ -3562,6 +3641,11 @@ Si no coinciden, se rechaza.
 
 #### Desafío
 Rechazá el pedido que no trae el token correcto.
+
+#### Pasos
+1. Dentro del `foreach`, antes del `echo`: `if (!hash_equals($sesion['token'], $post['token'] ?? '')) {`.
+2. Adentro: `echo "Rechazado: el formulario no es nuestro\n";` y `continue;`.
+3. Tocá **Ejecutar**. El de Pico tiene que salir rechazado.
 
 #### Código inicial
 ```php
@@ -3631,6 +3715,11 @@ Devuelve el número si es un entero en el rango, o `false` si no.
 #### Desafío
 Rechazá las cantidades fuera del rango.
 
+#### Pasos
+1. `$n = filter_var($cantidad, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1, 'max_range' => 10]]);`.
+2. Si `$n === false`: `echo "Cantidad invalida: $cantidad\n";`. Si no: `echo "Reservados $n lugares\n";`.
+3. Tocá **Ejecutar**. `500` y `cinco` tienen que salir inválidas.
+
 #### Código inicial
 ```php
 <?php
@@ -3686,6 +3775,12 @@ Si una página redirige a la dirección que le pasan, alguien puede mandar a los
 
 #### Desafío
 Escribí la función que decide a dónde volver.
+
+#### Pasos
+1. Solo se vuelve a direcciones de adentro: empiezan con `/` pero no con `//`.
+2. `if (str_starts_with($pedido, '/') && !str_starts_with($pedido, '//')) { return $pedido; }`.
+3. Si no: `return '/inicio';`.
+4. Tocá **Ejecutar**. Las dos últimas tienen que salir `/inicio`.
 
 #### Código inicial
 ```php
@@ -4509,6 +4604,12 @@ Para entrar, se compara lo que escribió con la huella: `password_verify($escrit
 #### Desafío
 Guardá la huella en lugar de la contraseña y comprobá los dos intentos.
 
+#### Pasos
+1. Cambiá `$guardada = 'faro2026';` por `$huella = password_hash('faro2026', PASSWORD_DEFAULT);`.
+2. En el `foreach`: `echo password_verify($intento, $huella) ? "Pasa\n" : "No pasa\n";`.
+3. El último `echo`: `"En el papel dice: " . (str_starts_with($huella, '$2y$') ? "una huella" : "la clave") . "\n"`.
+4. Tocá **Ejecutar**. Tiene que salir `En el papel dice: una huella`.
+
 #### Código inicial
 ```php
 <?php
@@ -4567,6 +4668,12 @@ Se llama al principio de **cada** página privada: una que se olvide, queda abie
 
 #### Desafío
 Escribí la guardia y ponela en las tres páginas.
+
+#### Pasos
+1. Arriba: `function exigirLogin(array $sesion): ?string { return isset($sesion['usuario']) ? null : 'Redirige a /login'; }`.
+2. En `pagina`: `return exigirLogin($sesion) ?? "Mostrando $nombre";`.
+3. Abajo: `$iara = ['usuario' => 'iara'];` y al final `echo pagina('archivos', $iara) . "\n";`.
+4. Tocá **Ejecutar**. Tiene que terminar con `Mostrando archivos`.
 
 #### Código inicial
 ```php
@@ -4640,6 +4747,12 @@ Si ya son 3, se bloquea **sin siquiera probar** la clave: así no sirve seguir a
 #### Desafío
 Bloqueá al usuario después de 3 intentos fallidos.
 
+#### Pasos
+1. Antes del `foreach`: `$usuario = 'fermin';`.
+2. Al principio del `foreach`: si `($intentos[$usuario] ?? 0) >= 3`, `echo "Bloqueado: proba mas tarde\n";` y `continue;`.
+3. Si la clave es buena, `"Adentro\n"`. Si no, sumá un intento (`$intentos[$usuario] = ($intentos[$usuario] ?? 0) + 1;`) y `"Clave incorrecta\n"`.
+4. Tocá **Ejecutar**. Los dos últimos tienen que salir bloqueados.
+
 #### Código inicial
 ```php
 <?php
@@ -4707,6 +4820,12 @@ Juntá los problemas de la clave en una lista: menos de 8 caracteres, igual al n
 
 #### Desafío
 Revisá las dos claves y mostrá todos los problemas de cada una.
+
+#### Pasos
+1. Dentro de la función: `$p = [];`.
+2. Si `mb_strlen($clave) < 8`: `$p[] = 'muy corta';`.
+3. Si `strtolower($clave) === strtolower($usuario)`: `$p[] = 'igual al usuario';`.
+4. `return $p;`. Tocá **Ejecutar**. Tiene que salir `nilo: muy corta; igual al usuario`.
 
 #### Código inicial
 ```php
@@ -5499,6 +5618,12 @@ Un archivo subido puede mentir con el nombre: `foto.png` puede ser cualquier cos
 #### Desafío
 Aceptá solo los archivos que de verdad son PNG o JPEG.
 
+#### Pasos
+1. Arriba: `function tipoReal(string $contenido): ?string`.
+2. Si empieza con `"\x89PNG"`, `return 'png';`. Si empieza con `"\xFF\xD8"`, `return 'jpg';`. Si no, `return null;`.
+3. En el `foreach`: `echo tipoReal($contenido) !== null ? "Guardado: $nombre\n" : "Rechazado: $nombre\n";`.
+4. Tocá **Ejecutar**. Tiene que salir `Rechazado: gatito.png`.
+
 #### Código inicial
 ```php
 <?php
@@ -5577,6 +5702,12 @@ Guardá con `file_put_contents` y leé con `file_get_contents`. Después buscá 
 #### Desafío
 Guardá el registro, volvé a leerlo y encontrá la línea del robo.
 
+#### Pasos
+1. Borrá el `echo` de 0. Guardá: `file_put_contents('robos.json', json_encode($robos, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));`.
+2. Leelo: `$leidos = json_decode(file_get_contents('robos.json'), true);` y `echo "Robos guardados: " . count($leidos) . "\n";`.
+3. Recorrelo: si `str_contains($r['que'], 'quien llegue')`, `echo "{$r['anio']}: {$r['que']}, del {$r['barco']}\n";`.
+4. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```php
 <?php
@@ -5639,6 +5770,11 @@ El nombre que trae el archivo subido no se usa: puede tener trucos (como `../` p
 
 #### Desafío
 Generá el nombre con el número y la extensión.
+
+#### Pasos
+1. Antes del `echo`: `$nombre = sprintf('envio-%04d.%s', $numero, $tipo);`.
+2. Cambiá el `echo` para que use `$nombre`.
+3. Tocá **Ejecutar**. Tiene que salir `envio-0007.png`.
 
 #### Código inicial
 ```php
@@ -6399,6 +6535,12 @@ Cuando varias páginas comparten el mismo marco (encabezado, horario, pie), no s
 #### Desafío
 Escribí el molde y usalo para las tres ventanillas.
 
+#### Pasos
+1. Borrá los tres `echo`. `const HORARIO = 'Lun a Dom';`.
+2. `function cartel(string $ventanilla): string { return "[Puerto | $ventanilla | " . HORARIO . "]"; }`.
+3. `foreach (['Envios', 'Consultas', 'Encomiendas'] as $v)` → `echo cartel($v) . "\n";`.
+4. Tocá **Ejecutar**. Los tres tienen que decir `Lun a Dom`.
+
 #### Código inicial
 ```php
 <?php
@@ -6463,6 +6605,12 @@ La función `vista()`:
 #### Desafío
 Completá `vista()` para que arme la página con la plantilla.
 
+#### Pasos
+1. Dentro de `vista`, borrá `return '';`.
+2. `extract($datos);`, `ob_start();` y `require $archivo;`.
+3. `return ob_get_clean();`.
+4. Tocá **Ejecutar**. Tiene que salir `<h1>Hola, Iara</h1>...`.
+
 #### Código inicial
 ```php
 <?php
@@ -6522,6 +6670,12 @@ Un pedacito que se repite en varias páginas va en su propia función: `tarjeta(
 
 #### Desafío
 Escribí la tarjeta una vez y usala en las dos listas.
+
+#### Pasos
+1. Arriba: `function tarjeta(array $b): string { return "- {$b['nombre']} (calado {$b['calado']} m)"; }`.
+2. En el listado: `echo tarjeta($b) . "\n";`.
+3. En el buscador: `echo tarjeta($barcos[1]) . "\n";`.
+4. Tocá **Ejecutar**. Tiene que salir `- Albatros (calado 8 m)` dos veces.
 
 #### Código inicial
 ```php
@@ -7232,6 +7386,12 @@ Devolvé los errores por campo, en un array.
 #### Desafío
 Escribí `validarPedido` y probala con el pedido de la Gorgona.
 
+#### Pasos
+1. Dentro de `validarPedido`: `$errores = [];`.
+2. Si `filter_var($p['email'] ?? '', FILTER_VALIDATE_EMAIL) === false`: `$errores['email'] = 'email: no es valido';`.
+3. Si `filter_var($p['precio'] ?? '', FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]) === false`: `$errores['precio'] = 'precio: tiene que ser un entero positivo';`.
+4. `return $errores;`. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```php
 <?php
@@ -7305,6 +7465,12 @@ Usar la equivocada deja un agujero.
 #### Desafío
 Escapá el nombre en los tres lugares.
 
+#### Pasos
+1. En HTML: `echo "<p>" . htmlspecialchars($nombre) . "</p>\n";`.
+2. En la dirección: `echo "/buscar?q=" . urlencode($nombre) . "\n";`.
+3. En JSON: `echo json_encode(['nombre' => $nombre]) . "\n";`.
+4. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```php
 <?php
@@ -7364,6 +7530,13 @@ Si todo está bien, muestra el comentario, escapado con `htmlspecialchars`.
 
 #### Desafío
 Completá `atender` con las tres defensas.
+
+#### Pasos
+1. Si `!isset($sesion['usuario'])`: `return "Rechazado: primero hay que entrar";`.
+2. Si `!hash_equals($sesion['token'] ?? '', $post['token'] ?? '')`: `return "Rechazado: el formulario no es nuestro";`.
+3. `$comentario = trim($post['comentario'] ?? '');`. Si está vacío o `mb_strlen($comentario) > 200`: `return "Rechazado: comentario vacio o muy largo";`.
+4. Si no: `return "Publicado: " . htmlspecialchars($comentario);`.
+5. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php

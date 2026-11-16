@@ -9259,6 +9259,12 @@ try {
 #### Desafío
 Lanzá una `RuntimeException` cuando el peso es demasiado y atrapala para avisar.
 
+#### Pasos
+1. Dentro del `if ($toneladas > 5)`, cambiá el `return "todo bien";` por `throw new RuntimeException("la grua no aguanta $toneladas t");`.
+2. En el `foreach`, envolvé el `echo` en un `try { ... }`.
+3. `catch (RuntimeException $e) { echo "Aviso: " . $e->getMessage() . "\n"; }`.
+4. Tocá **Ejecutar**. Tiene que salir `Aviso: la grua no aguanta 8 t`.
+
 #### Código inicial
 ```php
 <?php
@@ -9327,6 +9333,11 @@ Después del `catch` puede ir un bloque `finally`: lo que está ahí se ejecuta 
 
 #### Desafío
 Mové el aviso de la carga a un `finally` para que aparezca en los dos intentos.
+
+#### Pasos
+1. Sacá `echo "Carga asegurada.\n";` del `try`.
+2. Después del `catch`, agregá `} finally {` y poné ese `echo` adentro.
+3. Tocá **Ejecutar**. Tiene que salir `Carga asegurada.` dos veces.
 
 #### Código inicial
 ```php
@@ -9408,6 +9419,12 @@ Puede guardar un dato extra (cuánto faltó). Para atraparla por su nombre, su `
 
 #### Desafío
 Creá la excepción `SinCupo` y atrapala aparte para el informe.
+
+#### Pasos
+1. Arriba: `class SinCupo extends RuntimeException` con `public function __construct(public readonly string $barco, public readonly int $faltan) { parent::__construct("sin cupo en $barco"); }`.
+2. En `cargar`, cambiá el `throw new RuntimeException(...)` por `throw new SinCupo($barco, $cajones - $libres);`.
+3. Cambiá el `catch` por `catch (SinCupo $e)`: `$sinCupo++;` y `echo "{$e->barco}: faltan {$e->faltan} lugares\n";`.
+4. Tocá **Ejecutar**. Tiene que salir `Por falta de cupo: 2`.
 
 #### Código inicial
 ```php
@@ -9514,6 +9531,15 @@ salieron bien y cuántas mal.
 **Para superarla:**
 - `calcular` lanza excepciones y no muestra nada.
 - Hay un `catch` para cada tipo y un `finally`.
+
+#### Pasos
+1. Borrá el comentario. `function calcular(string $linea): float`: `explode(' ', trim($linea))`. Si no son 3 partes, `throw new InvalidArgumentException('Formato: NUMERO OPERADOR NUMERO');`.
+2. `[$a, $op, $b] = $partes;`. Si alguno no es `is_numeric`, `throw new InvalidArgumentException("No son números: $a y $b");`. Pasalos a `float`.
+3. Si `$op === '/' && $b == 0`: `throw new DivisionByZeroError('División por cero');`.
+4. `return match ($op) { '+' => $a + $b, '-' => ..., '*' => ..., '/' => ..., default => throw new DomainException("Operador desconocido: $op") };`.
+5. Leé renglones con `fgets(STDIN)`. `try`: `echo trim($linea), " = ", round($resultado, 4), "\n";` y `$bien++`. Un `catch` por tipo: `" → dato inválido: "`, `" → no se puede: "` y `" → "` con el mensaje. `finally { $procesadas++; }`.
+6. Al final: `echo "Procesadas: $procesadas · bien: $bien · mal: ", $procesadas - $bien, "\n";`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -9637,6 +9663,15 @@ Ejecutá los movimientos del ejemplo. Cuando salta `SaldoInsuficiente`, el progr
 **Para superarla:**
 - Dos excepciones propias que heredan de `DomainException`, con datos `readonly`.
 - El programa usa los datos de la excepción para reaccionar.
+
+#### Pasos
+1. Borrá el comentario. `class SaldoInsuficiente extends DomainException` con `public readonly float $disponible` y `public readonly float $pedido`, y `parent::__construct("Saldo insuficiente: pediste $pedido y tenés $disponible");`.
+2. `class CuentaBloqueada extends DomainException` con `public readonly string $titular` y el mensaje `"La cuenta de $titular está bloqueada"`.
+3. `class Cuenta` con `private bool $bloqueada = false;`, el constructor (`titular`, `private float $saldo`), `bloquear()` y `saldo()`.
+4. `extraer(float $monto)`: si `$monto <= 0`, `InvalidArgumentException("Monto inválido: $monto")`; si está bloqueada, `CuentaBloqueada`; si no alcanza, `SaldoInsuficiente($this->saldo, $monto)`; si todo va bien, restá.
+5. `new Cuenta('Iara', 8200)` y `foreach ([3000, -50, 6000, 'bloquear', 100] as $movimiento)`. Con `'bloquear'`: `bloquear()`, `"Cuenta bloqueada por el banco\n"` y `continue;`.
+6. `try` con `extraer`. En `catch (SaldoInsuficiente $e)`: el mensaje, `". Te damos los {$e->disponible} que hay.\n"`, extraé `$e->disponible` y mostrá el saldo. Los otros dos `catch` como en la salida.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -9778,6 +9813,15 @@ corre siempre.
 **Para superarla:**
 - El archivo se cierra en el `finally`.
 - Cada error lanza una excepción distinta con un mensaje claro.
+
+#### Pasos
+1. Borrá el comentario. `class LectorDeTarifas` con `public static int $cerrados = 0;`.
+2. `leer(string $ruta): array`: si `!file_exists($ruta)`, `throw new RuntimeException('No existe el archivo ' . basename($ruta));`. Después, `$archivo = fopen($ruta, 'r');`.
+3. `try`: leé con `fgets` contando renglones (saltá los vacíos), `[$destino, $precio] = explode(';', trim($linea));`. Si el precio no es numérico, `throw new UnexpectedValueException("Renglón $numero: el precio «{$precio}» no es un número");`. Devolvé el array.
+4. `finally { fclose($archivo); self::$cerrados++; }`.
+5. Creá los dos archivos en `sys_get_temp_dir()` con `file_put_contents` (el bueno y el roto; copiá los contenidos de la solución).
+6. Para `tarifas-ok.txt`, `tarifas-rota.txt` y `tarifas-perdida.txt`: `echo "$nombre: ";` y un `try`. Si sale bien, la cantidad y las claves con `implode`; con `UnexpectedValueException`, `"archivo con errores. "`; con `RuntimeException`, el mensaje.
+7. `echo "Archivos cerrados: ", LectorDeTarifas::$cerrados, "\n";` y borrá los dos archivos con `unlink`. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -10346,6 +10390,11 @@ En un solo archivo se puede escribir `namespace Velero { … }` y `namespace Rem
 #### Desafío
 Poné cada `Timon` en su namespace y usá los dos.
 
+#### Pasos
+1. Envolvé la primera clase en `namespace Velero { ... }` y la segunda en `namespace Remolque { ... }`.
+2. Al final: `namespace { echo (new Velero\Timon())->girar() . "\n"; echo (new Remolque\Timon())->girar() . "\n"; }`.
+3. Tocá **Ejecutar**. Tienen que salir los dos timones.
+
 #### Código inicial
 ```php
 <?php
@@ -10427,6 +10476,11 @@ Con muchas clases, escribir un `require` por cada archivo es un lío. `spl_autol
 #### Desafío
 Registrá el autoload para que encuentre las clases en la carpeta `src/`.
 
+#### Pasos
+1. Borrá el renglón `require 'src/Ancla.php';`.
+2. En su lugar: `spl_autoload_register(function (string $clase): void { require 'src/' . $clase . '.php'; });`.
+3. Tocá **Ejecutar**. Tienen que salir `ancla abajo` y `vela arriba`.
+
 #### Código inicial
 ```php
 <?php
@@ -10492,6 +10546,11 @@ str_replace('\\', '/', $resto)
 
 #### Desafío
 Completá el autoload con la regla PSR-4.
+
+#### Pasos
+1. Dentro del autoload, antes del `require`: `$relativa = substr($clase, strlen('Puerto\\'));` (sacás el prefijo `Puerto\`).
+2. Cambiá el `require` por `require 'src/' . str_replace('\\', '/', $relativa) . '.php';`.
+3. Tocá **Ejecutar**. Tiene que salir `Puerto\Muelle\Grua`.
 
 #### Código inicial
 ```php
@@ -11201,6 +11260,13 @@ Para que nadie saque piezas a mano, hacé `private` el stock y escribí un méto
 #### Desafío
 Protegé el stock del inventario.
 
+#### Pasos
+1. Cambiá `public int $tablas` por `private int $tablas`.
+2. Agregá `retirar(int $cantidad): void`: si no alcanza, `echo "No alcanza: hay {$this->tablas}\n";` y `return;`. Si alcanza, restá.
+3. Agregá el getter `tablas(): int`.
+4. Abajo: `$inv->retirar(4);`, `$inv->retirar(9);` y `echo "Tablas: " . $inv->tablas() . "\n";`.
+5. Tocá **Ejecutar**. Tiene que salir `Tablas: 6`.
+
 #### Código inicial
 ```php
 <?php
@@ -11276,6 +11342,12 @@ Un `catch` vacío **esconde** el problema: el error pasa y nadie se entera. Most
 
 #### Desafío
 Hacé que el `catch` avise el error en lugar de tragárselo.
+
+#### Pasos
+1. Antes del `foreach`: `$fallas = 0;`.
+2. En el `catch` vacío: `$fallas++;` y `echo "Falla: " . $e->getMessage() . "\n";`.
+3. El último `echo`: `echo $fallas === 0 ? "Golem armado\n" : "Piezas con falla: $fallas\n";`.
+4. Tocá **Ejecutar**. Tiene que salir `Piezas con falla: 1`.
 
 #### Código inicial
 ```php
@@ -11359,6 +11431,13 @@ En un `enum` con valores, `$estado->value` es el valor asignado a ese caso (el t
 
 #### Desafío
 Completá las clases para que el Gólem se revise solo.
+
+#### Pasos
+1. Cambiá `class Tabla` por `final class Tabla implements Pieza`.
+2. Agregale `revisar(): Estado` → `return $this->clavos >= 2 ? Estado::Firme : Estado::Floja;` y `nombre(): string` → `$this->nombre`.
+3. `final class Golem`. En su método, `$firmes = 0;` y recorré las piezas: `$estado = $p->revisar();`, `echo $p->nombre() . ": " . $estado->value . "\n";` y, si es `Estado::Firme`, sumá.
+4. Al final: `echo "Firmes: $firmes de " . count($this->piezas) . "\n";`.
+5. Tocá **Ejecutar**. Tiene que salir `Firmes: 2 de 3`.
 
 #### Código inicial
 ```php
@@ -11520,6 +11599,16 @@ Cada comando muestra el resultado o el error atrapado (sin cortar el programa).
 - Usa clase abstracta, enum con método, excepciones propias y encapsulamiento.
 - No hay `if`/`match` sobre el tipo de embarcación para calcular costos (salvo al
 - Los errores se atrapan en el programa principal y no lo cortan.
+
+#### Pasos
+1. Borrá el comentario. Las excepciones: `class EstadoInvalido extends DomainException {}` y `class EmbarcacionDesconocida extends DomainException {}`.
+2. `enum Estado: string` con `Ingresada = 'ingresada'`, `EnReparacion = 'en reparación'`, `Lista = 'lista'` y `Entregada = 'entregada'`. `siguiente(): ?self` con `match`: la que sigue, o `null` después de `Entregada`.
+3. `abstract class Embarcacion` (`public readonly string $matricula`, `protected float $eslora`) con `abstract costoPorHora(): float` y `tipo()` → `strtolower(static::class)`. `Bote` → 12000; `Velero` (velas) → `15000 + 2000 * velas`; `Lancha` (hp) → `hp > 150 ? 18000 * 1.2 : 18000`.
+4. `class Reparacion` (embarcación y descripción `readonly`; `private float $horas = 0` y `private Estado $estado = Estado::Ingresada`). `trabajar` lanza `EstadoInvalido("{matrícula} está {estado}: no se puede trabajar")` si no está en reparación. `avanzar` lanza `EstadoInvalido("{matrícula} ya fue entregada")` si no hay siguiente. Agregá `costo()` → horas × costo por hora.
+5. `class Taller` con `ingresar`, `reparacion($matricula)` (`?? throw new EmbarcacionDesconocida("No hay ninguna embarcación $matricula en el taller")`) e `informe()`: ordenado con `ksort`, cada fila con `sprintf('%-8s %-7s %-14s %4.1f h  $%s', ...)` y al final `'Facturado: $' . ...`.
+6. `crearEmbarcacion($tipo, $matricula, $eslora, $extra)` con `match` (bote, velero, lancha; `default` lanza `InvalidArgumentException("Tipo desconocido: $tipo")`).
+7. Leé comandos con `fgets`, `explode(';', ...)` y un `switch` para INGRESA, AVANZA, TRABAJA e INFORME (copiá los mensajes de la salida). Envolvé todo en `try` con `catch (DomainException | InvalidArgumentException $e)` → `"Error: "`.
+8. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php

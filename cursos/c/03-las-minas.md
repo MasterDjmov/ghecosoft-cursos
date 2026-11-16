@@ -248,6 +248,12 @@ int *notas = malloc(3 * sizeof *notas);
 #### Desafío
 Pedí la memoria y devolvela al final.
 
+#### Pasos
+1. Hay dos `___`.
+2. En `int *cargas = ___;`: `malloc(5 * sizeof *cargas)` (lugar para 5 enteros).
+3. En el `___;` del final: `free(cargas);` (devolver la memoria).
+4. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -325,6 +331,11 @@ No te olvides del `free` al final.
 
 #### Desafío
 Pedí lugar para `n` cargas.
+
+#### Pasos
+1. Buscá `int *v = ___;`.
+2. Cambiá `___` por `malloc(n * sizeof *v)`.
+3. Tocá **Ejecutar**. Tiene que salir `4 cargas, 450 kg en total`.
 
 #### Código inicial
 ```c
@@ -414,6 +425,11 @@ La regla: en cuanto un bloque ya no se usa, `free`.
 #### Desafío
 Devolvé la vagoneta al final de cada vuelta.
 
+#### Pasos
+1. Adentro del bucle, debajo del `printf`, agregá `free(carga);`
+2. Y debajo, `devueltas++;`
+3. Tocá **Ejecutar**. Tiene que salir `vagonetas devueltas: 3`.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -498,6 +514,11 @@ strcpy(copia, texto);
 
 #### Desafío
 Completá el tamaño justo.
+
+#### Pasos
+1. Buscá `malloc(___)`.
+2. Cambiá `___` por `strlen(s) + 1` (las letras más el `'\0'`).
+3. Tocá **Ejecutar**. Tiene que salir `Hulda ocupa 6 bytes`.
 
 #### Código inicial
 ```c
@@ -596,6 +617,14 @@ Al terminar, cada `malloc` tiene su `free`.
 - Revisa el `NULL` de cada `malloc`.
 - Libera cada texto una vez.
 - Compila sin advertencias y sin fugas (`-fsanitize=address`).
+
+#### Pasos
+1. Arriba de `main`, `char *duplicar(const char *texto)`: `char *copia = malloc(strlen(texto) + 1);`; si no es `NULL`, `strcpy(copia, texto);`. Devolvé `copia`.
+2. `char *unir(const char *a, const char *separador, const char *b)`: `size_t largo = strlen(a) + strlen(separador) + strlen(b) + 1;`, `malloc(largo)` y, si no es `NULL`, `snprintf(todo, largo, "%s%s%s", a, separador, b);`
+3. En `main`: `char *nombre = duplicar("Kira");` y `char *titulo = unir(nombre, " de ", "las Forjas");`. Si alguno es `NULL`, liberá los dos y `return 1;`
+4. `nombre[0] = 'M';` y `printf("copia modificada: %s\n", nombre);`
+5. `printf("título: %s (%zu letras, %zu bytes pedidos)\n", titulo, strlen(titulo), strlen(titulo) + 1);`
+6. `free(nombre);` y `free(titulo);`. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```c
@@ -697,6 +726,14 @@ Llenala con la cuenta que te dan, mostrala con dos `for` anidados y liberá el b
 - Reserva un solo bloque con `malloc` y revisa el `NULL`.
 - Calcula la posición con `f * columnas + c`.
 - Muestra el mapa y el total; libera la memoria.
+
+#### Pasos
+1. Arriba de `main`, `int pedir(const char *pregunta)`: muestra la pregunta, lee con `fgets` y `sscanf`; devuelve el número si está entre 1 y 20, o `-1`.
+2. En `main`: `int filas = pedir("Filas: ");`, `int columnas = pedir("Columnas: ");` y `printf("\n");`. Si alguno es `-1`: `"Tamaño inválido.\n"` y `return 1;`
+3. Un solo bloque: `int *mapa = malloc((size_t) filas * columnas * sizeof *mapa);` (si es `NULL`, `return 1;`).
+4. Llenalo con dos `for`: `mapa[f * columnas + c] = (f * 7 + c * 3) % 10;` y sumá al `total`.
+5. Mostralo con otros dos `for`: `printf("%2d", mapa[f * columnas + c]);` y `"\n"` por fila.
+6. `printf("Oro en la mina: %d\n", total);` y `free(mapa);`. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```c
@@ -813,6 +850,15 @@ Cuidado: guardá lo que devuelve `realloc` en **otro** puntero. Si da `NULL`, el
 - Devuelve el puntero nuevo y la cantidad por `*n`.
 - Trata aparte el caso de cero elementos.
 - Sin fugas.
+
+#### Pasos
+1. Arriba de `main`, `int *solo_pares(int *v, int *n)`: copiá los pares al principio con `v[k++] = v[i];`.
+2. Si `k == 0`: `free(v);`, `*n = 0;` y `return NULL;`
+3. Si no: `int *chico = realloc(v, k * sizeof *v);`. Si `chico == NULL`, `*n = k;` y `return v;`. Si no, `*n = k;` y `return chico;`
+4. En `main`: `int n = 10;`, `int *cofre = malloc(n * sizeof *cofre);` y llenalo con `i * 3 + 1`.
+5. Mostrá `printf("antes (%d):", n);` y los números con `" %d"`.
+6. `cofre = solo_pares(cofre, &n);`, `printf("\ndespués (%d):", n);`, los números y `"\n"`. Al final `free(cofre);`
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```c
@@ -1288,6 +1334,12 @@ Se guarda primero en `nuevo` porque, si no hay lugar, `realloc` devuelve `NULL` 
 #### Desafío
 Completá la nueva capacidad (el doble) y el `realloc`.
 
+#### Pasos
+1. Hay dos `___`.
+2. `int nueva_cap = cap * 2;`
+3. `int *nuevo = realloc(v, nueva_cap * sizeof *v);`
+4. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -1385,6 +1437,12 @@ Adentro, `*n` es la cantidad de afuera y `*v` es el puntero de afuera. Para lleg
 
 #### Desafío
 Completá la línea que guarda el valor.
+
+#### Pasos
+1. Buscá el `___;` antes de `return 1;`.
+2. Cambialo por dos líneas: `(*v)[*n] = valor;` y `(*n)++;`
+3. Los paréntesis importan: primero se sigue el puntero, después se usa el índice.
+4. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```c
@@ -1506,6 +1564,11 @@ Sirve al terminar de cargar: si pediste lugar para 8 y usaste 5, achicás a 5 y 
 #### Desafío
 Achicá el bloque a la cantidad justa.
 
+#### Pasos
+1. Buscá `int *justo = ___;`.
+2. Cambiá `___` por `realloc(v, n * sizeof *v)` (justo lo que hace falta).
+3. Tocá **Ejecutar**. Tiene que salir `capacidad 5`.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -1589,6 +1652,11 @@ Por eso conviene escribir `sizeof *v` y no `sizeof(int)`: si cambia el tipo, la 
 
 #### Desafío
 Completá el `realloc` del array de structs.
+
+#### Pasos
+1. Buscá `Enemigo *nuevo = ___;`.
+2. Cambiá `___` por `realloc(v, cap * 2 * sizeof *v)`.
+3. Tocá **Ejecutar**. Tiene que salir `capacidad final: 4`.
 
 #### Código inicial
 ```c
@@ -1730,6 +1798,14 @@ Agregá cuatro enemigos (Slime 10, Goblin 25, Orco 40, Troll 70), quitá el de l
 - Valida `0 <= indice < cantidad`.
 - Corre los de atrás un lugar y baja la cantidad.
 - No cambia la capacidad; libera al final.
+
+#### Pasos
+1. Arriba de `main`, escribí `bool horda_quitar(Horda *h, int indice)`.
+2. Si `indice < 0 || indice >= h->cantidad`, `return false;`
+3. Corré los de atrás: `for (int i = indice; i < h->cantidad - 1; i++) h->datos[i] = h->datos[i + 1];`, después `h->cantidad--;` y `return true;`
+4. En `main`, cambiá el comentario `/* ... */` por: agregar Slime 10, Goblin 25, Orco 40 y Troll 70 con `horda_agregar(&h, "Slime", 10);`, etc.
+5. `printf("quitar 1: %s\n", horda_quitar(&h, 1) ? "sí" : "no");`, lo mismo con 7, y `horda_mostrar(&h);`
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```c
@@ -1928,6 +2004,14 @@ Si `mostrar` es verdadero, muestra la capacidad final y las ampliaciones. Probal
 - Muestra los resultados para 20 y para 1000 elementos.
 - Libera la memoria en cada prueba.
 
+#### Pasos
+1. Arriba de `main`, `int llenar(int elementos, int duplicar, int mostrar)` con `int *datos = NULL;` y `int cantidad = 0, capacidad = 0, ampliaciones = 0;`
+2. Por cada elemento, si `cantidad == capacidad`: la nueva es `duplicar ? (capacidad == 0 ? 2 : capacidad * 2) : capacidad + 4`; `realloc` con un temporal (si falla, `free(datos);` y `return -1;`), y `ampliaciones++;`
+3. Guardá `datos[cantidad++] = i;`
+4. Si `mostrar`: `printf("%-10s capacidad final %2d, ampliaciones %d\n", duplicar ? "duplicar:" : "sumar 4:", capacidad, ampliaciones);`. Después `free(datos);` y devolvé `ampliaciones`.
+5. En `main`: `llenar(20, 1, 1);`, `llenar(20, 0, 1);`, después `int con_duplicar = llenar(1000, 1, 0);`, `int con_sumar = llenar(1000, 0, 0);` y `printf("Con 1000 elementos: duplicar %d, sumar 4 %d\n", con_duplicar, con_sumar);`
+6. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -2025,6 +2109,13 @@ Escribí `bool horda_encoger(Horda *h)`, que achica el bloque para que la capaci
 - Usa `realloc` con temporal para achicar.
 - Trata aparte la horda vacía.
 - La horda sigue funcionando después de encogerla.
+
+#### Pasos
+1. Arriba de `main`, `bool horda_encoger(Horda *h)`.
+2. Si `h->cantidad == h->capacidad`, `return true;`. Si `h->cantidad == 0`, `horda_liberar(h);` y `return true;`
+3. Si no: `Enemigo *tmp = realloc(h->datos, h->cantidad * sizeof *tmp);`; si es `NULL`, `return false;`. Si no, `h->datos = tmp;`, `h->capacidad = h->cantidad;` y `return true;`
+4. En `main`, cambiá `/* ... */` por un `for` que agrega 5 goblins (`horda_agregar(&h, "Goblin", 20 + i);`), `horda_mostrar`, `horda_encoger`, `horda_mostrar`, `horda_agregar(&h, "Orco", 50);` y `horda_mostrar`.
+5. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```c

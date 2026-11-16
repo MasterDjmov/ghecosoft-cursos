@@ -293,6 +293,11 @@ p.nombre = "Toby";
 #### Desafío
 Creá el objeto con `new`.
 
+#### Pasos
+1. Hay un `___` en `Viajero v = ___;`.
+2. Un objeto nuevo se crea con `new`: `new Viajero()`.
+3. Tocá **Ejecutar**. Tiene que salir `Zed, 19 años, ladrón retirado`.
+
 #### Código inicial
 ```java
 public class Molde {
@@ -361,6 +366,11 @@ Cada `new` fabrica un objeto **distinto**, con su propia copia de los atributos.
 
 #### Desafío
 Creá el segundo viajero, `b`, con su propio `new`.
+
+#### Pasos
+1. Hay un `___` en `Viajero b = ___;`.
+2. Igual que `a`: `new Viajero()`.
+3. Tocá **Ejecutar**. Tienen que salir los dos viajeros, cada uno con lo suyo.
 
 #### Código inicial
 ```java
@@ -432,6 +442,11 @@ Adentro de ese método, `nombre` es el nombre de **ese** objeto. Se llama con el
 
 #### Desafío
 Completá el `return` del método `saludo`: «Soy <nombre>. Origen: <origen>».
+
+#### Pasos
+1. Hay un `___` en el `return` de `saludo`.
+2. Uní los textos con `+`: `"Soy " + nombre + ". Origen: " + origen`.
+3. Tocá **Ejecutar**. Tiene que salir `Soy Zed. Origen: el Puerto`.
 
 #### Código inicial
 ```java
@@ -524,6 +539,11 @@ public String toString() {
 #### Desafío
 Completá el nombre del método para que `println(v)` muestre al viajero.
 
+#### Pasos
+1. Hay un `___` en `public String ___()`.
+2. El método que usa `println` para mostrar un objeto se llama `toString`.
+3. Tocá **Ejecutar**. Tiene que salir `Viajero[Zed, 19]`.
+
 #### Código inicial
 ```java
 public class Fantasma {
@@ -603,6 +623,15 @@ En el `main`, creá dos espadas, usalas y afilalas, y mostrá su estado en cada 
 **Para superarla:**
 - La clase tiene atributos, tres métodos de instancia y `toString`.
 - Las dos espadas cambian cada una su propio estado.
+
+#### Pasos
+1. Abajo, afuera de `Forja`: `class Espada {` con `String nombre;`, `int filo;` y `String material;`.
+2. `void usar()` → `filo = Math.max(0, filo - 15);`. `void afilar()` → `filo = Math.min(100, filo + 30);`.
+3. `boolean estaRota()` → `return filo == 0;`. `public String toString()` → `return nombre + " de " + material + " (filo " + filo + ")";`
+4. En el `main`, borrá el comentario. Creá `colmillo` (Colmillo, 50, acero) y `brisa` (Brisa, 20, bronce) con `new Espada()`, y cargá sus atributos.
+5. Mostralas. Después: `colmillo.usar();`, `brisa.usar();` dos veces y el bloque `"Después de pelear:"`. A Brisa le sumás `(brisa.estaRota() ? " ¡ROTA!" : "")`.
+6. `brisa.afilar();` una vez, `colmillo.afilar();` dos veces y el bloque `"Después del herrero:"`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -714,6 +743,15 @@ resultado de cada operación.
 - `retirar` devuelve un `boolean` y no deja el saldo negativo.
 - `depositar` ignora montos negativos o cero.
 
+#### Pasos
+1. Abajo: `class Alcancia {` con `String duenio;` e `int denarios;`.
+2. `void depositar(int monto)` → solo si `monto > 0`, `denarios += monto;`.
+3. `boolean retirar(int monto)` → si `monto <= 0 || monto > denarios`, `return false;`. Si no, restá y `return true;`.
+4. `toString` → `"Alcancía de " + duenio + ": " + denarios + " denarios"`.
+5. En el `main`: creala, `duenio = "Nadia"` y mostrala. Después `depositar(80)`, `depositar(-20)` y mostrala.
+6. `System.out.println("Retirar 30: " + (alcancia.retirar(30) ? "ok" : "no alcanza"));`. Lo mismo con 100. Al final, mostrala otra vez.
+7. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```java
 public class Ahorros {
@@ -806,6 +844,16 @@ mostrá cada mula y el total cargado.
 **Para superarla:**
 - Usa un array de objetos.
 - Cada bulto se intenta en orden y se informa si no entra en ninguna.
+
+#### Pasos
+1. Abajo: `class Mula {` con `String nombre;`, `int carga;` e `int cargaMaxima;`.
+2. `boolean cargar(int kilos)` → si `carga + kilos > cargaMaxima`, `return false;`. Si no, sumá y `return true;`.
+3. `toString` → `nombre + ": " + carga + "/" + cargaMaxima + " kg"`.
+4. En el `main`: `Mula[] mulas = {new Mula(), new Mula(), new Mula()};`. Con un `for`, poneles nombres Terca, Lenta y Brava, y máximos 60, 50 y 70.
+5. `int[] bultos = {40, 25, 60, 10, 35};`. Para cada bulto, recorré las mulas. En la primera que `cargar(bulto)` dé `true`: `"Bulto de " + bulto + " kg -> " + m.nombre` y `break;`.
+6. Si ninguna lo aceptó (usá un `boolean ubicado`): `"Bulto de " + bulto + " kg: no entra en ninguna mula"`.
+7. Mostrá cada mula, sumá sus cargas y `"Total cargado: " + total + " kg"`.
+8. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -1259,6 +1307,11 @@ Se llama igual que la clase y no tiene tipo de retorno. `this` quiere decir «es
 #### Desafío
 Completá la línea que guarda el arma en el objeto.
 
+#### Pasos
+1. Hay un `___` en el constructor, debajo de `this.nombre = nombre;`.
+2. Lo mismo con el arma: `this.arma = arma`.
+3. Tocá **Ejecutar**. Tiene que salir `Teo con lanza`.
+
 #### Código inicial
 ```java
 public class Palanca {
@@ -1335,6 +1388,11 @@ Adentro del constructor, `nombre` es el **parámetro**. `nombre = nombre;` lo co
 #### Desafío
 Ejecutalo, mirá los `null` y arreglá las dos asignaciones con `this`.
 
+#### Pasos
+1. En el constructor, `nombre = nombre;` se asigna a sí mismo y el atributo queda en `null`.
+2. Cambialo por `this.nombre = nombre;` y `arma = arma;` por `this.arma = arma;`.
+3. Tocá **Ejecutar**. Tiene que salir `Lía con arco`.
+
 #### Código inicial
 ```java
 public class Nadie {
@@ -1404,6 +1462,11 @@ Se pueden tener varios constructores con distintos parámetros (sobrecarga). Uno
 
 #### Desafío
 Completá la llamada al otro constructor con el arma por defecto, "lanza".
+
+#### Pasos
+1. Hay un `___` en el constructor `Soldado(String nombre)`.
+2. Llamá al otro constructor con la lanza: `this(nombre, "lanza")`.
+3. Tocá **Ejecutar**. Tiene que salir `Teo con lanza`.
 
 #### Código inicial
 ```java
@@ -1489,6 +1552,11 @@ Si una clase no tiene constructores, Java le pone uno **vacío**. Apenas escrib�
 #### Desafío
 Ejecutalo, leé el error y agregá un constructor sin parámetros que arme un "recluta" con un "palo".
 
+#### Pasos
+1. El `main` usa `new Soldado()`, pero no hay un constructor sin parámetros.
+2. Arriba del otro constructor, agregá `Soldado() {` con `this("recluta", "palo");` adentro, y cerrá con `}`.
+3. Tocá **Ejecutar**. Tiene que salir `recluta con palo`.
+
 #### Código inicial
 ```java
 public class Desaparecido {
@@ -1571,6 +1639,15 @@ alguna dosis (y descuenta una) o 0 si está vacía. Probá los tres constructore
 **Para superarla:**
 - Los constructores usan `this(...)` para no repetir código.
 - El poder queda siempre entre 1 y 100.
+
+#### Pasos
+1. Abajo: `class Pocion {` con `String nombre;`, `int poder;` e `int dosis;`.
+2. El constructor completo `Pocion(String nombre, int poder, int dosis)`: guarda los tres, con `this.poder = Math.max(1, Math.min(100, poder));`.
+3. `Pocion(String nombre, int poder)` → `this(nombre, poder, 3);`. `Pocion(String nombre)` → `this(nombre, 10);`.
+4. `int beber()` → si `dosis == 0`, `return 0;`. Si no, `dosis--;` y `return poder;`.
+5. `toString` → `"Poción de " + nombre + " (poder " + poder + ", " + dosis + " dosis)"`.
+6. En el `main`: `new Pocion("Vida", 40, 2)`, `new Pocion("Furia", 250)` y `new Pocion("Agua")`. Mostralas, bebé Vida tres veces (`"Bebo Vida: +" + vida.beber()`) y mostrala de nuevo.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -1679,6 +1756,15 @@ un `try`/`catch` como el del ejemplo, y mostrá qué pasó con cada uno.
 - La validación está en el constructor.
 - Cada error tiene su mensaje.
 
+#### Pasos
+1. Abajo: `class Pasaporte {` con `String titular;`, `String numero;` e `int vence;`.
+2. En el constructor, antes de guardar: si `titular == null || titular.isBlank()`, `throw new IllegalArgumentException("falta el titular");`.
+3. Si `numero == null || !numero.matches("\\d{8}")`: `"el número tiene que tener 8 dígitos"`. Si `vence < 2026`: `"el pasaporte está vencido"`.
+4. Después guardá los tres con `this.`. `toString` → `titular + " N° " + numero + " (vence " + vence + ")"`.
+5. En `Frontera`: un método `static void crear(String titular, String numero, int vence)` con `try { Pasaporte p = new Pasaporte(...); System.out.println("Emitido: " + p); }` y `catch (IllegalArgumentException e) { System.out.println("Rechazado: " + e.getMessage()); }`.
+6. En el `main`, cuatro `crear(...)`: el bueno (`"Nadia Valdez", "12345678", 2030`), sin titular, con `"12-34"` y con 2020.
+7. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```java
 public class Frontera {
@@ -1777,6 +1863,15 @@ cambiar las originales) y `toString` en formato `hh:mm:ss` con ceros (`String.fo
 - Tres constructores encadenados con `this(...)`.
 - `sumar` devuelve un objeto nuevo.
 - `toString` usa `%02d`.
+
+#### Pasos
+1. Abajo: `class Duracion {` con `int segundos;` y `Duracion(int segundos)` → `this.segundos = segundos;`.
+2. `Duracion(int minutos, int segundos)` → `this(minutos * 60 + segundos);`.
+3. `Duracion(int horas, int minutos, int segundos)` → `this(horas * 3600 + minutos * 60 + segundos);`.
+4. `Duracion sumar(Duracion otra)` → `return new Duracion(segundos + otra.segundos);`.
+5. `toString` → `String.format("%02d:%02d:%02d", segundos / 3600, segundos % 3600 / 60, segundos % 60)`.
+6. En el `main`: `a = new Duracion(95)`, `b = new Duracion(12, 30)` y `c = new Duracion(1, 59, 45)`. Mostralas, `Duracion total = a.sumar(b).sumar(c);` y los dos últimos renglones de la salida.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -2266,6 +2361,11 @@ Desde afuera hay que usar los métodos públicos, que cuidan las reglas: `retira
 #### Desafío
 Completá la condición: no se puede retirar más de lo que hay.
 
+#### Pasos
+1. Hay un `___` en el `if` de `retirar`.
+2. No se puede si el monto es mayor que el saldo: `monto > saldo`.
+3. Tocá **Ejecutar**. Tiene que salir `Retiro 500: false`.
+
 #### Código inicial
 ```java
 public class Tesoreria {
@@ -2363,6 +2463,11 @@ Un atributo `private` no se lee desde otra clase. Para eso el objeto abre una **
 #### Desafío
 Ejecutalo, leé el error y cambiá `cofre.saldo` por el getter.
 
+#### Pasos
+1. `saldo` es `private`: desde afuera no se puede leer directo.
+2. En el `println`, cambiá `cofre.saldo` por `cofre.getSaldo()`.
+3. Tocá **Ejecutar**. Tiene que salir `Saldo para la libreta: 250`.
+
 #### Código inicial
 ```java
 public class Ventanilla {
@@ -2436,6 +2541,11 @@ Un atributo `static` es **de la clase**, no de cada objeto: hay uno solo, compar
 
 #### Desafío
 Completá la declaración para que el contador sea uno solo para toda la clase.
+
+#### Pasos
+1. Hay un `___` antes de `int inscriptos`.
+2. Para que sea uno solo para toda la clase: `static`.
+3. Tocá **Ejecutar**. Tiene que salir `Inscriptos: 3`.
 
 #### Código inicial
 ```java
@@ -2514,6 +2624,11 @@ Un atributo `final` no se puede volver a asignar: `static final double TASA = 0.
 #### Desafío
 Ejecutalo, leé el error y borrá la línea de la trampa.
 
+#### Pasos
+1. `TASA` es `final`: no se puede cambiar.
+2. Borrá el renglón `Tesoro.TASA = 0.01;`.
+3. Tocá **Ejecutar**. Tiene que salir `Tasa: 40.0`.
+
 #### Código inicial
 ```java
 public class Tasa {
@@ -2586,6 +2701,16 @@ necesitar un objeto. En el `main`, probá todo, incluido un valor inválido.
 - La temperatura es `private` y se valida en constructor y setter.
 - Fahrenheit y Kelvin se calculan en los getters.
 - `aCelsius` es `static` y se llama con el nombre de la clase.
+
+#### Pasos
+1. Abajo: `class Termometro {` con `private double celsius;`. El constructor `public Termometro(double celsius)` llama a `setCelsius(celsius);`.
+2. `getCelsius()` devuelve `celsius`. `setCelsius(double celsius)`: si es menor a `-273.15`, `throw new IllegalArgumentException("no existe una temperatura menor al cero absoluto");`. Si no, `this.celsius = celsius;`.
+3. `getFahrenheit()` → `return celsius * 9 / 5 + 32;`. `getKelvin()` → `return celsius + 273.15;`.
+4. `public static double aCelsius(double fahrenheit)` → `return (fahrenheit - 32) * 5 / 9;`.
+5. En el `main`: `Locale.setDefault(Locale.US);`, `Termometro t = new Termometro(25);` y `System.out.printf("%.2f C = %.2f F = %.2f K%n", ...)`.
+6. `t.setCelsius(-10.5);` y el mismo `printf`. Después `System.out.printf("98.6 F son %.2f C%n", Termometro.aCelsius(98.6));`.
+7. Un `try` con `t.setCelsius(-300);` y en el `catch`, `"Rechazado: " + e.getMessage()`. Al final, `"Sigue en %.2f C%n"`.
+8. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -2695,6 +2820,15 @@ cuatro reclutas y dar de baja a uno (dos veces, para ver que no descuenta de má
 - El legajo es `final` y sale de un contador `static`.
 - `darDeBaja` no descuenta dos veces al mismo recluta.
 
+#### Pasos
+1. Abajo: `class Recluta {` con `private static int total = 0;`, `private static int activos = 0;`, `private final int legajo;`, `private final String nombre;` y `private boolean activo = true;`.
+2. Constructor `Recluta(String nombre)`: guardá el nombre, `total++;`, `activos++;` y `legajo = total;`.
+3. `darDeBaja()`: solo `if (activo)` → `activo = false;` y `activos--;`.
+4. `public static int getActivos()` y `getTotal()`. `toString` → `"#" + legajo + " " + nombre + (activo ? "" : " (baja)")`.
+5. En el `main`: cuatro reclutas (Pip, Lía, Olmo, Nara), mostralos separados por `", "` y `"Activos: " + Recluta.getActivos()`.
+6. `b.darDeBaja();` dos veces, `System.out.println(b);` y `"Activos: " + Recluta.getActivos() + " de " + Recluta.getTotal()`.
+7. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```java
 public class Reclutamiento {
@@ -2800,6 +2934,15 @@ array.** Probala en el `main`.
 **Para superarla:**
 - El array es `private` y no hay un getter que lo devuelva.
 - `sacar` compara con `equals` y no deja huecos.
+
+#### Pasos
+1. Abajo: `class Mochila {` con `private final String[] objetos;` y `private int cantidad;`. El constructor: `objetos = new String[capacidad];`.
+2. `guardar(String objeto)`: si es `null`, `isBlank()` o `cantidad == objetos.length`, `return false;`. Si no, `objetos[cantidad] = objeto;`, `cantidad++;` y `return true;`.
+3. `sacar(String objeto)`: buscalo con `objetos[i].equals(objeto)`. Si está, corré los siguientes un lugar (`objetos[j] = objetos[j + 1];`), `cantidad--;`, `objetos[cantidad] = null;` y `return true;`. Si no, `false`.
+4. `contiene` (igual que buscar, sin sacar) y `getCantidad()`.
+5. `toString` con un `StringBuilder`: `"["`, los objetos separados por `", "` y `"]"`.
+6. En el `main`: `new Mochila(3)` y los renglones de la salida esperada (guardar cuatro, mostrar, `contiene`, sacar pan y oro, guardar vela).
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -3310,6 +3453,11 @@ Una variable de tipo clase no guarda el objeto: guarda una **referencia**, la di
 #### Desafío
 Ejecutalo y fijate que se abollan los dos. Después hacé que `b` sea un escudo nuevo.
 
+#### Pasos
+1. `Escudo b = a;` no crea otro escudo: `b` apunta al mismo.
+2. Cambialo por `Escudo b = new Escudo();`.
+3. Tocá **Ejecutar**. Tiene que salir `Escudo de a abollado: false`.
+
 #### Código inicial
 ```java
 public class Escudos {
@@ -3375,6 +3523,11 @@ Zed busca en el registro a un viajero que llegó «con un vitral». La búsqueda
 
 #### Desafío
 Completá la condición para usar al viajero solo si se encontró.
+
+#### Pasos
+1. Hay un `___` en el `if`.
+2. Usalo solo si no es `null`: `v != null`.
+3. Tocá **Ejecutar**. Tiene que salir `el Vidriero: no está en el registro`.
 
 #### Código inicial
 ```java
@@ -3469,6 +3622,11 @@ Hay dos sellos con el mismo código, «A-7». Son dos objetos distintos, pero va
 #### Desafío
 Completá el `return` de `equals`: iguales si tienen el mismo código.
 
+#### Pasos
+1. Hay un `___` en el `return` de `equals`.
+2. Compará los códigos con `equals`: `codigo.equals(otro.codigo)`.
+3. Tocá **Ejecutar**. Tiene que salir `a.equals(b): true`.
+
 #### Código inicial
 ```java
 public class Sellos {
@@ -3562,6 +3720,11 @@ recompensa: xp 15, oro 15
 
 #### Desafío
 Completá el `hashCode` con el mismo campo que usa `equals`.
+
+#### Pasos
+1. Hay un `___` en el `return` de `hashCode`.
+2. Usá el mismo campo que `equals`: `Objects.hash(codigo)`.
+3. Tocá **Ejecutar**. Tiene que salir `Misma huella: true`.
 
 #### Código inicial
 ```java
@@ -3678,6 +3841,15 @@ Escribí una clase `Mapa` con un nombre y una cantidad de marcas, un método
 - Se ve que el alias modifica el original y la copia no.
 - Tiene constructor de copia.
 
+#### Pasos
+1. Abajo: `class Mapa {` con `private final String nombre;` y `private int marcas;`.
+2. Dos constructores: `Mapa(String nombre)` y el de copia `Mapa(Mapa otro)`, que copia `otro.nombre` y `otro.marcas`.
+3. `agregarMarca()` → `marcas++;`. `toString` → `"mapa de " + nombre + " con " + marcas + " marcas"`.
+4. En el `main`: `Mapa original = new Mapa("Frontera");`, `Mapa alias = original;`, dos `alias.agregarMarca();` y `"Original: " + original`.
+5. `Mapa copia = new Mapa(original);`, `copia.agregarMarca();` y mostrá el original y la copia.
+6. `"original == alias: " + (original == alias)` y lo mismo con `copia`.
+7. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```java
 public class Cartografia {
@@ -3775,6 +3947,16 @@ cada par con `equals`.
 - `equals(Object)` con `@Override`, `instanceof` y comparación de ISBN con `equals`.
 - `hashCode` coherente con `equals`.
 - Detecta los dos repetidos.
+
+#### Pasos
+1. Abajo: `class Libro {` con `isbn`, `titulo` y `anio` (`private final`) y su constructor.
+2. `@Override public boolean equals(Object otro)`: si `this == otro`, `true`; si `!(otro instanceof Libro)`, `false`; si no, `return isbn.equals(((Libro) otro).isbn);`.
+3. `@Override public int hashCode()` → `return Objects.hash(isbn);`.
+4. `toString` → `"\"" + titulo + "\" (" + anio + ")"`.
+5. En el `main`: el array de 5 libros (copialos de la salida: ISBN `978-1`, `978-2`, `978-1`, `978-3`, `978-2`).
+6. Dos `for` (`j` desde `i + 1`): si `libros[i].equals(libros[j])`, `"Repetido: " + libros[i] + " y " + libros[j]` y sumá uno.
+7. `"Pares repetidos: " + repetidos` y `"Mismo hashCode el 0 y el 2: " + (libros[0].hashCode() == libros[2].hashCode())`.
+8. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -3892,6 +4074,14 @@ turnos)`. Probalo con los turnos 0 a 3 y con un array donde el turno 1 está vac
 **Para superarla:**
 - Pregunta por `null` antes de usar cada referencia.
 - Maneja el índice fuera de rango.
+
+#### Pasos
+1. Abajo: `class Guardia {` con `private final String nombre;`, su constructor y `getNombre()`.
+2. En `Guardias`: `static String quienCuida(Guardia[] turnos, int turno)` → si `turnos == null || turno < 0 || turno >= turnos.length || turnos[turno] == null`, `return "nadie";`. Si no, `return turnos[turno].getNombre();`.
+3. `static int contarPresentes(Guardia[] turnos)`: contá los que no son `null`.
+4. En el `main`: `Guardia[] turnos = new Guardia[3];`, `turnos[0] = new Guardia("Baldo");` y `turnos[2] = new Guardia("Nara");`.
+5. `for (int t = 0; t <= 3; t++)` → `"Turno " + t + ": " + quienCuida(turnos, t)`. Al final, `"Presentes: " + contarPresentes(turnos)`.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -4389,6 +4579,11 @@ class Perro extends Animal {
 #### Desafío
 Completá la palabra que hace que el Guerrero herede del Personaje.
 
+#### Pasos
+1. Hay un `___` en `class Guerrero ___ Personaje`.
+2. Para heredar se usa `extends`.
+3. Tocá **Ejecutar**. Tiene que salir `Lía (120 de vida)`.
+
 #### Código inicial
 ```java
 public class AlaOeste {
@@ -4473,6 +4668,11 @@ Si el padre tiene un constructor con parámetros, el hijo lo llama con `super(�
 
 #### Desafío
 Completá la llamada al constructor del padre: los guerreros arrancan con 120 de vida.
+
+#### Pasos
+1. Hay un `___` en el constructor de `Guerrero`.
+2. Llamá al del padre con el nombre y 120: `super(nombre, 120)`.
+3. Tocá **Ejecutar**. Tiene que salir `Lía (120 de vida), fuerza 9`.
 
 #### Código inicial
 ```java
@@ -4570,6 +4770,11 @@ Para **sobrescribir** un método, el hijo lo escribe con el **mismo nombre y par
 
 #### Desafío
 Ejecutalo, leé el error y corregí el nombre del método del Arquero.
+
+#### Pasos
+1. En el Arquero, el método se llama `descrbir` (le falta una **i**).
+2. Corregilo: `describir`.
+3. Tocá **Ejecutar**. Tiene que salir `Mira, arquera que nunca falla`.
 
 #### Código inicial
 ```java
@@ -4671,6 +4876,11 @@ Adentro de un método sobrescrito, `super.describir()` llama a la versión del *
 
 #### Desafío
 Completá el `return`: lo que describe el padre, más " y lanza rayos".
+
+#### Pasos
+1. Hay un `___` en el `return`.
+2. Usá lo del padre y sumale el texto: `super.describir() + " y lanza rayos"`.
+3. Tocá **Ejecutar**. Tiene que salir `Sol (80 de vida) y lanza rayos`.
 
 #### Código inicial
 ```java
@@ -4781,6 +4991,15 @@ Mostrá el sueldo de un empleado de cada tipo con 2 decimales.
 **Para superarla:**
 - Las subclases usan `super(...)` en el constructor.
 - `sueldo()` se sobrescribe con `@Override` y reutiliza `super.sueldo()`.
+
+#### Pasos
+1. Abajo: `class Empleado {` con `nombre` y `sueldoBase`, su constructor, `getNombre()` y `double sueldo()` (devuelve el base).
+2. `toString` → `String.format("%-6s cobra %.2f", nombre, sueldo())`.
+3. `class Vendedor extends Empleado {` con `ventas`. Constructor: `super(nombre, sueldoBase);` y guardá las ventas.
+4. `@Override sueldo()` → `return super.sueldo() + ventas * 0.05;`. `@Override toString()` → `super.toString() + " (vendedor, ventas " + String.format("%.2f", ventas) + ")"`.
+5. `class Gerente extends Empleado {` con `bono`: `sueldo()` → `super.sueldo() + bono` y `toString()` → `super.toString() + " (gerente)"`.
+6. En el `main`: `Locale.setDefault(Locale.US);`. Creá Olmo (400000), Nara (300000, 2500000) y Tesla (700000, 250000) y mostralos.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -4914,6 +5133,14 @@ padre. Probá las dos cuentas.
 **Para superarla:**
 - El saldo es `private` y las subclases lo cambian por un método `protected`.
 - Cada subclase sobrescribe `extraer` con su regla.
+
+#### Pasos
+1. Abajo: `class Cuenta {` con `private double saldo;`, `depositar` (solo montos positivos), `getSaldo()` y `protected void setSaldo(double saldo)`.
+2. `extraer(double monto)` → si `monto <= 0 || monto > saldo`, `return false;`. Si no, restá y `return true;`.
+3. `class CajaAhorro extends Cuenta {` con `private int extracciones = 0;`. `@Override extraer`: si ya hubo 3, `false`; si no, `boolean ok = super.extraer(monto);`, si `ok` sumá una extracción y `return ok;`.
+4. `class CuentaCorriente extends Cuenta {` con `descubierto` (en el constructor). `@Override extraer`: si `monto <= 0 || getSaldo() - monto < -descubierto`, `false`. Si no, `setSaldo(getSaldo() - monto);` y `true`.
+5. En el `main`: `Locale.setDefault(Locale.US);`. Caja con 1000 y cuatro extracciones de 100 en un `for`. Después la corriente: `new CuentaCorriente(500)`, depositá 200 y extraé 600 y 200. Copiá los mensajes de la salida esperada.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -5050,6 +5277,15 @@ figura de cada tipo.
 **Para superarla:**
 - `ficha()` es `final` y usa `area()`.
 - `Cuadrado` hereda de `Rectangulo` y no vuelve a escribir `area()`.
+
+#### Pasos
+1. Abajo: `class Figura {` con `nombre`, `area()` que devuelve 0 y `public final String ficha()` → `String.format("%s: área %.2f", nombre, area())`.
+2. `class Rectangulo extends Figura {` con `base` y `altura`. Dos constructores: `Rectangulo(double base, double altura)` → `this("rectángulo", base, altura);` y `protected Rectangulo(String nombre, double base, double altura)` → `super(nombre);` y guarda base y altura.
+3. `@Override area()` → `base * altura`.
+4. `class Circulo extends Figura {` con `radio`, `super("círculo")` y `area()` → `Math.PI * radio * radio`.
+5. `class Cuadrado extends Rectangulo {` con un solo constructor: `super("cuadrado", lado, lado);`.
+6. En el `main`: `Locale.setDefault(Locale.US);` y las fichas de `new Rectangulo(4, 2.5)`, `new Circulo(3)` y `new Cuadrado(5)`. Al final: `"¿Un cuadrado es un rectángulo? " + (c instanceof Rectangulo)`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -5593,6 +5829,11 @@ Al llamar a un método, se ejecuta el del objeto **real**: `a.sonido()` hace lad
 #### Desafío
 Completá el tipo del array para que entren los tres alumnos.
 
+#### Pasos
+1. Hay un `___` antes de `[] tropa`.
+2. El tipo que tienen en común los tres es el padre: `Personaje`.
+3. Tocá **Ejecutar**. Tienen que salir los tres ataques.
+
 #### Código inicial
 ```java
 public class Patio {
@@ -5723,6 +5964,11 @@ Eso **obliga** a cada hijo a escribirlo. Y si una clase tiene un método abstrac
 #### Desafío
 Completá la palabra que hace abstracta a la clase Personaje.
 
+#### Pasos
+1. Hay un `___` antes de `class Personaje`.
+2. Escribí `abstract`.
+3. Tocá **Ejecutar**. Tienen que salir los dos ataques.
+
 #### Código inicial
 ```java
 public class Abstracto {
@@ -5827,6 +6073,11 @@ Con una variable `Personaje` solo se ven los métodos de `Personaje`. Para usar 
 #### Desafío
 Completá el casting para usar a la maga.
 
+#### Pasos
+1. Hay un `___` en `Maga m = ___;`.
+2. Convertí `p` a `Maga` con un casting: `(Maga) p`.
+3. Tocá **Ejecutar**. Tiene que salir `Sol cura: 30`.
+
 #### Código inicial
 ```java
 public class Disfraz {
@@ -5923,6 +6174,11 @@ Una clase abstracta puede tener métodos **con cuerpo** que usan los abstractos:
 
 #### Desafío
 Completá el `return` del `atacar` de la Arquera: "flecha certera".
+
+#### Pasos
+1. Hay un `___` en el `return` de `atacar` de la Arquera.
+2. Escribí el texto: `"flecha certera"`.
+3. Tocá **Ejecutar**. Tiene que salir `Turno de Mira: flecha certera`.
 
 #### Código inicial
 ```java
@@ -6039,6 +6295,15 @@ patas del zoológico.
 **Para superarla:**
 - `Criatura` es abstracta y tiene métodos abstractos y uno concreto.
 - El `main` recorre el array sin preguntar el tipo de cada criatura.
+
+#### Pasos
+1. Abajo: `abstract class Criatura {` con `private final String nombre;` y un constructor `protected`.
+2. Dos métodos abstractos: `public abstract String sonido();` y `public abstract int patas();`.
+3. `presentarse()` → `nombre + " dice \"" + sonido() + "\" y tiene " + patas() + " patas"`.
+4. `Dragon`, `Grifo` y `Serpiente` con `extends Criatura`: constructor con `super(nombre);`, `sonido()` (`"ROAAR"`, `"kriii"`, `"sss"`) y `patas()` (4, 4, 0), con `@Override`.
+5. En el `main`: `Criatura[] criaturas = {new Dragon("Ignis"), new Grifo("Plumaferro"), new Serpiente("Ofidia")};`. Recorrelas, mostrá `presentarse()` y sumá las patas.
+6. `"Patas en el zoológico: " + patas`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -6171,6 +6436,16 @@ mostrá **solo** las horas de los `PorHora` usando `instanceof` con pattern matc
 **Para superarla:**
 - `pagoMensual` es abstracto y se calcula en cada subclase.
 - El total se calcula sin `instanceof`; solo el listado de horas lo usa.
+
+#### Pasos
+1. Abajo: `abstract class Trabajador {` con `nombre`, `getNombre()` y `public abstract double pagoMensual();`.
+2. `Asalariado` (sueldo) → devuelve el sueldo.
+3. `PorHora` (horas y valorHora, con `getHoras()`): `int normales = Math.min(horas, 160);`, `int extra = Math.max(0, horas - 160);` y `return normales * valorHora + extra * valorHora * 1.5;`.
+4. `Contratado` (monto y meses) → `monto / meses`.
+5. En el `main`: `Locale.setDefault(Locale.US);` y el array con Nara (650000), Pip (180 h a 3500), Olmo (1800000 en 6 meses) y Lía (120 h a 4000).
+6. Recorrelo con `System.out.printf("%-5s %12.2f%n", ...)` y sumá el total. Después, `"Total %12.2f%n"`.
+7. Otro `for`: `if (t instanceof PorHora ph)` → `ph.getNombre() + " trabajó " + ph.getHoras() + " horas"`.
+8. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -6324,6 +6599,15 @@ array. Mostrá la vida después de cada una y si llega a la salida.
 **Para superarla:**
 - Cada trampa implementa `activar` a su manera.
 - El recorrido del pasillo no pregunta el tipo de trampa.
+
+#### Pasos
+1. Abajo: `abstract class Trampa {` con `public abstract int activar(int vidaDelHeroe);` y `nombre()` → `return getClass().getSimpleName();`.
+2. `Pinchos` → `vida - 10`. `Veneno` → `vida - vida / 4`.
+3. `Fuente` → `Math.min(100, vida + 15)`, y su `nombre()` devuelve `"Fuente curativa"`.
+4. En el `main`: `Trampa[] pasillo = {new Pinchos(), new Veneno(), new Fuente(), new Pinchos(), new Veneno(), new Pinchos()};` e `int vida = 80;`.
+5. Por cada trampa: `vida = t.activar(vida);` y `t.nombre() + " -> vida " + vida`. Si `vida <= 0`, `break;`.
+6. Al final, si `vida > 0`, `"¡Nadia llega a la salida con " + vida + " de vida!"`; si no, `"Nadia cae en la mazmorra"`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -6840,6 +7124,11 @@ Una **interfaz** dice qué métodos tiene que tener quien la firme, sin decir c�
 #### Desafío
 Completá la palabra con la que el Barco firma el contrato `Nadador`.
 
+#### Pasos
+1. Hay un `___` en `class Barco ___ Nadador`.
+2. Para firmar una interfaz se usa `implements`.
+3. Tocá **Ejecutar**. Tiene que salir `El barco flota y avanza`.
+
 #### Código inicial
 ```java
 public class Pactos {
@@ -6919,6 +7208,11 @@ Una clase puede implementar **varias** interfaces, separadas por coma: `implemen
 
 #### Desafío
 Completá la segunda interfaz que firma el Grifo.
+
+#### Pasos
+1. Hay un `___` después de `Volador,`.
+2. La otra interfaz que firma es `Nadador`.
+3. Tocá **Ejecutar**. Tiene que salir `Vuela y nada: true`.
 
 #### Código inicial
 ```java
@@ -7007,6 +7301,11 @@ Un método `default` en una interfaz tiene cuerpo: todas las clases que la firma
 
 #### Desafío
 Completá la palabra que le da cuerpo a `bucear` dentro de la interfaz.
+
+#### Pasos
+1. Hay un `___` antes de `String bucear()`.
+2. Un método con cuerpo dentro de una interfaz lleva `default`.
+3. Tocá **Ejecutar**. Tiene que salir `se sumerge un poco y sube`.
 
 #### Código inicial
 ```java
@@ -7100,6 +7399,11 @@ El último pergamino dice: «quien firme este se compromete a **poder ser compar
 
 #### Desafío
 Completá el `return` de `compareTo`: de menos dientes a más.
+
+#### Pasos
+1. Hay un `___` en el `return` de `compareTo`.
+2. Compará los dientes: `Integer.compare(dientes, otra.dientes)`.
+3. Tocá **Ejecutar**. Tiene que empezar con `1 dientes`.
 
 #### Código inicial
 ```java
@@ -7205,6 +7509,14 @@ después de cada uno. `Fuente` sobrescribe `describir()`.
 - Las tres clases implementan `Curador` y se usan a través de la interfaz.
 - Hay un método `default` y al menos una clase lo sobrescribe.
 
+#### Pasos
+1. Abajo: `interface Curador {` con `int VIDA_MAXIMA = 100;`, `int curar(int vidaActual);` y `default String describir()` → `return "cura";`.
+2. `class Clerigo implements Curador` → `curar` devuelve `Math.min(VIDA_MAXIMA, vidaActual + 20)`. `PocionMenor`, igual con `+ 8`.
+3. `class Fuente implements Curador` → `curar` devuelve `VIDA_MAXIMA` y su `describir()` devuelve `"restaura toda la vida"`.
+4. En el `main`: `Curador[] curadores = {new PocionMenor(), new Clerigo(), new Fuente()};`, `int vida = 35;` y `"Vida inicial: " + vida`.
+5. Por cada uno: `vida = c.curar(vida);` y `c.getClass().getSimpleName() + " " + c.describir() + " -> " + vida`.
+6. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```java
 public class Curanderos {
@@ -7307,6 +7619,15 @@ derrotas**; y si también empatan, por nombre alfabético. Agregá un método
 **Para superarla:**
 - `compareTo` usa `Integer.compare` y los tres criterios en orden.
 - El ranking sale de `Arrays.sort`.
+
+#### Pasos
+1. Abajo: `class Luchador implements Comparable<Luchador> {` con `nombre`, `victorias` y `derrotas`, su constructor y sus getters.
+2. `efectividad()` → `return 100.0 * victorias / (victorias + derrotas);`.
+3. `compareTo(Luchador otro)`: primero `int c = Integer.compare(otro.victorias, victorias);` (más victorias primero). Si `c != 0`, `return c;`.
+4. Después `c = Integer.compare(derrotas, otro.derrotas);` (menos derrotas primero). Si no empatan, `return c;`. Al final, `return nombre.compareTo(otro.nombre);`.
+5. En el `main`: `Locale.setDefault(Locale.US);`, el array de 6 (copialos de la salida, con sus victorias y derrotas) y `Arrays.sort(luchadores);`.
+6. Mostralos con `System.out.printf("%d. %-6s %2dV %2dD  %5.1f%%%n", puesto, ...)`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -7430,6 +7751,16 @@ final de cada uno, usando `instanceof` solo para saber si se le cobra impuesto.
 **Para superarla:**
 - Una interfaz extiende a otra.
 - `precioFinal` es un método `default` que usa los otros métodos de la interfaz.
+
+#### Pasos
+1. Abajo: `interface Vendible {` con `double precio();` y `String etiqueta();`.
+2. `interface Gravable extends Vendible {` con `double impuesto();` y `default double precioFinal()` → `return precio() * (1 + impuesto());`.
+3. `class Pan implements Vendible` → precio 1200, etiqueta `"Pan"`.
+4. `class Espada implements Gravable` → 85000, `"Espada"` e impuesto 0.21. `class Servicio implements Gravable` → nombre y precio en el constructor, impuesto 0.105.
+5. En el `main`: `Locale.setDefault(Locale.US);` y `Vendible[] cosas = {new Pan(), new Espada(), new Servicio("Afilado", 3000)};`.
+6. Por cada uno: `double precioFinal = v instanceof Gravable g ? g.precioFinal() : v.precio();`, `System.out.printf("%-8s %9.2f -> %9.2f%n", ...)` y sumalo al total.
+7. Al final: `System.out.printf("Total    %22.2f%n", total);`.
+8. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -7968,6 +8299,11 @@ Cuando algo **tiene** otra cosa, la parte va como **atributo**: `Armadura armadu
 #### Desafío
 Completá el tipo del atributo `armadura`.
 
+#### Pasos
+1. Hay un `___` antes de `armadura;`.
+2. El tipo es la otra clase: `Armadura`.
+3. Tocá **Ejecutar**. Tiene que salir `Teo lleva armadura de placas (defensa 8)`.
+
 #### Código inicial
 ```java
 public class Taller {
@@ -8057,6 +8393,11 @@ En la **composición**, el todo crea su parte: el constructor del `Caballero` ha
 
 #### Desafío
 Completá la línea que forja la armadura adentro del constructor, con la defensa que recibe.
+
+#### Pasos
+1. Hay un `___` en el constructor.
+2. Creá la armadura adentro: `this.armadura = new Armadura(defensa)`.
+3. Tocá **Ejecutar**. Tiene que salir `¿Comparten armadura? false`.
 
 #### Código inicial
 ```java
@@ -8149,6 +8490,11 @@ En la **agregación**, la parte se crea **afuera** y se le pasa al todo: `new Ca
 #### Desafío
 Completá el `new Caballero` pasándole el caballo que ya existe.
 
+#### Pasos
+1. Hay un `___` en `new Caballero("Teo", ___)`.
+2. Pasale el caballo que ya existe: `rayo`.
+3. Tocá **Ejecutar**. Tiene que salir `Teo monta a Rayo`.
+
 #### Código inicial
 ```java
 public class Caballerizas {
@@ -8237,6 +8583,11 @@ Cuando a un caballero le pegan, no es él quien frena el golpe: es su armadura. 
 
 #### Desafío
 Completá el `return` de `recibir`: que la armadura absorba el golpe.
+
+#### Pasos
+1. Hay un `___` en el `return` de `recibir`.
+2. Delegá en la armadura: `armadura.absorber(golpe)`.
+3. Tocá **Ejecutar**. Tiene que salir `Golpe de 20, daño: 12`.
 
 #### Código inicial
 ```java
@@ -8348,6 +8699,14 @@ en los renglones para calcular el total. Mostrá la factura completa con 2 decim
 **Para superarla:**
 - Los renglones se crean dentro de la factura (composición).
 - El total se calcula delegando en `subtotal()` de cada renglón.
+
+#### Pasos
+1. Abajo: `class Renglon {` con `descripcion`, `cantidad` y `precio`, `subtotal()` → `cantidad * precio` y `toString` → `String.format("%-12s %3d x %9.2f = %9.2f", descripcion, cantidad, precio, subtotal())`.
+2. `class Factura {` con `cliente`, `private final Renglon[] renglones;` e `int cantidad;`. El constructor recibe el cliente y el máximo, y hace `new Renglon[maxRenglones]`.
+3. `agregar(String descripcion, int cantidad, double precio)`: si está llena, `false`. Si no, `renglones[this.cantidad] = new Renglon(descripcion, cantidad, precio);`, suma uno y `true`.
+4. `total()` suma `renglones[i].subtotal()`. `imprimir()`: `"Factura para " + cliente`, cada renglón con `"  "` adelante y `System.out.printf("  %-31s%9.2f%n", "TOTAL", total());`.
+5. En el `main`: `Locale.setDefault(Locale.US);`, `new Factura("Posada La Taza", 5)` y los tres `agregar` (Guiso 2 × 1200, Café 3 × 450, Habitación 1 × 18000). Después `f.imprimir();`.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -8477,6 +8836,16 @@ quitá a otro de una expedición y mostrá que el aventurero sigue existiendo.
 - Los aventureros se crean afuera y se pasan (agregación).
 - Un mismo aventurero está en dos expediciones.
 - Quitar de una expedición no destruye al aventurero.
+
+#### Pasos
+1. Abajo: `class Aventurero {` con `nombre` y `fuerza`, sus getters y `toString` → `nombre + " (" + fuerza + ")"`.
+2. `class Expedicion {` con `nombre`, `private final Aventurero[] miembros = new Aventurero[4];` e `int cantidad;`.
+3. `sumar(Aventurero a)`: si está llena o `a == null`, `false`. Si no, `miembros[cantidad++] = a;` y `true`.
+4. `quitar(String nombre)`: si lo encontrás, poné el último en su lugar (`miembros[i] = miembros[cantidad - 1];`), `miembros[--cantidad] = null;` y `true`.
+5. `fuerzaTotal()` suma las fuerzas. `toString`: `"Expedición " + nombre + ": "`, los miembros separados por `", "` y `" | fuerza "` con el total.
+6. En el `main`: los cinco aventureros (copialos de la salida). Norte con Nadia, Baldo y Lía; Sur con Baldo, Pip y Nara. Mostralas.
+7. `norte.quitar("Lía");`, `"Sin Lía: " + norte` y `"Lía sigue existiendo: " + lia`.
+8. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -8627,6 +8996,15 @@ es 3). Mostrá al arquero a pie, a caballo y en grifo.
 **Para superarla:**
 - `Arquero` tiene una `Montura` (interfaz) en lugar de heredar.
 - La velocidad delega y contempla la montura `null`.
+
+#### Pasos
+1. Abajo: `interface Montura {` con `int velocidad();` y `String nombre();`.
+2. `class Caballo implements Montura` → 12 y `"caballo"`. `class Grifo implements Montura` → 30 y `"grifo"`.
+3. `class Arquero {` con `nombre` y `private Montura montura;`, y `cambiarMontura(Montura montura)`.
+4. `velocidad()` → `return montura == null ? 3 : montura.velocidad();`.
+5. `toString` → `nombre + " " + (montura == null ? "a pie" : "en " + montura.nombre()) + ", velocidad " + velocidad()`.
+6. En el `main`: `Arquero lia = new Arquero("Lía");`. Mostralo a pie, con `new Caballo()`, con `new Grifo()` y otra vez con `null`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -9141,6 +9519,11 @@ Un `enum` es un tipo con una lista **cerrada** de valores: `enum Clase { INFANTE
 #### Desafío
 Recorré todos los valores del enum con el método que los devuelve.
 
+#### Pasos
+1. Hay un `___` en `Clase.___()`.
+2. El método que devuelve todos los valores es `values`.
+3. Tocá **Ejecutar**. Tienen que salir las tres clases.
+
 #### Código inicial
 ```java
 public class Pizarra {
@@ -9207,6 +9590,11 @@ Un `enum` puede tener atributos, constructor y métodos: `INFANTE(10)` llama al 
 
 #### Desafío
 Completá el constructor del enum: guardá la paga.
+
+#### Pasos
+1. Hay un `___` en el constructor del enum.
+2. Guardá la paga: `this.paga = paga`.
+3. Tocá **Ejecutar**. Tiene que salir `JINETE: 20 denarios`.
 
 #### Código inicial
 ```java
@@ -9290,6 +9678,11 @@ Un `enum` va perfecto en un `switch`: cada `case` es un valor (`case ARQUERO ->`
 #### Desafío
 Completá el caso que falta: los arqueros «disparan».
 
+#### Pasos
+1. Hay un `___` en el `case` del medio.
+2. Escribí el valor del enum: `ARQUERO`.
+3. Tocá **Ejecutar**. Tiene que salir `ARQUERO: disparan`.
+
 #### Código inicial
 ```java
 public class Ordenes {
@@ -9367,6 +9760,11 @@ Las fichas de los reclutas son solo datos: nombre y clase. Escribirlas como clas
 
 #### Desafío
 Completá el método que lee el nombre del recluta.
+
+#### Pasos
+1. Hay un `___` en `a.___()`.
+2. En un `record`, cada campo se lee con un método del mismo nombre: `nombre`.
+3. Tocá **Ejecutar**. Tiene que salir `Nombre: Mira`.
 
 #### Código inicial
 ```java
@@ -9451,6 +9849,15 @@ Si el texto no es un día, avisá.
 - `Dia` es un `enum` con métodos.
 - Maneja el texto inválido.
 - Usa un `switch` sobre el `enum`.
+
+#### Pasos
+1. Abajo: `enum Dia {` con `LUNES, MARTES, MIERCOLES, JUEVES, VIERNES, SABADO, DOMINGO;`.
+2. `esFinDeSemana()` → `return this == SABADO || this == DOMINGO;`. `siguiente()` → `Dia[] todos = values();` y `return todos[(ordinal() + 1) % todos.length];`.
+3. En el `main`: el `Scanner`, `System.out.print("Día: ");`, leé el texto con `.trim().toUpperCase()` y `System.out.println();`.
+4. `try { dia = Dia.valueOf(texto); }`. En `catch (IllegalArgumentException e)`: `texto + " no es un día"` y `return;`.
+5. Mostrá `" es fin de semana"` o `" es día hábil"`, y `"Mañana es " + dia.siguiente()`.
+6. `String puesto = switch (dia) { ... };`: `LUNES, MIERCOLES` → `"verduras"`, `MARTES, JUEVES` → `"telas"`, `VIERNES` → `"pescado"`, `SABADO` → `"feria de artesanos"` y `DOMINGO` → `"cerrado"`. Después, `"En el mercado hoy: " + puesto`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -9555,6 +9962,15 @@ un recorrido con cambios válidos e inválidos.
 **Para superarla:**
 - Las reglas de transición están en el `enum`.
 - `Pedido` rechaza los cambios no permitidos.
+
+#### Pasos
+1. Abajo: `enum Estado {` con `PENDIENTE("pendiente"), EN_FORJA("en la forja"), TERMINADO("terminado"), ENTREGADO("entregado"), CANCELADO("cancelado");`, el atributo `texto`, su constructor y `getTexto()`.
+2. `puedePasarA(Estado otro)`: si `otro == CANCELADO`, `return this != ENTREGADO && this != CANCELADO;`.
+3. Si no, un `switch (this)`: `PENDIENTE -> otro == EN_FORJA`, `EN_FORJA -> otro == TERMINADO`, `TERMINADO -> otro == ENTREGADO` y `ENTREGADO, CANCELADO -> false`.
+4. `class Pedido {` con `numero` y `private Estado estado = Estado.PENDIENTE;`. `cambiarEstado(Estado nuevo)`: si `!estado.puedePasarA(nuevo)`, `false`; si no, cambialo y `true`. `toString` → `"Pedido " + numero + " (" + estado.getTexto() + ")"`.
+5. En el `main`: `new Pedido(101)`, mostralo y el array `intentos` (TERMINADO, EN_FORJA, TERMINADO, CANCELADO, ENTREGADO, CANCELADO).
+6. Por cada uno: `"A " + e.getTexto() + ": " + (ok ? "ok" : "no permitido") + " -> " + p`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -9675,6 +10091,15 @@ distancia al punto de partida.
 **Para superarla:**
 - `Coordenada` es un `record` validado; mover devuelve un record nuevo.
 - `Direccion` es un `enum` con atributos.
+
+#### Pasos
+1. Abajo: `enum Direccion {` con `NORTE(-1, 0), SUR(1, 0), ESTE(0, 1), OESTE(0, -1);`, los atributos `dFila` y `dColumna`, su constructor y sus getters.
+2. `record Coordenada(int fila, int columna) {` con el constructor compacto `Coordenada {`: si alguno es negativo, `throw new IllegalArgumentException("coordenada negativa (" + fila + ", " + columna + ")");`.
+3. `mover(Direccion d)` → `return new Coordenada(fila + d.getDFila(), columna + d.getDColumna());`.
+4. `distanciaA(Coordenada otra)` → `Math.abs(fila - otra.fila) + Math.abs(columna - otra.columna)`.
+5. En el `main`: `inicio = new Coordenada(5, 5)`, `actual = inicio` y los pasos N, N, E, E, E, S. En cada uno, `actual = actual.mover(d);` y `d + " -> " + actual`.
+6. `"Distancia al inicio: "`, `"El inicio no cambió: " + inicio` y un `try` con `new Coordenada(0, 0).mover(Direccion.OESTE);`. En el `catch`, `"No se puede salir del mapa: " + e.getMessage()`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -10127,6 +10552,11 @@ En una caja de UML, `- nombre: String` es un atributo **private** de tipo `Strin
 #### Desafío
 Pasá la caja a código: completá la visibilidad de los dos atributos.
 
+#### Pasos
+1. Hay dos `___`, antes de cada atributo.
+2. En el plano, el `-` quiere decir privado: `private` en los dos.
+3. Tocá **Ejecutar**. Tiene que salir `Nombre: Zed`.
+
 #### Código inicial
 ```java
 public class Caja {
@@ -10204,6 +10634,12 @@ Triángulo hueco con línea llena: **herencia** (`extends`). Triángulo hueco co
 
 #### Desafío
 Completá las dos palabras según las flechas del plano.
+
+#### Pasos
+1. Hay dos `___`.
+2. La flecha hueca con línea llena es herencia: `class Arquero extends Personaje`.
+3. La flecha hueca con línea punteada es una interfaz: `class Grifo implements Volador`.
+4. Tocá **Ejecutar**. Tienen que salir `Mira, arquera` y `El grifo vuela`.
 
 #### Código inicial
 ```java
@@ -10307,6 +10743,12 @@ Rombo **negro** (composición): el caballero crea la armadura en su constructor 
 #### Desafío
 Completá el constructor según el plano: la armadura se crea adentro y el caballo llega de afuera.
 
+#### Pasos
+1. Hay dos `___` en el constructor.
+2. Rombo negro (composición): la armadura se crea adentro, `new Armadura(defensa)`.
+3. Rombo blanco (agregación): el caballo llega de afuera, `caballo`.
+4. Tocá **Ejecutar**. Tiene que salir `Es el mismo caballo: true`.
+
 #### Código inicial
 ```java
 public class Rombos {
@@ -10409,6 +10851,11 @@ Al pie del plano, `Gremio "1" ◇—— "1..*" Artesano`: cada gremio tiene **al
 
 #### Desafío
 Completá el método que cuenta los artesanos usando el largo del array.
+
+#### Pasos
+1. Hay un `___` en el `return` de `cantidad`.
+2. Devolvé el largo del array: `artesanos.length`.
+3. Tocá **Ejecutar**. Tiene que salir `3 artesanos`.
 
 #### Código inicial
 ```java
@@ -10552,6 +10999,16 @@ classDiagram
 **Para superarla:**
 - Cada clase, interfaz, atributo y método del diagrama está en el código con su visibilidad.
 - `Libro` es abstracta e implementa `Prestable`; la composición y la agregación se respetan.
+
+#### Pasos
+1. Abajo: `interface Prestable {` con `boolean sePuedePrestar();`.
+2. `abstract class Libro implements Prestable {` con `private final String titulo;`, un constructor `protected`, `getTitulo()`, `public abstract String descripcion();` y `sePuedePrestar()` → `true`.
+3. `Novela extends Libro` (con `autor`) → `getTitulo() + ", de " + autor`. `Enciclopedia extends Libro` (con `tomo`) → `getTitulo() + ", tomo " + tomo`, y su `sePuedePrestar()` → `false`.
+4. `class Estante {` con `private final Libro[] libros = new Libro[2];` y `cantidad`, `guardar(Libro l)`, `prestables()` y `toString` (descripciones separadas por `" | "`, o `"(vacío)"`).
+5. `class Biblioteca {` con `private final Estante[] estantes;`. En el constructor, creá los 3 estantes con `new Estante()`.
+6. `agregar(Libro l)` → el primer estante donde `guardar` dé `true`. `prestables()` suma la de cada estante. `mostrar()` → `"Estante " + (i + 1) + ": " + estantes[i]`.
+7. En el `main`: los cuatro libros (copialos de la salida), `b.mostrar();` y `"Se pueden prestar: " + b.prestables()`.
+8. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -11197,6 +11654,11 @@ Lo que tienen todas las cabezas (nombre, vida y un ataque) va en la clase abstra
 #### Desafío
 Completá el ataque de la cabeza de Serpiente: "muerde con veneno".
 
+#### Pasos
+1. Hay un `___` en el `return` de `atacar` de la Serpiente.
+2. Escribí el texto: `"muerde con veneno"`.
+3. Tocá **Ejecutar**. Tiene que salir `Serpiente (30): muerde con veneno`.
+
 #### Código inicial
 ```java
 public class Quimera1 {
@@ -11319,6 +11781,11 @@ Los elementos son una lista cerrada: un `enum`. Un golpe es solo un paquete de d
 #### Desafío
 Completá el caso de la Cabra: es débil al FUEGO.
 
+#### Pasos
+1. Hay un `___` en el `case "Cabra"`.
+2. Es débil al fuego: `Elemento.FUEGO`.
+3. Tocá **Ejecutar**. Tiene que salir `Cabra: Golpe[danio=25, elemento=FUEGO]`.
+
 #### Código inicial
 ```java
 public class Quimera2 {
@@ -11406,6 +11873,11 @@ La `Quimera` tiene un array de `Cabeza` (composición). Para saber su vida total
 
 #### Desafío
 Completá el acumulador: sumá la vida de cada cabeza.
+
+#### Pasos
+1. Hay un `___` dentro del `for`.
+2. Sumá la vida de cada cabeza: `total += c.getVida()`.
+3. Tocá **Ejecutar**. Tiene que salir `Vida de la Quimera: 130`.
 
 #### Código inicial
 ```java
@@ -11514,6 +11986,11 @@ Cada `Cabeza` sabe su debilidad (`debilidad()`). Un golpe con ese elemento hace 
 
 #### Desafío
 Completá el golpe: 35 de daño, con el elemento al que es débil cada cabeza.
+
+#### Pasos
+1. Hay un `___` en `Golpe g = ___;`.
+2. Creá el golpe con 35 y la debilidad de la cabeza: `new Golpe(35, c.debilidad())`.
+3. Tocá **Ejecutar**. Tiene que terminar con `La Quimera cae.`
 
 #### Código inicial
 ```java
@@ -11672,6 +12149,17 @@ ronda y el resultado. No hay azar: el resultado sale siempre igual.
 - `Heroe` es abstracta; `Curador` es una interfaz; `Elemento` es un `enum` con la tabla de efectividad; `Golpe` es un `record`.
 - La quimera compone sus cabezas y saltea las muertas.
 - Cada héroe ataca a su manera sin que el bucle pregunte su tipo (salvo para curar).
+
+#### Pasos
+1. `enum Elemento { FUEGO, HIELO, VENENO; ... }` con `double contra(Elemento defensa)`: si `defensa == null`, 1.0; si es el mismo, 0.5. Si no, 2.0 cuando gana (fuego a hielo, hielo a veneno, veneno a fuego) y 1.0 en los demás casos.
+2. `record Golpe(int fuerza, Elemento elemento) { }` e `interface Curador { int curar(); }`.
+3. `abstract class Heroe` con `nombre`, `elemento`, `vidaMaxima` y `vida`, los getters, `vivo()`, `recibir(int danio)` (sin bajar de 0), `curarse(int puntos)` (sin pasar del máximo) y `public abstract Golpe atacar();`.
+4. `Guerrera` → `new Golpe(14, getElemento())`. `Mago` cuenta sus ataques: `new Golpe(ataques % 3 == 0 ? 25 : 10, getElemento())`. `Clerigo extends Heroe implements Curador` → elemento `null`, ataca con `new Golpe(4, Elemento.VENENO)` y `curar()` devuelve 12.
+5. `class Cabeza` (elemento, `vida = 40`): `recibir(Golpe g)` hace `(int) (g.fuerza() * g.elemento().contra(elemento))` de daño y lo devuelve. `toString` → `elemento + " " + vida`.
+6. `class Quimera` con `Cabeza[] cabezas` y `int activa`: `viva()`, `cabezaActiva()`, `recibir(g)` (pega a la activa y pasa a la siguiente viva), `cabezasVivas()` y `toString` → `"Quimera [" + ... + "]"`.
+7. En el `main`: el grupo (Nara, FUEGO, 60; Olmo, HIELO, 40; Tomás, 45) y `new Quimera(Elemento.FUEGO, Elemento.HIELO, Elemento.VENENO)`. Mientras la quimera y algún héroe sigan vivos: `"--- Ronda " + ronda + " ---"`, ataca cada héroe, después cada cabeza viva al héroe con más vida (`(int) (8 * c.getElemento().contra(objetivo.getElemento()))`) y al final el curador cura al de menos vida.
+8. Mostrá el estado al final de cada ronda y el resultado. Copiá los textos de la salida esperada.
+9. Tocá **Ejecutar** y compará ronda por ronda.
 
 #### Código inicial
 ```java
@@ -12068,6 +12556,16 @@ mostrá el ranking ordenado con promedio, materias aprobadas y horas aprobadas.
 - `Materia` es un `enum` con atributos; `Nota` es un `record` validado.
 - `Estudiante` compone sus notas y es `Comparable`.
 - Las líneas inválidas se informan sin cortar el programa.
+
+#### Pasos
+1. Abajo: `enum Materia` con `ALGEBRA("Álgebra", 96), PROGRAMACION("Programación", 128), DISENO("Diseño", 64), BASES_DE_DATOS("Bases de datos", 96);`, sus atributos, su constructor y sus getters.
+2. `record Nota(Materia materia, int valor)` con el constructor compacto: si no está entre 1 y 10, `throw new IllegalArgumentException("nota fuera de rango: " + valor);`. Agregá `aprobada()` → `valor >= 4`.
+3. `class Estudiante implements Comparable<Estudiante>` con `legajo` (`final`), `nombre`, `private final Nota[] notas = new Nota[10];` y `cantidad`. Métodos: `registrar(Materia, int)` (crea la `Nota` y la guarda), `promedio()`, `aprobadas()` y `horasAprobadas()`.
+4. `compareTo`: `int c = Double.compare(otro.promedio(), promedio());` y, si empatan, `Integer.compare(legajo, otro.legajo)`. `toString` → `nombre + " (" + legajo + ")"`.
+5. En el `main`: `Locale.setDefault(Locale.US);`, el `Scanner`, `Estudiante[] estudiantes = new Estudiante[20];` y un método `buscar(lista, n, legajo)`.
+6. Leé hasta una línea vacía. Hacé `split(";")` y, dentro de un `try`, `Integer.parseInt`, `Materia.valueOf(p[2])`, buscá o creá al estudiante y `registrar`. En el `catch (IllegalArgumentException | ArrayIndexOutOfBoundsException ex)`, `"Línea salteada [" + linea + "]: " + ex.getMessage()`.
+7. `Arrays.copyOf(estudiantes, cantidad)`, `Arrays.sort`, una línea en blanco, `"Ranking de la Academia"` y cada uno con `System.out.printf("%d. %s  promedio %.2f  aprobadas %d  horas %d%n", ...)`.
+8. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java

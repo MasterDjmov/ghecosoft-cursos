@@ -218,6 +218,11 @@ print(next(it))   # b
 #### Desafío
 Pedí los dos primeros enemigos de a uno.
 
+#### Pasos
+1. Hay dos `___`, uno en cada `print`.
+2. Para pedir el siguiente se usa `next`: `print(next(it))`.
+3. Tocá **Ejecutar**. Tienen que salir `slime` y `murciélago`.
+
 #### Código inicial
 ```python
 enemigos = ["slime", "murciélago", "orco"]
@@ -274,6 +279,11 @@ Llamarla no ejecuta nada todavía. Cada vuelta del `for` corre hasta el próximo
 
 #### Desafío
 Hacé que el portal **entregue** cada oleada en lugar de terminar.
+
+#### Pasos
+1. Hay un `___` antes de `n`.
+2. Para entregar un valor y pausar se usa `yield`: `yield n`.
+3. Tocá **Ejecutar**. Tienen que salir las oleadas 3, 2 y 1.
 
 #### Código inicial
 ```python
@@ -335,6 +345,11 @@ Un generador puede no terminar nunca (`while True:`), y no pasa nada mientras **
 
 #### Desafío
 Tomá solo los primeros 5 del portal infinito.
+
+#### Pasos
+1. Hay un `___` en el `for`.
+2. Para tomar solo los primeros se usa `islice`: `islice(portal(), 5)`.
+3. Tocá **Ejecutar**. Tienen que salir 5 enemigos.
 
 #### Código inicial
 ```python
@@ -398,6 +413,11 @@ Adentro de funciones como `sum`, `max` o `any`, ni siquiera hacen falta los par�
 #### Desafío
 Sumá solo las vidas de más de 20, sin armar una lista.
 
+#### Pasos
+1. Hay un `___` dentro de `sum(...)`.
+2. Escribí un generador con filtro: `v for v in vidas if v > 20`.
+3. Tocá **Ejecutar**. Tiene que salir `Vida de los fuertes: 100`.
+
 #### Código inicial
 ```python
 vidas = [12, 30, 8, 45, 25]
@@ -444,6 +464,11 @@ Si necesitás los valores dos veces, guardalos en una **lista**: con corchetes e
 
 #### Desafío
 Arreglalo para poder usar las vidas dos veces.
+
+#### Pasos
+1. Mirá el primer renglón: los paréntesis arman un generador, que se gasta después del primer uso.
+2. Cambiá los paréntesis `( )` por corchetes `[ ]`: `vidas = [v * 2 for v in [10, 25, 15]]`.
+3. Tocá **Ejecutar**. Tiene que salir `La más alta: 50`.
 
 #### Código inicial
 ```python
@@ -496,6 +521,12 @@ Escribí el generador `pares_infinitos()`, que entregue 0, 2, 4, 6… sin fin. T
 **Para superarla:**
 - El generador usa `while True` y `yield`.
 - Se consumen solo 10 valores con `islice`.
+
+#### Pasos
+1. Borrá el comentario. `def pares_infinitos():` → `n = 0`.
+2. `while True:` → `yield n` y después `n += 2`.
+3. Afuera: `print(list(islice(pares_infinitos(), 10)))`.
+4. Tocá **Ejecutar**. Tiene que salir del 0 al 18.
 
 #### Código inicial
 ```python
@@ -554,6 +585,13 @@ Escribí `danio_por_turno(base)`: un generador infinito que en cada turno entreg
 - Es un generador infinito.
 - Cada valor es un 10 % más que el anterior (10, 11.0, 12.1…).
 - Suma los 8 primeros: 114.37.
+
+#### Pasos
+1. Borrá el comentario. `def danio_por_turno(base):` → `danio = base`.
+2. `while True:` → `yield round(danio, 2)` y después `danio *= 1.10`.
+3. `primeros = list(islice(danio_por_turno(10), 8))` y `print("daño por turno:", primeros)`.
+4. `print(f"total en 8 turnos: {sum(primeros):.2f}")`.
+5. Tocá **Ejecutar**. Tiene que salir `114.37`.
 
 #### Código inicial
 ```python
@@ -619,6 +657,13 @@ Escribí una clase `Mazo` que guarde una lista de cartas y sea **iterable**: def
 - `__iter__` usa `yield`.
 - El mazo se recorre más de una vez sin gastarse.
 - Funciona con `for`, `list()` e `in`.
+
+#### Pasos
+1. Borrá el comentario. `class Mazo:` con `def __init__(self, cartas):` → `self.cartas = cartas`.
+2. `def __iter__(self):` → `for carta in self.cartas:` y adentro `yield carta`.
+3. `mazo = Mazo(["espada", "escudo", "poción"])` y `for carta in mazo:` → `print("robás:", carta)`.
+4. `print("de nuevo:", list(mazo))` y `print("¿hay poción?", "poción" in mazo)`.
+5. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```python
@@ -915,6 +960,11 @@ El segundo piso es un taller con cientos de piezas sobre una mesa. Maese Horas n
 #### Desafío
 Ordená las piezas por peso (el segundo valor).
 
+#### Pasos
+1. Hay un `___` en `key=___`.
+2. Ordená por el segundo valor de cada tupla: `lambda p: p[1]`.
+3. Tocá **Ejecutar**. Tiene que empezar con `tornillo: 1`.
+
 #### Código inicial
 ```python
 piezas = [("engranaje", 12), ("resorte", 3), ("péndulo", 40), ("tornillo", 1)]
@@ -967,6 +1017,11 @@ Los dos son **perezosos**, como los generadores: no hacen nada hasta que alguien
 
 #### Desafío
 Completá el filtro.
+
+#### Pasos
+1. Hay un `___` antes de `(lambda ...)`.
+2. Para quedarte con las que cumplen, `filter`.
+3. Tocá **Ejecutar**. Tiene que salir `['RUEDA', 'AGUJA']`.
 
 #### Código inicial
 ```python
@@ -1021,6 +1076,11 @@ Si `key` devuelve una **tupla**, se ordena por el primer valor y, en los empates
 
 #### Desafío
 Escribí la clave con los dos criterios.
+
+#### Pasos
+1. Hay un `___` después de `lambda p:`.
+2. Devolvé una tupla: primero el tamaño y después el peso al revés, `(p["tamaño"], -p["peso"])`.
+3. Tocá **Ejecutar**. Tiene que salir `['d', 'b', 'c', 'a']`.
 
 #### Código inicial
 ```python
@@ -1079,6 +1139,11 @@ Por eso siempre se ordena **antes**, con la misma clave: `groupby(sorted(datos))
 #### Desafío
 Ordená antes de agrupar.
 
+#### Pasos
+1. `groupby` solo junta las que están seguidas.
+2. Ordená antes: `groupby(sorted(piezas))`.
+3. Tocá **Ejecutar**. Tienen que salir `engranaje: 2` y `resorte: 2`.
+
 #### Código inicial
 ```python
 from itertools import groupby
@@ -1128,6 +1193,11 @@ recompensa: xp 10, oro 10
 
 #### Desafío
 Recorré todas las parejas.
+
+#### Pasos
+1. Hay un `___` en el `for`.
+2. Todas las parejas sin repetir son `combinations`: `combinations(dientes, 2)`.
+3. Tocá **Ejecutar**. Tienen que salir `3 y 7` y `4 y 6`.
 
 #### Código inicial
 ```python
@@ -1180,6 +1250,11 @@ Entre todas las piezas hay una que **brilla distinto**, con colores. Maese Horas
 
 #### Desafío
 Encontrá la pieza que más brilla.
+
+#### Pasos
+1. Hay un `___` en `key=___`.
+2. Compará por el brillo: `lambda p: p["brillo"]`.
+3. Tocá **Ejecutar**. Tiene que salir `plomo y vidrio de colores`.
 
 #### Código inicial
 ```python
@@ -1242,6 +1317,13 @@ A partir de la compañía, armá un diccionario `{clase: vida promedio}` usando 
 - Ordena por clase antes de agrupar.
 - Calcula el promedio de cada grupo.
 - Guerrero 150.0, maga 80.0 y pícara 110.0.
+
+#### Pasos
+1. Borrá el comentario. Ordená por clase: `por_clase = sorted(compania, key=lambda h: h.clase)`.
+2. Recorré los grupos: `for clase, grupo in groupby(por_clase, key=lambda h: h.clase):` y pasá el grupo a lista (`grupo = list(grupo)`).
+3. Guardá en un diccionario `promedios` el promedio de cada clase: `sum(h.vida for h in grupo) / len(grupo)`.
+4. `for clase, promedio in promedios.items():` → `print(f"{clase:<10}{promedio:>7.1f}")`.
+5. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```python
@@ -1337,6 +1419,11 @@ Ordená la compañía por nivel **de mayor a menor** y, a igual nivel, por nombr
 - Un solo `sorted` con `key=lambda h: (-h.nivel, h.nombre)` (o equivalente).
 - Ana y Tilo (nivel 7) quedan en orden alfabético.
 
+#### Pasos
+1. Borrá el comentario. `ordenados = sorted(compania, key=lambda h: (-h.nivel, h.nombre))`.
+2. `for h in ordenados:` → `print(f"{h.nivel:>2}  {h.nombre}")`.
+3. Tocá **Ejecutar**. Ana tiene que salir antes que Tilo.
+
 #### Código inicial
 ```python
 from dataclasses import dataclass
@@ -1427,6 +1514,13 @@ Con tres listas (armas: espada y arco; armaduras: cuero y malla; amuletos: fuego
 - Usa `product` en lugar de tres `for` anidados.
 - Muestra 12 combinaciones en total.
 - Filtra con una comprehension.
+
+#### Pasos
+1. Borrá el comentario. Las tres listas: `armas = ["espada", "arco"]`, `armaduras = ["cuero", "malla"]` y `amuletos = ["fuego", "hielo", "vida"]`.
+2. `equipos = list(product(armas, armaduras, amuletos))` y `print("combinaciones:", len(equipos))`.
+3. `for arma, armadura, amuleto in equipos[:4]:` → `print(f"  {arma} + {armadura} + amuleto de {amuleto}")`.
+4. `print("con arco y hielo:", [e for e in equipos if e[0] == "arco" and e[2] == "hielo"])`.
+5. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```python
@@ -1814,6 +1908,11 @@ Para **cambiar** una variable de afuera (no solo leerla), la de adentro tiene qu
 #### Desafío
 Dejá que `girar` cambie las vueltas de afuera.
 
+#### Pasos
+1. Hay un `___` antes de `vueltas`, dentro de `girar`.
+2. Para cambiar una variable de la función de afuera se usa `nonlocal`: `nonlocal vueltas`.
+3. Tocá **Ejecutar**. Tiene que salir `Vueltas: 3`.
+
 #### Código inicial
 ```python
 def cuerda():
@@ -1886,6 +1985,11 @@ Escribir `@avisar` arriba de un `def` es lo mismo que `funcion = avisar(funcion)
 #### Desafío
 Ponele la pieza encima a `mover`.
 
+#### Pasos
+1. Hay un `___` arriba de `def mover`.
+2. Poné el decorador: `@anunciar`.
+3. Tocá **Ejecutar**. Tiene que salir `tic` antes del movimiento.
+
 #### Código inicial
 ```python
 def anunciar(func):
@@ -1950,6 +2054,11 @@ La envoltura tiene que devolver lo que devolvió la original: `return func(*args
 #### Desafío
 Que la envoltura devuelva lo que devuelve la función.
 
+#### Pasos
+1. Dentro de `envoltura`, el renglón `func(*args)` llama a la función pero tira lo que devuelve.
+2. Agregale `return`: `return func(*args)`.
+3. Tocá **Ejecutar**. Tiene que salir `Son las siete`.
+
 #### Código inicial
 ```python
 def anunciar(func):
@@ -2012,6 +2121,11 @@ La envoltura reemplaza a la función, y con ella su nombre: `funcion.__name__` p
 
 #### Desafío
 Que la función decorada conserve su nombre.
+
+#### Pasos
+1. Hay un `___` arriba de `def envoltura`.
+2. Escribí `@functools.wraps(func)`.
+3. Tocá **Ejecutar**. Tiene que salir `girar`.
 
 #### Código inicial
 ```python
@@ -2077,6 +2191,11 @@ En una vitrina, el **oráculo del reloj** calcula las fases de la luna con una c
 
 #### Desafío
 Ponele memoria al oráculo y mirá cuántas cuentas hace.
+
+#### Pasos
+1. Hay un `___` arriba de `def fase`.
+2. Escribí `@functools.lru_cache`.
+3. Tocá **Ejecutar**. Tiene que salir `Cuentas: 26`.
 
 #### Código inicial
 ```python
@@ -2156,6 +2275,15 @@ Escribí el decorador `@contar_llamadas`, que lleve la cuenta de cuántas veces 
 - El contador es un atributo de la función envoltura.
 - La función decorada sigue devolviendo su resultado.
 
+#### Pasos
+1. Borrá el comentario. `def contar_llamadas(func):` y adentro `@functools.wraps(func)` arriba de `def envoltura(*args, **kwargs):`.
+2. En la envoltura: `envoltura.llamadas += 1` y `return func(*args, **kwargs)`.
+3. Después de la envoltura (afuera de ella): `envoltura.llamadas = 0` y `return envoltura`.
+4. `@contar_llamadas` arriba de `def lanzar_hechizo(nombre):` → `return f"¡{nombre}!"`.
+5. `for hechizo in ["fuego", "hielo", "fuego"]:` → `print(lanzar_hechizo(hechizo))`.
+6. `print("veces que se lanzó:", lanzar_hechizo.llamadas)`.
+7. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```python
 import functools
@@ -2226,6 +2354,16 @@ Escribí el decorador `@requiere_vida` para **métodos**: si `self.vida <= 0`, a
 - La envoltura recibe `self` como primer parámetro y lo revisa.
 - Con vida 0 no se ejecuta el método.
 - Funciona con métodos de distintos parámetros (`*args`).
+
+#### Pasos
+1. Borrá el comentario. `def requiere_vida(metodo):` con `@functools.wraps(metodo)` y `def envoltura(self, *args, **kwargs):`.
+2. Si `self.vida <= 0`: `print(f"{self.nombre} no puede: está fuera de combate.")` y `return None`.
+3. Si no: `return metodo(self, *args, **kwargs)`. Afuera, `return envoltura`.
+4. `class Heroe:` con `__init__(self, nombre, vida)`.
+5. `@requiere_vida` y `def atacar(self, objetivo):` → `print(f"{self.nombre} ataca a {objetivo}.")`.
+6. `@requiere_vida` y `def curarse(self, cantidad):` → suma la vida y `print(f"{self.nombre} se cura: vida {self.vida}.")`.
+7. `mia = Heroe("Mia", 30)`, `baldo = Heroe("Baldo", 0)`, `mia.atacar("un orco")`, `baldo.atacar("un orco")`, `baldo.curarse(50)` y `mia.curarse(20)`.
+8. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```python
@@ -2310,6 +2448,14 @@ Decorá una función recursiva de Fibonacci con `@lru_cache(maxsize=None)`, calc
 - `fibo(80)` responde al instante gracias al caché.
 - Muestra `cache_info()` de las dos versiones.
 - Explica en un comentario por qué hay más `misses` con `maxsize=4`.
+
+#### Pasos
+1. Borrá el comentario. `@functools.lru_cache(maxsize=None)` arriba de `def fibo(n):` → `return n if n < 2 else fibo(n - 1) + fibo(n - 2)`.
+2. Otra igual con `@functools.lru_cache(maxsize=4)`, llamada `fibo_chico` (que se llame a sí misma).
+3. `print("fibo(80) =", fibo(80))` y `print("sin límite:", fibo.cache_info())`.
+4. `for n in [10, 20, 10, 30, 20]:` → `fibo_chico(n)`. Después `print("con maxsize=4:", fibo_chico.cache_info())`.
+5. Agregá un comentario: con 4 lugares se olvida de los resultados viejos y los tiene que volver a calcular.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```python
@@ -2634,6 +2780,11 @@ def doble(n: int) -> int:
 #### Desafío
 Anotá lo que devuelve `curar`.
 
+#### Pasos
+1. Hay un `___` después de `->`.
+2. `curar` devuelve un entero: `int`.
+3. Tocá **Ejecutar**. Tiene que salir `100` e `int`.
+
 #### Código inicial
 ```python
 def curar(vida: int, cantidad: int) -> ___:
@@ -2682,6 +2833,11 @@ Las anotaciones pueden describir colecciones: `dict[str, int]` es un diccionario
 
 #### Desafío
 Completá lo que devuelve `precio`.
+
+#### Pasos
+1. Hay un `___` antes de `| None`.
+2. El precio es un entero: `int`. Queda `-> int | None`.
+3. Tocá **Ejecutar**. Tiene que salir `30` y `None`.
 
 #### Código inicial
 ```python
@@ -2738,6 +2894,11 @@ Una **prueba** usa tu función con datos de los que ya sabés el resultado y lo 
 #### Desafío
 Arreglá `curar` para que pasen las pruebas: la vida nunca supera 100.
 
+#### Pasos
+1. Mirá el `return` de `curar`: puede pasar de 100.
+2. Ponele tope: `return min(100, vida + cantidad)`.
+3. Tocá **Ejecutar**. Tiene que salir `Todas las pruebas pasaron`.
+
 #### Código inicial
 ```python
 def curar(vida, cantidad):
@@ -2789,6 +2950,11 @@ Para probar que una función **lanza** un error: llamala con un dato malo dentro
 
 #### Desafío
 Hacé que `pesar` lance `ValueError` con un peso negativo.
+
+#### Pasos
+1. Dentro de `pesar`, antes del `return`, agregá `if gramos < 0:`.
+2. Adentro: `raise ValueError("no hay pesos negativos")`.
+3. Tocá **Ejecutar**. Tiene que salir `Se queja con -3: bien`.
 
 #### Código inicial
 ```python
@@ -2850,6 +3016,11 @@ Una **batería** es una lista de casos `(entrada, esperado)` que se recorre con 
 
 #### Desafío
 Completá el `assert` de cada caso.
+
+#### Pasos
+1. Hay un `___` en el `assert`.
+2. Comprobá que la función dé lo esperado: `a_horas(entrada) == esperado`.
+3. Tocá **Ejecutar**. Tiene que salir `4 pruebas: todas bien`.
 
 #### Código inicial
 ```python
@@ -2918,6 +3089,15 @@ Al final, mostrá `curar.__annotations__`.
 - Anota parámetros y resultado de las cuatro funciones.
 - Usa `list[tuple[str, int]]`, `dict[str, int]`, `int | None` y `Callable[[int], int]`.
 - El comportamiento no cambia.
+
+#### Pasos
+1. Arriba de todo: `from collections.abc import Callable`.
+2. `curar`: `def curar(vida: int, cantidad: int, maximo: int = 100) -> int:`.
+3. `nombres_vivos`: `(compania: list[tuple[str, int]]) -> list[str]`.
+4. `buscar_objeto`: `(inventario: dict[str, int], nombre: str) -> int | None`.
+5. `aplicar_a_todos`: `(funcion: Callable[[int], int], valores: list[int]) -> list[int]`.
+6. Al final: `print(curar.__annotations__)`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```python
@@ -3013,6 +3193,15 @@ Escribí una función `probar(descripcion, condicion)` que muestre `[OK]` o `[FA
 - La función está anotada y documentada.
 - Hay al menos seis pruebas, incluidos los dos casos de error.
 - Las pruebas de error verifican que se lanza `ValueError`.
+
+#### Pasos
+1. Borrá el comentario. `def precio_final(precio: float, descuento: float = 0.0, iva: float = 0.21) -> float:` con un docstring.
+2. Si `precio < 0 or not 0 <= descuento <= 1`: `raise ValueError("precio o descuento inválido")`. Si no, `return round(precio * (1 - descuento) * (1 + iva), 2)`.
+3. `fallas = 0` y `def probar(descripcion: str, condicion: bool) -> None:`. Adentro: `global fallas`; si no se cumple, `fallas += 1`; y `print(f"[{'OK   ' if condicion else 'FALLA'}] {descripcion}")`.
+4. `def lanza_valueerror(funcion, *args) -> bool:` → `try:` `funcion(*args)`; `except ValueError:` `return True`; al final `return False`.
+5. Las seis pruebas, con las descripciones de la salida esperada: `precio_final(1000) == 1210.0`, `precio_final(1000, 0.10) == 1089.0`, `precio_final(1000, iva=0) == 1000.0`, `precio_final(9.99, 0.15) == 10.27`, `lanza_valueerror(precio_final, -5)` y `lanza_valueerror(precio_final, 100, 1.5)`.
+6. `print("todo verde" if fallas == 0 else f"{fallas} pruebas fallaron")`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```python
@@ -3373,6 +3562,11 @@ Hay programas que pasan mucho tiempo **esperando** (que llegue un dato, que pase
 #### Desafío
 Esperá a que hierva la sopa.
 
+#### Pasos
+1. Hay un `___` antes de `asyncio.sleep`.
+2. Para esperar sin frenar todo se usa `await`: `await asyncio.sleep(segundos)`.
+3. Tocá **Ejecutar**. Tiene que salir `sopa lista`.
+
 #### Código inicial
 ```python
 import asyncio
@@ -3427,6 +3621,11 @@ Devuelve los resultados en el orden en que las **pediste**, aunque terminen en o
 
 #### Desafío
 Prepará los tres platos a la vez.
+
+#### Pasos
+1. Hay un `___` en `asyncio.___(`.
+2. Para correr varias a la vez y juntar los resultados: `gather`.
+3. Tocá **Ejecutar**. Tiene que terminar con `A la mesa: ['sopa', 'pan', 'té']`.
 
 #### Código inicial
 ```python
@@ -3503,6 +3702,11 @@ recompensa: xp 10, oro 10
 #### Desafío
 Ponele un límite de tiempo al asado.
 
+#### Pasos
+1. Hay un `___` en `asyncio.___(`.
+2. Para poner un límite de tiempo: `wait_for`.
+3. Tocá **Ejecutar**. Tiene que salir `Sin asado: se sirve lo que hay`.
+
 #### Código inicial
 ```python
 import asyncio
@@ -3569,6 +3773,11 @@ Un **candado** (`asyncio.Lock()`) lo evita: con `async with candado:`, las tarea
 
 #### Desafío
 Que cada uno cargue con el candado puesto.
+
+#### Pasos
+1. Hay un `___` en `async with ___:`.
+2. Poné el candado que está creado arriba: `async with candado:`.
+3. Tocá **Ejecutar**. Tiene que salir `Bolsas: 70`.
 
 #### Código inicial
 ```python
@@ -3643,6 +3852,11 @@ Con `return_exceptions=True`, si una de las tareas lanza un error, `gather` **no
 
 #### Desafío
 Que el error del pan quede como resultado y el resto se sirva.
+
+#### Pasos
+1. Hay un `___` al final de los argumentos de `gather`.
+2. Para que el error quede como un resultado más: `return_exceptions=True`.
+3. Tocá **Ejecutar**. Tiene que salir `Error: se quemó` entre los dos platos.
 
 #### Código inicial
 ```python
@@ -3724,6 +3938,14 @@ Tres alumnos entregan una tarea en un aula virtual (una corrutina que espera un 
 - Distingue los errores con `isinstance(resultado, Exception)`.
 - Mia y Sila entregan aunque Tilo falle.
 
+#### Pasos
+1. Borrá el comentario. `async def alumno(nombre, espera, falla=False):` → `await asyncio.sleep(espera)`.
+2. Si `falla`: `raise ConnectionError(f"{nombre} se desconectó")`. Si no, `return f"{nombre} entregó"`.
+3. `async def main():` → `resultados = await asyncio.gather(alumno("Mia", 0.2), alumno("Tilo", 0.1, falla=True), alumno("Sila", 0.3), return_exceptions=True)`.
+4. `for r in resultados:` → `print("problema:" if isinstance(r, Exception) else "ok:", r)`.
+5. Al final: `asyncio.run(main())`.
+6. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```python
 import asyncio
@@ -3794,6 +4016,14 @@ Simulá la descarga de tres mapas que tardan 0.1, 0.4 y 0.2 segundos. Descargalo
 - Atrapa `TimeoutError` y sigue.
 - La cueva (0.4 s) se cancela; el valle y la torre llegan.
 
+#### Pasos
+1. Borrá el comentario. `async def descargar(mapa, segundos):` → `await asyncio.sleep(segundos)` y `return f"{mapa} descargado"`.
+2. `async def main():` → `pedidos = {"valle": 0.1, "cueva": 0.4, "torre": 0.2}`.
+3. `for mapa, segundos in pedidos.items():` → `try:` `print(await asyncio.wait_for(descargar(mapa, segundos), timeout=0.3))`.
+4. `except TimeoutError:` → `print(f"{mapa}: tardó más de 0.3 s, se cancela")`.
+5. Al final: `asyncio.run(main())`.
+6. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```python
 import asyncio
@@ -3862,6 +4092,15 @@ Probá también **sin** el candado y anotá en un comentario qué pasa con el pr
 - Usa `asyncio.TaskGroup` y `create_task`.
 - El aporte está protegido con `async with candado`.
 - Con el candado, el progreso final es 90; hay un comentario que explica qué pasó sin él.
+
+#### Pasos
+1. Borrá el comentario. `class Meta:` con `__init__(self, objetivo)` → `self.objetivo`, `self.progreso = 0` y `self.candado = asyncio.Lock()`.
+2. `async def aportar(self, nombre, cantidad):` → `async with self.candado:` y adentro: `actual = self.progreso`, `await asyncio.sleep(0.01)` y `self.progreso = min(self.objetivo, actual + cantidad)`.
+3. `async def jugador(meta, nombre, aportes):` → `for cantidad in aportes:` y `await meta.aportar(nombre, cantidad)`.
+4. `async def main():` → `meta = Meta(100)` y `async with asyncio.TaskGroup() as grupo:`. Adentro, tres `grupo.create_task(jugador(...))`: Mia `[10, 15, 5]`, Tilo `[20, 10]` y Sila `[25, 5]`.
+5. Afuera del `async with`: `print(f"progreso: {meta.progreso}/{meta.objetivo}")`. Al final, `asyncio.run(main())`.
+6. Probá sacar el `async with self.candado:` y anotá en un comentario lo que pasa (se pisan los aportes y el progreso queda más bajo). Después volvé a ponerlo.
+7. Tocá **Ejecutar**. Tiene que salir `progreso: 90/100`.
 
 #### Código inicial
 ```python
@@ -4169,6 +4408,11 @@ Pegar con `+=` en un bucle funciona, pero crea un texto nuevo en cada vuelta: co
 #### Desafío
 Uní las runas con guiones.
 
+#### Pasos
+1. Hay un `___` en `"-".___(runas)`.
+2. Para unir una lista con un separador: `join`.
+3. Tocá **Ejecutar**. Tiene que salir `tic-tac-tic-tac`.
+
 #### Código inicial
 ```python
 runas = ["tic", "tac", "tic", "tac"]
@@ -4212,6 +4456,11 @@ Preguntar `x in lista` revisa uno por uno. En un `set`, la pregunta es **instant
 
 #### Desafío
 Creá las piezas vistas como un `set`.
+
+#### Pasos
+1. Hay un `___` en `vistas = ___()`.
+2. Un conjunto vacío se crea con `set()`.
+3. Tocá **Ejecutar**. Tiene que salir `Distintas: 3`.
 
 #### Código inicial
 ```python
@@ -4271,6 +4520,11 @@ Con una lista común, sacar del principio con `pop(0)` obliga a correr a todos u
 #### Desafío
 Armá la fila con una `deque`.
 
+#### Pasos
+1. Hay un `___` en `fila = ___(...)`.
+2. Escribí `deque`: `fila = deque(["resorte", "eje", "aguja"])`.
+3. Tocá **Ejecutar**. Tienen que salir las cuatro piezas en orden.
+
 #### Código inicial
 ```python
 from collections import deque
@@ -4325,6 +4579,11 @@ Antes de optimizar, **medí**. Un `Counter` cuenta cuántas veces aparece cada c
 
 #### Desafío
 Encontrá la pieza que más trabaja.
+
+#### Pasos
+1. Hay un `___` en `key=___`.
+2. Compará por la cantidad de cada una: `conteo.get` (sin paréntesis).
+3. Tocá **Ejecutar**. Tiene que salir `corazón: 4 movimientos`.
 
 #### Código inicial
 ```python
@@ -4381,6 +4640,11 @@ Un truco para buscar un par que sume un objetivo: recorrés una sola vez y, por 
 
 #### Desafío
 Completá la pregunta: ¿ya pasó el diente que le falta a este para llegar a 197?
+
+#### Pasos
+1. Hay un `___` en el `if`.
+2. Lo que le falta a `d` para llegar al objetivo es `objetivo - d`: `if objetivo - d in vistos:`.
+3. Tocá **Ejecutar**. Tiene que salir `Par: 98 + 99`.
 
 #### Código inicial
 ```python
@@ -4744,6 +5008,11 @@ Un `return` adentro de un generador lo **termina**: el `for` que lo recorre se d
 #### Desafío
 Cortá el generador justo después de la oleada del Gólem.
 
+#### Pasos
+1. Hay un `___` dentro del `if oleada == "GÓLEM":`.
+2. Para terminar el generador se usa `return`.
+3. Tocá **Ejecutar**. Tiene que terminar en `GÓLEM`.
+
 #### Código inicial
 ```python
 def hasta_el_golem(oleadas):
@@ -4804,6 +5073,11 @@ Lo del segundo piso: `groupby` agrupa los consecutivos, así que primero `sorted
 #### Desafío
 Agrupá las piezas por tipo y contalas.
 
+#### Pasos
+1. Hay un `___` dentro de `groupby(...)`.
+2. Ordená antes de agrupar: `sorted(lluvia)`.
+3. Tocá **Ejecutar**. Tiene que salir `engranaje: 3`.
+
 #### Código inicial
 ```python
 from itertools import groupby
@@ -4853,6 +5127,12 @@ Probá la función con casos que conocés. Si el `assert` falla, arreglá la **f
 
 #### Desafío
 Arreglá `danio`: el bonus de 2 es solo contra el Gólem.
+
+#### Pasos
+1. Mirá `danio`: hoy duplica siempre.
+2. Agregá `if objetivo == "GÓLEM":` y adentro `return base * 2`.
+3. Abajo, sin sangría extra: `return base`.
+4. Tocá **Ejecutar**. Tiene que salir `Las torres están probadas`.
 
 #### Código inicial
 ```python
@@ -4914,6 +5194,11 @@ Para que cada torre sepa que no viene nada más, se manda una señal de fin: un 
 
 #### Desafío
 Mandá una señal de fin para cada torre.
+
+#### Pasos
+1. Hay un `___` en `range(___)`.
+2. Hay tres torres, así que van tres señales: `range(3)`.
+3. Tocá **Ejecutar**. Tienen que salir las tres torres con `listo`.
 
 #### Código inicial
 ```python
@@ -5000,6 +5285,11 @@ Un decorador también puede envolver un **generador**, pero entonces la envoltur
 
 #### Desafío
 Reenviá cada golpe desde la envoltura.
+
+#### Pasos
+1. Hay un `___` antes de `golpe`.
+2. Para reenviarlo hacia afuera se usa `yield`: `yield golpe`.
+3. Tocá **Ejecutar**. Tiene que salir `Al corazón le queda: 0`.
 
 #### Código inicial
 ```python
@@ -5094,6 +5384,18 @@ Un generador infinito con `random.Random(semilla)` propio arma cada oleada. Un d
 - Los dos generadores y el decorador funcionan juntos (el decorador reenvía con `yield`).
 - Usa `sorted` con `key` y `groupby` sobre los datos ordenados.
 - Con la semilla 12 hay 7 oleadas y las más fuertes son la 2, la 1 y la 5.
+
+#### Pasos
+1. Borrá el comentario. `def registrar(func):` con `@functools.wraps(func)` y `def envoltura(*args, **kwargs):`. Adentro, `for oleada in func(*args, **kwargs):` → `envoltura.generadas += 1` y `yield oleada`.
+2. Después de la envoltura: `envoltura.generadas = 0` y `return envoltura`.
+3. `@registrar` arriba de `def oleadas_del_golem(semilla: int):` → `azar = random.Random(semilla)`, `tipos = ["engranaje", "resorte", "péndulo"]` y `numero = 1`.
+4. `while True:` → `enemigos = [(azar.choice(tipos), azar.randint(5, 20)) for _ in range(3)]`, `yield {"numero": numero, "enemigos": enemigos, "golem": numero % 7 == 0}` y `numero += 1`.
+5. `def hasta_el_golem(oleadas):` → `for oleada in oleadas:` → `yield oleada` y, si `oleada["golem"]`, `return`.
+6. `todas = list(hasta_el_golem(oleadas_del_golem(semilla=12)))` y `poder = lambda o: sum(p for _, p in o["enemigos"])`.
+7. Mostrá cuántas hubo y las 3 más fuertes con `sorted(todas, key=poder, reverse=True)[:3]`. Copiá los textos de la salida esperada.
+8. Juntá los enemigos ordenados por tipo y recorrelos con `groupby(enemigos, key=lambda e: e[0])`. Mostrá con `f"  {tipo:<10} {len(poderes):>2} enemigos, poder total {sum(poderes):>3}"`.
+9. Al final: `print("primeras 2:", [o["numero"] for o in islice(todas, 2)])`.
+10. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```python
@@ -5201,6 +5503,16 @@ Cada torre es una corrutina que saca enemigos de la cola, tarda `vida / 100` seg
 - Usa una `asyncio.Queue` compartida y un `None` de fin por torre.
 - Las torres corren a la vez con `gather`.
 - Resultado: Sur derriba al Golem.
+
+#### Pasos
+1. Borrá el comentario. `async def torre(nombre, cola, derribados):` → `while True:` → `enemigo = await cola.get()`. Si es `None`, `return`.
+2. `tipo, vida = enemigo`, `await asyncio.sleep(vida / 100)` y `derribados[nombre].append(f"{tipo}({vida})")`.
+3. `async def main():` → `cola = asyncio.Queue()`, copiá la `horda` y cargala con `cola.put_nowait(enemigo)`.
+4. `torres = ["Norte", "Sur", "Este"]` y un `cola.put_nowait(None)` por torre.
+5. `derribados = {t: [] for t in torres}` y `await asyncio.gather(*(torre(t, cola, derribados) for t in torres))`.
+6. Mostrá cada torre con `print(f"{nombre:<6}{', '.join(lista)}")`.
+7. Al final, `print("¿cayó el Golem?", any("GOLEM" in e for lista in derribados.values() for e in lista))`. Afuera de todo, `asyncio.run(main())`.
+8. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```python
@@ -5383,6 +5695,11 @@ Todo lo que aprendiste sirve a la vez: un diccionario, un `for` sobre sus `.item
 #### Desafío
 Mostrá cada tramo del camino y el total de nodos.
 
+#### Pasos
+1. Hay un `___` en el último `print`.
+2. Sumá los nodos de cada tramo: `sum(n for n in camino.values())`.
+3. Tocá **Ejecutar**. Tiene que salir `En total: 24 nodos`.
+
 #### Código inicial
 ```python
 camino = {"Fundamentos": 11, "Objetos y errores": 5, "Iteración y calidad": 8}
@@ -5433,6 +5750,11 @@ Un texto se da vuelta con un corte con paso negativo: `texto[::-1]`.
 
 #### Desafío
 Leé la marca de agua al derecho.
+
+#### Pasos
+1. Hay un `___` pegado a `marca`.
+2. Para dar vuelta un texto: `[::-1]`. Queda `print(marca[::-1])`.
+3. Tocá **Ejecutar**. Tiene que salir `para quien llegue`.
 
 #### Código inicial
 ```python

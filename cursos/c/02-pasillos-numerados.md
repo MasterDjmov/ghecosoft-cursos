@@ -4232,6 +4232,12 @@ int *p = &puntos;   // p apunta a puntos
 #### Desafío
 Completá el puntero y el cambio a través de él.
 
+#### Pasos
+1. Hay dos `___`.
+2. En `int *cartel = ___;`: `&carga` (la dirección de `carga`).
+3. En `___ = 50;`: `*cartel` (lo que hay donde apunta el cartel).
+4. Tocá **Ejecutar**. Tiene que salir `carga del estante: 50`.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -4300,6 +4306,11 @@ if (p != NULL) {
 
 #### Desafío
 Protegé la lectura: si el cartel es `NULL`, avisá en lugar de seguirlo.
+
+#### Pasos
+1. Rodeá el `printf` con un `if`: `if (carteles[i] != NULL) {` … `}`
+2. Agregá `else {` → `printf("cartel %d: no apunta a nada\n", i);` `}`
+3. Tocá **Ejecutar**. El cartel 1 tiene que decir `no apunta a nada`.
 
 #### Código inicial
 ```c
@@ -4379,6 +4390,11 @@ La función recibe `int *` y usa `*x`; quien la llama pasa `&vidas`. Para interc
 #### Desafío
 Completá la función y la llamada.
 
+#### Pasos
+1. En la función hay tres `___`: `int aux = *a;`, `*a = *b;` y `*b = aux;`
+2. En la llamada, mandá las direcciones: `intercambiar(&estante_a, &estante_b);`
+3. Tocá **Ejecutar**. Tiene que salir `a: 30, b: 12`.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -4453,6 +4469,12 @@ C avanza de a **un elemento** entero, no de a un byte: si son `int`, salta un `i
 
 #### Desafío
 Recorré los pesos con el puntero, sin corchetes.
+
+#### Pasos
+1. Hay dos `___`.
+2. En `total += ___;`: `*(p + i)` (el valor que está `i` lugares más adelante).
+3. En el `printf`: `*(p + 3)` (el último de los cuatro).
+4. Tocá **Ejecutar**. Tiene que salir `total: 45, el ultimo pesa 20`.
 
 #### Código inicial
 ```c
@@ -4535,6 +4557,15 @@ entrada. Con ella, pedí tres durezas y ordenalas con
 - `pedir_entero` vuelve a preguntar hasta un dato válido y devuelve `false` si se termina la entrada.
 - Deja el resultado en `*resultado`.
 - `ordenar_tres(&x, &y, &z)` usa `intercambiar`.
+
+#### Pasos
+1. Arriba de `main`, los prototipos: `bool pedir_entero(const char *pregunta, int minimo, int maximo, int *resultado);`, `void intercambiar(int *a, int *b);` y `void ordenar_tres(int *a, int *b, int *c);`
+2. `pedir_entero`: repetí `printf("%s", pregunta);` y `fgets`; si es `NULL`, `return false;`. Si `sscanf(linea, "%d %c", &n, &sobra) == 1` y está en rango: `*resultado = n;` y `return true;`. Si no: `printf("\n  tiene que ser un entero entre %d y %d.\n", minimo, maximo);`
+3. `intercambiar` con `tmp`, como en la micro-misión anterior.
+4. `ordenar_tres`: si `*a > *b`, `intercambiar(a, b);`; si `*b > *c`, `intercambiar(b, c);`; y otra vez si `*a > *b`, `intercambiar(a, b);` (sin `&`: ya son direcciones).
+5. En `main`: `int x, y, z;` y pedí los tres con `"Dureza del primer lingote (1-100): "`, etc. Si alguno da `false`: `"\nNo hay más entrada.\n"` y `return 1;`
+6. `ordenar_tres(&x, &y, &z);` y `printf("\nDe menor a mayor: %d %d %d\n", x, y, z);`
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```c
@@ -4676,6 +4707,15 @@ dos punteros que se acercan desde las puntas y `mi_strlen(texto)`.
 - `contar_mayores(inicio, fin, limite)` cuenta hasta antes de `fin`.
 - `invertir` usa dos punteros desde las puntas; `mi_strlen` avanza hasta el `'\0'`.
 
+#### Pasos
+1. Arriba de `main`, los prototipos: `int contar_mayores(const int *inicio, const int *fin, int limite);`, `void invertir(int *v, int n);` y `size_t mi_strlen(const char *s);`
+2. `contar_mayores`: `for (const int *p = inicio; p < fin; p++)` y contá los `*p > limite`.
+3. `invertir`: `int *izq = v;` e `int *der = v + n - 1;`. Mientras `izq < der`, intercambiá `*izq` y `*der`, `izq++;` y `der--;`
+4. `mi_strlen`: `const char *p = s;`, avanzá mientras `*p != '\0'` y devolvé `(size_t) (p - s)`.
+5. En `main`: `int durezas[] = { 12, 40, 7, 55, 31, 90 };` y `int n = ...;`. Mostrá `contar_mayores(durezas, durezas + n, 30)` y `contar_mayores(durezas, durezas + n / 2, 30)`.
+6. `invertir(durezas, n);` y mostrá con un `for` de punteros. Después `mi_strlen("Ferrum")` y `mi_strlen("")` con `%zu`. Copiá los textos de la salida esperada.
+7. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -4804,6 +4844,15 @@ más débil, y mostrá en qué posición estaban (resta de punteros).
 - `extremos` recibe `int **menor` y `int **mayor` y deja las direcciones.
 - Modifica la vida del más fuerte y del más débil a través de esos punteros.
 - Muestra la posición con resta de punteros.
+
+#### Pasos
+1. Arriba de `main`: `void extremos(int v[], int n, int **menor, int **mayor);` y `void mostrar(const int v[], int n);`
+2. `extremos`: `*menor = &v[0];` y `*mayor = &v[0];`. Recorré desde 1: si `v[i] < **menor`, `*menor = &v[i];`; si `v[i] > **mayor`, `*mayor = &v[i];`
+3. `mostrar`: `printf("vidas:");`, cada número con `" %d"` y `"\n"`.
+4. En `main`: `int vidas[] = { 45, 12, 80, 33, 67 };`, `int *menor = NULL;`, `int *mayor = NULL;`, `mostrar(vidas, n);` y `extremos(vidas, n, &menor, &mayor);`
+5. Mostrá: `printf("el más débil tiene %d (posición %d); el más fuerte, %d (posición %d)\n", *menor, (int) (menor - vidas), *mayor, (int) (mayor - vidas));`
+6. `*mayor /= 2;`, `*menor = 0;` y `mostrar(vidas, n);`
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```c
@@ -5372,6 +5421,12 @@ Con un puntero a struct, los campos se usan con una **flecha** `->` en vez del p
 #### Desafío
 Hacé que `entrenar` reciba un puntero y cambie la ficha original.
 
+#### Pasos
+1. Cambiá `void entrenar(Aprendiz a)` por `void entrenar(Aprendiz *a)`.
+2. Adentro, cambiá `a.fuerza` por `a->fuerza` (con un puntero se usa `->`).
+3. En `main`, cambiá `entrenar(kira);` por `entrenar(&kira);`
+4. Tocá **Ejecutar**. Tiene que salir `fuerza 20`.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -5454,6 +5509,11 @@ La regla para elegir:
 #### Desafío
 Corregí los accesos: uno es una variable y el otro, un puntero.
 
+#### Pasos
+1. `p` es un puntero: cambiá `p.vida` por `p->vida`.
+2. `hulda` es una variable: en el `printf`, cambiá `hulda->nombre` por `hulda.nombre`.
+3. Tocá **Ejecutar**. Tiene que salir `Hulda: vida 100`.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -5524,6 +5584,11 @@ Pasar un struct grande por copia gasta memoria y tiempo. Pasar su dirección es 
 
 #### Desafío
 Agregá `const` al parámetro y completá lo que muestra.
+
+#### Pasos
+1. En `void mostrar(___ Ficha *f)`, cambiá `___` por `const`.
+2. En el `printf`, los dos `___` son `f->metal` y `f->precio`.
+3. Tocá **Ejecutar**. Tiene que salir `oro: 40 lingotes`.
 
 #### Código inicial
 ```c
@@ -5605,6 +5670,11 @@ Adentro, la función guarda `&v[i]` del que busca, y lo devuelve al final.
 
 #### Desafío
 Completá el puntero que se devuelve y la cura.
+
+#### Pasos
+1. En `peor = ___;`, escribí `&v[i]` (la dirección del más herido).
+2. En el `___;` de `main`, escribí `herido->vida += 30;`
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```c
@@ -5714,6 +5784,15 @@ reciben `Personaje *`: `agregar` (devuelve `false` si está llena), `quitar`
 - `agregar`, `quitar` y `tiene` reciben `Personaje *` (`tiene` con `const`).
 - `quitar` corre los objetos para tapar el hueco.
 - Devuelven `false` cuando no se puede.
+
+#### Pasos
+1. Arriba de `main`: `#define MAX_MOCHILA 4`, `#define LARGO_ITEM 16` y `typedef struct { char nombre[16]; char mochila[MAX_MOCHILA][LARGO_ITEM]; int items; } Personaje;`
+2. `bool agregar(Personaje *p, const char *item)`: si `p->items == MAX_MOCHILA`, `return false;`. Si no: `snprintf(p->mochila[p->items], LARGO_ITEM, "%s", item);`, `p->items++;` y `return true;`
+3. `bool quitar(Personaje *p, const char *item)`: buscalo con `strcmp`; si está, corré los de atrás un lugar (copiando letra por letra), `p->items--;` y `return true;`. Si no, `return false;`
+4. `bool tiene(const Personaje *p, const char *item)`: recorré y devolvé `true` si lo encontrás.
+5. `void mostrar(const Personaje *p)`: `printf("mochila de %s (%d/%d):", ...)` y cada objeto con `" [%s]"`.
+6. En `main`: `Personaje kira = { .nombre = "Kira" };`, agregá los 5 hallazgos (`"Poción"`, `"Llave"`, `"Cuerda"`, `"Antorcha"`, `"Mapa"`) avisando `"no entra: %s\n"`, y seguí con las pruebas de la salida esperada.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```c
@@ -5870,6 +5949,16 @@ turnos, intercambiá dos punteros `atacante` y `defensor`.
 - `duelo(&a, &b)` devuelve un puntero al ganador.
 - Alterna turnos intercambiando los punteros `atacante` y `defensor`.
 
+#### Pasos
+1. Arriba de `main`: `typedef struct { char nombre[16]; int vida; int ataque; int defensa; } Luchador;`
+2. `int tirar(int minimo, int maximo)` → `return minimo + rand() % (maximo - minimo + 1);`
+3. `void turno(const Luchador *atacante, Luchador *defensor)`: `int tirada = tirar(0, 5);`, `int danio = atacante->ataque + tirada - defensor->defensa;` (mínimo 1; si `tirada == 5`, el doble). Restalo sin bajar de 0.
+4. En `turno`, mostrá: `printf("  %s pega %2d%s -> %s queda con %d\n", atacante->nombre, danio, tirada == 5 ? " (¡crítico!)" : "", defensor->nombre, defensor->vida);`
+5. `const Luchador *duelo(Luchador *a, Luchador *b)`: `atacante = a`, `defensor = b`, `int ronda = 1;`. Mientras los dos vivan: si `atacante == a`, `printf("ronda %d\n", ronda);` y `ronda++;`. Después `turno(atacante, defensor);` e intercambiá los dos punteros con un `tmp`.
+6. `duelo` devuelve `a->vida > 0 ? a : b`.
+7. En `main`: `srand(7);`, `Luchador kira = { "Kira", 60, 14, 4 };`, `Luchador golem = { "Gólem", 80, 11, 7 };`, `const Luchador *ganador = duelo(&kira, &golem);` y `printf("Gana %s con %d de vida.\n", ganador->nombre, ganador->vida);`
+8. Tocá **Ejecutar** y compará ronda por ronda.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -6017,6 +6106,15 @@ ataque). Devuelve cuántos niveles subió: puede ser más de uno de golpe.
 - `ganar_experiencia` sube de nivel cada vez que alcanza `nivel × 100`.
 - Puede subir más de un nivel de golpe (usa un bucle).
 - Devuelve cuántos niveles subió.
+
+#### Pasos
+1. Arriba de `main`: `typedef struct { char nombre[16]; int nivel; int xp; int vida_max; int ataque; } Personaje;`
+2. `int xp_para_subir(int nivel)` → `return nivel * 100;`
+3. `int ganar_experiencia(Personaje *p, int xp)`: `int niveles = 0;`, `p->xp += xp;` y `while (p->xp >= xp_para_subir(p->nivel))`: restá esa xp, `p->nivel++;`, `p->vida_max += 10;`, `p->ataque += 2;` y `niveles++;`. Devolvé `niveles`.
+4. `void mostrar(const Personaje *p)` → `printf("  %s nivel %d (%d/%d xp)  vida %d  ataque %d\n", p->nombre, p->nivel, p->xp, xp_para_subir(p->nivel), p->vida_max, p->ataque);`
+5. En `main`: `Personaje chispa = { "Chispa", 1, 0, 50, 8 };`, `int botines[] = { 60, 150, 30, 400 };` y `mostrar(&chispa);`
+6. Por cada botín: `int subio = ganar_experiencia(&chispa, botines[i]);`, `printf("+%d xp", botines[i]);`; si subió, `printf(" -> ¡subió %d nivel%s!", subio, subio > 1 ? "es" : "");`. Después `"\n"` y `mostrar(&chispa);`
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```c

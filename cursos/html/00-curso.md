@@ -216,6 +216,13 @@ Los textos los inventás vos: el inspector solo cuenta las etiquetas.
 
 **Se comprueba:** el esqueleto (doctype, `lang="es"`, `meta charset`, `viewport` y `title`), un `h1`, un `h2`, dos párrafos, y un `strong` y un `em` adentro de los párrafos.
 
+#### Pasos
+1. Entre `<body>` y `</body>`, escribí `<h1>` con el nombre: `<h1>Iris</h1>`.
+2. Debajo, `<h2>` con la especialidad: `<h2>Aprendiz de vitralista</h2>`.
+3. Debajo, dos párrafos: `<p>...</p>` y `<p>...</p>`, con lo que quieras contar.
+4. En uno de los párrafos, rodeá una palabra con `<strong>...</strong>` y otra con `<em>...</em>`.
+5. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <!DOCTYPE html>
@@ -319,6 +326,14 @@ Un manual con capítulos y apartados. Los títulos van de mayor a menor: `h1` el
 Ojo: el primer `h3` va **inmediatamente** después del primer `h2`, sin un párrafo en el medio. Y nunca un `h3` justo debajo del `h1`.
 
 **Se comprueba:** un `h1`, dos `h2`, dos `h3` y tres párrafos; que el `h2` venga justo después del `h1` y el `h3` justo después de un `h2`.
+
+#### Pasos
+1. Entre `<body>` y `</body>`, escribí `<h1>` con el nombre del manual.
+2. Debajo, `<h2>` del primer capítulo.
+3. Justo debajo (sin párrafo en el medio), `<h3>` del primer apartado y su `<p>`.
+4. Después, `<h3>` del segundo apartado y su `<p>`.
+5. Al final, `<h2>` del segundo capítulo y su `<p>`.
+6. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -426,6 +441,12 @@ El resto no se toca. Cuando esté bien, los renglones del inspector (abajo del e
 
 **Se comprueba:** que esté el `<!DOCTYPE html>`, que el `html` tenga `lang="es"` y que el título siga siendo *Mi primer vitral*.
 
+#### Pasos
+1. Arriba de todo, antes de `<html>`, agregá un renglón: `<!DOCTYPE html>`
+2. Cambiá `<html>` por `<html lang="es">`.
+3. No toques nada más.
+4. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <html>
@@ -508,6 +529,11 @@ El texto tiene que ser exactamente ese, con los dos signos de exclamación (`¡`
 
 **Se comprueba:** que el `h1` diga *¡Hola, Talleres!* y que el párrafo siga igual.
 
+#### Pasos
+1. Buscá el `<p>` adentro del `<body>`.
+2. Arriba, en un renglón nuevo, escribí `<h1>¡Hola, Talleres!</h1>` (con `¡` y `!`).
+3. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <!DOCTYPE html>
@@ -588,6 +614,12 @@ Las dos etiquetas van **adentro** del párrafo; el resto del texto queda igual.
 
 **Se comprueba:** que adentro del párrafo, el `strong` diga *HTML* y el `em`, *qué es*.
 
+#### Pasos
+1. Buscá la palabra `HTML` en el párrafo y rodeala: `<strong>HTML</strong>`.
+2. Buscá `qué es` y rodealo: `<em>qué es</em>`.
+3. El resto del texto queda igual.
+4. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <h1>¡Hola, Talleres!</h1>
@@ -652,6 +684,11 @@ El `em` de *plomo* se abrió y nunca se cerró, y por eso el segundo párrafo ta
 Queda: `<p>Primero el <em>plomo</em></p>`. Primero se cierra el `em` (el último que se abrió) y después el `p`.
 
 **Se comprueba:** que haya un solo `em` y que diga *plomo*.
+
+#### Pasos
+1. Buscá `<em>plomo</p>`: el `em` nunca se cierra.
+2. Escribí `</em>` justo después de `plomo`. Queda: `<em>plomo</em></p>`
+3. Tocá **Ver**: el segundo párrafo ya no tiene que salir en cursiva.
 
 #### Código inicial
 ```html

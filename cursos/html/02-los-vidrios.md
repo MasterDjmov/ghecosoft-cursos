@@ -273,6 +273,11 @@ Ojo con los signos: dos puntos entre la propiedad y el valor, punto y coma al fi
 
 **Se comprueba:** que haya una regla para `h1` con `color` `#22d3ee`.
 
+#### Pasos
+1. En la línea vacía entre `<style>` y `</style>`, escribí `h1 { color: #22d3ee; }`
+2. Ojo con los dos puntos, el punto y coma y las llaves.
+3. Tocá **Ver**: el título tiene que salir cian.
+
 #### Código inicial
 ```html
 <style>
@@ -331,6 +336,11 @@ Queremos pintar de ámbar **solo** el segundo párrafo. Para eso lo marcamos con
 En el HTML la clase va sin punto (`class="aviso"`); en el CSS, con punto (`.aviso`). El primer párrafo no lleva clase.
 
 **Se comprueba:** que el primer párrafo no tenga clase, que el segundo tenga `class="aviso"` y que la regla `.aviso` tenga `background-color` `#f59e0b`.
+
+#### Pasos
+1. En el HTML, cambiá el segundo `<p>` por `<p class="aviso">` (sin punto).
+2. En el `<style>`, escribí `.aviso { background-color: #f59e0b; }` (con punto).
+3. Tocá **Ver**: solo el segundo párrafo tiene que tener fondo ámbar.
 
 #### Código inicial
 ```html
@@ -393,6 +403,11 @@ Hay tres reglas que repiten el mismo color. Como el color se **hereda**, alcanza
 2. Borrá las tres líneas enteras de `h2`, `p` y `li`.
 
 **Se comprueba:** que el `body` tenga `color` `#e2e8f0` y que ya **no haya** reglas de color para `h2`, `p` ni `li` (el inspector dice «no hay»).
+
+#### Pasos
+1. En la regla del `body`, antes de la `}`, agregá `color: #e2e8f0;`
+2. Borrá las tres líneas de `h2`, `p` y `li`.
+3. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -467,6 +482,11 @@ El color `#7c3aed` lo vamos a guardar en una **variable**, para usarlo por su no
 El nombre de la variable lleva dos guiones adelante, y para usarla se escribe adentro de `var( )`.
 
 **Se comprueba:** que `:root` tenga `--vidrio-misterio` con `#7c3aed` y que `.fragmento` use `var(--vidrio-misterio)` como `border-color`.
+
+#### Pasos
+1. Arriba de todo en el `<style>`, escribí `:root { --vidrio-misterio: #7c3aed; }`
+2. En `.fragmento`, cambiá `border-color: #7c3aed;` por `border-color: var(--vidrio-misterio);`
+3. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -1166,6 +1186,13 @@ Vamos a hacer una segunda tarjeta, igual a la de C++ pero violeta. No hace falta
 
 **Se comprueba:** que la regla `.violeta` cambie `--neon` a `#a78bfa` y que haya un `article` con las clases `tarjeta` y `violeta`.
 
+#### Pasos
+1. Al final del `<style>`, antes de `</style>`, agregá `.violeta { --neon: #a78bfa; }`
+2. En el HTML, copiá todo el `<article class="tarjeta">...</article>` y pegalo debajo.
+3. En la copia, cambiá `class="tarjeta"` por `class="tarjeta violeta"`.
+4. Cambiá los textos de la copia por los de SDL3.
+5. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <!DOCTYPE html>
@@ -1535,6 +1562,11 @@ Probá la vista previa en *Celular* y en *Compu*: en el celular ocupa todo el an
 
 **Se comprueba:** las tres propiedades de `.centrada` y que la caja tenga un párrafo adentro.
 
+#### Pasos
+1. Entre `<body>` y `</body>`, escribí `<div class="centrada">`, un `<p>` con un texto y `</div>`.
+2. En el `<style>`, escribí `.centrada {` y adentro tres líneas: `max-width: 30rem;`, `margin: 2rem auto;` y `box-sizing: border-box;`. Cerrá con `}`.
+3. Tocá **Ver** y probá la vista en *Celular* y en *Compu*.
+
 #### Código inicial
 ```html
 <!DOCTYPE html>
@@ -1657,6 +1689,10 @@ Queda: `.vidrio { border: 2px solid #22d3ee; padding: 1rem; }`. Mirá en la vist
 
 **Se comprueba:** que `.vidrio` tenga `padding` `1rem`.
 
+#### Pasos
+1. En la regla `.vidrio`, antes de la `}`, agregá `padding: 1rem;`
+2. Tocá **Ver**: el texto se tiene que separar del borde.
+
 #### Código inicial
 ```html
 <style>
@@ -1714,6 +1750,10 @@ El borde se escribe con tres valores seguidos, separados por espacios: grosor, e
 Los tres valores van en ese orden y sin comas.
 
 **Se comprueba:** que `.vidrio` tenga `border` `3px solid #f59e0b`.
+
+#### Pasos
+1. En la regla `.vidrio`, antes de la `}`, agregá `border: 3px solid #f59e0b;`
+2. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -1773,6 +1813,11 @@ La regla de `.vidrio` no se toca.
 
 **Se comprueba:** que haya una regla `*` con `box-sizing` `border-box`.
 
+#### Pasos
+1. Arriba de la regla `.vidrio`, escribí una regla nueva: `* { box-sizing: border-box; }`
+2. No toques `.vidrio`.
+3. Tocá **Ver**: la caja tiene que medir 200px justos.
+
 #### Código inicial
 ```html
 <style>
@@ -1829,6 +1874,10 @@ recompensa: xp 10, oro 10
 1. En la regla `.tarjeta`, antes de la `}`, agregá `border-radius: 12px;`
 
 **Se comprueba:** que `.tarjeta` tenga `border-radius` `12px`.
+
+#### Pasos
+1. En la regla `.tarjeta`, antes de la `}`, agregá `border-radius: 12px;`
+2. Tocá **Ver**: las esquinas tienen que salir redondeadas.
 
 #### Código inicial
 ```html
@@ -2359,6 +2408,13 @@ Una tarjeta de perfil con la foto a la izquierda, los datos en el medio y un enl
 
 **Se comprueba:** las seis propiedades de arriba, y que adentro de `.perfil` estén la imagen, `.datos` y el enlace `.seguir`.
 
+#### Pasos
+1. Entre `<body>` y `</body>`, escribí `<div class="perfil">`.
+2. Adentro, en este orden: `<img src="/img/cursos/html/heroe-avatar.webp" alt="Avatar de Iris">`, un `<div class="datos">` con el nombre y el nivel, y `<a class="seguir" href="#">Seguir</a>`. Cerrá `</div>`.
+3. En el `<style>`: `.perfil { display: flex; align-items: center; gap: 1rem; }`
+4. `.perfil img { flex-shrink: 0; border-radius: 50%; }` y `.datos { flex: 1; }`
+5. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <!DOCTYPE html>
@@ -2506,6 +2562,11 @@ Las cuatro van en la regla del `body`, no en la del cartel.
 
 **Se comprueba:** las cuatro propiedades del `body` y que el cartel esté directamente adentro del `body`.
 
+#### Pasos
+1. Entre `<body>` y `</body>`, escribí `<div class="cartel">` con un texto y `</div>`.
+2. En el `<style>`, escribí `body {` con cuatro líneas: `min-height: 100vh;`, `display: flex;`, `justify-content: center;` y `align-items: center;`. Cerrá con `}`.
+3. Tocá **Ver**: el cartel tiene que quedar en el medio.
+
 #### Código inicial
 ```html
 <!DOCTYPE html>
@@ -2629,6 +2690,10 @@ El `flex` va en el contenedor (`.cornisa`), no en los `span`.
 
 **Se comprueba:** que `.cornisa` tenga `display` `flex`.
 
+#### Pasos
+1. En la regla `.cornisa`, agregá `display: flex;` (por ejemplo, al principio, después de la `{`).
+2. Tocá **Ver**: los dos `span` tienen que quedar en fila.
+
 #### Código inicial
 ```html
 <style>
@@ -2692,6 +2757,10 @@ Queremos el escudo en una punta y los trofeos en la otra.
 `space-between` pone el primero bien a la izquierda, el último bien a la derecha y reparte el espacio en el medio.
 
 **Se comprueba:** que `.cornisa` tenga `justify-content` `space-between`.
+
+#### Pasos
+1. En la regla `.cornisa`, agregá `justify-content: space-between;`
+2. Tocá **Ver**: uno tiene que quedar en cada punta.
 
 #### Código inicial
 ```html
@@ -2757,6 +2826,11 @@ Los botones están pegados. Les damos aire entre ellos y los centramos a lo alto
 Queda: `.botones { display: flex; align-items: center; gap: 1rem; }`
 
 **Se comprueba:** que `.botones` tenga `align-items` `center` y `gap` `1rem`.
+
+#### Pasos
+1. En la regla `.botones`, después de `display: flex;`, agregá `align-items: center;`
+2. Y también `gap: 1rem;`
+3. Tocá **Ver**: los botones tienen que quedar separados.
 
 #### Código inicial
 ```html
@@ -2829,6 +2903,10 @@ Queremos que los cuatro botones midan lo mismo y llenen el ancho.
 `.botones a` quiere decir «los `a` que están adentro de `.botones`». El `flex: 1` va en cada hijo, no en el contenedor.
 
 **Se comprueba:** que haya una regla `.botones a` con `flex` `1`.
+
+#### Pasos
+1. Debajo de la regla `.botones`, escribí una regla nueva: `.botones a { flex: 1; }`
+2. Tocá **Ver**: los cuatro botones tienen que medir lo mismo.
 
 #### Código inicial
 ```html
@@ -3258,6 +3336,13 @@ Una galería de insignias cuadradas, con una que ocupa el doble. Escribí el HTM
 
 **Se comprueba:** las cuatro propiedades de arriba, seis `li` adentro de `.insignias` y uno solo con la clase `grande`.
 
+#### Pasos
+1. Entre `<body>` y `</body>`, escribí `<ul class="insignias">` con seis `<li>`. Al primero ponele `class="grande"`: `<li class="grande">`. Cerrá `</ul>`.
+2. En el `<style>`: `.insignias { display: grid; grid-template-columns: repeat(auto-fill, minmax(6rem, 1fr)); }`
+3. `.insignias li { aspect-ratio: 1; }`
+4. `.insignias .grande { grid-column: span 2; }`
+5. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <!DOCTYPE html>
@@ -3388,6 +3473,12 @@ El esqueleto de una página dibujado con nombres. Escribí el HTML **adentro del
 Cada renglón entre comillas es una fila de la grilla. Los nombres de las zonas tienen que coincidir con los de `grid-area`.
 
 **Se comprueba:** el `body` con `display` `grid`, el `grid-area` de cada parte y que las cuatro estén directamente adentro del `body`.
+
+#### Pasos
+1. Entre `<body>` y `</body>`, escribí cuatro etiquetas con un texto: `<header>...</header>`, `<nav>...</nav>`, `<main>...</main>` y `<footer>...</footer>`.
+2. En el `<style>`: `body { display: grid; grid-template-areas: "cabecera cabecera" "menu contenido" "pie pie"; }`
+3. Una regla por parte: `header { grid-area: cabecera; }`, `nav { grid-area: menu; }`, `main { grid-area: contenido; }` y `footer { grid-area: pie; }`.
+4. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -3529,6 +3620,10 @@ Los seis vitrales están uno debajo del otro. Los ordenamos en una **grilla** de
 
 **Se comprueba:** que `.vitrales` tenga `display` `grid` y `grid-template-columns` `repeat(3, 1fr)`.
 
+#### Pasos
+1. En el `<style>`, arriba de `.vitrales div`, escribí `.vitrales { display: grid; grid-template-columns: repeat(3, 1fr); }`
+2. Tocá **Ver**: tienen que quedar tres columnas.
+
 #### Código inicial
 ```html
 <style>
@@ -3593,6 +3688,10 @@ Los vitrales están pegados. Les dejamos un espacio entre ellos, como el plomo.
 1. En la regla `.vitrales`, antes de la `}`, agregá `gap: 0.75rem;`
 
 **Se comprueba:** que `.vitrales` tenga `gap` `0.75rem`.
+
+#### Pasos
+1. En la regla `.vitrales`, antes de la `}`, agregá `gap: 0.75rem;`
+2. Tocá **Ver**: tiene que aparecer espacio entre los vitrales.
 
 #### Código inicial
 ```html
@@ -3661,6 +3760,11 @@ Copialo con cuidado: tiene dos pares de paréntesis. Achicá y agrandá la vista
 
 **Se comprueba:** que `grid-template-columns` de `.vitrales` sea `repeat(auto-fit, minmax(10rem, 1fr))`.
 
+#### Pasos
+1. En la regla `.vitrales`, buscá `repeat(3, 1fr)`.
+2. Cambialo por `repeat(auto-fit, minmax(10rem, 1fr))` (con dos pares de paréntesis).
+3. Tocá **Ver** y achicá la vista: las columnas tienen que acomodarse.
+
 #### Código inicial
 ```html
 <style>
@@ -3724,6 +3828,10 @@ Los escalones del podio cuelgan desde arriba. Queremos que se apoyen **abajo**, 
 1. En la regla `.podio`, antes de la `}`, agregá `align-items: end;`
 
 **Se comprueba:** que `.podio` tenga `align-items` `end`.
+
+#### Pasos
+1. En la regla `.podio`, antes de la `}`, agregá `align-items: end;`
+2. Tocá **Ver**: los escalones tienen que apoyarse abajo.
 
 #### Código inicial
 ```html

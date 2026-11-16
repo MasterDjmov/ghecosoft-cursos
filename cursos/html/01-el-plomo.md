@@ -214,6 +214,13 @@ Los textos los inventás vos. Podés poner un `h2` arriba de cada lista.
 
 **Se comprueba:** una sola imagen y con `alt` escrito, un `ul` con tres `li` y un `ol` con tres `li`.
 
+#### Pasos
+1. Entre `<body>` y `</body>`, escribí `<h1>` con el nombre de la poción.
+2. Debajo, la imagen: `<img src="/img/cursos/html/gheco-logo.webp" alt="...">`, con un `alt` que diga qué se ve.
+3. Los ingredientes: `<ul>`, tres `<li>...</li>` y `</ul>`.
+4. Los pasos: `<ol>`, tres `<li>...</li>` y `</ol>`.
+5. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <!DOCTYPE html>
@@ -312,6 +319,13 @@ Una página que salta a cada criatura. Escribí todo **adentro del `<body>`**.
 El `href` lleva `#` y el `id`, no: `href="#slime"` salta a `id="slime"`.
 
 **Se comprueba:** dos enlaces internos en el `ul`, dos `h2` con `id` (`slime` y `goblin`) y un enlace con `href="#"`.
+
+#### Pasos
+1. Entre `<body>` y `</body>`, escribí un `<ul>` con dos `<li>`: `<li><a href="#slime">Slime</a></li>` y `<li><a href="#goblin">Goblin</a></li>`.
+2. Debajo, `<h2 id="slime">Slime</h2>` y un `<p>` con una frase.
+3. Después, `<h2 id="goblin">Goblin</h2>` y otro `<p>`.
+4. Al final, `<p><a href="#">Volver arriba</a></p>`.
+5. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -427,6 +441,12 @@ Los tres pasos están en párrafos sueltos (`<p>`). Queremos que sean una **list
 
 **Se comprueba:** que haya una `ol` con tres `li` y que digan los tres pasos.
 
+#### Pasos
+1. Debajo del `<h2>`, escribí `<ol>`.
+2. Cambiá cada `<p>` por `<li>` y cada `</p>` por `</li>`.
+3. Al final de todo, escribí `</ol>`.
+4. Tocá **Ver**: tiene que salir una lista numerada.
+
 #### Código inicial
 ```html
 <h2>Pasos de un vitral</h2>
@@ -500,6 +520,11 @@ Ojo: el texto que queda entre `<a ...>` y `</a>` tiene que ser exactamente **Val
 
 **Se comprueba:** que el enlace diga *Valle de la Serpiente* y que su `href` sea `valle.html`.
 
+#### Pasos
+1. Justo antes de `Valle`, escribí `<a href="valle.html">`.
+2. Justo después de `Serpiente` (antes del punto), escribí `</a>`.
+3. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <h2>Caminos</h2>
@@ -565,6 +590,11 @@ Así empieza: `<img src="/img/personajes/gheco.webp" alt="Gheco, ...`
 
 **Se comprueba:** que el `alt` de la imagen diga exactamente esa frase.
 
+#### Pasos
+1. Buscá `<img src="/img/personajes/gheco.webp"`.
+2. Después de las comillas del `src`, dejá un espacio y escribí `alt="Gheco, el gecko celeste con anteojos"`.
+3. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <h2>La mascota del taller</h2>
@@ -620,6 +650,12 @@ La imagen y su epígrafe (el textito de abajo) están sueltos. Los agrupamos en 
 La imagen y el `figcaption` tienen que quedar los dos **adentro** de la misma `figure`. No cambies el `alt` ni el texto.
 
 **Se comprueba:** que adentro de la `figure` estén la imagen (con su `alt`) y el `figcaption` con el epígrafe.
+
+#### Pasos
+1. Antes de la `<img ...>`, escribí `<figure>`.
+2. Cambiá el `<p>` del epígrafe por `<figcaption>` y su `</p>` por `</figcaption>`.
+3. Al final, escribí `</figure>`.
+4. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -904,6 +940,13 @@ Un blog con cada parte en su etiqueta. Escribí todo **adentro del `<body>`**, s
 
 **Se comprueba:** un `header` con un `nav` adentro y dos enlaces, un `main` con dos `article`, cada uno con su `h2` y su `time` con `datetime`, un `aside` con su `h2`, un `footer` y ningún `div`.
 
+#### Pasos
+1. Entre `<body>` y `</body>`, escribí `<header>`, el nombre del blog en un `<p>`, y adentro un `<nav>` con dos enlaces. Cerrá `</nav>` y `</header>`.
+2. Debajo, `<main>` con dos `<article>`. Cada uno: `<h2>...</h2>` y `<p><time datetime="2026-09-30">30 de septiembre</time></p>`.
+3. Cerrá `</main>`. Debajo, `<aside>` con `<h2>Sobre la autora</h2>` y `</aside>`.
+4. Al final, `<footer>...</footer>`. No uses ningún `<div>`.
+5. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <!DOCTYPE html>
@@ -1027,6 +1070,13 @@ El `header`, la `section` y el `footer` van directamente adentro del `article`.
 
 **Se comprueba:** un `article` con su `header`, una imagen con `alt`, una `section` con `h2` y dos `li`, y su `footer`.
 
+#### Pasos
+1. Entre `<body>` y `</body>`, abrí `<article>`.
+2. Adentro, `<header>` con `<img src="/img/cursos/html/heroe-avatar.webp" alt="Avatar de Iris">`, el nombre en un `<h1>` y el nivel en un `<p>`. Cerrá `</header>`.
+3. Después, `<section>` con `<h2>Logros</h2>`, un `<ul>` con dos `<li>` y `</section>`.
+4. Después, `<footer>` con la fecha en un `<p>` y `</footer>`.
+5. Cerrá `</article>`. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <!DOCTYPE html>
@@ -1146,6 +1196,11 @@ El menú está en un `div`, que no dice qué es. Lo cambiamos por `nav`, que sig
 
 **Se comprueba:** que los tres enlaces estén adentro de un `nav` y que no quede ningún `div`.
 
+#### Pasos
+1. Cambiá `<div>` por `<nav>`.
+2. Cambiá `</div>` por `</nav>`.
+3. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <div>
@@ -1209,6 +1264,12 @@ Las tres zonas de la página están en `div` iguales. Cada una pasa a tener su n
 Cambiá la etiqueta de apertura **y** la de cierre de cada uno. Lo de adentro no se toca.
 
 **Se comprueba:** el `h1` adentro del `header`, el primer párrafo adentro del `main` y el último adentro del `footer`.
+
+#### Pasos
+1. Primer renglón: cambiá `<div>` y `</div>` por `<header>` y `</header>`.
+2. Segundo renglón: por `<main>` y `</main>`.
+3. Tercer renglón: por `<footer>` y `</footer>`.
+4. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -1279,6 +1340,12 @@ Así queda el primero:
 El `h2` de la sección queda afuera de los `article`.
 
 **Se comprueba:** dos `article` adentro de la `section`, cada uno con su `h3`.
+
+#### Pasos
+1. Antes del primer `<h3>`, escribí `<article>`. Después de su `</p>`, escribí `</article>`.
+2. Lo mismo con el segundo `<h3>` y su párrafo.
+3. El `<h2>` queda afuera.
+4. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -1351,6 +1418,11 @@ Arriba hay un enlace «Saltar al contenido» que apunta a `#contenido`, pero nin
 No se escribe el `#` en el `id`: el `#` va solo en el `href` del enlace.
 
 **Se comprueba:** que el enlace siga igual y que el `main` tenga `id="contenido"`.
+
+#### Pasos
+1. Buscá `<main>`.
+2. Cambialo por `<main id="contenido">` (sin `#`).
+3. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -1688,6 +1760,13 @@ Un buscador: el `label` y el campo se unen con el mismo nombre, `q`. Escribí to
 
 **Se comprueba:** el `form` con `method` `get`, el `label` con `for` `q`, el campo con `type` `search`, `id` `q` y `name` `q`, y el botón `submit` que diga *Buscar*.
 
+#### Pasos
+1. Entre `<body>` y `</body>`, escribí `<form method="get">`.
+2. Adentro: `<label for="q">Buscar</label>`.
+3. Debajo: `<input type="search" id="q" name="q">`.
+4. Debajo: `<button type="submit">Buscar</button>` y cerrá `</form>`.
+5. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <!DOCTYPE html>
@@ -1783,6 +1862,13 @@ Una encuesta con dos grupos de preguntas y un comentario. Escribí todo **adentr
 Cada `input` va **adentro** de su `label`.
 
 **Se comprueba:** dos `fieldset` con su `legend`, tres `radio` con `name="opinion"` (uno con `required`), tres `checkbox`, los seis `input` adentro de un `label` y el `textarea` con `id` `comentario`, `maxlength` 300 y su `label`.
+
+#### Pasos
+1. Entre `<body>` y `</body>`, escribí un `<fieldset>` con `<legend>` (la pregunta).
+2. Adentro, tres opciones: `<label><input type="radio" name="opinion" required> Excelente</label>` (solo la primera con `required`), y dos más sin `required`. Cerrá `</fieldset>`.
+3. Otro `<fieldset>` con su `<legend>` y tres `<label><input type="checkbox"> ...</label>`. Cerrá `</fieldset>`.
+4. El comentario: `<label for="comentario">Comentario</label>` y `<textarea id="comentario" maxlength="300"></textarea>`.
+5. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -1916,6 +2002,11 @@ Ojo: el segundo `id` es `clave`, no «contraseña».
 
 **Se comprueba:** que el primer `label` tenga `for="usuario"` y el segundo `for="clave"`.
 
+#### Pasos
+1. Al primer `<label>`, agregale `for="usuario"`: `<label for="usuario">`.
+2. Al segundo, `for="clave"`: `<label for="clave">`.
+3. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <form>
@@ -1979,6 +2070,11 @@ Si un campo es obligatorio, el formulario no se envía vacío. Eso se marca con 
 Así queda el primero: `<input id="usuario" name="usuario" required>`. A `required` no le hace falta `=""`.
 
 **Se comprueba:** que haya dos campos con `required`.
+
+#### Pasos
+1. En el primer `<input ...>`, antes del `>`, agregá un espacio y `required`.
+2. Lo mismo en el segundo `<input ...>`.
+3. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -2044,6 +2140,11 @@ Cada campo puede decir qué tipo de dato pide, con el atributo `type`.
 Así queda el segundo: `<input id="cantidad" name="cantidad" type="number" min="1" max="12">`. El `required` del correo se queda donde está.
 
 **Se comprueba:** el correo con `type` `email`, y la cantidad con `type` `number`, `min` 1 y `max` 12.
+
+#### Pasos
+1. En el `<input id="correo" ...>`, agregá `type="email"`.
+2. En el `<input id="cantidad" ...>`, agregá `type="number" min="1" max="12"`.
+3. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -2112,6 +2213,11 @@ Un enlace `a` lleva a otra página, pero **no envía** el formulario. Para envia
 2. En su lugar, antes del `</form>`, escribí `<button type="submit">Enviar al Puerto</button>`.
 
 **Se comprueba:** que adentro del `form` haya un `button` de tipo `submit` que diga *Enviar al Puerto* y ningún enlace.
+
+#### Pasos
+1. Borrá la línea `<a href="#">Enviar al Puerto</a>`.
+2. En su lugar escribí `<button type="submit">Enviar al Puerto</button>`.
+3. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -2418,6 +2524,13 @@ Un horario como tabla. Escribí todo **adentro del `<body>`**, en un `<table>`.
 
 **Se comprueba:** un `caption`, un `thead`, un `tbody`, tres `th` con `scope="col"`, dos con `scope="row"` y una `td` con `colspan="2"`.
 
+#### Pasos
+1. Entre `<body>` y `</body>`, escribí `<table>` y adentro `<caption>Clases de la semana</caption>`.
+2. `<thead>` con una fila: `<tr><th scope="col">Hora</th><th scope="col">Lunes</th><th scope="col">Miércoles</th></tr>` y `</thead>`.
+3. `<tbody>`. Primera fila: `<tr><th scope="row">18:00</th><td>HTML</td><td>CSS</td></tr>`.
+4. Segunda fila: `<tr><th scope="row">20:00</th><td colspan="2">Práctica libre</td></tr>`.
+5. Cerrá `</tbody>` y `</table>`. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <!DOCTYPE html>
@@ -2524,6 +2637,12 @@ Una tabla que compara dos planes. Escribí todo **adentro del `<body>`**, en un 
 Así queda una fila: `<tr><th scope="row">Cursos</th><td>3</td><td>Todos</td></tr>`.
 
 **Se comprueba:** un `caption`, un `thead`, un `tbody`, tres `th` con `scope="col"`, dos con `scope="row"` y cuatro `td` en total.
+
+#### Pasos
+1. Entre `<body>` y `</body>`, escribí `<table>` y adentro un `<caption>` con el título.
+2. `<thead>` con una fila de tres `<th scope="col">`: `Característica`, `Gratis` y `Supremo`. Cerrá `</thead>`.
+3. `<tbody>` con dos filas. Ejemplo: `<tr><th scope="row">Cursos</th><td>3</td><td>Todos</td></tr>`.
+4. Cerrá `</tbody>` y `</table>`. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -2652,6 +2771,11 @@ Cada dato va en su propia celda: el nombre en una `td` y los puntos en otra.
 
 **Se comprueba:** que haya dos filas y que las celdas digan Nadia, 120, Teo y 45, en ese orden.
 
+#### Pasos
+1. Cambiá la línea `Nadia 120` por `<tr><td>Nadia</td><td>120</td></tr>`.
+2. Cambiá la línea `Teo 45` por `<tr><td>Teo</td><td>45</td></tr>`.
+3. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <table>
@@ -2716,6 +2840,12 @@ La tabla no tiene títulos de columna. Los agregamos en un `thead`, arriba del `
 Los títulos van en `th`, no en `td`. El `tbody` con los datos no se toca.
 
 **Se comprueba:** que el `thead` tenga los títulos *Aprendiz* y *Puntos*, los dos con `scope="col"`, y que el `tbody` siga con sus dos filas.
+
+#### Pasos
+1. Entre `<table>` y `<tbody>`, escribí `<thead>`.
+2. Adentro: `<tr><th scope="col">Aprendiz</th><th scope="col">Puntos</th></tr>`.
+3. Cerrá con `</thead>`.
+4. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -2788,6 +2918,10 @@ Tiene que ser lo **primero** adentro de la tabla, y el texto tiene que ser exact
 
 **Se comprueba:** que la tabla tenga un `caption` que diga *Liga Obsidiana: la semana*.
 
+#### Pasos
+1. Justo debajo de `<table>`, escribí `<caption>Liga Obsidiana: la semana</caption>`.
+2. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <table>
@@ -2857,6 +2991,12 @@ El nombre de cada aprendiz es el **título de su fila**. Por eso no va en una ce
 Las otras celdas de cada fila quedan como `td`. No toques el `thead`.
 
 **Se comprueba:** que en el `tbody` haya dos `th` (Nadia y Teo) con `scope="row"`, y que queden cuatro `td`.
+
+#### Pasos
+1. En la fila de Nadia, cambiá `<td>Nadia</td>` por `<th scope="row">Nadia</th>`.
+2. En la fila de Teo, cambiá `<td>Teo</td>` por `<th scope="row">Teo</th>`.
+3. Las otras celdas quedan como están.
+4. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -3085,6 +3225,10 @@ Así el título termina ahí y el párrafo queda afuera, solo.
 
 **Se comprueba:** que el `h2` diga solo *Panadería del Gremio* y que el párrafo quede afuera.
 
+#### Pasos
+1. En la primera línea, después de `Panadería del Gremio`, escribí `</h2>`.
+2. Tocá **Ver**: el párrafo ya no tiene que salir grande.
+
 #### Código inicial
 ```html
 <h2>Panadería del Gremio
@@ -3142,6 +3286,11 @@ Los tres `li` están sueltos. Un `li` siempre va adentro de una lista.
 El `h2` queda afuera de la lista.
 
 **Se comprueba:** que haya un `ul` con los tres `li` adentro: *Pan de miel*, *Trenza de anís* y *Medialunas*.
+
+#### Pasos
+1. Antes del primer `<li>`, escribí `<ul>`.
+2. Después del último `</li>`, escribí `</ul>`.
+3. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -3210,6 +3359,11 @@ Así queda: `<p>Pan de miel <strong>recién horneado</strong></p>`. El orden imp
 
 **Se comprueba:** un solo `strong` que diga *recién horneado*, y los dos párrafos completos.
 
+#### Pasos
+1. Buscá `recién horneado</p>`.
+2. Escribí `</strong>` entre `horneado` y `</p>`. Queda: `recién horneado</strong></p>`
+3. Tocá **Ver**: el teléfono ya no tiene que salir en negrita.
+
 #### Código inicial
 ```html
 <p>Pan de miel <strong>recién horneado</p>
@@ -3272,6 +3426,11 @@ El `div` del escaparate se abrió y nunca se cerró, así que el pie (`footer`) 
 Así el `footer` queda afuera del escaparate.
 
 **Se comprueba:** que el `footer` no esté adentro del escaparate y que diga *Abierto de 7 a 13.*
+
+#### Pasos
+1. Buscá el párrafo `<p>Pan de miel recién horneado.</p>`.
+2. Debajo, antes de `<footer>`, escribí `</div>`.
+3. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html

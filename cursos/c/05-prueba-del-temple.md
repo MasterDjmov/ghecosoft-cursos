@@ -1114,6 +1114,11 @@ La macro `PROBAR(cond)` hace eso:
 #### Desafío
 Completá la macro: si la condición se cumple, cuenta una que pasó.
 
+#### Pasos
+1. Hay un `___` dentro de la macro, en el `if (cond)`.
+2. Si la condición se cumple, sumá una que pasó: `pasaron++`.
+3. Tocá **Ejecutar**. Tiene que salir `4 de 4 pruebas pasaron`.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -1192,6 +1197,11 @@ Las pruebas te muestran cuál falla. Fijate si «desde 800» incluye al 800: la 
 
 #### Desafío
 Corregí la función para que pasen las cinco pruebas.
+
+#### Pasos
+1. Mirá el `if (grados > 800)`: con 800 justo, el metal tiene que salir `"templada"`.
+2. Cambiá `>` por `>=`: `if (grados >= 800)`.
+3. Tocá **Ejecutar**. Tiene que salir `5 de 5 pruebas pasaron`.
 
 #### Código inicial
 ```c
@@ -1293,6 +1303,12 @@ Con `%` preguntás si es divisible, y con `&&` y `||` juntás las partes.
 #### Desafío
 Escribí `es_bisiesto` hasta que pasen las cinco pruebas.
 
+#### Pasos
+1. Hay un `___` dentro de `es_bisiesto`.
+2. Es bisiesto si es divisible por 4 y no por 100, o si es divisible por 400.
+3. Escribí: `return (anio % 4 == 0 && anio % 100 != 0) || anio % 400 == 0;`
+4. Tocá **Ejecutar**. Tiene que salir `5 de 5 pruebas pasaron`.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -1377,6 +1393,12 @@ Arreglala sin romper las pruebas que ya pasaban.
 
 #### Desafío
 Arreglá la función para que pase la prueba nueva sin romper las otras.
+
+#### Pasos
+1. `centavos * 9 / 10` redondea distinto que la prueba nueva espera.
+2. Calculá primero el descuento: `int descuento = centavos / 10;`
+3. Devolvé lo que queda: `return centavos - descuento;`
+4. Tocá **Ejecutar**. Tiene que salir `3 de 3 pruebas pasaron`.
 
 #### Código inicial
 ```c
@@ -1467,6 +1489,14 @@ Con el mini framework (`VERIFICAR` y `RESUMEN`), escribí las pruebas de `es_bis
 - Cubre las cuatro partes de la regla, con casos límite como 1900, 2000 y 2100.
 - Usa el mini framework y muestra el resumen.
 - Devuelve 0 si todo pasa.
+
+#### Pasos
+1. Arriba de `main`: `static int pruebas = 0, fallas = 0;` y la macro `VERIFICAR(condicion)`: suma una prueba y, si la condición no se cumple, suma una falla y muestra `printf("  FALLA %s:%d: %s\n", __FILE__, __LINE__, #condicion);`. Va dentro de `do { ... } while (0)`.
+2. La macro `RESUMEN()`: `(printf("%d pruebas: %d bien, %d mal\n", pruebas, pruebas - fallas, fallas), fallas == 0 ? 0 : 1)`.
+3. `bool es_bisiesto(int anio)` → `return (anio % 4 == 0 && anio % 100 != 0) || anio % 400 == 0;`
+4. En `main`, seis pruebas: `VERIFICAR(es_bisiesto(2024));`, `VERIFICAR(!es_bisiesto(2026));`, `!es_bisiesto(1900)`, `!es_bisiesto(2100)`, `es_bisiesto(2000)` y `es_bisiesto(2400)`.
+5. Terminá con `return RESUMEN();`
+6. Tocá **Ejecutar**. Tiene que salir `6 pruebas: 6 bien, 0 mal`.
 
 #### Código inicial
 ```c
@@ -1562,6 +1592,15 @@ La función `contar_palabras` del código inicial parece andar con `"hola mundo"
 - Tiene al menos 6 pruebas con casos límite.
 - La función corregida pasa todas.
 - Explica en un comentario qué fallaba.
+
+#### Pasos
+1. Arriba: `#include <stdbool.h>`, el contador `pruebas`/`fallas` y las macros `VERIFICAR` y `RESUMEN` (iguales a la misión anterior).
+2. En `main`, cambiá el `printf` por pruebas: `VERIFICAR(contar_palabras("hola mundo") == 2);`, `""` → 0, `"forja"` → 1, `"  espacios   de  mas  "` → 3, `"con\ttab\ny enter"` → 4 y `"   "` → 0. Terminá con `return RESUMEN();`
+3. Tocá **Ejecutar** y mirá cuáles fallan.
+4. Arreglá la función: agregá `bool en_palabra = false;`. En el `for`: si `isspace((unsigned char) texto[i])`, `en_palabra = false;`; si no y `!en_palabra`, `en_palabra = true;` y `palabras++;`.
+5. Devolvé `palabras` (sin el `+ 1`).
+6. Arriba de todo, un comentario que diga qué fallaba (contaba espacios + 1).
+7. Tocá **Ejecutar**. Tiene que salir `6 pruebas: 6 bien, 0 mal`.
 
 #### Código inicial
 ```c
@@ -1688,6 +1727,17 @@ Una macro `PROBAR(entrada, esperado)` ayuda a no repetir código.
 - Las pruebas cubren los casos de la consigna.
 - `normalizar` nunca se pasa de `tam` y devuelve `false` si no entra.
 - Pasan todas las pruebas.
+
+#### Pasos
+1. Arriba: el contador `pruebas`/`fallas` y las macros `VERIFICAR` y `RESUMEN` (iguales a las misiones anteriores).
+2. `bool normalizar(const char *nombre, char *salida, size_t tam)`: `size_t k = 0;` (dónde escribir) y `bool inicio = true;` (si viene el comienzo de una palabra).
+3. Recorré `nombre`. Si el carácter es espacio (`isspace`), `inicio = true;` y `continue;`.
+4. Si es inicio y `k > 0`, poné un espacio: antes revisá `if (k + 1 >= tam) return false;`.
+5. Antes de cada letra, la misma revisión. Escribí `toupper(c)` si es inicio o `tolower(c)` si no, y `inicio = false;`.
+6. Al final: `salida[k] = '\0';` y `return true;`
+7. La macro `PROBAR(entrada, esperado)`: `char s[32];` y `VERIFICAR(normalizar(entrada, s, sizeof s) && strcmp(s, esperado) == 0);` dentro de `do { ... } while (0)`.
+8. En `main`: los cinco `PROBAR` de la consigna, `char chico[5];`, `VERIFICAR(!normalizar("Maese Ferrum", chico, sizeof chico));` y `return RESUMEN();`
+9. Tocá **Ejecutar**. Tiene que salir `6 pruebas: 6 bien, 0 mal`.
 
 #### Código inicial
 ```c
@@ -2154,6 +2204,11 @@ Un detalle: a las funciones de `<ctype.h>` conviene pasarles el carácter como `
 #### Desafío
 Completá la condición de carácter inválido.
 
+#### Pasos
+1. Hay un `___` en el `else if`: ahí llega un carácter que no es dígito.
+2. Es inválido si no es un espacio ni un `+`: `t[i] != ' ' && t[i] != '+'`.
+3. Tocá **Ejecutar**. `llamame` y `12345` tienen que salir `invalido`.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -2248,6 +2303,11 @@ Hulda busca en la agenda «HULDA», «hulda» y «Hulda», y solo la encuentra c
 #### Desafío
 Completá la comparación letra por letra.
 
+#### Pasos
+1. Hay un `___` en el `if` de adentro del `while`.
+2. Compará las dos letras pasadas a minúscula; si son distintas, no coinciden: `tolower((unsigned char) a[i]) != tolower((unsigned char) b[i])`.
+3. Tocá **Ejecutar**. `HULDA` y `hulda` tienen que salir `encontrada`.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -2340,6 +2400,12 @@ Si `sscanf` devuelve 3, están los tres campos.
 #### Desafío
 Completá el formato del `sscanf`.
 
+#### Pasos
+1. Hay un `___` en el formato del `sscanf`.
+2. Cada campo se lee hasta el `;` con `%29[^;]` (el número es el tamaño menos uno). El último se lee hasta el fin del renglón con `%39[^\n]`.
+3. Queda `"%29[^;];%19[^;];%39[^\n]"`.
+4. Tocá **Ejecutar**. Tiene que salir `[Maese Ferrum] [380 4110000] [ferrum@forjas.ar]`.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -2414,6 +2480,11 @@ Antes de agregar un contacto, validalo; los inválidos ni entran.
 
 #### Desafío
 Completá la comparación por nombre.
+
+#### Pasos
+1. Hay un `___` en el `return` del comparador.
+2. Compará los nombres de los dos contactos: `return strcmp(x->nombre, y->nombre);`
+3. Tocá **Ejecutar**. Tienen que salir en orden: Chispa, Hulda, Maese Ferrum, Tizon.
 
 #### Código inicial
 ```c
@@ -2530,6 +2601,18 @@ Escribí la agenda base: un array dinámico de `Contacto` y las órdenes `agrega
 - Array dinámico que crece; los nombres pueden tener espacios.
 - Lista ordenada por nombre con `qsort`.
 - Guarda y carga `agenda.csv`; libera la memoria.
+
+#### Pasos
+1. Arriba de `main`: `#define RUTA "agenda.csv"`, el `struct` `Contacto` (`nombre[40]`, `telefono[20]`, `email[50]`) y el `struct` `Agenda` (`Contacto *datos;` e `int cantidad, capacidad;`).
+2. `bool agregar(Agenda *a, const Contacto *c)`: si está llena, duplicá la capacidad (o empezá con 4) con `realloc`; si da `NULL`, `return false;`. Después `a->datos[a->cantidad++] = *c;`
+3. `int por_nombre(const void *x, const void *y)` → `strcmp` de los dos nombres.
+4. `void listar(Agenda *a)`: `qsort` con `por_nombre`, cada contacto con `printf("  %-16s %-14s %s\n", ...)` y al final `printf("  (%d contactos)\n", a->cantidad);`
+5. `bool guardar(const Agenda *a)`: `fopen(RUTA, "w")` y `fprintf(f, "%s;%s;%s\n", ...)` por contacto; `return fclose(f) == 0;`
+6. `void cargar(Agenda *a)`: `fopen(RUTA, "r")` (si es `NULL`, volvé sin hacer nada) y cada renglón con `sscanf(linea, "%39[^;];%19[^;];%49[^\n]", ...)` → `agregar`.
+7. En `main`: `Agenda agenda = { NULL, 0, 0 };`, `remove(RUTA);` y `cargar(&agenda);`. Leé con `fgets`, sacá el `\n` y mostrá `printf("> %s\n", linea);`
+8. Según la orden: `agregar ` (con `sscanf(linea + 8, "%39[^;];%19[^;];%49s", ...)`), `listar` o `guardar`. Si no es ninguna: `"  Órdenes: agregar, listar, guardar\n"`. Copiá los mensajes de la salida esperada.
+9. Al terminar: `guardar`, `free(agenda.datos);`, cargá en otra `Agenda`, mostrá `"Al volver a abrir: %d contactos.\n"`, liberala y `remove(RUTA);`.
+10. Tocá **Ejecutar** y compará renglón por renglón.
 
 #### Código inicial
 ```c
@@ -2737,6 +2820,17 @@ Agregale a la agenda:
 - Busca sin importar mayúsculas, en nombre y email.
 - Borra corriendo los de atrás.
 - Rechaza nombres repetidos, teléfonos y emails inválidos con un mensaje claro.
+
+#### Pasos
+1. `bool contiene_sin_mayusculas(const char *texto, const char *parte)`: probá cada posición `i` de `texto` y compará letra por letra con `tolower`; si coinciden todas las de `parte`, `return true;`.
+2. `int buscar_nombre(const Agenda *a, const char *nombre)`: el índice del contacto con ese nombre exacto (`strcmp`), o `-1`.
+3. `void buscar(const Agenda *a, const char *parte)`: muestra los que tienen `parte` en el nombre o en el email; si no hay ninguno, `"  No hay coincidencias para \"%s\".\n"`.
+4. `bool borrar(Agenda *a, const char *nombre)`: con `buscar_nombre`; si no está, `false`. Si está, corré los de atrás un lugar hacia adelante y `a->cantidad--;`.
+5. `bool telefono_valido(const char *t)`: cuenta dígitos; solo acepta además espacio, `-` o `+` en la posición 0. Pide `digitos >= 6`.
+6. `bool email_valido(const char *e)`: una sola `@`, no al principio, un `.` después de la `@` y que no termine en `.`.
+7. En `agregar `: primero el `sscanf`. Después, en este orden: nombre repetido, teléfono inválido, email inválido. Si pasa todo, agregalo. Copiá los mensajes de la salida esperada.
+8. Sumá las órdenes `buscar ` (`buscar(&agenda, linea + 7);`) y `borrar ` (`"Borrado."` o `"No existe ese contacto."`), y actualizá el mensaje de órdenes.
+9. Tocá **Ejecutar** y compará renglón por renglón.
 
 #### Código inicial
 ```c
@@ -3143,6 +3237,15 @@ Con cuatro contactos que además tienen el mes de cumpleaños, escribí tres com
 - El orden por cumpleaños desempata por nombre.
 - Avisa los campos que no existen.
 
+#### Pasos
+1. El `struct` `Contacto` con `nombre[40]`, `telefono[20]`, `email[50]` e `int cumple_mes;`.
+2. Tres comparadores con `strcmp`: `por_nombre` y `por_email`. El tercero, `por_cumple`, resta los meses (`int d = x->cumple_mes - y->cumple_mes;`) y, si da 0, desempata con `strcmp` de los nombres.
+3. La tabla: `typedef struct { const char *campo; int (*comparar)(const void *, const void *); } Orden;` y `static const Orden ORDENES[] = { { "nombre", por_nombre }, { "email", por_email }, { "cumple", por_cumple } };`
+4. En `main`: los cuatro contactos (Ferrum 11, Ana Paz 3, Tizon 7, Hulda R 3, con sus datos de la salida) y `int n = sizeof(agenda) / sizeof(agenda[0]);`
+5. Por cada renglón (`fgets`, sacá el `\n`): buscá en `ORDENES` el que tenga ese `campo`. Si no hay, `printf("No se puede ordenar por \"%s\" (nombre, email o cumple)\n", linea);` y `continue;`.
+6. Si está: `qsort(agenda, n, sizeof agenda[0], o->comparar);`, `printf("Por %s:\n", o->campo);` y cada uno con `printf("  %-8s %-16s mes %2d\n", ...)`.
+7. Tocá **Ejecutar** y compará renglón por renglón.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -3497,6 +3600,11 @@ Recién cuando el dato sirve, lo devuelve con `return`.
 #### Desafío
 Completá la condición del dato válido.
 
+#### Pasos
+1. Hay un `___` en el `if`.
+2. El dato vale si `sscanf` leyó un número y está entre 0 y 1500: `sscanf(linea, "%lf", &valor) == 1 && valor >= 0.0 && valor <= 1500.0`.
+3. Tocá **Ejecutar**. Tiene que terminar con `aceptados: 900.0 y 1200.0`.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -3591,6 +3699,12 @@ Arrancá suponiendo que el pico está en `(0, 0)`. Recorré la tabla con dos `fo
 
 #### Desafío
 Completá la comparación y lo que se guarda.
+
+#### Pasos
+1. Hay dos `___`.
+2. En el `if`: si esta temperatura es mayor que el pico guardado, `t[d][h] > t[*dia][*horno]`.
+3. En `*horno = ___;`: el horno actual, `h`.
+4. Tocá **Ejecutar**. Tiene que salir `pico: 1180.0, dia 3, horno 2`.
 
 #### Código inicial
 ```c
@@ -3695,6 +3809,12 @@ La burbuja **compara** por el promedio, pero **intercambia el struct entero**: a
 #### Desafío
 Completá la comparación (de mayor a menor) y el intercambio.
 
+#### Pasos
+1. Hay dos `___`.
+2. En el `if` (de mayor a menor): `v[i + 1].promedio > v[i].promedio`.
+3. En el intercambio, entre `aux = v[i]` y `v[i + 1] = aux`: `v[i] = v[i + 1]`.
+4. Tocá **Ejecutar**. Tiene que empezar con `horno 4: 1042.9`.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -3793,6 +3913,12 @@ Si preguntaras primero por «usable», una templada entraría ahí y nunca llega
 #### Desafío
 Completá las dos condiciones.
 
+#### Pasos
+1. Hay dos `___`.
+2. En el `if` (templada): promedio de 8 o más y las tres notas de 7 o más. Queda `promedio >= 8 && a >= 7 && b >= 7 && c >= 7`.
+3. En el `else if` (usable): `promedio >= 6`.
+4. Tocá **Ejecutar**. `10 8 6` tiene que salir `usable`.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -3889,6 +4015,12 @@ Después, contá las que siguen activas.
 
 #### Desafío
 Completá la vuelta atrás y el conteo de activas.
+
+#### Pasos
+1. Hay dos `___`.
+2. En el `fseek`: volvé atrás un registro entero, `-(long) sizeof x`.
+3. En el `if` del conteo: `x.estado == 'A'`.
+4. Tocá **Ejecutar**. Tiene que salir `piezas activas: 3 de 5`.
 
 #### Código inicial
 ```c
@@ -4051,6 +4183,18 @@ La Forja registra durante **7 días** la temperatura de **4 hornos**. Escribí
 - Ordena un vector de structs (o de índices) sin perder el horno, de mayor a menor.
 - La búsqueda por límite está en una función.
 - Cada requerimiento está en su propia función.
+
+#### Pasos
+1. Arriba: `#define DIAS 7`, `HORNOS 4`, `MINIMO 0.0` y `MAXIMO 1500.0`. Después `typedef struct { int horno; double promedio; } PromedioHorno;`.
+2. `double leer_valor(int dia, int horno)`: repetí `fgets` y `sscanf(linea, "%lf", &valor)`. Si está en rango, `return valor;`. Si no, `printf("Dia %d, horno %d: valor invalido, de nuevo\n", dia, horno);`. Si se acaba la entrada, `return MINIMO;`.
+3. `void cargar(double t[DIAS][HORNOS])`: dos `for` (días y hornos) con `t[d][h] = leer_valor(d + 1, h + 1);`.
+4. `void mostrar(...)`: el encabezado `"\n%-6s"` con `"Dia"` y `"  Horno %d"`; cada fila con `"%-6d"` y `" %8.1f"`.
+5. `promedio_horno(t, h)` (suma los 7 días) y `promedio_dia(t, d)` (suma los 4 hornos).
+6. `void pico(t, int *dia, int *horno)` y `void ordenar_desc(PromedioHorno v[], int n)`: lo mismo que en las escamas 2 y 3.
+7. `int buscar_mayor_a(const PromedioHorno v[], int n, double limite)`: el primer índice con promedio mayor, o `-1`.
+8. En `main`: cargá y mostrá. Llená `v` con los promedios y mostralos con `"  horno %d: %.2f\n"`. Mostrá los promedios por día, ordená, el más caliente, el pico y los ordenados.
+9. Al final, `printf("Limite: ");`, leé el límite y mostrá el resultado de `buscar_mayor_a`. Copiá los mensajes de la salida esperada.
+10. Tocá **Ejecutar** y compará renglón por renglón.
 
 #### Código inicial
 ```c
@@ -4349,6 +4493,18 @@ nombre, tres notas de temple, promedio y **rango**.
 - Muestra el listado, los oficiales, el mejor promedio y los porcentajes.
 - Ordena con desempate por nombre y busca por legajo, cada cosa en su función.
 
+#### Pasos
+1. Arriba: `#define TOPE 50` y el `struct` `Aprendiz` con `int legajo;`, `char nombre[30];`, `int notas[3];`, `double promedio;` y `char rango[20];`.
+2. `bool leer_aprendiz(const char *linea, Aprendiz *a)`: `sscanf(linea, "%d;%29[^;];%d;%d;%d", ...)` tiene que dar 5, el legajo `> 0` y cada nota entre 0 y 10.
+3. `void calcular(Aprendiz *a)`: promedio `/ 3.0`. Con `strcpy`, el rango `"oficial"` (8 o más y ninguna nota menor a 7), `"aprendiz"` (6 o más) o `"de vuelta al fuelle"`.
+4. `void mostrar(const Aprendiz *a)` → `printf("  %4d %-8s %2d %2d %2d  %5.2f  %s\n", ...)`. `void listar(v, n, filtro)` muestra todos o solo los del rango `filtro`.
+5. `int mejor(v, n)`: el índice del promedio más alto. `void porcentajes(v, n)`: por cada rango, cuántos hay y `printf("  %-20s %5.1f %%\n", rango, 100.0 * c / n);`.
+6. `bool va_antes(a, b)`: si los promedios son distintos, `a->promedio > b->promedio`; si empatan, `strcmp(a->nombre, b->nombre) < 0`. `void ordenar(v, n)` es la burbuja con `va_antes(&v[i + 1], &v[i])`.
+7. `int buscar(v, n, legajo)`: el índice, o `-1`.
+8. En `main`: leé la cantidad. Después cada renglón: si `leer_aprendiz` da bien, `calcular` y `n++`; si no, `printf("Renglon descartado: %s\n", linea);`.
+9. Mostrá Listado, Oficiales, Mejor promedio, Porcentajes y Ordenados. Al final, leé un legajo y buscalo. Copiá los títulos de la salida esperada.
+10. Tocá **Ejecutar** y compará renglón por renglón.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -4627,6 +4783,17 @@ El menú no se tiene que trabar si se escribe cualquier cosa.
 - Los listados e informes muestran solo los activos.
 - El menú lee con `fgets` + `sscanf` y no se traba con letras.
 - Cada opción está en su propia función.
+
+#### Pasos
+1. Arriba: `#define ARCHIVO "lingotes.dat"` y el `struct` `Lingote` con `int codigo;`, `char descripcion[30];`, `float precio;`, `int stock;` y `char estado;`.
+2. Dos ayudas: `bool leer_linea(char *linea, int tam)` (`fgets` y sacar el `\n`) e `int leer_entero(void)` (repite hasta leer un número; si no, `"Eso no es un numero.\n"`).
+3. `void crear(void)`: `fopen(ARCHIVO, "wb")`. Leé renglones hasta `fin` con `sscanf(linea, "%d;%29[^;];%f;%d", ...)`; si vale, `estado = 'A'` y `fwrite`. Al final, `"%d lingotes cargados.\n"`.
+4. `void mostrar(const Lingote *l)` → `printf("  %3d %-8s %7.2f %4d\n", ...)`. `void listar(void)`: `fopen(ARCHIVO, "rb")`, `"Activos:\n"` y los que tienen `estado == 'A'`.
+5. `bool buscar_en(FILE *f, int codigo, Lingote *l)`: `rewind(f)` y `fread` hasta encontrarlo activo. Ahí, `fseek(f, -(long) sizeof *l, SEEK_CUR);` para quedar al principio del registro.
+6. `buscar`, `actualizar_stock` (lee `"%d %d"`) y `baja`: abren con `"rb"` o `"r+b"` y usan `buscar_en`. Los dos últimos cambian `stock` o `estado = 'B'` y hacen `fwrite` en el mismo lugar.
+7. `void informes(void)`: recorré solo los activos, guardá el más caro, sumá los precios, contá los que tienen stock menor a 10 y mostrá los tres datos.
+8. En `main`: `while (opcion != 0)` con el menú (copialo de la salida). Leé con `leer_linea` y `sscanf`; si no es número, `"\nEso no es una opcion.\n"`. Un `switch` llama a cada función, con `default: printf("La opcion %d no existe.\n", opcion);`.
+9. Tocá **Ejecutar** y compará renglón por renglón.
 
 #### Código inicial
 ```c
@@ -5053,7 +5220,13 @@ En la entrada de las Forjas, la pared de la cuenta de espadazos está llena de p
 Un último repaso de los anchos de `printf`: `%-30s` pone un texto en 30 lugares, pegado a la izquierda, y `%3d` un número en 3 lugares, pegado a la derecha. Así las dos columnas quedan derechas aunque los textos tengan distinto largo.
 
 #### Desafío
-Completá el `printf` para que la pared quede alineada (nombre a la izquierda en 30 lugares, número a la derecha en 3).
+Completá el `printf` para que la pared quede alineada (nombre a la izquierda en 31 lugares, número a la derecha en 3).
+
+#### Pasos
+1. Hay un `___` en el formato del `printf`.
+2. El nombre va a la izquierda en 31 lugares (`%-31s`), un espacio y el número a la derecha en 3 (`%3d`).
+3. Queda `printf("%-31s %3d\n", pared[i].que, pared[i].cuantos);`
+4. Tocá **Ejecutar**. Los números tienen que quedar en columna.
 
 #### Código inicial
 ```c
@@ -5137,6 +5310,12 @@ Un último `switch`: cada `case` es un camino, con su `printf` y su `break`. El 
 
 #### Desafío
 Completá los dos `case` con los caminos.
+
+#### Pasos
+1. Hay dos `___`, uno arriba de cada `printf`.
+2. El primero: `case 1:` (la Forja Viva).
+3. El segundo: `case 2:` (el Taller de los Autómatas).
+4. Tocá **Ejecutar**. Tiene que salir el camino de la Forja Viva.
 
 #### Código inicial
 ```c

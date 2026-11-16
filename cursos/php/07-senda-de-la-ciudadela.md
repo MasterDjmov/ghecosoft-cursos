@@ -360,6 +360,12 @@ Un array de rutas con nombre y una función `route($nombre, $parametros)` que re
 #### Desafío
 Escribí `route()` para armar las direcciones por nombre.
 
+#### Pasos
+1. En `route()`: `$url = $rutas[$nombre];`.
+2. `foreach ($parametros as $clave => $valor)` → `$url = str_replace('{' . $clave . '}', rawurlencode((string) $valor), $url);`.
+3. `return $url;`.
+4. Tocá **Ejecutar**. Tiene que salir `/barcos/12/viajes/3`.
+
 #### Código inicial
 ```php
 <?php
@@ -431,6 +437,11 @@ Imitá el trabajo de Blade: `{{ … }}` se reemplaza por el dato escapado con `h
 #### Desafío
 Completá el mini-Blade para que `{{ }}` escape.
 
+#### Pasos
+1. En la función de adentro, si `$m[1] !== ''` (fue `{{ }}`): `return htmlspecialchars((string) $datos[$m[1]]);`.
+2. Si no (fue `{!! !!}`): `return (string) $datos[$m[2]];`.
+3. Tocá **Ejecutar**. El `<script>` tiene que salir escapado y el `<b>` no.
+
 #### Código inicial
 ```php
 <?php
@@ -494,6 +505,10 @@ Antes de llamar al controlador, comprobá que el parámetro cumpla su patrón (`
 
 #### Desafío
 Agregá la restricción de que el id sea un número.
+
+#### Pasos
+1. En el `if`, agregá `&& ctype_digit($m[1])`.
+2. Tocá **Ejecutar**. Tiene que salir `/barcos/gaviota -> 404`.
 
 #### Código inicial
 ```php
@@ -1760,6 +1775,13 @@ Partí cada regla con `explode('|', …)` y revisá `required`, `integer` y `min
 #### Desafío
 Completá el validador de reglas.
 
+#### Pasos
+1. `$errores = [];` y `foreach ($reglas as $campo => $lista)`: `$valor = trim((string) ($datos[$campo] ?? ''));`.
+2. Por cada regla de `explode('|', $lista)`: `[$nombre, $parametro] = array_pad(explode(':', $regla, 2), 2, null);`.
+3. `$falla = match ($nombre) { ... }`: `'required'` (vacío), `'integer'` (no son dígitos) y `'min'` (menor que el parámetro). Copiá los mensajes de la solución y `default => null`.
+4. Si hay falla, `$errores[] = $falla;` y `break;` (una por campo). Al final, `return $errores;`.
+5. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```php
 <?php
@@ -1840,6 +1862,10 @@ Una clase `Barco` con un método `viajes()` que filtra los viajes de **ese** bar
 #### Desafío
 Escribí la relación `viajes()`.
 
+#### Pasos
+1. En `viajes()`, filtrá los de este barco: `return array_values(array_filter($tabla, fn ($v) => $v['barco_id'] === $this->id));`.
+2. Tocá **Ejecutar**. Tiene que salir `Gaviota: Forjas, Ciudadela`.
+
 #### Código inicial
 ```php
 <?php
@@ -1912,6 +1938,13 @@ Recorré las migraciones en orden y corré solo las que no están en `$hechas`; 
 
 #### Desafío
 Completá el corredor de migraciones.
+
+#### Pasos
+1. Antes del `foreach`: `ksort($migraciones);` (en orden de fecha).
+2. Adentro: si ya está en `$hechas`, `continue;`.
+3. `echo "Corriendo $nombre: $sql\n";` y `$hechas[] = $nombre;`.
+4. Al final: `echo "Hechas: " . count($hechas) . "\n";`.
+5. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -3107,6 +3140,11 @@ Primero el formato (muelle numérico, fecha válida); después la regla: si ya h
 #### Desafío
 Agregá la regla del negocio después de la validación.
 
+#### Pasos
+1. Antes de guardar, recorré `$amarres`: si uno tiene el mismo muelle (`(int) $pedido['muelle']`) y la misma fecha, `return "409 el muelle {$a['muelle']} ya esta ocupado ese dia";`.
+2. Guardá solo muelle y fecha: `$amarres[] = ['muelle' => (int) $pedido['muelle'], 'fecha' => $pedido['fecha']];`.
+3. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```php
 <?php
@@ -3187,6 +3225,14 @@ Filtrá por destino solo si viene uno, después cortá la página con `array_sli
 #### Desafío
 Completá el listado filtrado y paginado.
 
+#### Pasos
+1. Si hay `$destino`, filtrá: `$registros = array_values(array_filter($registros, fn ($r) => $r['destino'] === $destino));`.
+2. `$ultima = max(1, (int) ceil(count($registros) / $porPagina));`.
+3. `$siguiente = $pagina < $ultima ? '/registros?' . http_build_query(['destino' => $destino, 'page' => $pagina + 1]) : null;`.
+4. `return ['items' => array_slice($registros, ($pagina - 1) * $porPagina, $porPagina), 'siguiente' => $siguiente ?? '(no hay mas)'];`.
+5. Abajo, probá la página 2: `$q = pagina($registros, 'Valle', 2, 2);` y los dos `echo` como los de arriba.
+6. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```php
 <?php
@@ -3262,6 +3308,12 @@ Una lista de reglas con su prueba (una función que devuelve `true` si se cumple
 
 #### Desafío
 Escribí las pruebas de las tres reglas del Grifo.
+
+#### Pasos
+1. En `$pruebas`, tres entradas `'nombre' => fn () => condición`.
+2. Muelles: `count($amarres) === count(array_unique(array_map(fn ($a) => $a['muelle'] . '@' . $a['fecha'], $amarres)))`.
+3. Calado: `max(array_column($barcos, 'calado')) <= 12`. Fecha: `array_filter($amarres, fn ($a) => ($a['fecha'] ?? '') === '') === []`.
+4. Usá los nombres exactos de la salida. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php

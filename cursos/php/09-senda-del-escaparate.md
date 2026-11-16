@@ -246,6 +246,11 @@ Toda página empieza igual: `<!DOCTYPE html>`, `<html lang="es">`, un `<head>` c
 #### Desafío
 Completá el esqueleto de la página.
 
+#### Pasos
+1. Cambiá el `echo` por el esqueleto completo: `"<!DOCTYPE html>\n"`, `"<html lang=\"es\">\n"`, el `<head>` con `<meta charset="utf-8">` y `<title>$titulo</title>`, el `<body>` con el `<h1>` y `"</html>\n"`.
+2. Copiá los renglones de la salida esperada.
+3. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```php
 <?php
@@ -304,6 +309,11 @@ Cada parte con su etiqueta: `<header>` el cartel, `<nav>` el menú, `<main>` lo 
 #### Desafío
 Cambiá los `div` por las etiquetas con significado.
 
+#### Pasos
+1. Un array con la etiqueta de cada parte: `$etiquetas = ['cartel' => 'header', 'menu' => 'nav', 'principal' => 'main', 'pie' => 'footer'];`.
+2. En el `foreach`: `$e = $etiquetas[$parte];` y `echo "<$e>$contenido</$e>\n";`.
+3. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```php
 <?php
@@ -359,6 +369,10 @@ Cada `<img>` lleva su `alt` con lo que muestra. Armalas con un `foreach` sobre l
 
 #### Desafío
 Armá las imágenes con su `alt`.
+
+#### Pasos
+1. En el `echo`, agregá el `alt` escapado: `"<img src=\"img/$archivo\" alt=\"" . htmlspecialchars($descripcion) . "\">\n"`.
+2. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -1052,6 +1066,11 @@ Los títulos van en `<thead>` con `<th scope="col">`, los productos en `<tbody>`
 #### Desafío
 Armá la tabla con sus tres partes.
 
+#### Pasos
+1. Después de `<table>`: el `<thead>` con `<th scope="col">Producto</th>` y `<th scope="col">Precio</th>`, y `"<tbody>\n"`.
+2. Después del `foreach`: `"</tbody>\n"` y el `<tfoot>` con `Total` y `array_sum($precios)`.
+3. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```php
 <?php
@@ -1116,6 +1135,12 @@ Cada campo con su `<label for>` y su `id` igual, y un `name` para que llegue a `
 #### Desafío
 Armá los campos con su etiqueta, su id y su name.
 
+#### Pasos
+1. `$tipo = $nombre === 'cantidad' ? 'number' : 'text';`.
+2. `echo "<label for=\"$nombre\">$texto</label>\n";`.
+3. `echo "<input id=\"$nombre\" name=\"$nombre\" type=\"$tipo\" required>\n";`.
+4. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```php
 <?php
@@ -1170,6 +1195,11 @@ Un `<ul>` con un `<li>` por categoría, y adentro de cada `<li>` otro `<ul>` con
 
 #### Desafío
 Armá la lista anidada.
+
+#### Pasos
+1. Al principio del `foreach` de las categorías: `echo "<li>$categoria\n<ul>\n";`.
+2. Al final: `echo "</ul>\n</li>\n";`.
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -1884,6 +1914,12 @@ Una variable CSS en `:root` y las reglas la usan con `var(--rojo)`. Armá la hoj
 #### Desafío
 Generá la hoja de estilos usando la variable en las tres reglas.
 
+#### Pasos
+1. Borrá los tres `echo`. `$rojo = '#c0392b';` y `echo ":root { --rojo: $rojo; }\n";`.
+2. `$reglas = ['.letrero' => 'color', '.boton' => 'background', '.marco' => 'border-color'];`.
+3. `foreach ($reglas as $selector => $propiedad)` → `echo "$selector { $propiedad: var(--rojo); }\n";`.
+4. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```php
 <?php
@@ -1936,6 +1972,13 @@ Contá ids (`#`), clases (`.`) y etiquetas de cada selector. Se compara primero 
 
 #### Desafío
 Calculá la especificidad y decí qué regla gana.
+
+#### Pasos
+1. En `especificidad`: `$ids = substr_count($selector, '#');` y `$clases = substr_count($selector, '.');`.
+2. Las etiquetas: recorré `preg_split('/\s+/', trim($selector))` y contá las partes que empiezan con letra (`preg_match('/^[a-z]/', $parte)`).
+3. `return [$ids, $clases, $etiquetas];`.
+4. En el `foreach`: guardá `$e` y, si `$ganadora === null || $e >= especificidad($ganadora)`, `$ganadora = $s;`. Al final, `echo "Gana: $ganadora ({$reglas[$ganadora]})\n";`.
+5. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -2014,6 +2057,11 @@ Con `content-box`, el ancho real es `width + 2×padding + 2×border`. Con `borde
 
 #### Desafío
 Calculá el ancho real con los dos modos.
+
+#### Pasos
+1. Con `border-box`, el ancho ya incluye relleno y borde. Si no, se suman.
+2. `return $modo === 'border-box' ? $width : $width + 2 * $padding + 2 * $border;`.
+3. Tocá **Ejecutar**. Tiene que salir `content-box: 344 px (se sale)`.
 
 #### Código inicial
 ```php
@@ -2738,6 +2786,12 @@ Una función `columnas($ancho)` que dé 1 en el celular y más en pantallas anch
 #### Desafío
 Decidí cuántas columnas mostrar según el ancho.
 
+#### Pasos
+1. Si `$ancho >= 1000`, `return 4;`.
+2. Si `$ancho >= 700`, `return 2;`.
+3. Si no, `return 1;`.
+4. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```php
 <?php
@@ -2803,6 +2857,11 @@ Con `auto-fill` y `minmax(200px, 1fr)` y un espacio entre columnas, entran `floo
 #### Desafío
 Calculá las columnas de la grilla y armá la regla CSS.
 
+#### Pasos
+1. Antes del `foreach`, la regla: `echo ".vidriera { display: grid; gap: {$espacio}px; grid-template-columns: repeat(auto-fill, minmax({$minimo}px, 1fr)); }\n";`.
+2. Adentro: `$columnas = max(1, intdiv($ancho + $espacio, $minimo + $espacio));` y `echo "$ancho px -> columnas: $columnas\n";`.
+3. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```php
 <?php
@@ -2860,6 +2919,11 @@ Con `max-width: 100%` la foto nunca es más ancha que su caja. Calculá el ancho
 
 #### Desafío
 Calculá el ancho que se ve y armá la regla.
+
+#### Pasos
+1. Antes del `foreach`: `echo "img { max-width: 100%; height: auto; }\n";`.
+2. Adentro: `$visible = min($foto, $pantalla);` y usalo en el `echo`.
+3. Tocá **Ejecutar**. Tiene que salir `Pantalla 360: la foto mide 360 px`.
 
 #### Código inicial
 ```php
@@ -3477,6 +3541,12 @@ Con `preg_match_all('/href="([^"]+)"/', $html, $m)` sacás los enlaces; los que 
 #### Desafío
 Encontrá los enlaces rotos del menú.
 
+#### Pasos
+1. Borrá el `echo`. `preg_match_all('/href="([^"]+)"/', $menu, $m);`.
+2. `$rotos = array_values(array_diff($m[1], $paginas));`.
+3. `foreach ($rotos as $r)` → `echo "Roto: $r\n";`. Al final, `echo "Enlaces rotos: " . count($rotos) . "\n";`.
+4. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```php
 <?php
@@ -3533,6 +3603,12 @@ Buscá cada `<img …>` con `preg_match_all` y fijate si tiene `alt=`. Las que n
 #### Desafío
 Contá las imágenes sin `alt`.
 
+#### Pasos
+1. Borrá el `echo`. `preg_match_all('/<img\b[^>]*>/', $html, $m);`.
+2. `$sinAlt = array_filter($m[0], fn ($img) => !str_contains($img, 'alt='));`.
+3. Por cada una, sacá el `src` con `preg_match('/src="([^"]+)"/', $img, $s);` y `echo "Sin alt: {$s[1]}\n";`.
+4. `echo "Imagenes sin alt: " . count($sinAlt) . "\n";`. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```php
 <?php
@@ -3587,6 +3663,12 @@ Una función que revisa la página y devuelve la lista de problemas: falta el `<
 
 #### Desafío
 Completá el revisor y probalo con las dos vidrieras.
+
+#### Pasos
+1. `$problemas = [];`. Si no empieza con `'<!DOCTYPE html>'` (con `ltrim`), `'falta el DOCTYPE'`.
+2. Si `substr_count($html, '<h1') !== 1`, `'tiene que haber un solo h1'`. Si no tiene `'<main'`, `'falta el main'`.
+3. Buscá las imágenes con `preg_match_all('/<img\b[^>]*>/', ...)`; por cada una sin `alt=`, `'hay una imagen sin alt'`.
+4. `return $problemas;`. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php

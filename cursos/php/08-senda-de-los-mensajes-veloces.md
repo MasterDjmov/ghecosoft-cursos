@@ -344,6 +344,10 @@ Del lado de PHP, `fetch` necesita JSON. Una función `responder()` que devuelva 
 #### Desafío
 Completá la respuesta de la API para las dos preguntas.
 
+#### Pasos
+1. Cambiá el `return` por `return "200 " . json_encode(['destino' => $destino, 'barcos' => $barcos[$destino] ?? []]);`.
+2. Tocá **Ejecutar**. Valle tiene que salir con `"barcos":[]`.
+
 #### Código inicial
 ```php
 <?php
@@ -405,6 +409,11 @@ En el navegador, el dato va con `textContent`. Acá practicamos la misma idea en
 #### Desafío
 Mostrá el nombre tramposo sin que se ejecute, en HTML y en JSON.
 
+#### Pasos
+1. En HTML: `echo "<li>" . htmlspecialchars($nombre) . "</li>\n";`.
+2. En JSON: `echo json_encode(['barco' => $nombre]) . "\n";`.
+3. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```php
 <?php
@@ -453,6 +462,11 @@ Una función que, según la dirección, decida: `/api/…` → API; un archivo e
 
 #### Desafío
 Completá la decisión del router.
+
+#### Pasos
+1. Si `str_starts_with($ruta, '/api/')`: `return 'api';`.
+2. Si `in_array($ruta, $archivos, true)`: `return 'archivo';`.
+3. Tocá **Ejecutar**. Tiene que salir `/app.js -> archivo`.
 
 #### Código inicial
 ```php
@@ -1698,6 +1712,12 @@ La API contesta 422 con `errores` por campo. Acá armamos el HTML del formulario
 #### Desafío
 Dibujá el formulario con el error al lado de cada campo.
 
+#### Pasos
+1. Dentro del `foreach`: `$error = $respuesta['errores'][$campo] ?? null;`.
+2. Cambiá el `echo` para que, si hay error, agregue `" <small>" . htmlspecialchars($error) . "</small>"` antes del `</label>`.
+3. Borrá el `echo "<p>Error</p>\n";`.
+4. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```php
 <?php
@@ -1750,6 +1770,12 @@ Sin usuario en la sesión: 401. Con usuario pero sin el rol que hace falta: 403.
 
 #### Desafío
 Devolvé el código correcto en cada caso.
+
+#### Pasos
+1. Si no hay `$sesion['usuario']`: `return "401 Primero hay que entrar";`.
+2. Si el rol no es `'admin'`: `return "403 No podes";`.
+3. Si no: `return "200 Borrado";`.
+4. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -1815,6 +1841,11 @@ Una función `dibujar(array $estado): string` arma todo a partir del estado. Agr
 
 #### Desafío
 Escribí `dibujar` y usala después de cada cambio.
+
+#### Pasos
+1. En `dibujar`: si `$estado['cargando']`, `return "[esperando a la paloma...]";`.
+2. Si no: `return "[" . count($estado['pedidos']) . " pedidos: " . implode(', ', $estado['pedidos']) . "]";`.
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -3140,6 +3171,11 @@ Contá los pedidos de cada uno por segundo en `$contador["$quien@$segundo"]`. Si
 #### Desafío
 Limitá a 3 pedidos por segundo por remitente.
 
+#### Pasos
+1. Contá por remitente y segundo: `$clave = "$quien@$segundo";` y `$contador[$clave] = ($contador[$clave] ?? 0) + 1;`.
+2. `echo $contador[$clave] > 3 ? "$quien: 429 Esperá\n" : "$quien: 200\n";`.
+3. Tocá **Ejecutar**. Tienen que salir dos `429`.
+
 #### Código inicial
 ```php
 <?php
@@ -3200,6 +3236,12 @@ Con `UNIQUE (viaje, asiento)`, el segundo `INSERT` falla. Atrapá la `PDOExcepti
 
 #### Desafío
 Dejá que la base garantice la regla y convertí su error en un mensaje claro.
+
+#### Pasos
+1. En el `CREATE TABLE`, agregá `UNIQUE (viaje, asiento)`.
+2. Envolvé el `execute` y el `echo` en un `try`.
+3. `catch (PDOException $e)`: `echo "409 Ese lugar ya se reservo ({$r[2]})\n";`.
+4. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -3264,6 +3306,12 @@ Guardá el último id recibido y si hay un pedido en camino. En cada tic: si est
 
 #### Desafío
 Completá el polling sin pedidos superpuestos.
+
+#### Pasos
+1. Antes del `foreach`: `$pedidoHasta = 0;`.
+2. Si el evento es `'tic'`: si `$enCamino`, `echo "Tic: hay una paloma en camino, espero\n";` y `continue;`. Si no, `$enCamino = true;`, `$pedidoHasta = $hasta;` y `echo "Tic: pido desde el $ultimo\n";`.
+3. Si es la respuesta: recorré `$novedades` y mostrá las que tienen `$id > $ultimo && $id <= $pedidoHasta` (`"Nuevo: $texto\n"`), actualizando `$ultimo`. Después, `$enCamino = false;`.
+4. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php

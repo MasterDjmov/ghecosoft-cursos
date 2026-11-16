@@ -321,6 +321,12 @@ La vida es privada y solo cambia con `recibirDanio()`, que nunca la deja negativ
 #### Desafío
 Completá el personaje para que la vida no baje de 0.
 
+#### Pasos
+1. En `recibirDanio`, que no baje de 0: `$this->vida = max(0, $this->vida - $danio);`.
+2. Agregá `public function vivo(): bool { return $this->vida > 0; }`.
+3. En el `echo` de abajo, cambiá `$nilo->vida() > 0` por `$nilo->vivo()`.
+4. Tocá **Ejecutar**. Tiene que salir `Nilo: 0 de vida, fuera de combate`.
+
 #### Código inicial
 ```php
 <?php
@@ -417,6 +423,11 @@ Un enum con un método `vida()` y otro `fuerza()`, cada uno con un `match`. Todo
 #### Desafío
 Completá los métodos del enum.
 
+#### Pasos
+1. En el método de la vida, cambiá `return 0;` por `return match ($this) { Enemigo::Goblin => 12, Enemigo::Orco => 25, Enemigo::Dragon => 90 };`.
+2. En el de la fuerza, lo mismo con 3, 6 y 14.
+3. Tocá **Ejecutar**. Tiene que salir `dragon: vida 90, fuerza 14`.
+
 #### Código inicial
 ```php
 <?php
@@ -507,6 +518,12 @@ Una interfaz `Dados` y una clase `DadosFijos` que devuelve, en orden, los valore
 
 #### Desafío
 Escribí `DadosFijos` y usala para tirar tres veces.
+
+#### Pasos
+1. Agregá `private int $siguiente = 0;` arriba del constructor.
+2. En `tirar`: `$valor = $this->valores[$this->siguiente % count($this->valores)];`.
+3. `$this->siguiente++;` y `return min($valor, $caras);`.
+4. Tocá **Ejecutar**. Tiene que salir `Tiradas: 6, 2, 5`.
 
 #### Código inicial
 ```php
@@ -1386,6 +1403,13 @@ El bucle sigue mientras **los dos** estén vivos. Después de cada golpe, si el 
 #### Desafío
 Completá el bucle de turnos.
 
+#### Pasos
+1. Borrá el `echo` con `?`. Escribí `while ($heroe['vida'] > 0 && $goblin['vida'] > 0) {`.
+2. Nilo pega: `$goblin['vida'] = max(0, $goblin['vida'] - $heroe['fuerza']);` y el `echo` del turno (copialo de la salida). Si el goblin queda en 0, `break;`.
+3. El goblin pega igual a Nilo, con su `echo`. Después `$turno++;`.
+4. Al final: `echo "Gano: " . ($heroe['vida'] > 0 ? $heroe['nombre'] : $goblin['nombre']) . "\n";`.
+5. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```php
 <?php
@@ -1450,6 +1474,12 @@ Cada forma de pensar es una clase que implementa `Estrategia`. `ContraElMasDebil
 
 #### Desafío
 Escribí las dos estrategias.
+
+#### Pasos
+1. `final class ContraElMasDebil implements Estrategia` con `elegir(array $rivales): string` → `return array_search(min($rivales), $rivales, true);`.
+2. `final class AlPrimero implements Estrategia` → `return array_key_first($rivales);`.
+3. En los `echo`, cambiá los `?` por `(new ContraElMasDebil())->elegir($rivales)` y `(new AlPrimero())->elegir($rivales)`.
+4. Tocá **Ejecutar**. Tiene que salir `El orco ataca a: Iara`.
 
 #### Código inicial
 ```php
@@ -1527,6 +1557,14 @@ Guardá cada golpe en `$bitacora[]`, y devolvé el resultado como un caso del en
 
 #### Desafío
 Completá el resumen del combate.
+
+#### Pasos
+1. En `combatir`: `$bitacora = [];` y `foreach ($golpes as [$quien, $danio])`.
+2. Si `$quien === 'heroe'`, bajá la vida del rival; si no, la del héroe (con `max(0, ...)`).
+3. `$bitacora[] = "$quien pega $danio";`. Si alguno llega a 0, `break;`.
+4. `return [$vidaRival === 0 ? Resultado::Victoria : Resultado::Derrota, $bitacora];`.
+5. Abajo, antes del total: `echo implode("\n", $bitacora) . "\n";`.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -2408,6 +2446,13 @@ Un generador que da la oleada `n` con `n` goblins y, cada tres, un orco más. Se
 #### Desafío
 Escribí el generador de oleadas.
 
+#### Pasos
+1. Cambiá `: array` por `: Generator`.
+2. `for ($n = 1; $n <= $hasta; $n++)`: `$enemigos = array_fill(0, $n, 'goblin');`.
+3. Un orco cada 3 oleadas: `for ($o = 0; $o < intdiv($n, 3); $o++) { $enemigos[] = 'orco'; }`.
+4. `yield $n => $enemigos;`.
+5. Tocá **Ejecutar**. La oleada 3 tiene que traer un orco.
+
 #### Código inicial
 ```php
 <?php
@@ -2473,6 +2518,11 @@ Mientras la experiencia alcance para el siguiente nivel (`nivel × 100`), se des
 
 #### Desafío
 Completá `ganarExperiencia`.
+
+#### Pasos
+1. En `ganarExperiencia`, el `if` sube un solo nivel aunque sobre experiencia.
+2. Cambialo por `while`.
+3. Tocá **Ejecutar**. Tiene que salir `Subio a: 2 y 3`.
 
 #### Código inicial
 ```php
@@ -2559,6 +2609,12 @@ Guardá cada partida con un `INSERT` preparado y mostrá los tres mejores ordena
 
 #### Desafío
 Completá el guardado y el ranking.
+
+#### Pasos
+1. Guardá las partidas: `$guardar = $db->prepare('INSERT INTO partida (nombre, oleada, puntos) VALUES (?, ?, ?)');` y `foreach ($partidas as $p) { $guardar->execute($p); }`.
+2. Después del `"Top 3:\n"`: `$top = $db->query('SELECT nombre, oleada, puntos FROM partida ORDER BY oleada DESC, puntos DESC LIMIT 3');`.
+3. `foreach ($top as $i => $f)` → `echo ($i + 1) . ". {$f['nombre']}: oleada {$f['oleada']}, {$f['puntos']} puntos\n";`.
+4. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -3224,6 +3280,12 @@ Leé cada renglón con `fgets(STDIN)` hasta que no haya más, y con un `match` d
 #### Desafío
 Hacé que el juego responda a cada orden.
 
+#### Pasos
+1. `$golpes = 0;` y `while (($orden = fgets(STDIN)) !== false)`.
+2. Adentro: `echo match (trim($orden)) { ... };`.
+3. `'atacar' => "Golpe numero " . (++$golpes) . "\n"`, `'curar' => "Vida: " . ($vida = min(30, $vida + 5)) . "\n"` y `default => "Orden desconocida: " . trim($orden) . "\n"`.
+4. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```php
 <?php
@@ -3290,6 +3352,12 @@ Guardá el estado con `json_encode` en un archivo. Al cargar, si no existe o no 
 
 #### Desafío
 Completá guardar y cargar.
+
+#### Pasos
+1. En `guardar`: `file_put_contents($archivo, json_encode($estado));`.
+2. En `cargar`: si `!is_file($archivo)`, `return nueva();`.
+3. `$estado = json_decode(file_get_contents($archivo), true);` y `return is_array($estado) ? $estado : nueva();`.
+4. Tocá **Ejecutar**. Tiene que salir `Seguis en la oleada 8 con 17 de vida`.
 
 #### Código inicial
 ```php
@@ -3376,6 +3444,12 @@ Dicen que el Campeón no es una persona sino un juego perfecto, hecho por una pr
 
 #### Desafío
 Completá el combate con las jugadas al azar con semilla.
+
+#### Pasos
+1. Arriba: `mt_srand(7);`.
+2. En el `for`, cambiá `$jugada = 'tajo';` por `$jugada = $jugadas[mt_rand(0, count($jugadas) - 1)];`.
+3. Al final: `echo $aciertosCampeon < 3 ? "Gana Nilo\n" : "Gana el Campeon\n";`.
+4. Tocá **Ejecutar**. Tiene que salir `Gana Nilo`.
 
 #### Código inicial
 ```php

@@ -73,7 +73,7 @@ Estado: fase 1 en producción. Fase 2 arrancada (commit bd27962b, falta `git pus
 **Después, en orden:**
 1. ~~Pasos de los 10 primeros nodos de C~~ hechos (71/71, 2026-11-15): R00-N01, R01-N01 a R01-N09 (`cursos/c/00-curso.md` y `01-templar-el-metal.md`; ~66 micro-misiones). Va `#### Pasos` justo después de `#### Desafío`, con las reglas de § 8.2. Leer cada código inicial y solución: contar bien los `___`.
 2. Revisar e importar: `php artisan app:import-course cursos/c` y luego con `--apply`. Commit por nodo o tanda.
-3. Frenar para que el docente pruebe (C hecho: falta su OK). Luego los demás cursos. Herramientas: `ver.py carpeta R01-N02` muestra desafío/inicial/solución/salida de las que no tienen Pasos y `poner.py carpeta pasos.txt` (bloques `@@ CODIGO` + texto) los inserta; si se perdieron del scratchpad, rehacerlos (30 líneas cada uno) (10 primeros nodos de cada uno: Python 88, Java 70, PHP 66, Ensamblador 62, C++ 61, JS 59, HTML 56, C# 50 micro-misiones).
+3. Frenar para que el docente pruebe (C hecho: falta su OK). Luego los demás cursos. Herramientas: `python3 scripts/ayuda/ver.py cursos/c R01-N02` muestra desafío/inicial/solución/salida de las que no tienen Pasos y `python3 scripts/ayuda/poner.py cursos/c pasos.txt` (bloques `@@ CODIGO` + texto) los inserta (10 primeros nodos de cada uno: Python 88, Java 70, PHP 66, Ensamblador 62, C++ 61, JS 59, HTML 56, C# 50 micro-misiones).
 4. Las ayudas en *Admin → Estadísticas* (tabla `step_helps`, `StepHelp::KINDS`; hoy solo salen en el Recorrido del alumno, `StudentJourney::helpSummary`).
 5. Fase 3: modo enfoque (§ 3).
 

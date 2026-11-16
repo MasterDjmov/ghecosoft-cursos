@@ -8612,6 +8612,11 @@ int **pp = &p;
 #### Desafío
 Seguí los dos carteles hasta el tesoro.
 
+#### Pasos
+1. Buscá el `___` en el `printf`.
+2. Cambialo por `**cartel_al_cartel` (dos asteriscos: seguís los dos carteles).
+3. Tocá **Ejecutar**. Tiene que salir `el tesoro vale 99`.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -8678,6 +8683,11 @@ Si no está en el rango, avisás y no tocás el array.
 
 #### Desafío
 Completá la comprobación.
+
+#### Pasos
+1. Buscá `if (___)`.
+2. Cambiá `___` por `pos >= 0 && pos < n` (la posición existe en el array).
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```c
@@ -8760,6 +8770,11 @@ Después, que la vida no quede negativa: si bajó de 0, la dejás en 0. El ataca
 
 #### Desafío
 Completá la mordida.
+
+#### Pasos
+1. Buscá `victima->vida -= ___;`.
+2. Cambiá `___` por `atacante->ataque`.
+3. Tocá **Ejecutar**. Tiene que salir `Kira: 38, Arania: 20`.
 
 #### Código inicial
 ```c
@@ -8854,6 +8869,12 @@ Al final, otro recorrido cuenta las patas que quedaron con resistencia 0.
 
 #### Desafío
 Completá la llamada y la cuenta de patas rotas.
+
+#### Pasos
+1. Hay dos `___`.
+2. En `golpear(___, golpe);`: `&patas[i]` (la dirección de esa pata).
+3. En el `if`: `patas[i].resistencia == 0`.
+4. Tocá **Ejecutar**. Tiene que salir `patas rotas: 3 de 4`.
 
 #### Código inicial
 ```c
@@ -8982,6 +9003,13 @@ una poción también cura el veneno. Hace falta un campo nuevo en `Partida`. (En
 - Agrega a `Partida` el campo para contar los turnos de veneno.
 - Cada golpe del Goblin envenena si no lo estaba; envenenada, pierde 3 de vida al comienzo de sus próximos 3 turnos.
 - La poción también cura el veneno.
+
+#### Pasos
+1. En el `struct Partida`, agregá un campo: `int veneno;` (turnos de veneno que quedan). Arriba, agregá `#include <string.h>`.
+2. Donde Kira toma una poción, antes del `printf`, agregá `p->veneno = 0;` (la poción cura el veneno).
+3. Donde el enemigo pega, después de su `printf`: `if (strstr(enemigo->nombre, "Goblin") != NULL && p->veneno == 0) {` → `p->veneno = 3;` y `printf("¡La daga estaba envenenada!\n");` `}`
+4. Al comienzo del turno de Kira (antes de revisar si está atrapada): si `p->veneno > 0`, `p->veneno--;`, `p->heroe.vida -= 3;` y `printf("El veneno quema: -3 (turnos de veneno restantes: %d).\n", p->veneno);`. Si la vida quedó en 0 o menos, ponela en 0 y `break;`
+5. Tocá **Ejecutar** y compará con la salida esperada.
 
 #### Código inicial
 ```c
@@ -9723,6 +9751,15 @@ avisando cuando no alcanza.
 - Cada rival deja oro (su vida máxima / 3).
 - La tienda vende poción (15), +2 de ataque (25) y +15 de vida máxima (20), varias veces hasta elegir 0.
 - Avisa cuando no alcanza el oro.
+
+#### Pasos
+1. En el `struct Partida`, agregá `int oro;`
+2. Donde cae cada rival: `int botin = oleadas[i].vida_max / 3;`, `partida.oro += botin;` y cambiá el `printf` por `printf("¡%s cae! Deja %d de oro (Kira tiene %d).\n", oleadas[i].nombre, botin, partida.oro);`
+3. Cambiá `recompensa(&partida);` por `tienda(&partida);` (y el prototipo `void recompensa` por `void tienda(Partida *p);`).
+4. Borrá la función `recompensa` y escribí `tienda`: `nombres[] = { "poción", "+2 de ataque", "+15 de vida máxima" }` y `precios[] = { 15, 25, 20 }`.
+5. En `tienda`, un `for (;;)`: `printf("Tienda de Ferrum (tenés %d de oro):\n", p->oro);` y pedí con `pedir_opcion("1) poción 15  2) +2 ataque 25  3) +15 vida máx. 20  0) seguir: ", 0, 3, &opcion)`. Después `printf("\n");`; con 0, `return;`
+6. Si no alcanza: `printf("No te alcanza: %s cuesta %d.\n", ...)` y `continue;`. Si alcanza: restá el oro, aplicá la compra con un `switch` y `printf("Compraste %s.\n", ...)`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```c
@@ -10477,6 +10514,15 @@ fuertes ordenados con `qsort` (a igual daño, el más temprano primero).
 - Guarda cada golpe de Kira (turno, rival, daño) en un array de structs dentro de `Partida`.
 - Al final muestra los 3 más fuertes ordenados con `qsort`.
 - A igual daño, el más temprano primero.
+
+#### Pasos
+1. Arriba: `#define MAX_GOLPES 64` y un struct nuevo `typedef struct { int turno; char enemigo[28]; int danio; } Golpe;` (antes de `Partida`).
+2. En `Partida`, agregá `Golpe golpes[MAX_GOLPES];` e `int cantidad_golpes;`
+3. Donde Kira hace daño, si `danio > 0 && p->cantidad_golpes < MAX_GOLPES`: guardá en `p->golpes[p->cantidad_golpes]` el turno (`p->turnos`), el nombre del enemigo (con `snprintf`) y el daño, y `p->cantidad_golpes++;`
+4. `int comparar_golpes(const void *a, const void *b)`: si los daños son distintos, `return y->danio - x->danio;`; si no, `return x->turno - y->turno;`
+5. Al final de `main`: `qsort(partida.golpes, partida.cantidad_golpes, sizeof(Golpe), comparar_golpes);` y `printf("\nLos golpes más fuertes (de %d):\n", partida.cantidad_golpes);`
+6. Los 3 primeros: `printf("  %d. %2d de daño a %s (turno %d)\n", i + 1, g->danio, g->enemigo, g->turno);`
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```c

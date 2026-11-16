@@ -420,6 +420,11 @@ Por eso, para recorrer un array de 3 el bucle va de `i = 0` mientras `i < 3`. Si
 #### Desafío
 Arreglá el bucle para recorrer solo los cinco estantes.
 
+#### Pasos
+1. Buscá `for (int i = 1; i <= 5; i++)`.
+2. Los arrays empiezan en 0: cambialo por `for (int i = 0; i < 5; i++)`.
+3. Tocá **Ejecutar**. Tiene que salir `peso total: 76 kg`.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -488,6 +493,12 @@ Al terminar, tenés el mayor y en qué lugar estaba.
 
 #### Desafío
 Completá la comparación y lo que se guarda.
+
+#### Pasos
+1. Hay dos `___`.
+2. En el `if`: `pesos[i] > mayor`.
+3. En `donde = ___;`: `i` (la posición).
+4. Tocá **Ejecutar**. Tiene que salir `el estante 2 carga 30 kg`.
 
 #### Código inicial
 ```c
@@ -566,6 +577,11 @@ Para sumar **una columna**, el bucle de afuera elige la columna y el de adentro 
 
 #### Desafío
 Completá la suma de la columna.
+
+#### Pasos
+1. Buscá `suma += ___;`.
+2. Cambiá `___` por `t[dia][horno]` (primero la fila, después la columna).
+3. Tocá **Ejecutar** y compará los promedios.
 
 #### Código inicial
 ```c
@@ -650,6 +666,11 @@ cuenta[4]++;   // salió un 4
 
 #### Desafío
 Completá la línea que cuenta.
+
+#### Pasos
+1. Buscá el `___;` debajo del `scanf`.
+2. Cambialo por `cuenta[dado]++;` (suma 1 en el casillero de ese número).
+3. Tocá **Ejecutar**. El 6 tiene que salir 5 veces.
 
 #### Código inicial
 ```c
@@ -740,6 +761,16 @@ promedio y cuántas lo superan.
 - Lee hasta 10 temperaturas validando cada una; `fin` termina antes.
 - Muestra la mayor, la menor, el promedio y cuántas lo superan.
 - Nunca escribe fuera del array.
+
+#### Pasos
+1. Arriba de `main`: `#define MAXIMO 10`. En `main`: `int temperaturas[MAXIMO];`, `int cantidad = 0;` y `char linea[100];`
+2. `while (cantidad < MAXIMO)`: `printf("Temperatura %d (o \"fin\"): ", cantidad + 1);`. Si `fgets` da `NULL` o `linea[0] == 'f'`, `break;`
+3. Si `sscanf(linea, "%d %c", &t, &sobra) != 1 || t < 0`: `printf("  no es una temperatura válida.\n");` y `continue;`. Si está bien, guardala y `cantidad++;`
+4. Después: `printf("\n");`. Si `cantidad == 0`, avisá y `return 0;`
+5. Recorré para sacar `mayor`, `menor` y `suma` (empezando con `temperaturas[0]`). `double promedio = (double) suma / cantidad;`
+6. Otro `for` cuenta cuántas son `> promedio`.
+7. Mostrá: `printf("%d temperaturas: mayor %d, menor %d, promedio %.1f\n", ...)` y `printf("%d superan el promedio\n", arriba);`
+8. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```c
@@ -877,6 +908,15 @@ usar otro), `buscar(v, n, valor)` (posición o `-1`) y `rotar_izquierda(v, n)`
 - `rotar_izquierda` pasa el primero al final.
 - Cada función recibe el array y su cantidad.
 
+#### Pasos
+1. Arriba de `main`, los prototipos: `void mostrar(const int v[], int n);`, `void invertir(int v[], int n);`, `int buscar(const int v[], int n, int buscado);` y `void rotar_izquierda(int v[], int n);`
+2. Abajo de `main`: `mostrar` imprime cada número con `"%d "` y un `"\n"` al final.
+3. `invertir`: `for (int i = 0; i < n / 2; i++)` intercambia `v[i]` con `v[n - 1 - i]` usando una variable `tmp`.
+4. `buscar`: recorre y devuelve `i` si `v[i] == buscado`; al final, `return -1;`
+5. `rotar_izquierda`: guarda `v[0]`, corre todos uno a la izquierda (`v[i] = v[i + 1]`) y pone el guardado en `v[n - 1]`.
+6. En `main`: `int runas[] = { 3, 1, 4, 1, 5, 9, 2 };`, `int n = sizeof(runas) / sizeof(runas[0]);` y mostrá original, invertido, la búsqueda del 5 y del 7, y rotado, con los textos de la salida esperada.
+7. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -1006,6 +1046,16 @@ Al final, dibujá el mapa con Kira como `K`.
 - Usa una matriz de 5 × 8 para el mapa.
 - Las paredes frenan el movimiento y los tesoros se juntan.
 - Al terminar dibuja el mapa con `K` en la posición final.
+
+#### Pasos
+1. Arriba de `main`: `#define FILAS 5`, `#define COLUMNAS 8` y el prototipo `void dibujar(int mapa[][COLUMNAS], int fila_kira, int col_kira);`
+2. En `main`, el mapa (0 piso, 1 pared, 2 tesoro), copiado de la salida esperada: `#` es 1, `$` es 2, `.` es 0. Kira empieza en `fila = 1, col = 1`; `int tesoros = 0;`
+3. `dibujar(...)` y `printf("Movimiento (w/a/s/d, q para salir): ");`
+4. `while (fgets(...) != NULL && linea[0] != 'q')`: calculá `nueva_fila` y `nueva_col` con un `switch` (`w` resta fila, `s` suma, `a` resta columna, `d` suma). Si es otra letra: `"\n  movimiento desconocido\n"`, `"Movimiento: "` y `continue;`
+5. Si hay pared (`== 1`): `"\n  ¡pared!\n"`. Si no, movete; si hay tesoro, sumalo, poné `0` en esa casilla y `"\n  ¡tesoro! (llevás %d)\n"`; si no, `"\n"`. Después `"Movimiento: "`.
+6. Al final: `"\n"`, `dibujar(...)` y `"Kira juntó %d tesoros.\n"`.
+7. `dibujar`: dos `for`; muestra `K` donde está Kira, `#` en paredes, `$` en tesoros y `.` en el resto, con `"\n"` por fila.
+8. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```c
@@ -1684,6 +1734,11 @@ Un texto no se puede asignar con `=` a un array: se copia con `strcpy(destino, "
 #### Desafío
 Dale a la etiqueta el tamaño justo para «ORO» y su tapón.
 
+#### Pasos
+1. Buscá `char etiqueta[___];`.
+2. «ORO» tiene 3 letras, más el `\0` que cierra el texto: cambiá `___` por `4`.
+3. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -1751,6 +1806,11 @@ if (strcmp(clave, "abrete") == 0) {
 
 #### Desafío
 Cambiá la comparación.
+
+#### Pasos
+1. Buscá `if (caja == buscado)`: `==` compara direcciones, no letras.
+2. Cambialo por `if (strcmp(caja, buscado) == 0)`.
+3. Tocá **Ejecutar**. Tiene que salir `encontrada`.
 
 #### Código inicial
 ```c
@@ -1826,6 +1886,11 @@ texto[strcspn(texto, "\n")] = '\0';
 #### Desafío
 Sacale el salto de línea al nombre.
 
+#### Pasos
+1. Buscá el `___` debajo del `fgets`.
+2. Cambialo por `nombre[strcspn(nombre, "\n")] = '\0';` (corta el texto donde está el Enter).
+3. Tocá **Ejecutar**. Tiene que salir `tiene 15 letras`.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -1897,6 +1962,11 @@ El segundo dato es el tamaño del array: así `snprintf` nunca escribe de más, 
 
 #### Desafío
 Armá el cartel con `snprintf`.
+
+#### Pasos
+1. Buscá el `___;` debajo de `char cartel[30];`.
+2. Cambialo por `snprintf(cartel, sizeof cartel, "%s - %s", oficio, nombre);`
+3. Tocá **Ejecutar**. Tiene que salir `Herreria - Maese Ferrum`.
 
 #### Código inicial
 ```c
@@ -1971,6 +2041,15 @@ iniciales (`K.D.N.`) en otro texto, sin pasarte de su tamaño.
 - Vuelve a pedir el nombre hasta que no esté vacío y tenga solo letras y espacios.
 - Pone mayúscula al principio de cada palabra y minúscula en el resto.
 - Arma las iniciales en otro texto sin pasarse de su tamaño.
+
+#### Pasos
+1. Arriba de `main`, los prototipos: `bool es_valido(const char texto[]);`, `void capitalizar(char texto[]);` y `void iniciales(const char texto[], char destino[], int tam);`
+2. En `main`: `char nombre[64];` y `for (;;)`: `printf("Nombre completo: ");`; si `fgets` da `NULL`, avisá y `return 1;`. Sacá el Enter con `strcspn`. Si `es_valido(nombre)`, `break;`; si no, `"\n  tiene que tener letras (sin números ni símbolos).\n"`.
+3. Después: `capitalizar(nombre);`, `char ini[16];`, `iniciales(nombre, ini, sizeof(ini));` y `printf("\nFicha: %s (%s)\n", nombre, ini);`
+4. `es_valido`: recorre; si es letra (`isalpha`) marca que hay letra; si no es letra ni espacio, `return false;`. Al final devuelve si hubo letra.
+5. `capitalizar`: con una variable `inicio_de_palabra` (arranca en `true`): el espacio la pone en `true`; la primera letra de cada palabra va con `toupper` y el resto con `tolower`.
+6. `iniciales`: por cada letra que empieza palabra, copiala y agregá un `.` (mientras `j + 2 < tam`). Al final, `destino[j] = '\0';`
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```c
@@ -2127,6 +2206,15 @@ con su número de línea.
 - Muestra las válidas en columnas y el oro total.
 - Informa las mal formadas con su número de línea.
 
+#### Pasos
+1. En `main`: `char linea[100];`, `int numero = 0;`, `int validas = 0;` e `int oro_total = 0;`
+2. `while (fgets(linea, sizeof(linea), stdin) != NULL)`: `numero++;` y sacá el Enter con `strcspn`.
+3. Separá: `int leidos = sscanf(linea, "%23[^;];%d;%d %c", nombre, &nivel, &oro, &sobra);` (con `char nombre[24];`, `int nivel, oro;` y `char sobra;`).
+4. Si `leidos != 3 || nivel < 1 || oro < 0`: `printf("línea %d inválida: \"%s\"\n", numero, linea);` y `continue;`
+5. Si está bien: `printf("%-10s nivel %2d  %5d de oro\n", nombre, nivel, oro);`, `validas++;` y sumá el oro.
+6. Al final: `printf("%d registros válidos, %d de oro en total\n", validas, oro_total);`
+7. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -2242,6 +2330,15 @@ texto desde las dos puntas.
 - `es_palindromo` ignora espacios y mayúsculas.
 - Recorre el texto desde las dos puntas, sin copiarlo.
 - Prueba con "Anita lava la tina" y con una frase que no lo sea.
+
+#### Pasos
+1. Arriba de `main`: `bool es_palindromo(const char frase[]);`
+2. Abajo: `int izq = 0;` e `int der = (int) strlen(frase) - 1;`
+3. `while (izq < der)`: si `frase[izq] == ' '`, `izq++;`; si `frase[der] == ' '`, `der--;`
+4. Si no: si `tolower((unsigned char) frase[izq]) != tolower((unsigned char) frase[der])`, `return false;`. Si son iguales, `izq++;` y `der--;`
+5. Al terminar el `while`: `return true;`
+6. En `main`: `const char *runas[] = { "Neuquen", "Anita lava la tina", "Forja", "Somos o no somos", "Ferrum" };` y un `for` con `printf("%-20s %s\n", runas[i], es_palindromo(runas[i]) ? "es palíndromo" : "no");`
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```c
@@ -2838,6 +2935,12 @@ Cada dato de adentro es un **campo**, y se usa con un punto: `ana.edad`.
 #### Desafío
 Completá los campos que faltan en la ficha.
 
+#### Pasos
+1. Hay dos `___` adentro del `struct`.
+2. El primero: `int vida;`
+3. El segundo: `int fuerza;`
+4. Tocá **Ejecutar**. Tiene que salir `Kira: vida 90, fuerza 15`.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -2909,6 +3012,11 @@ Acá `ROJO` vale 0, `AMARILLO` 1 y `VERDE` 2. Son ideales para un `switch`: `cas
 
 #### Desafío
 Completá los `case` del `switch` con los nombres del `enum`.
+
+#### Pasos
+1. Hay tres `case ___:`.
+2. Cambialos por los nombres del `enum`, en orden: `HERRERO`, `MINERA` y `MERCADER`.
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```c
@@ -2999,6 +3107,12 @@ Para llegar al campo de adentro, se encadenan los puntos: `bandera.lugar.x`.
 #### Desafío
 Mové a Tizon a la galería 3, profundidad 40.
 
+#### Pasos
+1. Hay dos `___;`.
+2. El primero: `tizon.pos.galeria = 3;`
+3. El segundo: `tizon.pos.profundidad = 40;`
+4. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -3078,6 +3192,11 @@ Cada byte es un número, y un número también puede ser una letra (la `A` es el
 
 #### Desafío
 Mostrá los cuatro bytes del número como letras.
+
+#### Pasos
+1. Buscá `putchar(___);`.
+2. Cambiá `___` por `m.letras[i]` (cada byte del número, visto como letra).
+3. Tocá **Ejecutar**. Tiene que salir `PARA`.
 
 #### Código inicial
 ```c
@@ -3175,6 +3294,15 @@ golpes)` y `reparar(arma)`, que devuelven el arma modificada.
 - Define `Arma` con un `enum` para el tipo.
 - `danio_efectivo` baja a la mitad con durabilidad menor que 20.
 - `usar` y `reparar` devuelven el arma modificada (por valor).
+
+#### Pasos
+1. Arriba de `main`, el `enum`: `typedef enum { ARMA_ESPADA, ARMA_HACHA, ARMA_ARCO } TipoArma;`
+2. El `struct`: `typedef struct { char nombre[20]; TipoArma tipo; int danio; double peso; int durabilidad; } Arma;`
+3. Las funciones: `nombre_tipo` (un `switch` que devuelve `"espada"`, `"hacha"` o `"arco"`), `mostrar_arma`, `danio_efectivo` (`a.durabilidad < 20 ? a.danio / 2 : a.danio`), `usar` (resta los golpes sin bajar de 0 y devuelve `a`) y `reparar` (durabilidad 100 y devuelve `a`).
+4. `mostrar_arma`: `printf("%-14s %-6s daño %2d (efectivo %2d)  %.1f kg  durabilidad %3d\n", ...)`.
+5. En `main`: `Arma espada = { "Filo del Alba", ARMA_ESPADA, 20, 3.5, 100 };` y el hacha `"Rompeyunques"` (28 de daño, 6.0 kg, durabilidad 30).
+6. Mostrá las dos, después `hacha = usar(hacha, 12);`, `"\ndespués de 12 golpes:\n"` y mostrala; después `hacha = reparar(hacha);`, `"después de pasar por la Forja:\n"` y mostrala.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```c
@@ -3319,6 +3447,14 @@ arriba a la izquierda), ancho y alto. Escribí `contiene(rect, punto)` y
 - `contiene` y `se_tocan` responden bien, incluidos los bordes.
 - Muestra pruebas con rectángulos que se tocan y que no.
 
+#### Pasos
+1. Arriba de `main`: `typedef struct { int x; int y; } Posicion;` y `typedef struct { Posicion esquina; int ancho; int alto; } Rect;`
+2. `bool contiene(Rect r, Posicion p)`: devuelve `p.x >= r.esquina.x && p.x < r.esquina.x + r.ancho && p.y >= r.esquina.y && p.y < r.esquina.y + r.alto`.
+3. `bool se_tocan(Rect a, Rect b)`: `a.esquina.x < b.esquina.x + b.ancho && b.esquina.x < a.esquina.x + a.ancho` y lo mismo con `y` y `alto`.
+4. En `main`: `Rect horno = { { 0, 0 }, 4, 3 };`, `Rect yunque = { { 3, 2 }, 2, 2 };`, `Rect deposito = { { 10, 0 }, 5, 5 };` y `Posicion kira = { 2, 1 };`
+5. Cuatro `printf` con las preguntas de la salida esperada y `? "sí" : "no"`.
+6. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -3430,6 +3566,14 @@ eventos `"mapgamgpa"` mostrando cada cambio.
 - Usa un `enum Estado` y `siguiente(estado, evento)`.
 - Estando herido no puede atacar.
 - Procesa `"mapgamgpa"` mostrando cada cambio.
+
+#### Pasos
+1. Arriba de `main`: `typedef enum { QUIETO, CAMINANDO, ATACANDO, HERIDO } Estado;`
+2. `const char *nombre_estado(Estado e)`: un `switch` que devuelve `"quieto"`, `"caminando"`, `"atacando"` o `"herido"`.
+3. `Estado siguiente(Estado actual, char evento)`: `'g'` → `HERIDO`, `'p'` → `QUIETO`, `'m'` → `CAMINANDO`, `'a'` → `actual == HERIDO ? HERIDO : ATACANDO`, y si no, `actual`.
+4. En `main`: `const char *eventos = "mapgamgpa";`, `Estado estado = QUIETO;` y `printf("empieza %s\n", nombre_estado(estado));`
+5. Un `for` por cada letra: `Estado nuevo = siguiente(estado, eventos[i]);`, `printf("'%c': %-9s -> %s\n", eventos[i], nombre_estado(estado), nombre_estado(nuevo));` y `estado = nuevo;`
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```c

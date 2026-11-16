@@ -9160,6 +9160,12 @@ La vida nunca puede quedar negativa: si el golpe es más grande que lo que queda
 #### Desafío
 Completá la función: si el golpe es mayor que la vida, la vida queda en 0.
 
+#### Pasos
+1. Adentro de la función hay un `___`.
+2. Cambialo por un `if`: `if (golpe >= vida) {` → `return 0;` `}`
+3. Debajo del `if`: `return vida - golpe;`
+4. Tocá **Ejecutar**. Tienen que salir 32 y 0.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -9237,6 +9243,12 @@ Para aceptar un golpe tienen que cumplirse tres cosas a la vez (con `&&`): que `
 
 #### Desafío
 Completá la condición para aceptar solo números entre 1 y 99.
+
+#### Pasos
+1. Buscá `if (___) {` adentro del `while`.
+2. Cambiá `___` por `sscanf(linea, "%d", &golpe) == 1 && golpe >= 1 && golpe <= 99`.
+3. Se lee: «pudo leer un número **y** es 1 o más **y** es 99 o menos».
+4. Tocá **Ejecutar**. Tiene que salir `golpe valido: 42 (ignorados: 3)`.
 
 #### Código inicial
 ```c
@@ -9320,6 +9332,12 @@ Para «la más dura» hay un truco: la primera placa siempre arranca como la má
 
 #### Desafío
 Completá las dos condiciones.
+
+#### Pasos
+1. Hay dos `___`.
+2. En el primer `if`: `placa <= 600` (las blandas).
+3. En el segundo: `placa > mas_dura`. Queda `if (i == 1 || placa > mas_dura)`.
+4. Tocá **Ejecutar**. Tienen que salir 4 y 980.
 
 #### Código inicial
 ```c
@@ -9415,6 +9433,12 @@ if (energia == 0) {
 
 #### Desafío
 Completá el bucle y el corte.
+
+#### Pasos
+1. Hay dos `___`.
+2. En `corazon = ___;`: `vida_restante(corazon, golpe)` (la función de arriba).
+3. En el `if`: `corazon == 0`.
+4. Tocá **Ejecutar**. Tiene que terminar con `el golem de escoria cae`.
 
 #### Código inicial
 ```c
@@ -9528,6 +9552,16 @@ Usá funciones `precio(codigo)` y `nombre(codigo)` con `switch`.
 - Usa `precio` y `nombre` con `switch`.
 - Muestra el ticket alineado y aplica el 10 % solo desde $500.
 - Termina bien con `0` o si se termina la entrada.
+
+#### Pasos
+1. Arriba de `main`: `#define DESCUENTO_DESDE 500.0`.
+2. `double precio(int codigo)` con un `switch`: 1 → `120.0`, 2 → `80.0`, 3 → `15.0`, 4 → `4.5`, `default` → `-1.0`.
+3. `const char *nombre(int codigo)` con otro `switch`: `"Espada"`, `"Escudo"`, `"Herradura"`, `"Clavo de acero"` y `"?"`.
+4. `bool pedir_entero(const char *pregunta, int minimo, int maximo, int *resultado)`: repetí `printf("%s", pregunta);` y `fgets`; si es `NULL`, `return false;`. Si `sscanf(linea, "%d %c", &n, &sobra) == 1` y está en rango, `*resultado = n;` y `return true;`. Si no, `printf("\n  Escribí un número del %d al %d.\n", minimo, maximo);`
+5. En `main`: el título y la lista de productos (copialos de la salida esperada), `double total = 0.0;` e `int items = 0;`
+6. `for (;;)`: pedí `"Producto: "` (0 a 4); si falla o es 0, `break;`. Pedí `"Cantidad: "` (1 a 99). Calculá el subtotal y mostrá `printf("\n  %2d x %-15s %9.2f\n", cantidad, nombre(codigo), subtotal);`. Sumá al total y a los items.
+7. Al final: la raya, `"Productos: %d\n"`, `"Subtotal:  %10.2f\n"`, el descuento (10 % si `total >= DESCUENTO_DESDE`) con `"Descuento: %10.2f\n"` y `"TOTAL:     %10.2f\n"`.
+8. Tocá **Ejecutar** y compará renglón por renglón.
 
 #### Código inicial
 ```c
@@ -9705,6 +9739,16 @@ Simulá el combate contra el Gólem de Escoria:
 - Guarda la armadura como banderas y las apaga con `&= ~`.
 - Usa `srand(13)` y una función `tirar`.
 - Muestra cada turno y el resultado final.
+
+#### Pasos
+1. Arriba de `main`: `#define CABEZA (1u << 0)`, `PECHO (1u << 1)` y `PIERNAS (1u << 2)`.
+2. `int tirar(int minimo, int maximo)` → `return minimo + rand() % (maximo - minimo + 1);`
+3. `const char *zona_nombre(unsigned zona)` con un `switch`: `"a la cabeza"`, `"al pecho"` y `default` → `"a las piernas"`.
+4. `void mostrar_armadura(unsigned armadura)` → `printf("[%c%c%c]", armadura & CABEZA ? 'C' : '-', armadura & PECHO ? 'P' : '-', armadura & PIERNAS ? 'I' : '-');`
+5. En `main`: `srand(13);`, `unsigned armadura = CABEZA | PECHO | PIERNAS;`, `int vida = 40;`, `int turno = 0;` y el mensaje inicial con la armadura.
+6. `while (vida > 0 && turno < 30)`: `turno++;`, `unsigned zona = 1u << tirar(0, 2);`, `int danio = tirar(4, 9);` y `printf("Turno %2d: golpe %-14s ", turno, zona_nombre(zona));`
+7. Si `armadura & zona`: `armadura &= ~zona;` y `"-> se rompe la placa "`. Si no: restá el daño (sin bajar de 0) y `printf("-> %d de daño      ", danio);`. Después `mostrar_armadura(armadura);` y `printf(" vida %2d\n", vida);`
+8. Al final, el mensaje de si cayó o resiste. Tocá **Ejecutar** y compará turno por turno.
 
 #### Código inicial
 ```c

@@ -217,6 +217,11 @@ Un **stream** es una corriente de datos: `barcazas.stream()`. `filter(b -> condi
 #### Desafío
 Completá la condición del filtro: las barcazas con más de 50 de carga.
 
+#### Pasos
+1. Hay un `___` en el `filter`.
+2. Las de más de 50: `b.carga() > 50`.
+3. Tocá **Ejecutar**. Tienen que pasar Garza y Bagre.
+
 #### Código inicial
 ```java
 import java.util.List;
@@ -284,6 +289,11 @@ Un segundo molino no filtra: **transforma**. A cada barcaza le saca el nombre y 
 
 #### Desafío
 Completá el `map` que pasa cada nombre a mayúsculas.
+
+#### Pasos
+1. Hay un `___` en el segundo `map`.
+2. Pasá cada nombre a mayúsculas con una referencia a método: `String::toUpperCase`.
+3. Tocá **Ejecutar**. Tiene que salir `[BAGRE, GARZA, SAUCE]`.
 
 #### Código inicial
 ```java
@@ -355,6 +365,11 @@ Una operación **terminal** termina el stream y da un resultado: `count()`. Para
 #### Desafío
 Completá el `mapToInt` con la carga de cada barcaza.
 
+#### Pasos
+1. Hay un `___` en `mapToInt(___)`.
+2. Sacá la carga de cada una: `Barcaza::carga`.
+3. Tocá **Ejecutar**. Tiene que salir `Carga total: 270`.
+
 #### Código inicial
 ```java
 import java.util.List;
@@ -424,6 +439,11 @@ Un stream es como el agua del río: pasa **una vez**. Si lo guardás en una vari
 
 #### Desafío
 Ejecutalo, leé el error y hacé que la suma use un stream nuevo.
+
+#### Pasos
+1. Un stream se usa una sola vez: `corriente` ya se gastó con `count()`.
+2. En el segundo `println`, creá uno nuevo: `cargas.stream().mapToInt(c -> c).sum()`.
+3. Tocá **Ejecutar**. Tiene que salir `Carga: 270`.
 
 #### Código inicial
 ```java
@@ -501,6 +521,15 @@ Mostrá los montos con 2 decimales.
 **Para superarla:**
 - No hay `for` ni `while`: todo son streams.
 - Cada punto usa la operación adecuada (`filter`, `count`, `mapToDouble`/`sum`, `sorted`+`limit`, `anyMatch`, `distinct`).
+
+#### Pasos
+1. Dentro de la clase: `record Producto(String nombre, String rubro, double precio, int stock) { }`.
+2. En el `main`: `Locale.setDefault(Locale.US);` y `List.of(...)` con los 8 productos (Yerba, almacén, 4200.5, 20; Lavandina, limpieza, 900, 3; Aceite, almacén, 2890, 0; Detergente, limpieza, 1600, 12; Queso, fiambrería, 9800, 4; Jamón, fiambrería, 12500, 0; Arroz, almacén, 1450, 30; Esponja, limpieza, 600, 25).
+3. Sin stock: `filter(p -> p.stock() == 0).map(Producto::nombre).toList()`. Más de 5000: `filter(...).count()`.
+4. Valor: `mapToDouble(p -> p.precio() * p.stock()).sum()` con `printf("Valor del inventario: %.2f%n", ...)`.
+5. Los más caros: `sorted(Comparator.comparingDouble(Producto::precio).reversed()).limit(3).map(Producto::nombre).toList()`.
+6. `anyMatch(p -> p.rubro().equals("limpieza") && p.stock() < 5)` y `map(Producto::rubro).distinct().sorted().toList()`.
+7. Copiá los títulos de la salida esperada. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -595,6 +624,15 @@ Con `IntStream` y sin bucles:
 **Para superarla:**
 - Usa `IntStream`/`LongStream`, `filter`, `limit`, `reduce` y `chars`.
 - No hay bucles.
+
+#### Pasos
+1. Suma: `IntStream.rangeClosed(1, 100).filter(n -> n % 3 == 0 || n % 5 == 0).sum()`.
+2. Un método `static boolean esPrimo(int n)` → `return n > 1 && IntStream.rangeClosed(2, (int) Math.sqrt(n)).noneMatch(d -> n % d == 0);`.
+3. Primos: `IntStream.iterate(2, n -> n + 1).filter(NumerosOraculo::esPrimo).limit(10).boxed().toList()`.
+4. Factorial: `LongStream.rangeClosed(1, 15).reduce(1, (a, b) -> a * b)`.
+5. La frase (copiala de la consigna o de la solución). Palabras: `Arrays.stream(frase.split(" ")).filter(p -> p.length() > 4).map(String::toUpperCase).distinct().toList()`.
+6. Vocales: `frase.chars().filter(c -> "aeiou".indexOf(c) >= 0).count()`.
+7. Copiá los títulos de la salida. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -700,6 +738,15 @@ static double promedioAprobadas(List<Alumno> alumnos, String comision) {
 **Para superarla:**
 - Los dos cálculos con streams dan lo mismo que con bucles.
 - Usa `flatMapToInt` (o `flatMap`) para aplanar las listas de notas.
+
+#### Pasos
+1. Dentro de la clase: `record Alumno(String nombre, String comision, List<Integer> notas) { }`.
+2. En el `main`: los cinco alumnos (Nadia A 9,10,7; Baldo A 3,6,4; Lía B 10,8; Pip A 2,3; Nara A 8,10,5).
+3. `promedioConBucles`: copiá el método de la consigna. `conDiezBucles`: un `for` que junta los nombres con `a.notas().contains(10)`.
+4. `promedioConStreams`: `alumnos.stream().filter(a -> a.comision().equals(comision)).flatMapToInt(a -> a.notas().stream().mapToInt(Integer::intValue)).filter(n -> n >= 4).average().orElse(0)`. Devolvé `Math.round(promedio * 100) / 100.0`.
+5. Con algún 10, con streams: `alumnos.stream().filter(a -> a.notas().contains(10)).map(Alumno::nombre).toList()`.
+6. Mostrá los cuatro renglones, viejo y nuevo, con la comisión `"A"`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -1092,6 +1139,11 @@ En los muelles, los recaudadores juntan las barcazas en **cajas por puerto de de
 #### Desafío
 Completá el colector que cuenta cuántas barcazas hay por puerto.
 
+#### Pasos
+1. Hay un `___` en `Collectors.___()`.
+2. Para contar: `counting`.
+3. Tocá **Ejecutar**. Tiene que salir `{Capital=2, Puerto=2, Torre=1}`.
+
 #### Código inicial
 ```java
 import java.util.List;
@@ -1164,6 +1216,11 @@ El capitán del muelle quiere los nombres de las barcazas del día **en una sola
 #### Desafío
 Completá el colector que une los nombres con ", ".
 
+#### Pasos
+1. Hay un `___` en `Collectors.___`.
+2. Para unir con un separador: `joining(", ")`.
+3. Tocá **Ejecutar**. Tiene que salir `¡Hoy llegan Garza, Sauce, Bagre!`.
+
 #### Código inicial
 ```java
 import java.util.List;
@@ -1231,6 +1288,11 @@ Las barcazas pesadas van al muelle grande y las livianas al chico. Hay **dos** g
 
 #### Desafío
 Completá la condición: pesadas son las de más de 60.
+
+#### Pasos
+1. Hay un `___` en `partitioningBy(b -> ___)`.
+2. Pesadas son las de más de 60: `b.carga() > 60`.
+3. Tocá **Ejecutar**. Tiene que salir `Muelle grande: [Garza, Bagre]`.
 
 #### Código inicial
 ```java
@@ -1305,6 +1367,11 @@ Zed revisa el registro del río buscando una barcaza que haya llevado **un vitra
 
 #### Desafío
 Completá el valor por defecto para cuando no hay ninguna barcaza: "ninguna".
+
+#### Pasos
+1. Hay un `___` en `orElse(___)`.
+2. Escribí el texto por defecto: `"ninguna"`.
+3. Tocá **Ejecutar**. Tiene que salir `seda: ninguna`.
 
 #### Código inicial
 ```java
@@ -1397,6 +1464,15 @@ monto)`, al menos 10), armá con `Collectors` (claves ordenadas):
 **Para superarla:**
 - Usa `groupingBy` con collectors de abajo (`summingDouble`, `counting`, `averagingDouble`, `mapping`).
 - Usa `partitioningBy` y un `Optional` para el mejor vendedor.
+
+#### Pasos
+1. Dentro de la clase: `record Venta(String vendedor, String rubro, int mes, double monto) { }`.
+2. En el `main`: `Locale.setDefault(Locale.US);` y las 10 ventas (copialas de la solución o armá las tuyas, pero con estas sale la salida esperada).
+3. Total por vendedor: `groupingBy(Venta::vendedor, TreeMap::new, summingDouble(Venta::monto))`. Guardalo en `porVendedor`.
+4. Por rubro: `groupingBy(Venta::rubro, TreeMap::new, counting())`. Por mes: `groupingBy(Venta::mes, TreeMap::new, averagingDouble(Venta::monto))` y `forEach` con `printf("  mes %d: promedio %.1f%n", ...)`.
+5. Rubros por vendedor: `groupingBy(Venta::vendedor, TreeMap::new, mapping(Venta::rubro, toCollection(TreeSet::new)))`.
+6. Grandes y chicas: `partitioningBy(v -> v.monto() > 50000, counting())`. Mejor vendedor: `porVendedor.entrySet().stream().max(Map.Entry.comparingByValue())` con `map(...)` y `orElse("nadie")`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -1514,6 +1590,15 @@ probá los casos que existen y los que no, **sin** llamar nunca a `get()` ni com
 - Los métodos devuelven `Optional` y usan `Optional.ofNullable` para el email.
 - El `main` usa `map`, `orElse`, `ifPresentOrElse` u `orElseThrow`, nunca `get()`.
 
+#### Pasos
+1. Dentro de la clase: `record Persona(String dni, String nombre, String email) { }` y `static class Padron` con `List<Persona> personas` (en el constructor).
+2. `Optional<Persona> buscarPorDni(String dni)` → `personas.stream().filter(x -> x.dni().equals(dni)).findFirst()`.
+3. `Optional<String> emailDe(String dni)` → `buscarPorDni(dni).flatMap(x -> Optional.ofNullable(x.email()))`.
+4. `Optional<Persona> masJoven()` → `personas.stream().max(Comparator.comparing(Persona::dni))`.
+5. En el `main`: el padrón con Marta (30111222, con email), Juan (28999000, `null`) y Ana (41222333, con email).
+6. Probá con `map(Persona::nombre).orElse("no existe")` y `orElse("sin email")`. Para el más joven, usá `ifPresentOrElse`, también con un `new Padron(List.of())`. Copiá los textos de la salida.
+7. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```java
 import java.util.Comparator;
@@ -1626,6 +1711,15 @@ Dado un texto largo (un párrafo de al menos 60 palabras en una constante), con 
 **Para superarla:**
 - Limpia el texto con `replaceAll` y `split("\\s+")`.
 - Usa `groupingBy` + `counting` y ordena las entradas del mapa por valor.
+
+#### Pasos
+1. Una constante `static final String TEXTO` con el párrafo (copialo de la solución para que dé la salida esperada).
+2. En el `main`: `Locale.setDefault(Locale.US);` y `List<String> palabras = Arrays.stream(TEXTO.toLowerCase().replaceAll("[^\\p{L} ]", "").split("\\s+")).toList();`.
+3. Frecuencia: `palabras.stream().collect(groupingBy(p -> p, counting()))`. Mostrá las 5 primeras de `entrySet().stream().sorted(Map.Entry.<String, Long>comparingByValue().reversed().thenComparing(Map.Entry.comparingByKey())).limit(5)`.
+4. Por letra: `groupingBy(p -> p.charAt(0), TreeMap::new, toCollection(TreeSet::new))` y `porLetra.entrySet().removeIf(e -> e.getValue().size() < 3);`.
+5. La más larga: `palabras.stream().max(Comparator.comparingInt(String::length).thenComparing(Comparator.reverseOrder())).orElse("-")`.
+6. Promedio: `mapToInt(String::length).average().orElse(0)` con `printf("Longitud promedio: %.1f%n", ...)`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -2105,6 +2199,11 @@ El cartógrafo del delta ordena sus mapas de mil maneras. Zed le pide los más *
 #### Desafío
 Completá el desempate por región.
 
+#### Pasos
+1. Hay un `___` después de `reversed().`.
+2. El desempate se agrega con `thenComparing`.
+3. Tocá **Ejecutar**. `Aduana` tiene que salir antes que `Delta`.
+
 #### Código inicial
 ```java
 import java.util.ArrayList;
@@ -2176,6 +2275,11 @@ Un `record` puede tener un **constructor compacto**: `Carga { … }`, sin parén
 
 #### Desafío
 Completá la condición que rechaza los kilos negativos.
+
+#### Pasos
+1. Hay un `___` en el `if` del constructor compacto.
+2. Rechazá los negativos: `kilos < 0`.
+3. Tocá **Ejecutar**. Tiene que salir `Rechazada: kilos negativos: -5`.
 
 #### Código inicial
 ```java
@@ -2256,6 +2360,11 @@ Una interfaz `sealed … permits Caja, Barril` solo deja que la implementen esas
 
 #### Desafío
 Completá el `instanceof` con patrón: si es un `Barril`, llamalo `barril`.
+
+#### Pasos
+1. Hay un `___` después de `instanceof`.
+2. Poné el tipo y el nombre de la variable: `Barril barril`.
+3. Tocá **Ejecutar**. Tiene que salir `barril de 200 litros`.
 
 #### Código inicial
 ```java
@@ -2351,6 +2460,11 @@ Un **bloque de texto** empieza y termina con tres comillas (`"""`) y respeta los
 #### Desafío
 Completá el método que completa los `%s` y `%d` del bloque.
 
+#### Pasos
+1. Hay un `___` después del bloque de texto.
+2. El método que completa los `%s` y `%d` es `formatted`.
+3. Tocá **Ejecutar**. Tiene que salir `Barcaza perdida: Ceibo`.
+
 #### Código inicial
 ```java
 public class Informe {
@@ -2428,6 +2542,15 @@ Ordená la lista de tres formas, **solo con comparadores encadenados** (sin escr
 **Para superarla:**
 - Usa `comparing`, `thenComparing`, `reverseOrder` o `reversed` y `nullsLast`.
 - No hay ningún `compare` escrito a mano.
+
+#### Pasos
+1. Dentro de la clase: `record Jugador(String nombre, String equipo, int puntos, int goles, Integer edad) { }`.
+2. Un método `mostrar(String titulo, List<Jugador> jugadores)`: el título con `":"` y cada uno con `printf("  %-6s %-6s %3d pts %3d goles  edad %s%n", ...)`. Si la edad es `null`, mostrá `"?"`.
+3. En el `main`: la lista con los 6 jugadores (copialos de la salida) en un `new ArrayList<>(List.of(...))`.
+4. Ranking: `Comparator.comparingInt(Jugador::puntos).reversed().thenComparing(Jugador::goles, Comparator.reverseOrder()).thenComparing(Jugador::nombre)`.
+5. Por equipo: `Comparator.comparing(Jugador::equipo).thenComparing(Jugador::nombre, Comparator.reverseOrder())`.
+6. Por edad: `Comparator.comparing(Jugador::edad, Comparator.nullsLast(Comparator.naturalOrder()))`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -2540,6 +2663,15 @@ monto negativo se rechaza.
 **Para superarla:**
 - La interfaz es `sealed` con `permits` y los `record` validan en el constructor compacto.
 - Usa `instanceof` con patrón, sin casteos.
+
+#### Pasos
+1. Dentro de la clase: `sealed interface Movimiento permits Deposito, Extraccion, Transferencia { }`.
+2. Tres `record` que `implements Movimiento`: `Deposito(double monto)`, `Extraccion(double monto)` y `Transferencia(String destino, double monto)`. En cada constructor compacto, si `monto <= 0`, `throw new IllegalArgumentException(...)`; la transferencia, además, revisa el destino vacío. Copiá los mensajes de la salida.
+3. `static double aplicar(double saldo, Movimiento m)`: con `instanceof Deposito d` suma, con `instanceof Extraccion e` resta y con `instanceof Transferencia t` resta `t.monto() * 1.01`.
+4. `static String describir(Movimiento m)`: igual, devolviendo `"Depósito de " + d.monto()`, `"Extracción de " + ...` y `"Transferencia a " + t.destino() + " de " + t.monto()`.
+5. En el `main`: `Locale.setDefault(Locale.US);`, la lista (depósito 2500, extracción 4000, transferencia a Ana 3000, depósito 800) y `saldo = 10000`. Mostrá cada uno con `printf("%-32s saldo: %10.2f%n", ...)`.
+6. Dos `try`: `new Extraccion(-50)` y `new Transferencia(" ", 100)`, con `"Rechazado: " + e.getMessage()`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -2680,6 +2812,14 @@ vehículo de una lista con un **bloque de texto** y `formatted`.
 **Para superarla:**
 - El `switch` devuelve el valor y no tiene `default`.
 - Usa `yield` en el caso de la camioneta y un bloque de texto para el ticket.
+
+#### Pasos
+1. Dentro de la clase: `enum Vehiculo { AUTO, MOTO, CAMIONETA, BICI }` y `record Estadia(String patente, Vehiculo vehiculo, int horas) { }`.
+2. `static int tarifa(Vehiculo v, int horas)` → `return switch (v) { ... };` sin `default`: `AUTO -> horas * 1200`, `MOTO -> horas * 600` y `BICI -> 0`.
+3. `CAMIONETA -> {` con `int cobradas = Math.max(horas, 2);` y `yield cobradas * 1800;` `}`.
+4. En el `main`: las cuatro estadías (copialas de la salida).
+5. Por cada una, `System.out.print("""...""".formatted(...))` con el ticket: el borde `+----------------------+`, `| Patente: %-11s |`, `| %-9s %4d h     |` y `| Total: $%-12d |`.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -3143,6 +3283,11 @@ Un **Singleton** tiene el constructor `private`: nadie puede hacer `new` desde a
 #### Desafío
 Ejecutalo, leé el error y cambiá el `new` por la capitanía oficial.
 
+#### Pasos
+1. El constructor de `Capitania` es privado: no se puede usar `new`.
+2. Cambiá `new Capitania()` por `Capitania.get()`.
+3. Tocá **Ejecutar**. Tiene que salir `Misma capitanía: true`.
+
 #### Código inicial
 ```java
 public class UnaSola {
@@ -3227,6 +3372,11 @@ Una **Factory** es un método que recibe el pedido y devuelve el objeto, del tip
 
 #### Desafío
 Completá el caso que falta: el tipo "pesca" arma un `Pesquero`.
+
+#### Pasos
+1. Hay un `___` antes del `default`.
+2. Agregá el caso: `case "pesca" -> new Pesquero();`.
+3. Tocá **Ejecutar**. Tiene que salir `pesca -> pesquero con redes`.
 
 #### Código inicial
 ```java
@@ -3336,6 +3486,11 @@ Cada forma de calcular es una clase que implementa `Recargo`. La `Aduana` no pre
 #### Desafío
 Completá el `return` de `RecargoFeria`.
 
+#### Pasos
+1. Hay un `___` en el `return` de `RecargoFeria`.
+2. Los primeros 3 días son gratis; después, 10 por día: `dias <= 3 ? 0 : (dias - 3) * 10`.
+3. Tocá **Ejecutar**. Tiene que salir `Feria, 5 días: 20`.
+
 #### Código inicial
 ```java
 public class Feria {
@@ -3442,6 +3597,11 @@ Como `Recargo` tiene **un solo** método, cualquier lambda `dias -> …` sirve c
 #### Desafío
 Completá la lambda del recargo de la crecida: 5 por día.
 
+#### Pasos
+1. Hay un `___` después de `dias ->`.
+2. 5 por día: `dias * 5`.
+3. Tocá **Ejecutar**. Tiene que salir `Crecida, 4 días: 20`.
+
 #### Código inicial
 ```java
 public class Crecida {
@@ -3538,6 +3698,14 @@ En el `main`, creá los muelles **norte** y **sur**, hacé zarpar a `Barcaza 1` 
 **Para superarla:**
 - `Capitania` tiene el constructor `private` y se obtiene solo con `get()`.
 - Los muelles no reciben la capitanía por parámetro: la piden con `get()`.
+
+#### Pasos
+1. Abajo: `final class Capitania {` con `private static final Capitania INSTANCIA = new Capitania();`, `private int zarpadas;` y `private String ultima = "ninguna";`.
+2. `private Capitania() { }` y `static Capitania get() { return INSTANCIA; }`.
+3. `registrar(String muelle, String barco)` → `zarpadas++;` y `ultima = barco + " desde el muelle " + muelle;`. Getters `zarpadas()` y `ultima()`.
+4. `class Muelle {` con `nombre` y `zarpa(String barco)` → `Capitania.get().registrar(nombre, barco);` y `barco + " zarpa del muelle " + nombre`.
+5. En el `main`: los muelles norte y sur, las tres zarpadas y los tres renglones finales (copialos de la salida). El último: `(Capitania.get() == Capitania.get())`.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -3643,6 +3811,14 @@ resultado con `printf("%-9s -> …")`, sin que el programa se corte con el últi
 **Para superarla:**
 - El `main` solo conoce la interfaz `Barco` y la `Fabrica`: no hace `new Barcaza()` ni pregunta tipos.
 - El tipo desconocido se maneja con la excepción, sin cortar el programa.
+
+#### Pasos
+1. Abajo: `interface Barco {` con `String nombre();` e `int capacidad();`.
+2. Tres `record` que la implementan: `Barcaza()` (`"Barcaza"`, 120), `Velero()` (`"Velero"`, 10) y `Pesquero()` (`"Pesquero"`, 30), con `public String nombre()` y `public int capacidad()`.
+3. `class Fabrica {` con `static Barco crear(String tipo)` → `return switch (tipo) { case "carga" -> new Barcaza(); case "rapido" -> new Velero(); case "pesca" -> new Pesquero(); default -> throw new IllegalArgumentException("el astillero no arma «" + tipo + "»"); };`.
+4. En el `main`: `for (String pedido : List.of("carga", "rapido", "pesca", "submarino"))` con un `try`: `Barco b = Fabrica.crear(pedido);` y `printf("%-9s -> %s (capacidad %d)%n", ...)`.
+5. En el `catch (IllegalArgumentException e)`: `printf("%-9s -> %s%n", pedido, e.getMessage())`.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -3755,6 +3931,14 @@ estrategia, cambiándola en la **misma** aduana.
 **Para superarla:**
 - `Aduana` no tiene ningún `if` ni `switch` sobre el tipo de recargo: delega en la estrategia.
 - Se usa una sola `Aduana` y se cambia la estrategia con `setRecargo`.
+
+#### Pasos
+1. Abajo: `interface Recargo { int calcular(int dias); }`.
+2. `RecargoNormal` → `dias * 10`. `RecargoFeria` → `dias <= 3 ? 0 : (dias - 3) * 10`. `RecargoNocturno` → `dias == 0 ? 0 : 20 + dias * 15`.
+3. `class Aduana {` con `private Recargo recargo;`, el constructor, `setRecargo(Recargo recargo)` y `int recargo(int dias)` → `return recargo.calcular(dias);`.
+4. Un método `mostrar(Aduana aduana, String nombre)`: `"Recargo " + nombre + ":"` y, para 0, 3 y 10 días, `printf("  %2d días -> %d denarios%n", ...)`.
+5. En el `main`: una sola `new Aduana(new RecargoNormal())`, `mostrar(aduana, "normal")`, cambiá a feria con `setRecargo`, mostrá, cambiá a nocturno y mostrá.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -4215,6 +4399,11 @@ Un `Thread` corre una tarea en paralelo: `new Thread(() -> …)` y `start()`. `j
 #### Desafío
 Completá el método que espera a que cada esclusa termine.
 
+#### Pasos
+1. Hay un `___` en `t.___()`.
+2. Para esperar a que un hilo termine: `join`.
+3. Tocá **Ejecutar**. Tiene que salir `Total del día: 400`.
+
 #### Código inicial
 ```java
 public class Esclusas {
@@ -4301,6 +4490,11 @@ Un `ExecutorService` es un capataz con hilos fijos: `Executors.newFixedThreadPoo
 #### Desafío
 Completá el método del recibo que espera y devuelve el resultado.
 
+#### Pasos
+1. Hay un `___` en `f.___()`.
+2. El método que espera y devuelve el resultado es `get`.
+3. Tocá **Ejecutar**. Tienen que salir los tres peajes.
+
 #### Código inicial
 ```java
 import java.util.ArrayList;
@@ -4381,6 +4575,11 @@ Las dos esclusas anotan en el **mismo** contador. Al final del día, faltan barc
 
 #### Desafío
 Completá la palabra que hace que `sumar` atienda de a un hilo por vez.
+
+#### Pasos
+1. Hay un `___` antes de `void sumar()`.
+2. Para que entre un hilo por vez: `synchronized`.
+3. Tocá **Ejecutar**. Tiene que salir `Barcazas contadas: 200000`.
 
 #### Código inicial
 ```java
@@ -4478,6 +4677,11 @@ Para reparar la esclusa grande hacen falta dos presupuestos: el de la madera y e
 #### Desafío
 Completá el método que combina los dos presupuestos.
 
+#### Pasos
+1. Hay un `___` en `madera.___(piedras, Integer::sum)`.
+2. Para combinar dos resultados: `thenCombine`.
+3. Tocá **Ejecutar**. Tiene que salir `200 denarios`.
+
 #### Código inicial
 ```java
 import java.util.concurrent.CompletableFuture;
@@ -4551,6 +4755,15 @@ Mostrá los dos resultados y si coinciden.
 **Para superarla:**
 - Las tareas no comparten datos: cada una devuelve su resultado y se combinan al final.
 - Los dos cálculos coinciden y el pool se cierra.
+
+#### Pasos
+1. Dentro de la clase: `record Venta(String sucursal, long monto) { }` y `static final String[] SUCURSALES = {"Centro", "Norte", "Sur", "Este", "Oeste"};`.
+2. `main` con `throws InterruptedException, ExecutionException`. Generá las ventas con `Random azar = new Random(42);`: 200 000 veces `new Venta(SUCURSALES[azar.nextInt(SUCURSALES.length)], 100 + azar.nextInt(49_901))`.
+3. `static Map<String, Long> totales(List<Venta> ventas)`: un `TreeMap` y `t.merge(v.sucursal(), v.monto(), Long::sum)` por cada venta.
+4. Secuencial: `totales(ventas)` y `"Secuencial:  " + secuencial` (con dos espacios).
+5. Concurrente: `Executors.newFixedThreadPool(4)`. Partí en 4 con `subList` (la última llega hasta el final) y agregá `() -> totales(parte)` a una lista de `Callable`.
+6. `pool.invokeAll(partes)` y, por cada `Future`, `f.get().forEach((s, m) -> concurrente.merge(s, m, Long::sum));`. Después `pool.shutdown();`.
+7. Mostrá `"Concurrente: "` y `"¿Coinciden? " + secuencial.equals(concurrente)`. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -4669,6 +4882,15 @@ no alcanza si el "preguntar" y el "descontar" van separados.
 **Para superarla:**
 - La venta es atómica: nunca se venden más de 1000 entradas.
 - Vendidas + rechazadas = 1600 pedidos.
+
+#### Pasos
+1. Dentro de la clase: `static class Boleteria {` con `disponibles` y `vendidas`.
+2. `synchronized boolean vender(int cantidad)`: si `disponibles < cantidad`, `false`. Si no, restá, sumá a `vendidas` y `true`. Arriba, el comentario sobre `AtomicInteger`: preguntar y descontar serían dos pasos separados.
+3. `synchronized int vendidas()`.
+4. En el `main` (con `throws`): `new Boleteria(1000)`, un pool de 8 y 8 `Callable<Integer>` que intentan `vender(1)` 200 veces y devuelven cuántas fueron rechazadas.
+5. `pool.invokeAll(...)`, sumá los rechazos y `pool.shutdown();`.
+6. Mostrá `"Vendidas: "`, `"Rechazadas: "`, `"Pedidos: "` (la suma) y `"¿Sobreventa? " + (boleteria.vendidas() > 1000)`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -4804,6 +5026,15 @@ Mostrá el presupuesto y medí el tiempo total: tiene que ser cercano a 300 ms y
 **Para superarla:**
 - Las consultas corren a la vez (el tiempo total es el de la más lenta).
 - Usa `thenApply`, `thenCombine` y `exceptionally`.
+
+#### Pasos
+1. Un método `static double servicio(String nombre, double valor)`: `Thread.sleep(300)` (con su `try`/`catch`). Si `valor < 0`, `throw new IllegalStateException("el servicio de " + nombre + " no responde");`. Si no, devolvé el valor.
+2. En el `main`: `Locale.setDefault(Locale.US);` y `long inicio = System.nanoTime();`.
+3. Cuatro `CompletableFuture.supplyAsync(...)`: pasaje (95 000), hotel (28 000, con `.thenApply(noche -> noche * 4)`), dólar (1250) y seguro (-1, con `.exceptionally(e -> 0.0)`).
+4. `enPesos = pasaje.thenCombine(hotel, Double::sum).thenCombine(seguro, Double::sum)`, `total = enPesos.join()` y `enDolares = enPesos.thenCombine(dolar, (p, d) -> p / d).join()`.
+5. Calculá los ms y mostrá los cuatro `printf` con `%.2f` (copialos de la salida).
+6. Al final: si `ms < 1000`, `"Las consultas corrieron a la vez (menos de un segundo)"`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -5268,6 +5499,11 @@ Cada línea se convierte en un `Resultado`: un `Valido` con la barcaza o un `Rec
 #### Desafío
 Completá el `Rechazado` con la línea y el motivo "le falta el ;".
 
+#### Pasos
+1. Hay un `___` en el `return` del `if`.
+2. Creá el rechazado con la línea y el motivo: `new Rechazado(linea, "le falta el ;")`.
+3. Tocá **Ejecutar**. Tiene que salir `Rechazado[linea=Ceibo, motivo=le falta el ;]`.
+
 #### Código inicial
 ```java
 import java.util.List;
@@ -5366,6 +5602,11 @@ El Leviatán devuelve informes que nadie entiende. Zed le contesta con uno que *
 #### Desafío
 Completá el colector que suma la carga de cada grupo.
 
+#### Pasos
+1. Hay un `___` en `Collectors.___(Barcaza::carga)`.
+2. Para sumar enteros: `summingInt`.
+3. Tocá **Ejecutar**. Tiene que salir `Delta: 130`.
+
 #### Código inicial
 ```java
 import java.util.List;
@@ -5439,6 +5680,11 @@ El Leviatán pregunta, con voz de agua: **¿cuál es la barcaza más cargada que
 
 #### Desafío
 Completá el comparador del `max`: por carga.
+
+#### Pasos
+1. Hay un `___` en `comparingInt(___)`.
+2. Compará por carga: `Barcaza::carga`.
+3. Tocá **Ejecutar**. Tiene que salir `Torre: ninguna`.
 
 #### Código inicial
 ```java
@@ -5526,6 +5772,11 @@ Cada mitad se procesa en su tarea (`pool.submit`) y devuelve su suma; nadie toca
 
 #### Desafío
 Completá la suma de las dos mitades con sus recibos.
+
+#### Pasos
+1. Hay un `___` en `int enParalelo = ___;`.
+2. Sumá los resultados de los dos recibos: `a.get() + b.get()`.
+3. Tocá **Ejecutar**. Tiene que salir `Iguales: true`.
 
 #### Código inicial
 ```java
@@ -5631,6 +5882,17 @@ por motivos distintos). Programá un analizador que:
 - Ninguna línea se pierde: válidas + rechazadas = total.
 - Usa la jerarquía sellada, `Collectors`, `Optional` y el pool; la versión en paralelo da lo mismo.
 - Sin bucles donde alcanza un stream, sin `null` ni `Optional.get()`.
+
+#### Pasos
+1. Dentro de la clase, los tipos: `sealed interface Lectura permits Valida, Rechazada { }`, `record Valida(Venta venta) implements Lectura { }` y `record Rechazada(int linea, String motivo) implements Lectura { }`.
+2. `record Venta(String fecha, String sucursal, String producto, int cantidad, double precio)`: en el constructor compacto, rechazá sucursal vacía, cantidad no positiva y precio no positivo (copiá los mensajes de la salida). Agregá `total()` y `toString` con `String.format("%s %s %d x %s = %.2f", ...)`.
+3. `DATOS` con un bloque de texto de 16 líneas (copialo de la solución para que dé la salida esperada).
+4. `leer(int numero, String linea)`: `split(";", -1)`; si no son 5, `Rechazada(numero, "faltan campos (" + c.length + " de 5)")`. Si no, intentá crear la `Valida`. Con `NumberFormatException`, `"número inválido: " + c[3]`; con `IllegalArgumentException`, `e.getMessage()`.
+5. `leerTodas(lineas, desplazamiento)` y `validas(lecturas)` (con `instanceof Valida v`). En el `main`: el total, las rechazadas con `"  línea " + r.linea() + ": " + r.motivo()`.
+6. Informes con `groupingBy`: facturación (`summingDouble(Venta::total)`), unidades (`summingInt`), el más vendido (`max(Map.Entry.comparingByValue())`) y el mayor ticket (`averagingDouble`).
+7. `masCara(ventas, producto)` y `primera(ventas, sucursal, fecha)` devuelven `Optional`. Mostralas con `map(...)` y `orElse("no hay")`.
+8. Paralelo: un pool de 3, tres partes con `subList` y `leerTodas(parte, desde)`. Juntalas y mostrá `"¿En paralelo coincide? " + enParalelo.equals(lecturas)`.
+9. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java

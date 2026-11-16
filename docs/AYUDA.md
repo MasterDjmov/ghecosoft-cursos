@@ -60,7 +60,7 @@ Si el alumno **falla 2 veces** o pasan **3 minutos sin ejecutar** con el desafí
    - Cómo se escriben: 2 a 6 pasos numerados, una acción por paso; nombrar la línea como se ve en el editor (`printf(…)`, «el primer `___`»); decir qué escribir y dónde; terminar con «Tocá **Ejecutar**» y qué tiene que salir. Sin historia ni metáforas.
    - Hechos: C (71), Python (88), Java (70), PHP (66), Ensamblador (62), C++ (61), JS (59), HTML (56) y C# (50): los 9 cursos, 583 micro-misiones (2026-11-15). Falta: las ayudas en *Admin → Estadísticas*.
 3. **Modo enfoque.**
-4. **Pasos del resto de los nodos**, curso por curso. Hechos enteros: C (254), Python (196), Java (260), PHP (228), Ensamblador (192) y C++ (273) (2026-11-16). Faltan JS 154, HTML 83 y C# 237.
+4. **Pasos del resto de los nodos**, curso por curso. Hechos enteros: C (254), Python (196), Java (260), PHP (228), Ensamblador (192) , C++ (273) y JavaScript (2026-11-16). Faltan HTML 83 y C# 237.
 
 Se frena al final de cada fase para que el docente lo pruebe con sus alumnos.
 
@@ -76,6 +76,6 @@ Estado (2026-11-15, noche): fase 1 en producción. Fase 2: Pasos de los 10 prime
 3. Frenar para que el docente pruebe (C hecho: falta su OK). Luego los demás cursos. Herramientas: `python3 scripts/ayuda/ver.py cursos/c R01-N02` muestra desafío/inicial/solución/salida de las que no tienen Pasos y `python3 scripts/ayuda/poner.py cursos/c pasos.txt` (bloques `@@ CODIGO` + texto) los inserta (10 primeros nodos de cada uno: Python 88, Java 70, PHP 66, Ensamblador 62, C++ 61, JS 59, HTML 56, C# 50 micro-misiones).
 4. Las ayudas en *Admin → Estadísticas* (tabla `step_helps`, `StepHelp::KINDS`; hoy solo salen en el Recorrido del alumno, `StudentJourney::helpSummary`).
 5. Fase 3: modo enfoque (§ 3).
-6. Fase 4 (resto de los nodos, pedida el 2026-11-15): C, Python, Java, PHP, Ensamblador y C++ completos. Seguir curso por curso con `python3 scripts/ayuda/ver.py --diff cursos/<curso> R S` (sin Pasos) y `poner.py`; importar y commitear por capítulo.
+6. Fase 4 (resto de los nodos, pedida el 2026-11-15): C, Python, Java, PHP, Ensamblador, C++ y JavaScript completos. Seguir curso por curso con `python3 scripts/ayuda/ver.py --diff cursos/<curso> R S` (sin Pasos) y `poner.py`; importar y commitear por capítulo.
 
 Prueba en el navegador: `NODE_URL=/cursos/python/nodos/1 node scripts/ayuda/probar.mjs` con `php artisan serve --port=8123`.

@@ -145,6 +145,11 @@ Mostrala como `Nima: nivel 4, inventario: soga, brújula, pan`.
 
 Mostrá la ficha de Nima.
 
+#### Pasos
+1. `FICHAS[0]` no es Nima. Buscala por nombre: `const ficha = FICHAS.find((f) => f.heroe === 'Nima');`.
+2. Sumá el inventario al texto: ``, inventario: ${ficha.inventario.join(', ')}``.
+3. Tocá **Ejecutar**. Tiene que salir `Nima: nivel 4, inventario: soga, brújula, pan`.
+
 #### Código inicial
 ```javascript
 const FICHAS = [
@@ -206,6 +211,11 @@ El `length` del resultado dice cuántos son.
 
 #### Desafío
 `Del Valle (3): Sila, Nima, Mia`.
+
+#### Pasos
+1. `find` devuelve solo la primera. Para todas: `const delValle = FICHAS.filter((f) => f.region === 'Valle');`.
+2. Mostrá: ``console.log(`Del Valle (${delValle.length}): ${delValle.map((f) => f.heroe).join(', ')}`);``.
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```javascript
@@ -279,6 +289,12 @@ alumnos.every((a) => a.nota >= 4);     // ¿aprobaron todos?
 
 Tres renglones: `¿Alguno de nivel 1? sí`, `¿Todos con región? no` y `¿Todos con nivel? sí`.
 
+#### Pasos
+1. ¿Alguno?: cambiá `FICHAS[0].nivel === 1` por `FICHAS.some((f) => f.nivel === 1)`.
+2. ¿Todos con región?: ``console.log(`¿Todos con región? ${siNo(FICHAS.every((f) => f.region !== undefined))}`);``.
+3. ¿Todos con nivel?: ``console.log(`¿Todos con nivel? ${siNo(FICHAS.every((f) => f.nivel > 0))}`);``.
+4. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```javascript
 const FICHAS = [
@@ -347,6 +363,11 @@ alumnos.find((a) => a.nombre === 'Zoe')?.nota ?? 'sin nota'
 `nivelDe(nombre)` devuelve el nivel de ese héroe, o `'no está en el Archivo'` si no hay ficha con ese nombre, sin romper.
 
 Que muestre las tres, aunque una falte.
+
+#### Pasos
+1. Si `find` no encuentra, devuelve `undefined` y `.nivel` rompe.
+2. Usá `?.` y `??`: `return FICHAS.find((f) => f.heroe === nombre)?.nivel ?? 'no está en el Archivo';`.
+3. Tocá **Ejecutar**. Tiene que salir `Zed: no está en el Archivo`.
 
 #### Código inicial
 ```javascript
@@ -420,6 +441,11 @@ Conviene una función `limpio(texto)` que haga las dos cosas. `includes` (R01) d
 La búsqueda no distingue mayúsculas ni acentos, y encuentra los nombres que **contienen** lo buscado.
 
 Que `tizon` encuentre a Tizón y `ni` encuentre a Nilo y a Nima.
+
+#### Pasos
+1. Arriba de `buscar`, una función que saca acentos y mayúsculas: `const limpio = (texto) => texto.normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase();`.
+2. En `buscar`, compará los dos limpios: `limpio(f.heroe).includes(limpio(texto))`.
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```javascript
@@ -593,6 +619,11 @@ edades.sort((a, b) => a - b);   // de menor a mayor
 #### Desafío
 `Niveles: 1, 2, 4, 9, 10`.
 
+#### Pasos
+1. `sort()` sin nada ordena como texto: `'10'` va antes que `'9'`.
+2. Pasale la resta: `niveles.sort((a, b) => a - b);`.
+3. Tocá **Ejecutar**. Tiene que salir `Niveles: 1, 2, 4, 9, 10`.
+
 #### Código inicial
 ```javascript
 const niveles = [9, 1, 10, 4, 2];
@@ -642,6 +673,10 @@ frutas.sort((a, b) => a.localeCompare(b, 'es'));
 
 #### Desafío
 Que Ámbar quede primero y Ñandú entre Nima y Teo.
+
+#### Pasos
+1. Para ordenar en castellano: `nombres.sort((a, b) => a.localeCompare(b, 'es'));`.
+2. Tocá **Ejecutar**. Tiene que salir `Ámbar · Elefa · Kira · Nima · Ñandú · Teo`.
 
 #### Código inicial
 ```javascript
@@ -696,6 +731,11 @@ Se lee: «por nota, de mayor a menor; si empatan, por nombre».
 Ordená por nivel, de mayor a menor, y si empatan, por nombre. Cada ficha se muestra como `7 · Sila`.
 
 Nilo y Nima tienen nivel 4: tiene que quedar primero Nilo.
+
+#### Pasos
+1. Si los niveles empatan, la resta da 0: ahí desempatá por nombre con `||`.
+2. Escribí `FICHAS.sort((a, b) => b.nivel - a.nivel || a.heroe.localeCompare(b.heroe, 'es'));`.
+3. Tocá **Ejecutar**. Nilo tiene que quedar antes que Nima.
 
 #### Código inicial
 ```javascript
@@ -770,6 +810,11 @@ La lista por nombre se arma **sin cambiar** `FICHAS`, que tiene que seguir en el
 
 `Por nombre: …` y `Como llegaron: …`, cada una en su renglón.
 
+#### Pasos
+1. `sort` cambia la lista original. `toSorted` devuelve una copia ordenada.
+2. Cambiá `FICHAS.sort(` por `FICHAS.toSorted(`.
+3. Tocá **Ejecutar**. `Como llegaron` tiene que seguir en el orden original.
+
 #### Código inicial
 ```javascript
 const FICHAS = [
@@ -836,6 +881,10 @@ podio.map((a, i) => `${i + 1}. ${a.nombre}`)
 Los tres de nivel más alto, numerados como `1. Tesela (9)`, sin cambiar la lista original.
 
 El podio del Archivo.
+
+#### Pasos
+1. Primero ordená una copia de mayor a menor y después cortá: `const podio = FICHAS.toSorted((a, b) => b.nivel - a.nivel).slice(0, 3);`.
+2. Tocá **Ejecutar**. Tiene que salir `1. Tesela (9)`.
 
 #### Código inicial
 ```javascript
@@ -1013,6 +1062,11 @@ Cada región en su renglón, como `Valle: 3`.
 
 Las cuentas, en el orden en que aparecen las regiones.
 
+#### Pasos
+1. La primera vez, `c[f.region]` es `undefined` y `undefined + 1` da `NaN`.
+2. Empezá en 0: `c[f.region] = (c[f.region] ?? 0) + 1;`.
+3. Tocá **Ejecutar**. Tiene que salir `Valle: 3`.
+
 #### Código inicial
 ```javascript
 const FICHAS = [
@@ -1089,6 +1143,11 @@ colores.size;      // cuántos distintos
 #### Desafío
 `4 regiones: Valle, Forjas, Puerto, Talleres`.
 
+#### Pasos
+1. Un `Set` guarda cada región una sola vez. Pasalo a lista con `[...]`.
+2. Escribí `const regiones = [...new Set(FICHAS.map((f) => f.region))];`.
+3. Tocá **Ejecutar**. Tiene que salir `4 regiones: Valle, Forjas, Puerto, Talleres`.
+
 #### Código inicial
 ```javascript
 const FICHAS = [
@@ -1160,6 +1219,12 @@ for (const a of autos) {
 Cada región con la lista de sus héroes, como `Valle → Mia, Nima, Sila`.
 
 Los cuatro cajones.
+
+#### Pasos
+1. `grupos[f.region] = [f.heroe];` pisa la lista cada vez.
+2. Creala solo si no existe: `grupos[f.region] ??= [];`.
+3. Y sumá el héroe: `grupos[f.region].push(f.heroe);`.
+4. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```javascript
@@ -1241,6 +1306,11 @@ El promedio de nivel de cada región, con un decimal, como `Valle: 5.3`.
 
 Los promedios de las tres regiones.
 
+#### Pasos
+1. En el lugar vacío: `datos[f.region].suma += f.nivel;` y `datos[f.region].cantidad++;`.
+2. Al mostrar, dividí y dejá un decimal: ``${(d.suma / d.cantidad).toFixed(1)}``.
+3. Tocá **Ejecutar**. Tiene que salir `Valle: 5.3`.
+
 #### Código inicial
 ```javascript
 const FICHAS = [
@@ -1321,6 +1391,11 @@ La desestructuración en los parámetros saca la clave y el valor de cada par. P
 Cuántas fichas hay de cada región, de la que más tiene a la que menos (si empatan, por nombre), como `Valle ··· 3`.
 
 El cartel ordenado.
+
+#### Pasos
+1. Pasá el objeto a lista y ordenala: `const cartel = Object.entries(cuenta).sort(([ra, a], [rb, b]) => b - a || ra.localeCompare(rb, 'es'));`.
+2. En el `for`, recorré `cartel` en lugar de `Object.entries(cuenta)`.
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```javascript
@@ -1518,6 +1593,13 @@ const apodo = f.apodo?.trim() || 'Sin apodo';
 
 Las tres fichas, limpias.
 
+#### Pasos
+1. Devolvé un objeto nuevo: `return { id: f.id, heroe: ..., region: ..., nivel: ... };`.
+2. `heroe: f.heroe.trim(),`.
+3. `region: f.region?.trim() || 'Sin región',` (el `?.` aguanta que falte y el `||` cubre el texto vacío).
+4. `nivel: Number(f.nivel),`.
+5. Tocá **Ejecutar**. Los tres niveles tienen que decir `(number)`.
+
 #### Código inicial
 ```javascript
 const SUCIAS = [
@@ -1599,6 +1681,11 @@ Sacá las repetidas por `id`: de cada `id` queda la **última** que aparece.
 
 `De 7 quedan 4: Mia, Kira, Nilo, Sila`.
 
+#### Pasos
+1. Un `Map` con el `id` como clave se queda con la última de cada `id`.
+2. Escribí `const unicas = [...new Map(FICHAS.map((f) => [f.id, f])).values()];`.
+3. Tocá **Ejecutar**. Tiene que salir `De 7 quedan 4: Mia, Kira, Nilo, Sila`.
+
 #### Código inicial
 ```javascript
 const FICHAS = [
@@ -1662,6 +1749,11 @@ Se pregunta con `Number.isNaN(valor)`, que da `true` si es `NaN`. Y falta revisa
 
 #### Desafío
 Dos renglones: `Sirven: …` y `No sirven: …`.
+
+#### Pasos
+1. `NaN` nunca es igual a nada, ni a sí mismo. Usá `if (Number.isNaN(f.nivel)) return 'nivel ilegible';`.
+2. Agregá `if (f.heroe === '') return 'sin nombre';`.
+3. Tocá **Ejecutar** y compará los dos renglones.
 
 #### Código inicial
 ```javascript
@@ -1748,6 +1840,12 @@ La tabla lleva el título, una línea de 15 guiones y una fila por ficha: el nom
 
 La tabla, ordenada por nivel de mayor a menor.
 
+#### Pasos
+1. Debajo del título: `console.log('-'.repeat(15));`.
+2. Recorré una copia ordenada: `for (const f of FICHAS.toSorted((a, b) => b.nivel - a.nivel))`.
+3. Cada fila: `console.log(f.heroe.padEnd(10, '.') + String(f.nivel).padStart(5));`.
+4. Tocá **Ejecutar** y compará la tabla.
+
 #### Código inicial
 ```javascript
 const FICHAS = [
@@ -1822,6 +1920,14 @@ Con las fichas sucias, armá el `informe` para Sila:
 Mostralo con `JSON.stringify(informe, null, 2)`, con estas claves: `total`, `porRegion`, `fichas` (los nombres en orden) y `paraRehacer` (los `id` que no sirven).
 
 El informe completo.
+
+#### Pasos
+1. `const limpiar = (f) => ({ ... });` igual que en S03-N04-P1.
+2. `const motivo = (f) => (Number.isNaN(f.nivel) ? 'nivel ilegible' : f.heroe === '' ? 'sin nombre' : '');`.
+3. `const limpias = SUCIAS.map(limpiar);` y `const unicas = [...new Map(limpias.map((f) => [f.id, f])).values()];`.
+4. `const sirven = unicas.filter((f) => motivo(f) === '').sort((a, b) => b.nivel - a.nivel || a.heroe.localeCompare(b.heroe, 'es'));`.
+5. En el `informe`: `total: sirven.length`, `porRegion` con un `reduce` que cuenta (como en S03-N03-P1), `fichas: sirven.map((f) => f.heroe)` y `paraRehacer: unicas.filter((f) => motivo(f) !== '').map((f) => f.id)`.
+6. Tocá **Ejecutar** y compará el JSON.
 
 #### Código inicial
 ```javascript

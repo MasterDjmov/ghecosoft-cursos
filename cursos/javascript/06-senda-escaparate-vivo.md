@@ -143,6 +143,11 @@ Cómo se ve el menú abierto ya lo dice el CSS de la página: vos solo ponés y 
 #### Desafío
 Que el click abra el menú (y otro click lo cierre).
 
+#### Pasos
+1. Escuchá el click del botón: `boton.addEventListener('click', () => { ... });`.
+2. Adentro, alterná la clase: `menu.classList.toggle('abierto');`.
+3. Tocá **Ejecutar**. El menú tiene que quedar con la clase `abierto`.
+
 #### Página
 ```html
 <style>
@@ -223,6 +228,12 @@ Los atributos son texto: `String(…)` pasa el `true` a `'true'`. Y el operador 
 
 #### Desafío
 Después de dos clicks, el menú queda cerrado y `aria-expanded` en `false`. Mostrá en `#aviso` el estado: `Menú abierto` o `Menú cerrado`.
+
+#### Pasos
+1. `toggle` devuelve si la clase quedó puesta: `const abierto = menu.classList.toggle('abierto');`.
+2. Usalo en el atributo: `boton.setAttribute('aria-expanded', String(abierto));`.
+3. Y en el aviso: `aviso.textContent = abierto ? 'Menú abierto' : 'Menú cerrado';`.
+4. Tocá **Ejecutar**. Tiene que quedar `#aviso: Menú cerrado`.
 
 #### Página
 ```html
@@ -311,6 +322,11 @@ Cerrar es **sacar** la clase (`classList.remove`), no alternarla: si el menú ya
 
 #### Desafío
 Abrir con el botón y cerrar con Escape.
+
+#### Pasos
+1. Escuchá las teclas en toda la página: `document.addEventListener('keydown', (e) => { ... });`.
+2. Adentro, `if (e.key === 'Escape')`: `menu.classList.remove('abierto');` y `boton.setAttribute('aria-expanded', 'false');`.
+3. Tocá **Ejecutar** y compará con el estado esperado.
 
 #### Página
 ```html
@@ -403,6 +419,13 @@ El botón también hay que excluirlo: si no, su propio click abriría el menú y
 
 #### Desafío
 Abrí el menú, tocá un enlace del menú (sigue abierto) y después tocá el `main` (se cierra). En `#veces` contá cuántas veces se cerró solo.
+
+#### Pasos
+1. Recibí el evento: `document.addEventListener('click', (e) => {`.
+2. Si tocaron el menú o el botón, no hagas nada: `if (e.target.closest('#menu, #menu-boton')) return;`.
+3. Si ya estaba cerrado, tampoco: `if (!menu.classList.contains('abierto')) return;`.
+4. Después de cerrarlo: `boton.setAttribute('aria-expanded', 'false');`, `cerradas++;` y `veces.textContent = cerradas;`.
+5. Tocá **Ejecutar**. Tiene que quedar `#veces: 1`.
 
 #### Página
 ```html
@@ -514,6 +537,13 @@ El `id` de la sección elegida sale del `data-` de la pestaña (`pestania.datase
 Cada pestaña tiene en su `data-panel` el `id` de su sección. Al tocar una, se ve solo su sección (las otras, con `hidden`); la pestaña tocada queda con `aria-selected="true"` y las otras con `"false"`.
 
 Tocar la pestaña «Precios» muestra solo esa sección.
+
+#### Pasos
+1. Recorré las pestañas: `for (const pestania of pestanias)` con un `addEventListener('click', ...)` para cada una.
+2. Adentro: `const elegido = pestania.dataset.panel;`.
+3. Escondé las demás: `for (const panel of paneles) panel.hidden = panel.id !== elegido;`.
+4. Marcá la tocada: `for (const otra of pestanias) otra.setAttribute('aria-selected', String(otra === pestania));`.
+5. Tocá **Ejecutar**. Solo la segunda sección queda visible.
 
 #### Página
 ```html
@@ -709,6 +739,12 @@ Cada miniatura guarda en `data-grande` la dirección de su imagen grande. Al toc
 
 Tocar la tercera miniatura (la luna) la muestra grande.
 
+#### Pasos
+1. Un solo evento para todas: `miniaturas.addEventListener('click', (e) => { ... });`.
+2. Buscá la imagen tocada: `const mini = e.target.closest('img');` y `if (!mini) return;`.
+3. Copiá: `grande.src = mini.dataset.grande;` y `grande.alt = mini.alt;`.
+4. Tocá **Ejecutar**. Tiene que quedar `#grande @src: luna.png`.
+
 #### Página
 ```html
 <style>
@@ -798,6 +834,12 @@ El contador muestra posiciones desde 1, y el índice empieza en 0: sumale uno al
 Las flechas **dan la vuelta**: desde el primero, «anterior» va al último, y desde el último, «siguiente» va al primero. El contador muestra `n / 5`.
 
 Desde el primero, tocá «anterior» y después dos veces «siguiente»: tiene que quedar el segundo vitral (`2 / 5`).
+
+#### Pasos
+1. El contador arranca en 0: mostrá `${actual + 1}` en lugar de `${actual}`.
+2. «Anterior»: `actual = (actual - 1 + vitrales.length) % vitrales.length;`.
+3. «Siguiente»: `actual = (actual + 1) % vitrales.length;`.
+4. Tocá **Ejecutar**. Tiene que quedar `2 / 5`.
 
 #### Página
 ```html
@@ -903,6 +945,12 @@ Solo la miniatura del vitral que se ve tiene la clase `activa`. Tocar una miniat
 
 Tocá «siguiente» y después la quinta miniatura: queda activa solo la quinta.
 
+#### Pasos
+1. En `mostrar`, en lugar de agregar `activa` a una, prendé o apagá todas: `minis.forEach((mini, i) => mini.classList.toggle('activa', i === actual));`.
+2. Al final, escuchá las miniaturas: `document.querySelector('#miniaturas').addEventListener('click', (e) => { ... });`.
+3. Adentro: `const mini = e.target.closest('[data-n]');` y `if (mini) mostrar(Number(mini.dataset.n));`.
+4. Tocá **Ejecutar**. Tiene que haber una sola `.activa`.
+
 #### Página
 ```html
 <style>
@@ -1000,6 +1048,12 @@ Es el `keydown` en el `document` de R02-N04, con las flechas `'ArrowRight'` y `'
 
 Con `←`, `←`, `→`, `a` y `←`, tiene que quedar el cuarto vitral (`4 / 5`).
 
+#### Pasos
+1. Escuchá las teclas: `document.addEventListener('keydown', (e) => { ... });`.
+2. `if (e.key === 'ArrowRight') mostrar(actual + 1);`.
+3. `else if (e.key === 'ArrowLeft') mostrar(actual - 1);` (`mostrar` ya da la vuelta).
+4. Tocá **Ejecutar**. Tiene que quedar `4 / 5`.
+
 #### Página
 ```html
 <style>
@@ -1096,6 +1150,11 @@ El mouse avisa con `'mouseenter'` (entra encima) y `'mouseleave'` (sale). Ojo: s
 La galería pasa sola al siguiente cada 3 segundos, y se frena mientras el mouse está encima: al salir, vuelve a contar 3 segundos desde cero.
 
 Pasan 7 segundos (va por el tercero), el mouse entra y se queda 10 segundos (no cambia), sale y pasan 3 segundos más: queda el cuarto. Al final tiene que haber **un solo** temporizador esperando.
+
+#### Pasos
+1. En `arrancar`, antes del `setInterval`, frená el anterior: `clearInterval(pase);`.
+2. Al entrar el mouse, frená: `galeria.addEventListener('mouseenter', () => clearInterval(pase));`.
+3. Tocá **Ejecutar**. Tiene que quedar `temporizadores: 1`.
 
 #### Página
 ```html
@@ -1298,6 +1357,12 @@ Cada click alterna la clase `oscuro` del `body`. El botón dice `☀ Claro` cuan
 
 Un click: la página queda oscura y el botón dice `☀ Claro`.
 
+#### Pasos
+1. Escuchá el click: `boton.addEventListener('click', () => { ... });`.
+2. Adentro: `const oscuro = document.body.classList.toggle('oscuro');`.
+3. El texto: `boton.textContent = oscuro ? '☀ Claro' : '🌙 Oscuro';`.
+4. Tocá **Ejecutar**. El botón tiene que decir `☀ Claro`.
+
 #### Página
 ```html
 <style>
@@ -1373,6 +1438,11 @@ Conviene una sola función que reciba el tema y haga todo (clase, texto del bot�
 El tema se guarda en `localStorage`, con la clave `tema` (`oscuro` o `claro`), y al cargar la página se aplica el guardado.
 
 Doña Mirta ya lo había elegido oscuro: la página arranca oscura. Ella toca el botón dos veces (claro y otra vez oscuro), y queda guardado `oscuro`.
+
+#### Pasos
+1. En `poner`, guardá: `localStorage.setItem('tema', oscuro ? 'oscuro' : 'claro');`.
+2. Antes del `addEventListener`, aplicá lo guardado: `poner(localStorage.getItem('tema') === 'oscuro');`.
+3. Tocá **Ejecutar**. Tiene que quedar `local tema: oscuro`.
 
 #### Página
 ```html
@@ -1475,6 +1545,12 @@ Al elegir un color, se copia a la variable CSS `--acento` del `<html>` y se mues
 
 Elegir el rojo `#e53935` pinta toda la página.
 
+#### Pasos
+1. Escuchá el selector: `color.addEventListener('input', () => { ... });`.
+2. Adentro: `document.documentElement.style.setProperty('--acento', color.value);`.
+3. Y el código: `codigo.textContent = color.value;`.
+4. Tocá **Ejecutar**. Tiene que salir `#e53935` en los dos.
+
 #### Página
 ```html
 <style>
@@ -1555,6 +1631,11 @@ Una función que reciba el tamaño nuevo y haga todo (limitar, aplicar, mostrar 
 `A+` suma 2 al tamaño de la letra y `A−` resta 2, siempre entre 12 y 24. El tamaño se aplica al `body`, se muestra en `#tamanio` y se guarda con la clave `letra`; al cargar se lee (si no hay nada, 16).
 
 Lucio ya la había puesto en 20. Toca `A+` cuatro veces y `A−` una: queda en 22.
+
+#### Pasos
+1. `localStorage` devuelve texto: `'20' + 2` da `'202'`. Pasalo a número: `let tamanio = Number(localStorage.getItem('letra') ?? 16);`.
+2. En `poner`, encerralo entre 12 y 24: `tamanio = Math.max(12, Math.min(24, nuevo));`.
+3. Tocá **Ejecutar**. Tiene que quedar en 22.
 
 #### Página
 ```html
@@ -1660,6 +1741,12 @@ El `data-tema` del `<html>` se escribe con `document.documentElement.dataset.tem
 El tema elegido en `#elegir` va en el `data-tema` del `<html>` y se guarda con la clave `tema`. Al cargar se aplica el guardado; si no hay ninguno, o es uno que no existe, `claro`.
 
 Alguien había guardado `fucsia` (que no existe): arranca en `claro`. Después elige `vitral`.
+
+#### Pasos
+1. En `poner`, primero validá: `const valido = TEMAS.includes(tema) ? tema : 'claro';`.
+2. Usá `valido` en `dataset.tema` y en `elegir.value`, y guardalo: `localStorage.setItem('tema', valido);`.
+3. Al final: `elegir.addEventListener('change', () => poner(elegir.value));`.
+4. Tocá **Ejecutar**. Tiene que quedar `vitral` en los tres.
 
 #### Página
 ```html
@@ -1871,6 +1958,12 @@ En cada letra que se escribe, `#cuenta` muestra cuántas lleva sobre 140 (`25 / 
 
 Escriben un pedido corto y después uno largo.
 
+#### Pasos
+1. Escuchá lo que escriben: `mensaje.addEventListener('input', () => { ... });`.
+2. Adentro: `const largo = mensaje.value.length;` y ``cuenta.textContent = `${largo} / 140`;``.
+3. La clase: `cuenta.classList.toggle('pasado', largo > 140);`.
+4. Tocá **Ejecutar**. Tiene que quedar `172 / 140` con la clase `pasado`.
+
 #### Página
 ```html
 <style>
@@ -1956,6 +2049,12 @@ function errorEdad(valor) {
 Mientras escriben el correo, `#error-correo` dice `Falta el correo.` si está vacío, `El correo necesita una @.` si no tiene `@`, y nada si está bien. El campo tiene `aria-invalid` en `true` si hay error y en `false` si no.
 
 Escriben `teo` y después `teo@talleres`.
+
+#### Pasos
+1. Completá `errorCorreo`: `if (valor.trim() === '') return 'Falta el correo.';`, `if (!valor.includes('@')) return 'El correo necesita una @.';` y `return '';`.
+2. Debajo, escuchá el campo: `correo.addEventListener('input', () => { ... });`.
+3. Adentro: `const mensaje = errorCorreo(correo.value);`, `error.textContent = mensaje;` y `correo.setAttribute('aria-invalid', String(mensaje !== ''));`.
+4. Tocá **Ejecutar** y compará.
 
 #### Página
 ```html
@@ -2049,6 +2148,12 @@ Con delegación, un solo `input` en el `form` se entera de lo que escriben en **
 El botón `#enviar` está deshabilitado mientras haya errores: el nombre vacío, o el correo sin `@`. Se revisa al empezar y cada vez que escriben en el formulario.
 
 Al empezar el botón está deshabilitado. Escriben el nombre (sigue deshabilitado) y después el correo: se habilita.
+
+#### Pasos
+1. La línea de `enviar.disabled` solo corre una vez. Metela en una función: `function revisar() { enviar.disabled = errores().length > 0; }`.
+2. Llamala al empezar: `revisar();`.
+3. Y cada vez que escriben: `form.addEventListener('input', revisar);`.
+4. Tocá **Ejecutar**. Al final el botón tiene que quedar habilitado.
 
 #### Página
 ```html
@@ -2149,6 +2254,13 @@ Para vaciar todos los campos de una vez, un formulario tiene el método `formula
 Al enviar, la página no se recarga: el pedido se agrega como `<li>` en `#pedidos` (`nombre: mensaje`), `#gracias` dice `¡Gracias, nombre!` y el formulario queda vacío.
 
 Doña Mirta manda un pedido.
+
+#### Pasos
+1. Recibí el evento y frená la recarga: `form.addEventListener('submit', (e) => { e.preventDefault(); ... });`.
+2. Creá el `<li>`: `const li = document.createElement('li');`, ``li.textContent = `${nombre.value}: ${mensaje.value}`;`` y `document.querySelector('#pedidos').append(li);`.
+3. Agradecé: ``document.querySelector('#gracias').textContent = `¡Gracias, ${nombre.value}!`;``.
+4. Vaciá el formulario: `form.reset();`.
+5. Tocá **Ejecutar** y compará.
 
 #### Página
 ```html
@@ -2251,6 +2363,15 @@ Las reglas: el nombre no puede estar vacío; el correo necesita una `@` y algo d
 En cada letra que se escribe, cada campo muestra su error en su `#error-…` (o nada si está bien), con `aria-invalid`, y `#enviar` está deshabilitado si hay alguno. Al enviar, no se recarga: se agradece y el formulario queda vacío, con el botón deshabilitado otra vez.
 
 Escriben un correo sin arroba, lo corrigen, completan todo y lo mandan. Enseguida, Bengala empieza otro pedido con un correo a medias.
+
+#### Pasos
+1. En `errores`, devolvé el texto de cada error o `''`: `'Falta el nombre.'`; para el correo, `'El correo necesita una @.'` o `'Falta lo que va después de la @.'` (si termina en `@`); para el mensaje, `'El pedido necesita al menos 10 letras.'` o `'El pedido se pasa de 140 letras.'`.
+2. Guardá qué campos ya tocaron: `let tocados = new Set();`. Solo esos muestran su error.
+3. `function revisar()`: para cada `[nombre, error]` de `Object.entries(errores())`, poné el error (si está en `tocados`) en ``#error-${nombre}`` y en su `aria-invalid`; después `enviar.disabled` si hay alguno no vacío.
+4. En el `input` del formulario: `tocados.add(e.target.id);` y `revisar();`.
+5. En el `submit`: `e.preventDefault();`, ``¡Gracias, ${campos.nombre.value}! Tu pedido va para los Talleres.`` en `#gracias`, `form.reset();`, `tocados = new Set();` y `revisar();`.
+6. Al final, `revisar();` para empezar con el botón deshabilitado.
+7. Tocá **Ejecutar** y copiá los textos del estado esperado.
 
 #### Página
 ```html

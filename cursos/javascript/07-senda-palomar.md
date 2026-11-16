@@ -135,6 +135,11 @@ Los mensajes están en `/puerto/mensajes`. Cada uno va en un `<li>` de `#mensaje
 
 Que se vean los mensajes del Palomar.
 
+#### Pasos
+1. Pedí la lista: `const respuesta = await fetch('/puerto/mensajes');` y `const mensajes = await respuesta.json();`.
+2. `for (const m of mensajes)`: creá un `li`, ``li.textContent = `${m.de}: ${m.texto}`;`` y `lista.append(li);`.
+3. Tocá **Ejecutar**. Tienen que aparecer los mensajes de Sila y Tizón.
+
 #### Página
 ```html
 <style>
@@ -210,6 +215,11 @@ El aviso de «cargando» va **antes** del `await`: mientras se espera, la págin
 Mientras espera, `#estado` dice `Cargando…`. Cuando llega la lista: `No hay mensajes` si está vacía, o cuántos hay, como `2 mensajes en el Palomar`.
 
 Que el Palomar diga en qué anda.
+
+#### Pasos
+1. Antes del `fetch`: `estado.textContent = 'Cargando…';`.
+2. Después de dibujar la lista: ``estado.textContent = mensajes.length ? `${mensajes.length} mensajes en el Palomar` : 'No hay mensajes';``.
+3. Tocá **Ejecutar**. Tiene que quedar `2 mensajes en el Palomar`.
 
 #### Página
 ```html
@@ -291,6 +301,11 @@ Con `textContent` se ve tal cual, con los signos. Buscá dónde la ventanilla us
 El mensaje de Pico se tiene que ver **tal cual**, con sus `<` y `>`.
 
 Que no aparezca ningún `<b>` en la lista.
+
+#### Pasos
+1. Con `innerHTML`, el `<b>` de Pico se vuelve negrita de verdad.
+2. Cambiá esa línea por `const li = document.createElement('li');`, ``li.textContent = `${m.de}: ${m.texto}`;`` y `lista.append(li);`.
+3. Tocá **Ejecutar**. Tiene que quedar `#mensajes b #: 0`.
 
 #### Página
 ```html
@@ -384,6 +399,12 @@ Es lo mismo que `const error = datos.error`. Para la clase del aviso, `classList
 Si el Puerto contesta con error, `#estado` dice `El Palomar no atiende (503): …` (con el código y el `error` que manda el Puerto) y tiene la clase `error`. Si contesta bien, se dibuja la lista como siempre.
 
 Pedí la lista con `?falla=1` (la tormenta).
+
+#### Pasos
+1. Después del `fetch`, preguntá: `if (!respuesta.ok) { ... } else { ... }`.
+2. En el error: `const { error } = await respuesta.json();`, ``estado.textContent = `El Palomar no atiende (${respuesta.status}): ${error}`;`` y `estado.classList.add('error');`.
+3. En el `else`, pasá lo que ya estaba: leer la lista, dibujarla y contar los mensajes.
+4. Tocá **Ejecutar** y compará.
 
 #### Página
 ```html
@@ -481,6 +502,11 @@ formulario.addEventListener('submit', async (evento) => {
 Al enviar el formulario (sin recargar), se pide `/puerto/mensajes/` y el número escrito. Si existe, `#resultado` muestra `#2 Tizón: …`; si no, el `error` que manda el Puerto.
 
 Buscan el 2 y después el 9.
+
+#### Pasos
+1. Dentro del `submit`, pedí: ``const respuesta = await fetch(`/puerto/mensajes/${numero.value}`);`` y `const datos = await respuesta.json();`.
+2. Mostrá: ``resultado.textContent = respuesta.ok ? `#${datos.id} ${datos.de}: ${datos.texto}` : datos.error;``.
+3. Tocá **Ejecutar**. El 9 tiene que dar 404.
 
 #### Página
 ```html
@@ -674,6 +700,12 @@ Mandá a `/puerto/mensajes` el mensaje `{ de: 'Nima', texto: 'La ventanilla ya f
 
 Que el mensaje llegue al Palomar.
 
+#### Pasos
+1. Agregá el encabezado: `headers: { 'Content-Type': 'application/json' },`.
+2. El cuerpo va como texto: `body: JSON.stringify({ de: 'Nima', texto: 'La ventanilla ya funciona.' }),`.
+3. Después: `const creado = await respuesta.json();` y ``aviso.textContent = `Mensaje ${creado.id} guardado`;``.
+4. Tocá **Ejecutar**. Tiene que salir `POST /puerto/mensajes → 201`.
+
 #### Página
 ```html
 <style>
@@ -745,6 +777,13 @@ Los valores de los campos se leen con `.value` (R02-N04), y el formulario se vac
 Al enviar el formulario, se manda el mensaje con los dos campos; en `#mensajes` se agrega un `<li>` con **lo que contestó** el Puerto (`#id de: texto`), y el formulario queda vacío.
 
 Bengala manda un mensaje.
+
+#### Pasos
+1. Después del `preventDefault`, mandá: `const respuesta = await fetch('/puerto/mensajes', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ de: de.value, texto: texto.value }) });`.
+2. Leé lo que contestó: `const m = await respuesta.json();`.
+3. El `li` con eso: ``li.textContent = `#${m.id} ${m.de}: ${m.texto}`;``.
+4. Al final, `form.reset();`.
+5. Tocá **Ejecutar** y compará.
 
 #### Página
 ```html
@@ -847,6 +886,12 @@ Cuando sale bien, hay que **limpiar** el aviso viejo (`textContent = ''`): si no
 Si el Puerto rechaza el mensaje, su `error` se muestra en `#error` y no se agrega nada a la lista. Si lo acepta, `#error` queda vacío.
 
 Bruno manda uno sin texto y después lo completa.
+
+#### Pasos
+1. Después de `const m = await respuesta.json();`, preguntá si salió mal: `if (!respuesta.ok) { ... }`.
+2. Adentro: `error.textContent = m.error;` y `return;` (así no se agrega nada).
+3. Si salió bien, limpiá el error: `error.textContent = '';`.
+4. Tocá **Ejecutar**. Tiene que quedar `#error` vacío y el mensaje de Bruno en la lista.
 
 #### Página
 ```html
@@ -963,6 +1008,12 @@ try {
 #### Desafío
 Tati toca dos veces seguidas: tiene que salir **un solo** `POST`, y el botón tiene que quedar habilitado al final.
 
+#### Pasos
+1. Apenas empieza, deshabilitá el botón: `boton.disabled = true;`.
+2. Meté el `fetch` y el `li` en un `try { ... }`.
+3. Después: `finally { boton.disabled = false; }` (se habilita salga bien o mal).
+4. Tocá **Ejecutar**. Tiene que salir un solo `POST`.
+
 #### Página
 ```html
 <style>
@@ -1075,6 +1126,12 @@ Así no hace falta leer los campos de a uno. Ese objeto se manda como siempre, c
 Mandá todos los campos del formulario (los que tienen `name`) al **eco** del Puerto, `POST /puerto/eco`, que contesta lo que recibió. Mostrá en `#recibido` lo que contestó en `recibido`, como JSON.
 
 Lucio manda su mensaje desde la Feria.
+
+#### Pasos
+1. Juntá todos los campos: `const datos = Object.fromEntries(new FormData(form));`.
+2. Mandalos: `const respuesta = await fetch('/puerto/eco', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(datos) });`.
+3. Mostrá: `const eco = await respuesta.json();` y `document.querySelector('#recibido').textContent = JSON.stringify(eco.recibido);`.
+4. Tocá **Ejecutar** y compará.
 
 #### Página
 ```html
@@ -1283,6 +1340,11 @@ Borrá el mensaje 3 y, si el Puerto contestó bien, volvé a pedir la lista y di
 
 Que quede la lista sin el mensaje de Pico.
 
+#### Pasos
+1. Borrá: `const borrado = await fetch('/puerto/mensajes/3', { method: 'DELETE' });`.
+2. Meté el pedido de la lista y el `for` adentro de `if (borrado.ok) { ... }`.
+3. Tocá **Ejecutar**. Tiene que salir `DELETE /puerto/mensajes/3 → 204`.
+
 #### Página
 ```html
 <style>
@@ -1377,6 +1439,13 @@ Si el Puerto contestó bien, el `<li>` se saca de la página con `.remove()` (R0
 Cada `<li>` lleva su número en `data-id` y un botón `.borrar`. Al tocar uno, se borra ese mensaje en el Puerto y, si salió bien, se saca su `<li>`.
 
 Iara borra el mensaje de Tizón (el segundo).
+
+#### Pasos
+1. Un solo evento para la lista: `lista.addEventListener('click', async (e) => { ... });`.
+2. Adentro: `const boton = e.target.closest('.borrar');` y `if (!boton) return;`.
+3. `const li = boton.closest('li');` y ``const respuesta = await fetch(`/puerto/mensajes/${li.dataset.id}`, { method: 'DELETE' });``.
+4. `if (respuesta.ok) li.remove();`.
+5. Tocá **Ejecutar**. Tiene que quedar solo el de Sila.
 
 #### Página
 ```html
@@ -1489,6 +1558,12 @@ Corregí el texto del mensaje 3 en el Puerto y, con lo que contesta, actualizá 
 
 Que en la lista diga `Llegó el barco de las Forjas`.
 
+#### Pasos
+1. Corregí con `PATCH`: `const respuesta = await fetch('/puerto/mensajes/3', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ texto: 'Llegó el barco de las Forjas' }) });`.
+2. Leé lo que contestó: `const m = await respuesta.json();`.
+3. Actualizá su `li`: ``lista.querySelector(`[data-id="${m.id}"]`).textContent = `${m.de}: ${m.texto}`;``.
+4. Tocá **Ejecutar** y compará.
+
 #### Página
 ```html
 <style>
@@ -1589,6 +1664,12 @@ Al tocar la cruz, el `<li>` se saca **enseguida**, antes de que conteste el Puer
 
 La lista tiene un mensaje viejo, el número 7, que en el Puerto ya no existe. Iara intenta borrarlo (vuelve a su lugar, con el error) y después borra el de Sila (se va).
 
+#### Pasos
+1. Antes de sacarlo, anotá dónde estaba: `const lugar = li.nextSibling;`.
+2. Guardá la respuesta: ``const respuesta = await fetch(`/puerto/mensajes/${li.dataset.id}`, { method: 'DELETE' });``.
+3. `if (!respuesta.ok)`: `lista.insertBefore(li, lugar);` y `error.textContent = (await respuesta.json()).error;`.
+4. Tocá **Ejecutar**. El 7 tiene que volver a su lugar.
+
 #### Página
 ```html
 <style>
@@ -1688,6 +1769,14 @@ Cuando todos los pedidos se parecen, conviene una **sola función** que haga lo 
 `pedir(metodo, ruta, datos)`: si hay `datos`, los manda en JSON; si el Puerto contesta 204 (sin contenido), devuelve `null`; si contesta con error, lanza un `Error` con el `error` del Puerto; si no, devuelve el JSON. Usala para crear, corregir, borrar y listar, y atajá el error del final.
 
 Que la consola muestre lo que hizo cada pedido.
+
+#### Pasos
+1. Armá las opciones: `const opciones = { method: metodo };`.
+2. `if (datos !== undefined)`: `opciones.headers = { 'Content-Type': 'application/json' };` y `opciones.body = JSON.stringify(datos);`.
+3. `const respuesta = await fetch(ruta, opciones);` y `const cuerpo = respuesta.status === 204 ? null : await respuesta.json();`.
+4. Si salió mal: ``if (!respuesta.ok) throw new Error(cuerpo?.error ?? `El Puerto contestó ${respuesta.status}`);``.
+5. Al final, `return cuerpo;`.
+6. Tocá **Ejecutar**. Tiene que terminar en `Error: No hay ningún mensaje con el número 1.`
 
 #### Código inicial
 ```javascript
@@ -1871,6 +1960,12 @@ Al enviar el formulario, mandá `usuario` y `clave` a `/puerto/login`. Si sale b
 
 Nima entra con su usuario.
 
+#### Pasos
+1. En el `submit`, mandá: `const respuesta = await fetch('/puerto/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ usuario: form.usuario.value, clave: form.clave.value }) });`.
+2. `const datos = await respuesta.json();`.
+3. ``if (respuesta.ok) document.querySelector('#saludo').textContent = `Hola, ${datos.usuario}`;``.
+4. Tocá **Ejecutar**. Tiene que quedar `Hola, nima`.
+
 #### Página
 ```html
 <style>
@@ -1960,6 +2055,12 @@ Después de entrar, `#pico` muestra lo que ve Pico con `document.cookie`: `Pico 
 
 Que se vea que Pico no ve nada, pero el Puerto sí sabe quién es Nima.
 
+#### Pasos
+1. Lo que ve Pico: ``document.querySelector('#pico').textContent = `Pico ve: «${document.cookie}»`;``.
+2. Pedí el perfil: `const perfil = await (await fetch('/puerto/perfil')).json();`.
+3. ``document.querySelector('#perfil').textContent = `${perfil.nombre} tiene ${perfil.fichas} fichas`;``.
+4. Tocá **Ejecutar**. Pico no tiene que ver nada: `«»`.
+
 #### Página
 ```html
 <style>
@@ -2033,6 +2134,12 @@ Como en S02-N02-P3: con error, mostrar y cortar; si sale bien, limpiar el aviso 
 Si la clave es equivocada (el Puerto contesta 401), `#error` muestra el `error` del Puerto y el campo de la clave queda vacío. Si sale bien, `#error` queda vacío y `#saludo` saluda.
 
 Primero con una clave equivocada, después con la buena.
+
+#### Pasos
+1. Después de leer `datos`, preguntá: `if (respuesta.status === 401) { ... }`.
+2. Adentro: `error.textContent = datos.error;`, `form.clave.value = '';` y `return;`.
+3. Si salió bien: `error.textContent = '';` y `form.clave.value = '';` antes del saludo.
+4. Tocá **Ejecutar** y compará.
 
 #### Página
 ```html
@@ -2148,6 +2255,13 @@ Una función que **devuelva** el texto de cada caso (o lo anote) se prueba fáci
 `mandarPaloma(para, texto)` manda el pedido a `/puerto/palomas` y muestra en `#estado`: `Salió la paloma 1 al Valle` si salió; `Primero iniciá sesión.` si contesta 401; o el `error` del Puerto si contesta otra cosa. Probala tres veces: sin sesión, después de entrar con un destino que no existe (`Niebla`) y con el Valle.
 
 Que en `#historial` quede un `<li>` por cada intento, con lo que pasó.
+
+#### Pasos
+1. Mandá: `const respuesta = await fetch('/puerto/palomas', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ para, texto }) });`.
+2. `const datos = await respuesta.json();`.
+3. ``if (respuesta.ok) anotar(`Salió la paloma ${datos.id} al ${datos.para}`);``.
+4. `else if (respuesta.status === 401) anotar('Primero iniciá sesión.');` y `else anotar(datos.error);`.
+5. Tocá **Ejecutar**. Tienen que quedar los tres renglones del historial.
 
 #### Página
 ```html
@@ -2282,6 +2396,15 @@ await esperar(500);
 4. Al llegar, se sale (`POST /puerto/salir`) y vuelve el formulario de entrar.
 
 Nima entra, le manda una paloma a Sila, espera que llegue y sale. Al final no tiene que quedar ninguna cookie de sesión.
+
+#### Pasos
+1. Una espera: `const esperar = (ms) => new Promise((listo) => setTimeout(listo, ms));`.
+2. Al empezar: `const perfil = await pedir('GET', '/puerto/perfil');`. Si `perfil.estado === 401`, `mostrar('entrar')` y `'Entrá para mandar palomas'` en `#estado`; si no, `mostrar('paloma')`.
+3. En el `submit` de `entrar`: `pedir('POST', '/puerto/login', { usuario: ..., clave: ... })`, vaciá la clave; si `estado !== 200`, mostrá el error; si no, `mostrar('paloma')`.
+4. En el `submit` de `paloma`: `pedir('POST', '/puerto/palomas', { para: ..., texto: ... })`. Si `estado !== 201`, mostrá el error y cortá.
+5. Si salió: ``estado.textContent = `Volando al ${salida.datos.para}…`;``, `await esperar(salida.datos.vuelo);` y ``estado.textContent = `La paloma llegó al ${salida.datos.para}`;``.
+6. Al final: `await pedir('POST', '/puerto/salir');` y `mostrar('entrar');`.
+7. Tocá **Ejecutar** y compará con el estado esperado: `cookies: (ninguna)`.
 
 #### Página
 ```html

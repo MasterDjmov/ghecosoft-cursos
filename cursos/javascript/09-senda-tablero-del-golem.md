@@ -132,6 +132,11 @@ Se pueden encadenar, uno detrás del otro, en una sola línea.
 
 `AX=002A BX=00FF CX=FFFF DX=0000`.
 
+#### Pasos
+1. Pasalo a base 16: `n.toString(16)`.
+2. Seguí encadenando: `.toUpperCase().padStart(4, '0')`.
+3. Escribí `return n.toString(16).toUpperCase().padStart(4, '0');` y tocá **Ejecutar**.
+
 #### Código inicial
 ```javascript
 function hex(n) {
@@ -189,6 +194,11 @@ Para armar el texto de todas, `Object.entries` (Senda del Archivo) da los pares 
 La clase `Tablero`: `mov(registro, valor)` pone el valor en esa palanca, y `mostrar()` devuelve las cuatro palancas en hexadecimal, separadas por espacios.
 
 Después de `mov('AX', 5)` y `mov('DX', 4096)`: `AX=0005 BX=0000 CX=0000 DX=1000`.
+
+#### Pasos
+1. En `mov`: `this.registros[registro] = valor;`.
+2. En `mostrar`: ``return Object.entries(this.registros).map(([r, v]) => `${r}=${hex(v)}`).join(' ');``.
+3. Tocá **Ejecutar**. Tiene que salir `AX=0005 BX=0000 CX=0000 DX=1000`.
 
 #### Código inicial
 ```javascript
@@ -271,6 +281,12 @@ También vale para los negativos: `-1 & 0xFFFF` da `FFFF`, como en el 8086.
 `add(registro, valor)` suma a la palanca, y tanto `add` como `mov` se quedan con 16 bits (como el cuentakilómetros: después de `FFFF` vuelve a `0000`).
 
 `AX` en `FFFF` más 1 da `0000`; `BX` en 70000 queda en `1170`.
+
+#### Pasos
+1. `& 0xFFFF` se queda con los 16 bits de abajo.
+2. En `mov`: `this.registros[registro] = valor & 0xFFFF;`.
+3. En `add`: `this.registros[registro] = (this.registros[registro] + valor) & 0xFFFF;`.
+4. Tocá **Ejecutar**. Tiene que salir `AX=0000 BX=1170`.
 
 #### Código inicial
 ```javascript
@@ -374,6 +390,14 @@ Con texto: `nombre[0]` es la primera letra y `nombre.endsWith('X')` pregunta có
 
 Con `AX = 1234`: `AH=0012 AL=0034`; después de poner `AL` en `FF`, `AX=12FF`.
 
+#### Pasos
+1. En `leer`: `if (nombre.endsWith('X')) return this.registros[nombre];`.
+2. Si no, buscá la palanca entera: ``const entero = this.registros[`${nombre[0]}X`];`` y `return nombre.endsWith('H') ? entero >> 8 : entero & 0xFF;`.
+3. En `poner`: si termina en `X`, poné `valor & 0xFFFF` y `return`.
+4. Si no: ``const registro = `${nombre[0]}X`;``; la `alta` es `valor & 0xFF` si termina en `H` o `this.registros[registro] >> 8` si no; la `baja`, `valor & 0xFF` si termina en `L` o `this.registros[registro] & 0xFF` si no.
+5. Juntalas: `this.registros[registro] = (alta << 8) | baja;`.
+6. Tocá **Ejecutar**. Tiene que salir `AX=12FF`.
+
 #### Código inicial
 ```javascript
 const hex = (n) => n.toString(16).toUpperCase().padStart(4, '0');
@@ -467,6 +491,12 @@ Si no existe, la función lanza un error propio con `throw new Error(…)` (R04-
 Si el registro no es uno de los cuatro, `mov` lanza un `Error` con `no hay palanca «EX»` (con el nombre que llegó). El programa lo ataja y muestra `Nova: no hay palanca «EX»`.
 
 La palanca `BX` se mueve; la `EX` avisa, y el tablero sigue con cuatro.
+
+#### Pasos
+1. Al principio de `mov`: ``if (!(registro in this.registros)) throw new Error(`no hay palanca «${registro}»`);``.
+2. En el `for` de abajo, envolvé `tablero.mov(registro, valor);` en un `try`.
+3. En el `catch (error)`: ``console.log(`Nova: ${error.message}`);``.
+4. Tocá **Ejecutar**. Tiene que salir `Nova: no hay palanca «EX»`.
 
 #### Código inicial
 ```javascript
@@ -667,6 +697,11 @@ La desestructuración de R01 (`const [a, b, c] = …`) le pone nombre a cada par
 
 Las tres órdenes, desarmadas.
 
+#### Pasos
+1. Limpiá el renglón: `const limpio = renglon.split(';')[0].trim().toUpperCase();`.
+2. Cortá por espacios y comas: `const [op, destino, fuente] = limpio.split(/[\s,]+/);`.
+3. Tocá **Ejecutar** y compará los tres objetos.
+
 #### Código inicial
 ```javascript
 function desarmar(renglon) {
@@ -731,6 +766,13 @@ Un operando puede ser tres cosas, y se pregunta en orden:
 `valor(operando, registros)`: si es un registro, devuelve su valor; si termina en `H`, lo lee en hexadecimal; si son solo dígitos, en decimal; si no, lanza un `Error` con `no entiendo «BANANA»` (con el operando que llegó).
 
 Los cuatro operandos.
+
+#### Pasos
+1. `if (operando in registros) return registros[operando];`.
+2. Hexadecimal: `if (/^[0-9A-F]+H$/.test(operando)) return parseInt(operando.slice(0, -1), 16);`.
+3. Decimal: `if (/^\d+$/.test(operando)) return Number(operando);`.
+4. Si no: ``throw new Error(`no entiendo «${operando}»`);``.
+5. Tocá **Ejecutar**. Tiene que salir `10H → 16`.
 
 #### Código inicial
 ```javascript
@@ -813,6 +855,13 @@ Cada `case` termina con `break` (si no, sigue de largo con el de abajo). `defaul
 `ejecutar(renglon)`: `MOV` pone, `ADD` suma, `SUB` resta, `INC` suma uno y `DEC` resta uno. Siempre con 16 bits.
 
 Después de las seis órdenes: `AX=0007 BX=0003 CX=FFFF DX=0010`.
+
+#### Pasos
+1. Después del `poner` de `MOV`, cerrá el caso con `break;`.
+2. `case 'ADD':` `poner(destino, registros[destino] + valor(fuente));` y `break;`.
+3. `case 'SUB':` lo mismo con `-`.
+4. `case 'INC':` `poner(destino, registros[destino] + 1);` y `case 'DEC':` con `- 1`, cada uno con su `break;`.
+5. Tocá **Ejecutar**. Tiene que salir `AX=0007 BX=0003 CX=FFFF DX=0010`.
 
 #### Código inicial
 ```javascript
@@ -932,6 +981,10 @@ for (const renglon of renglones) {
 
 `4 órdenes · AX=000A BX=0005 CX=0000 DX=0000`.
 
+#### Pasos
+1. Al principio del `for`, salteá los vacíos y los comentarios: `if (renglon.split(';')[0].trim() === '') continue;`.
+2. Tocá **Ejecutar**. Tiene que salir `4 órdenes`.
+
 #### Código inicial
 ```javascript
 const hex = (n) => n.toString(16).toUpperCase().padStart(4, '0');
@@ -1046,6 +1099,12 @@ Para tener el número, el `for` clásico con índice (o `entries()`: `for (const
 Si un renglón falla, `correr` frena y lanza el error con el número de línea adelante: `Línea 4: no conozco «MUL»`. Las líneas se cuentan desde 1, **incluidos** los renglones vacíos.
 
 El error con su línea, y las palancas como quedaron hasta ahí.
+
+#### Pasos
+1. Necesitás el número de línea: cambiá el `for` por `programa.split('\n').forEach((renglon, i) => { ... });`.
+2. Adentro, para saltear, `return` en lugar de `continue`.
+3. Envolvé `ejecutar(renglon);` en un `try`, y en el `catch (error)`: ``throw new Error(`Línea ${i + 1}: ${error.message}`);``.
+4. Tocá **Ejecutar**. Tiene que salir `Línea 4: no conozco «MUL»`.
 
 #### Código inicial
 ```javascript
@@ -1263,6 +1322,11 @@ Las cuentas (`ADD`, `SUB`, `INC`, `DEC`) prenden la bandera `ZF` si el resultado
 
 Mostrá `CX` y `ZF` después de cada orden.
 
+#### Pasos
+1. En `cuenta`, después de guardar: `this.zf = this.registros[destino] === 0;`.
+2. Para que entienda `0FFFFh`, cambiá `valor`: `const valor = (o) => (o in this.registros ? this.registros[o] : /^[0-9A-F]+H$/.test(o) ? parseInt(o.slice(0, -1), 16) : Number(o));`.
+3. Tocá **Ejecutar** y compará la columna de `ZF`.
+
 #### Código inicial
 ```javascript
 const hex = (n) => n.toString(16).toUpperCase().padStart(4, '0');
@@ -1374,6 +1438,11 @@ Para saltar, la máquina necesita saber **dónde** está cada etiqueta. Se lee e
 
 `4 órdenes` y las etiquetas `{"INICIO":0,"BUCLE":1,"FIN":3}`.
 
+#### Pasos
+1. Antes de `lineas.push(limpio);`, preguntá: `if (limpio.endsWith(':')) { ... }`.
+2. Adentro: `etiquetas[limpio.slice(0, -1)] = lineas.length;` y `continue;`.
+3. Tocá **Ejecutar**. Tiene que salir `{"INICIO":0,"BUCLE":1,"FIN":3}`.
+
 #### Código inicial
 ```javascript
 function leer(texto) {
@@ -1472,6 +1541,12 @@ while (this.ip < this.lineas.length) {
 `correr` lleva en `this.ip` la posición de la orden que sigue. `JMP` salta siempre; `JNZ`, solo si ZF está apagada. Al saltar, `this.ip` pasa a la posición de la etiqueta.
 
 `AX=000F CX=0000`, en 16 pasos.
+
+#### Pasos
+1. Cambiá el `for` por `while (this.ip < this.lineas.length) { ... }`.
+2. Adentro, primero: `const [op, destino, fuente] = this.lineas[this.ip];` y `this.ip++;`.
+3. Al final de los `else if`: `else if (op === 'JMP') this.ip = this.etiquetas[destino];` y `else if (op === 'JNZ' && !this.zf) this.ip = this.etiquetas[destino];`.
+4. Tocá **Ejecutar**. Tiene que salir `AX=000F CX=0000, en 16 pasos`.
 
 #### Código inicial
 ```javascript
@@ -1616,6 +1691,12 @@ Se agregan al `switch` como casos nuevos.
 
 `Con AX=7: BX=0001` y `Con AX=3: BX=0002`.
 
+#### Pasos
+1. `CMP`: `else if (op === 'CMP') this.zf = ((this.valor(destino) - this.valor(fuente)) & 0xFFFF) === 0;`.
+2. `JE`: `else if (op === 'JE' && this.zf) this.ip = this.etiquetas[destino];`.
+3. `JNE`: lo mismo con `!this.zf`.
+4. Tocá **Ejecutar**. Tiene que salir `BX=0001` y `BX=0002`.
+
 #### Código inicial
 ```javascript
 const hex = (n) => n.toString(16).toUpperCase().padStart(4, '0');
@@ -1751,6 +1832,12 @@ Otra cosa que puede fallar es saltar a una etiqueta que **no existe**: `etiqueta
 Si pasan más de 1000 pasos, `correr` lanza un `Error` con `Axón se detuvo: más de 1000 pasos. ¿Hay un salto que no termina?`. Si un salto va a una etiqueta que no existe, lanza `no hay ninguna etiqueta «…»`. Los dos se atajan y se muestran.
 
 Los dos programas, cada uno con su aviso.
+
+#### Pasos
+1. En `saltar`: ``if (!(etiqueta in this.etiquetas)) throw new Error(`no hay ninguna etiqueta «${etiqueta}»`);``.
+2. Al principio del `while`: `if (++this.pasos > 1000) throw new Error('Axón se detuvo: más de 1000 pasos. ¿Hay un salto que no termina?');`.
+3. Borrá la línea `if (this.pasos > 5) break;`.
+4. Tocá **Ejecutar** y compará los dos avisos.
 
 #### Código inicial
 ```javascript
@@ -1978,6 +2065,14 @@ Importá `Maquina` y `hex` de `./maquina.js`. `dibujar()` pone los cuatro regist
 
 El tablero con la máquina al final del programa.
 
+#### Pasos
+1. Arriba de todo: `import { Maquina, hex } from './maquina.js';`.
+2. `function dibujar()`: ``for (const r of ['AX', 'BX', 'CX', 'DX']) document.querySelector(`#${r}`).textContent = hex(m.registros[r]);``.
+3. ZF: `document.querySelector('#ZF').textContent = m.zf ? '1' : '0';`.
+4. El programa: `document.querySelector('#programa').replaceChildren(...)` con un `li` por cada `linea` de `m.lineas` y `li.textContent = linea.texto`.
+5. Al final: `m.correr();` y `dibujar();`.
+6. Tocá **Ejecutar** y compará el tablero.
+
 #### Página
 ```html
 <style>
@@ -2159,6 +2254,11 @@ Al empezar se dibuja sin correr nada. El botón `#paso` ejecuta **una** orden y 
 
 Dos pasos: `AX=0002`, `CX=0003`, y marcada la tercera orden.
 
+#### Pasos
+1. En `dibujar`, marcá la orden que sigue: `lista.querySelectorAll('li').forEach((li, i) => li.classList.toggle('actual', i === m.ip));`.
+2. El botón: `document.querySelector('#paso').addEventListener('click', () => { m.paso(); dibujar(); });`.
+3. Tocá **Ejecutar**. Tiene que quedar `li.actual: ADD AX, CX`.
+
 #### Página
 ```html
 <style>
@@ -2306,6 +2406,11 @@ Cuando la máquina terminó, `#paso` queda deshabilitado y `#estado` dice `Fin d
 
 Seis clicks a un programa de tres órdenes.
 
+#### Pasos
+1. En `dibujar`: `boton.disabled = m.terminado;`.
+2. Y el estado: ``estado.textContent = m.terminado ? 'Fin del programa' : `Sigue: la orden ${m.ip + 1}`;``.
+3. Tocá **Ejecutar**. Tiene que quedar `Fin del programa`.
+
 #### Página
 ```html
 <style>
@@ -2437,6 +2542,13 @@ Antes de arrancar uno nuevo, frená el anterior: si no, con dos clicks en «corr
 `#correr` arranca un intervalo de 500 ms que da un paso y dibuja (cancelando antes el que hubiera). `#pausa` lo cancela. Cuando la máquina termina, el intervalo se cancela solo.
 
 Corre 1,2 segundos, se pausa 3 segundos (no avanza), vuelve a correr hasta terminar. Al final no tiene que quedar ningún temporizador.
+
+#### Pasos
+1. Una función que frena: `function parar() { clearInterval(reloj); reloj = null; }`.
+2. En `#correr`, antes del `setInterval`, llamá a `parar();`.
+3. Dentro del intervalo, primero: `if (m.terminado) { parar(); return; }`.
+4. Al final: `document.querySelector('#pausa').addEventListener('click', parar);`.
+5. Tocá **Ejecutar**. Tiene que quedar `temporizadores: 0`.
 
 #### Página
 ```html
@@ -2589,6 +2701,15 @@ Una función `frenar()` que haga el `clearInterval` sirve para la pausa, el rein
 - si un paso lanza un error (la Herrumbre), se frena el reloj, el mensaje va a `#error` y todo queda como estaba, para que se vea **dónde** se trabó.
 
 Nova prueba los botones: corre un poco, pausa, reinicia y da un paso a mano. Después lo deja correr solo hasta que se traba: tiene que verse **dónde**.
+
+#### Pasos
+1. Agarrá el cartel: `const error = document.querySelector('#error');`.
+2. En `dibujar`: el `ZF`, la lista con `li.classList.toggle('actual', i === m.ip)` y `disabled = m.terminado` en `#paso` y `#correr`.
+3. `function parar()` como en S04-N04-P4.
+4. `function avanzar()`: `try { m.paso(); } catch (e) { parar(); error.textContent = e.message; }`, después `if (m.terminado) parar();` y `dibujar();`.
+5. Los botones: `#paso` llama a `avanzar`; `#correr` hace `parar()` y `reloj = setInterval(avanzar, 300);`; `#pausa` llama a `parar`.
+6. `#reiniciar`: `parar();`, `m = new Maquina(PROGRAMA);`, `error.textContent = '';` y `dibujar();`.
+7. Tocá **Ejecutar**. Tiene que quedar `li.actual: MOV EX, 1` y el error de la línea 8.
 
 #### Página
 ```html

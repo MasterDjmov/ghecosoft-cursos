@@ -122,6 +122,11 @@ Con la función `circulo`, tres anillos con centro en el medio del lienzo (150, 
 
 El blanco de tres anillos.
 
+#### Pasos
+1. El rojo grande ya está. Abajo, el blanco: `circulo(150, 75, 20, '#ffffff');`.
+2. Y el rojo chico: `circulo(150, 75, 10, '#e53935');`.
+3. Tocá **Ejecutar** y compará el lienzo.
+
 #### Página
 ```html
 <style>
@@ -213,6 +218,12 @@ En cada click, `#tiro` muestra en qué punto **del lienzo** cayó, redondeado: `
 
 Tati tira en el punto (120, 80) del lienzo.
 
+#### Pasos
+1. `clientX` y `clientY` cuentan desde la ventana, no desde el lienzo.
+2. Pedí dónde está el lienzo: `const caja = lienzo.getBoundingClientRect();`.
+3. Restá y redondeá: `const x = Math.round(e.clientX - caja.left);` y `const y = Math.round(e.clientY - caja.top);`.
+4. Mostrá ``tiro.textContent = `Tiro en (${x}, ${y})`;`` y tocá **Ejecutar**.
+
 #### Página
 ```html
 <style>
@@ -290,6 +301,11 @@ Para la cuenta, dos variables afuera del evento: los tiros y los aciertos. El ti
 El blanco tiene centro en (150, 75) y radio 30. En cada click, `#resultado` dice `¡Adentro!` si el tiro cayó a 30 o menos del centro, o `Afuera` si no; `#aciertos` lleva la cuenta, como `1 de 3`.
 
 Bruno tira en (160, 70), (20, 20) y (175, 100), justo en la «esquina» del blanco.
+
+#### Pasos
+1. `Math.abs(x - blanco.x)` solo mira lo horizontal.
+2. Medí la distancia de verdad: `const adentro = Math.hypot(x - blanco.x, y - blanco.y) <= blanco.radio;`.
+3. Tocá **Ejecutar**. Tiene que quedar `1 de 3`.
 
 #### Página
 ```html
@@ -396,6 +412,12 @@ Si el primero no se cumple, ya se sabe que es mayor, y se pregunta el siguiente.
 
 Cuatro tiros: (150, 75), (165, 75), (175, 75) y (200, 75).
 
+#### Pasos
+1. Preguntá de adentro hacia afuera: `if (distancia <= 10) return 10;`.
+2. `if (distancia <= 20) return 5;` y `if (distancia <= 30) return 2;`.
+3. Al final, `return 0;`.
+4. Tocá **Ejecutar**. Tiene que quedar `#puntos: 17`.
+
 #### Página
 ```html
 <style>
@@ -500,6 +522,12 @@ Una función `dibujar()` que se llame al empezar y después de cada tiro mantien
 En cada click, los blancos a los que se les pegó desaparecen: se vuelve a dibujar el lienzo con un círculo amarillo por cada blanco que queda, y `#quedan` dice `Quedan N`.
 
 Tiros en (60, 75), (240, 80) y (10, 10).
+
+#### Pasos
+1. En `dibujar`, primero borrá: `ctx.clearRect(0, 0, lienzo.width, lienzo.height);`.
+2. En el click, quedate con los que no recibieron el tiro: `blancos = blancos.filter((b) => Math.hypot(x - b.x, y - b.y) > RADIO);`.
+3. Mostrá: ``document.querySelector('#quedan').textContent = `Quedan ${blancos.length}`;``.
+4. Tocá **Ejecutar**. Tiene que quedar `Quedan 1`.
 
 #### Página
 ```html
@@ -727,6 +755,12 @@ En cada cuadro, el patito avanza 2 a la derecha, se borra el lienzo y se lo dibu
 
 En un segundo (60 cuadros), el patito llega a x = 120.
 
+#### Pasos
+1. En `cuadro`, primero avanzá: `patito.x += 2;`.
+2. Borrá: `ctx.clearRect(0, 0, lienzo.width, lienzo.height);` (antes de `dibujar()`).
+3. Después de dibujar: `requestAnimationFrame(cuadro);`.
+4. Tocá **Ejecutar**. El patito tiene que quedar en x = 120.
+
 #### Página
 ```html
 <style>
@@ -824,6 +858,11 @@ El patito empieza con velocidad `vx` en 4, y cuando toca un borde (con su radio)
 
 Después de 50 cuadros, el patito ya rebotó en la derecha y va volviendo.
 
+#### Pasos
+1. Después de mover, preguntá si tocó un borde con su radio: `if (patito.x + patito.radio > lienzo.width || patito.x - patito.radio < 0)`.
+2. Si tocó, dale vuelta: `patito.vx = -patito.vx;`.
+3. Tocá **Ejecutar**. Tiene que quedar en x = 222.
+
 #### Página
 ```html
 <style>
@@ -920,6 +959,11 @@ const alto = 50 + Math.random() * 100;   // entre 50 y 150
 Cada 1000 ms aparece un blanco nuevo en `x = 0`, a una altura al azar entre 20 y 130, con `vx` en 3. `#blancos` muestra cuántos hay.
 
 A los 3,5 segundos hay 3 blancos.
+
+#### Pasos
+1. Un temporizador que se repite: `setInterval(() => { ... }, 1000);`.
+2. Adentro: `blancos.push({ x: 0, y: 20 + Math.random() * 110, vx: 3 });`.
+3. Tocá **Ejecutar**. Tiene que quedar `#blancos: 3`.
 
 #### Página
 ```html
@@ -1021,6 +1065,12 @@ Para frenarlo, su velocidad pasa a 0: el bucle sigue sumando, pero suma nada.
 En el click, se compara con la posición **actual** del patito: si le pegaste, se frena (`vx = 0`) y `#resultado` dice `¡Le pegaste en x = 120!` (redondeado).
 
 A los 40 cuadros, el patito va por x = 120: Nima tira ahí.
+
+#### Pasos
+1. `inicio` es la posición del principio; el patito ya se movió. Borrá la línea `const inicio = { ...patito };`.
+2. Compará con el patito: `Math.hypot(x - patito.x, y - patito.y) <= patito.radio`.
+3. Si le pegaste, frenalo: `if (acierto) patito.vx = 0;`.
+4. Tocá **Ejecutar**. Tiene que salir `¡Le pegaste en x = 120!`.
 
 #### Página
 ```html
@@ -1142,6 +1192,12 @@ Sacarlos importa: si no, el arreglo crece sin fin y el juego se pone lento.
 En cada cuadro, los patitos que ya salieron enteros por el borde derecho se sacan y se cuentan como `escapados`. Se muestran los dos números: los que hay y los que se escaparon.
 
 A los 5 segundos, con un patito nuevo cada medio segundo que cruza en poco más de un segundo.
+
+#### Pasos
+1. Anotá cuántos había: `const antes = blancos.length;`.
+2. Quedate con los que no salieron enteros: `blancos = blancos.filter((b) => b.x - RADIO <= lienzo.width);`.
+3. Contá los que se fueron: `escapados += antes - blancos.length;`.
+4. Tocá **Ejecutar**. Tiene que quedar `#escapados: 7`.
 
 #### Página
 ```html
@@ -1371,6 +1427,11 @@ La ronda dura 10 segundos: `#tiempo` muestra los que quedan, y al llegar a cero 
 
 A los 12 segundos la ronda ya terminó y no queda ningún temporizador.
 
+#### Pasos
+1. Después de mostrar el tiempo, preguntá: `if (tiempo === 0) { ... }`.
+2. Adentro: `clearInterval(reloj);` y `pantalla.textContent = '¡Tiempo!';`.
+3. Tocá **Ejecutar**. Tiene que quedar `temporizadores: 0`.
+
 #### Página
 ```html
 <style>
@@ -1452,6 +1513,11 @@ Cada acierto seguido sube el combo y vale 10 por el combo (el primero 10, el seg
 
 La ronda de Bruno: acierto, acierto, error, acierto, acierto, acierto.
 
+#### Pasos
+1. Si acierta: `combo++;` y `puntos += 10 * combo;`.
+2. Si no: `combo = 0;`.
+3. Escribilo con `if (acierto) { ... } else { ... }` y tocá **Ejecutar**. Tiene que salir `Total: 90`.
+
 #### Código inicial
 ```javascript
 let puntos = 0;
@@ -1524,6 +1590,11 @@ Todo lo que se tiene que ver siempre (los puntos, el tiempo) se dibuja **adentro
 Los números se dibujan **en el lienzo**, en cada cuadro: `Puntos: N` en (10, 20) y `Tiempo: N` en (220, 20).
 
 Nima acierta al blanco del medio y pasan dos cuadros.
+
+#### Pasos
+1. Afuera, los números se dibujan una sola vez y el `clearRect` los borra.
+2. Mové las cuatro líneas (`fillStyle`, `font` y los dos `fillText`) adentro de `cuadro`, después del `ctx.fill();`.
+3. Tocá **Ejecutar**. Tiene que salir `fillText('Puntos: 10', 10, 20)`.
 
 #### Página
 ```html
@@ -1642,6 +1713,11 @@ El nivel empieza en 1 y sube uno cada 50 puntos enteros. La velocidad es 2 en el
 
 Para 0, 40, 50, 120 y 260 puntos.
 
+#### Pasos
+1. El nivel: `return 1 + Math.floor(puntos / 50);`.
+2. La velocidad: `return 2 * 1.5 ** (nivel - 1);`.
+3. Tocá **Ejecutar**. Tiene que salir `260 → nivel 6, velocidad 15.2`.
+
 #### Código inicial
 ```javascript
 function nivelDe(puntos) {
@@ -1711,6 +1787,13 @@ Mientras está activo, el acierto vale el doble. Una función `mostrar()` que el
 Con la tecla `d`, si Destello todavía no vino, viene: mientras está, cada acierto vale 20 en vez de 10, y se va a los 3 segundos. Viene una sola vez. `#destello` dice `Destello está acá`, `Destello ya vino` o `Llamá a Destello con D`.
 
 Un acierto, llama a Destello, otro acierto, pasan 3,5 segundos, otro acierto, lo vuelve a llamar (no viene) y un último acierto.
+
+#### Pasos
+1. Agregá `let usado = false;` debajo de `let destello = false;`.
+2. El texto: `destello ? 'Destello está acá' : usado ? 'Destello ya vino' : 'Llamá a Destello con D'`.
+3. En el `keydown`: `if (e.key === 'd' && !usado)` y adentro `usado = true;`.
+4. Que se vaya: `setTimeout(() => { destello = false; mostrar(); }, 3000);`.
+5. Tocá **Ejecutar**. Tiene que quedar `#puntos: 50`.
 
 #### Página
 ```html
@@ -1935,6 +2018,11 @@ Con `estado` en `inicio`, `#pantalla` dice `Apretá Enter para empezar`. Enter (
 
 Aprietan otra tecla (no pasa nada), Enter, y esperan 6 segundos.
 
+#### Pasos
+1. En `empezar`, la ronda: `setTimeout(() => { estado = 'fin'; mostrar('Fin de la ronda · Enter para jugar otra vez'); }, 5000);`.
+2. El teclado: `document.addEventListener('keydown', (e) => { if (e.key === 'Enter' && estado !== 'jugando') empezar(); });`.
+3. Tocá **Ejecutar**. Tiene que quedar `#estado: fin`.
+
 #### Página
 ```html
 <style>
@@ -2039,6 +2127,13 @@ Para dibujarla, `replaceChildren()` vacía la lista, y después un `<li>` por r�
 
 Juegan Nima (50), Lucio (10) y Bengala (45).
 
+#### Pasos
+1. `localStorage` guarda texto. Leé con `const tabla = JSON.parse(localStorage.getItem('tiro') ?? '[]');`.
+2. Ordená: `tabla.sort((a, b) => b.puntos - a.puntos);`.
+3. Guardá los tres primeros: `localStorage.setItem('tiro', JSON.stringify(tabla.slice(0, 3)));`.
+4. En `dibujarTabla`, `lista.replaceChildren(...)` con un `li` por récord: ``li.textContent = `${r.nombre} — ${r.puntos}`;``.
+5. Tocá **Ejecutar** y compará.
+
 #### Página
 ```html
 <style>
@@ -2140,6 +2235,12 @@ El golpe se revisa en el click, con la posición del Pato en ese momento (S05-N0
 El Pato tiene `vida: 5`. Cada tiro que le pega (a 25 o menos de su centro, en el momento del tiro) le saca una. En cada cuadro se dibuja arriba la barra roja de vida, con `fillRect(10, 10, vida * 20, 8)`, y `#vida` muestra la vida.
 
 Dos tiros que le pegan mientras cruza.
+
+#### Pasos
+1. En el click: `if (pato.vida > 0 && Math.hypot(x - pato.x, y - pato.y) <= 25) pato.vida--;`.
+2. Y mostrala: `document.querySelector('#vida').textContent = pato.vida;`.
+3. En `cuadro`, después del `clearRect`: `ctx.fillStyle = '#e53935';` y `ctx.fillRect(10, 10, pato.vida * 20, 8);`.
+4. Tocá **Ejecutar**. Tiene que quedar `#vida: 3`.
 
 #### Página
 ```html
@@ -2258,6 +2359,12 @@ La tecla `p` pone y saca la pausa. En pausa, el bucle sigue dibujando pero el Pa
 
 Pasan 10 cuadros, Nima aprieta `p` y pasan 30 más: el Pato tiene que seguir donde estaba.
 
+#### Pasos
+1. Para poner y sacar: `if (e.key === 'p') pausa = !pausa;`.
+2. Mové solo sin pausa: `if (!pausa) pato.x += pato.vx;`.
+3. Después del `ctx.fill();`: `if (pausa) { ctx.fillStyle = 'white'; ctx.fillText('Pausa', 125, 80); }`.
+4. Tocá **Ejecutar**. El Pato tiene que quedar en x = 60.
+
 #### Página
 ```html
 <style>
@@ -2373,6 +2480,15 @@ Junta toda la Senda:
 - en cada cuadro se dibujan la barra de vida y el Pato.
 
 La partida de Nima: Enter y cinco tiros mientras el Pato cruza. (El mejor tiempo guardado es de 2.5 s: el del Vidriero.)
+
+#### Pasos
+1. `const mejor = () => Number(localStorage.getItem('mejorTiempo') ?? Infinity);` y `mostrarRecord`, que pone ``Récord: ${mejor()} s`` en `#record`.
+2. `empezar()`: `estado = 'jugando';`, `pato = { x: 40, y: 60, vx: 2, vida: 5 };`, `inicio = performance.now();` y `'¡A jugar!'` en `#pantalla`.
+3. `terminar()`: `estado = 'fin';`, `const segundos = Number(((performance.now() - inicio) / 1000).toFixed(1));`, ``¡El Pato cayó en ${segundos} s!`` en `#pantalla`; si `segundos < mejor()`, guardalo; y `mostrarRecord();`.
+4. Enter (si no se está jugando) llama a `empezar()`. En el click (solo jugando): si el tiro está a 25 o menos, `pato.vida--`; si llega a 0, `terminar()`.
+5. En `cuadro`: `if (estado === 'jugando') pato.x += pato.vx;`.
+6. Antes de arrancar el bucle, `mostrarRecord();`.
+7. Tocá **Ejecutar** y copiá los textos del estado esperado.
 
 #### Página
 ```html

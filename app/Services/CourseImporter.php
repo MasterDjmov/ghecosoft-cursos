@@ -601,6 +601,7 @@ class CourseImporter
                 'words' => $fields['words'] ?? null,
                 'hint' => $fields['hint'] ?? null,
                 'challenge' => $fields['challenge'] ?? null,
+                'guide' => $fields['guide'] ?? null,
                 'starter_code' => $fields['starter_code'] ?? null,
                 // Solo si el bloque del código inicial es de otro lenguaje que el curso (```sql en Java).
                 'language' => $this->stepLanguage($fields['starter_language'] ?? null),

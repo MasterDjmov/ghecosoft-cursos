@@ -39,6 +39,7 @@ document.addEventListener('alpine:init', () => {
         wasRunning: false,
         logged: {},
         reading: false,
+        guideOpen: false,
         readError: null,
 
         init() {
@@ -140,6 +141,13 @@ document.addEventListener('alpine:init', () => {
             this.fullSolution = r.solution;
             this.lineWait = r.wait;
             this.newLine = r.new;
+        },
+
+        // ---- ¿Qué me piden? (los Pasos ya vienen en la página: solo se muestran y se anota)
+
+        showGuide() {
+            this.guideOpen = true;
+            this.logHelp('guide');
         },
 
         // ---- Escuchar el desafío (la voz del navegador)

@@ -16,6 +16,7 @@ class StepHelp extends Model
     public const KINDS = [
         'offer' => 'Gheco le ofreció ayuda',
         'read' => 'escuchó el desafío',
+        'guide' => '¿Qué me piden?',
         'where' => '¿Dónde toco?',
         'compare' => 'Comparemos',
         'line' => 'vio una línea de la solución',

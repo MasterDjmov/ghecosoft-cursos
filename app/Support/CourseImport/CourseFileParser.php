@@ -64,6 +64,8 @@ class CourseFileParser
         'gheco sugiere' => 'hint',
         'pista' => 'hint',
         'desafio' => 'challenge',
+        // D123: el desafío en pasos cortos, numerados y literales (la ayuda «¿Qué me piden?»).
+        'pasos' => 'guide',
         'codigo inicial' => 'starter_code',
         'entrada' => 'sample_input',
         // HTML y CSS (D102): qué revisa el inspector; la «salida esperada» es su informe.

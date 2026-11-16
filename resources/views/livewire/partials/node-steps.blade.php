@@ -170,7 +170,7 @@
                             </div>
                             {{-- D107: los fallos se avisan para las estadísticas (el mismo fallo seguido, una vez), con el código
                                  para que el docente lo vea en el Recorrido. --}}
-                            @include('livewire.partials.step-help', ['step' => $step, 'stepLanguage' => $stepLanguage])
+                            @include('livewire.partials.step-help', ['step' => $step, 'stepLanguage' => $stepLanguage, 'guide' => $stepTexts[$step->id]['guide'] ?? null])
                             <div x-data="{ lastFail: '', fail(kind) { const out = this.output ?? ''; const src = this.code ?? ''; if (this.lastFail === kind + out + src) return; this.lastFail = kind + out + src; this.$wire.failStep({{ $step->id }}, kind, out.slice(0, 500), src.slice(0, 20000)).catch(() => {}) } }"
                                 x-effect="if (! running && matches === false) fail('{{ filled($step->checks) ? 'checks' : 'output' }}'); else if (! running && error) fail('error')"></div>
                             {{-- Java (D85) sin el ejecutor abierto, o C y C++ (D98, D100) si el compilador del navegador no carga: se corre

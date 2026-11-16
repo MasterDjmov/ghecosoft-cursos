@@ -280,6 +280,7 @@ class NodeView extends Component
             'scene' => $render($step->scene),
             'hint' => $render($step->hint),
             'challenge' => $render($step->challenge),
+            'guide' => $render($step->guide),
             'success' => $render($step->success_text),
             'unlocks' => $render($step->unlocks),
         ]]);

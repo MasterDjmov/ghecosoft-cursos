@@ -328,6 +328,12 @@ Las líneas de alrededor son la **caja** de todo programa en C: `#include <stdio
 #### Desafío
 Completá la instrucción para que Kira se presente.
 
+#### Pasos
+1. Buscá la línea que tiene `___`.
+2. Borrá `___` y escribí en su lugar `printf`.
+3. No toques nada más: el texto entre comillas ya está bien.
+4. Tocá **Ejecutar**. Tiene que aparecer: `Me llamo Kira y vengo de muy lejos.`
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -388,6 +394,13 @@ Ejemplo: `printf("Dijo:\t\"hola\"\n");` muestra `Dijo:`, un espacio largo y `"ho
 #### Desafío
 Escribí las secuencias que faltan para que la ficha quede en tres líneas y con comillas.
 
+#### Pasos
+1. En la línea del `printf` hay cuatro `___`. Vas a cambiar cada uno.
+2. El primer `___` (después de `Kira`): escribí `\n`, que salta de línea.
+3. El segundo `___` (después de `espadachina`): escribí `\n` otra vez.
+4. Para las comillas: cambiá el tercer `___` por `\"` y el cuarto por `\"`. Así: `\"una espada\"`.
+5. Tocá **Ejecutar**. Tienen que salir tres líneas, y `"una espada"` con comillas.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -445,6 +458,12 @@ En C, cada instrucción termina con punto y coma `;`, como el punto al final de 
 
 #### Desafío
 Arreglá la receta para que el Horno la acepte.
+
+#### Pasos
+1. Buscá la línea `printf("Kira conoce a Tizon.\n")`.
+2. Fijate el final: después del `)` falta el `;`.
+3. Agregá `;` justo después del `)`.
+4. Tocá **Ejecutar**. Tienen que salir las dos líneas.
 
 #### Código inicial
 ```c
@@ -509,6 +528,13 @@ Una línea que no es código ni comentario hace que el compilador se queje: no s
 
 #### Desafío
 Convertí las notas de Tizón en comentarios para que la receta compile y muestre solo los dos saludos.
+
+#### Pasos
+1. Hay dos líneas que no son código: `Nota de Tizon: …` y `recordar: …`.
+2. En la primera, escribí `/*` al principio y `*/` al final.
+3. En la segunda, escribí `//` al principio.
+4. No toques los `printf`.
+5. Tocá **Ejecutar**. Tienen que salir solo `Hola, Forjas.` y `Hola, Horno.`
 
 #### Código inicial
 ```c
@@ -584,6 +610,12 @@ int main(void)
 
 #### Desafío
 A la receta le falta el comienzo de `main` y el final. Completala.
+
+#### Pasos
+1. Hay dos `___`.
+2. El primero está arriba de la `{`. Cambialo por `int main(void)`.
+3. El segundo está abajo de los `printf`, antes de la `}`. Cambialo por `return 0;`.
+4. Tocá **Ejecutar**. Tienen que salir las dos líneas del portón y de la espada.
 
 #### Código inicial
 ```c

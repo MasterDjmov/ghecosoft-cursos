@@ -9,8 +9,8 @@
     $canCompare = filled($step->expected_output) && blank($step->checks)
         && ! in_array($stepLanguage, [\App\Enums\Language::Asm, \App\Enums\Language::Html], true);
     $state = $canLine ? $helper->state(auth()->user(), $step) : ['lines' => [], 'solution' => null];
-    // Los pasos van numerados en el orden en que aparecen (escuchar es el 1).
-    $n = 1;
+    // Los pasos van numerados en el orden en que aparecen.
+    $n = 0;
 @endphp
 <div class="mt-3 flex flex-col gap-3" x-show="! result?.ok" data-test="step-help"
     x-data="stepHelp(@js(['stepId' => $step->id, 'compare' => $canCompare, 'expected' => (string) $step->expected_output, 'state' => $state]))"
@@ -40,9 +40,26 @@
     <div x-show="helpOpen" x-cloak x-transition class="flex flex-col gap-4 rounded-lg border border-outline bg-surface-low/60 p-4 text-sm" data-test="step-help-panel">
         <p class="text-ink-muted">Usá las que necesites, de a una: van de la más suave a la más directa.</p>
 
-        {{-- 1. Escuchar el desafío --}}
+        @if (filled($guide))
+            {{-- ¿Qué me piden? (fase 2): el desafío en pasos cortos y literales, sin historia. --}}
+            <div class="flex flex-col gap-1" data-test="step-help-guide">
+                <p class="font-medium text-white">{{ ++$n }}. ¿Qué me piden?</p>
+                <p class="text-ink-muted">El desafío, de a un paso por vez.</p>
+                <flux:button size="sm" icon="list-bullet" class="w-fit" x-show="! guideOpen" x-on:click="showGuide()" data-test="step-help-guide-button">Mostrame los pasos</flux:button>
+                <div x-show="guideOpen" x-cloak class="flex items-start gap-2 rounded-md border border-outline/70 bg-surface-lowest/60 p-3">
+                    <div class="markdown min-w-0 flex-1 text-white" id="guide-{{ $step->id }}" data-test="step-help-guide-text">{!! $guide !!}</div>
+                    <button type="button" x-show="canRead()" title="Escuchar los pasos" aria-label="Escuchar los pasos"
+                        x-on:click="readAloud(document.getElementById('guide-{{ $step->id }}'))"
+                        class="shrink-0 rounded-md p-1 text-ink-muted transition hover:bg-surface-high hover:text-white">
+                        <flux:icon name="speaker-wave" variant="mini" />
+                    </button>
+                </div>
+            </div>
+        @endif
+
+        {{-- Escuchar el desafío --}}
         <div x-show="canRead()" class="flex flex-col gap-1">
-            <p class="font-medium text-white">1. Escuchá el desafío</p>
+            <p class="font-medium text-white">{{ ++$n }}. Escuchá el desafío</p>
             <p class="text-ink-muted">A veces se entiende mejor oyéndolo.</p>
             <flux:button size="sm" icon="speaker-wave" class="w-fit" data-test="step-help-read" x-on:click="readAloud(document.getElementById('challenge-{{ $step->id }}'))"><span x-text="reading ? 'Parar' : 'Leémelo'">Leémelo</span></flux:button>
             <p x-show="readError" x-cloak x-text="readError" class="text-warning" data-test="step-help-read-error"></p>

@@ -108,7 +108,7 @@ class StudentJourney
         }
         $kinds = $helps->pluck('kind');
         $lines = $kinds->filter(fn ($k) => $k === 'line')->count();
-        $parts = collect(['where' => '¿Dónde toco?', 'compare' => 'Comparemos', 'read' => 'escuchó el desafío'])
+        $parts = collect(['guide' => '¿Qué me piden?', 'where' => '¿Dónde toco?', 'compare' => 'Comparemos', 'read' => 'escuchó el desafío'])
             ->filter(fn ($label, $kind) => $kinds->contains($kind))->values();
         if ($lines) {
             $parts->push($lines === 1 ? '1 línea de la solución' : "{$lines} líneas de la solución");

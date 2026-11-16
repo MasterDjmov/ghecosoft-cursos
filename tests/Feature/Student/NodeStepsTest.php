@@ -24,6 +24,7 @@ use App\Services\StepCompleter;
 use App\Services\StepHelper;
 use App\Services\TreeAccess;
 use App\Support\LineDiff;
+use App\Support\StudentJourney;
 use Livewire\Livewire;
 
 /*
@@ -698,4 +699,24 @@ test('el recorrido del alumno muestra qué ayuda pidió', function () {
         ->assertOk()
         ->assertSee('data-test="journey-step-helps"', false)
         ->assertSee('¿Dónde toco?, 2 líneas de la solución');
+});
+
+test('los Pasos se importan y salen en «¿Qué me piden?»; pedirlos queda anotado (fase 2)', function () {
+    $report = app(CourseImporter::class)->import(stepsCourseFile(fn ($md) => str_replace('### Misión R00-N01-M1',
+        str_replace("#### Código inicial\n```python\n# tu conjuro", "#### Pasos\n1. Escribí `print(\"Hola, Valle\")`.\n2. Tocá **Ejecutar**.\n\n#### Código inicial\n```python\n# tu conjuro", STEPS_MD).'### Misión R00-N01-M1', $md)), dryRun: false);
+    expect($report->errors)->toBe([]);
+    $course = Course::where('slug', 'python-import')->firstOrFail();
+    $course->update(['is_published' => true]);
+    [$first, $second] = $course->rootNode->steps()->get()->all();
+    expect($first->guide)->toContain('2. Tocá **Ejecutar**.')
+        ->and($second->guide)->toBeNull();
+
+    $student = studentWithRootOpen(['course' => $course, 'root' => $course->rootNode]);
+    $html = $this->actingAs($student)->get(route('student.node', [$course, $course->rootNode]))->getContent();
+    expect($html)->toContain('data-test="step-help-guide"')
+        ->and($html)->toContain('<strong>Ejecutar</strong>');
+
+    Livewire::actingAs($student)->test(NodeView::class, ['course' => $course, 'node' => $course->rootNode])->call('helpLog', $first->id, 'guide');
+    expect(StepHelp::where('user_id', $student->id)->where('kind', 'guide')->count())->toBe(1)
+        ->and(StudentJourney::helpSummary(StepHelp::where('user_id', $student->id)->get()))->toBe('¿Qué me piden?');
 });

@@ -203,6 +203,7 @@ consultas o marcas.
 #### Escena            (2 a 4 líneas; {mentor}, {mundo}, {region})
 #### Gheco sugiere     (el concepto mínimo, con un ejemplo)
 #### Desafío           (qué hacer)
+#### Pasos             (opcional, D123: el desafío en 2 a 6 pasos numerados, cortos y literales, sin historia; la ayuda «¿Qué me piden?»)
 #### Código inicial    (```python … ```; con ___ donde completa)
 #### Entrada           (opcional: lo que se «tipea»)
 #### Inspector         (solo HTML y CSS, obligatorio: qué revisar, un pedido por renglón; D102)

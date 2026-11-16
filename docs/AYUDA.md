@@ -1,4 +1,4 @@
-# Ayuda en las micro-misiones (D123, fase 1 hecha, a probar)
+# Ayuda en las micro-misiones (D123, fase 1 hecha; fase 2 en curso: Pasos de C)
 
 Pedido del docente (2026-11-15): que nadie se **frustre** ni se **estanque** en una micro-misión. Hay alumnos a los que les cuesta leer un enunciado largo (un alumno con TEA que cursa C, personas de más de 50 que recién empiezan). En la clase presencial el docente los destraba; en casa se quedan esperando el mensaje del profe. Lo que quieren es **ver cómo se resuelve**, sin volverse locos; el oro y la XP no les importan.
 
@@ -56,6 +56,9 @@ Si el alumno **falla 2 veces** o pasan **3 minutos sin ejecutar** con el desafí
 
 1. ~~**Botón y ayudas 2 a 4** (con la entrega de a una línea), oferta de Gheco, leer en voz alta y registro.~~ Hecho (2026-11-15), a probar con los alumnos.
 2. **Pasos de los 10 primeros nodos de cada curso**: el importador lee `#### Pasos`; se escriben (como se hizo con las pistas de Gheco) y se reimporta. Con las ayudas en *Admin → Estadísticas*.
+   - Hecho (2026-11-15): `#### Pasos` → `node_steps.guide`; «¿Qué me piden?» es la primera ayuda del panel (botón «Mostrame los pasos», con su parlante) y queda anotada (`guide`) en el Recorrido. Muestra: C R00-N01-P1 a P5, para que el docente ajuste el tono.
+   - Cómo se escriben: 2 a 6 pasos numerados, una acción por paso; nombrar la línea como se ve en el editor (`printf(…)`, «el primer `___`»); decir qué escribir y dónde; terminar con «Tocá **Ejecutar**» y qué tiene que salir. Sin historia ni metáforas.
+   - Falta: el resto de C (10 nodos), los demás cursos y las ayudas en *Admin → Estadísticas*.
 3. **Modo enfoque.**
 4. **Pasos del resto de los nodos**, curso por curso.
 

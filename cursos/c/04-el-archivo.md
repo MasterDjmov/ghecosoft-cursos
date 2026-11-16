@@ -2488,6 +2488,11 @@ Quien quiere usar el módulo hace `#include "dado.h"` y ya puede llamar a las fu
 #### Desafío
 Escribí en la «tapa» el prototipo de la función que usa `main`.
 
+#### Pasos
+1. Buscá el `___` debajo de `/* ---- dado.h: la tapa ---- */`.
+2. Cambialo por el prototipo: `int cara_maxima(int caras);` (con `;` y sin el cuerpo).
+3. Tocá **Ejecutar**. Tiene que salir `dado de 20 caras: 20`.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -2561,6 +2566,12 @@ Lo público es lo que está en el `.h`. Así nadie de afuera puede tocar lo que 
 
 #### Desafío
 Marcá como `static` la variable y la función internas del taller.
+
+#### Pasos
+1. Hay dos `___`.
+2. Cambiá los dos por `static`: `static int semilla = 7;` y `static int mezclar(void)`.
+3. `static` hace que solo se vean adentro de ese archivo.
+4. Tocá **Ejecutar**. Tiene que salir `6 4 6`.
 
 #### Código inicial
 ```c
@@ -2661,6 +2672,12 @@ La primera vez, `MAPA_H` no existe: se define y se pega el contenido. La segunda
 #### Desafío
 Poné la guarda alrededor de la tapa (está pegada dos veces a propósito).
 
+#### Pasos
+1. La tapa está pegada dos veces. Antes del primer `typedef struct`, agregá `#ifndef DADO_H` y `#define DADO_H`.
+2. Después de su `} Dado;`, agregá `#endif`.
+3. Hacé lo mismo con la segunda copia.
+4. La segunda vez `DADO_H` ya está definido, así que se saltea. Tocá **Ejecutar**.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -2752,6 +2769,12 @@ Acá todo está en un archivo: la declaración va arriba y la definición abajo.
 
 #### Desafío
 Escribí la declaración `extern` y la definición.
+
+#### Pasos
+1. Hay dos `___`.
+2. En `forja.h`, la declaración: `extern int dificultad;` (avisa que existe en otro lado).
+3. En `forja.c`, la definición: `int dificultad = 3;` (una sola vez).
+4. Tocá **Ejecutar**. Tiene que salir `danio: 30`.
 
 #### Código inicial
 ```c
@@ -2845,6 +2868,13 @@ La salida esperada es la de compilar **sin** `DEPURAR`.
 **Para superarla:**
 - Las macros tienen paréntesis en cada parámetro y alrededor.
 - `CUADRADO(2 + 3)` da 25.
+
+#### Pasos
+1. Arriba de `main`: `#ifdef DEPURAR`, `#define LOG(...) fprintf(stderr, "[depurar] " __VA_ARGS__)`, `#else`, `#define LOG(...) ((void) 0)` y `#endif`.
+2. `#define MAX(a, b) ((a) > (b) ? (a) : (b))` y `#define CUADRADO(x) ((x) * (x))`.
+3. `int danio(int ataque, int defensa)`: `int d = MAX(ataque - defensa, 1);`, `LOG("danio(%d, %d) = %d\n", ataque, defensa, d);` y `return d;`
+4. En `main`: `LOG("arranca el programa\n");`, `printf("daño: %d\n", danio(15, 4));`, `printf("daño: %d\n", danio(3, 9));` y `printf("área: %d\n", CUADRADO(2 + 3));`
+5. Tocá **Ejecutar**. Tiene que salir `área: 25`.
 
 #### Código inicial
 ```c
@@ -3452,6 +3482,12 @@ Acá no hay terminal: los datos se simulan llamando a una función con los mismo
 #### Desafío
 Mostrá la orden y el valor recibidos.
 
+#### Pasos
+1. Hay dos `___`.
+2. La orden es la segunda palabra: `argv[1]` (`argv[0]` es el nombre del programa).
+3. El valor: `argv[2]`.
+4. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -3528,6 +3564,11 @@ long n = strtol(texto, &fin, 10);
 
 #### Desafío
 Completá la comprobación de lo que sobró.
+
+#### Pasos
+1. Buscá `if (___)`.
+2. Cambiá `___` por `*fin != '\0' || fin == argv[2]` (sobró algo, o no leyó nada).
+3. Tocá **Ejecutar**. `hola` tiene que dar el aviso.
 
 #### Código inicial
 ```c
@@ -3627,6 +3668,11 @@ Muchos programas aceptan **opciones** con guion, como `-n 3`. Para leerlas, reco
 #### Desafío
 Completá la detección de `-n`.
 
+#### Pasos
+1. Buscá `if (___ && i + 1 < argc)`.
+2. Cambiá `___` por `strcmp(argv[i], "-n") == 0`.
+3. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -3723,6 +3769,12 @@ El número que devuelve `main` le dice al sistema cómo terminó el programa: **
 
 #### Desafío
 Completá los dos códigos de salida.
+
+#### Pasos
+1. Hay dos `return ___;`.
+2. Si la temperatura está mal: `EXIT_FAILURE`.
+3. Si está bien: `EXIT_SUCCESS`.
+4. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```c

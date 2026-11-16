@@ -203,6 +203,11 @@ Para comparar algoritmos sin depender de la compu, se cuentan los pasos: una var
 #### Desafío
 Sumá un paso en cada vuelta del bucle.
 
+#### Pasos
+1. Hay un `___` dentro del `for`.
+2. Sumá un paso: `pasos++`.
+3. Tocá **Ejecutar**. Tiene que salir `n = 1000: 1000 pasos`.
+
 #### Código inicial
 ```java
 public class Balanza {
@@ -265,6 +270,11 @@ Dos bucles anidados que comparan cada par: `for i … for j = i + 1 …`. Los pa
 
 #### Desafío
 Completá el inicio del bucle de adentro: compara cada uno con los que vienen **después**.
+
+#### Pasos
+1. Hay un `___` en el inicio del `for` de adentro.
+2. Arrancá en el que viene después de `i`: `i + 1`.
+3. Tocá **Ejecutar**. Tiene que salir `n = 10: 45 comparaciones`.
 
 #### Código inicial
 ```java
@@ -331,6 +341,11 @@ Con un `HashSet` de vistos, cada `add` dice en un paso si el pasaporte ya había
 
 #### Desafío
 Completá la condición: si no se pudo agregar, es un repetido.
+
+#### Pasos
+1. Hay un `___` en el `if`.
+2. `add` devuelve `false` si ya estaba: `!vistos.add(p)`.
+3. Tocá **Ejecutar**. Tiene que salir `Pasos: 5`.
 
 #### Código inicial
 ```java
@@ -412,6 +427,11 @@ En la búsqueda binaria, si lo del medio es menor que lo buscado, lo buscado est
 
 #### Desafío
 Completá qué pasa cuando lo del medio es menor que lo buscado.
+
+#### Pasos
+1. Hay un `___` en el `else if`.
+2. Si lo del medio es menor, buscá en la mitad de la derecha: `desde = medio + 1`.
+3. Tocá **Ejecutar**. Tiene que salir `en 20 pasos`.
 
 #### Código inicial
 ```java
@@ -512,6 +532,14 @@ Para *n* = 10, 100, 1.000, 10.000 y 100.000, llená el array con `i * 3` y busc�
 
 **Para superarla:**
 - La búsqueda binaria descarta la mitad en cada paso (`desde`, `hasta`, `medio`).
+
+#### Pasos
+1. Arriba del `main`: `static int pasos;`.
+2. `static int lineal(int[] datos, int buscado)`: un `for` que suma `pasos++` en cada elemento y devuelve la posición si lo encuentra. Si no, `-1`.
+3. `static int binaria(int[] ordenados, int buscado)`: `desde = 0`, `hasta = length - 1`. `while (desde <= hasta)`: `pasos++`, `medio = (desde + hasta) / 2`. Si es igual, devolvé `medio`; si es menor, `desde = medio + 1`; si no, `hasta = medio - 1`.
+4. En el `main`: el título `"     n   lineal  binaria"`. Para cada `n` de `{10, 100, 1_000, 10_000, 100_000}`, llená el array con `i * 3`.
+5. `pasos = 0;`, `lineal(datos, -1);` y guardá los pasos. Otra vez `pasos = 0;` y `binaria(datos, -1);`.
+6. `System.out.printf("%6d %8d %8d%n", n, l, pasos);`. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -620,6 +648,13 @@ Mostrá los duplicados de cada forma, cuántos pasos hizo cada una y cuántos pa
 - La segunda forma recorre la lista una sola vez y usa `add` del conjunto para saber si ya estaba.
 - Las dos formas encuentran los mismos duplicados.
 
+#### Pasos
+1. En el `main`: `List<String> pasaportes = List.of("AR-101", "UY-202", "AR-101", "CL-303", "UY-202", "AR-101", "PY-404");`.
+2. Con dos bucles (`j` desde `i + 1`): contá las comparaciones y, si son iguales y todavía no está en `duplicadosLentos`, agregalo.
+3. Con conjuntos: `Set<String> vistos = new HashSet<>();` y `Set<String> duplicados = new LinkedHashSet<>();`. Por cada uno, `if (!vistos.add(p))` → `duplicados.add(p);`.
+4. Mostrá `"Con dos bucles: " + duplicadosLentos + " en " + comparaciones + " comparaciones"`, `"Con HashSet: " + duplicados + " en " + pasaportes.size() + " pasos"` y `"Únicos: " + vistos.size()`.
+5. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```java
 import java.util.ArrayList;
@@ -715,6 +750,14 @@ totales de cada una.
 **Para superarla:**
 - La búsqueda en la lista corta con `break` al encontrar.
 - El mapa se usa con `get`, sin recorrerlo.
+
+#### Pasos
+1. Dentro de la clase: `record Mercancia(String codigo, String descripcion) { }`.
+2. En el `main`: 50 000 mercancías `new Mercancia("M" + i, "bulto " + i)`. Guardá cada una en la lista y en el mapa (`mapa.put(m.codigo(), m)`).
+3. Para `"M10"`, `"M49999"` y `"X1"`: recorré la lista sumando `pasosLista++` y cortá con `break;` al encontrarla.
+4. `Mercancia porMapa = mapa.get(codigo);` y mostrá `codigo + ": " + (porMapa == null ? "no está" : porMapa.descripcion())`.
+5. Al final: `"Pasos con la lista: " + pasosLista` y `"Pasos con el mapa: " + buscados.length`.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -1057,6 +1100,11 @@ Separá: una clase **calcula** y otra **formatea**. Así, si cambia el formato, 
 #### Desafío
 Completá la llamada al formateador con el total calculado.
 
+#### Pasos
+1. Hay un `___` en `String texto = ___;`.
+2. Usá el formateador: `new Formateador().formatear(total)`.
+3. Tocá **Ejecutar**. Tiene que salir `Tasas del día: 240 denarios`.
+
 #### Código inicial
 ```java
 public class Separar {
@@ -1143,6 +1191,11 @@ Con una interfaz `Descuento`, cada descuento es una clase. Para agregar el del G
 #### Desafío
 Completá el `aplicar` del descuento del Gremio: 15 denarios menos.
 
+#### Pasos
+1. Hay un `___` en el `return` del Gremio.
+2. 15 denarios menos: `precio - 15`.
+3. Tocá **Ejecutar**. Tiene que salir `Gremio: 85.0`.
+
 #### Código inicial
 ```java
 public class Abierto {
@@ -1226,6 +1279,11 @@ Si no todas las aves vuelan, `volar()` no va en `Ave`: va en una interfaz `Volad
 
 #### Desafío
 Completá el tipo de la lista: solo las que pueden volar.
+
+#### Pasos
+1. Hay un `___` en `List<___>`.
+2. Solo las que vuelan: `Voladora`.
+3. Tocá **Ejecutar**. Tiene que salir `el avestruz corre, no vuela`.
 
 #### Código inicial
 ```java
@@ -1320,6 +1378,11 @@ El servicio guarda un `Avisador` (una interfaz) y lo recibe por el constructor: 
 
 #### Desafío
 Completá el constructor del servicio pasándole el avisador.
+
+#### Pasos
+1. Hay un `___` en `ServicioReservas servicio = ___;`.
+2. Pasale el avisador por el constructor: `new ServicioReservas(torre)`.
+3. Tocá **Ejecutar**. Tiene que salir `[Torre] Zed reservó 2 noches en la Torre`.
 
 #### Código inicial
 ```java
@@ -1416,6 +1479,14 @@ usa las tres y anuncia el informe.
 - Cada clase hace una sola cosa: ninguna calcula y muestra a la vez.
 - El `main` solo conecta las piezas.
 
+#### Pasos
+1. Abajo: `record Venta(String ciudad, int monto) { }`.
+2. `class CalculadoraVentas` → `int total(List<Venta> ventas)` con `ventas.stream().mapToInt(Venta::monto).sum()`.
+3. `class FormateadorInforme` → `String formatear(int cantidad, int total)` → `"Ventas: " + cantidad + " | Total: " + total + " denarios"`.
+4. `class Pregonero` → `void anunciar(String texto)` → `System.out.println("[Torre] " + texto);`.
+5. En el `main`: las tres ventas (Capital 120, Puerto 80, Capital 40), calculá el total, armá el texto y anuncialo.
+6. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```java
 import java.util.List;
@@ -1500,6 +1571,13 @@ cada descuento, con el nombre simple de la clase.
 **Para superarla:**
 - Agregar un descuento nuevo es agregar una clase: `cobrar` no se toca.
 - No hay `if`, `switch` ni `instanceof` sobre el tipo de descuento.
+
+#### Pasos
+1. Dentro de la clase: `interface Descuento { double aplicar(double precio); }`.
+2. Tres `record` que la implementan: `SinDescuento()` → `precio`, `Peregrino()` → `precio * 0.5` y `Gremio()` → `precio - 15`.
+3. `static double cobrar(double precio, Descuento d)` → `return d.aplicar(precio);`.
+4. En el `main`: `for (Descuento d : List.of(new SinDescuento(), new Peregrino(), new Gremio()))` → `d.getClass().getSimpleName() + ": " + cobrar(100, d)`.
+5. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -1587,6 +1665,14 @@ Nadia (1) y a Baldo (0) con el de prueba, y mostrá lo que guardó.
 **Para superarla:**
 - `ServicioReservas` no hace ningún `new` de un avisador: lo recibe.
 - El mismo servicio funciona con los dos avisadores sin cambios.
+
+#### Pasos
+1. Abajo: `interface Avisador { void avisar(String mensaje); }`.
+2. `class AvisadorDePrueba implements Avisador` con `final List<String> avisos = new ArrayList<>();` y `avisar` → `avisos.add(mensaje);`.
+3. `class ServicioReservas` con `private final Avisador avisador;` (en el constructor).
+4. `reservar(String viajero, int noches)`: si `noches <= 0`, `avisador.avisar("reserva rechazada para " + viajero);` y `return;`. Si no, `viajero + " reservó " + noches + (noches == 1 ? " noche" : " noches")`.
+5. En el `main`: `Avisador deConsola = mensaje -> System.out.println("Consola: " + mensaje);` y un `AvisadorDePrueba`. Zed (3) con el de consola; Nadia (1) y Baldo (0) con el de prueba.
+6. `"Avisos guardados en la prueba: " + dePrueba.avisos`. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -2200,6 +2286,11 @@ Un contenedor guarda las piezas por nombre en un mapa y las entrega cuando algui
 #### Desafío
 Completá el método que entrega una pieza por su nombre.
 
+#### Pasos
+1. Hay un `___` en el `return` de `pedir`.
+2. Devolvé la pieza guardada con ese nombre: `piezas.get(nombre)`.
+3. Tocá **Ejecutar**. Tiene que salir `Es la misma pieza: true`.
+
 #### Código inicial
 ```java
 import java.util.HashMap;
@@ -2301,6 +2392,11 @@ Cuando el contenedor arma una pieza que necesita otra, primero busca la que hace
 #### Desafío
 Completá el armado del servicio con el reloj que ya está en el contenedor.
 
+#### Pasos
+1. Hay un `___` en `contenedor.put("campanas", ___)`.
+2. Armá el servicio con el reloj: `new ServicioCampanas(reloj)`.
+3. Tocá **Ejecutar**. Tiene que salir `Din don: son las 9`.
+
 #### Código inicial
 ```java
 import java.util.HashMap;
@@ -2396,6 +2492,11 @@ El servicio recibe un `Notificador` (la interfaz). Según la configuración (`mo
 
 #### Desafío
 Completá la elección: con el modo "mensajero", el contenedor da un `PorMensajero`.
+
+#### Pasos
+1. Hay un `___` después del `?`.
+2. Con `"mensajero"`, devolvé `new PorMensajero()`.
+3. Tocá **Ejecutar**. Tiene que salir `Mensajero: el Dragón despertó`.
 
 #### Código inicial
 ```java
@@ -2499,6 +2600,11 @@ Un archivo de propiedades guarda pares `clave=valor`. `Properties.load(...)` los
 
 #### Desafío
 Completá la lectura de la tasa desde las propiedades.
+
+#### Pasos
+1. Hay un `___` en `props.___("cambio.tasa")`.
+2. Para leer una propiedad: `getProperty`.
+3. Tocá **Ejecutar**. Tiene que salir `100 denarios son 85.0 monedas del Puerto`.
 
 #### Código inicial
 ```java
@@ -3995,6 +4101,11 @@ Un pedido HTTP tiene un **método** (`GET` para leer, `POST` para crear, `PUT` p
 #### Desafío
 Completá el caso del pedido que crea un barco.
 
+#### Pasos
+1. Hay un `___` en el segundo `case`.
+2. El pedido que crea un barco es `"POST /api/barcos"`.
+3. Tocá **Ejecutar**. Tiene que salir `201: barco creado`.
+
 #### Código inicial
 ```java
 public class Ventanilla {
@@ -4065,6 +4176,11 @@ Un objeto JSON va entre llaves, con `"clave": valor` separados por coma. Los tex
 #### Desafío
 Completá el JSON con la carga del barco (un número, sin comillas).
 
+#### Pasos
+1. Hay un `___` en el JSON.
+2. La carga es un número, sin comillas: `carga`.
+3. Tocá **Ejecutar**. Tiene que salir `{"nombre": "Garza", "carga": 80}`.
+
 #### Código inicial
 ```java
 public class Json {
@@ -4128,6 +4244,11 @@ Los códigos de estado dicen cómo salió el pedido: **200** encontrado, **404**
 
 #### Desafío
 Completá el código de estado para un barco que no existe.
+
+#### Pasos
+1. Hay un `___` en el `return` del `if`.
+2. El código de «no existe» es `404`.
+3. Tocá **Ejecutar**. Tiene que salir `404 no existe el barco Ceibo`.
 
 #### Código inicial
 ```java
@@ -4203,6 +4324,11 @@ El controlador solo traduce: recibe el pedido, le pide al **servicio** el result
 
 #### Desafío
 Completá el controlador: que le pida el costo al servicio.
+
+#### Pasos
+1. Hay un `___` en `int costo = ___;`.
+2. Pedíselo al servicio: `servicio.costo(kilos)`.
+3. Tocá **Ejecutar**. Tiene que salir `"costo": 55`.
 
 #### Código inicial
 ```java
@@ -5934,6 +6060,11 @@ Un **DTO** es un objeto (casi siempre un `record`) con solo lo que tiene que via
 #### Desafío
 Completá la respuesta con el nombre y el pasaporte, sin la clave.
 
+#### Pasos
+1. Hay un `___` en el `return` de `aRespuesta`.
+2. Creá la respuesta solo con nombre y pasaporte: `new ViajeroRespuesta(v.nombre(), v.pasaporte())`.
+3. Tocá **Ejecutar**. La línea `Viaja:` no tiene que mostrar la clave.
+
 #### Código inicial
 ```java
 public class Dto {
@@ -6003,6 +6134,11 @@ Se revisa cada campo y se **juntan** los errores en una lista: así el que mand�
 
 #### Desafío
 Completá la regla de los kilos: tienen que ser mayores que cero.
+
+#### Pasos
+1. Hay un `___` en el segundo `if`.
+2. Los kilos tienen que ser mayores que cero; el error es cuando `p.kilos() <= 0`.
+3. Tocá **Ejecutar**. La segunda línea tiene que mostrar los dos errores.
 
 #### Código inicial
 ```java
@@ -6086,6 +6222,11 @@ El servicio lanza una excepción propia (`NoEncontrado`); un **manejador central
 
 #### Desafío
 Completá el manejador: atrapá la excepción `NoEncontrado`.
+
+#### Pasos
+1. Hay un `___` en el `catch`.
+2. La excepción que se atrapa es `NoEncontrado`.
+3. Tocá **Ejecutar**. Tiene que salir `404 {"detail": "No existe el envío E9"}`.
 
 #### Código inicial
 ```java
@@ -6185,6 +6326,12 @@ Un **builder** arma el objeto paso a paso: `Envio.builder().destinatario("Baldo"
 
 #### Desafío
 Completá el método del builder que guarda los kilos y devuelve el builder.
+
+#### Pasos
+1. Hay un `___` dentro de `kilos(int k)`.
+2. Guardá los kilos: `this.kilos = k;`.
+3. Abajo, devolvé el mismo builder: `return this;`.
+4. Tocá **Ejecutar**. Tiene que salir `Baldo: 30 kg`.
 
 #### Código inicial
 ```java
@@ -7901,6 +8048,11 @@ El **Dragón del Imperio** despierta enroscado en la ventana más alta, hecho de
 #### Desafío
 Completá el impuesto del barril: el 10 % del valor más 0,5 por litro.
 
+#### Pasos
+1. Hay un `___` en el `return` del impuesto del barril.
+2. El 10 % del valor más 0,5 por litro: `valor * 0.10 + litros * 0.5`.
+3. Tocá **Ejecutar**. Tiene que salir `Impuestos: 170.0`.
+
 #### Código inicial
 ```java
 import java.util.List;
@@ -8027,6 +8179,11 @@ Las estrategias se guardan en un mapa por nombre. La activa es solo un nombre: `
 #### Desafío
 Completá el cálculo con la estrategia activa del mapa.
 
+#### Pasos
+1. Hay un `___` en el `return` de `recargo`.
+2. Buscá la estrategia activa y calculá: `ESTRATEGIAS.get(activa).calcular(dias, valor)`.
+3. Tocá **Ejecutar**. Tiene que salir `feria, 5 días sobre 1500: 30.0`.
+
 #### Código inicial
 ```java
 import java.util.LinkedHashMap;
@@ -8122,6 +8279,11 @@ Cada viajero dice qué parte del recargo paga: el mercader, `1.0`; el peregrino,
 
 #### Desafío
 Completá el factor del peregrino: paga la mitad.
+
+#### Pasos
+1. Hay un `___` en el `return` de `factorRecargo`.
+2. El peregrino paga la mitad: `0.5`.
+3. Tocá **Ejecutar**. Tiene que salir `Sor Ana paga de recargo 15.0`.
 
 #### Código inicial
 ```java
@@ -8252,6 +8414,11 @@ El servicio busca cada mercancía en el `HashMap` por código, suma valores e im
 
 #### Desafío
 Completá el total de la declaración.
+
+#### Pasos
+1. Hay un `___` en `double total = ___;`.
+2. Sumá impuestos y recargo: `impuestos + recargo`.
+3. Tocá **Ejecutar**. Tiene que salir `total=320.0`.
 
 #### Código inicial
 ```java

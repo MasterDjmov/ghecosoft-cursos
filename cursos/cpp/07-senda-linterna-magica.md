@@ -252,6 +252,11 @@ SDL (la biblioteca de juegos) no corre en el navegador: se prueba la lógica sin
 #### Desafío
 Calculá el `dt` en segundos con decimales.
 
+#### Pasos
+1. `/ 1000` divide enteros y da 0.
+2. Cambialo por `/ 1000.0`.
+3. Tocá **Ejecutar**. Tiene que salir `dt = 0.016 s, x = 4.8`.
+
 #### Código inicial
 ```cpp
 #include <cstdint>
@@ -320,6 +325,12 @@ Para rebotar: después de mover, si la pelota se pasó del borde derecho (100), 
 
 #### Desafío
 Hacé rebotar la pelota en los dos bordes.
+
+#### Pasos
+1. Después de mover la pelota, revisá los bordes.
+2. Si `x > 100`: `x = 100;` y `vx = -vx;`.
+3. Si `x < 0`: `x = 0;` y `vx = -vx;`.
+4. Tocá **Ejecutar**. Tiene que salir `cuadro 2: x = 100`.
 
 #### Código inicial
 ```cpp
@@ -397,6 +408,11 @@ Creá los tres objetos en orden y sacá las llamadas a mano: al terminar `main`,
 
 #### Desafío
 Usá objetos que se devuelvan solos.
+
+#### Pasos
+1. Cambiá los tres `pedir(...)` por objetos: `Recurso ventana("ventana");`, `Recurso pincel("pincel");` y `Recurso lente("lente");`.
+2. Borrá los `devolver(...)`: los objetos se devuelven solos al terminar.
+3. Tocá **Ejecutar**. Se tienen que devolver en orden inverso, empezando por la lente.
 
 #### Código inicial
 ```cpp
@@ -1117,6 +1133,11 @@ Si no se aprieta nada, el largo es 0: no dividas.
 #### Desafío
 Normalizá la dirección.
 
+#### Pasos
+1. La diagonal tiene largo 1,41 y corre más rápido.
+2. `double largo = std::hypot(dx, dy);`. Si `largo > 0`, `dx /= largo;` y `dy /= largo;`.
+3. Tocá **Ejecutar**. Las tres tienen que tener rapidez 1.
+
 #### Código inicial
 ```cpp
 #include <cmath>
@@ -1195,6 +1216,11 @@ Guardá cómo estaba en el cuadro anterior. «Recién apretada» es: está apret
 #### Desafío
 Saltá solo cuando la tecla se acaba de apretar.
 
+#### Pasos
+1. Con la barra apretada, salta en cada cuadro.
+2. Saltá solo si está apretada y antes no: `if (ahora && !antes)`.
+3. Tocá **Ejecutar**. Tiene que salir `Saltos: 2`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -1271,6 +1297,11 @@ Una animación de 4 placas (dibujos) se repite en ronda: 0, 1, 2, 3, 0, 1… La 
 
 #### Desafío
 Hacé que la animación vuelva a empezar.
+
+#### Pasos
+1. La animación tiene 4 placas.
+2. Agregá `% 4` al cálculo: `static_cast<int>(t * fps) % 4`.
+3. Tocá **Ejecutar**. A los 0.6 s tiene que volver a la placa 0.
 
 #### Código inicial
 ```cpp
@@ -2050,6 +2081,11 @@ Dos rectángulos se tocan si se superponen **en los dos ejes a la vez**. En `x`:
 #### Desafío
 Revisá los dos ejes.
 
+#### Pasos
+1. Solo revisa el eje x.
+2. Agregá el eje y: `&& a.y < b.y + b.h && a.y + a.h > b.y`.
+3. Tocá **Ejecutar**. Tiene que salir `Pared abajo: libre`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -2132,6 +2168,11 @@ La cámara sigue al jugador para que quede en el centro de la pantalla: `jugador
 #### Desafío
 Que la cámara no muestre afuera del mundo.
 
+#### Pasos
+1. La cámara no puede quedar antes del 0 ni pasarse del final.
+2. Cambiala por `std::clamp(jugador - pantalla / 2, 0, mundo - pantalla)`.
+3. Tocá **Ejecutar**. Con el jugador en 50, la cámara tiene que quedar en 0.
+
 #### Código inicial
 ```cpp
 #include <algorithm>
@@ -2200,6 +2241,11 @@ Del título se pasa al juego: `return std::make_unique<Juego>();`.
 
 #### Desafío
 Que el título pase al juego.
+
+#### Pasos
+1. El título vuelve a crear otro título.
+2. Cambiá `std::make_unique<Titulo>()` por `std::make_unique<Juego>()`.
+3. Tocá **Ejecutar**. Tienen que salir las tres escenas.
 
 #### Código inicial
 ```cpp
@@ -2858,6 +2904,11 @@ La fila del mapa es un texto, y cada letra una baldosa. Cuando Bron pisa una bal
 #### Desafío
 Juntá las gemas al pisarlas.
 
+#### Pasos
+1. Después de mover a Bron, revisá si pisó una gema.
+2. `if (fila[x] == '*') { fila[x] = '.'; gemas++; }`.
+3. Tocá **Ejecutar**. Tiene que salir `Gemas: 3`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -2939,6 +2990,11 @@ El espectro persigue dando un paso por eje hacia Bron: si está a la izquierda, 
 #### Desafío
 Que el espectro persiga en los dos ejes.
 
+#### Pasos
+1. El espectro solo persigue en x.
+2. Agregá el eje y: `if (ey < by) ey++;` y `if (ey > by) ey--;`.
+3. Tocá **Ejecutar**. Tiene que terminar en `(5, 5)`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -3011,6 +3067,11 @@ Y el orden importa: en cada cuadro, revisá primero si el espectro tocó a Bron.
 
 #### Desafío
 Corregí la condición de victoria.
+
+#### Pasos
+1. `gemas > 0` gana con la primera gema.
+2. Cambialo por `gemas == total`.
+3. Tocá **Ejecutar**. Tiene que salir `cuadro 7: ganaste con 3 gemas`.
 
 #### Código inicial
 ```cpp

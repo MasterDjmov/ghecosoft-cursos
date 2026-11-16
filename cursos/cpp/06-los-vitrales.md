@@ -245,6 +245,11 @@ Qt no corre en el navegador: se prueba la lógica sin ventana, que es lo mismo q
 #### Desafío
 Hacé que el clic llame a todo lo conectado.
 
+#### Pasos
+1. Después del `std::cout << "click!\n";`, llamá a todo lo conectado.
+2. Agregá `for (const auto& slot : conectados_) { slot(); }`.
+3. Tocá **Ejecutar**. Tiene que sonar la campana en cada clic.
+
 #### Código inicial
 ```cpp
 #include <functional>
@@ -345,6 +350,11 @@ En `poner`: si el valor nuevo es igual al actual, salí con `return`. Si cambió
 
 #### Desafío
 Avisá solo cuando el valor cambia.
+
+#### Pasos
+1. Al principio del método, si el valor no cambió, no avises.
+2. Agregá `if (v == valor_) { return; }`.
+3. Tocá **Ejecutar**. Tiene que salir `Avisos: 3`.
 
 #### Código inicial
 ```cpp
@@ -450,6 +460,11 @@ Las conexiones se guardan en un mapa de número a función, así que desconectar
 
 #### Desafío
 Hacé que `desconectar` saque la conexión.
+
+#### Pasos
+1. Después del `std::cout` de `desconectar`, sacá la conexión.
+2. Agregá `conectados_.erase(id);`.
+3. Tocá **Ejecutar**. Después de desconectar, no tiene que sonar la campana.
 
 #### Código inicial
 ```cpp
@@ -1029,6 +1044,11 @@ En vez de cortar con `return` en el primer error, agregá cada error a la lista 
 #### Desafío
 Juntá todos los errores antes de avisar.
 
+#### Pasos
+1. Cada `return errores;` corta al primer error.
+2. Borrá los dos `return errores;` de adentro de los `if` (dejá solo el del final).
+3. Tocá **Ejecutar**. Tiene que salir `3 errores:`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -1131,6 +1151,11 @@ El truco: borrá de **atrás para adelante** (el lugar más grande primero). As�
 #### Desafío
 Borrá en el orden que no corre a nadie.
 
+#### Pasos
+1. Al borrar el primero, los de atrás se corren de lugar.
+2. Borrá de atrás para adelante: `for (auto it = marcados.rbegin(); it != marcados.rend(); ++it)` y `inscriptos.erase(inscriptos.begin() + *it);`.
+3. Tocá **Ejecutar**. Tiene que salir `Quedan: Bron Oto Tesla`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -1211,6 +1236,13 @@ A diferencia de `>>`, `getline` con separador no corta en los espacios: lee hast
 
 #### Desafío
 Leé los campos respetando los espacios.
+
+#### Pasos
+1. `in >> nombre` corta en el primer espacio.
+2. Leé la línea entera: `std::string linea;` y `while (std::getline(in, linea))`.
+3. Adentro: `std::istringstream campos(linea);` y los tres campos con `std::getline(campos, nombre, ';')`, `std::getline(campos, edad, ';')` y `std::getline(campos, torre)`.
+4. Mostrá `++n << ". " << nombre << " (" << edad << ") - " << torre`.
+5. Tocá **Ejecutar**. Tiene que salir `Oto el Grande (40)`.
 
 #### Código inicial
 ```cpp
@@ -2044,6 +2076,11 @@ if (tipo == "farol") {
 #### Desafío
 Enseñale a la fábrica a crear faroles.
 
+#### Pasos
+1. Antes del `return nullptr;`, agregá el caso del farol.
+2. `if (tipo == "farol") { return std::make_unique<Farol>(nombre); }`.
+3. Tocá **Ejecutar**. Tiene que salir `Registrado: farol Lucero`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -2184,6 +2221,12 @@ Si borrás solo de la tabla, el modelo sigue teniendo el dato y los dos dicen co
 #### Desafío
 Hacé que la tabla y el modelo digan lo mismo.
 
+#### Pasos
+1. Se borra de la tabla, pero no del modelo.
+2. Antes de `refrescar`, agregá `registro.quitar(1);`.
+3. Borrá la línea `tabla.erase(tabla.begin() + 1);`.
+4. Tocá **Ejecutar**. Tiene que salir `Total: $249`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -2323,6 +2366,11 @@ Antes de quitar, revisá las dos puntas: que `fila` no sea negativa (si es, avis
 #### Desafío
 Cuidate del −1.
 
+#### Pasos
+1. Con −1 no hay nada elegido.
+2. Al principio de la función: `if (fila < 0) { std::cout << "Elegi un invento\n"; return; }`.
+3. Tocá **Ejecutar**. Tiene que salir `Elegi un invento`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -2433,6 +2481,15 @@ El programa lee de la entrada líneas `tipo nombre precio extra` (el nombre es u
 - La fábrica es el único lugar que conoce las tres derivadas.
 - La lista sale del registro cargado desde el archivo, no del primero.
 - Sin advertencias con `-Wall -Wextra`.
+
+#### Pasos
+1. `class Farol : public Invento` con `int luz_`. Constructor: `Farol(std::string nombre, int precio, int luz) : Invento(std::move(nombre), precio), luz_(luz) {}`.
+2. Sus `override`: `tipo()` → `"farol"`, `extra()` → `luz_` y `valor()` → `precio() + luz_ * 3`.
+3. En la fábrica `crear`, agregá el caso `"farol"` con `std::make_unique<Farol>(nombre, precio, extra)`.
+4. En `main`: `Registro taller;` y leé `tipo nombre precio extra`. Si `crear` da algo, `taller.agregar(std::move(i))`; si no, `"Tipo desconocido: "`.
+5. `taller.guardar("inventos.txt")` y `"Guardados: " << taller.todos().size()`.
+6. `Registro copia;`, `copia.cargar("inventos.txt");` y `copia.ordenar();`. Mostrá `tipo << " " << nombre << ": " << valor` y `"Valor total: "`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -3567,6 +3624,11 @@ Si cada baldosa mide `tam` píxeles, la baldosa del clic sale con división ente
 #### Desafío
 Calculá bien la fila y la columna.
 
+#### Pasos
+1. La fila sale de la `y` y la columna de la `x`.
+2. Cambialos: `int fila = y / tam;` e `int columna = x / tam;`.
+3. Tocá **Ejecutar**. Tiene que salir `clic (40, 100) -> fila 3, columna 1`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -3637,6 +3699,11 @@ Un ángulo da la vuelta a los 360 grados: 365 es lo mismo que 5. Después de sum
 
 #### Desafío
 Hacé que la aguja dé la vuelta.
+
+#### Pasos
+1. Pasados los 360 grados, la aguja vuelve a 0.
+2. Cambiá el `tic` por `angulo_ = (angulo_ + 6) % 360;`.
+3. Tocá **Ejecutar**. El tic 3 tiene que dar 0 grados.
 
 #### Código inicial
 ```cpp
@@ -3722,6 +3789,11 @@ Antes de borrar, convertí: la fila visible `v` es la fila `visibles[v]` del mod
 
 #### Desafío
 Convertí la fila de la vista a la del modelo antes de borrar.
+
+#### Pasos
+1. `elegida` es la fila de la vista filtrada, no la del modelo.
+2. Borrá con la del modelo: `modelo.erase(modelo.begin() + visibles[elegida]);`.
+3. Tocá **Ejecutar**. Tiene que salir `Quedan: Tesla Oto Lima Lyn`.
 
 #### Código inicial
 ```cpp
@@ -4195,6 +4267,11 @@ Cada máquina calcula su costo a su manera: `costo()` es virtual puro en `Maquin
 #### Desafío
 Completá la grúa.
 
+#### Pasos
+1. A la grúa le falta su `costo`.
+2. Debajo del constructor: `int costo() const override { return horas() * 8 + toneladas_ * 50; }`.
+3. Tocá **Ejecutar**. Tiene que salir `Brazo: $180`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -4331,6 +4408,11 @@ friend std::ostream& operator<<(std::ostream& os, const Maquina& m);
 #### Desafío
 Hacé que el operador pueda leer la máquina.
 
+#### Pasos
+1. El operador no puede leer los datos privados.
+2. Dentro de la clase: `friend std::ostream& operator<<(std::ostream& os, const Maquina& m);`.
+3. Tocá **Ejecutar**. Tiene que salir `[205] Rueca - 30 h - $150`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -4427,6 +4509,11 @@ Una lambda para `std::sort` con desempate: contesta «¿`a` va antes que `b`?».
 #### Desafío
 Desempatá por código.
 
+#### Pasos
+1. Con el mismo costo, el orden no está definido.
+2. En la lambda: si los costos son distintos, `a.costo > b.costo`; si no, `a.codigo < b.codigo`.
+3. Tocá **Ejecutar**. Rueca (205) tiene que salir antes que Brazo (310).
+
 #### Código inicial
 ```cpp
 #include <algorithm>
@@ -4518,6 +4605,11 @@ Si leés en otro orden, cada dato termina en el campo equivocado.
 
 #### Desafío
 Cargá los campos en el orden en que se guardaron.
+
+#### Pasos
+1. Se guardó primero el tipo, después el código y después el nombre.
+2. Mové `std::getline(campos, nombre, ';');` abajo del de `codigo`.
+3. Tocá **Ejecutar**. Tiene que salir `[101] automata Cuco - 40 h`.
 
 #### Código inicial
 ```cpp
@@ -4661,6 +4753,14 @@ El nombre es una sola palabra.
 - `Taller` no acepta códigos repetidos, y lo que se guarda se vuelve a cargar igual.
 - El listado respeta el desempate.
 - Sin advertencias con `-Wall -Wextra`.
+
+#### Pasos
+1. `class Maquina` abstracta con código, nombre y horas privados, destructor virtual, tres virtuales puros (`tipo()`, `extra()` y `costo()`) y un `operator<<` amigo que muestra `"[" << codigo << "] " << tipo() << " " << nombre << " - " << horas << " h - $" << costo()`.
+2. `Automata` (batería) → `horas() * 10 + (100 - bateria_) * 2`. `Telar` (hilos) → `horas() * 5 + hilos_`. `Grua` (toneladas) → `horas() * 8 + toneladas_ * 50`.
+3. La fábrica `crear(tipo, codigo, nombre, horas, extra)` con los tres tipos (si no, `nullptr`).
+4. `class Taller` con `std::vector<std::unique_ptr<Maquina>>`: `alta` (falla si el código existe), `baja`, `ordenar` (costo de mayor a menor y, si empatan, por código), `total`, `guardar` (`tipo;codigo;nombre;horas;extra`) y `cargar` (con `getline` separado por `';'`, o −1 si no hay archivo).
+5. En `main`, leé las órdenes de la tabla y mostrá lo que dice cada una. Para `listar`: `ordenar()`, `std::cout << *m << "\n";` y `"Costo total: $"`.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp

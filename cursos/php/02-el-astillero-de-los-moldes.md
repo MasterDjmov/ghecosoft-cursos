@@ -280,6 +280,13 @@ echo $p->nombre;
 #### Desafío
 Creá dos botes con el molde y ponele nombre y color a cada uno.
 
+#### Pasos
+1. Hay un `___` en `$a = ___;`.
+2. Creá el objeto: `new Bote()`.
+3. Debajo de los datos de `$a`, creá `$b = new Bote();` con `$b->nombre = 'Albatros';` y `$b->color = 'blanco';`.
+4. Al final, `echo "{$b->nombre} ({$b->color})\n";`.
+5. Tocá **Ejecutar**. Tiene que salir `Albatros (blanco)`.
+
 #### Código inicial
 ```php
 <?php
@@ -360,6 +367,13 @@ Con `public` adelante de cada parámetro, PHP crea la propiedad y la guarda en u
 #### Desafío
 Escribí el constructor con promoción de propiedades y creá los botes con sus datos.
 
+#### Pasos
+1. Borrá las dos propiedades sueltas.
+2. En su lugar, el constructor: `public function __construct(public string $nombre, public int $carga) { }`.
+3. Cambiá `new Bote()` por `new Bote('Gaviota', 120)` y agregá `$c = new Bote('Tortuga', 40);`.
+4. Agregá `echo "{$c->nombre}: {$c->carga} kg\n";`.
+5. Tocá **Ejecutar**. Tiene que salir `Tortuga: 40 kg`.
+
 #### Código inicial
 ```php
 <?php
@@ -431,6 +445,11 @@ public function cargar(int $kilos): void {
 
 #### Desafío
 Escribí el método `cargar` y usalo para cargar los dos botes.
+
+#### Pasos
+1. Borrá el comentario `// Escribí cargar acá`.
+2. Escribí `public function cargar(int $kilos): void {` con `$this->carga += $kilos;` adentro.
+3. Tocá **Ejecutar**. Tiene que salir `Gaviota: 35 kg`.
 
 #### Código inicial
 ```php
@@ -518,6 +537,11 @@ Las llaves `{ }` dentro del texto ayudan a PHP a saber dónde termina la variabl
 #### Desafío
 Escribí `__toString` para que `echo $bote` muestre «Gaviota (120 kg)».
 
+#### Pasos
+1. Dentro de la clase, después del constructor, agregá `public function __toString(): string {`.
+2. Adentro: `return "{$this->nombre} ({$this->carga} kg)";`.
+3. Tocá **Ejecutar**. Tiene que salir `Gaviota (120 kg)`.
+
 #### Código inicial
 ```php
 <?php
@@ -603,6 +627,15 @@ plumas 1×1×1 de 12 kg) y mostralos con su densidad y si son pesados.
 **Para superarla:**
 - Usa promoción de propiedades en el constructor.
 - Los métodos usan `$this` y tienen tipos.
+
+#### Pasos
+1. Dejá `declare(strict_types=1);` arriba y borrá el comentario. `class Cajon {` con el constructor promovido: `public string $contenido`, `public float $ancho`, `$alto`, `$largo` y `$pesoKg`.
+2. `volumen(): float` → `round($this->ancho * $this->alto * $this->largo, 3)`.
+3. `densidad(): float` → `round($this->pesoKg / (ancho × alto × largo), 1)`. `esPesado(): bool` → `$this->pesoKg > 100`.
+4. `__toString()` → `"Cajón de {$this->contenido} ({$this->volumen()} m³, {$this->pesoKg} kg)"`.
+5. Los tres cajones en un array: `new Cajon('yerba', 0.6, 0.6, 0.6, 65)`, hierro (0.4, 0.3, 0.5, 180) y plumas (1, 1, 1, 12).
+6. `foreach`: `echo $cajon, "\n";` y `echo "  densidad: ", $cajon->densidad(), " kg/m³", $cajon->esPesado() ? " · PESADO" : "", "\n";`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -716,6 +749,15 @@ comprás con esa variable.
 **Para superarla:**
 - Los movimientos se hacen con métodos, no cambiando el saldo desde afuera.
 - `comprar` respeta el límite.
+
+#### Pasos
+1. `class CuentaCorriente {` con `public float $saldo = 0;` y el constructor promovido con `titular` y `limiteFiado`.
+2. `comprar(float $monto): bool`: si `$this->saldo - $monto < -$this->limiteFiado`, `return false;`. Si no, restá y `true`.
+3. `pagar(float $monto): void` → suma. `estado(): string` con `match (true)`: saldo menor a 0, `'debe'`; mayor, `'a favor'`; `default`, `'al día'`.
+4. `__toString()` → `"{$this->titular}: {$this->saldo} ({$this->estado()})"`.
+5. Iara (5000) y Nilo (2000). Iara compra 3200 y 2500, paga 4000. Nilo compra 1800 y paga 1800. Mostrá `? 'ok' : 'rechazado'` y cada cuenta (copiá los textos de la salida).
+6. `$otra = $nilo;`, `$otra->comprar(500);` y `echo "Después de comprar con \$otra: ", $nilo, "\n";`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -1307,6 +1349,11 @@ Desde afuera hay que usar los métodos públicos, que cuidan las reglas: `girar(
 #### Desafío
 Hacé privado el rumbo y que `girar` rechace los ángulos imposibles.
 
+#### Pasos
+1. Cambiá `public int $rumbo` por `private int $rumbo`.
+2. En `girar`, antes de guardar: si `$grados < 0 || $grados > 359`, `echo "Rumbo imposible: $grados\n";` y `return;`.
+3. Tocá **Ejecutar**. Tiene que salir `Rumbo imposible: 720`.
+
 #### Código inicial
 ```php
 <?php
@@ -1397,6 +1444,11 @@ Lanzar un error se llama **lanzar una excepción**: `throw new InvalidArgumentEx
 #### Desafío
 Validá el calado en el constructor: tiene que ser mayor que 0.
 
+#### Pasos
+1. Dentro del constructor, agregá `if ($calado <= 0) {`.
+2. Adentro: `throw new InvalidArgumentException("calado imposible para $nombre");`.
+3. Tocá **Ejecutar**. Tiene que salir `Rechazado: calado imposible para Gaviota`.
+
 #### Código inicial
 ```php
 <?php
@@ -1467,6 +1519,11 @@ Con `readonly`, la propiedad se asigna una sola vez, en el constructor, y despu�
 
 #### Desafío
 Marcá la matrícula como `readonly` para que el intento de cambiarla falle.
+
+#### Pasos
+1. En el constructor, entre `public` y `string`, agregá `readonly`.
+2. Queda `public readonly string $matricula`.
+3. Tocá **Ejecutar**. Tiene que salir `No se puede: la matricula es de solo lectura`.
 
 #### Código inicial
 ```php
@@ -1546,6 +1603,12 @@ public function conRecargo(float $p): Precio {
 
 #### Desafío
 Hacé que `conRecargo` devuelva un precio nuevo en lugar de cambiar el que hay.
+
+#### Pasos
+1. Agregá `final` antes de `class Precio`, y `readonly` en `public readonly int $sellos`.
+2. En `conRecargo`, borrá los dos renglones de adentro.
+3. En su lugar: `return new Precio($this->sellos + $extra);`.
+4. Tocá **Ejecutar**. Iara tiene que seguir con 100.
 
 #### Código inicial
 ```php
@@ -1642,6 +1705,14 @@ entre 0 y 359. Probá los giros del ejemplo e intentá crear un timón con 400.
 **Para superarla:**
 - El rumbo es `private` y solo cambia con `girar`.
 - El constructor valida.
+
+#### Pasos
+1. Dejá `declare(strict_types=1);` arriba y borrá el comentario. `class Timon {` con `public function __construct(private int $rumbo)`. Si no está entre 0 y 359, `throw new InvalidArgumentException("Rumbo inválido: $rumbo");`.
+2. `girar(int $grados): void` → `$this->rumbo = ($this->rumbo + $grados) % 360;` y, si queda negativo, sumale 360.
+3. `rumbo(): int` (el getter) y `puntoCardinal(): string` con `match (true)`: de 45 a 134 `'E'`, de 135 a 224 `'S'`, de 225 a 314 `'O'` y `default` `'N'`.
+4. `$timon = new Timon(350);` y `foreach ([20, -30, 90, 180, -400] as $giro)` → `girar` y `printf("Gira %4d → %3d° (%s)\n", ...)`.
+5. Un `try` con `new Timon(400);` y en el `catch`, `echo "No se creó: ", $e->getMessage(), "\n";`.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -1755,6 +1826,15 @@ crear uno con código `a-12`.
 **Para superarla:**
 - La clase es `readonly` y las variantes devuelven objetos nuevos.
 - El constructor valida el código y el precio.
+
+#### Pasos
+1. Borrá el comentario. `readonly class Pasaje {` con el constructor promovido: `codigo`, `pasajero`, `destino` (string) e `int $centavos`.
+2. En el constructor: si `!preg_match('/^[A-Z]-\d{3}$/', $codigo)`, `throw new InvalidArgumentException("Código inválido: $codigo");`. Si `$centavos <= 0`, `'El precio tiene que ser positivo'`.
+3. `conDescuento(int $porcentaje): Pasaje` → `new Pasaje(..., intdiv($this->centavos * (100 - $porcentaje), 100))`.
+4. `cambiarDestino(string $destino, int $recargo): Pasaje` → un pasaje nuevo con el destino y el precio más el recargo.
+5. `__toString()` → `"{$this->codigo} {$this->pasajero} → {$this->destino}: $" . number_format($this->centavos / 100, 2, ',', '.')`.
+6. `$original = new Pasaje('A-102', 'Iara', 'Valle', 500000);`, el descuento del 20 %, el cambio a Imperio con 180000 y los cuatro `echo` (copialos de la salida). Al final, `try` con `new Pasaje('a-12', ...)`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -1872,6 +1952,15 @@ mostrando `ok` o el mensaje del error, y al final el inventario.
 **Para superarla:**
 - El array es privado y solo cambia con `ingresar` y `retirar`.
 - Los movimientos inválidos lanzan excepciones con mensajes claros.
+
+#### Pasos
+1. Borrá el comentario. `class Inventario {` con `private array $stock = [];`.
+2. `cantidad(string $producto): int` → `$this->stock[$producto] ?? 0`.
+3. `ingresar`: si `$cantidad <= 0`, `throw new InvalidArgumentException("La cantidad tiene que ser positiva ($cantidad)");`. Si no, sumá.
+4. `retirar`: `$hay = $this->cantidad($producto);`. Si no alcanza, `throw new InvalidArgumentException("No hay $cantidad de $producto (quedan $hay)");`. Si alcanza, restá.
+5. `productos(): array` → una copia, `ksort` y devolvela.
+6. `$movimientos` con los 6 de la salida (`['ingresar', 'harina', 50]`, ...). `foreach ($movimientos as [$accion, $producto, $cantidad])` con `try`: `$inv->$accion($producto, $cantidad);` y `echo "$accion $cantidad $producto: ok\n";`. En el `catch`, el mensaje.
+7. `print_r($inv->productos());`. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -2325,6 +2414,12 @@ Adentro de la clase se usa como `self::CALADO_MAXIMO` (`self` es «esta clase»)
 #### Desafío
 Reemplazá los números sueltos por la constante de la clase.
 
+#### Pasos
+1. Arriba de la clase, adentro: `const CALADO_MAXIMO = 12;`.
+2. En `entra()`, cambiá el `15` por `self::CALADO_MAXIMO`.
+3. En el `echo`, cambiá el `12` escrito a mano por `" . Barco::CALADO_MAXIMO . "`.
+4. Tocá **Ejecutar**. Tiene que salir `Leviatan: no entra (maximo 12 m)`.
+
 #### Código inicial
 ```php
 <?php
@@ -2405,6 +2500,13 @@ En el constructor, `self::$botados++` suma uno al contador común (fijate que ll
 
 #### Desafío
 Hacé que el contador sea de la clase y que cuente todos los barcos botados.
+
+#### Pasos
+1. Cambiá `private int $botados` por `private static int $botados`.
+2. En el constructor, `$this->botados++` pasa a ser `self::$botados++`.
+3. El método: `public static function botados(): int` con `return self::$botados;`.
+4. Abajo: `new Barco('Tortuga');` (sin `$ultimo`) y `echo "Botados este año: " . Barco::botados() . "\n";`.
+5. Tocá **Ejecutar**. Tiene que salir `Botados este año: 3`.
 
 #### Código inicial
 ```php
@@ -2492,6 +2594,12 @@ public static function velero(string $nombre): self {
 
 #### Desafío
 Escribí las fábricas `velero` y `remolcador`.
+
+#### Pasos
+1. Dentro de la clase: `public static function velero(string $nombre): self { return new self($nombre, 'velero', 2); }`.
+2. Otra igual: `remolcador`, con `'remolcador'` y `0`.
+3. Cambiá los `new Barco(...)` por `Barco::velero('Brisa')` y `Barco::remolcador('Forzudo')`.
+4. Tocá **Ejecutar**. Tiene que salir `Brisa: velero, 2 mastiles`.
 
 #### Código inicial
 ```php
@@ -2584,6 +2692,15 @@ recaudación total.
 **Para superarla:**
 - El número sale del contador `static`.
 - Los valores fijos son constantes de clase.
+
+#### Pasos
+1. Borrá el comentario. `class Boleto {` con `public const PRECIO_BASE = 5000;`, `public const RECARGO_NOCTURNO = 0.25;` y `private static int $ultimo = 0;`.
+2. `public readonly string $numero;` y el constructor con `public readonly string $pasajero` y `public readonly bool $nocturno = false`.
+3. En el constructor: `self::$ultimo++;` y `$this->numero = sprintf('B-%04d', self::$ultimo);`.
+4. `precio(): float` → si es nocturno, `self::PRECIO_BASE * (1 + self::RECARGO_NOCTURNO)`; si no, `self::PRECIO_BASE`. `static emitidos(): int` → `self::$ultimo`.
+5. Los cuatro boletos: `new Boleto('Iara')`, `new Boleto('Nilo', nocturno: true)`, Lía y Olmo (nocturno).
+6. Mostrá cada uno (copiá el formato de la salida) y sumá. Al final: `echo "Emitidos: ", Boleto::emitidos(), " · recaudación: $", $total, "\n";`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -2695,6 +2812,14 @@ Y los métodos `enFahrenheit(): float`, `esHelada(): bool` (menos de 0 °C) y
 **Para superarla:**
 - El constructor es privado y los objetos se crean con las fábricas.
 - Las fábricas devuelven `self`.
+
+#### Pasos
+1. Borrá el comentario. `readonly class Temperatura {` con `private function __construct(public float $celsius) {}`.
+2. Tres fábricas `public static function ...: self`: `celsius($c)` → `new self($c)`; `fahrenheit($f)` → `new self(($f - 32) * 5 / 9)`; `kelvin($k)` → si es negativo, `throw new InvalidArgumentException("No existe una temperatura de $k K");`; si no, `new self($k - 273.15)`.
+3. `enFahrenheit()` → `round($this->celsius * 9 / 5 + 32, 1)`. `esHelada()` → `$this->celsius < 0`. `__toString()` → `number_format($this->celsius, 1) . ' °C'`.
+4. Las lecturas: Gaviota `celsius(12.5)`, Vikingo `fahrenheit(28.4)` y Explorador `kelvin(290.15)`.
+5. `foreach ($lecturas as [$barco, $t])` → `echo "$barco: $t (", $t->enFahrenheit(), " °F)", $t->esHelada() ? ' ¡agua helada!' : '', "\n";`.
+6. Un `try` con `Temperatura::kelvin(-5)` y `"Lectura descartada: "`. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -2811,6 +2936,15 @@ Mostrá la lista de monedas y los mismos cambios de aquella misión.
 **Para superarla:**
 - Todos los métodos son `static` y usan `self::`.
 - Las cotizaciones son una constante privada.
+
+#### Pasos
+1. Borrá el comentario. `final class Cambio {` con `private const COTIZACIONES = ['denario' => 1250.0, 'lingote' => 3400.0, 'escama' => 820.0, 'engranaje' => 2100.0];` y `private function __construct() {}`.
+2. `static monedas(): array` → `array_keys(self::COTIZACIONES)`, `sort` y devolvela.
+3. `static aPesos(float $cantidad, string $moneda): ?float` → si existe, `$cantidad * self::COTIZACIONES[$moneda]`; si no, `null`.
+4. `static convertir($cantidad, $de, $a): ?float` → pasá a pesos y dividí por la otra, con `round(..., 2)`. Si alguna moneda no existe, `null`.
+5. `static mostrar(...)`: si da `null`, `'Moneda desconocida: '` y la que falta. Si no, los números con `number_format(..., ',', '.')` y el plural (un `private static plural` que agrega `'s'` si no es 1).
+6. `echo "Monedas: ", implode(', ', Cambio::monedas()), "\n";` y los cuatro `Cambio::mostrar(...)` de la salida.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -3276,6 +3410,10 @@ class Velero extends Embarcacion {
 #### Desafío
 Hacé que `Velero` herede de `Embarcacion`.
 
+#### Pasos
+1. Cambiá `class Velero` por `class Velero extends Embarcacion`.
+2. Tocá **Ejecutar**. Tiene que salir `Soy Brisa y tengo 3 velas`.
+
 #### Código inicial
 ```php
 <?php
@@ -3359,6 +3497,11 @@ El Remolcador tiene un constructor propio, para su cuerda de arrastre, y se olvi
 
 #### Desafío
 Llamá al constructor del padre y reusá su `presentar()`.
+
+#### Pasos
+1. En el constructor del Remolcador, agregá `parent::__construct($nombre);`.
+2. En `presentar()`, usá lo del padre: `return parent::presentar() . " y arrastro con {$this->cuerda} m de cuerda";`.
+3. Tocá **Ejecutar**. Tiene que salir `Soy Forzudo y arrastro con 40 m de cuerda`.
 
 #### Código inicial
 ```php
@@ -3460,6 +3603,13 @@ Cuando algo **tiene** otra cosa, no se hereda: se guarda como una propiedad. Sac
 #### Desafío
 Rearmá las clases: el barco tiene un capitán.
 
+#### Pasos
+1. Arriba de todo, una clase nueva: `class Capitan { public function __construct(public string $persona) {} }`.
+2. El constructor de `Barco` recibe además `public Capitan $capitan`.
+3. Borrá la vieja `class Capitan extends Barco` y lo de abajo.
+4. Al final: `$b = new Barco('Gaviota', new Capitan('Marina'));` y `echo "{$b->nombre} tiene capitana: {$b->capitan->persona}\n";`.
+5. Tocá **Ejecutar**. Tiene que salir `Gaviota tiene capitana: Marina`.
+
 #### Código inicial
 ```php
 <?php
@@ -3537,6 +3687,12 @@ Marcá `precio()` como `final` y sacá la clase que lo pisa.
 
 #### Desafío
 Protegé el cálculo de la tarifa con `final` y usá la tarifa de verdad.
+
+#### Pasos
+1. Agregá `final` adelante de `public function precio`.
+2. Borrá la clase `BarcoGratis` entera.
+3. Cambiá `new BarcoGratis()` por `new Tarifa()`.
+4. Tocá **Ejecutar**. Tiene que salir `A pagar: 70`.
 
 #### Código inicial
 ```php
@@ -3623,6 +3779,14 @@ repetir la cuenta. Mostrá los recibos del ejemplo y el total a pagar.
 **Para superarla:**
 - Usa `extends`, `parent::__construct` y `parent::sueldo()`.
 - Las propiedades compartidas son `protected`.
+
+#### Pasos
+1. Borrá el comentario. `class Empleado {` con `public function __construct(protected string $nombre, protected float $basico) {}`.
+2. `sueldo(): float` → el básico. `recibo(): string` → `sprintf('%-6s $%s', $this->nombre, number_format($this->sueldo(), 2, ',', '.'))`.
+3. `class Estibador extends Empleado` con `POR_HORA_EXTRA = 1200`. Su constructor recibe además `private int $horasExtra` y llama a `parent::__construct($nombre, $basico);`. `sueldo()` → `parent::sueldo() + $this->horasExtra * self::POR_HORA_EXTRA`.
+4. `class Capitan extends Empleado` con `private string $barco`. `sueldo()` → `parent::sueldo() * 1.30`. `recibo()` → `parent::recibo() . " (capitán del {$this->barco})"`.
+5. Los empleados: `new Empleado('Nara', 650000)`, `new Estibador('Nilo', 700000, 14)` y `new Capitan('Iara', 900000, 'Gaviota')`. Mostrá cada recibo y sumá.
+6. `echo "Total: $", number_format($total, 2, ',', '.'), "\n";`. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -3744,6 +3908,12 @@ corrección.
 **Para superarla:**
 - Cada corrección tiene su comentario.
 
+#### Pasos
+1. Tocá **Ejecutar** y leé el primer error: la `descripcion` de la hija tiene un parámetro que el padre no tiene. Sacáselo: `public function descripcion(): string`. Dejá un comentario arriba.
+2. Ejecutá otra vez: el constructor de la hija no llama al del padre. Agregá `parent::__construct($patente, 6);` con su comentario.
+3. El tercero: en el padre, `$patente` es `private` y la hija no la ve. Cambiala a `protected`, con su comentario.
+4. Tocá **Ejecutar**. Tiene que salir `Camión AB123CD: AB123CD con 6 ruedas, 12.5 t`.
+
 #### Código inicial
 ```php
 <?php
@@ -3861,6 +4031,15 @@ Ejecutá los movimientos del ejemplo mostrando cada resultado.
 **Para superarla:**
 - Las hijas redefinen `extraer` con la misma firma.
 - `depositar` y `saldo` son `final`.
+
+#### Pasos
+1. Borrá el comentario. `class Cuenta {` con `protected float $saldo = 0;` y `public function __construct(protected string $titular) {}`.
+2. `final public function depositar(float $monto): void` y `final public function saldo(): float`. `extraer(float $monto): bool` → si `$monto > $this->saldo`, `false`; si no, restá y `true`.
+3. `class CajaDeAhorro extends Cuenta` con `EXTRACCIONES_POR_MES = 3` y `private int $extracciones = 0;`. `extraer`: si ya hubo 3, `false`; si no, `parent::extraer($monto)` y, si dio bien, sumá una. `finDeMes()` → `$this->saldo = round($this->saldo * 1.02, 2);` y el contador en 0.
+4. `class CuentaCorriente extends Cuenta` con `private float $descubierto` (llamá a `parent::__construct($titular)`). `extraer`: si `$this->saldo - $monto < -$this->descubierto`, `false`; si no, restá y `true`.
+5. Caja de Iara con 10000 y las extracciones 1000, 2000, 500 y 100, con `foreach ([...] as $i => $monto)`. Después `finDeMes()`, el saldo y una extracción de 100.
+6. Corriente de Nilo con 5000 de descubierto, depósito de 2000 y extracciones de 6000 y 2000. Copiá los textos de la salida.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -4385,6 +4564,12 @@ Cada hija **tiene** que escribirlos. Faltan la `Vela` y el `Ancla`.
 #### Desafío
 Escribí las clases hijas para que cada pieza se termine a su manera.
 
+#### Pasos
+1. Arriba de `$piezas`, escribí `class Vela extends Pieza` con `public function terminar(): string { return "Vela: cosida"; }`.
+2. Otra igual: `class Ancla extends Pieza`, que devuelve `"Ancla: forjada"`.
+3. En el array: `$piezas = [new Casco(), new Vela(), new Ancla()];`.
+4. Tocá **Ejecutar**. Tiene que salir `Ancla: forjada`.
+
 #### Código inicial
 ```php
 <?php
@@ -4482,6 +4667,13 @@ Así la función solo pregunta `$b->amarre()`, y cada barco contesta a su manera
 
 #### Desafío
 Reemplazá el `if` por tipo por un método en cada clase, y agregá la `Balsa` (paga 5).
+
+#### Pasos
+1. En la clase abstracta `Barco`: `abstract public function amarre(): int;`.
+2. En `Velero`: `public function amarre(): int { return 20; }`. En `Carguero`, lo mismo con `90`. En `Balsa`, con `5`.
+3. Borrá la función suelta `amarre(Barco $b)` con sus `if`.
+4. En el `foreach`, cambiá `amarre($b)` por `$b->amarre()`.
+5. Tocá **Ejecutar**. Tiene que salir `Balsa: 5`.
 
 #### Código inicial
 ```php
@@ -4589,6 +4781,13 @@ Acá, `botar()` hace los tres pasos y llama a `pintar()`, que es abstracto: cada
 
 #### Desafío
 Escribí `botar()` en la clase padre y dejá a las hijas solo con su pintura.
+
+#### Pasos
+1. En la clase padre, debajo de `pintar`, agregá `final public function botar(): void {` con tres `echo`: `"Revisado.\n"`, `"Pintado de " . $this->pintar() . ".\n"` y `"Al agua.\n"`.
+2. En `Velero`, borrá su `botar()` (queda solo con `pintar`).
+3. Agregá `class Gaviota extends Barco` con `protected function pintar(): string { return "violeta"; }`.
+4. Al final: `(new Gaviota())->botar();`.
+5. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -4700,6 +4899,15 @@ vela más grande (recorriendo con polimorfismo, sin preguntar el tipo).
 **Para superarla:**
 - `Figura` es abstracta y sus hijas implementan los dos métodos.
 - El total y el máximo se calculan sin `instanceof` ni `if` por tipo.
+
+#### Pasos
+1. Borrá el comentario. `abstract class Figura {` con `abstract public function area(): float;` y `abstract public function perimetro(): float;`.
+2. `ficha(): string` → `sprintf('%-19s área %7.2f  perímetro %6.2f', static::class, $this->area(), $this->perimetro())`.
+3. `Rectangulo` (ancho, alto): `ancho * alto` y `2 * (ancho + alto)`. `Circulo` (radio): `M_PI * radio ** 2` y `2 * M_PI * radio`.
+4. `TrianguloRectangulo` (a, b): `a * b / 2` y `a + b + sqrt(a ** 2 + b ** 2)`.
+5. `$velas = [new TrianguloRectangulo(6, 8), new Rectangulo(4, 5.5), new Circulo(1.5), new TrianguloRectangulo(3, 4)];`.
+6. Recorrelas: mostrá la ficha, sumá el área y guardá la mayor. Después `printf("Lona total: %.2f m²\n", $total);` y `echo "La más grande: ", $mayor->ficha(), "\n";`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -4843,6 +5051,15 @@ Cobrá los pagos del ejemplo.
 - `cobrar` está solo en la clase abstracta; las hijas definen `recargo`.
 - Hay un método `nombre()` que las hijas pueden redefinir.
 
+#### Pasos
+1. Borrá el comentario. `abstract class MedioDePago {` con `abstract protected function recargo(float $monto): float;`.
+2. `protected function nombre(): string` → `static::class`. Y un `private static function pesos(float $monto)` → `number_format($monto, 2, ',', '.')`.
+3. `cobrar(float $monto): string`: `$recargo = $this->recargo($monto);`. Si es negativo, `'descuento $' . self::pesos(-$recargo)`; si no, `'recargo $' . ...`. Devolvé `sprintf('%s: $%s (%s)', $this->nombre(), self::pesos($monto + $recargo), $detalle)`.
+4. `Efectivo` → recargo 0. `Tarjeta` (cuotas): `match ($this->cuotas)` con `1 => 0`, `3 => 0.10`, `6 => 0.20` y `default => 0.35`. Su `nombre()` → `"Tarjeta ({$this->cuotas} " . ($this->cuotas === 1 ? 'cuota' : 'cuotas') . ')'`.
+5. `Transferencia` → `$monto > 50000 ? -$monto * 0.05 : 0`.
+6. `$pagos` con los 6 de la salida (`[new Efectivo(), 10000]`, ...) y `foreach ($pagos as [$medio, $monto])` → `echo $medio->cobrar($monto), "\n";`.
+7. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```php
 <?php
@@ -4976,6 +5193,15 @@ tipo nuevo, `Yate` ($1500 por metro más $20000 fijos), sin tocar el bucle.
 **Para superarla:**
 - No hay `match`/`if` sobre el tipo: cada clase define su `tarifa`.
 - El bucle no cambia al agregar `Yate`.
+
+#### Pasos
+1. Borrá el array `$barcos` y el `match`. Dejá `declare(strict_types=1);` arriba.
+2. `abstract class Barco {` con `public function __construct(public readonly string $nombre, protected float $eslora) {}` y `abstract public function tarifa(): float;`.
+3. `Velero` → `$this->eslora * 400`. `Pesquero` → `$this->eslora * 300 * 0.5`. `Crucero` → `$this->eslora * 900 + 150000`.
+4. Agregá `Yate` → `$this->eslora * 1500 + 20000`.
+5. `$barcos = [new Velero('Brisa', 12), new Pesquero('Don Pepe', 18), new Crucero('Aurora', 250), new Yate('Capricho', 22)];`.
+6. En el `foreach`: `echo "{$b->nombre}: $", number_format($b->tarifa(), 0, ',', '.'), "\n";`.
+7. Tocá **Ejecutar**. Tiene que salir `Capricho: $53.000`.
 
 #### Código inicial
 ```php
@@ -5502,6 +5728,11 @@ Cada clase que la firma con `implements` **tiene** que escribir esos métodos. C
 #### Desafío
 Hacé que `Cajon` y `Pasajero` firmen el contrato `ConPeso`.
 
+#### Pasos
+1. Cambiá `class Cajon` por `class Cajon implements ConPeso` y agregale `public function peso(): float { return $this->kilos; }`.
+2. Lo mismo con `Pasajero`: `implements ConPeso` y el mismo `peso()`.
+3. Tocá **Ejecutar**. Tiene que salir `Carga: 112.5 kg`.
+
 #### Código inicial
 ```php
 <?php
@@ -5615,6 +5846,12 @@ Una función puede pedir un contrato como tipo de parámetro: `asegurar(ConValor
 #### Desafío
 Hacé que `Cuadro` firme `ConValor` y asegurá solo lo que tiene valor.
 
+#### Pasos
+1. `class Cuadro implements ConPeso, ConValor` y agregale `public function valor(): int { return 400; }`.
+2. En la función: `function asegurar(ConValor $cosa): string`.
+3. Abajo: `$pico = new Gaviota();` y `echo $pico instanceof ConValor ? asegurar($pico) : "Pico: no se asegura\n";`.
+4. Tocá **Ejecutar**. Tiene que salir `Pico: no se asegura`.
+
 #### Código inicial
 ```php
 <?php
@@ -5723,6 +5960,11 @@ PHP trae algunas interfaces propias. `Countable` pide un método `count(): int`.
 #### Desafío
 Hacé que la bodega se pueda contar con `count()`.
 
+#### Pasos
+1. Cambiá `class Bodega` por `class Bodega implements Countable`.
+2. Agregale `public function count(): int { return count($this->cosas); }`.
+3. Tocá **Ejecutar**. Tiene que salir `En la bodega: 3`.
+
 #### Código inicial
 ```php
 <?php
@@ -5817,6 +6059,15 @@ el flete de la carga del ejemplo.
 **Para superarla:**
 - Dos interfaces; `Vino` implementa las dos.
 - Las funciones piden la interfaz como tipo, no la clase.
+
+#### Pasos
+1. Borrá el comentario. `interface Exportable` con `origen(): string` y `arancel(): float`. `interface Pesable` con `pesoKg(): float`.
+2. `class Vino implements Exportable, Pesable` (bodega, litros, precio): `origen()` → `"bodega {$this->bodega}"`, arancel `0.15` y `pesoKg()` → `$this->litros * 1.3`.
+3. `class Artesania implements Exportable` (descripción, precio, provincia): origen la provincia, arancel `0.05`. `class Contenedor implements Pesable` (código, kilos).
+4. `function derechoDeExportacion(Exportable $e, float $precio): float` → `$precio * $e->arancel()`.
+5. `function flete(Pesable ...$cosas): float` → `array_sum(array_map(fn(Pesable $c): float => $c->pesoKg(), $cosas)) * 120`.
+6. `new Vino('Chañarmuyo', 90, 540000)`, `new Artesania('poncho de vicuña', 380000, 'La Rioja')` y `new Contenedor('CX-77', 850)`. Mostrá los tres renglones con `number_format(..., 2, ',', '.')` (copiá los textos de la salida).
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -5960,6 +6211,15 @@ con las anotaciones del ejemplo. Para el JSON usá
 - Implementa las tres interfaces de PHP.
 - `count()` y `json_encode()` funcionan directamente sobre el objeto.
 
+#### Pasos
+1. Borrá el comentario. `class Bitacora implements Countable, JsonSerializable, Stringable {` con `private array $anotaciones = [];` y `public function __construct(private string $barco) {}`.
+2. `anotar(string $texto)`: si `trim($texto) !== ''`, guardalo con `trim`.
+3. `count(): int` → `count($this->anotaciones)`. `jsonSerialize(): array` → `['barco' => $this->barco, 'anotaciones' => $this->anotaciones, 'total' => count($this)]`.
+4. `__toString()`: cada anotación como `($i + 1) . ". $texto"`, unidas con `implode("\n", ...)`.
+5. `new Bitacora('Gaviota')` y las cuatro anotaciones (una de solo espacios).
+6. `echo "Anotaciones: ", count($bitacora), "\n";`, `echo $bitacora, "\n";` y `echo json_encode($bitacora, JSON_UNESCAPED_UNICODE), "\n";`.
+7. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```php
 <?php
@@ -6071,6 +6331,15 @@ y borrá sus archivos al empezar para que la prueba sea repetible).
 
 **Para superarla:**
 - `correo()` pide la interfaz, no una clase concreta.
+
+#### Pasos
+1. Borrá el comentario. `interface Almacenamiento` con `guardar(string $clave, string $texto): void`, `leer(string $clave): ?string` y `claves(): array`.
+2. `AlmacenEnMemoria`: un `private array $datos`, `leer` con `?? null` y `claves()` con `array_keys` y `sort`.
+3. `AlmacenEnArchivo`: el constructor recibe la carpeta y hace `mkdir($carpeta, 0775, true)` si no existe. Un `ruta($clave)` → `carpeta . '/' . $clave . '.txt'`.
+4. `guardar` → `file_put_contents`. `leer` → `file_exists(...) ? file_get_contents(...) : null`. `claves()` → `glob(carpeta . '/*.txt')` con `basename($f, '.txt')` y `sort`.
+5. `function correo(Almacenamiento $a): void`: guardá valle, forjas e imperio (copiá los textos), y mostrá `forjas`, `luna` (con `?? '(no hay)'`) y las claves con `implode(', ', ...)`.
+6. `$carpeta = sys_get_temp_dir() . '/correo-puerto';` y borrá sus `.txt` con `unlink`. Después `"En memoria:\n"`, `correo(new AlmacenEnMemoria());`, `"En archivos:\n"` y `correo(new AlmacenEnArchivo($carpeta));`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -6613,6 +6882,13 @@ El bote recibe su motor por el constructor y le **delega** el trabajo: `$this->m
 #### Desafío
 Rearmá el bote para que tenga un motor y pruébalo con dos motores distintos.
 
+#### Pasos
+1. Cambiá `class Bote extends Motor` por `class Bote` (sin heredar).
+2. Adentro, el constructor: `public function __construct(private string $nombre, private Motor $motor) {}`.
+3. Un método `salir(): string` → `return "{$this->nombre}: " . $this->motor->arrancar();`.
+4. Abajo, dos botes: `echo (new Bote('Gaviota', new Motor(10)))->salir() . "\n";` y lo mismo con `new Motor(40)`.
+5. Tocá **Ejecutar**. Tiene que salir `Gaviota: brrr (40 HP)`.
+
 #### Código inicial
 ```php
 <?php
@@ -6703,6 +6979,13 @@ class Cajon {
 
 #### Desafío
 Pasá el método repetido a un trait y usalo en las dos clases.
+
+#### Pasos
+1. Cambiá `class Vela` por `trait ConFabricacion` y sacale la propiedad `$fecha` (queda solo `etiqueta()`).
+2. Corregí el texto: `fabricasion` va con **c**, `fabricación`.
+3. Abajo, una clase `Vela` nueva con `use ConFabricacion;` y `public string $fecha = '2026-10-03';`.
+4. En `Remo`, agregá `use ConFabricacion;` y borrá su `etiqueta()` repetida.
+5. Tocá **Ejecutar**. Tiene que salir `Remo - fabricación: 2026-10-05`.
 
 #### Código inicial
 ```php
@@ -6797,6 +7080,12 @@ Así, desde afuera se le puede dar la grúa grande o la chica, sin tocar la clas
 
 #### Desafío
 Hacé que la barcaza reciba su grúa por el constructor y cargá el vidrio con la grande.
+
+#### Pasos
+1. Borrá `private Grua $grua;` y el `new Grua(2)` del constructor.
+2. El constructor queda: `public function __construct(private Grua $grua) {}`.
+3. Abajo: `echo (new Barcaza(new Grua(2)))->cargar('un vidrio enorme', 9) . "\n";` y otro con `new Grua(10)`.
+4. Tocá **Ejecutar**. Tiene que salir `Cargado: un vidrio enorme`.
 
 #### Código inicial
 ```php
@@ -6906,6 +7195,15 @@ Probá la linterna con las tres fuentes, 12 horas por noche a $95 el kWh.
 **Para superarla:**
 - `Linterna` compone una `FuenteDeLuz` recibida por el constructor.
 - Los cálculos se delegan en la fuente.
+
+#### Pasos
+1. Borrá el comentario. `interface FuenteDeLuz` con `lumenes(): int`, `consumoWatts(): float` y `nombre(): string`.
+2. `Lampara` → 1500, 100 y `'lámpara incandescente'`. `Led` (`private float $watts`) → `(int) ($this->watts * 110)`, los watts y `"LED de {$this->watts} W"`. `Candil` → 200, 0 y `'candil de aceite'`.
+3. `class Linterna` con `public function __construct(private FuenteDeLuz $fuente) {}` y `cambiarFuente(FuenteDeLuz $fuente): void`.
+4. `alcanceMillas()` → `round(sqrt($this->fuente->lumenes()) / 5, 1)`. `costoNoche(int $horas, float $precioKwh)` → `round(watts * horas / 1000 * precio, 2)`.
+5. `informe()` → `sprintf('%s: %d lm, alcance %.1f millas, $%.2f por noche', nombre, lúmenes, alcance, $this->costoNoche(12, 95))`.
+6. `new Linterna(new Lampara())` y mostrá el informe. Cambiá a `new Led(30)` y mostrá; cambiá a `new Candil()` y mostrá.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -7073,6 +7371,15 @@ de los cambios del ejemplo.
 - El trait se usa en dos clases que no heredan una de otra.
 - Los métodos de cambio usan los métodos del trait.
 
+#### Pasos
+1. Borrá el comentario. `trait Auditable {` con `private string $creadoPor = '';` y `private array $modificaciones = [];`.
+2. `registrarCreacion($usuario)` guarda el usuario. `registrarCambio($usuario, $detalle)` → `$this->modificaciones[] = ['usuario' => $usuario, 'detalle' => $detalle];`.
+3. `historial()`: `"creado por {$this->creadoPor}; " . count(...) . ' cambio/s'`. Si hay cambios, `$ultimo = end($this->modificaciones);` y agregá `" (último: {$ultimo['usuario']}, {$ultimo['detalle']})"`.
+4. `class Producto { use Auditable; }`: el constructor recibe nombre, precio y usuario, y llama a `$this->registrarCreacion($usuario);`. `cambiarPrecio($precio, $usuario)` → `registrarCambio($usuario, "cambió el precio de {$this->precio} a $precio")` y después cambia el precio.
+5. `class Proveedor { use Auditable; }` igual, con razón social, teléfono y `cambiarTelefono` → `"cambió el teléfono a $telefono"`.
+6. Ejecutá los cambios en el orden de la salida: Yerba (Ana, 4200) cambia a 4500 (Nilo) y a 4650 (Ana); Molino (Iara); historiales; teléfono nuevo (Nilo) e historial.
+7. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```php
 <?php
@@ -7206,6 +7513,15 @@ moto.
 **Para superarla:**
 - `Pedido` ya no hereda de nada: compone un `Envio`.
 - El envío se recibe por el constructor (o un método para cambiarlo).
+
+#### Pasos
+1. Borrá `CalculadoraDeEnvio` y el `extends` de `Pedido`. Arriba, `declare(strict_types=1);`.
+2. `interface Envio` con `costo(float $kilos): float` y `nombre(): string`.
+3. `Correo` → `800 + 150 * $kilos` y `'correo'`. `Moto` → si `$kilos > 5`, `throw new InvalidArgumentException("La moto lleva hasta 5 kg (este pesa $kilos)");`; si no, 2500. Su nombre es `'moto'`.
+4. `class Pedido` con `public function __construct(private float $subtotal, private float $kilos, private Envio $envio) {}`. `total()` → `$this->subtotal + $this->envio->costo($this->kilos)`.
+5. `resumen()` → `"Pedido de {$this->kilos} kg por {$this->envio->nombre()}: $" . $this->total()`.
+6. Mostrá `new Pedido(12000, 3, new Correo())` y el mismo con `new Moto()`. Después, en un `try`, `new Pedido(30000, 12, new Moto())`; en el `catch`, `"No se puede: "`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -7790,6 +8106,12 @@ enum Estado: string {
 #### Desafío
 Contá cuántas reservas están pagadas usando el enum, y avisá las que no se entienden.
 
+#### Pasos
+1. En el `foreach`, cambiá el `if` por `$estado = Estado::tryFrom($texto);`.
+2. Si `$estado === null`: `echo "No se entiende: $texto\n";`.
+3. `elseif ($estado === Estado::Pagada)`: `$pagadas++;`.
+4. Tocá **Ejecutar**. Tiene que salir `Pagadas: 2`.
+
 #### Código inicial
 ```php
 <?php
@@ -7878,6 +8200,13 @@ En un `enum`, `$c->name` es el nombre del caso tal como está escrito (por ejemp
 #### Desafío
 Escribí el método `precio` en el enum y recorré todos los casos con `cases()`.
 
+#### Pasos
+1. Dentro del enum, después de los `case`, agregá `public function precio(): int`.
+2. Adentro: `return match ($this) { Clase::Cubierta => 30, Clase::Camarote => 80, Clase::Suite => 200 };`.
+3. Borrá la función suelta `precio(Clase $c)`.
+4. En el `foreach`, cambiá `precio($c)` por `$c->precio()`.
+5. Tocá **Ejecutar**. Tiene que salir `Suite: 200`.
+
 #### Código inicial
 ```php
 <?php
@@ -7965,6 +8294,12 @@ Sumar días a mano es difícil (meses de 30 y 31, años bisiestos). `DateTimeImm
 #### Desafío
 Calculá la vuelta con `modify` y mostrá las dos fechas con formato.
 
+#### Pasos
+1. Borrá los renglones que arman la fecha a mano.
+2. `$salida = new DateTimeImmutable('2026-10-28');` y `$vuelta = $salida->modify('+10 days');`.
+3. `echo "Sale: " . $salida->format('d/m/Y') . "\n";` y lo mismo con `"Vuelve: "`.
+4. Tocá **Ejecutar**. Tiene que salir `Vuelve: 07/11/2026`.
+
 #### Código inicial
 ```php
 <?php
@@ -8021,6 +8356,12 @@ La diferencia entre dos fechas sale con `->diff(...)`, y `->days` dice cuántos 
 
 #### Desafío
 Rechazá la fecha inválida y calculá las noches de la válida.
+
+#### Pasos
+1. Arriba, una función `fecha(string $texto): ?DateTimeImmutable`: `$f = DateTimeImmutable::createFromFormat('!d/m/Y', $texto);`.
+2. Devolvé `$f` solo si no es `false` y `$f->format('d/m/Y') === $texto`; si no, `null`.
+3. En `noches`, usá `fecha($llegada)` y `fecha($salida)`. Si alguna es `null`, `return "Fecha invalida";`.
+4. Tocá **Ejecutar**. Tiene que salir `Fecha invalida` y `4 noches`.
 
 #### Código inicial
 ```php
@@ -8110,6 +8451,15 @@ campera (base $58000 más el recargo). Los talles inválidos se informan.
 **Para superarla:**
 - `Talle` es un enum respaldado con métodos.
 - Usa `tryFrom` para el texto y un método estático para la medida.
+
+#### Pasos
+1. Borrá el comentario. `const PRECIO_BASE = 58000;` y `enum Talle: string` con `case S = 's'`, `M = 'm'`, `L = 'l'` y `XL = 'xl'`.
+2. `pecho()` con `match ($this)`: 92, 100, 108 y 116. `recargo()`: S y M 0, L 0.10, XL 0.20.
+3. `static paraPecho(int $cm): ?self` → recorré `self::cases()` y devolvé el primero con `pecho() >= $cm`. Si ninguno, `null`.
+4. Leé con `while (($linea = fgets(STDIN)) !== false)`, saltá las vacías y separá: `[$nombre, $dato] = explode(';', trim($linea));`.
+5. `$talle = ctype_digit($dato) ? Talle::paraPecho((int) $dato) : Talle::tryFrom(strtolower($dato));`. Si es `null`, `"$nombre: no hay talle para «{$dato}»\n"`.
+6. Si no, `$precio = PRECIO_BASE * (1 + $talle->recargo());` y `echo "$nombre: talle {$talle->name} ({$talle->pecho()} cm) $", number_format($precio, 0, ',', '.'), "\n";`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -8239,6 +8589,15 @@ el último vencimiento.
 - Usa `DateTimeImmutable` y `modify`/`add`.
 - Corre los vencimientos del fin de semana al lunes.
 
+#### Pasos
+1. Borrá el comentario. `date_default_timezone_set('America/Argentina/Buenos_Aires');` y `const DIAS = ['lunes', ..., 'domingo'];`.
+2. `fechaValida(string $texto): ?DateTimeImmutable` con `createFromFormat('!d/m/Y', ...)`, comparando con el texto original.
+3. `habil(DateTimeImmutable $f)`: si `(int) $f->format('N') >= 6`, `$f->modify('next monday')`; si no, `$f`.
+4. `echo "Fecha de compra: ";`, leé la fecha; `echo "Cuotas: ";`, leé las cuotas; `echo "\n";`. Si la fecha es `null`, `"Fecha inválida.\n"` y `exit(1);`.
+5. `$primerDia = $compra->modify('first day of next month')->modify('+9 days');` (el día 10 del mes siguiente).
+6. Para cada cuota: `$vence = habil($primerDia->add(new DateInterval('P' . ($n - 1) . 'M')));` y `echo "Cuota $n: ", DIAS[(int) $vence->format('N') - 1], ' ', $vence->format('d/m/Y'), "\n";`. Guardá la última.
+7. `"Días entre la compra y el último vencimiento: ", $compra->diff($ultimo)->days`. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```php
 <?php
@@ -8348,6 +8707,15 @@ no es válida. Ejecutá la historia del ejemplo, mostrando cada cambio o el erro
 **Para superarla:**
 - Las reglas de transición están en el enum.
 - `Pedido` no deja pasar transiciones inválidas.
+
+#### Pasos
+1. Borrá el comentario. `enum EstadoPedido: string` con `Nuevo`, `Preparando`, `Enviado`, `Entregado` y `Cancelado` (valores en minúscula).
+2. `puedePasarA(self $nuevo): bool`: `$permitidos = match ($this) { self::Nuevo => [self::Preparando, self::Cancelado], self::Preparando => [self::Enviado, self::Cancelado], self::Enviado => [self::Entregado], self::Entregado, self::Cancelado => [] };` y `return in_array($nuevo, $permitidos, true);`.
+3. `color()` con `match`: gris, amarillo, azul, verde y rojo. `esFinal()` → entregado o cancelado.
+4. `class Pedido` con `private EstadoPedido $estado = EstadoPedido::Nuevo;`, `public readonly int $numero` y `estado()`.
+5. `cambiarA(EstadoPedido $nuevo)`: si no puede, `throw new LogicException("No se puede pasar de {$this->estado->value} a {$nuevo->value}");`. Si puede, cambialo.
+6. `new Pedido(1042)` y la historia: Preparando, Entregado, Enviado, Cancelado y Entregado. Con `try`, mostrá `"Pedido {$pedido->numero}: {$e->value} ({$e->color()})"` y `' - terminado'` si es final; en el `catch`, el mensaje.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php

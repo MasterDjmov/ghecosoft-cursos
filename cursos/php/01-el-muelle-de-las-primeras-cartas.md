@@ -8155,6 +8155,12 @@ Antes de sumar, revisá cada texto con `is_numeric`: «10 cajas» no es un núme
 #### Desafío
 Sumá solo los textos que de verdad son números y avisá los que no.
 
+#### Pasos
+1. Dentro del `foreach`, envolvé la suma en un `if (is_numeric($c)) {`.
+2. Adentro queda `$total += (int) $c;`.
+3. En el `} else {`: `echo "No es un numero: $c\n";`.
+4. Tocá **Ejecutar**. Tiene que salir `Total: 15`.
+
 #### Código inicial
 ```php
 <?php
@@ -8217,6 +8223,12 @@ Para saber si de verdad falta, preguntá exacto: `$kilos === null`.
 
 #### Desafío
 Distinguí el barco con 0 kilos del que no tiene el dato.
+
+#### Pasos
+1. `empty($kilos)` también es verdadero con `0`, y Gaviota tiene 0 kilos.
+2. Cambiá la condición por `$kilos === null`.
+3. Cambiá el mensaje por `echo "$nombre: falta el dato\n";`.
+4. Tocá **Ejecutar**. Tiene que salir `Gaviota: 0 kg`.
 
 #### Código inicial
 ```php
@@ -8281,6 +8293,13 @@ Revisá cada campo obligatorio y juntá en una lista los que faltan. Si al final
 #### Desafío
 Avisá qué campos faltan en vez de seguir de largo.
 
+#### Pasos
+1. Antes del `echo`, armá `$faltan = [];`.
+2. `foreach (['barco', 'destino', 'kilos'] as $campo)`: si `!isset($formulario[$campo])`, `$faltan[] = $campo;`.
+3. Si `$faltan !== []`: `echo "Faltan: " . implode(", ", $faltan) . "\n";`.
+4. Si no, el `echo` del despacho que ya estaba.
+5. Tocá **Ejecutar**. Tiene que salir `Faltan: destino`.
+
 #### Código inicial
 ```php
 <?php
@@ -8340,6 +8359,13 @@ Con `strict_types` y `===`, ninguna conversión pasa callada.
 
 #### Desafío
 Completá la función y sumá solo las cargas válidas, avisando cuáles se rechazan.
+
+#### Pasos
+1. En la función: `$kilos = $carga['kilos'] ?? null;`.
+2. Si `$kilos === null || !ctype_digit($kilos) || (int) $kilos === 0`, `return null;`.
+3. Si no, `return (int) $kilos;`.
+4. En el `foreach`: `$kilos = kilosValidos($carga);`. Si es `null`, `echo "Rechazado: " . $carga['barco'] . "\n";`; si no, sumalo.
+5. Tocá **Ejecutar**. Tiene que salir `Total: 200 kg`.
 
 #### Código inicial
 ```php
@@ -8461,6 +8487,16 @@ que:
 - La validación está en una función que no muestra nada.
 - `"12abc"`, `"3.5"` y el `"0"` como texto se tratan bien (el `0` es válido).
 - El resumen usa un array asociativo por barco.
+
+#### Pasos
+1. Arriba: `declare(strict_types=1);` (justo después de `<?php`).
+2. `function fechaValida(string $fecha): bool`: `explode('/', $fecha)` tiene que dar 3 partes de 2, 2 y 4 caracteres. Revisá `ctype_digit($dia . $mes . $anio)`, el mes de 1 a 12 y el día de 1 a 31.
+3. `function validarRegistro(string $linea): array`: `explode(';', trim($linea))`. Si no son 4, `['ok' => false, 'error' => 'tiene ' . count($campos) . ' campos (van 4)']`.
+4. Revisá en orden: barco vacío (`'falta el barco'`), `fechaValida` (`"fecha inválida: $fecha"`), kilos con `filter_var($kilos, FILTER_VALIDATE_INT, ['options' => ['min_range' => 0]])` y pasajeros con `min_range` 0 y `max_range` 500. Si todo va bien, `['ok' => true, 'datos' => [...]]`.
+5. `function agregarAlResumen(array $resumen, array $datos): array`: `$resumen[$barco] ??= ['viajes' => 0, 'kilos' => 0, 'pasajeros' => 0];` y sumá.
+6. `echo "Registros con errores:\n";`. Leé con `while (($linea = fgets(STDIN)) !== false)` contando renglones. Los inválidos: `echo "  renglón $numero: {$resultado['error']}\n";`.
+7. `ksort($resumen);`, `"\nResumen por barco:\n"` y cada uno con `printf("  %-9s %d viaje/s  %5d kg  %5.1f pasajeros\n", ...)`. Guardá el de más kilos.
+8. `echo "\nMás carga: $masKilos ({$resumen[$masKilos]['kilos']} kg)\n";`. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php

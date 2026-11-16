@@ -166,6 +166,12 @@ catch (FormatException)
 #### Desafío
 Envolvé las dos líneas del medio en un `try`, y agregá un `catch (FormatException)` que muestre `No es un número`.
 
+#### Pasos
+1. Arriba de `int n = int.Parse(compases);`, escribí `try` y abrí una llave `{`.
+2. Debajo del `Console.WriteLine($"Compases: {n}");`, cerrala con `}`.
+3. Después: `catch (FormatException)` y, entre llaves, `Console.WriteLine("No es un número");`.
+4. Tocá **Ejecutar**. Al final tiene que salir `El concierto sigue`.
+
 #### Código inicial
 ```csharp
 Console.WriteLine("Empieza el concierto");
@@ -241,6 +247,11 @@ Console.WriteLine("cuatro");    // esta sí
 #### Desafío
 Sacá el `Console.WriteLine("Saludo al público");` del `try` y ponelo después del `catch`, para que se salude siempre.
 
+#### Pasos
+1. Borrá `Console.WriteLine("Saludo al público");` de adentro del `try`.
+2. Escribilo al final de todo, después de la llave que cierra el `catch`.
+3. Tocá **Ejecutar**. Tiene que salir `Saludo al público`.
+
 #### Código inicial
 ```csharp
 try
@@ -314,6 +325,11 @@ Acá el error es pedir la posición `5` de un arreglo de `3`: eso es una `IndexO
 #### Desafío
 Cambiá el `catch` para que atrape cualquier error y muestre `Se rompió: ` seguido del nombre del error.
 
+#### Pasos
+1. Cambiá `catch (FormatException)` por `catch (Exception e)`.
+2. Cambiá el mensaje por `Console.WriteLine($"Se rompió: {e.GetType().Name}");`.
+3. Tocá **Ejecutar**. Tiene que salir `Se rompió: IndexOutOfRangeException`.
+
 #### Código inicial
 ```csharp
 int[] atriles = new int[3];
@@ -386,6 +402,11 @@ finally
 
 #### Desafío
 Agregale un `finally` que muestre `Pasa el compás`.
+
+#### Pasos
+1. Después de la llave que cierra el `catch`, escribí `finally`.
+2. Entre llaves: `Console.WriteLine("Pasa el compás");`.
+3. Tocá **Ejecutar**. `Pasa el compás` tiene que salir tres veces.
 
 #### Código inicial
 ```csharp
@@ -465,6 +486,11 @@ catch (DivideByZeroException) { … }
 
 #### Desafío
 Agregá un segundo `catch` para `DivideByZeroException` que muestre `No se divide por cero`.
+
+#### Pasos
+1. Después del `catch` que ya está, escribí `catch (DivideByZeroException)`.
+2. Entre llaves: `Console.WriteLine("No se divide por cero");`.
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp
@@ -778,6 +804,11 @@ if (edad < 0)
 #### Desafío
 En `Precio`, si `cuerdas` es `0` o menos, lanzá una `ArgumentException` con el mensaje `un violín necesita cuerdas`.
 
+#### Pasos
+1. Al principio de `Precio`, escribí `if (cuerdas <= 0)`.
+2. Entre llaves: `throw new ArgumentException("un violín necesita cuerdas");`.
+3. Tocá **Ejecutar**. Tiene que salir `Error: un violín necesita cuerdas`.
+
 #### Código inicial
 ```csharp
 try
@@ -850,6 +881,11 @@ Si un método lanza un error y **no lo atrapa**, el error **sube** al que lo lla
 
 #### Desafío
 En el programa principal, envolvé `Concierto();` en un `try`, con un `catch (InvalidOperationException e)` que muestre `Arriba: ` y el mensaje. Fijate que `Concierto: cierra` no se muestra: el error cortó también a `Concierto`.
+
+#### Pasos
+1. Envolvé `Concierto();` en un `try { ... }`.
+2. Después: `catch (InvalidOperationException e)` y, entre llaves, `Console.WriteLine($"Arriba: {e.Message}");`.
+3. Tocá **Ejecutar**. Tiene que salir `Arriba: falta el pentagrama`.
 
 #### Código inicial
 ```csharp
@@ -939,6 +975,11 @@ Lo que le pasás a `base` es lo que después se lee en `e.Message`. Por costumbr
 
 #### Desafío
 Completá la clase `DesafinadaException`: que herede de `Exception` y que su constructor le pase a `base` el mensaje `La cuerda X está desafinada`, con el nombre de la cuerda en lugar de `X`.
+
+#### Pasos
+1. Cambiá `class DesafinadaException` por `class DesafinadaException : Exception`.
+2. Al final del encabezado del constructor, agregá ` : base($"La cuerda {cuerda} está desafinada")`.
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp
@@ -1043,6 +1084,11 @@ catch (DesafinadaException e)
 #### Desafío
 Agregá, **antes** del `catch` que ya está, otro `catch (DesafinadaException e) when (e.Diferencia <= 2)` que muestre `Se arregla con la clavija`.
 
+#### Pasos
+1. Antes del `catch` que ya está, escribí `catch (DesafinadaException e) when (e.Diferencia <= 2)`.
+2. Entre llaves: `Console.WriteLine("Se arregla con la clavija");`.
+3. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```csharp
 int[] diferencias = { 1, 5 };
@@ -1136,6 +1182,11 @@ La regla: del más específico (el que atrapa un error concreto) al más general
 
 #### Desafío
 Ensayá, mirá el error y dalos vuelta: primero el `catch (FormatException)`, después el `catch (Exception)`.
+
+#### Pasos
+1. `catch (Exception)` atrapa todo: si va primero, el de `FormatException` nunca llega.
+2. Mové el bloque `catch (FormatException) { ... }` entero arriba del `catch (Exception)`.
+3. Tocá **Ejecutar**. Tiene que salir `'siete' no es un número`.
 
 #### Código inicial
 ```csharp
@@ -1381,6 +1432,10 @@ Acá, en el navegador, la carpeta empieza vacía cada vez que ejecutás; en tu c
 #### Desafío
 Antes de la línea que lee, escribí en `memoria.txt` el texto `Ceci llegó al Archivo`.
 
+#### Pasos
+1. Cambiá el comentario por `File.WriteAllText("memoria.txt", "Ceci llegó al Archivo");`.
+2. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```csharp
 // escribí el archivo acá
@@ -1431,6 +1486,10 @@ File.AppendAllText("a.txt", "dos\n");   // queda: uno, dos
 
 #### Desafío
 Cambiá el segundo `WriteAllText` por `AppendAllText`.
+
+#### Pasos
+1. En la segunda línea, cambiá `File.WriteAllText` por `File.AppendAllText`.
+2. Tocá **Ejecutar**. Tienen que salir las dos líneas.
 
 #### Código inicial
 ```csharp
@@ -1486,6 +1545,11 @@ for (int i = 0; i < lineas.Length; i++)
 
 #### Desafío
 Leé `obras.txt` con `File.ReadAllLines` y mostrá cada obra numerada desde `1`, como `1. Canon`.
+
+#### Pasos
+1. Cambiá el comentario por `string[] obras = File.ReadAllLines("obras.txt");`.
+2. Debajo: `for (int i = 0; i < obras.Length; i++)` y, entre llaves, `Console.WriteLine($"{i + 1}. {obras[i]}");`.
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp
@@ -1544,6 +1608,10 @@ Console.WriteLine(File.Exists("a.txt"));   // False
 
 #### Desafío
 Entre las dos preguntas, borrá `borrador.txt`.
+
+#### Pasos
+1. Cambiá `// borralo` por `File.Delete("borrador.txt");`.
+2. Tocá **Ejecutar**. Tiene que salir `True` y después `False`.
 
 #### Código inicial
 ```csharp
@@ -1607,6 +1675,12 @@ else
 
 #### Desafío
 Si `partitura.txt` existe, mostrá su contenido; si no, mostrá `No hay partitura guardada`.
+
+#### Pasos
+1. Arriba de todo: `if (File.Exists("partitura.txt"))` y abrí una llave.
+2. Adentro quedan las dos líneas que ya estaban; cerrá la llave.
+3. Después: `else` y, entre llaves, `Console.WriteLine("No hay partitura guardada");`.
+4. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp
@@ -1846,6 +1920,11 @@ using (StreamWriter escritor = new StreamWriter("a.txt"))
 #### Desafío
 Adentro del `using`, escribí `do` y `re`, una por línea.
 
+#### Pasos
+1. Cambiá el comentario por `escritor.WriteLine("do");`.
+2. Debajo: `escritor.WriteLine("re");`.
+3. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```csharp
 using (StreamWriter escritor = new StreamWriter("escala.txt"))
@@ -1908,6 +1987,11 @@ using (StreamWriter escritor = new StreamWriter("a.txt"))
 
 #### Desafío
 Adentro del `using`, recorré `notas` y escribí cada una con su número, desde `1`: `1 do`, `2 re`…
+
+#### Pasos
+1. Cambiá el comentario por `for (int i = 0; i < notas.Length; i++)`.
+2. Entre llaves: `escritor.WriteLine($"{i + 1} {notas[i]}");`.
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp
@@ -1982,6 +2066,12 @@ using (StreamReader lector = new StreamReader("a.txt"))
 #### Desafío
 Leé `rollo.txt` con un `StreamReader`, mostrando cada línea con `> ` adelante, y al final `Leí ` y la cantidad de líneas.
 
+#### Pasos
+1. Cambiá el comentario por `using (StreamReader lector = new StreamReader("rollo.txt"))` y abrí una llave.
+2. Adentro: `string? linea = lector.ReadLine();` y `while (linea != null)`.
+3. En el `while`: `Console.WriteLine($"> {linea}");`, `cuantas++;` y `linea = lector.ReadLine();`.
+4. Cerrá las llaves y tocá **Ejecutar**. Tiene que salir `Leí 3 líneas`.
+
 #### Código inicial
 ```csharp
 File.WriteAllLines("rollo.txt", new[] { "sol", "la", "si" });
@@ -2054,6 +2144,11 @@ static void Anotar(string texto)
 #### Desafío
 Completá `Guardar`: con un `using var`, abrí un `StreamWriter` sobre `ruta` y escribí `texto` con `WriteLine`.
 
+#### Pasos
+1. Cambiá `File.WriteAllText(ruta, "");` por `using var escritor = new StreamWriter(ruta);`.
+2. Debajo: `escritor.WriteLine(texto);`.
+3. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```csharp
 Guardar("recibo.txt", "Violín: 200 corcheas");
@@ -2109,6 +2204,12 @@ No hay que adivinar cuántas líneas tiene: se lee **mientras** no sea `null`, c
 
 #### Desafío
 Cambiá el `for` por un `while` que lea hasta que `ReadLine()` dé `null`, y mostrá cada línea en mayúsculas.
+
+#### Pasos
+1. Cambiá el `for` por `string? linea = lector.ReadLine();` y `while (linea != null)`.
+2. Adentro: `Console.WriteLine(linea.ToUpper());` y `linea = lector.ReadLine();`.
+3. Borrá la línea que leía adentro del `for`.
+4. Tocá **Ejecutar**. Tiene que salir `SOPRANO` y `TENOR`.
 
 #### Código inicial
 ```csharp
@@ -2363,6 +2464,11 @@ Console.WriteLine(partes[1]);   // uva
 #### Desafío
 Partí `linea` y mostrá cada dato con su etiqueta.
 
+#### Pasos
+1. Cambiá `// partila` por `string[] partes = linea.Split(',');`.
+2. Completá los tres: `{partes[0]}`, `{partes[1]}` y `{partes[2]}`, con `$` adelante de cada texto.
+3. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```csharp
 string linea = "Ceci,violín,15";
@@ -2420,6 +2526,10 @@ for (int i = 1; i < filas.Length; i++)
 
 #### Desafío
 Cambiá el `for` para que empiece en la línea `1`.
+
+#### Pasos
+1. La línea 0 es el encabezado. Cambiá `int i = 0` por `int i = 1`.
+2. Tocá **Ejecutar**. Tiene que salir `Ceci` y `Bemol`.
 
 #### Código inicial
 ```csharp
@@ -2480,6 +2590,11 @@ int puntos = int.Parse(partes[1]);
 
 #### Desafío
 Recorré las filas (sin el encabezado) y sumá los puntos en `total`.
+
+#### Pasos
+1. Cambiá el comentario por `for (int i = 1; i < filas.Length; i++)`.
+2. Entre llaves: `string[] partes = filas[i].Split(',');` y `total += int.Parse(partes[1]);`.
+3. Tocá **Ejecutar**. Tiene que salir `Total: 27`.
 
 #### Código inicial
 ```csharp
@@ -2545,6 +2660,11 @@ File.WriteAllLines("frutas.csv", lineas);
 
 #### Desafío
 Agregá a `lineas` el encabezado `instrumento,precio` y una línea por cada instrumento, antes de escribir el archivo.
+
+#### Pasos
+1. Cambiá el comentario por `lineas.Add("instrumento,precio");`.
+2. Debajo: `for (int i = 0; i < instrumentos.Length; i++)` y, entre llaves, `lineas.Add($"{instrumentos[i]},{precios[i]}");`.
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp
@@ -2617,6 +2737,10 @@ El `using System.Globalization;` de arriba ya está: es lo que deja escribir `Cu
 
 #### Desafío
 Agregale `CultureInfo.InvariantCulture` al `decimal.Parse`.
+
+#### Pasos
+1. Cambiá `decimal.Parse(partes[1])` por `decimal.Parse(partes[1], CultureInfo.InvariantCulture)`.
+2. Tocá **Ejecutar**. Tiene que salir `Total: 1280,00`.
 
 #### Código inicial
 ```csharp
@@ -2859,6 +2983,10 @@ El `using System.Text.Json;` de arriba ya está: es lo que deja usar `JsonSerial
 #### Desafío
 Pasá `violin` a JSON con `JsonSerializer.Serialize` y mostralo.
 
+#### Pasos
+1. Cambiá `string json = "";` por `string json = JsonSerializer.Serialize(violin);`.
+2. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```csharp
 using System.Text.Json;
@@ -2919,6 +3047,11 @@ El `!` del final es porque `Deserialize` podría devolver `null`; acá le promet
 
 #### Desafío
 Convertí `json` en un `Instrumento` y mostrá `Chelo: 4 cuerdas`.
+
+#### Pasos
+1. Cambiá el comentario por `Instrumento chelo = JsonSerializer.Deserialize<Instrumento>(json)!;`.
+2. Cambiá `Console.WriteLine(json);` por `Console.WriteLine($"{chelo.Nombre}: {chelo.Cuerdas} cuerdas");`.
+3. Tocá **Ejecutar**. Tiene que salir `Chelo: 4 cuerdas`.
 
 #### Código inicial
 ```csharp
@@ -2982,6 +3115,11 @@ Las llaves `{ … }` después de `new JsonSerializerOptions` le dan valor a sus 
 
 #### Desafío
 Creá las opciones con `WriteIndented = true` y pasáselas a `Serialize`.
+
+#### Pasos
+1. Arriba del `Serialize`, escribí `var opciones = new JsonSerializerOptions { WriteIndented = true };`.
+2. Pasáselas: `JsonSerializer.Serialize(p, opciones)`.
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp
@@ -3048,6 +3186,11 @@ p = p with { Nivel = p.Nivel + 1 };
 
 #### Desafío
 Completá los pasos 1 y 3 adentro del `for`.
+
+#### Pasos
+1. Paso 1: `if (File.Exists("partida.json"))` y, entre llaves, `p = JsonSerializer.Deserialize<Partida>(File.ReadAllText("partida.json"))!;`.
+2. Paso 3: `File.WriteAllText("partida.json", JsonSerializer.Serialize(p));`.
+3. Tocá **Ejecutar**. Tiene que salir `Nivel 1`, `Nivel 2` y `Nivel 3`.
 
 #### Código inicial
 ```csharp
@@ -3132,6 +3275,11 @@ catch (JsonException)
 
 #### Desafío
 Envolvé la carga en un `try`, con un `catch (JsonException)` que muestre `La partida guardada está rota`.
+
+#### Pasos
+1. Envolvé las dos líneas de la carga en un `try { ... }`.
+2. Después: `catch (JsonException)` y, entre llaves, `Console.WriteLine("La partida guardada está rota");`.
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp
@@ -3368,6 +3516,11 @@ El Liche ensució el registro de ensayos con datos rotos: una palabra donde iba 
 #### Desafío
 Envolvé la suma en un `try` adentro del `foreach`, y en el `catch (FormatException)` sumale uno a `rotas`.
 
+#### Pasos
+1. Envolvé `suma += int.Parse(linea);` en un `try { ... }`.
+2. Después: `catch (FormatException)` y, entre llaves, `rotas++;`.
+3. Tocá **Ejecutar**. Tiene que salir `Rotas: 2`.
+
 #### Código inicial
 ```csharp
 File.WriteAllLines("registro.txt", new[] { "4", "cuatro", "6", "", "5" });
@@ -3434,6 +3587,10 @@ La bitácora de la noche anota cada obra tocada y cada error. Pero el Liche hizo
 
 #### Desafío
 Cambiá los dos `File.WriteAllText` por `File.AppendAllText`.
+
+#### Pasos
+1. Cambiá los dos `File.WriteAllText` por `File.AppendAllText`.
+2. Tocá **Ejecutar**. Tienen que salir las tres líneas.
 
 #### Código inicial
 ```csharp
@@ -3512,6 +3669,11 @@ Dos cosas del nodo de los CSV:
 
 #### Desafío
 Arreglá las dos trampas: que el `for` empiece en `1` y que el `decimal.Parse` use `CultureInfo.InvariantCulture`.
+
+#### Pasos
+1. En el `for`, cambiá `int i = 0` por `int i = 1`.
+2. Cambiá `decimal.Parse(partes[1])` por `decimal.Parse(partes[1], CultureInfo.InvariantCulture)`.
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp
@@ -3599,6 +3761,10 @@ List<Musico> m = JsonSerializer.Deserialize<List<Musico>>(texto)!;
 #### Desafío
 En lugar de la lista vacía, cargá `cargados` leyendo `orquesta.json` y deserializándolo como `List<Musico>`.
 
+#### Pasos
+1. Cambiá `new List<Musico>()` por `JsonSerializer.Deserialize<List<Musico>>(File.ReadAllText("orquesta.json"))!`.
+2. Tocá **Ejecutar**. Tiene que salir `Recordados: 3`.
+
 #### Código inicial
 ```csharp
 using System.Text.Json;
@@ -3675,6 +3841,12 @@ De a uno:
 
 #### Desafío
 Arreglá los tres errores para que cada noche recuerde las anteriores.
+
+#### Pasos
+1. La primera noche no hay archivo: envolvé la carga en `if (File.Exists("memoria.json")) { ... }`.
+2. El dato se llama `Obras`: cambiá `m.Obra.Add` por `m.Obras.Add`.
+3. Después de agregar, guardá: `File.WriteAllText("memoria.json", JsonSerializer.Serialize(m));`.
+4. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp

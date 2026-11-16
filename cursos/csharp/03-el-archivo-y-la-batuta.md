@@ -134,6 +134,11 @@ Console.WriteLine(frutas.Count);   // 2
 #### Desafío
 Agregá a la lista `Ceci`, `Bemol` y `Clave`, en ese orden.
 
+#### Pasos
+1. Borrá el comentario `// agregá los tres`.
+2. Escribí `orquesta.Add("Ceci");`, `orquesta.Add("Bemol");` y `orquesta.Add("Clave");`.
+3. Tocá **Ejecutar**. Tiene que salir `Total: 3`.
+
 #### Código inicial
 ```csharp
 List<string> orquesta = new List<string>();
@@ -201,6 +206,10 @@ fila.Insert(0, "Sol");      // Sol, Ana, Luis
 #### Desafío
 Insertá a `Bemol` en la posición `0`.
 
+#### Pasos
+1. Cambiá `// Bemol primero` por `orquesta.Insert(0, "Bemol");`.
+2. Tocá **Ejecutar**. Tiene que salir `Bemol, Ceci, Clave`.
+
 #### Código inicial
 ```csharp
 List<string> orquesta = new List<string> { "Ceci", "Clave" };
@@ -255,6 +264,10 @@ fila.RemoveAt(0);       // Sol
 
 #### Desafío
 Sacá a `Flautista` de la lista con `Remove`.
+
+#### Pasos
+1. Cambiá `// sacalo` por `orquesta.Remove("Flautista");`.
+2. Tocá **Ejecutar**. Tiene que salir `Quedan 2`.
 
 #### Código inicial
 ```csharp
@@ -314,6 +327,11 @@ fila.Sort();                                // Ana, Sol
 #### Desafío
 Mostrá si `Don Cedro` está en la lista y después ordenala antes de mostrarla.
 
+#### Pasos
+1. Cambiá `{false}` por `{orquesta.Contains("Don Cedro")}`.
+2. Cambiá `// ordenala` por `orquesta.Sort();`.
+3. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```csharp
 List<string> orquesta = new List<string> { "Clave", "Bemol", "Ceci" };
@@ -369,6 +387,11 @@ Unhandled exception. System.ArgumentOutOfRangeException: Index was out of range.
 
 #### Desafío
 Ensayá, mirá cómo explota y arreglá la línea para mostrar el **último** de la lista, sea cual sea su largo.
+
+#### Pasos
+1. Los lugares van de 0 a `Count - 1`: `orquesta[orquesta.Count]` no existe.
+2. Cambialo por `orquesta[orquesta.Count - 1]`.
+3. Tocá **Ejecutar**. Tiene que salir `Cierra: Clave`.
 
 #### Código inicial
 ```csharp
@@ -612,6 +635,11 @@ Console.WriteLine(edades["Ana"]);   // 12
 #### Desafío
 Guardá en el diccionario que el `Vals` está en el cajón `12` y la `Marcha` en el `7`.
 
+#### Pasos
+1. Borrá el comentario `// guardá los dos`.
+2. Escribí `cajones["Vals"] = 12;` y `cajones["Marcha"] = 7;`.
+3. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```csharp
 var cajones = new Dictionary<string, int>();
@@ -668,6 +696,10 @@ edades["Ana"] = 13;   // ahora 13, no 12
 
 #### Desafío
 Cambiá el cajón de la `Marcha` a `9`.
+
+#### Pasos
+1. Cambiá el comentario por `cajones["Marcha"] = 9;`.
+2. Tocá **Ejecutar**. Tiene que salir `Marcha: cajón 9`.
 
 #### Código inicial
 ```csharp
@@ -731,6 +763,12 @@ else
 
 #### Desafío
 Completá `Buscar` con `TryGetValue`: si está, mostrá `<obra>: cajón <n>`; si no, `<obra>: no está`.
+
+#### Pasos
+1. Cambiá el `WriteLine` por `if (cajones.TryGetValue(obra, out int n))`.
+2. Entre llaves: `Console.WriteLine($"{obra}: cajón {n}");`.
+3. Después, `else` y entre llaves: `Console.WriteLine($"{obra}: no está");`.
+4. Tocá **Ejecutar**. Tiene que salir `Tango: no está`.
 
 #### Código inicial
 ```csharp
@@ -803,6 +841,10 @@ foreach (string v in new[] { "sí", "no", "sí" })
 #### Desafío
 Completá el bucle para contar cada nota. El programa después muestra las cuentas.
 
+#### Pasos
+1. Cambiá `// contá` por `cuenta[nota] = cuenta.GetValueOrDefault(nota) + 1;`.
+2. Tocá **Ejecutar**. Tiene que salir `Do: 3`.
+
 #### Código inicial
 ```csharp
 string[] melodia = { "Do", "Mi", "Do", "Sol", "Do", "Mi" };
@@ -871,6 +913,10 @@ Unhandled exception. System.Collections.Generic.KeyNotFoundException: The given 
 
 #### Desafío
 Ensayá, mirá cómo explota y arreglá la línea para que, si no está, el precio sea `0`.
+
+#### Pasos
+1. Cambiá `precios["Polka"]` por `precios.GetValueOrDefault("Polka", 0)`.
+2. Tocá **Ejecutar**. Tiene que salir `Polka: 0`.
 
 #### Código inicial
 ```csharp
@@ -1125,6 +1171,11 @@ Console.WriteLine(colores.Count);   // 2
 #### Desafío
 Recorré los sellos y agregalos al `HashSet`. El programa muestra cuántos distintos hay.
 
+#### Pasos
+1. Cambiá `// agregalos` por `foreach (string s in sellos)`.
+2. Entre llaves: `distintos.Add(s);`.
+3. Tocá **Ejecutar**. Tiene que salir `Tonos distintos: 3`.
+
 #### Código inicial
 ```csharp
 string[] sellos = { "Sol", "Re", "Sol", "La", "Re", "Sol" };
@@ -1185,6 +1236,11 @@ Console.WriteLine(fila.Dequeue());   // Ana
 
 #### Desafío
 Mientras la fila tenga gente (`Count > 0`), sacá al primero con `Dequeue` y mostrá `Ensaya: <nombre>`.
+
+#### Pasos
+1. Cambiá el comentario por `while (fila.Count > 0)`.
+2. Entre llaves: `Console.WriteLine($"Ensaya: {fila.Dequeue()}");`.
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp
@@ -1249,6 +1305,11 @@ Console.WriteLine(platos.Pop());   // rojo
 #### Desafío
 Apilá las tres obras en orden (`Vals`, `Marcha`, `Nocturno`) y después sacalas todas con `Pop`, mostrando cada una.
 
+#### Pasos
+1. Cambiá el comentario por `pila.Push("Vals");`, `pila.Push("Marcha");` y `pila.Push("Nocturno");`.
+2. Debajo: `while (pila.Count > 0)` y, entre llaves, `Console.WriteLine(pila.Pop());`.
+3. Tocá **Ejecutar**. Tienen que salir al revés: `Nocturno`, `Marcha`, `Vals`.
+
 #### Código inicial
 ```csharp
 var pila = new Stack<string>();
@@ -1311,6 +1372,12 @@ else if (c == ')')
 
 #### Desafío
 Completá `Equilibrados` con una `Stack<char>`.
+
+#### Pasos
+1. Cambiá el comentario por `if (c == '(') pila.Push(c);`.
+2. Debajo: `else if (c == ')')` y, entre llaves, `if (pila.Count == 0) return false;` y `pila.Pop();`.
+3. Al final, cambiá `return true;` por `return pila.Count == 0;`.
+4. Tocá **Ejecutar**. Tiene que salir `True`, `False` y `False`.
 
 #### Código inicial
 ```csharp
@@ -1389,6 +1456,11 @@ Una salida: recorrer una **copia** (`new List<string>(lista)`) y sacar de la ori
 
 #### Desafío
 Ensayá, mirá cómo explota y hacé que el `foreach` recorra una copia de la lista.
+
+#### Pasos
+1. No se puede sacar de una lista mientras el `foreach` la recorre.
+2. Cambiá `in partituras` por `in new List<string>(partituras)`.
+3. Tocá **Ejecutar**. Tiene que salir `Vals, Marcha`.
 
 #### Código inicial
 ```csharp
@@ -1677,6 +1749,12 @@ class Bolsa<T>
 #### Desafío
 Convertí `Estuche` en `Estuche<T>`: la propiedad y el parámetro del constructor tienen que ser de tipo `T`.
 
+#### Pasos
+1. Cambiá `class Estuche` por `class Estuche<T>`.
+2. Cambiá `public string Contenido` por `public T Contenido`.
+3. En el constructor, `string contenido` por `T contenido`.
+4. Tocá **Ejecutar**. Tiene que salir `arco y 440`.
+
 #### Código inicial
 ```csharp
 Estuche<string> a = new Estuche<string>("arco");
@@ -1745,6 +1823,10 @@ static T Primero<T>(List<T> datos) => datos[0];
 #### Desafío
 Convertí `Ultimo` en genérico para que sirva con las dos listas.
 
+#### Pasos
+1. Cambiá `static string Ultimo(List<string> datos)` por `static T Ultimo<T>(List<T> datos)`.
+2. Tocá **Ejecutar**. Tiene que salir `Mi` y `15`.
+
 #### Código inicial
 ```csharp
 Console.WriteLine(Ultimo(new List<string> { "Do", "Re", "Mi" }));
@@ -1804,6 +1886,11 @@ static T Mayor<T>(T a, T b) where T : IComparable<T>
 
 #### Desafío
 Completá `Menor` con la restricción y `CompareTo`.
+
+#### Pasos
+1. Al final del encabezado, agregá ` where T : IComparable<T>`.
+2. Cambiá `return a;` por `return a.CompareTo(b) < 0 ? a : b;`.
+3. Tocá **Ejecutar**. Tiene que salir `3` y `Marcha`.
 
 #### Código inicial
 ```csharp
@@ -1865,6 +1952,12 @@ class Bolsa<T>
 
 #### Desafío
 Completá `Desapilar`: tiene que devolver el último elemento y sacarlo de la lista.
+
+#### Pasos
+1. Guardá el último: `T ultimo = _datos[_datos.Count - 1];`.
+2. Sacalo: `_datos.RemoveAt(_datos.Count - 1);`.
+3. Devolvelo: `return ultimo;` (en lugar de `return _datos[0];`).
+4. Tocá **Ejecutar**. Tiene que salir `barniz` y `Quedan: 1`.
 
 #### Código inicial
 ```csharp
@@ -1951,6 +2044,12 @@ Pedí que `T` sepa compararse y usá `CompareTo`: `a.CompareTo(b) > 0` es «`a` 
 
 #### Desafío
 Ensayá, leé el error y arreglá `Mayor`.
+
+#### Pasos
+1. Con un `T` cualquiera no se puede usar `>`.
+2. Al encabezado agregale ` where T : IComparable<T>`.
+3. Cambiá `a > b` por `a.CompareTo(b) > 0`.
+4. Tocá **Ejecutar**. Tiene que salir `9`.
 
 #### Código inicial
 ```csharp
@@ -2188,6 +2287,10 @@ static IEnumerable<string> Colores()
 #### Desafío
 Agregá un `yield return` para que la escala termine en `Sol`.
 
+#### Pasos
+1. Debajo de `yield return "Fa";`, escribí `yield return "Sol";`.
+2. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```csharp
 foreach (string nota in Escala())
@@ -2265,6 +2368,11 @@ static IEnumerable<int> Cuenta(int hasta)
 #### Desafío
 Completá `Compases` para que entregue los números de `desde` a `hasta`.
 
+#### Pasos
+1. Cambiá `yield break;` por `for (int i = desde; i <= hasta; i++)`.
+2. Entre llaves: `yield return i;`.
+3. Tocá **Ejecutar**. Tiene que salir `3 4 5 6`.
+
 #### Código inicial
 ```csharp
 foreach (int c in Compases(3, 6))
@@ -2335,6 +2443,10 @@ static IEnumerable<int> Grandes(int[] datos)
 
 #### Desafío
 Completá `Largas` para que entregue solo las duraciones mayores que `2`.
+
+#### Pasos
+1. Cambiá `yield return d;` por `if (d > 2) yield return d;`.
+2. Tocá **Ejecutar**. Tiene que salir `4 3 8`.
 
 #### Código inicial
 ```csharp
@@ -2415,6 +2527,10 @@ static IEnumerable<int> Triples()
 #### Desafío
 Agregá un `yield break` para que la escala se corte cuando `n` pase de `100`.
 
+#### Pasos
+1. Arriba de `yield return n;`, escribí `if (n > 100) yield break;`.
+2. Tocá **Ejecutar**. Tiene que terminar en `64`.
+
 #### Código inicial
 ```csharp
 foreach (int n in Dobles())
@@ -2486,6 +2602,10 @@ Un método con `yield` se ejecuta **de nuevo** en cada `foreach`. Si querés rec
 
 #### Desafío
 Guardá las entradas en una lista y recorré la lista dos veces, para que el cobro se muestre una sola vez por entrada.
+
+#### Pasos
+1. Cambiá `var entradas = Entradas();` por `var entradas = new List<int>(Entradas());`.
+2. Tocá **Ejecutar**. `Cobro` tiene que salir solo dos veces.
 
 #### Código inicial
 ```csharp
@@ -2745,6 +2865,10 @@ Console.WriteLine(mas10(5));   // 15
 #### Desafío
 Completá la lambda `doble` para que devuelva el doble de lo que recibe.
 
+#### Pasos
+1. Cambiá `x => x` por `x => x * 2`.
+2. Tocá **Ejecutar**. Tiene que salir `8` y `30`.
+
 #### Código inicial
 ```csharp
 Func<int, int> doble = x => x;
@@ -2797,6 +2921,11 @@ static void Mostrar(int[] d, Func<int, int> f)
 
 #### Desafío
 Llamá a `Aplicar` dos veces: una que sume `2` a cada volumen, y otra que lo multiplique por `3`.
+
+#### Pasos
+1. Cambiá el comentario por `Aplicar(volumenes, x => x + 2);`.
+2. Debajo: `Aplicar(volumenes, x => x * 3);`.
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp
@@ -2861,6 +2990,10 @@ numeros.Sort((a, b) => b.CompareTo(a));   // de mayor a menor
 #### Desafío
 Ordená la lista por el largo de cada nombre, de menor a mayor.
 
+#### Pasos
+1. Cambiá el comentario por `obras.Sort((a, b) => a.Length.CompareTo(b.Length));`.
+2. Tocá **Ejecutar**. Tiene que salir `Vals, Marcha, Nocturno`.
+
 #### Código inicial
 ```csharp
 var obras = new List<string> { "Nocturno", "Vals", "Marcha" };
@@ -2913,6 +3046,11 @@ palabras.RemoveAll(p => p.Length < 3);
 
 #### Desafío
 Mostrá la primera obra que termine en `menor` y después sacá todas las que contengan `rota`.
+
+#### Pasos
+1. Cambiá `{obras[0]}` por `{obras.Find(o => o.EndsWith("menor"))}`.
+2. Cambiá `// sacá las rotas` por `obras.RemoveAll(o => o.Contains("rota"));`.
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp
@@ -2970,6 +3108,12 @@ Func<int, int> cobrar = n => n * fijo;
 
 #### Desafío
 Hacé que la lambda use el precio de `100` aunque después el precio cambie a `150`.
+
+#### Pasos
+1. La lambda usa `precio` cuando se llama, no cuando se escribe.
+2. Antes de la lambda, guardá una copia: `int fijo = precio;`.
+3. En la lambda, usá `fijo`: `n => n * fijo`.
+4. Tocá **Ejecutar**. Tiene que salir `Tres entradas: 300`.
 
 #### Código inicial
 ```csharp
@@ -3219,6 +3363,10 @@ Así se declara el evento en la clase: `public event Action? Inicio;`. `Action` 
 #### Desafío
 Suscribí a `Inicio` una lambda que muestre `Ceci levanta el violín`.
 
+#### Pasos
+1. Cambiá `// suscribite` por `batuta.Inicio += () => Console.WriteLine("Ceci levanta el violín");`.
+2. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```csharp
 Batuta batuta = new Batuta();
@@ -3295,6 +3443,10 @@ timbre.Suena += () => Console.WriteLine("Saludo");
 #### Desafío
 Suscribí a Bemol para que, en cada compás, muestre `Bemol: pum (<n>)`.
 
+#### Pasos
+1. Cambiá `// Bemol también` por `batuta.Compas += n => Console.WriteLine($"Bemol: pum ({n})");`.
+2. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```csharp
 Batuta batuta = new Batuta();
@@ -3368,6 +3520,10 @@ timbre.Suena -= Abrir;
 
 #### Desafío
 Después del compás `2`, dá de baja a `Bemol`.
+
+#### Pasos
+1. Cambiá `// Bemol se va` por `batuta.Compas -= Bemol;`.
+2. Tocá **Ejecutar**. Después de `pum (2)` tiene que salir `Fin`.
 
 #### Código inicial
 ```csharp
@@ -3453,6 +3609,10 @@ public void Gastar(int n)
 #### Desafío
 En `CambiarTempo`, si el tempo nuevo es menor que `60`, disparar `Lento` con el tempo.
 
+#### Pasos
+1. Debajo del `Console.WriteLine($"Tempo: {Tempo}");`, escribí `if (Tempo < 60) Lento?.Invoke(Tempo);`.
+2. Tocá **Ejecutar**. Tiene que salir `¡Cuidado! Tempo 50`.
+
 #### Código inicial
 ```csharp
 Metronomo m = new Metronomo();
@@ -3532,6 +3692,11 @@ Suena?.Invoke();
 
 #### Desafío
 Ensayá, mirá cómo explota y arreglá la línea que dispara el evento.
+
+#### Pasos
+1. Si nadie se suscribió, `Compas` es `null` y `Compas!(n)` explota.
+2. Cambialo por `Compas?.Invoke(n)`.
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp
@@ -3765,6 +3930,10 @@ var pares = numeros.Where(n => n % 2 == 0);
 #### Desafío
 Filtrá la orquesta para quedarte con los de `cuerdas`.
 
+#### Pasos
+1. Cambiá `var cuerdas = orquesta;` por `var cuerdas = orquesta.Where(m => m.Seccion == "cuerdas");`.
+2. Tocá **Ejecutar**. Tiene que salir `Ceci` y `Lía`.
+
 #### Código inicial
 ```csharp
 var orquesta = new List<Musico>
@@ -3831,6 +4000,10 @@ var largos = palabras.Select(p => p.Length);
 #### Desafío
 Con `Select`, quedate con el nombre de cada músico en mayúsculas.
 
+#### Pasos
+1. Cambiá `new List<string>()` por `orquesta.Select(m => m.Nombre.ToUpper())`.
+2. Tocá **Ejecutar**. Tiene que salir `CECI · BEMOL`.
+
 #### Código inicial
 ```csharp
 var orquesta = new List<Musico>
@@ -3892,6 +4065,10 @@ var tresMayores = numeros.OrderByDescending(n => n).Take(3);
 
 #### Desafío
 Ordená de mayor a menor puntaje, tomá los dos primeros y quedate con el nombre.
+
+#### Pasos
+1. Cambiá la consulta por `orquesta.OrderByDescending(m => m.Puntos).Take(2).Select(m => m.Nombre)`.
+2. Tocá **Ejecutar**. Tiene que salir `Lía, Ceci`.
 
 #### Código inicial
 ```csharp
@@ -3960,6 +4137,12 @@ bool hayCero = numeros.Any(n => n == 0);
 
 #### Desafío
 Completá las tres líneas con `Count`, `Max` y `Any`.
+
+#### Pasos
+1. Aprobados: cambiá `{0}` por `{orquesta.Count(m => m.Puntos >= 70)}`.
+2. Mejor: `{orquesta.Max(m => m.Puntos)}`.
+3. Vientos: cambiá `{false}` por `{orquesta.Any(m => m.Seccion == "vientos")}`.
+4. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp
@@ -4031,6 +4214,11 @@ Mirá cómo se llama de verdad en el `record`.
 
 #### Desafío
 Ensayá, leé el error y arreglá el nombre del dato.
+
+#### Pasos
+1. El dato se llama `Puntos`, no `Puntaje`.
+2. Cambiá `m.Puntaje` por `m.Puntos`.
+3. Tocá **Ejecutar**. Tiene que salir `159`.
 
 #### Código inicial
 ```csharp
@@ -4302,6 +4490,11 @@ foreach (var g in palabras.GroupBy(p => p.Length))
 #### Desafío
 Agrupá la orquesta por sección y mostrá `<sección>: <cantidad>`.
 
+#### Pasos
+1. Cambiá `// agrupá` por `foreach (var grupo in orquesta.GroupBy(m => m.Seccion))`.
+2. Entre llaves: `Console.WriteLine($"{grupo.Key}: {grupo.Count()}");`.
+3. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```csharp
 var orquesta = new List<Musico>
@@ -4371,6 +4564,10 @@ El `!` le dice al compilador que sabés que la lista no está vacía.
 #### Desafío
 Usá `MaxBy` para encontrar al músico con más puntos y mostrar su nombre.
 
+#### Pasos
+1. Cambiá el `?` por `{orquesta.MaxBy(m => m.Puntos)!.Nombre}`.
+2. Tocá **Ejecutar**. Tiene que salir `Es de: Lía`.
+
 #### Código inicial
 ```csharp
 var orquesta = new List<Musico>
@@ -4435,6 +4632,10 @@ var ahora = numeros.Where(n => n > 5).ToList();
 
 #### Desafío
 Agregale `.ToList()` a la consulta para que cuente los aprobados de antes de agregar a `Tomi`.
+
+#### Pasos
+1. Al final de la consulta, antes del `;`, agregá `.ToList()`.
+2. Tocá **Ejecutar**. Tiene que salir `Aprobados antes: 2`.
 
 #### Código inicial
 ```csharp
@@ -4503,6 +4704,10 @@ static class Ayuda
 
 #### Desafío
 Completá `Capitalizar` para que devuelva la primera letra en mayúscula y el resto en minúscula.
+
+#### Pasos
+1. Cambiá `return s;` por `return char.ToUpper(s[0]) + s.Substring(1).ToLower();`.
+2. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp
@@ -4576,6 +4781,11 @@ Unhandled exception. System.InvalidOperationException: Sequence contains no matc
 
 #### Desafío
 Ensayá, mirá cómo explota y cambiá la búsqueda para que muestre `nadie` si no hay arpa.
+
+#### Pasos
+1. Cambiá `Musico arpa = orquesta.First(` por `Musico? arpa = orquesta.FirstOrDefault(`.
+2. En el `WriteLine`, cambiá `{arpa.Nombre}` por `{arpa?.Nombre ?? "nadie"}`.
+3. Tocá **Ejecutar**. Tiene que salir `Arpa: nadie`.
 
 #### Código inicial
 ```csharp
@@ -4815,6 +5025,10 @@ if (vistos.Add("Ana")) Console.WriteLine("nueva");
 #### Desafío
 Cambiá la `List<string>` por un `HashSet<string>` para que cada corista se cuente una sola vez.
 
+#### Pasos
+1. Cambiá `new List<string>()` por `new HashSet<string>()`.
+2. Tocá **Ejecutar**. Tiene que salir `Coristas: 3`.
+
 #### Código inicial
 ```csharp
 string[] anotados = { "Ceci", "Bemol", "Ceci", "Lía", "Bemol" };
@@ -4867,6 +5081,10 @@ La segunda cabeza pregunta la voz de un corista que no está en el diccionario. 
 
 #### Desafío
 Arreglá `Voz` para que devuelva `sin voz` si el nombre no está.
+
+#### Pasos
+1. Cambiá `return voces[nombre];` por `return voces.GetValueOrDefault(nombre, "sin voz");`.
+2. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp
@@ -4924,6 +5142,11 @@ Para «el primero que llega entra primero», va una `Queue`: `Enqueue` para entr
 #### Desafío
 Cambiá la `Stack` por una `Queue` (y sus métodos) para que entren en orden de llegada.
 
+#### Pasos
+1. Cambiá `new Stack<string>()` por `new Queue<string>()`.
+2. Los tres `Push` pasan a ser `Enqueue`, y el `Pop` pasa a ser `Dequeue`.
+3. Tocá **Ejecutar**. Tienen que entrar en orden: Ceci, Bemol y Lía.
+
 #### Código inicial
 ```csharp
 var fila = new Stack<string>();
@@ -4980,6 +5203,11 @@ La clase que tiene el evento lo dispara adentro con `?.Invoke(…)`, en el momen
 
 #### Desafío
 Hacé que `Bajar` dispare el evento `Compas` con el número, y suscribí a Bemol para que muestre `Bemol entra en el <n>`.
+
+#### Pasos
+1. Debajo de `Batuta batuta = new Batuta();`, escribí `batuta.Compas += n => Console.WriteLine($"Bemol entra en el {n}");`.
+2. Dentro de `Bajar`, escribí `Compas?.Invoke(n);`.
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp
@@ -5051,6 +5279,12 @@ De a uno. Ensayá y leé el primer error (`CS1061`: un dato que no existe). Desp
 
 #### Desafío
 Arreglá el informe: las voces ordenadas alfabéticamente con su cantidad, la mejor afinación y el primer contralto (o `nadie`).
+
+#### Pasos
+1. En el `foreach`, después de `GroupBy(c => c.Voz)`, agregá `.OrderBy(g => g.Key)`.
+2. El dato se llama `Afinacion`: cambiá `c.Afinado` por `c.Afinacion`.
+3. Contralto: cambiá `First(` por `FirstOrDefault(` y `.Nombre` por `?.Nombre ?? "nadie"`.
+4. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp

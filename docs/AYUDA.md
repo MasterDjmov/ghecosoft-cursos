@@ -58,7 +58,7 @@ Si el alumno **falla 2 veces** o pasan **3 minutos sin ejecutar** con el desafí
 2. **Pasos de los 10 primeros nodos de cada curso**: el importador lee `#### Pasos`; se escriben (como se hizo con las pistas de Gheco) y se reimporta. Con las ayudas en *Admin → Estadísticas*.
    - Hecho (2026-11-15): `#### Pasos` → `node_steps.guide`; «¿Qué me piden?» es la primera ayuda del panel (botón «Mostrame los pasos», con su parlante) y queda anotada (`guide`) en el Recorrido. Muestra: C R00-N01-P1 a P5, para que el docente ajuste el tono.
    - Cómo se escriben: 2 a 6 pasos numerados, una acción por paso; nombrar la línea como se ve en el editor (`printf(…)`, «el primer `___`»); decir qué escribir y dónde; terminar con «Tocá **Ejecutar**» y qué tiene que salir. Sin historia ni metáforas.
-   - Hechos: C (71) y Python (88). Falta: Java, PHP, Ensamblador, C++, JS, HTML, C# y las ayudas en *Admin → Estadísticas*.
+   - Hechos: C (71), Python (88) y Java (70). Falta: PHP, Ensamblador, C++, JS, HTML, C# y las ayudas en *Admin → Estadísticas*.
 3. **Modo enfoque.**
 4. **Pasos del resto de los nodos**, curso por curso.
 

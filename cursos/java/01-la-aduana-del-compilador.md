@@ -255,6 +255,12 @@ Una **variable** es un cajón con nombre donde el programa guarda un dato. En Ja
 #### Desafío
 Completá el tipo de cada cajón.
 
+#### Pasos
+1. Hay cuatro `___`, uno por variable.
+2. `barriles` es un entero: `int`. `peso` tiene decimales: `double`.
+3. `propietario` es un texto: `String` (con S mayúscula). `declarado` es sí o no: `boolean`.
+4. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```java
 public class Cajones {
@@ -317,6 +323,11 @@ Por costumbre, las constantes se escriben en MAYÚSCULAS.
 #### Desafío
 Sacá la línea que intenta cambiar la constante, para que compile.
 
+#### Pasos
+1. Buscá la línea `PEAJE = 1;`.
+2. Borrala entera: una constante (`final`) no se puede cambiar.
+3. Tocá **Ejecutar**. Tiene que salir `Total: 20 denarios`.
+
 #### Código inicial
 ```java
 public class Constante {
@@ -378,6 +389,11 @@ Ojo: `(int)` **corta** los decimales, no redondea. Para redondear está `Math.ro
 #### Desafío
 Convertí el peso a entero (cortando) para el cajón de enteros.
 
+#### Pasos
+1. Buscá `int cajon = harina;`.
+2. Poné `(int) ` antes de `harina`. Queda: `int cajon = (int) harina;`
+3. Tocá **Ejecutar**. Tiene que salir `7 kg`.
+
 #### Código inicial
 ```java
 public class Casting {
@@ -435,6 +451,11 @@ Si uno de los dos es `double` (por ejemplo, escribiendo `2.0` en vez de `2`), el
 
 #### Desafío
 Hacé que el reparto dé con decimales.
+
+#### Pasos
+1. Buscá `multa / 2`.
+2. Cambiá el `2` por `2.0`: si uno de los dos tiene decimales, la división también.
+3. Tocá **Ejecutar**. Tiene que salir `3.5`.
 
 #### Código inicial
 ```java
@@ -498,6 +519,12 @@ nombre del mercader) y mostrá:
 **Para superarla:**
 - Usa `int`, `double` y `String` donde corresponde.
 - Usa un casting `(int)` para los kilos enteros.
+
+#### Pasos
+1. Borrá el comentario. Escribí `String mercader = "Olmo";`, `int bolsas = 37;` y `double kilosPorBolsa = 2.5;`
+2. Calculá: `double total = bolsas * kilosPorBolsa;`, `int totalEntero = (int) total;` e `int bolsasDeDiez = totalEntero / 10;`
+3. Mostrá cuatro líneas con `System.out.println`: `"Carro de " + mercader`, `"Peso total: " + total + " kg"`, `"En kilos enteros: " + totalEntero` y `"Bolsas completas de 10 kg: " + bolsasDeDiez`.
+4. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -575,6 +602,12 @@ Después mostrá los valores máximos de los dos tipos (`Integer.MAX_VALUE` y
 - Con `long` el resultado es correcto.
 - Muestra los dos máximos.
 
+#### Pasos
+1. Borrá el comentario. Con `int`: `int tesoroInt = 2_000_000_000;`, `tesoroInt = tesoroInt + 500_000_000;` y `System.out.println("Con int: " + tesoroInt);`
+2. Con `long`: `long tesoroLong = 2_000_000_000L;` (con `L` al final), `tesoroLong = tesoroLong + 500_000_000;` y `System.out.println("Con long: " + tesoroLong);`
+3. Los máximos: `System.out.println("Máximo de int: " + Integer.MAX_VALUE);` y `System.out.println("Máximo de long: " + Long.MAX_VALUE);`
+4. Tocá **Ejecutar**. El de `int` tiene que salir negativo.
+
 #### Código inicial
 ```java
 public class Tesoro {
@@ -646,6 +679,14 @@ nombre, `'L'` de Lía, usando un casting a `char`.
 - Las tres notas son `int`.
 - El promedio correcto usa `(double)`.
 - La letra siguiente se calcula con un casting a `char`, no se escribe a mano.
+
+#### Pasos
+1. Borrá el comentario. Escribí `int nota1 = 7;`, `int nota2 = 9;`, `int nota3 = 8;` y `char inicial = 'L';`
+2. Mal: `int promedioMal = (nota1 + nota2 + nota3) / 3;`
+3. Bien: `double promedioBien = (double) (nota1 + nota2 + nota3) / 3;`
+4. Mostrá: `"Promedio con división entera: " + promedioMal` y `"Promedio con casting: " + promedioBien`.
+5. La letra: `System.out.println("Letra siguiente a " + inicial + ": " + (char) (inicial + 1));`
+6. Tocá **Ejecutar**. La última línea tiene que terminar en `M`.
 
 #### Código inicial
 ```java
@@ -982,6 +1023,11 @@ Como repartir 23 caramelos en bolsitas de 4: salen 5 bolsitas y sobran 3.
 #### Desafío
 Completá con el operador del resto.
 
+#### Pasos
+1. Buscá `barriles ___ porCarro` en la línea de `Sobran`.
+2. Cambiá `___` por `%` (el resto de la división).
+3. Tocá **Ejecutar**. Tiene que salir `Sobran: 2`.
+
 #### Código inicial
 ```java
 public class Carros {
@@ -1042,6 +1088,12 @@ En `x = x + 5` el `=` no es «igual» como en matemática: quiere decir «guard�
 
 #### Desafío
 Completá las tres cuentas con atajos.
+
+#### Pasos
+1. Hay cuatro `___`.
+2. En los tres `carros___;`, cambiá `___` por `++`. Queda `carros++;`
+3. En `peaje ___ 2;`, cambiá `___` por `*=` (multiplica y guarda).
+4. Tocá **Ejecutar**. Tiene que salir `3 carros pagan 30`.
 
 #### Código inicial
 ```java
@@ -1109,6 +1161,11 @@ Para juntar condiciones (preguntas que dan `true` o `false`):
 #### Desafío
 Escribí la regla del portón con `&&` y `||`.
 
+#### Pasos
+1. Buscá `boolean pasa = ___;`.
+2. Cambiá `___` por `(tieneSello && pago) || esGuardia`.
+3. Tocá **Ejecutar**. Tiene que salir `false`.
+
 #### Código inicial
 ```java
 public class Porton {
@@ -1167,6 +1224,12 @@ Si querés otro orden, usá **paréntesis**: lo de adentro se hace primero. `3 *
 
 #### Desafío
 Poné los paréntesis para que la cuenta dé lo que tiene que dar.
+
+#### Pasos
+1. Buscá `int total = carros * 3 + 10 * 2;`.
+2. Poné `(` antes de `carros` y `)` después del `10`.
+3. Queda: `int total = (carros * 3 + 10) * 2;`
+4. Tocá **Ejecutar**. Tiene que salir `32`.
 
 #### Código inicial
 ```java
@@ -1229,6 +1292,15 @@ cuántos segundos faltan para la medianoche siguiente (un día tiene 86 400).
 **Para superarla:**
 - Calcula horas, minutos y segundos con `/` y `%`, sin escribir los valores a mano.
 - Muestra los segundos que faltan.
+
+#### Pasos
+1. Borrá el comentario. Escribí `int segundosTotales = 50_000;`
+2. `int horas = segundosTotales / 3600;`
+3. `int minutos = segundosTotales % 3600 / 60;`
+4. `int segundos = segundosTotales % 60;`
+5. Mostrá: `System.out.println("Hora: " + horas + ":" + minutos + ":" + segundos);`
+6. Y: `System.out.println("Faltan " + (86_400 - segundosTotales) + " segundos para la medianoche");`
+7. Tocá **Ejecutar**. Tiene que salir `13:53:20`.
 
 #### Código inicial
 ```java
@@ -1295,6 +1367,13 @@ mostralo: 2024, 1900, 2000 y 2026. Usá una sola expresión con `%`, `&&`, `||` 
 **Para superarla:**
 - La condición combina `%`, `&&` y `||` correctamente.
 - Los cuatro resultados son correctos.
+
+#### Pasos
+1. Borrá el comentario. Escribí los cuatro años: `int a1 = 2024;`, `int a2 = 1900;`, `int a3 = 2000;` e `int a4 = 2026;`
+2. Para el primero: `boolean b1 = (a1 % 4 == 0 && a1 % 100 != 0) || a1 % 400 == 0;`
+3. Copiá la misma línea para `b2`, `b3` y `b4`, cambiando `a1` por `a2`, `a3` y `a4`.
+4. Mostrá cada uno: `System.out.println(a1 + " bisiesto: " + b1);` y así con los otros.
+5. Tocá **Ejecutar**. Tienen que salir `true`, `false`, `true` y `false`.
 
 #### Código inicial
 ```java
@@ -1373,6 +1452,14 @@ restáselo a la vida con `-=` y mostrá si el enemigo sigue en pie (`vida > 0`).
 **Para superarla:**
 - Usa el operador ternario para el daño.
 - Usa `-=` para la vida.
+
+#### Pasos
+1. Borrá el comentario. Escribí `int fuerza = 14;`, `int armadura = 5;` e `int vida = 30;`
+2. `boolean critico = fuerza >= armadura * 2;`
+3. El ternario: `int danio = critico ? (fuerza - armadura) * 2 : fuerza - armadura;`
+4. Restá: `vida -= danio;`
+5. Mostrá cuatro líneas: `"¿Crítico? " + critico`, `"Daño: " + danio`, `"Vida restante: " + vida` y `"¿Sigue en pie? " + (vida > 0)`.
+6. Tocá **Ejecutar**. Tiene que salir `Daño: 18`.
 
 #### Código inicial
 ```java
@@ -1740,6 +1827,13 @@ Se pueden encadenar: `texto.trim().toUpperCase()`.
 #### Desafío
 Limpiá el nombre y pasalo a mayúsculas.
 
+#### Pasos
+1. Buscá `crudo.___.___;`. Hay dos `___`.
+2. El primero saca los espacios de los bordes: `trim()`.
+3. El segundo pasa a mayúsculas: `toUpperCase()`.
+4. Queda: `String limpio = crudo.trim().toUpperCase();`
+5. Tocá **Ejecutar**. Tiene que salir `[NADIA] tiene 5 letras`.
+
 #### Código inicial
 ```java
 public class Nombres {
@@ -1797,6 +1891,11 @@ Para comparar el contenido se usa `.equals()`: `a.equals(b)` da `true` si tienen
 
 #### Desafío
 Compará el contenido de los dos sellos.
+
+#### Pasos
+1. Buscá el `___` en la última línea.
+2. Cambialo por `original.equals(copia)`: `equals` compara el texto, no el objeto.
+3. Tocá **Ejecutar**. La segunda línea tiene que decir `true`.
 
 #### Código inicial
 ```java
@@ -1861,6 +1960,11 @@ System.out.println(sb.toString());   // Hola, Ana
 #### Desafío
 Agregá a Nadia y al mercader con `append`, como está hecho con Zed.
 
+#### Pasos
+1. Hay tres `___`, después de `sb.` o de `)`.
+2. Cambiá los tres por `append`, igual que en la línea de Zed.
+3. Tocá **Ejecutar**. Tiene que salir `Zed - Nadia - un mercader`.
+
 #### Código inicial
 ```java
 public class Lista {
@@ -1923,6 +2027,12 @@ Con `Locale.US` como primer dato, el decimal sale con punto en cualquier compu.
 
 #### Desafío
 Completá el formato del precio: ancho 6 y 2 decimales.
+
+#### Pasos
+1. Buscá `"%-8s ___%n"`.
+2. Cambiá `___` por `%6.2f` (6 lugares, 2 decimales).
+3. Queda: `"%-8s %6.2f%n"`
+4. Tocá **Ejecutar**. Los precios tienen que quedar alineados a la derecha.
 
 #### Código inicial
 ```java
@@ -2000,6 +2110,15 @@ una variable y mostrá:
 - Usa `trim`, `toUpperCase`, `indexOf`, `contains` y `replace`.
 - Guarda los resultados (no llama a los métodos sin usar lo que devuelven).
 
+#### Pasos
+1. Borrá el comentario. Escribí `String crudo = "  lía   FERRARI ";`
+2. Guardá: `String limpio = crudo.trim();`, `String mayus = limpio.toUpperCase();` e `int espacio = limpio.indexOf(" ");`
+3. Mostrá: `"[" + limpio + "]"` y después `mayus`.
+4. Las letras del nombre: `"Letras del nombre: " + limpio.substring(0, espacio).length()`
+5. `"¿Contiene FERR? " + limpio.contains("FERR")`
+6. Y `mayus.replace("A", "@")`.
+7. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```java
 public class Escriba {
@@ -2073,6 +2192,13 @@ Para cada uno mostrá el resultado de compararlo con `==`, con `equals` y con
 **Para superarla:**
 - Muestra las tres comparaciones para los tres intentos.
 - Se ve que `==` falla con el texto armado aunque tenga el mismo contenido.
+
+#### Pasos
+1. Borrá el comentario. Escribí `String clave = "cafe";`, `String intento1 = "cafe";`, `String intento2 = "CAFE";` y `String intento3 = new String("ca") + "fe";`
+2. Para el primero: `System.out.println("intento1: == " + (intento1 == clave) + ", equals " + intento1.equals(clave) + ", ignoreCase " + intento1.equalsIgnoreCase(clave));`
+3. Copiá esa línea para `intento2` y `intento3` (cambiá el número en el texto y en las tres variables).
+4. Al final: `System.out.println("Los textos se comparan con equals, nunca con ==.");`
+5. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -2151,6 +2277,14 @@ Mercancías: sal (4 × 12.5), seda (2 × 310.0) y hierro (10 × 7.25).
 - Usa `printf` con anchos y `%.2f`.
 - Tiene `Locale.setDefault(Locale.US)` para que el punto decimal sea siempre punto.
 - El total está bien calculado.
+
+#### Pasos
+1. Borrá el comentario. Primera línea: `Locale.setDefault(Locale.US);`
+2. Los subtotales: `double subSal = 4 * 12.5;`, `double subSeda = 2 * 310.0;` y `double subHierro = 10 * 7.25;`
+3. El título: `System.out.printf("%-10s %5s %9s %9s%n", "Mercancía", "Cant", "Precio", "Subtotal");`
+4. Cada fila: `System.out.printf("%-10s %5d %9.2f %9.2f%n", "sal", 4, 12.5, subSal);` y lo mismo para seda e hierro.
+5. El total: `System.out.printf("%-26s %9.2f%n", "TOTAL", subSal + subSeda + subHierro);`
+6. Tocá **Ejecutar**. Tiene que salir `742.50`.
 
 #### Código inicial
 ```java
@@ -2511,6 +2645,11 @@ Acá no hace falta tipear: la **Entrada** ya viene escrita, es lo que «tipearí
 #### Desafío
 Leé el nombre con `nextLine`.
 
+#### Pasos
+1. Buscá `String nombre = sc.___;`.
+2. Cambiá `___` por `nextLine()` (lee toda la línea que escribió).
+3. Tocá **Ejecutar**. Tiene que salir `Bienvenido al Imperio, Baldo`.
+
 #### Código inicial
 ```java
 import java.util.Scanner;
@@ -2579,6 +2718,11 @@ La solución: un `sc.nextLine();` extra justo después del `nextInt()`, para lle
 
 #### Desafío
 Agregá la línea que se lleva el Enter que quedó.
+
+#### Pasos
+1. Buscá `int edad = sc.nextInt();`.
+2. Debajo, agregá una línea nueva: `sc.nextLine();` (se lleva el Enter que quedó después del número).
+3. Tocá **Ejecutar**. El oficio tiene que salir completo entre corchetes.
 
 #### Código inicial
 ```java
@@ -2653,6 +2797,11 @@ Para tasar un terreno del cuartel, Nadia usa una **tablilla de fórmulas**: el l
 #### Desafío
 Calculá el lado con la raíz cuadrada.
 
+#### Pasos
+1. Buscá `double lado = ___;`.
+2. Cambiá `___` por `Math.sqrt(superficie)` (la raíz cuadrada).
+3. Tocá **Ejecutar**. Tiene que salir `Lado: 12.0`.
+
 #### Código inicial
 ```java
 public class Terreno {
@@ -2719,6 +2868,11 @@ int dado = r.nextInt(6) + 1;
 
 #### Desafío
 Tirá tres dados de 1 a 6.
+
+#### Pasos
+1. Hay tres `___`, uno por dado.
+2. Cambiá los tres por `r.nextInt(6) + 1` (de 0 a 5, más 1: de 1 a 6).
+3. Tocá **Ejecutar**. Tiene que salir `Tiradas: 3, 4 y 1`.
 
 #### Código inicial
 ```java
@@ -2789,6 +2943,15 @@ Mostrá el costo con 2 decimales.
 **Para superarla:**
 - Lee todo con `nextLine()` y convierte los días con `Integer.parseInt`.
 - Muestra el costo con `printf` y `%.2f`, con `Locale.setDefault(Locale.US)`.
+
+#### Pasos
+1. Borrá el comentario. Primero: `Locale.setDefault(Locale.US);` y `Scanner teclado = new Scanner(System.in);`
+2. Pedí el nombre: `System.out.print("Nombre completo: ");` y `String nombre = teclado.nextLine().trim();`
+3. Igual la ciudad, con `"Ciudad de origen: "`.
+4. Los días: `System.out.print("Días de estadía: ");` e `int dias = Integer.parseInt(teclado.nextLine().trim());`. Después `System.out.println();`
+5. El costo: `double costo = dias * 15.0;` y `costo = dias > 7 ? costo * 0.9 : costo;`
+6. Mostrá: `"Viajero: " + nombre.toUpperCase()`, `"Viene de: " + ciudad` y `System.out.printf("Costo de %d días: %.2f denarios%n", dias, costo);`
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -2885,6 +3048,14 @@ perímetro si van cada 2 metros (redondeando **para arriba** con `Math.ceil`).
 - Usa `Math.sqrt`, `Math.pow` y `Math.ceil`.
 - Muestra los decimales con punto en cualquier compu.
 
+#### Pasos
+1. Borrá el comentario. Primero: `Locale.setDefault(Locale.US);` y el `Scanner`.
+2. Pedí: `System.out.print("Ancho: ");` y `double ancho = Double.parseDouble(teclado.nextLine().trim());`. Igual el largo. Después `System.out.println();`
+3. Calculá: `double area = ancho * largo;` y `double diagonal = Math.sqrt(Math.pow(ancho, 2) + Math.pow(largo, 2));`
+4. Las estacas: `double perimetro = 2 * (ancho + largo);` e `int estacas = (int) Math.ceil(perimetro / 2);`
+5. Mostrá: `System.out.printf("Área: %.2f m2%n", area);`, `System.out.printf("Diagonal: %.2f m%n", diagonal);` y `"Estacas para el perímetro: " + estacas`.
+6. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```java
 import java.util.Locale;
@@ -2973,6 +3144,14 @@ suma, el mayor (con `Math.max` dos veces) y si salió un trío (los tres iguales
 - Crea el `Random` con la semilla leída.
 - Cada dado da entre 1 y 6.
 - Usa `Math.max` para el mayor.
+
+#### Pasos
+1. Borrá el comentario. Escribí el `Scanner`, `System.out.print("Semilla: ");`, `long semilla = Long.parseLong(teclado.nextLine().trim());` y `System.out.println();`
+2. `Random random = new Random(semilla);`
+3. Los dados: `int d1 = random.nextInt(6) + 1;` y lo mismo para `d2` y `d3`.
+4. `int mayor = Math.max(d1, Math.max(d2, d3));` y `boolean trio = d1 == d2 && d2 == d3;`
+5. Mostrá: `"Dados: " + d1 + " " + d2 + " " + d3`, `"Suma: " + (d1 + d2 + d3)`, `"Mayor: " + mayor` y `"¿Trío? " + trio`.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -3420,6 +3599,11 @@ Java revisa **en orden** y entra solo en el primero que se cumple; `else` es par
 #### Desafío
 Completá la condición del portón de los soldados (el que llega ahora es un soldado).
 
+#### Pasos
+1. Buscá `} else if (___) {`.
+2. Cambiá `___` por `v.equals("soldado")` (igual que el `if` de arriba, con otra palabra).
+3. Tocá **Ejecutar**. Tiene que salir `soldado: portón de hierro`.
+
 #### Código inicial
 ```java
 public class Portones {
@@ -3484,6 +3668,12 @@ La regla: lo más exigente va **primero**.
 
 #### Desafío
 Llega un carro de 120 kg y paga 10. Reordená las condiciones para que pague 20.
+
+#### Pasos
+1. Las dos condiciones están al revés: `kg > 50` atrapa también a los de 120.
+2. Cambiá el primer `if` por `if (kg > 100) {` y su `peaje = 10;` por `peaje = 20;`.
+3. Cambiá el `else if` por `else if (kg > 50) {` y su `peaje = 20;` por `peaje = 10;`.
+4. Tocá **Ejecutar**. Tiene que salir `120 kg: 20`.
 
 #### Código inicial
 ```java
@@ -3561,6 +3751,11 @@ Con la flecha `->`, se ejecuta solo lo de ese `case` (no hace falta `break`). `d
 #### Desafío
 Nadia pide el 2. Completá el caso 2: «Guiso del Imperio».
 
+#### Pasos
+1. Buscá el `___` entre `case 1` y `default`.
+2. Cambialo por `case 2 -> System.out.println("2: Guiso del Imperio");`
+3. Tocá **Ejecutar**. Tiene que salir `2: Guiso del Imperio`.
+
 #### Código inicial
 ```java
 public class Posada {
@@ -3630,6 +3825,13 @@ Fijate el `;` al final, después de la llave: toda la línea es una asignación.
 #### Desafío
 Escribí el `switch` que devuelve el portón de cada oficio.
 
+#### Pasos
+1. Buscá `String porton = ___;`.
+2. Cambiá `___` por `switch (oficio) {` y abajo, un caso por renglón:
+3. `case "mercader" -> "oro";`, `case "soldado" -> "hierro";` y `default -> "piedra";`
+4. Cerrá con `}` y dejá el `;` final: queda `};`.
+5. Tocá **Ejecutar**. Tiene que salir `mercader -> oro`.
+
 #### Código inicial
 ```java
 public class Servilleta {
@@ -3696,6 +3898,13 @@ y cualquier otro número "Nota inválida". Usá `if` / `else if` / `else`.
 **Para superarla:**
 - Los rangos están bien ordenados y no se superponen.
 - Maneja las notas fuera de rango.
+
+#### Pasos
+1. Borrá el comentario. Escribí el `Scanner`, `System.out.print("Nota: ");`, `int nota = Integer.parseInt(teclado.nextLine().trim());` y `System.out.println();`
+2. Primero lo inválido: `if (nota < 1 || nota > 10)` → `"Nota inválida"`.
+3. `else if (nota <= 3)` → `"Desaprobado"`; `else if (nota <= 6)` → `"Aprobado"`.
+4. `else if (nota <= 9)` → `"Muy bueno"`; `else` → `"Sobresaliente"`.
+5. Tocá **Ejecutar**. Con la entrada de prueba tiene que salir `Muy bueno`.
 
 #### Código inicial
 ```java
@@ -3788,6 +3997,14 @@ precio es -1, avisá que la opción no existe; si no, mostrá qué se pidió y c
 **Para superarla:**
 - Usa `switch` con flechas como expresión (al menos uno).
 - Maneja la opción inexistente.
+
+#### Pasos
+1. Borrá el comentario. Escribí el `Scanner` y el menú: `System.out.println("1 Guiso | 2 Pan | 3 Café | 4 Agua");`
+2. Pedí: `System.out.print("Opción: ");`, `int opcion = Integer.parseInt(teclado.nextLine().trim());` y `System.out.println();`
+3. El precio: `int precio = switch (opcion) {` con `case 1 -> 1200;`, `case 2 -> 300;`, `case 3 -> 450;`, `case 4 -> 0;`, `default -> -1;` y `};`
+4. El plato: otro `switch` igual que devuelve `"guiso"`, `"pan"`, `"café"`, `"agua"` y `""`.
+5. Si `precio == -1`: `"Esa opción no existe"`. Si no: `"Pediste " + plato + ": " + precio + " denarios"`.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -3886,6 +4103,15 @@ jugada de Nadia no es válida, avisá.
 - La jugada del guardia sale de un `switch`.
 - Compara textos con `equals`.
 - Cubre los empates y los seis casos con ganador.
+
+#### Pasos
+1. Borrá el comentario. Escribí el `Scanner`. Pedí `"Tu jugada: "` → `String nadia = teclado.nextLine().trim().toLowerCase();`
+2. Pedí `"Semilla del guardia: "` → `long semilla = Long.parseLong(teclado.nextLine().trim());` y `System.out.println();`
+3. Si no es ninguna de las tres (`!nadia.equals("piedra") && !nadia.equals("papel") && !nadia.equals("tijera")`): `"Jugada inválida"` y `return;`
+4. El guardia: `String guardia = switch (new Random(semilla).nextInt(3)) {` con `case 0 -> "piedra";`, `case 1 -> "papel";`, `default -> "tijera";` y `};`
+5. Mostrá: `"Nadia: " + nadia + " | Guardia: " + guardia`.
+6. Si son iguales: `"Empate"`. Si gana Nadia (piedra-tijera, papel-piedra o tijera-papel): `"Gana Nadia"`. Si no: `"Gana el guardia"`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -4373,6 +4599,12 @@ Adentro, algo tiene que acercar la condición a ser falsa (acá, `n++`). Si no, 
 #### Desafío
 Completá la línea que falta para que el contador avance y el bucle termine.
 
+#### Pasos
+1. Adentro del `while` hay un `___;`.
+2. Cambialo por `carro++;` (suma 1 al contador).
+3. Sin esto, `carro` siempre vale 1 y el bucle no termina nunca.
+4. Tocá **Ejecutar**. Tiene que salir `Aduana cerrada` al final.
+
 #### Código inicial
 ```java
 public class Cierre {
@@ -4447,6 +4679,11 @@ Para sumar, un **acumulador**: una variable que arranca en 0 **antes** del bucle
 #### Desafío
 Sumale al total lo que se cobró cada día (`dia * 10`).
 
+#### Pasos
+1. Buscá `total ___ dia * 10;`.
+2. Cambiá `___` por `+=` (suma y guarda).
+3. Tocá **Ejecutar**. Tiene que salir `Semana: 150 denarios`.
+
 #### Código inicial
 ```java
 public class Recaudacion {
@@ -4511,6 +4748,11 @@ Sirve para pedir un dato hasta que sea válido: lo pedís, y si no sirve, lo ped
 
 #### Desafío
 Completá la condición: se vuelve a preguntar mientras el peso no sea mayor que cero.
+
+#### Pasos
+1. Buscá `} while (___);`.
+2. Cambiá `___` por `peso <= 0` (repetí mientras no sea mayor que cero).
+3. Tocá **Ejecutar**. Tiene que salir `Aceptado: 25 kg`.
 
 #### Código inicial
 ```java
@@ -4589,6 +4831,12 @@ Dos órdenes para controlar un bucle desde adentro:
 
 #### Desafío
 Completá las dos líneas: el carro 4 se saltea y en el 7 se corta todo.
+
+#### Pasos
+1. Hay dos `___;`.
+2. En el carro 4: `continue;` (saltea el resto y sigue con el próximo).
+3. En el carro 7: `break;` (corta el bucle).
+4. Tocá **Ejecutar**. El último renglón tiene que ser el de la campana.
 
 #### Código inicial
 ```java
@@ -4677,6 +4925,15 @@ alineada. Al final mostrá la suma de todos los resultados.
 **Para superarla:**
 - Vuelve a preguntar hasta que el dato sea válido.
 - Usa un `for` para la tabla y un acumulador para la suma.
+
+#### Pasos
+1. Borrá el comentario. Escribí el `Scanner` e `int n = 0;`
+2. Validá: `while (n < 1 || n > 10) {` y adentro: `System.out.print("Número (1-10): ");` y `String linea = teclado.nextLine().trim();`
+3. Si `linea.matches("\\d+")` (son solo dígitos), `n = Integer.parseInt(linea);`. Después, si `n` sigue fuera de rango, `System.out.println("Tiene que ser un número del 1 al 10.");`
+4. Cerrado el `while`: `System.out.println();` e `int suma = 0;`
+5. La tabla: `for (int i = 1; i <= 10; i++) {` → `System.out.printf("%2d x %2d = %3d%n", n, i, n * i);` y `suma += n * i;`
+6. Al final: `System.out.println("Suma de la tabla: " + suma);`
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -4778,6 +5035,15 @@ acertó. Si en 7 intentos no acertó, cortá con `break` y revelá el número.
 **Para superarla:**
 - Usa `do`/`while` y un contador de intentos.
 - Corta con `break` al llegar a 7 intentos.
+
+#### Pasos
+1. Borrá el comentario. Escribí el `Scanner`, `System.out.print("Semilla: ");` y `long semilla = Long.parseLong(teclado.nextLine().trim());`
+2. `int secreto = new Random(semilla).nextInt(100) + 1;`, `int intentos = 0;`, `int intento;` y `boolean acerto = false;`
+3. `do {` → `System.out.print("Intento: ");`, `intento = Integer.parseInt(teclado.nextLine().trim());` e `intentos++;`
+4. Si es menor: `System.out.println("  Es mayor");`; si es mayor: `"  Es menor"`; si no: `acerto = true;` (dos espacios al principio de los mensajes).
+5. Si `!acerto && intentos == 7`: `break;`. Cerrá con `} while (!acerto);`
+6. Al final: si `acerto`, `"¡Acertaste en " + intentos + " intentos!"`; si no, `"Se acabaron los intentos. Era " + secreto`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -4886,6 +5152,15 @@ cuántas cosechas válidas hubo, el total, la mayor y el promedio con un decimal
 - El bucle termina con `fin` (comparado con `equals`).
 - Usa `continue` para las entradas inválidas.
 - Muestra cantidad, total, mayor y promedio.
+
+#### Pasos
+1. Borrá el comentario. Escribí `Locale.setDefault(Locale.US);`, el `Scanner`, `int cantidad = 0;`, `int total = 0;` e `int mayor = 0;`
+2. `while (true) {` → `System.out.print("Cosecha (o fin): ");` y `String linea = teclado.nextLine().trim();`
+3. Si `linea.equals("fin")`: `break;`. Si `linea.isEmpty()`: `continue;`
+4. `int valor = Integer.parseInt(linea);`. Si `valor < 0`: `System.out.println("  Ignoro el negativo " + valor);` y `continue;`
+5. Si llegó hasta acá: `cantidad++;`, `total += valor;` y `mayor = Math.max(mayor, valor);`
+6. Después del `while`: `System.out.println();` y cuatro líneas: `"Cosechas válidas: "`, `"Total: "`, `"Mayor: "` y `System.out.printf("Promedio: %.1f%n", cantidad == 0 ? 0.0 : (double) total / cantidad);`
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -5452,6 +5727,11 @@ Cada lugar tiene un número de posición, el **índice**, que empieza en **0**: 
 #### Desafío
 Mostrá el último estante usando `length`, sin escribir el número a mano.
 
+#### Pasos
+1. Buscá `estantes[___]` en la línea de `Último`.
+2. Cambiá `___` por `estantes.length - 1`: las posiciones empiezan en 0, así que la última es el largo menos uno.
+3. Tocá **Ejecutar**. Tiene que salir `Último: vino`.
+
 #### Código inicial
 ```java
 public class Deposito {
@@ -5511,6 +5791,12 @@ La condición correcta para recorrer todo es `i < pesos.length`.
 
 #### Desafío
 Ejecutalo, mirá el error y arreglá la condición del `for`.
+
+#### Pasos
+1. Tocá **Ejecutar** y mirá el error: se pasa del último cajón.
+2. Buscá `i <= pesos.length` en el `for`.
+3. Cambiá `<=` por `<`. Queda: `i < pesos.length`
+4. Tocá **Ejecutar**. Tiene que salir `Peso total: 80 kg`.
 
 #### Código inicial
 ```java
@@ -5575,6 +5861,11 @@ La clase `Arrays` (de `java.util`, hay que importarla) trae herramientas para ar
 
 #### Desafío
 Ordená los años para que el primero sea el más viejo.
+
+#### Pasos
+1. Buscá el `___;` debajo del array.
+2. Cambialo por `Arrays.sort(anios);`
+3. Tocá **Ejecutar**. Tiene que salir `El más viejo: año 987`.
 
 #### Código inicial
 ```java
@@ -5642,6 +5933,11 @@ Se recorre con dos `for`: el de afuera por las filas y el de adentro por las col
 
 #### Desafío
 Completá el límite del `for` de adentro: las columnas de esa fila.
+
+#### Pasos
+1. Buscá `c < ___` en el `for` de adentro.
+2. Cambiá `___` por `mapa[f].length` (cuántas columnas tiene esa fila).
+3. Tocá **Ejecutar**. Tiene que salir `Torres: 3`.
 
 #### Código inicial
 ```java
@@ -5731,6 +6027,14 @@ máxima, la mínima y en qué día (número del 1 al 7) fue la máxima.
 **Para superarla:**
 - Guarda los 7 valores en un array.
 - Recorre el array para calcular promedio, máxima, mínima y el día.
+
+#### Pasos
+1. Borrá el comentario. Escribí `Locale.setDefault(Locale.US);`, el `Scanner` y `double[] temps = new double[7];`
+2. Cargá: `for (int i = 0; i < temps.length; i++) {` → `System.out.print("Día " + (i + 1) + ": ");` y `temps[i] = Double.parseDouble(teclado.nextLine().trim());`. Después `System.out.println();`
+3. Preparé: `double suma = 0;`, `double max = temps[0];`, `double min = temps[0];` e `int diaMax = 1;`
+4. Recorré: `suma += temps[i];`; si `temps[i] > max`, guardá `max` y `diaMax = i + 1;`; y `min = Math.min(min, temps[i]);`
+5. Mostrá: `Arrays.toString(temps)`, `System.out.printf("Promedio: %.1f%n", suma / temps.length);`, `"Máxima: " + max + " (día " + diaMax + ")"` y `"Mínima: " + min`.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -5838,6 +6142,14 @@ que no cambió, y usá `Arrays.equals` para comparar el original con la copia.
 - Ordena una copia, no el original.
 - Muestra el podio recorriendo el array al revés.
 
+#### Pasos
+1. Borrá el comentario. Escribí `int[] puntajes = {340, 125, 980, 560, 125, 720};`
+2. La copia: `int[] ordenados = Arrays.copyOf(puntajes, puntajes.length);` y `Arrays.sort(ordenados);`
+3. `System.out.println("Podio:");` e `int puesto = 1;`
+4. Al revés: `for (int i = ordenados.length - 1; i >= ordenados.length - 3; i--) {` → `System.out.println("  " + puesto + ". " + ordenados[i]);` y `puesto++;`
+5. Mostrá: `"Original: " + Arrays.toString(puntajes)`, `"Ordenado: " + Arrays.toString(ordenados)` y `"¿Iguales? " + Arrays.equals(puntajes, ordenados)`.
+6. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```java
 import java.util.Arrays;
@@ -5919,6 +6231,15 @@ avisá sin cortar el programa.
 **Para superarla:**
 - Crea y recorre la matriz con bucles anidados.
 - Valida la posición antes de usarla.
+
+#### Pasos
+1. Borrá el comentario. Escribí el `Scanner` y `char[][] mapa = new char[4][6];`
+2. Llená: `for (char[] fila : mapa) {` → `Arrays.fill(fila, '.');`
+3. El río: `for (int f = 0; f < mapa.length; f++) {` → `mapa[f][2] = '#';`
+4. Pedí `"Fila del tesoro: "` y `"Columna del tesoro: "` (con `Integer.parseInt(teclado.nextLine().trim())`) y `System.out.println();`
+5. Si `fila >= 0 && fila < mapa.length && col >= 0 && col < mapa[0].length`: `mapa[fila][col] = 'X';`. Si no: `"Esa posición está fuera del mapa"`.
+6. Mostrá: `int libres = 0;`, dos `for` que hacen `System.out.print(c);` (y cuentan los `'.'`), con `System.out.println();` al final de cada fila.
+7. Al final: `"Casillas libres: " + libres`. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -6410,6 +6731,11 @@ En `main` se usa como un valor: `doble(7)` da `14`. (`static` quiere decir que s
 #### Desafío
 Escribí el `return` del método: medio denario por kilo.
 
+#### Pasos
+1. Adentro de `peaje` hay un `___;`.
+2. Cambialo por `return kg * 0.5;`
+3. Tocá **Ejecutar**. Tiene que salir `Los dos: 25.0`.
+
 #### Código inicial
 ```java
 public class Pesador {
@@ -6473,6 +6799,11 @@ Los parámetros van entre paréntesis, cada uno con su tipo, separados por coma.
 
 #### Desafío
 Completá el tipo de retorno del método.
+
+#### Pasos
+1. Buscá `static ___ sello(`.
+2. El método devuelve un texto: cambiá `___` por `String`.
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -6547,6 +6878,12 @@ En Java puede haber **dos métodos con el mismo nombre**, si reciben distintos p
 #### Desafío
 Completá el `return` del segundo `cobrar`: lo de un carro por la cantidad de carros, menos 5 por carro.
 
+#### Pasos
+1. Buscá `return ___;` en el segundo `cobrar`.
+2. Cambiá `___` por `cobrar(kg) * carros - 5 * carros`.
+3. `cobrar(kg)` usa el primer método: lo de un carro.
+4. Tocá **Ejecutar**. Tiene que salir `165`.
+
 #### Código inicial
 ```java
 public class Cobrador {
@@ -6616,6 +6953,11 @@ Necesita un **caso base**: una condición en la que corta sin volver a llamarse 
 
 #### Desafío
 Completá la condición del caso base: cuando no quedan escalones.
+
+#### Pasos
+1. Buscá `if (___) {`.
+2. Cambiá `___` por `escalones == 0`.
+3. Tocá **Ejecutar**. Tiene que bajar de 4 a 1 y terminar con `¡Abajo!`.
 
 #### Código inicial
 ```java
@@ -6705,6 +7047,15 @@ redondeado a 2 decimales, y la vuelta a pesos.
 **Para superarla:**
 - Los tres métodos son `static`, reciben parámetros y devuelven un valor.
 - El `main` solo lee, llama a los métodos y muestra.
+
+#### Pasos
+1. Abajo del `main` (antes de la última `}`), escribí los tres métodos.
+2. `static double aDenarios(double pesos) { return pesos / 250; }` y `static double aPesos(double denarios) { return denarios * 250; }`
+3. `static double redondear(double valor, int decimales) {` → `double factor = Math.pow(10, decimales);` y `return Math.round(valor * factor) / factor;`
+4. En el `main`: el `Scanner`, `System.out.print("Pesos: ");`, `double pesos = Double.parseDouble(teclado.nextLine().trim());` y `System.out.println();`
+5. `double denarios = redondear(aDenarios(pesos), 2);` y `System.out.println(pesos + " pesos son " + denarios + " denarios");`
+6. La vuelta: `System.out.println(denarios + " denarios son " + redondear(aPesos(denarios), 2) + " pesos");`
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -6796,6 +7147,15 @@ antes y después de normalizar.
 **Para superarla:**
 - `normalizar` es `void` y modifica el array recibido.
 - Los demás métodos devuelven su resultado sin modificar el array.
+
+#### Pasos
+1. Abajo del `main`, escribí cuatro métodos que reciben `int[] datos`.
+2. `static int suma(int[] datos)`: recorré con `for (int d : datos)` sumando, y devolvé el total.
+3. `static int maximo(int[] datos)`: empezá con `datos[0]` y quedate con el mayor (`Math.max`).
+4. `static int contarMayoresA(int[] datos, int limite)`: contá los `d > limite`.
+5. `static void normalizar(int[] datos)`: `for (int i = 0; i < datos.length; i++)` → `datos[i] = Math.min(datos[i], 100);`
+6. En el `main`: `int[] fuerzas = {85, 120, 60, 101, 95};` y mostrá `"Suma: "`, `"Máximo: "`, `"Superan 90: "` (con `90`), `"Antes: " + Arrays.toString(fuerzas)`; llamá `normalizar(fuerzas);` y mostrá `"Después: "`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -6907,6 +7267,14 @@ char c)` hace lo mismo con otro carácter. Probá todos desde el `main`.
 **Para superarla:**
 - `potencia` y `sumaDigitos` son recursivos, con caso base.
 - `dibujar` está sobrecargado y una versión reutiliza a la otra o comparten lógica.
+
+#### Pasos
+1. Abajo del `main`: `static long potencia(int base, int exp)`. Si `exp == 0` devuelve `1`; si no, `return base * potencia(base, exp - 1);`
+2. `static int sumaDigitos(int n)`. Si `n < 10` devuelve `n`; si no, `return n % 10 + sumaDigitos(n / 10);`
+3. `static void dibujar(int n, char c)`: `for (int i = 1; i <= n; i++)` → `System.out.println(String.valueOf(c).repeat(i));`
+4. `static void dibujar(int n)`: una sola línea, `dibujar(n, '#');`
+5. En el `main`: `"2^10 = " + potencia(2, 10)`, `"3^0 = " + potencia(3, 0)`, `"Suma de dígitos de 4719: " + sumaDigitos(4719)`, después `dibujar(4);` y `dibujar(3, '*');`
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -7368,6 +7736,11 @@ Un método `leerEntero(sc, min, max)` guarda adentro el bucle de validación: pr
 #### Desafío
 Completá la condición del `while`: se repite mientras el número esté fuera del rango.
 
+#### Pasos
+1. Buscá `while (___) {`.
+2. Cambiá `___` por `n < min || n > max` (fuera del rango: menor que el mínimo o mayor que el máximo).
+3. Tocá **Ejecutar**. Tiene que salir `Registrado: 12 días`.
+
 #### Código inicial
 ```java
 import java.util.Scanner;
@@ -7458,6 +7831,11 @@ Un `for` especial recorre el array sin índices: `for (int dato : datos)` («par
 #### Desafío
 Completá el `return`: el total dividido por la cantidad, con decimales.
 
+#### Pasos
+1. Buscá `return ___;`.
+2. Cambiá `___` por `total / (double) datos.length`: el `(double)` hace que la división tenga decimales.
+3. Tocá **Ejecutar**. Tiene que salir `95.71 kg`.
+
 #### Código inicial
 ```java
 import java.util.Locale;
@@ -7530,6 +7908,11 @@ El veredicto ya está en su propio método: en el bucle de `main`, solo hay que 
 
 #### Desafío
 Completá la llamada al método `veredicto` con la carga del viajero `i`.
+
+#### Pasos
+1. Buscá el `___` adentro del `println`.
+2. Cambialo por `veredicto(cargas[i])`: la carga del viajero que está en la posición `i`.
+3. Tocá **Ejecutar**. Tienen que salir los cuatro veredictos.
 
 #### Código inicial
 ```java
@@ -7607,6 +7990,11 @@ Un programa completo se arma con lo que ya tenés: leer la cantidad, un bucle qu
 
 #### Desafío
 Completá el acumulador: sumá el valor de cada cosa al total.
+
+#### Pasos
+1. Adentro del `for`, abajo del `println`, hay un `___;`.
+2. Cambialo por `total += valor;`
+3. Tocá **Ejecutar**. Tiene que salir `valor total 55 denarios`.
 
 #### Código inicial
 ```java
@@ -7717,6 +8105,16 @@ Mostrá quién ganó y en cuántos turnos.
 - Usa un `Random` con la semilla leída, creado una sola vez.
 - La acción se lee con un método que valida (1 a 3).
 - Separa en métodos al menos: leer la acción, el turno de Nadia y el ataque del Centinela.
+
+#### Pasos
+1. Arriba del `main`: `static final int VIDA_MAX = 40;`. En el `main`: el `Scanner`, `System.out.print("Semilla: ");` y `Random random = new Random(Long.parseLong(teclado.nextLine().trim()));`
+2. Las variables: `int vidaNadia = VIDA_MAX;`, `int pociones = 3;`, `int vidaCentinela = 60;` e `int turno = 0;`
+3. `while (vidaNadia > 0 && vidaCentinela > 0) {` → `turno++;`, `System.out.println();` y el estado: `"Turno " + turno + " | Nadia " + vidaNadia + " (pociones: " + pociones + ") | Centinela " + vidaCentinela`.
+4. `int accion = leerAccion(teclado);` y `boolean defiende = accion == 3;`. Acción 1: daño `random.nextInt(7) + 8`, `"Nadia ataca: " + danio + " de daño"`. Acción 2: si hay pociones, `Math.min(VIDA_MAX, vidaNadia + 15)` y `"Nadia se cura " + lo que subió`; si no, `"No quedan pociones: Nadia pierde el turno"`. Acción 3: `"Nadia se defiende"`.
+5. Si el Centinela sigue vivo: `vidaNadia -= ataqueCentinela(random, defiende);`
+6. Método `leerAccion(Scanner teclado)`: repite `System.out.print("1 Atacar, 2 Curarse, 3 Defender: ");` hasta que llegue `"1"`, `"2"` o `"3"` (si no, `"  Elegí 1, 2 o 3."`).
+7. Método `ataqueCentinela(Random random, boolean defiende)`: daño `random.nextInt(8) + 5`, la mitad si defiende, muestra `"El Centinela golpea: " + danio + " de daño"` y lo devuelve.
+8. Al final, `System.out.println();` y el mensaje de quién cayó, copiado de la salida esperada. Tocá **Ejecutar** y compará turno por turno.
 
 #### Código inicial
 ```java
@@ -7902,6 +8300,16 @@ por qué). Con los registros válidos, guardados en arrays paralelos, mostrá:
 - La validación está en un método.
 - Usa `split(";")` y arrays paralelos.
 - Las líneas inválidas se informan y no se cuentan.
+
+#### Pasos
+1. Arriba del `main`: `static final int MAX = 20;`. En el `main`: `Locale.setDefault(Locale.US);`, el `Scanner`, tres arrays de tamaño `MAX` (`String[] nombres`, `int[] edades`, `int[] oros`) e `int n = 0;`
+2. Leé: `while (n < MAX && teclado.hasNextLine()) {` → `String linea = teclado.nextLine().trim();`; si está vacía, `break;`
+3. `String error = validarRegistro(linea);`. Si no está vacío: `System.out.println("Descartado [" + linea + "]: " + error);` y `continue;`
+4. Si está bien: `String[] partes = linea.split(";");`, guardá nombre, edad y oro en la posición `n` y `n++;`
+5. Método `validarRegistro(String linea)`: devolvé `"tiene que tener nombre;edad;oro"` si no son 3 partes, `"la edad no es un número"`, `"el oro no es un número"`, `"edad fuera de rango"` (más de 120) o `"el oro no puede ser negativo"`; si todo está bien, `""`.
+6. La tabla: `System.out.println();`, `System.out.printf("%-8s %5s %6s%n", "Nombre", "Edad", "Oro");` y una fila por registro con `"%-8s %5d %6d%n"`.
+7. Al final: `"Promedio de edad: %.1f%n"`, `"Oro total: "`, `"El más rico: "` y `"Menores de 18: "`, cada uno con su método (`promedio`, `suma`, `indiceDelMayor`, `contarMenores`) que recorre hasta `n`.
+8. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java

@@ -301,6 +301,11 @@ Las líneas de alrededor son la **caja** de todo programa en Java: `public class
 #### Desafío
 Completá la instrucción para declarar quién sos.
 
+#### Pasos
+1. Buscá `System.out.___(`.
+2. Cambiá `___` por `println` (muestra el texto y salta de línea).
+3. Tocá **Ejecutar**. Tiene que salir `Me llamo Zed y vengo del Puerto.`
+
 #### Código inicial
 ```java
 public class Declaracion {
@@ -359,6 +364,12 @@ System.out.println("mundo");   // Hola, mundo
 #### Desafío
 Usá `print` para que nombre y oficio queden en la misma línea.
 
+#### Pasos
+1. Buscá la primera línea que muestra algo: `System.out.println("Zed");`.
+2. Cambiá `println` por `print` (sin `ln`): así no salta de línea.
+3. No toques las otras dos.
+4. Tocá **Ejecutar**. Tiene que salir `Zed - ladrón de techos` en una sola línea.
+
 #### Código inicial
 ```java
 public class Formulario {
@@ -416,6 +427,11 @@ En Java, cada instrucción termina con punto y coma `;`, como el punto al final 
 #### Desafío
 Arreglá el pergamino del mercader para que la Aduana lo deje pasar.
 
+#### Pasos
+1. Buscá `System.out.println("Traigo tres barriles")`.
+2. Le falta el `;` al final. Agregalo después del `)`.
+3. Tocá **Ejecutar**. Tienen que salir las dos líneas.
+
 #### Código inicial
 ```java
 public class Mercader {
@@ -470,6 +486,11 @@ Java muestra un *stack trace*: dice **qué** pasó (por ejemplo, `ArithmeticExce
 
 #### Desafío
 Que el peaje se reparta entre los 4 viajeros de la fila.
+
+#### Pasos
+1. Buscá `int viajeros = 0;`.
+2. Cambiá el `0` por `4`: dividir por cero hace explotar el programa.
+3. Tocá **Ejecutar**. Tiene que salir `Cada uno paga 5`.
 
 #### Código inicial
 ```java
@@ -534,6 +555,12 @@ Las llaves `{ }` marcan dónde empieza y termina cada uno. La línea de `main` s
 
 #### Desafío
 Escribí la línea que abre el método `main`.
+
+#### Pasos
+1. Buscá el `___` debajo de `public class Porton {`.
+2. Cambialo por `public static void main(String[] args) {`
+3. Ojo: `String` con S mayúscula, y termina con `{`.
+4. Tocá **Ejecutar**. Tienen que salir las dos líneas.
 
 #### Código inicial
 ```java
@@ -602,6 +629,14 @@ exactamente así (con tus datos, si querés, pero con el mismo formato):
 **Para superarla:**
 - La clase se llama como el archivo y tiene su `main`.
 - Usa `println` para cada renglón y `\"` para las comillas.
+
+#### Pasos
+1. Borrá el comentario `// Escribí tu programa acá`.
+2. Un `System.out.println("...");` por renglón. El primero: `"==== PASE DE FRONTERA ===="`.
+3. Después, tres datos: `"Nombre: Nadia"`, `"Oficio: aprendiz de arquitectura"` y `"Origen: el Valle de la Serpiente"`.
+4. La línea vacía: `System.out.println();` (sin nada adentro).
+5. El sello: `System.out.println("Sello: \"PUEDE PASAR\"");` (las comillas de adentro llevan `\`).
+6. Tocá **Ejecutar** y compará renglón por renglón.
 
 #### Código inicial
 ```java
@@ -676,6 +711,13 @@ No cambies los textos.
 **Para superarla:**
 - Compila sin errores.
 
+#### Pasos
+1. En el `main`, cambiá `string` por `String`, con S mayúscula.
+2. En `"El pergamino dice:")` falta el `;` al final. Agregalo.
+3. Cambiá `system.out` por `System.out`, con S mayúscula.
+4. En la última línea, cerrá las comillas: `"  cruza la frontera antes."`
+5. Tocá **Ejecutar** después de cada arreglo. Al final tienen que salir las tres líneas.
+
 #### Código inicial
 ```java
 public class Pergamino {
@@ -747,6 +789,13 @@ un café (450).
 **Para superarla:**
 - El menú sale de un único `print` con `\n`.
 - El total se calcula con `+` entre paréntesis, no se escribe a mano.
+
+#### Pasos
+1. Borrá el comentario. Escribí un solo `System.out.print("...");` con todo el menú.
+2. Adentro de las comillas, los renglones van pegados con `\n` entre uno y otro: `POSADA LA TAZA DE KAFFA\n-----------------------\nGuiso ....... 1200\n...` y terminá con `\n`.
+3. Copiá los puntos y espacios de la salida esperada.
+4. Después: `System.out.println("Total: " + (1200 + 300 + 450));` (los paréntesis hacen la suma antes de pegarla al texto).
+5. Tocá **Ejecutar**. Tiene que salir `Total: 1950`.
 
 #### Código inicial
 ```java

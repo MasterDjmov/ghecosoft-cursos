@@ -145,6 +145,10 @@ string notas = await archivo.LeerAsync();   // sin await, sería un Task<string>
 #### Desafío
 Agregá `await` antes de `puerto.GetStringAsync("hola")`.
 
+#### Pasos
+1. Cambiá `= puerto.GetStringAsync("hola");` por `= await puerto.GetStringAsync("hola");`.
+2. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```csharp
 HttpClient puerto = Puerto.CreateClient();
@@ -193,6 +197,11 @@ Console.WriteLine(c!.Temperatura);
 
 #### Desafío
 Cambiá la línea de `crudo` por `Saludo? s = await puerto.GetFromJsonAsync<Saludo>("hola");` y mostrá `s!.Mensaje` en vez de `crudo`.
+
+#### Pasos
+1. Cambiá la línea de `crudo` por `Saludo? s = await puerto.GetFromJsonAsync<Saludo>("hola");`.
+2. En el `WriteLine`, cambiá `{crudo}` por `{s!.Mensaje}`.
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp
@@ -247,6 +256,11 @@ Console.WriteLine(notas!.Count);
 #### Desafío
 Pedí `List<Barco>` en vez de `Barco`, y mostrá `barcos!.Count`.
 
+#### Pasos
+1. Cambiá `GetFromJsonAsync<Barco>` por `GetFromJsonAsync<List<Barco>>`.
+2. En el `WriteLine`, cambiá `{barcos}` por `{barcos!.Count}`.
+3. Tocá **Ejecutar**. Tiene que salir `Barcos en el muelle: 4`.
+
 #### Código inicial
 ```csharp
 HttpClient puerto = Puerto.CreateClient();
@@ -298,6 +312,10 @@ string ruta = $"notas/{numero}";   // "notas/7", no "notas/{numero}"
 
 #### Desafío
 Agregá el `$` delante de `"barcos/{id}"`.
+
+#### Pasos
+1. Cambiá `("barcos/{id}")` por `($"barcos/{id}")`.
+2. Tocá **Ejecutar**. Tiene que salir `El Ancla Azul`.
 
 #### Código inicial
 ```csharp
@@ -356,6 +374,11 @@ record Obra(string Titulo);   // Titulo: sí · Nombre: quedaría vacío
 
 #### Desafío
 Cambiá `Cargamento` por `Carga`, en el `record` y en el `Console.WriteLine`.
+
+#### Pasos
+1. En el `WriteLine`, cambiá `b.Cargamento` por `b.Carga`.
+2. En el `record`, cambiá `string Cargamento` por `string Carga`.
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp
@@ -518,6 +541,10 @@ Console.WriteLine($"{(int)r.StatusCode} {r.StatusCode}");   // 200 OK
 #### Desafío
 En vez de `Llegó la respuesta`, mostrá `Código: ` con el número y, entre paréntesis, el nombre: `$"Código: {(int)r.StatusCode} ({r.StatusCode})"`.
 
+#### Pasos
+1. Cambiá `"Llegó la respuesta"` por `$"Código: {(int)r.StatusCode} ({r.StatusCode})"`.
+2. Tocá **Ejecutar**. Tiene que salir `Código: 404 (NotFound)`.
+
 #### Código inicial
 ```csharp
 HttpClient puerto = Puerto.CreateClient();
@@ -572,6 +599,11 @@ else
 
 #### Desafío
 Envolvé la lectura del barco en un `if (r.IsSuccessStatusCode)`. En el `else`, leé un `Problema` y mostrá `El Puerto dice: ` con `p!.Error`.
+
+#### Pasos
+1. Envolvé las dos líneas del barco en `if (r.IsSuccessStatusCode) { ... }`.
+2. Después: `else` y, entre llaves, `Problema? p = await r.Content.ReadFromJsonAsync<Problema>();` y `Console.WriteLine($"El Puerto dice: {p!.Error}");`.
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp
@@ -639,6 +671,10 @@ await servicio.PostAsJsonAsync("pedidos", new { producto = "resina", cantidad = 
 #### Desafío
 En el objeto que se manda, cambiá `mensaje` por `texto`.
 
+#### Pasos
+1. En el objeto, cambiá `mensaje =` por `texto =`.
+2. Tocá **Ejecutar**. Tiene que salir `201 Created`.
+
 #### Código inicial
 ```csharp
 HttpClient puerto = Puerto.CreateClient();
@@ -699,6 +735,10 @@ catch (HttpRequestException ex)
 
 #### Desafío
 Adentro del `try`, antes de leer, agregá `r.EnsureSuccessStatusCode();`.
+
+#### Pasos
+1. Adentro del `try`, antes de leer, escribí `r.EnsureSuccessStatusCode();`.
+2. Tocá **Ejecutar**. Tiene que salir `Falló el pedido: 500`.
 
 #### Código inicial
 ```csharp
@@ -774,6 +814,11 @@ El `using System.Text.Json;` de arriba ya está.
 
 #### Desafío
 Agregá un `catch (JsonException)` que muestre `El mensaje llegó cortado: un goblin se comió la mitad`.
+
+#### Pasos
+1. Después del último `catch`, escribí `catch (JsonException)`.
+2. Entre llaves: `Console.WriteLine("El mensaje llegó cortado: un goblin se comió la mitad");`.
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp
@@ -979,6 +1024,10 @@ servicio.Timeout = TimeSpan.FromMilliseconds(500);
 #### Desafío
 Antes del `try`, poné `puerto.Timeout = TimeSpan.FromSeconds(1);`.
 
+#### Pasos
+1. Debajo de la primera línea, escribí `puerto.Timeout = TimeSpan.FromSeconds(1);`.
+2. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```csharp
 HttpClient puerto = Puerto.CreateClient();
@@ -1046,6 +1095,12 @@ for (int vuelta = 1; vuelta <= 5; vuelta++)
 
 #### Desafío
 Envolvé el pedido y su `Console.WriteLine` en un `for (int intento = 1; intento <= 3; intento++)`. Mostrá el número de `intento` en vez del `1`, y cortá con `break` si `codigo == 200`.
+
+#### Pasos
+1. Arriba del pedido: `for (int intento = 1; intento <= 3; intento++)` y abrí una llave.
+2. Adentro, las tres líneas. En el `WriteLine`, cambiá `Intento 1` por `Intento {intento}`.
+3. Debajo: `if (codigo == 200)` y, entre llaves, `break;`. Cerrá la llave del `for`.
+4. Tocá **Ejecutar**. El intento 3 tiene que dar 200.
 
 #### Código inicial
 ```csharp
@@ -1119,6 +1174,13 @@ if (!listo) Console.WriteLine("Me rindo");
 
 #### Desafío
 Cambiá el `while (codigo != 200)` por un `for (int intento = 1; intento <= 3; intento++)` que corte con `break` si sale bien, y sacá el `intento++` de adentro. Al final, si `codigo != 200`, mostrá `Me rindo: el Puerto no contesta`.
+
+#### Pasos
+1. Borrá `int intento = 1;`.
+2. Cambiá `while (codigo != 200)` por `for (int intento = 1; intento <= 3; intento++)`.
+3. Cambiá `intento++;` por `if (codigo == 200)` con `break;` entre llaves.
+4. Después del `for`: `if (codigo != 200)` y, entre llaves, `Console.WriteLine("Me rindo: el Puerto no contesta");`.
+5. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp
@@ -1195,6 +1257,11 @@ await servicio.GetAsync("clima", cts.Token);
 #### Desafío
 Creá `using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(1));` antes del `try`, y pasale `cts.Token` a `GetStringAsync`.
 
+#### Pasos
+1. Debajo de la primera línea, escribí `using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(1));`.
+2. Cambiá `GetStringAsync("lento")` por `GetStringAsync("lento", cts.Token)`.
+3. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```csharp
 HttpClient puerto = Puerto.CreateClient();
@@ -1263,6 +1330,10 @@ foreach (var p in pedidos.Where(p => p.Producto is not null && p.Precio >= 0))
 
 #### Desafío
 Recorré `cargas.Where(c => c.Nombre is not null && c.Cantidad > 0)` en vez de `cargas`.
+
+#### Pasos
+1. Cambiá `in cargas)` por `in cargas.Where(c => c.Nombre is not null && c.Cantidad > 0))`.
+2. Tocá **Ejecutar**. Tiene que salir `VIOLINES: 4` y `RESINA: 6`.
 
 #### Código inicial
 ```csharp
@@ -1442,6 +1513,12 @@ app.MapGet("/clima", async () =>
 #### Desafío
 Cambiá el manejador de `/llegadas` por uno `async` que pida `List<Barco>` al Puerto y conteste `Results.Ok(barcos.Select(b => b.Nombre))`.
 
+#### Pasos
+1. Cambiá la ruta por `app.MapGet("/llegadas", async () =>` y abrí una llave.
+2. Adentro: `List<Barco> barcos = (await puerto.GetFromJsonAsync<List<Barco>>("barcos"))!;`.
+3. Y: `return Results.Ok(barcos.Select(b => b.Nombre));`. Cerrá con `});`.
+4. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```csharp
 HttpClient puerto = Puerto.CreateClient();
@@ -1507,6 +1584,10 @@ var notas = todas.Where(n => permitidos.Contains(n));
 
 #### Desafío
 Antes del `Select`, agregá `.Where(b => instrumentos.Contains(b.Carga))`.
+
+#### Pasos
+1. Cambiá `barcos.Select(` por `barcos.Where(b => instrumentos.Contains(b.Carga)).Select(`.
+2. Tocá **Ejecutar**. La Marea no tiene que aparecer.
 
 #### Código inicial
 ```csharp
@@ -1579,6 +1660,10 @@ return respuesta.IsSuccessStatusCode ? Results.Ok() : Results.StatusCode(502);
 #### Desafío
 Cambiá el `return` de `/grua` por `return r.IsSuccessStatusCode ? Results.Ok() : Results.StatusCode(502);`.
 
+#### Pasos
+1. Cambiá el `return` por `return r.IsSuccessStatusCode ? Results.Ok() : Results.StatusCode(502);`.
+2. Tocá **Ejecutar**. Tiene que salir `Código: 502`.
+
 #### Código inicial
 ```csharp
 HttpClient puerto = Puerto.CreateClient();
@@ -1648,6 +1733,11 @@ if (string.IsNullOrWhiteSpace(pedido.Producto))
 
 #### Desafío
 Al principio del manejador de `/cartas`, si `c.Texto` está vacío, devolvé `Results.BadRequest(new { error = "La carta está vacía." })`.
+
+#### Pasos
+1. Al principio del manejador: `if (string.IsNullOrWhiteSpace(c.Texto))`.
+2. Entre llaves: `return Results.BadRequest(new { error = "La carta está vacía." });`.
+3. Tocá **Ejecutar**. Tiene que salir `Carta vacía: 400`.
 
 #### Código inicial
 ```csharp
@@ -1728,6 +1818,11 @@ if (!vistos.Add(nombre))
 
 #### Desafío
 Creá `HashSet<string> enviadas = new();` antes de las rutas. En `/cartas`, si `!enviadas.Add(c.Texto)`, devolvé `Results.Ok(new { repetida = true })` sin mandarla al Puerto.
+
+#### Pasos
+1. Debajo de `var app = ...`, escribí `HashSet<string> enviadas = new();`.
+2. Al principio de `/cartas`: `if (!enviadas.Add(c.Texto))` y, entre llaves, `return Results.Ok(new { repetida = true });`.
+3. Tocá **Ejecutar**. Tiene que salir `Mensajes en el Puerto: 5`.
 
 #### Código inicial
 ```csharp

@@ -150,6 +150,10 @@ Console.WriteLine(new string(palabra));   // pato
 #### Desafío
 Donde dice `// poné la nave`, escribí `fila[(int)Math.Round(posicion)] = '@';`.
 
+#### Pasos
+1. Cambiá `// poné la nave` por `fila[(int)Math.Round(posicion)] = '@';`.
+2. Tocá **Ejecutar**. Tiene que salir `...@......`.
+
 #### Código inicial
 ```csharp
 int ancho = 10;
@@ -211,6 +215,10 @@ distancia += metrosPorSegundo * cuadro;   // 1 metro por cuadro
 
 #### Desafío
 Cambiá `x += velocidad;` por `x += velocidad * dt;`.
+
+#### Pasos
+1. Cambiá `x += velocidad;` por `x += velocidad * dt;`.
+2. Tocá **Ejecutar**. La nave avanza de a una casilla.
 
 #### Código inicial
 ```csharp
@@ -290,6 +298,10 @@ int volumen = Math.Clamp(15, 0, 10);   // 10
 
 #### Desafío
 Después de mover la nave, agregá `x = Math.Clamp(x, 0, ancho - 1);`.
+
+#### Pasos
+1. Debajo de `x += velocidad * dt;`, escribí `x = Math.Clamp(x, 0, ancho - 1);`.
+2. Tocá **Ejecutar**. La nave se tiene que quedar en el borde.
 
 #### Código inicial
 ```csharp
@@ -372,6 +384,10 @@ int paso = boton switch { 'A' => -1, 'B' => 1, _ => 0 };
 
 #### Desafío
 Adentro del `foreach`, cambiá `double velocidad = 4;` por `double velocidad = tecla switch { 'D' => 4, 'I' => -4, _ => 0 };`.
+
+#### Pasos
+1. Cambiá `double velocidad = 4;` por `double velocidad = tecla switch { 'D' => 4, 'I' => -4, _ => 0 };`.
+2. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp
@@ -459,6 +475,11 @@ foreach (var paso in pasos)
 
 #### Desafío
 Poné la línea de `Dibujar(x);` **después** de la que mueve la nave.
+
+#### Pasos
+1. Borrá `Dibujar(x);` de arriba.
+2. Escribilo debajo de la línea de `x = Math.Clamp(...)`.
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp
@@ -655,6 +676,10 @@ public static Color operator *(Color c, double brillo) => new(c.R * brillo, c.G 
 #### Desafío
 Agregale al `Vector2` el operador `*`: `public static Vector2 operator *(Vector2 v, double k) => new(v.X * k, v.Y * k);`.
 
+#### Pasos
+1. Debajo del `operator +`, escribí `public static Vector2 operator *(Vector2 v, double k) => new(v.X * k, v.Y * k);`.
+2. Tocá **Ejecutar**. Tiene que salir `(2, 1)`.
+
 #### Código inicial
 ```csharp
 Vector2 pos = new(0, 0);
@@ -720,6 +745,11 @@ public override string ToString() => $"{Nombre} (nivel {Nivel})";
 #### Desafío
 Agregale al `Vector2` un `ToString` que devuelva `$"({X}, {Y})"`.
 
+#### Pasos
+1. Cambiá el `;` del final de `record struct Vector2(double X, double Y);` por unas llaves.
+2. Adentro: `public override string ToString() => $"({X}, {Y})";`.
+3. Tocá **Ejecutar**. Tiene que salir `Nave en (1, 2)`.
+
 #### Código inicial
 ```csharp
 Vector2 nave = new(1, 2);
@@ -772,6 +802,10 @@ double hipotenusa = Math.Sqrt(cateto1 * cateto1 + cateto2 * cateto2);
 
 #### Desafío
 Cambiá `Magnitud` para que sea `Math.Sqrt(X * X + Y * Y)`.
+
+#### Pasos
+1. Cambiá `X + Y` por `Math.Sqrt(X * X + Y * Y)`.
+2. Tocá **Ejecutar**. Tiene que salir `Distancia al meteoro: 5`.
 
 #### Código inicial
 ```csharp
@@ -828,6 +862,10 @@ Vector2 haciaElTesoro = new Vector2(6, 8).Normalizado;   // (0,6; 0,8): mide 1
 
 #### Desafío
 Cambiá `direccion * velocidad` por `direccion.Normalizado * velocidad`.
+
+#### Pasos
+1. Cambiá `direccion * velocidad` por `direccion.Normalizado * velocidad`.
+2. Tocá **Ejecutar**. Tiene que salir `Rapidez en diagonal: 4`.
 
 #### Código inicial
 ```csharp
@@ -894,6 +932,10 @@ int escalon = (int)Math.Round(nivel);   // 7
 
 #### Desafío
 Cambiá `fila[pos.X]` por `fila[(int)Math.Round(pos.X)]`.
+
+#### Pasos
+1. Cambiá `fila[pos.X]` por `fila[(int)Math.Round(pos.X)]`.
+2. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp
@@ -1126,6 +1168,10 @@ public override void Update(Entidad e, double dt) => e.Brillo = e.Brillo * 0.9;
 #### Desafío
 Completá el `Update` de `Movimiento` para que haga `e.Pos = e.Pos + Velocidad * dt;`.
 
+#### Pasos
+1. Adentro del `Update` de `Movimiento`, escribí `e.Pos = e.Pos + Velocidad * dt;`.
+2. Tocá **Ejecutar**. Tiene que salir `Nave en (4, 0)`.
+
 #### Código inicial
 ```csharp
 var nave = new Entidad(new Vector2(0, 0));
@@ -1255,6 +1301,10 @@ var cuerdas = instrumentos.OfType<Violin>().FirstOrDefault();
 #### Desafío
 Cambiá el cuerpo de `Get<T>` por `componentes.OfType<T>().FirstOrDefault()`.
 
+#### Pasos
+1. Cambiá `=> null;` por `=> componentes.OfType<T>().FirstOrDefault();`.
+2. Tocá **Ejecutar**. Tiene que salir `Velocidad: (4, 0)`.
+
 #### Código inicial
 ```csharp
 var nave = new Entidad();
@@ -1347,6 +1397,10 @@ bool mismaHora = a.Inicio < b.Fin && a.Fin > b.Inicio;   // dos turnos que se pi
 #### Desafío
 Agregale a `Chocan` la parte de lo alto: `&& a.Y < b.Y + 1 && a.Y + 1 > b.Y`.
 
+#### Pasos
+1. Al final de `Chocan`, antes del `;`, agregá `&& a.Y < b.Y + 1 && a.Y + 1 > b.Y`.
+2. Tocá **Ejecutar**. Tiene que salir `¿Chocan? False`.
+
 #### Código inicial
 ```csharp
 Vector2 nave = new(3, 0);
@@ -1405,6 +1459,10 @@ batuta.AlBajar += () => Console.WriteLine("¡Empieza!");
 
 #### Desafío
 Antes de `nave.Chocar(meteoro);`, suscribite: `nave.AlChocar += nombre => Console.WriteLine($"¡{nombre} chocó con la nave!");`.
+
+#### Pasos
+1. Arriba de `nave.Chocar(meteoro);`, escribí `nave.AlChocar += nombre => Console.WriteLine($"¡{nombre} chocó con la nave!");`.
+2. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp
@@ -1473,6 +1531,10 @@ AlTerminar?.Invoke();   // si nadie escucha, no pasa nada
 
 #### Desafío
 En `Chocar`, cambiá `AlChocar(otra.Nombre)` por `AlChocar?.Invoke(otra.Nombre)`.
+
+#### Pasos
+1. Cambiá `AlChocar(otra.Nombre)` por `AlChocar?.Invoke(otra.Nombre)`.
+2. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp
@@ -1660,6 +1722,10 @@ tablero[fila, columna] = 'R';
 #### Desafío
 En `Poner`, cambiá `pantalla[(int)p.X, (int)p.Y]` por `pantalla[(int)p.Y, (int)p.X]`.
 
+#### Pasos
+1. Cambiá `pantalla[(int)p.X, (int)p.Y]` por `pantalla[(int)p.Y, (int)p.X]`.
+2. Tocá **Ejecutar** y compará la pantalla.
+
 #### Código inicial
 ```csharp
 char[,] pantalla = new char[3, 8];
@@ -1740,6 +1806,10 @@ Console.WriteLine(dado.Next(1, 7));   // siempre el mismo
 #### Desafío
 Cambiá `new Random()` por `new Random(7)`.
 
+#### Pasos
+1. Cambiá `new Random()` por `new Random(7)`.
+2. Tocá **Ejecutar**. El Glitch tiene que aparecer siempre en los mismos lugares.
+
 #### Código inicial
 ```csharp
 Random azar = new Random();
@@ -1807,6 +1877,11 @@ foreach (var compas in obra) { }   // y después, el bucle
 
 #### Desafío
 Sacá la línea `jugador.Atrapo += () => puntos++;` de adentro del `for` y ponela antes.
+
+#### Pasos
+1. Borrá `jugador.Atrapo += () => puntos++;` de adentro del `for`.
+2. Escribilo arriba del `for`.
+3. Tocá **Ejecutar**. Tiene que salir `Puntos: 1`.
 
 #### Código inicial
 ```csharp
@@ -1899,6 +1974,10 @@ if (energia <= 0)
 #### Desafío
 Cambiá `vidas < 0` por `vidas <= 0`.
 
+#### Pasos
+1. Cambiá `vidas < 0` por `vidas <= 0`.
+2. Tocá **Ejecutar**. Tiene que salir `Fin del juego`.
+
 #### Código inicial
 ```csharp
 int vidas = 3;
@@ -1972,6 +2051,10 @@ posicion += rapidez * dt;
 
 #### Desafío
 En `Simular`, cambiá `x += velocidad;` por `x += velocidad * dt;`.
+
+#### Pasos
+1. En `Simular`, cambiá `x += velocidad;` por `x += velocidad * dt;`.
+2. Tocá **Ejecutar**. Los dos tienen que dar 4.
 
 #### Código inicial
 ```csharp

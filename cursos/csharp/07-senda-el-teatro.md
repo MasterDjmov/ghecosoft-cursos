@@ -156,6 +156,10 @@ Cada fila de la tabla es una línea del `switch`, con la tupla `(estado, acción
 #### Desafío
 Agregá arriba de la flecha de `Baila` la que falta: `(Estado.Guardado, Accion.Entra) => Estado.EnEscena,`.
 
+#### Pasos
+1. Arriba de la flecha de `Baila`, escribí `(Estado.Guardado, Accion.Entra) => Estado.EnEscena,`.
+2. Tocá **Ejecutar**. Tiene que salir `Lola: EnEscena`.
+
 #### Código inicial
 ```csharp
 Estado lola = Estado.Guardado;
@@ -245,6 +249,10 @@ string Tono(int n) => n switch
 #### Desafío
 Cambiá `_ => e,` por `_ => throw new InvalidOperationException($"{a} no se puede estando {e}"),`.
 
+#### Pasos
+1. Cambiá `_ => e,` por `_ => throw new InvalidOperationException($"{a} no se puede estando {e}"),`.
+2. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```csharp
 Estado pipo = Estado.Guardado;
@@ -327,6 +335,10 @@ nivel = Subir(nivel);   // sin el "nivel =", sigue en 1
 
 #### Desafío
 Adentro del `foreach`, cambiá `Siguiente(lola, a);` por `lola = Siguiente(lola, a);`.
+
+#### Pasos
+1. Cambiá `Siguiente(lola, a);` por `lola = Siguiente(lola, a);`.
+2. Tocá **Ejecutar**. Tiene que salir `Lola termina: Bailando`.
 
 #### Código inicial
 ```csharp
@@ -422,6 +434,11 @@ notas["Bemol"] = notas["Bemol"] + 1;
 
 #### Desafío
 Cambiá la línea de adentro del `foreach` para que use el estado de cada títere: `estados[t] = Siguiente(estados[t], a);`. Ya no hace falta la variable `estado`.
+
+#### Pasos
+1. Borrá la línea `Estado estado = Estado.Guardado;`.
+2. Cambiá las dos líneas del `foreach` por `estados[t] = Siguiente(estados[t], a);`.
+3. Tocá **Ejecutar**. Tiene que salir `Lola: Bailando, Pipo: EnEscena`.
 
 #### Código inicial
 ```csharp
@@ -521,6 +538,10 @@ int veces = contador.GetValueOrDefault("Bemol");   // 0 si no está
 
 #### Desafío
 Cambiá `estados[t]` por `estados.GetValueOrDefault(t)` a la **derecha** del `=` (a la izquierda queda igual: asignar sí agrega la clave).
+
+#### Pasos
+1. A la derecha del `=`, cambiá `Siguiente(estados[t], a)` por `Siguiente(estados.GetValueOrDefault(t), a)`.
+2. Tocá **Ejecutar**. Tiene que salir `Pepa: EnEscena`.
 
 #### Código inicial
 ```csharp
@@ -714,6 +735,10 @@ var porNivel = jugadores.OrderBy(j => j.Nivel);
 #### Desafío
 Recorré `guion.OrderBy(a => a.Segundo)` en vez de `guion`.
 
+#### Pasos
+1. Cambiá `in guion)` por `in guion.OrderBy(a => a.Segundo))`.
+2. Tocá **Ejecutar** y compará el orden.
+
 #### Código inicial
 ```csharp
 List<Aviso> guion =
@@ -785,6 +810,10 @@ var tabla = jugadores.OrderBy(j => j.Nivel).ThenBy(j => j.Nombre);
 
 #### Desafío
 Agregá `.ThenBy(a => a.Titere)` después del `OrderBy`.
+
+#### Pasos
+1. Después de `.OrderBy(a => a.Segundo)`, agregá `.ThenBy(a => a.Titere)`.
+2. Tocá **Ejecutar**. En el 12, Lola va antes que Pipo.
 
 #### Código inicial
 ```csharp
@@ -858,6 +887,10 @@ string t = TimeSpan.FromSeconds(130).ToString(@"m\:ss");   // 2:10
 #### Desafío
 Mostrá el segundo de cada aviso como reloj: `TimeSpan.FromSeconds(a.Segundo).ToString(@"m\:ss")`.
 
+#### Pasos
+1. Cambiá `$"{a.Segundo} s"` por `TimeSpan.FromSeconds(a.Segundo).ToString(@"m\:ss")`.
+2. Tocá **Ejecutar**. Tiene que salir `1:05 Lola Sale`.
+
 #### Código inicial
 ```csharp
 List<Aviso> guion = [new(3, "Lola", Accion.Entra), new(65, "Lola", Accion.Sale)];
@@ -920,6 +953,10 @@ var altos = jugadores.Where(j => j.Nivel >= 10);
 
 #### Desafío
 Recorré `guion.Where(a => a.Titere == "Lola")` en vez de `guion`.
+
+#### Pasos
+1. Cambiá `in guion)` por `in guion.Where(a => a.Titere == "Lola"))`.
+2. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp
@@ -997,6 +1034,10 @@ int record = puntajes.Max(p => p.Puntos);
 
 #### Desafío
 Cambiá `guion.Last().Segundo` por `guion.Max(a => a.Segundo)`.
+
+#### Pasos
+1. Cambiá `guion.Last().Segundo` por `guion.Max(a => a.Segundo)`.
+2. Tocá **Ejecutar**. Tiene que salir `El telón baja a los 1:05`.
 
 #### Código inicial
 ```csharp
@@ -1202,6 +1243,10 @@ foreach (var p in pedidos.OrderBy(p => p.Hora)) { }
 #### Desafío
 Ensayá `guion.OrderBy(a => a.Segundo)` en vez de `guion`.
 
+#### Pasos
+1. Cambiá `in guion)` por `in guion.OrderBy(a => a.Segundo))`.
+2. Tocá **Ejecutar**. Tiene que salir `Ensayo sin problemas`.
+
 #### Código inicial
 ```csharp
 List<Aviso> guion = [new(12, "Lola", Accion.Baila), new(3, "Lola", Accion.Entra)];
@@ -1304,6 +1349,12 @@ foreach (string linea in lineas)
 #### Desafío
 Mové el `try`/`catch` adentro del `foreach`, alrededor de la línea de `estados[...]`.
 
+#### Pasos
+1. El `foreach` va afuera y el `try` adentro: cambiá el `try {` de arriba por la línea del `foreach`.
+2. Donde estaba el `foreach`, escribí `try`.
+3. El `catch` va adentro de las llaves del `foreach`, justo después del `try`.
+4. Tocá **Ejecutar**. Tienen que salir los dos problemas.
+
 #### Código inicial
 ```csharp
 List<Aviso> guion = [new(3, "Pipo", Accion.Sale), new(8, "Lola", Accion.Baila)];
@@ -1405,6 +1456,10 @@ errores.Add($"Línea {numero}: {ex.Message}");
 #### Desafío
 Cambiá `problemas.Add(ex.Message);` por `problemas.Add($"{a.Segundo}s: {a.Titere}, {ex.Message}");`.
 
+#### Pasos
+1. Cambiá `problemas.Add(ex.Message);` por `problemas.Add($"{a.Segundo}s: {a.Titere}, {ex.Message}");`.
+2. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```csharp
 List<Aviso> guion = [new(3, "Lola", Accion.Entra), new(15, "Pipo", Accion.Baila)];
@@ -1505,6 +1560,11 @@ foreach (var (nombre, nivel) in niveles.Where(n => n.Value > 10))
 
 #### Desafío
 Después del ensayo, recorré `estados.Where(e => e.Value != Estado.Guardado)` y agregá a `problemas` el texto `{titere} quedó en {estado}`.
+
+#### Pasos
+1. Cambiá el comentario por `foreach (var (titere, estado) in estados.Where(e => e.Value != Estado.Guardado))`.
+2. Entre llaves: `problemas.Add($"{titere} quedó en {estado}");`.
+3. Tocá **Ejecutar**. Tiene que salir `Pipo quedó en EnEscena`.
 
 #### Código inicial
 ```csharp
@@ -1612,6 +1672,10 @@ string titulo = obra?.Titulo ?? "sin título";
 
 #### Desafío
 Cambiá la línea de `cuando` por `string cuando = entrada?.Segundo.ToString() ?? "nunca";`.
+
+#### Pasos
+1. Cambiá la línea de `cuando` por `string cuando = entrada?.Segundo.ToString() ?? "nunca";`.
+2. Tocá **Ejecutar**. Tiene que salir `Pepa entra: nunca`.
 
 #### Código inicial
 ```csharp
@@ -1790,6 +1854,10 @@ var opciones = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPoli
 #### Desafío
 Agregale a `opciones` la línea `PropertyNamingPolicy = JsonNamingPolicy.CamelCase,`.
 
+#### Pasos
+1. Adentro de las llaves de `opciones`, escribí `PropertyNamingPolicy = JsonNamingPolicy.CamelCase,`.
+2. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```csharp
 using System.Text.Json;
@@ -1854,6 +1922,10 @@ var opciones = new JsonSerializerOptions { Converters = { new JsonStringEnumConv
 
 #### Desafío
 Agregale a `opciones` la línea `Converters = { new JsonStringEnumConverter() },`. El `using` que hace falta ya está.
+
+#### Pasos
+1. Debajo de `PropertyNamingPolicy`, escribí `Converters = { new JsonStringEnumConverter() },`.
+2. Tocá **Ejecutar**. Tiene que salir `"accion":"Baila"`.
 
 #### Código inicial
 ```csharp
@@ -1925,6 +1997,10 @@ var leer = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 #### Desafío
 Agregale a `leer` la línea `PropertyNameCaseInsensitive = true,`.
 
+#### Pasos
+1. Adentro de las llaves de `leer`, escribí `PropertyNameCaseInsensitive = true,`.
+2. Tocá **Ejecutar**. Tiene que salir `La Bailarina: 42 aplausos`.
+
 #### Código inicial
 ```csharp
 using System.Text.Json;
@@ -1994,6 +2070,10 @@ record Jugador(string Nombre)
 
 #### Desafío
 Poné `[JsonIgnore]` arriba de la propiedad `Nota`.
+
+#### Pasos
+1. Arriba de `public string? Nota`, escribí `[JsonIgnore]`.
+2. Tocá **Ejecutar**. La nota no tiene que aparecer en el JSON.
 
 #### Código inicial
 ```csharp
@@ -2069,6 +2149,12 @@ else
 
 #### Desafío
 Mandá el JSON **solo** si no hubo problemas: poné el `Console.WriteLine` del JSON en el `else` de un `if (problemas.Count > 0)` que muestre `No se estrena:` y después cada problema.
+
+#### Pasos
+1. Arriba de `var opciones`, escribí `if (problemas.Count > 0)` y, entre llaves, `Console.WriteLine("No se estrena:");` y un `foreach (string p in problemas)` que muestre cada uno.
+2. Después: `else` y abrí una llave.
+3. Adentro del `else` va todo lo del JSON: las `opciones` y el `Console.WriteLine(JsonSerializer.Serialize(guion, opciones));`. Cerrá la llave.
+4. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp

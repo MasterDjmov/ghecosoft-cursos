@@ -156,6 +156,10 @@ vela++;            // 0: un byte no llega a 256
 #### Desafío
 Cambiá el tipo de `ax` de `int` a `ushort`, para que haga lo mismo que la palanca de Axón.
 
+#### Pasos
+1. Cambiá `int ax` por `ushort ax`.
+2. Tocá **Ejecutar**. Tiene que salir `AX: 0`.
+
 #### Código inicial
 ```csharp
 int ax = 65535;
@@ -203,6 +207,11 @@ Console.WriteLine(long.MaxValue);   // el tope de un long
 
 #### Desafío
 Reemplazá cada número escrito a mano por el `MaxValue` de su tipo: `byte`, `ushort` e `int`.
+
+#### Pasos
+1. Cambiá `{256}` por `{byte.MaxValue}`.
+2. Cambiá `{65536}` por `{ushort.MaxValue}` y `{2000000000}` por `{int.MaxValue}`.
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp
@@ -253,6 +262,10 @@ ushort pasos = (ushort)(ax + bx);
 
 #### Desafío
 Agregá el cast `(byte)` a la suma para que el programa compile. Vas a ver que 300 no entra en un byte y da la vuelta.
+
+#### Pasos
+1. Cambiá `a + b` por `(byte)(a + b)`.
+2. Tocá **Ejecutar**. Tiene que salir `Suma: 44`.
 
 #### Código inicial
 ```csharp
@@ -305,6 +318,10 @@ El `catch` de abajo ya está listo para atraparlo.
 
 #### Desafío
 Envolvé la conversión en `checked(...)` para que el programa avise en vez de mostrar `AX: 4`.
+
+#### Pasos
+1. Cambiá `(ushort)(ax + 5)` por `checked((ushort)(ax + 5))`.
+2. Tocá **Ejecutar**. Tiene que salir `¡Alto! AX se pasa de 65535`.
 
 #### Código inicial
 ```csharp
@@ -368,6 +385,11 @@ for (int nota = 0; nota < 300; nota++) { }   // un int llega a 300 sin problema
 
 #### Desafío
 Cambiá el tipo de `i` a `int` para que el ogro termine de probar los 256 interruptores.
+
+#### Pasos
+1. Un `byte` nunca pasa de 255, así que `i <= 255` siempre es verdad.
+2. Cambiá `byte i` por `int i`.
+3. Tocá **Ejecutar**. Tiene que salir `Interruptores probados: 256`.
 
 #### Código inicial
 ```csharp
@@ -532,6 +554,10 @@ Console.WriteLine($"{bx:X2}");   // FF
 #### Desafío
 Mostrá `ax` en hexadecimal con cuatro cifras.
 
+#### Pasos
+1. Cambiá `{ax}` por `{ax:X4}`.
+2. Tocá **Ejecutar**. Tiene que salir `AX=002A`.
+
 #### Código inicial
 ```csharp
 ushort ax = 42;
@@ -579,6 +605,10 @@ Console.WriteLine($"{luces:B4}");   // 0011
 #### Desafío
 Mostrá `fila` en binario, con ocho cifras.
 
+#### Pasos
+1. Cambiá `{fila}` por `{fila:B8}`.
+2. Tocá **Ejecutar**. Tiene que salir `00000101`.
+
 #### Código inicial
 ```csharp
 byte fila = 5;
@@ -624,6 +654,10 @@ int luces = Convert.ToInt32("1010", 2);   // 10, porque está en binario
 
 #### Desafío
 Cambiá `int.Parse(nota)` por `Convert.ToInt32(nota, 16)`.
+
+#### Pasos
+1. Cambiá `int.Parse(nota)` por `Convert.ToInt32(nota, 16)`.
+2. Tocá **Ejecutar**. Tiene que salir `2A → 42`.
 
 #### Código inicial
 ```csharp
@@ -682,6 +716,10 @@ Console.WriteLine($"{(int)letra:X2}");   // 43
 #### Desafío
 Mostrá cada letra de `nombre` en hexadecimal, con dos cifras, en vez de en decimal.
 
+#### Pasos
+1. Cambiá `{(int)c}` por `{(int)c:X2}`.
+2. Tocá **Ejecutar**. Tiene que salir `4E 4F 56 41`.
+
 #### Código inicial
 ```csharp
 string nombre = "NOVA";
@@ -736,6 +774,11 @@ ushort paso = 0x1234;   // entra: cuatro cifras hexa
 
 #### Desafío
 Cambiá el tipo de `color` a `ushort`.
+
+#### Pasos
+1. `0x1FF` es 511 y no entra en un `byte`.
+2. Cambiá `byte color` por `ushort color`.
+3. Tocá **Ejecutar**. Tiene que salir `Color: 01FF`.
 
 #### Código inicial
 ```csharp
@@ -907,6 +950,10 @@ bool segunda = (luces & 0b0010) != 0;   // True, aunque haya otras prendidas
 #### Desafío
 Cambiá la pregunta para que use la máscara: `(banderas & 0b0100) != 0`.
 
+#### Pasos
+1. Cambiá `banderas == 0b0100` por `(banderas & 0b0100) != 0`.
+2. Tocá **Ejecutar**. Tiene que salir `Signo: sí`.
+
 #### Código inicial
 ```csharp
 int banderas = 0b0110;
@@ -955,6 +1002,10 @@ luces |= 0b0010;   // 1010: la de antes sigue prendida
 
 #### Desafío
 Cambiá `banderas = 0b0001;` por `banderas |= 0b0001;`.
+
+#### Pasos
+1. Cambiá `banderas = 0b0001;` por `banderas |= 0b0001;`.
+2. Tocá **Ejecutar**. Tiene que salir `Banderas: 0101`.
 
 #### Código inicial
 ```csharp
@@ -1006,6 +1057,10 @@ luces &= ~0b1000;   // sigue 0111: apagar dos veces no rompe nada
 #### Desafío
 Cambiá `banderas -= 0b0010;` por `banderas &= ~0b0010;`.
 
+#### Pasos
+1. Cambiá `banderas -= 0b0010;` por `banderas &= ~0b0010;`.
+2. Tocá **Ejecutar**. Tiene que salir `Banderas: 0101`.
+
 #### Código inicial
 ```csharp
 int banderas = 0b0101;
@@ -1055,6 +1110,11 @@ Console.WriteLine($"{bx & 0xFF:X2}");   // FE
 
 #### Desafío
 Calculá `ah` con `ax >> 8` y `al` con `ax & 0xFF`.
+
+#### Pasos
+1. Cambiá `ax / 100` por `ax >> 8`.
+2. Cambiá `ax % 100` por `ax & 0xFF`.
+3. Tocá **Ejecutar**. Tiene que salir `AH=12 AL=34`.
 
 #### Código inicial
 ```csharp
@@ -1107,6 +1167,11 @@ enum Tecla { Ninguna = 0, Arriba = 1, Abajo = 2, Salto = 4, Fuego = 8 }
 
 #### Desafío
 Arreglá los valores del `enum`: `Signo` tiene que ser 4 y `Desborde`, 8.
+
+#### Pasos
+1. Con `[Flags]`, cada bandera tiene que ser una potencia de 2.
+2. Cambiá `Signo = 3` por `Signo = 4` y `Desborde = 4` por `Desborde = 8`.
+3. Tocá **Ejecutar**. Tiene que salir `Acarreo, Cero`.
 
 #### Código inicial
 ```csharp
@@ -1326,6 +1391,10 @@ string[] partes = "la, si; do".Split([',', ';', ' '], StringSplitOptions.RemoveE
 #### Desafío
 Partí `orden` por espacios **y** comas, sacando los vacíos.
 
+#### Pasos
+1. Cambiá `orden.Split(' ')` por `orden.Split([' ', ','], StringSplitOptions.RemoveEmptyEntries)`.
+2. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```csharp
 string orden = "MOV AX, 5";
@@ -1374,6 +1443,10 @@ int donde = (int)Enum.Parse<Registro>("DX");   // 3
 
 #### Desafío
 En el `MOV`, cambiá `reg[0]` por `reg[(int)Enum.Parse<Registro>(p[1])]`.
+
+#### Pasos
+1. En el `MOV`, cambiá `reg[0]` por `reg[(int)Enum.Parse<Registro>(p[1])]`.
+2. Tocá **Ejecutar**. Tiene que salir `AX=0005 BX=0007`.
 
 #### Código inicial
 ```csharp
@@ -1448,6 +1521,11 @@ else { avisos &= ~Aviso.Vacio; }
 
 #### Desafío
 Agregale a `MarcarCero` un `else` que apague la bandera con `banderas &= ~Bandera.Cero;`.
+
+#### Pasos
+1. Después de la llave que cierra el `if` de `MarcarCero`, escribí `else`.
+2. Entre llaves: `banderas &= ~Bandera.Cero;`.
+3. Tocá **Ejecutar**. Tiene que salir `ZF=0`.
 
 #### Código inicial
 ```csharp
@@ -1537,6 +1615,10 @@ bool apagada = (banderas & Bandera.Signo) == 0;   // == 0: el bit no está
 
 #### Desafío
 En el `JNZ`, cambiá `!= 0` por `== 0`.
+
+#### Pasos
+1. En el `case "JNZ"`, cambiá `!= 0` por `== 0`.
+2. Tocá **Ejecutar**. Tiene que salir `AX=000F CX=0000`.
 
 #### Código inicial
 ```csharp
@@ -1689,6 +1771,11 @@ while (true)
 
 #### Desafío
 Adentro del `while`, antes de partir la orden, sumá 1 a `pasos`. Si `pasos` pasa de `1000`, mostrá `¡Alto! El Bit Rebelde metió un bucle sin fin` y cortá con `break`.
+
+#### Pasos
+1. Cambiá el comentario por `pasos++;`.
+2. Debajo: `if (pasos > 1000)` y, entre llaves, `Console.WriteLine("¡Alto! El Bit Rebelde metió un bucle sin fin");` y `break;`.
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp

@@ -156,6 +156,11 @@ console.log(rojo.color);   // rojo
 #### Desafío
 Completá el constructor para que cada títere guarde su nombre.
 
+#### Pasos
+1. Hay un renglón vacío dentro del `constructor`.
+2. Guardá el nombre en el objeto: `this.nombre = nombre;`.
+3. Tocá **Ejecutar**. Tiene que salir `Payaso · Caballito`.
+
 #### Código inicial
 ```javascript
 class Titere {
@@ -223,6 +228,11 @@ console.log(new Globo('azul').inflar());   // El globo azul se infla
 
 #### Desafío
 Agregale a la clase el método `saludar`.
+
+#### Pasos
+1. Borrá el comentario `// agregá saludar() acá`.
+2. Escribí `saludar() {` con `` return `${this.nombre} hace una reverencia`; `` adentro, y cerrá con `}`.
+3. Tocá **Ejecutar**. Tienen que saludar los dos.
 
 #### Código inicial
 ```javascript
@@ -298,6 +308,12 @@ flotar() {
 
 #### Desafío
 Completá `bailar` para que cada títere gaste **su** energía.
+
+#### Pasos
+1. Hay un renglón vacío dentro de `bailar`.
+2. Si no le queda energía: `` if (this.energia === 0) return `${this.nombre} está cansado`; ``.
+3. Si le queda: `this.energia--;` y `` return `${this.nombre} baila`; ``.
+4. Tocá **Ejecutar**. La tercera vez, el Payaso tiene que estar cansado.
 
 #### Código inicial
 ```javascript
@@ -383,6 +399,11 @@ Sin `new`, JavaScript se niega y lo dice en el error. Leelo, buscá la línea qu
 #### Desafío
 Arreglá la línea que crea el títere.
 
+#### Pasos
+1. Para crear un objeto con una clase hace falta `new`.
+2. Cambiá `Titere('Caballito')` por `new Titere('Caballito')`.
+3. Tocá **Ejecutar**. Tiene que salir `Caballito`.
+
 #### Código inicial
 ```javascript
 class Titere {
@@ -443,6 +464,12 @@ const globos = colores.map((c) => new Globo(c));
 
 #### Desafío
 Creá la compañía y que cada títere salude.
+
+#### Pasos
+1. Hay un `___` en `const compania = ___;`.
+2. Creá un títere por nombre: `nombres.map((nombre) => new Titere(nombre))`.
+3. Debajo: `for (const titere of compania) { console.log(titere.saludar()); }`.
+4. Tocá **Ejecutar**. Tienen que saludar los cuatro.
 
 #### Código inicial
 ```javascript
@@ -521,6 +548,12 @@ Para que cada uno se relacione con **el que sigue**, conviene el `for` clásico 
 
 #### Desafío
 Completá el método y el recorrido: cada títere le pasa la flor al que sigue (el último no se la pasa a nadie).
+
+#### Pasos
+1. En `pasarFlor`: `` return `${this.nombre} le pasa la flor a ${otro.nombre}`; ``.
+2. Hay un `___` en el `console.log` del `for`.
+3. Cada uno se la pasa al siguiente: `compania[i].pasarFlor(compania[i + 1])`.
+4. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```javascript
@@ -728,6 +761,11 @@ El `#` es parte del nombre: se escribe **siempre**, también al usarlo (`this.#m
 #### Desafío
 Cambiá `energia` por el campo privado `#energia` en toda la clase.
 
+#### Pasos
+1. Cambiá `energia = 3;` por `#energia = 3;`.
+2. En `bailar`, cambiá las dos `this.energia` por `this.#energia`.
+3. Tocá **Ejecutar**. La energía ya no tiene que aparecer al mostrar el títere.
+
 #### Código inicial
 ```javascript
 class Titere {
@@ -808,6 +846,11 @@ Se escribe con `get` adelante del nombre.
 
 #### Desafío
 Agregá el getter `energia`.
+
+#### Pasos
+1. Borrá el comentario `// agregá el getter acá`.
+2. Escribí `get energia() { return this.#energia; }`.
+3. Tocá **Ejecutar**. Tiene que salir `Energía: 2`.
 
 #### Código inicial
 ```javascript
@@ -894,6 +937,11 @@ Con `return` se sale sin cambiar nada. `||` quiere decir «o»: alcanza con que 
 #### Desafío
 Agregá el setter con su control.
 
+#### Pasos
+1. Borrá el comentario `// agregá el setter acá`.
+2. Escribí `set energia(valor) {` con `if (valor < 0 || valor > 5) return;` y `this.#energia = valor;` adentro.
+3. Tocá **Ejecutar**. Tiene que salir 3, 5 y 5.
+
 #### Código inicial
 ```javascript
 class Titere {
@@ -978,6 +1026,12 @@ La salida para las dos es guardar el dato con **otro nombre**: un campo privado 
 #### Desafío
 Arreglá la clase para que el getter devuelva el nombre sin llamarse a sí mismo.
 
+#### Pasos
+1. El getter `nombre` se llama a sí mismo sin parar.
+2. Agregá un campo privado: `#nombre;` arriba del constructor.
+3. En el constructor: `this.#nombre = nombre;`. En el getter: `return this.#nombre.toUpperCase();`.
+4. Tocá **Ejecutar**. Tiene que salir `PAYASO`.
+
 #### Código inicial
 ```javascript
 class Titere {
@@ -1051,6 +1105,11 @@ Se usa con el nombre de la clase adelante (`Globo.vendidos`), no con `this`.
 #### Desafío
 Contá los títeres creados con un campo `static`.
 
+#### Pasos
+1. Cambiá el comentario por `static creados = 0;`.
+2. En el constructor, en el renglón vacío: `Titere.creados++;`.
+3. Tocá **Ejecutar**. Tiene que salir `Salieron del molde: 3`.
+
 #### Código inicial
 ```javascript
 class Titere {
@@ -1122,6 +1181,12 @@ gastar(n) {
 
 #### Desafío
 Completá la caja.
+
+#### Pasos
+1. En `get total()`: `return this.#fichas;`.
+2. En `poner(n)`: `if (n > 0) this.#fichas += n;`.
+3. En `sacar(n)`: si `n > this.#fichas`, `return false;`. Si no, `this.#fichas -= n;` y `return true;`.
+4. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```javascript
@@ -1345,6 +1410,11 @@ Aunque las llaves estén vacías, un `GloboGigante` ya sabe hacer todo lo que sa
 #### Desafío
 Declará la clase `Dragoncito` que herede de `Titere`.
 
+#### Pasos
+1. Borrá el comentario `// declará Dragoncito acá`.
+2. Escribí `class Dragoncito extends Titere {}`.
+3. Tocá **Ejecutar**. Tiene que salir `true`.
+
 #### Código inicial
 ```javascript
 class Titere {
@@ -1424,6 +1494,11 @@ Los métodos nuevos se agregan como en cualquier clase.
 #### Desafío
 Completá el constructor y el método `escupir`.
 
+#### Pasos
+1. En el constructor: primero `super(nombre);` y después `this.chispas = chispas;`.
+2. En `escupir`: `` return `${this.nombre} escupe ${this.chispas} chispas`; ``.
+3. Tocá **Ejecutar**. Tiene que salir `Chispín escupe 3 chispas`.
+
 #### Código inicial
 ```javascript
 class Titere {
@@ -1502,6 +1577,11 @@ Leé el mensaje y mirá el orden de las líneas en el constructor.
 #### Desafío
 Arreglá el constructor de `Arquera`.
 
+#### Pasos
+1. `super(...)` tiene que ir antes de usar `this`.
+2. Subí `super(nombre);` arriba de `this.flechas = flechas;`.
+3. Tocá **Ejecutar**. Tiene que salir `Mini Nima 5`.
+
 #### Código inicial
 ```javascript
 class Titere {
@@ -1578,6 +1658,11 @@ El texto del padre queda adelante y la hija le agrega lo suyo.
 #### Desafío
 Sobrescribí `saludar` en el dragoncito usando el del padre.
 
+#### Pasos
+1. Borrá el comentario dentro de `Dragoncito`.
+2. Escribí `saludar() {` con `` return `${super.saludar()} y ruge`; `` y cerrá con `}`.
+3. Tocá **Ejecutar**. Tiene que salir `Chispín hace una reverencia y ruge`.
+
 #### Código inicial
 ```javascript
 class Titere {
@@ -1650,6 +1735,12 @@ Fijate en la consigna el texto exacto de los dos casos y **cuándo** se resta: e
 
 #### Desafío
 Escribí la clase `Arquera` completa.
+
+#### Pasos
+1. Borrá el comentario. `class Arquera extends Titere {`.
+2. El constructor recibe `(nombre, flechas)`: `super(nombre);` y `this.flechas = flechas;`.
+3. `disparar()`: si `this.flechas === 0`, `` return `${this.nombre} no tiene flechas`; ``. Si no, `this.flechas--;` y `` return `${this.nombre} dispara (quedan ${this.flechas})`; ``.
+4. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```javascript
@@ -1735,6 +1826,11 @@ Cada generación agrega su parte a lo que ya traía.
 
 #### Desafío
 Escribí `DragonMayor` para que salude con las tres cosas.
+
+#### Pasos
+1. Borrá el comentario. `class DragonMayor extends Dragoncito {`.
+2. `saludar() {` con `` return `${super.saludar()} y vuela`; ``.
+3. Tocá **Ejecutar**. Tiene que salir `... y ruge y vuela`.
 
 #### Código inicial
 ```javascript
@@ -1952,6 +2048,11 @@ No hace falta ningún `if` para saber de qué clase es.
 #### Desafío
 Hacé que actúe toda la compañía.
 
+#### Pasos
+1. Debajo de `compania`, recorrela: `for (const titere of compania) {`.
+2. Adentro: `console.log(titere.actuar());`.
+3. Tocá **Ejecutar**. Tienen que actuar los tres.
+
 #### Código inicial
 ```javascript
 class Payaso {
@@ -2018,6 +2119,11 @@ Escribí la clase nueva con su constructor y su método, y agregá el objeto al 
 
 #### Desafío
 Agregá la clase `Dragoncito` y sumá a Chispín al final de la compañía.
+
+#### Pasos
+1. Borrá el comentario. `class Dragoncito {` con `constructor(nombre) { this.nombre = nombre; }` y `` actuar() { return `${this.nombre} escupe chispas`; } ``.
+2. Agregá a Chispín a la compañía: `new Dragoncito('Chispín')`.
+3. Tocá **Ejecutar**. Tiene que salir `Chispín escupe chispas`.
 
 #### Código inicial
 ```javascript
@@ -2095,6 +2201,10 @@ El `try`/`catch` (R02) atrapa el error que lanza el `throw`, y `error.message` e
 #### Desafío
 Hacé que `new Titere(…)` tire el error y que las hijas sigan andando.
 
+#### Pasos
+1. En el renglón vacío del constructor de `Titere`: `if (new.target === Titere) throw new Error('Titere es un molde');`.
+2. Tocá **Ejecutar**. Tiene que salir `No se puede: Titere es un molde`.
+
 #### Código inicial
 ```javascript
 class Titere {
@@ -2168,6 +2278,11 @@ El error aparece cuando la hija se olvida o lo escribe con **otro nombre**: comp
 
 #### Desafío
 Corregí la bailarina para que actúe.
+
+#### Pasos
+1. La bailarina tiene `actua()`: le falta la `r`.
+2. Cambialo por `actuar()`.
+3. Tocá **Ejecutar**. Tiene que salir `Lola gira en puntas de pie`.
 
 #### Código inicial
 ```javascript
@@ -2254,6 +2369,11 @@ Se escribe una vez en el padre y cada hija dice su propio nombre.
 #### Desafío
 Agregá el `toString` para que el programa de mano salga bien.
 
+#### Pasos
+1. Debajo del constructor de `Titere`, agregá `toString() {`.
+2. Adentro: `` return `${this.constructor.name} ${this.nombre}`; ``.
+3. Tocá **Ejecutar**. Tiene que salir `Programa: Payaso Pipo y Bailarina Lola`.
+
 #### Código inicial
 ```javascript
 class Titere {
@@ -2318,6 +2438,11 @@ Vale también para las hijas: un `GloboGigante` es `instanceof Globo`. Primero q
 
 #### Desafío
 Completá el final de la obra.
+
+#### Pasos
+1. En el renglón vacío del `for`: `console.log(titere.actuar());`.
+2. Si es un dragoncito: `if (titere instanceof Dragoncito) {` con `` console.log(`${titere.nombre} vuela hasta el palco`); `` adentro.
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```javascript
@@ -2534,6 +2659,11 @@ console.log(marcador());   // 2
 #### Desafío
 Completá `crearCajita`.
 
+#### Pasos
+1. En `crearCajita`: `let vueltas = 0;`.
+2. Devolvé una flecha que la recuerde: `return () => {` con `vueltas++;` y `` return `Vuelta ${vueltas}`; ``.
+3. Tocá **Ejecutar**. Tiene que salir Vuelta 1, 2 y 3.
+
 #### Código inicial
 ```javascript
 function crearCajita() {
@@ -2602,6 +2732,11 @@ Fijate el orden de los resultados de la consigna para saber cuántas veces llama
 
 #### Desafío
 Mostrá que cada cajita lleva su cuenta: `Vuelta 1`, `Vuelta 2`, `Vuelta 1`, `Vuelta 3`.
+
+#### Pasos
+1. Hay dos `___`.
+2. Cada una es una cajita nueva: `crearCajita()`.
+3. Tocá **Ejecutar**. Tiene que salir 1, 2, 1 y 3.
 
 #### Código inicial
 ```javascript
@@ -2680,6 +2815,11 @@ Son dos flechas seguidas: la primera recibe `n` y devuelve la segunda, que recib
 #### Desafío
 Escribí `conRecargo` para que las dos entradas den 11 y 15.
 
+#### Pasos
+1. Hay un `___` en `const conRecargo = ___;`.
+2. Una flecha que devuelve otra flecha: `(pct) => (precio) => precio + (precio * pct) / 100`.
+3. Tocá **Ejecutar**. Tiene que salir `Sábado: 11` y `Estreno: 15`.
+
 #### Código inicial
 ```javascript
 const conRecargo = ___;
@@ -2733,6 +2873,11 @@ Con `let` se crea **una variable nueva por vuelta**, y cada función recuerda la
 
 #### Desafío
 Arreglá el bucle para que salgan el 1, el 2 y el 3.
+
+#### Pasos
+1. Con `var`, las tres esperas comparten la misma `i`.
+2. Cambiá `var` por `let`.
+3. Tocá **Ejecutar**. Tienen que salir el 1, el 2 y el 3.
 
 #### Código inicial
 ```javascript
@@ -2791,6 +2936,11 @@ Los métodos ven la variable y los datos que recibió la función; nadie de afue
 
 #### Desafío
 Completá `crearSecreto`.
+
+#### Pasos
+1. En `crearSecreto`: `let final = inicial;`.
+2. Devolvé un objeto con dos métodos: `leer() { return final; }` y `cambiar(nuevo, intento) { if (intento === clave) final = nuevo; }`.
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```javascript
@@ -2874,6 +3024,11 @@ Después se llama a la función una vez por cada botón (con `for…of`, o con `
 
 #### Desafío
 Cada botón cuenta sus aplausos. (La comprobación aplaude dos veces a Pipo y una a Lola.)
+
+#### Pasos
+1. En `contarAplausos`: `let aplausos = 0;`.
+2. `boton.addEventListener('click', () => {` con `aplausos++;` y `` boton.textContent = `${boton.dataset.nombre}: ${aplausos}`; ``.
+3. Tocá **Ejecutar**. Tiene que salir `Pipo: 2`.
 
 #### Página
 ```html
@@ -3058,6 +3213,10 @@ Los archivos de esta micro-misión están arriba de la Salida: abrilos para ver 
 #### Desafío
 Importá `atar` y usala con los dos títeres.
 
+#### Pasos
+1. Cambiá el comentario por `import { atar } from './hilos.js';`.
+2. Tocá **Ejecutar**. Tienen que quedar atados Pipo y Lola.
+
 #### Archivos
 hilos.js
 ```javascript
@@ -3118,6 +3277,11 @@ Las otras (las que se exportan con `export` a secas) van con llaves y con su nom
 
 #### Desafío
 Importá la clase y creá a Chispín.
+
+#### Pasos
+1. La clase se exporta por defecto: va sin llaves.
+2. Cambiá el comentario por `import Titere from './titere.js';`.
+3. Tocá **Ejecutar**. Tiene que salir `Chispín hace una reverencia`.
 
 #### Archivos
 titere.js
@@ -3187,6 +3351,10 @@ Abrí cada archivo y fijate qué exporta.
 #### Desafío
 Importá `PRECIO` de `precios.js` y `cobrar` de `boleteria.js`, y cobrá 3 entradas.
 
+#### Pasos
+1. Cambiá el comentario por dos imports: `import { PRECIO } from './precios.js';` y `import { cobrar } from './boleteria.js';`.
+2. Tocá **Ejecutar**. Tiene que salir `3 entradas: 12 fichas`.
+
 #### Archivos
 precios.js
 ```javascript
@@ -3254,6 +3422,11 @@ El nombre entre llaves tiene que ser **idéntico** al del `export`, con mayúscu
 #### Desafío
 Arreglá el import.
 
+#### Pasos
+1. `pintr` está mal escrito.
+2. Cambialo por `pintar`, en el `import` y en el `console.log`.
+3. Tocá **Ejecutar**. Tiene que salir `Pipo queda rojo`.
+
 #### Archivos
 pinturas.js
 ```javascript
@@ -3313,6 +3486,10 @@ Sirve también para que no choquen nombres: si tu archivo ya tiene una función 
 
 #### Desafío
 Importá todo `hilos.js` como `hilos` y mostrá las dos formas de atar.
+
+#### Pasos
+1. Cambiá el comentario por `import * as hilos from './hilos.js';`.
+2. Tocá **Ejecutar**. Tiene que salir `Largo: 30`.
 
 #### Archivos
 hilos.js
@@ -3380,6 +3557,10 @@ Un módulo también puede importar de otros: cada archivo importa solo lo que us
 
 #### Desafío
 Importá `Payaso` y `Dragoncito` y hacé actuar a Pipo y a Chispín.
+
+#### Pasos
+1. Cambiá el comentario por `import Payaso from './payaso.js';` y `import Dragoncito from './dragoncito.js';`.
+2. Tocá **Ejecutar**. Tienen que actuar Pipo y Chispín.
 
 #### Archivos
 titere.js
@@ -3529,6 +3710,11 @@ Así lo que viaja es la flecha, y cuando corre, llama al método como correspond
 #### Desafío
 Que a los 2 segundos se vea `Pipo actúa`.
 
+#### Pasos
+1. `setTimeout(pipo.actuar, ...)` pasa el método suelto y pierde su `this`.
+2. Envolvelo en una flecha: `setTimeout(() => pipo.actuar(), 2000);`.
+3. Tocá **Ejecutar**. Tiene que salir `Pipo actúa`.
+
 #### Código inicial
 ```javascript
 class Titere {
@@ -3596,6 +3782,11 @@ Pasa lo mismo con los eventos que con `setTimeout`: el método se pasa suelto.
 
 #### Desafío
 Que al tocar la campana el cartel diga `Lola gira`.
+
+#### Pasos
+1. `lola.girar` suelto pierde su `this`.
+2. Atalo: `lola.girar.bind(lola)`.
+3. Tocá **Ejecutar**. El cartel tiene que decir `Lola gira`.
 
 #### Página
 ```html
@@ -3688,6 +3879,13 @@ Andá por partes y ejecutá entre medio.
 Completá las hijas, `crearContador` y los botones. La comprobación toca *Pipo*, *Chispín* y después *Final*. Al final:
 - el registro tiene `Pipo se cae y se levanta`, `Chispín escupe chispas`, después las dos otra vez (el final), y `Actuaciones: 4`;
 - el Títere sin Hilos queda atado.
+
+#### Pasos
+1. Cambiá el comentario de las hijas por `class Payaso extends Titere { accion = 'se cae y se levanta'; }` y `class Dragoncito extends Titere { accion = 'escupe chispas'; }`.
+2. En `crearContador`: `let total = 0;` y `return () => { total++; return total; };`.
+3. Cambiá el comentario de los botones por `for (const titere of compania) {` y creá un `button` con `boton.dataset.nombre = titere.nombre;` y `boton.textContent = titere.nombre;`.
+4. Conectalo así, suelto, como pide la consigna: `boton.addEventListener('click', titere.actuar);`. Después, `document.querySelector('#botones').append(boton);`.
+5. Tocá **Ejecutar** y compará.
 
 #### Página
 ```html

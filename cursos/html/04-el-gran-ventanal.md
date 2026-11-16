@@ -311,6 +311,13 @@ No uses `script`: `details` ya sabe abrirse y cerrarse.
 
 **Se comprueba:** un `details` con `lg:hidden`, un `summary` con `aria-label` directamente adentro, cuatro enlaces en el `nav` de adentro y ningún `script`.
 
+#### Pasos
+1. En el `body`: `<details class="lg:hidden">`.
+2. Adentro: `<summary aria-label="Abrir el menú">Menú</summary>`.
+3. Debajo: `<nav>` con cuatro `<a href="#">…</a>` y `</nav>`.
+4. Cerrá con `</details>`.
+5. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <!DOCTYPE html>
@@ -604,6 +611,11 @@ La barra de abajo, con una rayita en la sección donde estás. Escribí todo **a
 `before:` dibuja la rayita arriba del enlace sin agregar HTML. Solo **uno** lleva `aria-current`.
 
 **Se comprueba:** cinco enlaces con `flex-1` en el `nav`, uno solo con `aria-current="page"`, y ese con `relative`, `before:absolute` y `before:top-0`.
+
+#### Pasos
+1. En el `body`: `<nav class="flex">` con cinco `<a href="#" class="flex-1">…</a>` y `</nav>`.
+2. A uno solo, cambialo por `<a href="#" aria-current="page" class="flex-1 relative before:absolute before:top-0 before:h-0.5">Árbol</a>`.
+3. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -900,6 +912,10 @@ Queda: `class="sticky top-0 z-10 bg-slate-950/90 p-4 text-slate-100"`. Bajá en 
 
 **Se comprueba:** que el `class` del `header` sea exactamente `sticky top-0 z-10 bg-slate-950/90 p-4 text-slate-100`.
 
+#### Pasos
+1. En el `class` del `header`, al principio, escribí `sticky top-0 z-10 `.
+2. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <style type="text/tailwindcss">
@@ -959,6 +975,10 @@ Queremos esta barra pegada abajo de todo en el celular, y escondida en pantallas
 `fixed bottom-0` la pega abajo, `inset-x-0` la estira de lado a lado y `md:hidden` la esconde desde la pantalla mediana. Probalo en *Celular* y en *Compu*.
 
 **Se comprueba:** que el `class` del `nav` sea exactamente `fixed inset-x-0 bottom-0 md:hidden flex justify-around bg-slate-900 p-3 text-slate-100`.
+
+#### Pasos
+1. En el `class` del `nav`, al principio, escribí `fixed inset-x-0 bottom-0 md:hidden `.
+2. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -1026,6 +1046,10 @@ El enlace «Saltar al contenido» es para quien usa el teclado. Queremos que no 
 
 **Se comprueba:** que el `class` del enlace de salto sea exactamente `sr-only focus:not-sr-only`.
 
+#### Pasos
+1. En el enlace `<a href="#contenido">`, después del `href`, agregá ` class="sr-only focus:not-sr-only"`.
+2. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <style type="text/tailwindcss">
@@ -1088,6 +1112,11 @@ Hay dos menús, y quien usa lector de pantalla no sabe cuál es cuál. Les ponem
 Las clases no se tocan.
 
 **Se comprueba:** que el primer `nav` se llame *Principal* y el segundo *Atajos*.
+
+#### Pasos
+1. En el primer `<nav`, escribí ` aria-label="Principal"` antes de `class`.
+2. En el segundo, ` aria-label="Atajos"`.
+3. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -1767,6 +1796,12 @@ Los tres `radio` llevan el mismo `name="ruta"`. Copiá el `pattern` tal cual.
 
 **Se comprueba:** el alias con ese `pattern` y su `label`, el correo con `type` `email` y su `label`, y tres `label` con `has-checked:bg-neon` y un `radio` `ruta` con `sr-only` adentro.
 
+#### Pasos
+1. El alias: `<label for="alias">Alias</label>` y `<input id="alias" pattern="[A-Za-z0-9_]+">`.
+2. El correo: `<label for="email">Correo</label>` y `<input id="email" type="email">`.
+3. Tres chips como este: `<label class="has-checked:bg-neon"><input type="radio" name="ruta" class="sr-only"> Juegos</label>` (cambiá solo el texto).
+4. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <!DOCTYPE html>
@@ -2070,6 +2105,13 @@ La portada con Gheco: en el celular la imagen va arriba, y en la compu, a la der
 
 **Se comprueba:** la `section` con `grid` y `lg:grid-cols-2`, una sola imagen con `alt` y `lg:order-2`, y un `div` con un `h1` adentro.
 
+#### Pasos
+1. En el `body`: `<section class="grid lg:grid-cols-2">`.
+2. Adentro: `<img src="/img/cursos/html/gheco-512.webp" alt="Gheco saluda" class="lg:order-2">`.
+3. Después: `<div>` con un `<h1>`, un `<p>` y `</div>`.
+4. Cerrá con `</section>`.
+5. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <!DOCTYPE html>
@@ -2370,6 +2412,11 @@ Queremos la imagen de **fondo** del panel, ocupándolo entero, con el título en
 
 **Se comprueba:** el `class` de la `section` (`relative h-80 overflow-hidden rounded-xl`) y el de la imagen (`absolute inset-0 h-full w-full object-cover`).
 
+#### Pasos
+1. En el `class` de la `section`, al principio, escribí `relative `.
+2. En la imagen, entre las comillas de `class=""`, escribí `absolute inset-0 h-full w-full object-cover`.
+3. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <style type="text/tailwindcss">
@@ -2436,6 +2483,11 @@ El título blanco no se lee bien sobre la foto. Ponemos un velo oscuro entre la 
 El `relative` del título hace que quede **encima** del velo.
 
 **Se comprueba:** el `class` del velo (`absolute inset-0 bg-slate-950/60`) y el del `h1` (`relative p-6 text-3xl font-bold text-white`).
+
+#### Pasos
+1. Cambiá `<div></div>` por `<div class="absolute inset-0 bg-slate-950/60"></div>`.
+2. En el `class` del `h1`, al principio, escribí `relative `.
+3. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -2506,6 +2558,11 @@ Los demás atributos y las clases quedan como están.
 
 **Se comprueba:** que el primer campo tenga `autocomplete` `username` y el segundo, `current-password`.
 
+#### Pasos
+1. En el `input` con `id="usuario"`, agregá ` autocomplete="username"`.
+2. En el de `id="clave"`, agregá ` autocomplete="current-password"`.
+3. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <style type="text/tailwindcss">
@@ -2573,6 +2630,11 @@ Dos botones: el principal lleno de color y el otro solo con borde. Las piezas `b
 2. En «Ver los cursos», dejá `class="btn border border-neon text-neon"`.
 
 **Se comprueba:** que el primer enlace tenga `btn btn-primario` y el segundo, `btn border border-neon text-neon`.
+
+#### Pasos
+1. En «Empezá gratis», cambiá `class="btn"` por `class="btn btn-primario"`.
+2. En «Ver los cursos», por `class="btn border border-neon text-neon"`.
+3. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -3374,6 +3436,12 @@ La bloqueada **no** lleva enlace: solo el `button` con `disabled`.
 
 **Se comprueba:** dos `article.tarjeta`; uno con `opacity-60` y `grayscale`, con un `button` `disabled` adentro y sin enlaces.
 
+#### Pasos
+1. La disponible: `<article class="tarjeta">` con un `<h2>` con el nombre, `<a href="#">Continuar</a>` y `</article>`.
+2. La bloqueada: `<article class="tarjeta opacity-60 grayscale">` con el nombre y 🔒.
+3. Adentro de la bloqueada, sin enlace: `<button type="button" disabled>Aprobá Python para abrirlo</button>` y `</article>`.
+4. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <!DOCTYPE html>
@@ -3665,6 +3733,14 @@ Filtros que esconden tarjetas sin JavaScript. Escribí todo **adentro del `<body
 Esa clase dice: «escondete cuando, en el grupo, esté marcado `#f-graf`». Sin `script`.
 
 **Se comprueba:** el `div` con `group`, cuatro `radio` `f` adentro de su `label`, uno con `id="f-graf"`, cuatro `article.tarjeta`, dos con la clase del filtro y ningún `script`.
+
+#### Pasos
+1. En el `body`: `<div class="group">`.
+2. Adentro, cuatro opciones como `<label><input type="radio" name="f"> Todos</label>`. La de gráficos: `<label><input type="radio" name="f" id="f-graf"> Gráficos</label>`.
+3. Cuatro `<article class="tarjeta">`: dos de gráficos y dos de otra cosa.
+4. A las dos que no son de gráficos: `<article class="tarjeta group-has-[#f-graf:checked]:hidden">`.
+5. Cerrá con `</div>`.
+6. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -3975,6 +4051,11 @@ Los dos con el mismo nombre, sin `#`.
 
 **Se comprueba:** que la `section` tenga `aria-labelledby` `rutas-titulo` y el `h2`, `id` `rutas-titulo`.
 
+#### Pasos
+1. En el `<h2`, agregá ` id="rutas-titulo"`.
+2. En la `<section`, agregá ` aria-labelledby="rutas-titulo"`.
+3. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <style type="text/tailwindcss">
@@ -4038,6 +4119,11 @@ Cuatro tarjetas: una columna en el celular, dos en una pantalla mediana y cuatro
 En ese orden. Las tarjetas de adentro no se tocan. Probalo en *Celular* y en *Compu*.
 
 **Se comprueba:** que el `class` del `div` de afuera sea exactamente `grid gap-4 sm:grid-cols-2 lg:grid-cols-4`.
+
+#### Pasos
+1. Buscá el `<div>` de afuera.
+2. Cambialo por `<div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">`.
+3. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -4107,6 +4193,10 @@ Los filtros no entran en el celular y empujan la página de costado. Queremos qu
 Queda: `class="flex gap-2 overflow-x-auto"`. Los botones no se tocan.
 
 **Se comprueba:** que el `class` del `div` sea exactamente `flex gap-2 overflow-x-auto`.
+
+#### Pasos
+1. En el `class` del `div` de afuera, después de `gap-2`, agregá ` overflow-x-auto`.
+2. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -4178,6 +4268,11 @@ Las imágenes se descargan todas de entrada, aunque no se vean. Queremos que esp
 Por ejemplo: `<img src="..." alt="" width="128" height="128" loading="lazy">`.
 
 **Se comprueba:** que las dos imágenes tengan `loading` `lazy`.
+
+#### Pasos
+1. En la primera imagen, después de `height="128"`, agregá ` loading="lazy"`.
+2. En la segunda, lo mismo.
+3. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -5024,6 +5119,12 @@ Un ranking largo, donde tu puesto queda siempre a la vista. Escribí todo **aden
 
 **Se comprueba:** doce `li.tarjeta` en el `ol`, y uno solo con `sticky`, `bottom-4` y `text-neon`.
 
+#### Pasos
+1. En el `body`: `<ol>` con doce `<li class="tarjeta">1 · Nombre</li>` (cada uno con su nombre y puntos).
+2. A uno solo (tu puesto): `<li class="tarjeta sticky bottom-4 text-neon">8 · Vos</li>`.
+3. Cerrá con `</ol>`.
+4. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <!DOCTYPE html>
@@ -5308,6 +5409,14 @@ Una tabla ancha que, en el celular, se desliza de costado. Escribí todo **adent
 4. Un `tbody` con **tres** filas; cada una empieza con un `th scope="row"` y sigue con cuatro `td`.
 
 **Se comprueba:** la tabla con `min-w-[40rem]` directamente adentro del `div` con `overflow-x-auto`, un `caption`, cinco `th` con `scope="col"` y tres con `scope="row"`.
+
+#### Pasos
+1. En el `body`: `<div class="overflow-x-auto">` y, adentro, `<table class="min-w-[40rem]">`.
+2. Adentro de la tabla: `<caption>` con el título.
+3. `<thead><tr>` con cinco `<th scope="col">…</th>` y `</tr></thead>`.
+4. `<tbody>` con tres filas; cada una `<tr><th scope="row">…</th>` y cuatro `<td>…</td>` `</tr>`.
+5. Cerrá `</tbody>`, `</table>` y `</div>`.
+6. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -5611,6 +5720,11 @@ Los tres escalones del podio están uno debajo del otro. Los queremos en fila y 
 
 **Se comprueba:** que el `class` del `ol` sea exactamente `grid grid-cols-3 items-end gap-2`.
 
+#### Pasos
+1. Buscá `<ol>`.
+2. Cambialo por `<ol class="grid grid-cols-3 items-end gap-2">`.
+3. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <style type="text/tailwindcss">
@@ -5677,6 +5791,11 @@ Los mismos datos están dos veces: como lista (para el celular) y como tabla (pa
 Probalo en *Celular* y en *Compu*: tiene que verse uno solo por vez.
 
 **Se comprueba:** que el `ol` tenga `md:hidden` y la `table`, `hidden md:table`.
+
+#### Pasos
+1. Cambiá `<ol>` por `<ol class="md:hidden">`.
+2. Cambiá `<table>` por `<table class="hidden md:table">`.
+3. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -5753,6 +5872,10 @@ Tiene que ser lo **primero** adentro de la tabla. `sr-only` lo esconde a la vist
 
 **Se comprueba:** que el `caption` diga *Liga Obsidiana: los diez mejores* y tenga la clase `sr-only`.
 
+#### Pasos
+1. Justo debajo de `<table>`, escribí `<caption class="sr-only">Liga Obsidiana: los diez mejores</caption>`.
+2. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <style type="text/tailwindcss">
@@ -5819,6 +5942,10 @@ Falta una líder en la lista.
 Ojo: es *Tesela* (con **e**), no *Tesla*.
 
 **Se comprueba:** que la lista tenga cinco `li` y que el último diga *Tesela*.
+
+#### Pasos
+1. Debajo de `<li>Kaffa</li>`, escribí `<li>Tesela</li>`.
+2. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -7064,6 +7191,10 @@ Copiá la frase exacta, con la tilde de *maestría*.
 
 **Se comprueba:** que el `alt` de la imagen diga exactamente *Gheco señala las monedas de maestría*.
 
+#### Pasos
+1. En la `<img`, después de `src="..."`, agregá ` alt="Gheco señala las monedas de maestría"`.
+2. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <style type="text/tailwindcss">
@@ -7129,6 +7260,10 @@ Queda: `<button type="button" aria-label="Abrir el menú" class="...">☰</butto
 
 **Se comprueba:** que el botón tenga `aria-label` *Abrir el menú*.
 
+#### Pasos
+1. En el `<button`, después de `type="button"`, agregá ` aria-label="Abrir el menú"`.
+2. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <style type="text/tailwindcss">
@@ -7188,6 +7323,10 @@ En pantallas angostas, «Liga Obsidiana» se parte en dos renglones. Queremos qu
 Queda: `<a href="#" class="whitespace-nowrap">Mis cursos</a>`, y lo mismo en el otro.
 
 **Se comprueba:** que los dos enlaces del menú tengan `whitespace-nowrap`.
+
+#### Pasos
+1. En los dos enlaces, cambiá `class=""` por `class="whitespace-nowrap"`.
+2. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -7257,6 +7396,11 @@ Falta decir en qué idioma está la página y el resumen que muestran los buscad
 Copiá la frase exacta, con el punto final. El `title` no se toca.
 
 **Se comprueba:** el `lang` `es`, el `meta` `description` con esa frase y el `title` *GhecoSoft-Code*.
+
+#### Pasos
+1. Cambiá `<html>` por `<html lang="es">`.
+2. Debajo del `<title>`, escribí `<meta name="description" content="Aprendé a programar avanzando por tu árbol de habilidades.">`.
+3. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html

@@ -4857,6 +4857,12 @@ Los tres son `p` y los tres llevan `tarjeta`; lo que cambia es la clase del colo
 
 **Se comprueba:** tres `p` con `tarjeta`, uno con `text-emerald-300`, otro con `text-oro` y otro con `text-rose-300`.
 
+#### Pasos
+1. En el `body`: `<p class="tarjeta text-emerald-300">Guardado.</p>`.
+2. Debajo: `<p class="tarjeta text-oro">Te queda poco abono.</p>`.
+3. Debajo: `<p class="tarjeta text-rose-300">No se pudo guardar.</p>`.
+4. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <!DOCTYPE html>
@@ -5119,6 +5125,13 @@ Dos tarjetas chicas, una al lado de la otra, con la pieza `tarjeta` del tema. Es
 3. En cada tarjeta, la cantidad de nodos con la clase `text-neon`: `<p class="text-neon">22 nodos</p>`.
 
 **Se comprueba:** el `main` con `grid` y `grid-cols-2`, dos `article.tarjeta` directamente adentro, y un elemento con `text-neon` en cada tarjeta.
+
+#### Pasos
+1. En el `body`: `<main class="grid grid-cols-2">`.
+2. Adentro: `<article class="tarjeta">` con `<h2>TypeScript Pro</h2>`, `<p class="text-neon">22 nodos</p>` y `</article>`.
+3. Otro igual con `Spring Boot Cloud`.
+4. Cerrá con `</main>`.
+5. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -5405,6 +5418,11 @@ Los dos botones tienen clases distintas y se ven distintos. Creamos una pieza `b
 
 **Se comprueba:** que `@utility btn` aplique `rounded-lg px-4 py-2 font-semibold` y que los dos enlaces tengan solo `btn`.
 
+#### Pasos
+1. Debajo del `@theme`, escribí `@utility btn {`, después `@apply rounded-lg px-4 py-2 font-semibold;` y después `}`.
+2. En los dos enlaces, dejá solo `class="btn"`.
+3. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <style type="text/tailwindcss">
@@ -5482,6 +5500,11 @@ Ya existe `btn` (la forma del botón). Creamos `btn-primario` para el color, y l
 
 **Se comprueba:** que `@utility btn-primario` aplique `bg-neon text-slate-950` y que el enlace tenga `btn btn-primario`.
 
+#### Pasos
+1. Debajo de `@utility btn { ... }`, escribí `@utility btn-primario {`, después `@apply bg-neon text-slate-950;` y después `}`.
+2. En el enlace, cambiá `class="btn"` por `class="btn btn-primario"`.
+3. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <style type="text/tailwindcss">
@@ -5556,6 +5579,10 @@ Las piezas propias se combinan con clases sueltas. Queremos el botón a todo el 
 Queda: `class="btn btn-primario w-full sm:w-auto"`.
 
 **Se comprueba:** que el `class` del enlace sea exactamente `btn btn-primario w-full sm:w-auto`.
+
+#### Pasos
+1. En el `class` del enlace, después de `btn-primario`, agregá ` w-full sm:w-auto`.
+2. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -5636,6 +5663,11 @@ Los tres `span` repiten las mismas cuatro clases. Las juntamos en una pieza `chi
 2. En los tres `span`, borrá las clases y dejá solo `class="chip"`.
 
 **Se comprueba:** que `@utility chip` aplique `rounded-full px-3 py-1 text-xs` y que los tres `span` tengan solo `chip`.
+
+#### Pasos
+1. Debajo del `@theme`, escribí `@utility chip {`, después `@apply rounded-full px-3 py-1 text-xs;` y después `}`.
+2. En los tres `span`, dejá solo `class="chip"`.
+3. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -6031,6 +6063,10 @@ Queda: `class="max-w-full h-auto"`. La imagen nunca va a ser más ancha que su c
 
 **Se comprueba:** que el `class` de la imagen sea exactamente `max-w-full h-auto`.
 
+#### Pasos
+1. En el `class` de la imagen, cambiá `w-[900px]` por `max-w-full h-auto`.
+2. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <style type="text/tailwindcss">
@@ -6087,6 +6123,11 @@ La dirección es una sola palabra larguísima y se sale de la pantalla del celul
 1. Agregale al párrafo el atributo: `<p class="break-all">`.
 
 **Se comprueba:** que el `class` del párrafo sea `break-all`.
+
+#### Pasos
+1. Buscá `<p>`.
+2. Cambialo por `<p class="break-all">`.
+3. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -6147,6 +6188,11 @@ La tabla es más ancha que el celular y hace que se mueva **toda** la página. Q
 La tabla queda **adentro** del `div`, y la tabla no se toca.
 
 **Se comprueba:** que la tabla esté directamente adentro de un `div` con la clase `overflow-x-auto`.
+
+#### Pasos
+1. Antes de `<table`, escribí `<div class="overflow-x-auto">`.
+2. Después de `</table>`, escribí `</div>`.
+3. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -6215,6 +6261,10 @@ La tarjeta mide 600px fijos y en el celular no entra. Queremos que ocupe todo el
 Las otras clases quedan igual y en su lugar: `class="w-full max-w-xl rounded-xl bg-slate-800 p-4 text-slate-100"`.
 
 **Se comprueba:** que el `class` sea exactamente `w-full max-w-xl rounded-xl bg-slate-800 p-4 text-slate-100`.
+
+#### Pasos
+1. En el `class` del `article`, cambiá `w-[600px]` por `w-full max-w-xl`.
+2. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html

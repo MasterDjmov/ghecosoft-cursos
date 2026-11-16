@@ -6733,6 +6733,12 @@ Después de moverlo, el original queda vacío.
 #### Desafío
 Entregale la batidora a Oto.
 
+#### Pasos
+1. Un `unique_ptr` no se copia: tiene un solo dueño.
+2. Arriba, agregá `#include <utility>`.
+3. Cambiá `= de_bron;` por `= std::move(de_bron);`.
+4. Tocá **Ejecutar**. Tiene que salir `Bron tiene: nada`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -6807,6 +6813,11 @@ Se crea con `std::make_shared`. Cada copia del puntero suma un dueño, y `use_co
 
 #### Desafío
 Mostrá la cuenta real de dueños.
+
+#### Pasos
+1. Los tres `std::cout` muestran `1` escrito a mano.
+2. Cambiá cada `1` por `de_oto.use_count()`.
+3. Tocá **Ejecutar**. Tiene que salir 1, 2 y 1.
 
 #### Código inicial
 ```cpp
@@ -6887,6 +6898,12 @@ if (auto p = mirada.lock()) {
 
 #### Desafío
 Preguntá con `lock()` si el autómata sigue existiendo.
+
+#### Pasos
+1. Cambiá el `std::cout` del `for` por `if (auto a = lista.lock()) {`.
+2. Adentro: `std::cout << "Dia " << dia << ": " << *a << " sigue en el deposito\n";`.
+3. En el `else`: `std::cout << "Dia " << dia << ": volvio a la fundicion\n";`.
+4. Tocá **Ejecutar**. Tiene que salir `Dia 2: volvio a la fundicion`.
 
 #### Código inicial
 ```cpp
@@ -6975,6 +6992,14 @@ y la carga total.
 - La fábrica devuelve `unique_ptr` y el `main` lo mueve al vector.
 - Borrar del vector destruye el autómata (se ve el mensaje).
 - No hay `new` ni `delete`.
+
+#### Pasos
+1. `class Automata` con `explicit Automata(const std::string& n)` que muestra `"  sale de fábrica: "`, destructor `virtual` que muestra `"  a la chatarra: "`, `virtual int carga() const = 0;`, `nombre()` y `bool roto = false;`.
+2. `Grua` y `Carretilla` con `using Automata::Automata;` y `carga()` 500 y 80.
+3. `std::unique_ptr<Automata> fabricar(tipo, nombre)`: `"grua"` → `std::make_unique<Grua>(nombre)`, `"carretilla"` → `<Carretilla>`; si no, `nullptr`.
+4. En `main`: `std::vector<std::unique_ptr<Automata>> taller;`. `fabricar`: si da algo, `taller.push_back(std::move(nuevo))`; si no, `"  no sé fabricar \"" << tipo << "\""`. `romper`: marcá `roto = true` al que tenga ese nombre. `limpiar`: `std::erase_if(taller, [](const auto& a) { return a->roto; });`.
+5. Al final: `taller.size() << " autómatas, carga total " << total`.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -7135,6 +7160,14 @@ valor. Observá **cuándo** se destruye cada paquete.
 - Distingue la función que mira (`const Paquete&`) de la que se queda con el paquete (`unique_ptr` por valor).
 - Usa `std::move` para cada traspaso.
 
+#### Pasos
+1. `struct Paquete` con `contenido`, constructor `explicit` y un destructor que muestra `"  (se destruye el paquete de " << contenido << ")"`.
+2. `void inspeccionar(const Paquete& p)` → `"  inspecciono: "`. `void entregar(std::unique_ptr<Paquete> p)` → `"  entregado: "`.
+3. En `main`: el `deposito` con los tres paquetes y un `carro` vacío. `carro.push_back(std::move(deposito[0]));` y lo mismo con el `[2]`.
+4. Mostrá el depósito: `(p ? p->contenido : "(vacío)")`.
+5. Inspeccioná el carro con `inspeccionar(*p)`. Después `"Entrego el primero del carro:\n"`, `entregar(std::move(carro[0]));`, `"¿carro[0] vacío? "` y `"Fin de main:\n"`.
+6. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -7258,6 +7291,14 @@ a borrar cada canción.
 **Para superarla:**
 - Usa `std::make_shared` y `use_count()`.
 - Cada canción se borra cuando se va su último dueño.
+
+#### Pasos
+1. `struct Cancion` con `titulo` y un destructor que muestra `"  (se borra \"" << titulo << "\" de la memoria)"`.
+2. `using Lista = std::vector<std::shared_ptr<Cancion>>;` y `mostrar(nombre, lista)` → cada canción como `titulo << "(" << c.use_count() << ")"`.
+3. En `main`: `zamba`, `chacarera` y `vidala` con `std::make_shared<Cancion>(...)`. `Lista viaje = {zamba, chacarera};` y `Lista fiesta = {chacarera, vidala, zamba};`.
+4. `zamba.reset();`, `chacarera.reset();` y `vidala.reset();`. Mostrá el aviso y las dos listas.
+5. `"Borro la lista Fiesta:\n"`, `fiesta.clear();` y mostrá Viaje. Después `"Borro la lista Viaje:\n"`, `viaje.clear();` y `"Fin\n"`.
+6. Antes de ejecutar, anotá cuándo se borra cada una. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -7704,6 +7745,11 @@ Como el destructor corre en **cualquier** salida de la función (un `return` en 
 #### Desafío
 Reemplazá el trabado a mano por un objeto `Traba`.
 
+#### Pasos
+1. Cambiá `trabar();` por `Traba traba;` (se destraba sola al salir de la función).
+2. Borrá el `destrabar();` del final.
+3. Tocá **Ejecutar**. La puerta tiene que destrabarse también cuando se sale corriendo.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -7811,6 +7857,11 @@ El constructor de **movimiento** (el que recibe `Llave&&`) se lleva el contenido
 #### Desafío
 Entregá la llave en lugar de copiarla.
 
+#### Pasos
+1. La llave no se puede copiar: se entrega.
+2. Cambiá `= de_tesla;` por `= std::move(de_tesla);`.
+3. Tocá **Ejecutar**. Tiene que salir `La de Tesla abre: no`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -7903,6 +7954,11 @@ Después de moverlo, `texto` queda vacío (no lo uses más, salvo para darle un 
 #### Desafío
 Mové la receta al libro.
 
+#### Pasos
+1. `push_back(receta)` copia la receta.
+2. Cambialo por `libro.push_back(std::move(receta));`.
+3. Tocá **Ejecutar**. Tiene que salir `En la mano de Oto: 0 letras`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -7989,6 +8045,15 @@ impares.
 **Para superarla:**
 - El `fin` aparece aunque la función salga con un `return` temprano.
 - La copia está prohibida con `= delete`.
+
+#### Pasos
+1. `class Registro` con `inline static int nivel_ = 0;` y `tarea_`.
+2. Constructor: `std::string(nivel_ * 2, ' ') << "inicio " << tarea_` y `nivel_++`. Destructor: `nivel_--` y `"fin " << tarea_` con la misma sangría.
+3. Prohibí la copia: `Registro(const Registro&) = delete;` y `Registro& operator=(const Registro&) = delete;`.
+4. `static void nota(const std::string& texto)` → la sangría, `"- "` y el texto.
+5. `int procesar(int n)`: `Registro r("pieza " + std::to_string(n));`. Si es par, `Registro::nota("par: se descarta");` y `return 0;`. Si no, `"impar: se pule"` y `return n;`.
+6. En `main`: `Registro r("turno");`, sumá `procesar(n)` de cada número y `Registro::nota("total " + std::to_string(total));`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -8115,6 +8180,14 @@ en un bloque y otro turno con `Candado c = entrar();`.
 **Para superarla:**
 - La copia está prohibida y el movimiento definido.
 - La sala se abre una sola vez, al final del bloque donde vive el candado.
+
+#### Pasos
+1. `class Candado` con `inline static bool ocupada_ = false;`, `sala_` y `bool activo_ = true;`.
+2. Constructor: si ya estaba ocupada, `"  ¡" << sala_ << " ya estaba cerrada!"`. Después `ocupada_ = true;` y `"  cierro " << sala_`.
+3. Movimiento: `Candado(Candado&& otro) noexcept : sala_(std::move(otro.sala_)), activo_(otro.activo_) { otro.activo_ = false; }`. Las otras tres con `= delete`.
+4. Destructor: si `activo_`, `ocupada_ = false;` y `"  abro " << sala_`. Y `static bool ocupada()`.
+5. `Candado entrar()`: crea el candado, `"  (reviso las calderas)"` y `return c;`.
+6. En `main`, los dos turnos de la solución (con `std::boolalpha`). Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -8247,6 +8320,14 @@ antes) y `b = v[0];`. **Antes de ejecutar**, anotá qué esperás en cada paso.
 **Para superarla:**
 - Los constructores y asignaciones de movimiento son `noexcept`.
 - Los resultados muestran que `const&` no copia y que los temporales se mueven.
+
+#### Pasos
+1. `class Pieza` con `nombre_`, `inline static int copias = 0;` y `inline static int movidas = 0;`.
+2. Constructor de copia y asignación de copia suman `copias`. Constructor de movimiento y asignación de movimiento (los dos `noexcept`, con `std::move(o.nombre_)`) suman `movidas`.
+3. `void informe(const std::string& paso)` → `paso << ": " << copias << " copias, " << movidas << " movidas"` y los pone en cero.
+4. `void por_valor(Pieza) {}` y `void por_referencia(const Pieza&) {}`.
+5. En `main`, los pasos de la consigna, cada uno seguido de `informe(...)` con su texto (copialos de la salida). Antes de los `push_back`, `v.reserve(3);`.
+6. Antes de ejecutar, anotá qué esperás. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -8649,6 +8730,11 @@ Si no estaba, `fichas[nombre]` arranca en 0, así que la primera vez queda el pe
 #### Desafío
 Guardá el peligro mayor de cada criatura.
 
+#### Pasos
+1. `fichas[nombre] = peligro;` se queda con el último, no con el mayor.
+2. Cambialo por `fichas[nombre] = std::max(fichas[nombre], peligro);`.
+3. Tocá **Ejecutar**. Tiene que salir `lobo: peligro 7`.
+
 #### Código inicial
 ```cpp
 #include <algorithm>
@@ -8737,6 +8823,11 @@ En cada derivada es igual, cambiando el tipo: `return std::make_unique<Troll>(*t
 
 #### Desafío
 Completá la copia del troll.
+
+#### Pasos
+1. Al `Troll` le falta su `clone`.
+2. Debajo de `sonido()`, agregá `std::unique_ptr<Criatura> clone() const override { return std::make_unique<Troll>(*this); }`.
+3. Tocá **Ejecutar**. Tiene que salir `El Mimico hace: grrr`.
 
 #### Código inicial
 ```cpp
@@ -8851,6 +8942,11 @@ if (it != v.end()) {
 #### Desafío
 Encontrá la bisagra con `find_if`.
 
+#### Pasos
+1. `auto it = bolsa.end();` no busca nada.
+2. Cambialo por `std::find_if(bolsa.begin(), bolsa.end(), [](const Objeto& o) { return o.tipo == "bisagra"; })`.
+3. Tocá **Ejecutar**. Tiene que salir `La bisagra era del Vidriero`.
+
 #### Código inicial
 ```cpp
 #include <algorithm>
@@ -8935,6 +9031,11 @@ Después de moverlo, `c` queda vacío, así que no queda ninguna copia suelta.
 
 #### Desafío
 Guardá cada criatura en el Bestiario, entregándola.
+
+#### Pasos
+1. Al final del `while`, la criatura no se guarda.
+2. Agregá `bestiario[nombre] = std::move(c);`.
+3. Tocá **Ejecutar**. Tiene que salir `En el Bestiario: 3`.
 
 #### Código inicial
 ```cpp
@@ -9051,6 +9152,14 @@ Si el Mímico cae, termina. Si la entrada se acaba, el Mímico escapa.
 **Para superarla:**
 - Cada criatura implementa `clonar()` con `make_unique` de su propio tipo.
 - Herir al original no cambia la copia del Mímico, ni al revés.
+
+#### Pasos
+1. `class Criatura` con `protected int vida_`, constructor `explicit`, destructor virtual, tres virtuales puros (`nombre()`, `golpe()` y `clonar()`), `herir(n)` (sin bajar de 0) y `vida()`.
+2. `Lobo` (40, `"lobo"`, 9), `Golem` (120, `"gólem"`, 15) y `Murcielago` (15, `"murciélago"`, 4). Cada `clonar()` → `std::make_unique<SuTipo>(*this)`.
+3. `class Mimico` con `std::unique_ptr<Criatura> forma_`. `imitar(const Criatura& modelo)` → `forma_ = modelo.clonar();` y `"  el Mímico se transforma en " << nombre << " (vida " << vida << ")"`. Agregá `tiene_forma()` y `forma()`.
+4. En `main`: la sala con las tres, `Mimico mimico;` y `lima = 100`. `while (lima > 0 && std::cin >> orden)`: `imitar i`, `herir i n` (al original, con su mensaje) y `atacar n` (herí a la forma; si cae, el mensaje y `return 0;`; si no, Lima recibe su golpe).
+5. Al final: `"Lima cae ante el Mímico."` o `"El Mímico escapa."`. Copiá los textos de la salida.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp

@@ -289,6 +289,12 @@ T doble(T x)
 #### Desafío
 Hacé que `mayor` sirva para cualquier tipo.
 
+#### Pasos
+1. Arriba de la función, agregá `template <typename T>`.
+2. Cambiá `int mayor(int a, int b)` por `T mayor(T a, T b)`.
+3. En `main`, agregá `std::cout << "mayor: " << mayor(std::string("lima"), std::string("bron")) << "\n";`.
+4. Tocá **Ejecutar**. Tiene que salir `mayor: lima`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -366,6 +372,12 @@ Es lo mismo que hace `std::vector<int>`: es una plantilla de clase.
 
 #### Desafío
 Convertí la caja en una plantilla.
+
+#### Pasos
+1. Arriba de `class Caja`, agregá `template <typename T>`.
+2. Dentro de la clase, cambiá los tres `int` por `T`.
+3. En `main`: `Caja<int> tuercas(40);` y `Caja<std::string> receta(...)`.
+4. Tocá **Ejecutar**. Tiene que salir `guiso violeta`.
 
 #### Código inicial
 ```cpp
@@ -454,6 +466,11 @@ Si alguien la usa con un tipo que no cumple, el compilador da un error claro. `<
 #### Desafío
 Elegí el concepto correcto.
 
+#### Pasos
+1. `std::floating_point` acepta solo decimales.
+2. Cambialo por `std::integral`.
+3. Tocá **Ejecutar**. Tiene que salir `7: impar`.
+
 #### Código inicial
 ```cpp
 #include <concepts>
@@ -538,6 +555,14 @@ enteros, y contar los 6 de `{3, 6, 6, 1, 6, 2}` y los "sí" de una votación.
 **Para superarla:**
 - Cada función es una sola plantilla que sirve para todos los tipos.
 - `limitar` usa solo `<` (así sirve para más tipos).
+
+#### Pasos
+1. `template <typename T> T limitar(const T& x, const T& minimo, const T& maximo)`: si `x < minimo`, `minimo`; si `maximo < x`, `maximo`; si no, `x`.
+2. `template <typename T> void intercambiar(T& a, T& b)` con una variable `tmp`.
+3. `template <typename T> int contar(const std::vector<T>& v, const T& buscado)`: cuenta los iguales.
+4. En `main`: los tres `limitar` en un renglón (el de textos con `std::string(...)`).
+5. Intercambiá `"Lima"`/`"Bron"` y `1`/`2` y mostralos con `" | "` en el medio.
+6. `contar(dados, 6)` y `contar(votos, std::string("sí"))`. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -656,6 +681,13 @@ char>` y un par que tiene otro par adentro.
 - `invertido` devuelve un par con los tipos cambiados.
 - El `operator<<` es una plantilla y funciona con pares anidados.
 
+#### Pasos
+1. `template <typename A, typename B> class Par` con `A primero_; B segundo_;`, su constructor y los getters `primero()` y `segundo()`.
+2. `Par<B, A> invertido() const { return Par<B, A>(segundo_, primero_); }`.
+3. `template <typename A, typename B> std::ostream& operator<<(std::ostream& os, const Par<A, B>& p)` → `os << "<" << p.primero() << ", " << p.segundo() << ">"`.
+4. En `main`: `Par<std::string, int> torre("Reloj", 12);`, `Par<double, char> nota(9.5, 'A');` y `Par<Par<std::string, int>, bool> anidado(torre, true);`.
+5. Mostralos como en la salida. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -747,6 +779,14 @@ apila, `-` saca y muestra el tope. Al final, cuántas quedan. Probá también un
 **Para superarla:**
 - La capacidad es un parámetro de la plantilla.
 - No pasa del límite ni desapila de más.
+
+#### Pasos
+1. `template <typename T, int N> class Pila` con `T datos_[N]{};` e `int tam_ = 0;`.
+2. `apilar(x)`: si `tam_ == N`, `false`; si no, `datos_[tam_++] = x;` y `true`. `desapilar()`: si está vacía, `false`; si no, `tam_--` y `true`.
+3. `tope()` → `datos_[tam_ - 1]`, `vacia()` y `tam()`.
+4. En `main`: `Pila<std::string, 3> platos;`. Con `"+"`, `"apilo "` o `"no entra "`. Con `"-"`, `"no hay nada"` o `"saco " << tope` y `desapilar()`.
+5. `"Quedan "` y una `Pila<int, 2>` con un 7: `"Tope de la pila de números: "`.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -1223,6 +1263,11 @@ for (auto it = v.rbegin(); it != v.rend(); ++it) {
 #### Desafío
 Recorré el estante al revés.
 
+#### Pasos
+1. `begin()` y `end()` recorren de adelante para atrás.
+2. Cambialos por `rbegin()` y `rend()`.
+3. Tocá **Ejecutar**. Tiene que empezar con `Vitrales`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -1295,6 +1340,11 @@ std::distance(v.begin(), it)
 #### Desafío
 Mostrá la posición, no el título.
 
+#### Pasos
+1. `*it` es el título, no la posición.
+2. Cambialo por `std::distance(estante.begin(), it)`.
+3. Tocá **Ejecutar**. Tiene que salir `en el lugar 2`.
+
 #### Código inicial
 ```cpp
 #include <algorithm>
@@ -1361,6 +1411,12 @@ Lima quiere copiar a otra caja solo los libros gruesos (más de 300 páginas). B
 
 #### Desafío
 Copiá a una caja que crece sola.
+
+#### Pasos
+1. El vector `gruesos` arranca con lugares de más.
+2. Dejalo vacío: `std::vector<int> gruesos;`.
+3. En el `copy_if`, cambiá `gruesos.begin()` por `std::back_inserter(gruesos)`.
+4. Tocá **Ejecutar**. Tiene que salir `Gruesos (3): 450 610 350`.
 
 #### Código inicial
 ```cpp
@@ -1447,6 +1503,13 @@ fin)` (solo con `--`, sin `rbegin`). Probalas con un `vector<int>` y con una
 **Para superarla:**
 - Las funciones solo usan `*`, `++`, `--`, `==` y `!=`.
 - Funcionan con `vector` y con `list`.
+
+#### Pasos
+1. `template <typename It, typename T> It buscar(It ini, It fin, const T& x)`: recorré con `++it` y devolvé el primero con `*it == x`; si no, `fin`.
+2. `template <typename It> void mostrar_al_reves(It ini, It fin)`: `while (fin != ini) { --fin; std::cout << *fin << " "; }` y un `"\n"`.
+3. En `main`: `std::vector<int> numeros = {4, 8, 15, 16, 23, 42};` y `std::list<std::string> torres = {"Norte", "Reloj", "Faro", "Vapor"};`.
+4. Buscá el 16 y mostrá `(a - numeros.begin())`. Buscá `"Faro"` en la lista y el 7 en el vector.
+5. `mostrar_al_reves` con los dos. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -1561,6 +1624,13 @@ menor a mayor y después de mayor a menor (con `rbegin`/`rend`).
 - Lee con `istream_iterator` y escribe con `ostream_iterator`.
 - Usa `back_inserter` y los iteradores inversos.
 
+#### Pasos
+1. Leé todo en una línea: `std::vector<int> datos(std::istream_iterator<int>(std::cin), std::istream_iterator<int>{});` y `"Leí " << datos.size() << " números"`.
+2. `std::copy_if(datos.begin(), datos.end(), std::back_inserter(positivos), [](int x) { return x > 0; });` y `std::sort`.
+3. Mostrá con `std::copy(positivos.begin(), positivos.end(), std::ostream_iterator<int>(std::cout, " "));`.
+4. Y al revés con `rbegin()` y `rend()`. Copiá los títulos de la salida.
+5. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```cpp
 #include <algorithm>
@@ -1656,6 +1726,13 @@ Usá lo que devuelven `erase` e `insert` para no quedarte con un iterador invál
 - Usa `it = c.erase(it)` y no avanza en esa vuelta.
 - Usa el iterador que devuelve `insert`.
 - No hay iteradores inválidos (probalo con `-fsanitize=address`).
+
+#### Pasos
+1. Una plantilla `mostrar(const C& c)` que muestra cada elemento con un espacio.
+2. Vector `{5, 12, 7, 20, 3, 30}`: `for (auto it = v.begin(); it != v.end();)` → si `*it >= 10`, `it = v.erase(it);`; si no, `++it;`.
+3. Lista `{"Lima", "Bron", "Lyn", "Bron", "Oto"}`: igual, borrando los `"Bron"` y a los demás `*it += "!";` antes del `++it`.
+4. Vector `{1, 2, 3, 4}`: `for (auto it = w.begin(); it != w.end(); ++it)` → si es par, `it = w.insert(it, 0);` y `++it;` (para volver al par).
+5. Mostrá los tres. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -2131,6 +2208,12 @@ Los dos usan `push` para meter y `pop` para sacar.
 #### Desafío
 Modelá la torre de platos con una pila.
 
+#### Pasos
+1. Una `queue` saca primero el que entró primero.
+2. Cambiala por `std::stack<std::string> platos;`.
+3. Cambiá `platos.front()` por `platos.top()`.
+4. Tocá **Ejecutar**. Tiene que salir primero `plato de postre`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -2209,6 +2292,11 @@ Si se le pasa un comparador distinto (como `std::greater`), se da vuelta y saca 
 
 #### Desafío
 Atendé primero lo más urgente.
+
+#### Pasos
+1. `std::greater<int>` pone primero al más chico.
+2. Dejala sin comparador: `std::priority_queue<int> urgencias;`.
+3. Tocá **Ejecutar**. Tiene que salir `Orden: 9 7 5 3 1`.
 
 #### Código inicial
 ```cpp
@@ -2289,6 +2377,11 @@ En el depósito hay una cadena de cajas donde cada una sabe cuál es la siguient
 
 #### Desafío
 Meté la caja en su lugar.
+
+#### Pasos
+1. `before_begin()` mete la caja antes de la primera.
+2. Cambialo por `cajas.begin()` (después del 1).
+3. Tocá **Ejecutar**. Tiene que salir `Cadena: 1 2 3 4`.
 
 #### Código inicial
 ```cpp
@@ -2371,6 +2464,13 @@ cerrar. (Guardá en la pila el símbolo y su posición.)
 - Usa `std::stack` para los símbolos abiertos.
 - Detecta cierres de más, cierres cruzados y aperturas sin cerrar.
 - Marca la posición del error.
+
+#### Pasos
+1. `bool balanceado(const std::string& s, std::size_t& error)` con `std::stack<std::pair<char, std::size_t>> abiertos;`.
+2. Si es apertura, `abiertos.push({c, i});`. Si es cierre, calculá el que corresponde (`'('`, `'['` o `'{'`). Si la pila está vacía o el de arriba no es ese, `error = i;` y `false`. Si no, `pop()`.
+3. Al final, si quedó algo abierto, `error = abiertos.top().second;` y `false`. Si no, `true`.
+4. En `main`, por cada línea: `"ok:    " << linea` o `"error: " << linea << "\n       " << std::string(error, ' ') << "^"`.
+5. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -2488,6 +2588,13 @@ alguien, quién es el próximo y quién el último.
 **Para superarla:**
 - Usa `front`, `back`, `push` y `pop`.
 - No atiende una fila vacía.
+
+#### Pasos
+1. `std::queue<std::string> fila;`, `atendidos = 0` y `std::size_t maxima = 0`.
+2. `"llega"`: leé el nombre, `fila.push(nombre);` y actualizá la máxima.
+3. `"atender"`: si está vacía, `"La caja espera: no hay nadie"`. Si no, `"Atiende a " << fila.front() << " (quedan " << fila.size() - 1 << ")"`, `fila.pop();` y sumá.
+4. Al final, el renglón con los tres números y, si queda alguien, `"Próximo: " << fila.front() << ", último: " << fila.back()`.
+5. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -2611,6 +2718,14 @@ mostrá el historial y cuántas acciones hay para rehacer.
 - Usa las dos puntas del `deque`.
 - Nunca guarda más de 4 acciones.
 - Una acción nueva borra lo que había para rehacer.
+
+#### Pasos
+1. `const std::size_t LIMITE = 4;`, `std::deque<std::string> historial;` y `std::deque<std::string> rehacer;`.
+2. `"deshacer"`: si hay historial, `rehacer.push_front(historial.back());` y `historial.pop_back();`.
+3. `"rehacer"`: si hay, `historial.push_back(rehacer.front());` y `rehacer.pop_front();`.
+4. Otra acción: `historial.push_back(orden);`, `rehacer.clear();` y, si pasa de `LIMITE`, `historial.pop_front();`.
+5. Después de cada orden: `orden << " ->"`, el historial y `" | rehacer:" << rehacer.size()`.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp

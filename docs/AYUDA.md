@@ -66,7 +66,7 @@ Se frena al final de cada fase para que el docente lo pruebe con sus alumnos.
 
 ## 9. Cómo seguir (traspaso, 2026-11-15)
 
-Estado: fase 1 en producción. Fase 2 arrancada (commit bd27962b, falta `git push` + `scripts/deploy.sh --cursos`).
+Estado (2026-11-15, noche): fase 1 en producción. Fase 2: Pasos de los 10 primeros nodos de los 9 cursos hechos (583); falta `git push` + `scripts/deploy.sh --cursos` y que el docente los pruebe. Lo que queda de la fase 2 es el punto 4 (Estadísticas).
 
 **Resuelto (2026-11-15): al docente le gustó el tono directo; se sigue así.** Era: los 5 Pasos de muestra (C R00-N01-P1 a P5, en `cursos/c/00-curso.md`) son muy directos: casi dicen la respuesta («escribí `printf`»). ¿Así, o que guíen sin dar el código exacto («el comando que muestra texto») y dejar la línea exacta a «Mostrame una línea» (medio premio)?
 

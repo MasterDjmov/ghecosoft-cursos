@@ -36,10 +36,13 @@ test('el curso se importa entero, con sus micro-misiones y sin mostrar las soluc
     $student = enrolledStudent($course, User::factory()->create());
     app(NodeUnlocker::class)->unlock($student, $root);
 
-    $this->actingAs($student)->get(route('student.node', [$course, $root]))
+    $html = $this->actingAs($student)->get(route('student.node', [$course, $root]))
         ->assertOk()
         ->assertSee('La primera nota')
-        ->assertDontSee('Console.WriteLine(&quot;Hola, Conservatorio&quot;);', false);
+        ->getContent();
+    // Los Pasos (D123) dicen a propósito qué escribir; fuera de ellos, la solución oculta no aparece.
+    $sinPasos = preg_replace('/<div[^>]*data-test="step-help-guide-text".*?<\/div>/s', '', $html);
+    expect($sinPasos)->not->toContain('Console.WriteLine(&quot;Hola, Conservatorio&quot;);');
 });
 
 test('Ceci tiene sus seis aspectos, y sus fichas y las de Clave y Bemol tienen imagen', function () {

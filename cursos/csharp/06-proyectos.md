@@ -239,6 +239,11 @@ Con 30 de 30, da 20; con 18 de 30, da 12. Primero se multiplica y después se di
 #### Desafío
 Cambiá la cuenta de `llenos` para que la barra nunca pase de 20 lugares.
 
+#### Pasos
+1. La barra tiene 20 lugares: hay que hacer la regla de tres.
+2. Cambiá `int llenos = Vida;` por `int llenos = Vida * 20 / VidaMaxima;`.
+3. Tocá **Ejecutar** y compará las tres barras.
+
 #### Código inicial
 ```csharp
 Goblin goblin = new Goblin();
@@ -360,6 +365,10 @@ Si Ceci tiene 70 y la poción cura 40: `Math.Min(110, 100)` da `100`. Si tiene 3
 
 #### Desafío
 Usá `Math.Min` en `Curar` para que la vida nunca pase de la máxima.
+
+#### Pasos
+1. Cambiá `Vida = Vida + cantidad;` por `Vida = Math.Min(Vida + cantidad, VidaMaxima);`.
+2. Tocá **Ejecutar**. Tiene que quedar en `100/100`, no más.
 
 #### Código inicial
 ```csharp
@@ -499,6 +508,10 @@ Fijate que el `foreach` recorre una lista de `Entidad`, y aun así el ogro usa *
 #### Desafío
 Agregale a `Ogro` el `override` de `RecibirDanio` que le quita 2 a cada golpe, sin bajar de 1.
 
+#### Pasos
+1. En `Ogro`, debajo del constructor, escribí `public override int RecibirDanio(int cantidad) => base.RecibirDanio(Math.Max(cantidad - 2, 1));`.
+2. Tocá **Ejecutar**. Tiene que salir `Ogro recibe 8: le quedan 52`.
+
 #### Código inicial
 ```csharp
 List<Entidad> grupo = [new Goblin(), new Ogro()];
@@ -626,6 +639,10 @@ Se lee así: "si el turno es múltiplo de 3, el doble del ataque; si no, el ataq
 #### Desafío
 Agregale a `Dragon` el `override` de `ElegirGolpe` que pega el doble en los turnos múltiplos de 3.
 
+#### Pasos
+1. En `Dragon`, debajo del constructor, escribí `public override int ElegirGolpe(int turno) => turno % 3 == 0 ? Ataque * 2 : Ataque;`.
+2. Tocá **Ejecutar**. En los turnos 3 y 6 tiene que pegar 20.
+
 #### Código inicial
 ```csharp
 Monstruo dragon = new Dragon();
@@ -729,6 +746,11 @@ return true;           // se pudo
 
 #### Desafío
 Agregá en `Usar` la comprobación con `GetValueOrDefault`, que devuelve `false` si no queda ninguno.
+
+#### Pasos
+1. Al principio de `Usar`: `if (Mochila.GetValueOrDefault(objeto) == 0)`.
+2. Entre llaves: `return false;`.
+3. Tocá **Ejecutar**. Tiene que salir `No le queda antídoto.`
 
 #### Código inicial
 ```csharp
@@ -1176,6 +1198,10 @@ string menu = string.Join("  ", acciones.Select(a => $"{a.Key}) {a.Value.Nombre}
 #### Desafío
 Reemplazá el menú escrito a mano por uno armado con `string.Join` y `Select` desde el diccionario.
 
+#### Pasos
+1. Cambiá el texto del menú por `string.Join("  ", acciones.Select(a => $"{a.Key}) {a.Value.Nombre}"))`.
+2. Tocá **Ejecutar**. Tiene que aparecer `3) Escudo`.
+
 #### Código inicial
 ```csharp
 Dictionary<string, IAccion> acciones = new()
@@ -1281,6 +1307,10 @@ Mirá el `do … while` del turno: repite **mientras** la acción no se haya hec
 
 #### Desafío
 Hacé que `BolaDeFuego` devuelva `false` cuando no alcanza el maná.
+
+#### Pasos
+1. En `BolaDeFuego`, debajo de `anotar("No alcanza el maná.");`, cambiá `return true;` por `return false;`.
+2. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp
@@ -1447,6 +1477,11 @@ string enemigo = oleada.Dequeue();      // "Goblin"
 #### Desafío
 Cambiá la `List` por una `Queue`, y sacá a cada monstruo con `Dequeue()`.
 
+#### Pasos
+1. Cambiá la primera línea por `Queue<string> oleada = new(["Goblin", "Ogro", "Dragón"]);`.
+2. Cambiá las dos líneas que sacan al último por `string enemigo = oleada.Dequeue();`.
+3. Tocá **Ejecutar**. Tiene que aparecer primero el Goblin.
+
 #### Código inicial
 ```csharp
 List<string> oleada = ["Goblin", "Ogro", "Dragón"];
@@ -1507,6 +1542,10 @@ partida.Mensaje += Console.WriteLine;
 
 #### Desafío
 Suscribí `Console.WriteLine` al evento `Mensaje` de la partida, antes de llamar a `Jugar`.
+
+#### Pasos
+1. Debajo de la primera línea, escribí `partida.Mensaje += Console.WriteLine;`.
+2. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp
@@ -1616,6 +1655,10 @@ Esta partida lee las teclas de la entrada (`2` y `2`: dos bolas de fuego) y tira
 
 #### Desafío
 Agregá en `Pelear` la pregunta `if (enemigo.EstaViva)` antes de que el monstruo golpee.
+
+#### Pasos
+1. Envolvé las dos líneas del golpe del monstruo en `if (enemigo.EstaViva) { ... }`.
+2. Tocá **Ejecutar**. Después de `Goblin cae.` no tiene que golpear más.
 
 #### Entrada
 ```
@@ -2142,6 +2185,10 @@ Se lee: "sumar dos `Vec2` es crear uno nuevo con las X sumadas y las Y sumadas".
 #### Desafío
 Agregale a `Vec2` el `operator +` que suma las dos posiciones.
 
+#### Pasos
+1. Adentro de `Vec2`, escribí `public static Vec2 operator +(Vec2 a, Vec2 b) => new(a.X + b.X, a.Y + b.Y);`.
+2. Tocá **Ejecutar**. Tiene que salir `Llegó a la gema`.
+
 #### Código inicial
 ```csharp
 Vec2 ceci = new(1, 1);
@@ -2216,6 +2263,11 @@ La segunda vez que pasa, ya no está: `Remove` devuelve `false` y no suma.
 
 #### Desafío
 Cambiá el `Contains` por un `Remove`, para que cada gema se cobre una sola vez.
+
+#### Pasos
+1. `Remove` saca la gema y devuelve `true` si estaba.
+2. Cambiá `gemas.Contains(bemol)` por `gemas.Remove(bemol)`.
+3. Tocá **Ejecutar**. Tiene que salir `Quedan 0 gemas`.
 
 #### Código inicial
 ```csharp
@@ -2293,6 +2345,10 @@ Pensalo como leer un libro: primero buscás el renglón y después la letra.
 
 #### Desafío
 Corregí `EsSeto` para que lea primero la fila (`p.Y`) y después la columna (`p.X`).
+
+#### Pasos
+1. Cambiá `_mapa[p.X][p.Y]` por `_mapa[p.Y][p.X]`.
+2. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp
@@ -2429,6 +2485,10 @@ Leé la consulta de arriba abajo, como una receta: los cuatro vecinos, **los que
 
 #### Desafío
 Agregá el `Where` que descarta los setos en la consulta del guardián.
+
+#### Pasos
+1. Debajo de `.Select(p => actual + p)`, escribí `.Where(p => !EsSeto(p))`.
+2. Tocá **Ejecutar** y compará los cuatro turnos.
 
 #### Código inicial
 ```csharp
@@ -2578,6 +2638,11 @@ Fijate que se atrapa **solo** `JsonException`: el error que sabemos explicar. Cu
 
 #### Desafío
 Envolvé la lectura de `CargarRecord` en un `try` que atrape `JsonException` y devuelva `new Puntaje("nadie", 0)`.
+
+#### Pasos
+1. Envolvé el `return JsonSerializer.Deserialize...` en un `try { ... }`.
+2. Después: `catch (JsonException)` y, entre llaves, `return new Puntaje("nadie", 0);`.
+3. Tocá **Ejecutar**. Tiene que salir `Récord: nadie con 0`.
 
 #### Código inicial
 ```csharp
@@ -3014,6 +3079,11 @@ productos[0] = cuerdas with { Stock = cuerdas.Stock - 3 };
 #### Desafío
 Reemplazá `cuerdas.Stock -= 3;` por una línea con `with` que ponga el producto nuevo en la lista.
 
+#### Pasos
+1. Un `record` no se cambia: se hace otro con `with`.
+2. Cambiá `cuerdas.Stock -= 3;` por `productos[0] = cuerdas with { Stock = cuerdas.Stock - 3 };`.
+3. Tocá **Ejecutar**. Tiene que salir `Ahora: 7`.
+
 #### Código inicial
 ```csharp
 List<Producto> productos = [new Producto("C1", "Cuerdas", 1500.50m, 10)];
@@ -3088,6 +3158,11 @@ El programa ya atrapa esa excepción y muestra su mensaje. Fijate que, si se lan
 
 #### Desafío
 Agregá en `Vender` la regla que lanza `StockInsuficienteException` si no alcanza el stock.
+
+#### Pasos
+1. Debajo de `Producto producto = _productos[i];`, escribí `if (cantidad > producto.Stock)`.
+2. Entre llaves: `throw new StockInsuficienteException(producto.Nombre, producto.Stock);`.
+3. Tocá **Ejecutar**. Tiene que salir `Solo quedan 3 de Resina`.
 
 #### Código inicial
 ```csharp
@@ -3229,6 +3304,10 @@ Mirá que `Tienda` no cambia nada: recibe "algo que guarde", y le da igual si es
 
 #### Desafío
 Completá `Guardar` en `RepositorioMemoria` para que sume 1 a `Guardados`.
+
+#### Pasos
+1. Cambiá `throw new NotImplementedException();` por `Guardados++;`.
+2. Tocá **Ejecutar**. Tiene que salir `Guardados: 2`.
 
 #### Código inicial
 ```csharp
@@ -3382,6 +3461,11 @@ Cada grupo tiene su `Key` (el código) y adentro, sus ventas. `FirstOrDefault` d
 #### Desafío
 Escribí `MasVendido` con `GroupBy`, para que devuelva el código que más cantidad vendió.
 
+#### Pasos
+1. Agrupá por código: `_ventas.GroupBy(v => v.Codigo)`.
+2. Seguí con `.OrderByDescending(g => g.Sum(v => v.Cantidad))`, `.Select(g => g.Key)` y `.FirstOrDefault()`.
+3. Tocá **Ejecutar**. Tiene que salir `Más vendido: C1`.
+
 #### Código inicial
 ```csharp
 List<Venta> ventas =
@@ -3485,6 +3569,11 @@ Mirá también cómo se prueba sin archivos: las pruebas le dan a la tienda un `
 
 #### Desafío
 Agregá en `Vender` la regla que rechaza las cantidades que no son positivas, para que pasen todas las pruebas.
+
+#### Pasos
+1. Al principio de `Vender`: `if (cantidad <= 0)`.
+2. Entre llaves: `throw new ArgumentOutOfRangeException(nameof(cantidad), "La cantidad tiene que ser positiva");`.
+3. Tocá **Ejecutar**. Tienen que pasar las cuatro pruebas.
 
 #### Código inicial
 ```csharp
@@ -4058,6 +4147,10 @@ public override int RecibirDanio(int cantidad) => base.RecibirDanio(Math.Max(can
 #### Desafío
 Usá `Math.Max` en el `override` del dragón para que cada golpe le saque por lo menos 1.
 
+#### Pasos
+1. Cambiá `base.RecibirDanio(cantidad / 2)` por `base.RecibirDanio(Math.Max(cantidad / 2, 1))`.
+2. Tocá **Ejecutar**. El golpe de 1 tiene que entrar 1.
+
 #### Código inicial
 ```csharp
 Dragon dragon = new Dragon();
@@ -4175,6 +4268,11 @@ Así, el primer golpe es el del turno 1.
 #### Desafío
 Mové `turno++` al principio del bucle, antes de que el dragón elija su golpe.
 
+#### Pasos
+1. Borrá el `turno++;` del final del bucle.
+2. Escribilo como primera línea del bucle, antes de `int golpe = ...`.
+3. Tocá **Ejecutar**. El fuego tiene que salir en los compases 3 y 6.
+
 #### Código inicial
 ```csharp
 Dragon dragon = new Dragon();
@@ -4254,6 +4352,10 @@ List<Puntaje> mejores = tabla.OrderByDescending(p => p.Oro).Take(3).ToList();
 
 #### Desafío
 Cambiá `OrderBy` por `OrderByDescending` para que la tabla muestre a los tres que más oro juntaron.
+
+#### Pasos
+1. Cambiá `OrderBy(p => p.Oro)` por `OrderByDescending(p => p.Oro)`.
+2. Tocá **Ejecutar**. Ceci tiene que quedar primera.
 
 #### Código inicial
 ```csharp
@@ -4346,6 +4448,10 @@ Fijate que no se toca ninguna prueba: dicen lo que **tiene que pasar**.
 
 #### Desafío
 Corregí la condición de `ElegirGolpe` para que pasen todas las pruebas.
+
+#### Pasos
+1. Cambiá `turno % 3 == 1` por `turno % 3 == 0`.
+2. Tocá **Ejecutar**. Tienen que pasar las seis pruebas.
 
 #### Código inicial
 ```csharp
@@ -4462,6 +4568,11 @@ Al final, si la fila quedó vacía, se usaron todas las notas de la cajita: la p
 
 #### Desafío
 Cambiá `Peek()` por `Dequeue()` para rellenar cada hueco con la nota siguiente.
+
+#### Pasos
+1. `Peek` mira la primera nota sin sacarla; `Dequeue` la saca.
+2. Cambiá `cajita.Peek()` por `cajita.Dequeue()`.
+3. Tocá **Ejecutar** y compará la melodía.
 
 #### Código inicial
 ```csharp

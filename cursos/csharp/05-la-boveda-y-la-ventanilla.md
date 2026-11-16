@@ -153,6 +153,10 @@ Sin el `await`, C# protesta con `CS0029`: no se puede guardar un recibo en una v
 #### Desafío
 Agregá `await` donde se pide la partitura.
 
+#### Pasos
+1. Cambiá `= PedirAsync("Bolero");` por `= await PedirAsync("Bolero");`.
+2. Tocá **Ejecutar**. Tiene que salir `Llegó: Bolero, para orquesta`.
+
 #### Código inicial
 ```csharp
 async Task<string> PedirAsync(string obra)
@@ -214,6 +218,10 @@ El `return` adentro sigue igual: se devuelve el `int`, y C# lo envuelve solo. Si
 #### Desafío
 Cambiá `int AfinarAsync` por `async Task<int> AfinarAsync`.
 
+#### Pasos
+1. Cambiá `int AfinarAsync(int cuerdas)` por `async Task<int> AfinarAsync(int cuerdas)`.
+2. Tocá **Ejecutar**. Tiene que salir `Vueltas de clavija: 8`.
+
 #### Código inicial
 ```csharp
 int AfinarAsync(int cuerdas)
@@ -273,6 +281,11 @@ await afinar;                        // ahora sí espero
 
 #### Desafío
 Guardá la tarea en `Task pedido = PedirAsync("Canon");`, mostrá `Mientras, anoto al siguiente` y recién después hacé `await pedido;`.
+
+#### Pasos
+1. Cambiá `await PedirAsync("Canon");` por `Task pedido = PedirAsync("Canon");`.
+2. Debajo del `Console.WriteLine("Mientras, anoto al siguiente");`, escribí `await pedido;`.
+3. Tocá **Ejecutar** y compará el orden.
 
 #### Código inicial
 ```csharp
@@ -345,6 +358,11 @@ catch (InvalidOperationException e)
 
 #### Desafío
 Envolvé el `await` en un `try`, y en un `catch (InvalidOperationException e)` mostrá `No hay: ` seguido de `e.Message`.
+
+#### Pasos
+1. Envolvé las dos líneas del pedido en un `try { ... }`.
+2. Después: `catch (InvalidOperationException e)` y, entre llaves, `Console.WriteLine($"No hay: {e.Message}");`.
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp
@@ -425,6 +443,11 @@ El programa corre sin error, pero en otro orden: es un error de **lógica**.
 
 #### Desafío
 Hacé que el escenario esté listo antes de abrir la puerta: `await PrepararAsync();` y recién después, `Abro la puerta`.
+
+#### Pasos
+1. Cambiá `Task preparar = PrepararAsync();` por `await PrepararAsync();`.
+2. Borrá la línea `await preparar;`.
+3. Tocá **Ejecutar**. Primero `Sillas acomodadas` y después `Abro la puerta`.
 
 #### Código inicial
 ```csharp
@@ -690,6 +713,11 @@ Así tardan lo que la más lenta, no la suma de todas.
 #### Desafío
 Arrancá las tres afinaciones sin `await` (guardalas en tres variables `Task`) y esperalas juntas con `await Task.WhenAll(...)`.
 
+#### Pasos
+1. Cambiá los tres `await AfinarAsync(...)` por `Task a = AfinarAsync("violín");`, `Task b = AfinarAsync("viola");` y `Task c = AfinarAsync("chelo");`.
+2. Debajo: `await Task.WhenAll(a, b, c);`.
+3. Tocá **Ejecutar**. Tiene que salir `Menos de medio segundo: True`.
+
 #### Código inicial
 ```csharp
 async Task AfinarAsync(string instrumento)
@@ -759,6 +787,11 @@ Para sumar un arreglo de números, `Sum()`.
 #### Desafío
 Guardá lo que devuelve `Task.WhenAll` en un `int[] cuerdas` y mostrá su suma.
 
+#### Pasos
+1. Adelante del `await Task.WhenAll(...)`, escribí `int[] cuerdas = `.
+2. Cambiá `int total = 0;` por `int total = cuerdas.Sum();`.
+3. Tocá **Ejecutar**. Tiene que salir `Cuerdas en el taller: 14`.
+
 #### Código inicial
 ```csharp
 async Task<int> ContarCuerdasAsync(string instrumento)
@@ -821,6 +854,11 @@ string nombre = await ganadora;
 
 #### Desafío
 Usá `Task.WhenAny` en vez de `Task.WhenAll`, y mostrá el resultado de la tarea que llegó primero.
+
+#### Pasos
+1. Cambiá `string[] todos = await Task.WhenAll(` por `Task<string> primera = await Task.WhenAny(`.
+2. En el `WriteLine`, cambiá `{todos[0]}` por `{await primera}`.
+3. Tocá **Ejecutar**. Tiene que salir `La lleva Nilo`.
 
 #### Código inicial
 ```csharp
@@ -888,6 +926,12 @@ catch (OperationCanceledException)
 #### Desafío
 Creá `var basta = new CancellationTokenSource(300);`, pasale `basta.Token` a `EsperarAsync`, y atrapá la `OperationCanceledException` mostrando `Tardaba demasiado`.
 
+#### Pasos
+1. Arriba: `var basta = new CancellationTokenSource(300);`.
+2. Envolvé las dos líneas en un `try` y cambiá `CancellationToken.None` por `basta.Token`.
+3. Después: `catch (OperationCanceledException)` y, entre llaves, `Console.WriteLine("Tardaba demasiado");`.
+4. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```csharp
 async Task<string> EsperarAsync(CancellationToken token)
@@ -953,6 +997,11 @@ Si una de las tareas de `Task.WhenAll` lanza un error, ese error salta en el `aw
 
 #### Desafío
 Envolvé el `await Task.WhenAll(...)` en un `try` y atrapá la `InvalidOperationException` mostrando `Alguien no tocó: ` seguido del mensaje.
+
+#### Pasos
+1. Envolvé el `await Task.WhenAll(...)` y el `Concierto completo` en un `try { ... }`.
+2. Después: `catch (InvalidOperationException e)` y, entre llaves, `Console.WriteLine($"Alguien no tocó: {e.Message}");`.
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp
@@ -1242,6 +1291,11 @@ contador++;
 #### Desafío
 Dejá el `await Task.Yield();` al principio de la vuelta y reemplazá las otras dos líneas por `aplausos++;`.
 
+#### Pasos
+1. Borrá `int v = aplausos;`.
+2. Cambiá `aplausos = v + 1;` por `aplausos++;`.
+3. Tocá **Ejecutar**. Tiene que salir `Aplausos: 1000`.
+
 #### Código inicial
 ```csharp
 int aplausos = 0;
@@ -1330,6 +1384,12 @@ Mientras uno está adentro, los demás esperan en `WaitAsync`.
 
 #### Desafío
 Envolvé las tres líneas de adentro del `for` con el candado: `await candado.WaitAsync();`, un `try` con las tres líneas y un `finally` con `candado.Release();`.
+
+#### Pasos
+1. Adentro del `for`, primero: `await candado.WaitAsync();`.
+2. Después, un `try { ... }` con las tres líneas que ya estaban.
+3. Después: `finally { candado.Release(); }`.
+4. Tocá **Ejecutar**. Tiene que salir `Aplausos: 1000`.
 
 #### Código inicial
 ```csharp
@@ -1431,6 +1491,13 @@ Para juntar las tareas en una lista: `List<Task<int>>`.
 #### Desafío
 Hacé que `AplaudirAsync` cuente en una variable propia (`int mios = 0;`) y la devuelva (`async Task<int>`). Juntá las tareas en una `List<Task<int>>` y mostrá la suma de lo que devuelve `Task.WhenAll`.
 
+#### Pasos
+1. Borrá `int aplausos = 0;` y cambiá el método por `async Task<int> AplaudirAsync()`.
+2. Adentro, arriba del `for`: `int mios = 0;`. Usá `mios` en lugar de `aplausos`, y al final `return mios;`.
+3. Cambiá la lista por `List<Task<int>> aprendices = new List<Task<int>>();`.
+4. Al final: `int[] partes = await Task.WhenAll(aprendices);` y `Console.WriteLine($"Aplausos: {partes.Sum()}");`.
+5. Tocá **Ejecutar**. Tiene que salir `Aplausos: 1000`.
+
 #### Código inicial
 ```csharp
 int aplausos = 0;
@@ -1508,6 +1575,12 @@ El candado tiene que abrazar **las dos cosas**: mirar y tomar. Así, el segundo 
 
 #### Desafío
 Poné todo lo de adentro de `ReservarAsync` entre `await candado.WaitAsync();` y un `finally` con `candado.Release();`.
+
+#### Pasos
+1. Al principio de `ReservarAsync`: `await candado.WaitAsync();`.
+2. Meté el `if` y el `else` que ya estaban adentro de un `try { ... }`.
+3. Después: `finally { candado.Release(); }`.
+4. Tocá **Ejecutar**. Tiene que salir `Bemol: A1 ya está vendida`.
 
 #### Código inicial
 ```csharp
@@ -1594,6 +1667,12 @@ Por eso el `Release()` va en un `finally`: corre **siempre**, haya error o no.
 
 #### Desafío
 Poné lo que está entre `WaitAsync` y `Release` en un `try`, y el `Release()` en un `finally`.
+
+#### Pasos
+1. Debajo de `await candado.WaitAsync();`, abrí un `try {`.
+2. Adentro van el `Task.Delay`, el `if` del troll y el `WriteLine`.
+3. Cerrá y escribí `finally { candado.Release(); }`. Borrá el `Release` de abajo.
+4. Tocá **Ejecutar**. Bemol también tiene que tocar.
 
 #### Código inicial
 ```csharp
@@ -1939,6 +2018,10 @@ Sin `[Fact]`, es un método común: nadie lo llama, y el ensayo no muestra nada.
 #### Desafío
 Agregale `[Fact]` arriba del método `ViolinTieneCuatro`.
 
+#### Pasos
+1. Arriba de `public void ViolinTieneCuatro()`, escribí `[Fact]`.
+2. Tocá **Ejecutar**. Tiene que salir `Todo en verde`.
+
 #### Código inicial
 ```csharp
 using Xunit;
@@ -2016,6 +2099,10 @@ Si la prueba espera algo equivocado, falla aunque el código esté bien. Leé el
 
 #### Desafío
 Una guitarra tiene 6 cuerdas: corregí lo que espera la segunda prueba.
+
+#### Pasos
+1. En la segunda prueba, cambiá `Assert.Equal(4,` por `Assert.Equal(6,`.
+2. Tocá **Ejecutar**. Tienen que pasar las dos.
 
 #### Código inicial
 ```csharp
@@ -2108,6 +2195,10 @@ Siete es `4 + 3`: el método **suma** en vez de **multiplicar**. Lo que hay que 
 #### Desafío
 Corregí el método `Pulsos` para que multiplique.
 
+#### Pasos
+1. En `Pulsos`, cambiá `compases + tiempos` por `compases * tiempos`.
+2. Tocá **Ejecutar**. Tiene que salir `Todo en verde`.
+
 #### Código inicial
 ```csharp
 using Xunit;
@@ -2184,6 +2275,10 @@ Assert.Throws<FormatException>(() => int.Parse("hola"));
 
 #### Desafío
 Cambiá la línea de la prueba por `Assert.Throws<ArgumentException>(() => new Afinador().Afinar(-1));`.
+
+#### Pasos
+1. Cambiá `new Afinador().Afinar(-1);` por `Assert.Throws<ArgumentException>(() => new Afinador().Afinar(-1));`.
+2. Tocá **Ejecutar**. Tiene que salir `Todo en verde`.
 
 #### Código inicial
 ```csharp
@@ -2279,6 +2374,11 @@ Cada `[InlineData]` es una prueba aparte en el resultado.
 
 #### Desafío
 Cambiá `[Fact]` por `[Theory]` y agregá tres casos: `("violín", 4)`, `("guitarra", 6)` y `("chelo", 4)`.
+
+#### Pasos
+1. Cambiá `[Fact]` por `[Theory]`.
+2. Debajo: `[InlineData("violín", 4)]`, `[InlineData("guitarra", 6)]` y `[InlineData("chelo", 4)]`.
+3. Tocá **Ejecutar**. Tienen que pasar las tres.
 
 #### Código inicial
 ```csharp
@@ -2601,6 +2701,10 @@ Si se usa sin abrir, salta una `InvalidOperationException`.
 #### Desafío
 Agregá `conexion.Open();` antes de crear el comando.
 
+#### Pasos
+1. Debajo de la línea de la conexión, escribí `conexion.Open();`.
+2. Tocá **Ejecutar**. Tiene que salir `La Bóveda está abierta`.
+
 #### Código inicial
 ```csharp
 using Microsoft.Data.Sqlite;
@@ -2660,6 +2764,10 @@ int filas = comando.ExecuteNonQuery();   // 1
 
 #### Desafío
 Cambiá `int filas = 0;` por `int filas = comando.ExecuteNonQuery();`.
+
+#### Pasos
+1. Cambiá `int filas = 0;` por `int filas = comando.ExecuteNonQuery();`.
+2. Tocá **Ejecutar**. Tiene que salir `Filas guardadas: 1`.
 
 #### Código inicial
 ```csharp
@@ -2730,6 +2838,11 @@ while (lector.Read())
 
 #### Desafío
 Recorré el lector con `while (lector.Read())` y mostrá cada partitura como `Canon: 8 páginas`.
+
+#### Pasos
+1. Al final, escribí `while (lector.Read())`.
+2. Entre llaves: `Console.WriteLine($"{lector.GetString(0)}: {lector.GetInt32(1)} páginas");`.
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp
@@ -2807,6 +2920,11 @@ comando.Parameters.AddWithValue("$nombre", "la 'buena'");
 #### Desafío
 Reemplazá el `'{titulo}'` del SQL por `$titulo`, y pasá el dato con `comando.Parameters.AddWithValue("$titulo", titulo);`.
 
+#### Pasos
+1. Cambiá el SQL por `comando.CommandText = "INSERT INTO partituras (titulo) VALUES ($titulo)";` (sin `$` adelante de las comillas).
+2. Debajo: `comando.Parameters.AddWithValue("$titulo", titulo);`.
+3. Tocá **Ejecutar**. Tiene que salir `Guardada: El 'Bolero'`.
+
 #### Código inicial
 ```csharp
 using Microsoft.Data.Sqlite;
@@ -2877,6 +2995,10 @@ int n = Convert.ToInt32(valor);       // 5
 
 #### Desafío
 Cambiá `(int)comando.ExecuteScalar()!` por `Convert.ToInt32(comando.ExecuteScalar())`.
+
+#### Pasos
+1. Cambiá `(int)comando.ExecuteScalar()!` por `Convert.ToInt32(comando.ExecuteScalar())`.
+2. Tocá **Ejecutar**. Tiene que salir `Partituras: 3`.
 
 #### Código inicial
 ```csharp
@@ -3161,6 +3283,11 @@ En SQL, «igual» se escribe con un solo `=`.
 #### Desafío
 Agregale al `SELECT` un `WHERE titulo = $titulo` y pasá `"Bolero"` como parámetro `$titulo`.
 
+#### Pasos
+1. Al final del `SELECT`, antes de la comilla, agregá ` WHERE titulo = $titulo`.
+2. Debajo: `comando.Parameters.AddWithValue("$titulo", "Bolero");`.
+3. Tocá **Ejecutar**. Tiene que salir `2. Bolero (12 páginas)`.
+
 #### Código inicial
 ```csharp
 using Microsoft.Data.Sqlite;
@@ -3235,6 +3362,11 @@ comando.CommandText = "UPDATE notas SET octava = $octava WHERE nombre = $nombre"
 
 #### Desafío
 Agregale al `UPDATE` un `WHERE titulo = $titulo` y pasá `"Tango"` como parámetro.
+
+#### Pasos
+1. Al final del `UPDATE`, antes de la comilla, agregá ` WHERE titulo = $titulo`.
+2. Debajo del parámetro de `$paginas`: `comando.Parameters.AddWithValue("$titulo", "Tango");`.
+3. Tocá **Ejecutar**. Tiene que salir `Cambiadas: 1`.
 
 #### Código inicial
 ```csharp
@@ -3325,6 +3457,11 @@ if (filas == 0)
 
 #### Desafío
 Guardá lo que devuelve `ExecuteNonQuery()` en `int filas`, y mostrá `Borrado: ` o `No estaba: ` según si es mayor que cero.
+
+#### Pasos
+1. Cambiá `comando.ExecuteNonQuery();` por `int filas = comando.ExecuteNonQuery();`.
+2. `if (filas > 0)` con el `Borrado` que ya estaba; si no, `Console.WriteLine($"No estaba: {vendido}");`.
+3. Tocá **Ejecutar**. Tiene que salir `No estaba: arpa`.
 
 #### Código inicial
 ```csharp
@@ -3421,6 +3558,13 @@ catch (InvalidOperationException)
 
 #### Desafío
 Empezá una transacción antes del `try` (`using var transaccion = conexion.BeginTransaction();` y `comando.Transaction = transaccion;`), confirmala con `transaccion.Commit();` al final del `try`, y deshacela con `transaccion.Rollback();` en el `catch`.
+
+#### Pasos
+1. Antes del `try`: `using var transaccion = conexion.BeginTransaction();` y `comando.Transaction = transaccion;`.
+2. Al final del `try`, antes de `Pago hecho`: `transaccion.Commit();`.
+3. Al principio del `catch`: `transaccion.Rollback();`.
+4. Después del `catch`: `comando.Transaction = null;`.
+5. Tocá **Ejecutar**. Las cuentas tienen que quedar como estaban.
 
 #### Código inicial
 ```csharp
@@ -3531,6 +3675,10 @@ El programa no tiene errores: corre y da otra cosa. Eso es un error de **lógica
 
 #### Desafío
 Cambiá el `>` del `WHERE` por `>=`.
+
+#### Pasos
+1. En el `WHERE`, cambiá `paginas > $minimo` por `paginas >= $minimo`.
+2. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp
@@ -3882,6 +4030,10 @@ Si llega un pedido a una ruta que nadie atiende, la ventanilla contesta `404`: n
 #### Desafío
 Agregá una ruta `/hola` que conteste `Hola desde el Conservatorio`.
 
+#### Pasos
+1. Debajo de la primera línea, escribí `app.MapGet("/hola", () => "Hola desde el Conservatorio");`.
+2. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```csharp
 var app = WebApplication.CreateBuilder(args).Build();
@@ -3948,6 +4100,10 @@ Los nombres de los datos salen en minúscula, como se acostumbra en la web.
 
 #### Desafío
 Hacé que `/instrumentos` devuelva la lista `instrumentos` entera, no su `Count`.
+
+#### Pasos
+1. Cambiá `() => instrumentos.Count` por `() => instrumentos`.
+2. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp
@@ -4022,6 +4178,10 @@ return nota is null ? Results.NotFound() : Results.Ok(nota);
 
 #### Desafío
 Si `i` es `null`, devolvé `Results.NotFound()`; si no, `Results.Ok(i)`.
+
+#### Pasos
+1. Cambiá `return i;` por `return i is null ? Results.NotFound() : Results.Ok(i);`.
+2. Tocá **Ejecutar**. El 9 tiene que dar 404.
 
 #### Código inicial
 ```csharp
@@ -4112,6 +4272,12 @@ app.MapPost("/notas", (Nota n) =>
 #### Desafío
 Agregá un `MapPost` en `/pedidos` que agregue el pedido a la lista y conteste con `Results.Created($"/pedidos/{p.Id}", p)`.
 
+#### Pasos
+1. Debajo del `MapGet`, escribí `app.MapPost("/pedidos", (Pedido p) =>` y abrí una llave.
+2. Adentro: `pedidos.Add(p);` y `return Results.Created($"/pedidos/{p.Id}", p);`.
+3. Cerrá con `});`.
+4. Tocá **Ejecutar**. Tiene que salir `POST /pedidos → 201`.
+
 #### Código inicial
 ```csharp
 var app = WebApplication.CreateBuilder(args).Build();
@@ -4185,6 +4351,11 @@ if (n.Octava < 0)
 
 #### Desafío
 Al principio del `MapPost`, si `p.Cantidad` es menor o igual que cero, devolvé `Results.BadRequest("La cantidad tiene que ser mayor que cero")`.
+
+#### Pasos
+1. Al principio del `MapPost`: `if (p.Cantidad <= 0)`.
+2. Entre llaves: `return Results.BadRequest("La cantidad tiene que ser mayor que cero");`.
+3. Tocá **Ejecutar**. Tiene que salir `Pedidos guardados: 1`.
 
 #### Código inicial
 ```csharp
@@ -4447,6 +4618,11 @@ De a uno:
 #### Desafío
 Arreglá los dos errores para que traiga las tres partituras juntas.
 
+#### Pasos
+1. Cambiá las tres líneas de `a`, `b` y `c` por `string[] obras = await Task.WhenAll(TraerAsync("Canon"), TraerAsync("Bolero"), TraerAsync("Tango"));`.
+2. Cambiá el `WriteLine` por `Console.WriteLine(string.Join(", ", obras));`.
+3. Tocá **Ejecutar**. Tiene que salir `Rápido: True`.
+
 #### Código inicial
 ```csharp
 async Task<string> TraerAsync(string obra)
@@ -4511,6 +4687,12 @@ De a uno:
 
 #### Desafío
 Arreglá los dos errores para que cuente bien a los atendidos y no se trabe con el pedido vacío.
+
+#### Pasos
+1. Le falta el `await`: `await candado.WaitAsync();`.
+2. Meté el `if` y las tres líneas de `atendidos` adentro de un `try { ... }`.
+3. Después: `finally { candado.Release(); }`. Borrá el `Release` de abajo.
+4. Tocá **Ejecutar**. Tiene que salir `Atendidos: 4`.
 
 #### Código inicial
 ```csharp
@@ -4622,6 +4804,12 @@ Cada persona adelante son **3 minutos** de espera. Leé cada rojo, de a uno:
 #### Desafío
 Arreglá los tres errores para que pasen las tres pruebas.
 
+#### Pasos
+1. En `Espera`, cambiá `personas + 3` por `personas * 3`.
+2. Antes del `return`: `if (personas < 0)` y, entre llaves, `throw new ArgumentException("no puede haber personas negativas");`.
+3. Arriba de `public void CuatroPersonas()`, escribí `[Fact]`.
+4. Tocá **Ejecutar**. Tienen que pasar las tres.
+
 #### Código inicial
 ```csharp
 using Xunit;
@@ -4713,6 +4901,13 @@ De a uno:
 
 #### Desafío
 Arreglá los dos errores para que un pago rechazado no cambie ninguna cuenta.
+
+#### Pasos
+1. Antes del `try`: `using var transaccion = conexion.BeginTransaction();` y `comando.Transaction = transaccion;`.
+2. Corregí `UPDTE` por `UPDATE`.
+3. Antes de `Pago hecho`: `transaccion.Commit();`. Al principio del `catch`: `transaccion.Rollback();`.
+4. Después del `catch`: `comando.Transaction = null;`.
+5. Tocá **Ejecutar**. Las cuentas tienen que quedar como estaban.
 
 #### Código inicial
 ```csharp
@@ -4826,6 +5021,12 @@ De a uno, mirando los códigos:
 
 #### Desafío
 Arreglá los tres errores para que la ventanilla diga la verdad.
+
+#### Pasos
+1. La ruta es `/obras/{id}`, con s.
+2. Cambiá `return o;` por `return o is null ? Results.NotFound() : Results.Ok(o);`.
+3. En el `MapPost`, al principio: `if (p.Cantidad <= 0)` con `return Results.BadRequest("La cantidad tiene que ser mayor que cero");`.
+4. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp

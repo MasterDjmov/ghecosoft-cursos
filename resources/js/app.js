@@ -399,6 +399,12 @@ document.addEventListener('alpine:init', () => {
                 // Como el servidor (LocalCodeRunner::normalize); si no coincide, se dice dónde (sobre todo lo invisible).
                 this.mismatch = describeDifference(config.expected, result.output);
                 this.matches = this.mismatch === null;
+                // Java con un ejecutor viejo: la única diferencia es la coma decimal de la compu en español.
+                if (!this.matches && result.staleLocale
+                    && describeDifference(config.expected, result.output.replace(/(\d),(\d)/g, '$1.$2')) === null) {
+                    this.mismatch = 'Tu programa está bien: la diferencia es solo la coma de los decimales, que pone tu Ejecutor de Java porque es de una versión vieja. '
+                        + (result.helpUrl ? `Bajalo de nuevo desde ${new URL(result.helpUrl, window.location.href).href}, descomprimilo encima del anterior y volvé a abrirlo.` : 'Cerralo y volvé a abrirlo con la versión nueva (java scripts/JavaRunner.java).');
+                }
                 // Solo cuando lo que se ve es la salida del programa (sin avisos del compilador ni STDERR).
                 if (!this.matches && !compiler && !notices) this.lines = compareLines(config.expected, result.output);
             }

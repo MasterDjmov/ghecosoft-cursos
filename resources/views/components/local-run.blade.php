@@ -14,7 +14,7 @@
     $stdin = str_replace("\r\n", "\n", (string) $stdin);
     $input = trim($stdin) === '' ? ' < /dev/null' : " <<'FIN_ENTRADA'\n".rtrim($stdin, "\n")."\nFIN_ENTRADA";
     $command = "mkdir -p {$dir} && cd {$dir} && cat > {$file} <<'FIN_CODIGO'\n".rtrim(str_replace("\r\n", "\n", (string) $code), "\n")
-        ."\nFIN_CODIGO\njavac -encoding UTF-8 -d . {$file} && java -cp . {$class}{$input}\n";
+        ."\nFIN_CODIGO\njavac -encoding UTF-8 -d . {$file} && java -Duser.language=en -Duser.country=US -Duser.language.format=en -Duser.country.format=US -cp . {$class}{$input}\n";
 @endphp
 
 <details {{ $attributes->class('rounded-lg border border-outline bg-surface-low p-3 text-sm') }} data-test="local-run"

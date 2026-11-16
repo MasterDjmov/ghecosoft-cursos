@@ -57,5 +57,8 @@ export async function runJava(code, { stdin = '', url, helpUrl = null, timeout =
         : '';
     const error = data.exit !== 0 ? `El programa terminó con código ${data.exit}.${errors ? '\n' + errors : ''}${outdated}${cut}` : (cut || null);
 
-    return { output: data.output, error, diagnostics: data.diagnostics, stderr: data.exit === 0 ? errors : '', ms: data.ms };
+    // Antes de la versión 3, el ejecutor dejaba que Java usara el idioma de la compu: en español, los decimales salen con coma.
+    const staleLocale = !(Number(data.version) >= 3);
+
+    return { output: data.output, error, diagnostics: data.diagnostics, stderr: data.exit === 0 ? errors : '', ms: data.ms, staleLocale, helpUrl };
 }

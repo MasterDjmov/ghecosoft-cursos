@@ -37,7 +37,7 @@ def main() -> None:
             with tempfile.TemporaryDirectory() as tmp:
                 source = Path(tmp) / f'{name}.java'
                 source.write_text(solution)
-                run = subprocess.run(['java', str(source)], input=section(block, 'Entrada') or '', capture_output=True, text=True, timeout=30, cwd=tmp)
+                run = subprocess.run(['java', *'-Duser.language=en -Duser.country=US -Duser.language.format=en -Duser.country.format=US'.split(), str(source)], input=section(block, 'Entrada') or '', capture_output=True, text=True, timeout=30, cwd=tmp)
             got = run.stdout.rstrip()
             if got == expected.rstrip():
                 ok += 1

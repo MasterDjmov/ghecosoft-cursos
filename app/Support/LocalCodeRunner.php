@@ -78,7 +78,8 @@ class LocalCodeRunner
             } elseif ($this->language === 'java') {
                 // `java Main.java` compila en memoria y corre la primera clase del archivo.
                 file_put_contents($dir.'/Main.java', $code);
-                $command = [$this->binary, '-Dfile.encoding=UTF-8', '-Dstdout.encoding=UTF-8', 'Main.java'];
+                // Decimales con punto aunque la compu esté en español, como el Ejecutor de Java del alumno (versión 3).
+                $command = [$this->binary, '-Dfile.encoding=UTF-8', '-Dstdout.encoding=UTF-8', '-Duser.language=en', '-Duser.country=US', '-Duser.language.format=en', '-Duser.country.format=US', 'Main.java'];
             } else {
                 // Como compila el alumno en su compu: con advertencias, y la matemática enlazada.
                 $source = $this->language === 'c' ? 'main.c' : 'main.cpp';

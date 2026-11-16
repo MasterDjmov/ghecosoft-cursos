@@ -42,7 +42,7 @@ import java.util.stream.Stream;
 
 public class JavaRunner {
     static final int PORT = 17017;
-    static final String VERSION = "2";
+    static final String VERSION = "3";
     static final Set<String> ORIGINS = new TreeSet<>(List.of(
         "https://gamificado.lariojaclick.ar", "http://localhost:8000", "http://127.0.0.1:8000"));
     static final long COMPILE_SECONDS = 20;
@@ -150,6 +150,8 @@ public class JavaRunner {
 
             long started = System.nanoTime();
             Result ran = exec(List.of(java, "-Xmx256m", "-Xss8m", "-Dfile.encoding=UTF-8", "-Dstdout.encoding=UTF-8", "-Dstderr.encoding=UTF-8",
+                // Versión 3: decimales con punto aunque la compu esté en español (String.format, printf), como las salidas esperadas.
+                "-Duser.language=en", "-Duser.country=US", "-Duser.language.format=en", "-Duser.country.format=US",
                 "-cp", "out", mainClass), dir, stdin, RUN_MS);
             long ms = (System.nanoTime() - started) / 1_000_000;
             return "{\"version\":\"" + VERSION + "\",\"compiled\":true,\"diagnostics\":" + json(compiled.err) + ",\"output\":" + json(ran.out) + ",\"errors\":" + json(ran.err)

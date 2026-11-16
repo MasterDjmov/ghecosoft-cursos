@@ -219,6 +219,11 @@ Acá el bucle corre 5 cuadros. En cada uno, la caja avanza lo que dice su veloci
 #### Desafío
 Completá la actualización de la posición en cada cuadro.
 
+#### Pasos
+1. Hay un `___` dentro del `while`.
+2. En cada cuadro, la caja avanza su velocidad: `x += velocidad`.
+3. Tocá **Ejecutar**. Tiene que ir de 12 en 12 hasta `x = 60`.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -302,6 +307,11 @@ En cada cuadro se avanza `velocidad * dt`, donde `dt` es cuánto duró el cuadro
 #### Desafío
 Completá el avance con `dt`.
 
+#### Pasos
+1. Hay un `___` en `x += ___;`.
+2. Cada cuadro avanza la velocidad por el tiempo del cuadro: `velocidad * dt`.
+3. Tocá **Ejecutar**. Las dos líneas tienen que dar `120.0 px`.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -384,6 +394,11 @@ Ojo con el borde derecho: la `x` es la esquina izquierda de la caja, así que se
 
 #### Desafío
 Completá el rebote en el borde derecho.
+
+#### Pasos
+1. Hay un `___` después de `x = ANCHO - LADO;`.
+2. Al chocar con el borde derecho, la velocidad cambia de signo: `vx = -vx`.
+3. Tocá **Ejecutar**. En el cuadro 2, `vx` tiene que pasar a `-15`.
 
 #### Código inicial
 ```c
@@ -998,6 +1013,11 @@ En un juego, una tecla puede estar **recién apretada** (justo en este cuadro) o
 #### Desafío
 Completá la condición de «recién apretada».
 
+#### Pasos
+1. Hay un `___` en el `if`.
+2. «Recién apretada» es que ahora está apretada y en el cuadro anterior no: `tecla[c] && !antes`.
+3. Tocá **Ejecutar**. Tiene que salir `saltos: 2`.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -1079,6 +1099,11 @@ Si no se aprieta nada, el largo es 0: no dividas por 0.
 
 #### Desafío
 Completá la normalización.
+
+#### Pasos
+1. Hay dos `___` dentro del `if (largo > 0)`.
+2. Dividí cada parte por el largo: `dx /= largo;` y `dy /= largo;`.
+3. Tocá **Ejecutar**. La diagonal tiene que dar `(0.707, 0.707)`.
 
 #### Código inicial
 ```c
@@ -1165,6 +1190,13 @@ Es la misma función `limitar(valor, min, max)` de la caja de herramientas.
 
 #### Desafío
 Completá `limitar`.
+
+#### Pasos
+1. Hay un `___` dentro de `limitar`.
+2. Si `valor < min`, `return min;`.
+3. Si `valor > max`, `return max;`.
+4. Si no, `return valor;`.
+5. Tocá **Ejecutar**. `-20` tiene que dar 0 y `400` tiene que dar 304.
 
 #### Código inicial
 ```c
@@ -1844,6 +1876,11 @@ En `y` es lo mismo, con `y` y `h`.
 #### Desafío
 Completá la superposición en y.
 
+#### Pasos
+1. Hay un `___` al final del `return`.
+2. Ya está la superposición en x. Falta lo mismo en y: `a.y < b.y + b.h && b.y < a.y + a.h`.
+3. Tocá **Ejecutar**. Tiene que salir `pared: 1, moneda: 0, techo: 0`.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -1928,6 +1965,11 @@ Una función `paso_hacia(desde, hasta)` hace eso para un eje, y la usás para `x
 
 #### Desafío
 Completá el paso en x.
+
+#### Pasos
+1. Hay un `___` en `cx = ___;`.
+2. Es igual que el renglón de abajo, pero con x: `paso_hacia(cx, kx)`.
+3. Tocá **Ejecutar**. En el cuadro 1, la criatura tiene que estar en `(2, 4)`.
 
 #### Código inicial
 ```c
@@ -2022,6 +2064,12 @@ Sin `activa`, la misma moneda se sumaría cada vez que la pisás.
 
 #### Desafío
 Completá la condición y la recolección.
+
+#### Pasos
+1. Hay dos `___`.
+2. En el `if`: la moneda sigue activa y está donde pisa Kira, `m[i].activa && m[i].x == recorrido[paso]`.
+3. Abajo, juntala: `m[i].activa = false`.
+4. Tocá **Ejecutar**. Tiene que salir `monedas: 2 de 3`.
 
 #### Código inicial
 ```c
@@ -2995,6 +3043,12 @@ Una función `siguiente(estado, evento)` decide: desde el menú, «empezar» pas
 #### Desafío
 Completá las dos transiciones que faltan.
 
+#### Pasos
+1. Hay dos `___`.
+2. Si está jugando y juntó las monedas: `return GANASTE;`.
+3. Si está jugando y la alcanzaron: `return PERDISTE;`.
+4. Tocá **Ejecutar**. Tiene que salir `menu`, `jugando`, `perdiste` y `perdiste`.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -3113,6 +3167,12 @@ Se gana cuando se juntaron todas las monedas; se pierde cuando la Salamandra est
 
 #### Desafío
 Completá la condición de victoria y la de derrota.
+
+#### Pasos
+1. Hay dos `___`.
+2. En el `if` de GANASTE: `juntadas == 3`.
+3. En el `if` de PERDISTE: `salamandra == kira`.
+4. Tocá **Ejecutar**. Tiene que terminar con `GANASTE: la salamandra se duerme`.
 
 #### Código inicial
 ```c

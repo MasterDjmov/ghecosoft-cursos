@@ -168,6 +168,12 @@ Si ya pasó el intervalo, cambiás el led y anotás `ultimo = ahora`. Si no, seg
 #### Desafío
 Completá la condición y lo que se anota.
 
+#### Pasos
+1. Hay dos `___`.
+2. En el `if`: ya pasó el intervalo desde la última vez, `ahora - ultimo >= INTERVALO`.
+3. Después de cambiar el led, anotá cuándo: `ultimo = ahora`.
+4. Tocá **Ejecutar**. Tiene que cambiar cada 500 ms.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -249,6 +255,11 @@ Para pasar al siguiente en ronda (0, 1, 2, 0, 1…) sirve el resto: `(estado + 1
 
 #### Desafío
 Completá el cambio de estado.
+
+#### Pasos
+1. Hay un `___` en `estado = ___;`.
+2. Pasá al siguiente y volvé a 0 después del 2: `(estado + 1) % 3`.
+3. Tocá **Ejecutar**. Tiene que salir verde, amarillo, rojo y verde.
 
 #### Código inicial
 ```c
@@ -333,6 +344,12 @@ En una placa, varios leds se manejan con un solo byte, el **puerto**: cada bit e
 
 #### Desafío
 Completá el encendido y el apagado.
+
+#### Pasos
+1. Hay tres `___`.
+2. Para prender un bit se usa `|=`: `puerto |= (1 << 0);` y `puerto |= (1 << 3);`.
+3. Para apagarlo se usa `&=` con el `~`: `puerto &= ~(1 << 7);`.
+4. Tocá **Ejecutar**. Tiene que terminar con `0x09`.
 
 #### Código inicial
 ```c
@@ -747,6 +764,11 @@ La solución (*debounce*): guardás la última lectura y desde cuándo está as�
 #### Desafío
 Completá la condición de lectura estable.
 
+#### Pasos
+1. Hay un `___` en el `if`.
+2. La lectura es estable si no cambió durante `ESTABLE` ms: `ahora - desde >= ESTABLE`.
+3. Tocá **Ejecutar**. Tiene que salir `pulsaciones: 1`.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -846,6 +868,11 @@ Con enteros, **multiplicá antes de dividir**: si dividís primero, la división
 #### Desafío
 Completá la cuenta de `mapear`.
 
+#### Pasos
+1. Hay un `___` en el `return`.
+2. Es la regla de tres de un rango al otro: `(x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min`.
+3. Tocá **Ejecutar**. `512` tiene que dar 90 grados.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -924,6 +951,12 @@ El promedio es `suma / 4`, recién cuando ya hay 4 lecturas.
 
 #### Desafío
 Completá la actualización de la suma.
+
+#### Pasos
+1. Hay dos `___`.
+2. Antes de pisar la lectura vieja, restala: `suma -= ventana[pos];`.
+3. Después de guardar la nueva, sumala: `suma += ventana[pos];`.
+4. Tocá **Ejecutar**. La última tiene que dar `promedio 511`.
 
 #### Código inicial
 ```c
@@ -1337,6 +1370,11 @@ Para separarlo: `sscanf(linea, "%c %d", &tipo, &valor)` tiene que devolver 2. Si
 #### Desafío
 Completá la lectura del mensaje.
 
+#### Pasos
+1. Hay un `___` en el `if`.
+2. Leé la letra y el número del renglón y fijate que salgan los dos: `sscanf(linea, "%c %d", &tipo, &valor) == 2`.
+3. Tocá **Ejecutar**. Tiene que terminar con `ignoradas: 2`.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -1424,6 +1462,11 @@ Quien recibe vuelve a hacer la cuenta con el valor que le llegó. Si no da la mi
 
 #### Desafío
 Completá la comprobación.
+
+#### Pasos
+1. Hay un `___` en el `if`.
+2. El valor está sano si su resto por 97 es igual a la suma que vino: `valor % 97 == suma`.
+3. Tocá **Ejecutar**. `240` tiene que salir dañado.
 
 #### Código inicial
 ```c
@@ -1936,6 +1979,11 @@ Un joystick casi nunca queda exactamente en el centro: quieto puede marcar 509 o
 #### Desafío
 Completá la condición de la zona muerta.
 
+#### Pasos
+1. Hay un `___` en el `if`.
+2. Está quieto si cae cerca del centro, entre `CENTRO - ZONA` y `CENTRO + ZONA`: `x > CENTRO - ZONA && x < CENTRO + ZONA`.
+3. Tocá **Ejecutar**. `540` tiene que salir `quieto`.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -2034,6 +2082,12 @@ Kira no puede pasar la puerta cerrada. Cuando llega a la salida (6) con la puert
 
 #### Desafío
 Completá el movimiento y la apertura de la puerta.
+
+#### Pasos
+1. Hay dos `___`.
+2. Si la nueva posición vale, Kira se mueve: `pos = nueva;`.
+3. El botón abre la puerta solo si Kira está justo antes: `pos == PUERTA - 1`.
+4. Tocá **Ejecutar**. Tiene que terminar con `el guardian se inclina`.
 
 #### Código inicial
 ```c

@@ -471,6 +471,12 @@ El router arma la clave del pedido, la busca en el array y llama a esa función.
 #### Desafío
 Completá el router para que cada pedido vaya a su controlador.
 
+#### Pasos
+1. Dentro del router, borrá `return 'Lista de barcos';`.
+2. Buscá el controlador por método y ruta: `$controlador = $rutas["$metodo $ruta"];`.
+3. Llamalo: `return $controlador();`.
+4. Tocá **Ejecutar**. Tiene que salir `Horario del ferry`.
+
 #### Código inicial
 ```php
 <?php
@@ -542,6 +548,12 @@ Si la ruta no está, hay dos casos distintos:
 
 #### Desafío
 Devolvé 404 o 405 según corresponda.
+
+#### Pasos
+1. Si la ruta existe con ese método: `if (isset($rutas["$metodo $ruta"])) { return $rutas["$metodo $ruta"](); }`.
+2. Si no, buscá la ruta con otro método: `foreach (array_keys($rutas) as $clave)` y, si `explode(' ', $clave, 2)[1] === $ruta`, `return "405 Metodo no permitido";`.
+3. Si no está de ninguna forma: `return "404 No encontrado";`.
+4. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -621,6 +633,11 @@ preg_match('#^/barcos/(\d+)$#', $ruta, $m)
 
 #### Desafío
 Reconocé la ruta con el número y pasáselo al controlador.
+
+#### Pasos
+1. Cambiá el `if ($ruta === '/barcos/12')` por `if (preg_match('#^/barcos/(\d+)$#', $ruta, $m))`.
+2. Adentro: `return verBarco((int) $m[1]);`.
+3. Tocá **Ejecutar**. Tiene que salir `Barco 41`.
 
 #### Código inicial
 ```php
@@ -704,6 +721,14 @@ Cada parte hace una sola cosa.
 
 #### Desafío
 Separá el controlador en modelo, vista y controlador.
+
+#### Pasos
+1. El modelo: `final class BarcoModelo` con `public static function activos(): array`, que tiene el array de barcos y devuelve `array_values(array_filter($barcos, fn ($b) => $b['activo']))`.
+2. Una vista HTML: `function vistaLista(array $barcos): string` → `"<ul>" . implode('', array_map(fn ($b) => "<li>" . htmlspecialchars($b['nombre']) . "</li>", $barcos)) . "</ul>"`.
+3. Una vista de texto: `function vistaTexto(array $barcos): string` → `implode(', ', array_column($barcos, 'nombre'))`.
+4. El controlador: `controladorBarcos(string $formato)` pide los activos al modelo y elige la vista: `$formato === 'texto' ? vistaTexto(...) : vistaLista(...)`.
+5. Al final: `echo controladorBarcos('html') . "\n";` y lo mismo con `'texto'`.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -1959,6 +1984,10 @@ echo $conIva(100);   // 121
 #### Desafío
 Escribí la fábrica de palancas y aplicá dos recargos distintos.
 
+#### Pasos
+1. En el `return` de la fábrica, aplicá la tasa: `fn ($precio) => round($precio * (1 + $tasa), 2)`.
+2. Tocá **Ejecutar**. Tiene que salir `110, 275, 44`.
+
 #### Código inicial
 ```php
 <?php
@@ -2024,6 +2053,12 @@ Filtrá los del Valle, quedate con los kilos y sumalos.
 
 #### Desafío
 Calculá el total encadenando las tres funciones.
+
+#### Pasos
+1. Filtrá: `$alValle = array_filter($viajes, fn ($v) => $v['destino'] === 'Valle');`.
+2. Quedate con los kilos: `$kilos = array_map(fn ($v) => $v['kilos'], $alValle);`.
+3. Sumá: `$total = array_reduce($kilos, fn ($suma, $k) => $suma + $k, 0);`.
+4. `echo "Al Valle: $total kg\n";`. Tocá **Ejecutar**. Tiene que salir `Al Valle: 810 kg`.
 
 #### Código inicial
 ```php
@@ -2093,6 +2128,12 @@ Con millones de datos, ahorra mucha memoria.
 
 #### Desafío
 Convertí la función en un generador que entregue de a un cajón.
+
+#### Pasos
+1. Cambiá el tipo `: array` por `: Generator`.
+2. Borrá `$todos = [];` y `return $todos;`.
+3. Adentro del `for`: `yield "cajon $i";`.
+4. Tocá **Ejecutar**. Tiene que salir `Tipo: Generator`.
 
 #### Código inicial
 ```php
@@ -2169,6 +2210,10 @@ usort($v, fn ($a, $b) => [$a['destino'], $a['kilos']] <=> [$b['destino'], $b['ki
 
 #### Desafío
 Ordená por destino y después por kilos.
+
+#### Pasos
+1. En el `usort`, compará arrays: `fn ($a, $b) => [$a['destino'], $a['kilos']] <=> [$b['destino'], $b['kilos']]`.
+2. Tocá **Ejecutar**. Gaviota tiene que salir antes que Condor.
 
 #### Código inicial
 ```php
@@ -2251,6 +2296,15 @@ ordenados por barco". Mostrá el resultado de las dos.
 **Para superarla:**
 - Las funciones reciben y devuelven closures.
 - Las tuberías se arman combinando pasos, sin repetir código.
+
+#### Pasos
+1. Borrá el comentario. `function tuberia(callable ...$pasos): Closure` → `return fn(array $datos): array => array_reduce($pasos, fn(array $acc, callable $paso) => $paso($acc), $datos);`.
+2. `filtrar(callable $condicion): Closure` → `fn(array $datos): array => array_values(array_filter($datos, $condicion))`.
+3. `transformar(callable $f): Closure` → `fn(array $datos): array => array_map($f, $datos)`.
+4. `ordenarPor(string $campo, bool $desc = false): Closure` → una `function (array $datos) use ($campo, $desc)` que hace `usort` (al revés si `$desc`) y devuelve el array.
+5. Copiá `$viajes`. Primera tubería: `filtrar(...)` (Valle y más de 300), `ordenarPor('kilos', desc: true)` y `transformar(fn($v) => "{$v['barco']} ({$v['kilos']} kg)")`. Mostrala con `implode(', ', ...)`.
+6. Segunda: `transformar(fn($v) => ['barco' => $v['barco'], 'toneladas' => $v['kilos'] / 1000])` y `ordenarPor('barco')`. Mostrá cada una con `"{$v['barco']}: {$v['toneladas']} t\n"`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -2365,6 +2419,14 @@ lento (en milisegundos).
 **Para superarla:**
 - Usa generadores encadenados; no guarda el registro completo en memoria.
 - Los renglones mal formados se saltean.
+
+#### Pasos
+1. Borrá el comentario. `function renglones($flujo): Generator` → mientras `fgets` dé algo, `yield trim($linea);`.
+2. `function parsear(iterable $renglones): Generator`: `explode(' ', $linea)`. Si no son 6 partes o código y ms no son dígitos, `continue;`. Si no, `yield ['hora' => ..., 'metodo' => ..., 'ruta' => ..., 'codigo' => (int) ..., 'ms' => (int) ...];`.
+3. `function soloErrores(iterable $pedidos, array &$contador): Generator`: por cada pedido, sumá `$contador['total']++` y guardá el más lento en `$contador['lento']`. Si `codigo >= 400`, `yield $p;`.
+4. `$contador = ['total' => 0, 'lento' => null];` y `foreach (soloErrores(parsear(renglones(STDIN)), $contador) as $p)`: contá los errores y sumá por ruta en `$porRuta`.
+5. `arsort($porRuta);` y los cuatro `echo` (copiá los textos de la salida; la ruta con más errores es `array_key_first($porRuta)` con `reset($porRuta)`).
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -2489,6 +2551,14 @@ Usá `break` para cortar cada recorrido.
 **Para superarla:**
 - `turnos` es un generador infinito (`while (true)`).
 - Los recorridos se cortan desde afuera.
+
+#### Pasos
+1. Borrá el comentario. `function turnos(string $desde = 'A001'): Generator`: `$letra = ord($desde[0]);` y `$numero = (int) substr($desde, 1);`.
+2. `while (true)`: `yield chr($letra) . str_pad((string) $numero, 3, '0', STR_PAD_LEFT);` y `$numero++;`. Si pasa de 999, vuelve a 1 y avanza la letra (después de la Z vuelve a la A).
+3. `function cadaN(iterable $origen, int $n): Generator` → con un contador `$i`, `if ($i++ % $n === 0) yield $valor;`.
+4. `function primeros(iterable $origen, int $cantidad): array` → recorré y cortá con `break` cuando ya tengas `$cantidad`.
+5. Los cuatro `echo implode(' ', primeros(...)), "\n";`: `turnos()` con 5, `turnos('A998')` con 4, `turnos('Z998')` con 3 y `cadaN(turnos(), 250)` con 4.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -2958,6 +3028,10 @@ Una **API** es una puerta para que otros programas (no personas) le pidan datos 
 #### Desafío
 Contestá en JSON.
 
+#### Pasos
+1. Cambiá el `echo` del `<h1>` por `echo json_encode(['datos' => $barcos], JSON_PRETTY_PRINT) . "\n";`.
+2. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```php
 <?php
@@ -3016,6 +3090,11 @@ Si da `null` y el cuerpo no era `null`, el JSON está roto: se responde **400** 
 
 #### Desafío
 Rechazá con 400 el cuerpo roto y registrá el bueno.
+
+#### Pasos
+1. Después del `json_decode`: `if (!is_array($datos)) {`.
+2. Adentro: `return "400 JSON invalido: " . json_last_error_msg();`.
+3. Tocá **Ejecutar**. Tiene que salir `400 JSON invalido: Syntax error`.
 
 #### Código inicial
 ```php
@@ -3084,6 +3163,13 @@ Una función `api()` que, según el método y si hay un id, hace la acción y de
 
 #### Desafío
 Completá la API con los cuatro casos y sus códigos.
+
+#### Pasos
+1. GET sin id: `return "200 " . json_encode($envios);`.
+2. POST sin id: `$nuevo = max(array_keys($envios)) + 1;`, guardalo y `return "201 " . json_encode(['id' => $nuevo, 'contenido' => $contenido]);`.
+3. Si el id no existe: `return "404 " . json_encode(['error' => "no existe el envio $id"]);`.
+4. GET con id: `"200 "` con `['id' => $id, 'contenido' => $envios[$id]]`. DELETE: `unset($envios[$id]);` y `return "204";`. Si no es ninguno, `return "405";`.
+5. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -3174,6 +3260,13 @@ Si el JSON se pudo leer pero los datos no pasan la validación (falta el nombre,
 
 #### Desafío
 Devolvé 422 con los errores de cada campo.
+
+#### Pasos
+1. Cambiá el `if` por `$errores = [];`.
+2. Si `!is_int($datos['kilos'] ?? null) || $datos['kilos'] <= 0`: `$errores['kilos'] = 'tiene que ser un entero positivo';`.
+3. Si `trim($datos['destino'] ?? '') === ''`: `$errores['destino'] = 'es obligatorio';`.
+4. Si hay errores: `return "422 " . json_encode(['errores' => $errores]);`.
+5. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -3978,6 +4071,11 @@ En el navegador no hay PHPUnit (la herramienta de pruebas de PHP), así que acá
 #### Desafío
 Completá `afirmar` y encontrá la prueba que falla.
 
+#### Pasos
+1. Dentro de `afirmar`: si `$esperado === $real`, `echo "ok    $nombre\n";` (cuatro espacios después de `ok`).
+2. Si no: `echo "FALLA $nombre: esperaba " . var_export($esperado, true) . " y dio " . var_export($real, true) . "\n";`.
+3. Tocá **Ejecutar**. Tiene que salir `FALLA cien kilos`.
+
 #### Código inicial
 ```php
 <?php
@@ -4051,6 +4149,11 @@ Llamala con -5 adentro de un `try`. Si cae en el `catch (InvalidArgumentExceptio
 
 #### Desafío
 Hacé que `prender` rechace lo negativo y que la prueba lo compruebe.
+
+#### Pasos
+1. Al principio de `prender`: `if ($intensidad < 0 || $intensidad > 100) {`.
+2. Adentro: `throw new InvalidArgumentException("intensidad imposible: $intensidad");`.
+3. Tocá **Ejecutar**. Tiene que salir `ok    rechaza lo negativo`.
 
 #### Código inicial
 ```php
@@ -4130,6 +4233,12 @@ Para probar muchos casos con la misma función, armá una lista de casos `[kilos
 
 #### Desafío
 Probá la tarifa con la lista de casos de Iara.
+
+#### Pasos
+1. Borrá el `echo`. `$fallas = 0;` y `foreach ($casos as [$kilos, $esperado])`.
+2. `$real = tarifa($kilos);`. Si `$real !== $esperado`, sumá una falla y `echo "FALLA con $kilos kg: esperaba $esperado y dio $real\n";`.
+3. `echo "Casos probados: " . count($casos) . ", fallas: $fallas\n";`.
+4. Tocá **Ejecutar**. Tiene que salir `Casos probados: 4, fallas: 0`.
 
 #### Código inicial
 ```php
@@ -5153,6 +5262,10 @@ file_put_contents($archivo, $renglon, FILE_APPEND);
 #### Desafío
 Completá el registro y anotá los tres sucesos.
 
+#### Pasos
+1. Dentro del método vacío: `file_put_contents($this->archivo, "[$hora] $nivel: $mensaje\n", FILE_APPEND);`.
+2. Tocá **Ejecutar**. Tienen que salir los tres sucesos.
+
 #### Código inicial
 ```php
 <?php
@@ -5233,6 +5346,11 @@ Así el aviso corta el programa y se puede atrapar con `try` / `catch`, como cua
 #### Desafío
 Convertí el aviso en una excepción y atrapala.
 
+#### Pasos
+1. Arriba de todo: `set_error_handler(function (int $nivel, string $mensaje): bool { throw new ErrorException($mensaje, 0, $nivel); });`.
+2. Al final: `restore_error_handler();`.
+3. Tocá **Ejecutar**. Tiene que salir `Detenido: Undefined array key "presion"`.
+
 #### Código inicial
 ```php
 <?php
@@ -5300,6 +5418,12 @@ Según el **entorno**, el error se muestra distinto:
 
 #### Desafío
 Mostrá lo que corresponde en cada entorno.
+
+#### Pasos
+1. En la función: si `$entorno === 'desarrollo'`, `return "Error: " . $e->getMessage();`.
+2. Si no: `$log[] = "ERROR: " . $e->getMessage();` y `return "Faro momentaneamente fuera de servicio";`.
+3. Abajo, antes del de producción: `echo paginaDeError($e, 'desarrollo', $log) . "\n";`.
+4. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -5369,6 +5493,12 @@ Leé el archivo, partí cada renglón en el `=`, y armá un array. El código pi
 
 #### Desafío
 Leé la configuración del archivo `.env`.
+
+#### Pasos
+1. Cambiá el `$config` escrito a mano por `$config = [];`.
+2. `foreach (file('.env', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $renglon)`.
+3. Adentro: `[$clave, $valor] = explode('=', $renglon, 2);` y `$config[trim($clave)] = trim($valor);`.
+4. Tocá **Ejecutar**. Tiene que salir `Entorno: produccion`.
 
 #### Código inicial
 ```php
@@ -5443,6 +5573,14 @@ conteo.
 **Para superarla:**
 - Filtra por nivel mínimo.
 - Oculta los datos sensibles del contexto.
+
+#### Pasos
+1. Borrá el comentario. `final class Registro` con `NIVELES = ['info' => 1, 'warning' => 2, 'error' => 3]`, `SENSIBLES = ['clave', 'password', 'tarjeta']`, `private array $eventos = []` y el constructor con `private string $minimo = 'info'`.
+2. Un `private function log($nivel, $mensaje, array $contexto)`: si el nivel es menor que el mínimo, `return;`. Reemplazá por `'***'` las claves sensibles que vengan y guardá el evento.
+3. `info`, `warning` y `error` llaman a `log` con su nivel.
+4. `lineas()` → `'[' . strtoupper($e['nivel']) . "] {$e['mensaje']}"` y, si hay contexto, `' ' . json_encode($e['contexto'], JSON_UNESCAPED_UNICODE)`. `contar()` → `array_count_values(array_column($this->eventos, 'nivel'))`.
+5. `new Registro('warning')` y los cuatro eventos de la solución. Mostrá cada línea y `print_r($registro->contar());`.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -5564,6 +5702,15 @@ mínimo y uno al que le faltan las dos obligatorias.
 **Para superarla:**
 - Junta todas las obligatorias que faltan en un solo error.
 - Aplica los valores por defecto y la regla de producción.
+
+#### Pasos
+1. Borrá el comentario. `final class Config` con `DEFECTOS` (`APP_ENTORNO` local, `APP_DEBUG` false y `APP_ZONA`), `OBLIGATORIAS` (`DB_DSN`, `DB_USUARIO`) y `ENTORNOS`.
+2. Constructor `(string $contenido)`: `parse_ini_string($contenido, false, INI_SCANNER_TYPED)`; si da `false`, `RuntimeException`. `$this->valores = $leido + self::DEFECTOS;`.
+3. Las obligatorias que faltan con `array_filter`; si hay, `throw new RuntimeException('Faltan en la configuración: ' . implode(', ', $faltan));`. Revisá `APP_ENTORNO` con `in_array`.
+4. Si es producción y `APP_DEBUG === true`: ponelo en `false` y agregá `'APP_DEBUG estaba en true en producción: se apagó'` a `$this->advertencias`.
+5. `get($clave)` (lanza si no existe), `esProduccion()` y `advertencias()`.
+6. Los tres textos (copialos de la solución). Para cada uno: `"== $nombre\n"` y, en un `try`, el renglón con entorno, debug (`var_export`) y zona, más los avisos. En el `catch`, `"error: "`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -6143,6 +6290,11 @@ Antes de subir un sitio, se revisa una lista de chequeo. Recorré la lista contr
 #### Desafío
 Mostrá qué falta para poder subir.
 
+#### Pasos
+1. Calculá lo que falta: `$falta = array_diff($lista, $listo);`.
+2. Si `$falta === []`, el `echo` de todo listo. Si no, `foreach ($falta as $f)` → `echo "Falta: $f\n";`.
+3. Tocá **Ejecutar**. Tienen que salir las dos que faltan.
+
 #### Código inicial
 ```php
 <?php
@@ -6201,6 +6353,12 @@ Una función que decide si una dirección se puede servir: solo lo que está baj
 
 #### Desafío
 Escribí la regla que protege lo privado.
+
+#### Pasos
+1. Si la ruta tiene `..`: `return false;`.
+2. Recorré las partes: `foreach (explode('/', trim($ruta, '/')) as $parte)`. Si alguna empieza con `.`, `return false;`.
+3. Al final queda `return true;`.
+4. Tocá **Ejecutar**. `/.env` tiene que dar 403.
 
 #### Código inicial
 ```php
@@ -6275,6 +6433,11 @@ Mostrá «ok» o «falta» por cada requisito.
 
 #### Desafío
 Completá el diagnóstico.
+
+#### Pasos
+1. Borrá el `echo`. `$ok = version_compare(PHP_VERSION, $requisitos['php'], '>=');` y `echo "PHP 8.2 o mas nuevo: " . ($ok ? 'ok' : 'falta') . "\n";`.
+2. `foreach ($requisitos['extensiones'] as $ext)` → `echo "Extension $ext: " . (extension_loaded($ext) ? 'ok' : 'falta') . "\n";`.
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -6924,6 +7087,11 @@ Con fechas `DateTimeImmutable` se comparan con `<` como si fueran números.
 #### Desafío
 Escribí `sePisan` y probala con los tres casos.
 
+#### Pasos
+1. Dos reservas se pisan si una empieza antes de que termine la otra, y al revés.
+2. `return $a[0] < $b[1] && $b[0] < $a[1];`.
+3. Tocá **Ejecutar**. Tiene que salir `1 y 2: se pisan`.
+
 #### Código inicial
 ```php
 <?php
@@ -6989,6 +7157,11 @@ Si mañana cambia la regla, se cambia una vez.
 
 #### Desafío
 Hacé que la web y la API usen el mismo servicio.
+
+#### Pasos
+1. En la web, usá el servicio: `return $r->reservar($dia) ? "<p>Reservado el $dia</p>" : "<p>El $dia ya esta ocupado</p>";`.
+2. En la API, agregá el motivo: `json_encode(['ok' => false, 'error' => 'ocupado'])`.
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -7097,6 +7270,13 @@ Si todo da ok, prende la lámpara. Si algo falla, lo anota en el registro y no p
 
 #### Desafío
 Completá el arranque del sistema del Faro.
+
+#### Pasos
+1. Envolvé todo en un `try`.
+2. Si `($config['APP_ENV'] ?? '') === ''`: `throw new RuntimeException('falta la configuracion');`. Si `!$pruebas()`: `throw new RuntimeException('las pruebas fallan');`.
+3. `$base();`, `$log[] = "INFO: lampara encendida";` y `return "Lampara encendida";`.
+4. `catch (RuntimeException $e)`: `$log[] = "ERROR: " . $e->getMessage();` y `return "Faro momentaneamente fuera de servicio";`.
+5. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -8134,6 +8314,11 @@ Recorré lo que aprendiste en cada parte del Puerto con un `foreach` sobre un ar
 #### Desafío
 Armá el resumen del viaje, una línea por rama.
 
+#### Pasos
+1. Borrá el `echo`. `foreach ($viaje as $rama => $aprendido)` → `echo "$rama: $aprendido\n";`.
+2. `echo "Ramas recorridas: " . count($viaje) . "\n";`.
+3. Tocá **Ejecutar**. Tiene que salir `Ramas recorridas: 5`.
+
 #### Código inicial
 ```php
 <?php
@@ -8199,6 +8384,11 @@ Un `match` que, según el camino elegido, diga a dónde lleva. Cualquier otro ca
 
 #### Desafío
 Escribí el cartel de la Encrucijada.
+
+#### Pasos
+1. Cambiá el `return` por un `match ($eleccion)`.
+2. `'arena' => 'un RPG por turnos'`, `'bastion' => 'el framework Laravel'`, `'palomar' => 'JavaScript que habla con tu API'` y `default => 'todavia no se abrio'`.
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php

@@ -244,6 +244,12 @@ Desde PHP se usa **PDO**. Acá la bodega de práctica es SQLite en memoria (`new
 #### Desafío
 Creá la tabla `barco` con su clave, cargá los dos barcos y mostralos.
 
+#### Pasos
+1. Borrá el comentario.
+2. Creá la tabla: `$db->exec('CREATE TABLE barco (id INTEGER PRIMARY KEY, nombre TEXT NOT NULL, kilos INTEGER)');`.
+3. Cargá los dos: `$db->exec("INSERT INTO barco (nombre, kilos) VALUES ('Gaviota', 300), ('Albatros', 820)");`.
+4. Tocá **Ejecutar**. Tiene que salir `2. Albatros: 820 kg`.
+
 #### Código inicial
 ```php
 <?php
@@ -308,6 +314,10 @@ Si una ficha no cumple, la base la rechaza y PHP lanza una `PDOException`.
 
 #### Desafío
 Agregá las restricciones para que la estantería rechace las fichas malas.
+
+#### Pasos
+1. En el `CREATE TABLE`, agregá las restricciones: `nombre TEXT NOT NULL` y `kilos INTEGER CHECK (kilos > 0)`.
+2. Tocá **Ejecutar**. Las dos últimas fichas tienen que salir rechazadas.
 
 #### Código inicial
 ```php
@@ -379,6 +389,10 @@ En la bodega apareció dos veces el mismo barco, con la misma matrícula y disti
 
 #### Desafío
 Hacé que la matrícula no se pueda repetir.
+
+#### Pasos
+1. En el `CREATE TABLE`, cambiá `matricula TEXT` por `matricula TEXT NOT NULL UNIQUE`.
+2. Tocá **Ejecutar**. Tiene que salir `Repetido: PM-01` y `Barcos: 2`.
 
 #### Código inicial
 ```php
@@ -994,6 +1008,10 @@ SELECT nombre FROM barco WHERE kilos > 500 ORDER BY kilos DESC
 #### Desafío
 Escribí la consulta que contesta la pregunta.
 
+#### Pasos
+1. En el `SELECT`, agregá el filtro y el orden: `WHERE kilos > 500 ORDER BY kilos DESC`.
+2. Tocá **Ejecutar**. Tiene que empezar con `Albatros: 820`.
+
 #### Código inicial
 ```php
 <?php
@@ -1058,6 +1076,11 @@ También existen `COUNT(*)` (cuántas filas), `AVG` (promedio), `MAX` y `MIN`.
 #### Desafío
 Mostrá el total y la cantidad de pagos de cada muelle.
 
+#### Pasos
+1. Cambiá la consulta por `$sql = 'SELECT muelle, COUNT(*) AS pagos, SUM(sellos) AS total FROM pago GROUP BY muelle ORDER BY muelle';`.
+2. Recorré `$db->query($sql)` y mostrá `echo "Muelle {$f['muelle']}: {$f['total']} sellos en {$f['pagos']} pagos\n";`.
+3. Tocá **Ejecutar**. Tiene que salir `Muelle 1: 75 sellos en 3 pagos`.
+
 #### Código inicial
 ```php
 <?php
@@ -1121,6 +1144,11 @@ Para buscar textos que empiezan con algo, `LIKE 'yerba%'`: el `%` reemplaza a cu
 #### Desafío
 Arreglá la consulta.
 
+#### Pasos
+1. Con `NULL` no se compara con `=`: se usa `IS NULL`. Cambiá `retiro = NULL` por `retiro IS NULL`.
+2. Para que encuentre «yerba» y sus variantes, cambiá `producto = 'yerba'` por `producto LIKE 'yerba%'`.
+3. Tocá **Ejecutar**. Tiene que salir `Sin retirar: Beto, Olmo`.
+
 #### Código inicial
 ```php
 <?php
@@ -1183,6 +1211,11 @@ Sin `WHERE`, se cambian (o se borran) **todas**. Por eso: siempre con `WHERE`.
 
 #### Desafío
 Descargá solo el barco 3.
+
+#### Pasos
+1. El `UPDATE` no tiene `WHERE` y cambia todos los barcos.
+2. Agregale `WHERE id = 3`.
+3. Tocá **Ejecutar**. Tiene que salir `Filas cambiadas: 1`.
 
 #### Código inicial
 ```php
@@ -1886,6 +1919,11 @@ Cada viaje trae los datos de su barco.
 #### Desafío
 Uní los viajes con su barco para mostrar el teléfono.
 
+#### Pasos
+1. Cambiá la consulta por un `JOIN`: `SELECT viaje.destino, barco.nombre, barco.telefono FROM viaje INNER JOIN barco ON barco.id = viaje.barco_id ORDER BY viaje.id`.
+2. Mostrá `echo "{$f['destino']}: {$f['nombre']} ({$f['telefono']})\n";`.
+3. Tocá **Ejecutar**. Tiene que salir `Forjas: Gaviota (3825-999)`.
+
 #### Código inicial
 ```php
 <?php
@@ -1953,6 +1991,11 @@ Para contar viajes por barco, `COUNT(viaje.id)` le da 0 a los que no viajaron (c
 #### Desafío
 Contá los viajes de cada barco, sin dejar a ninguno afuera.
 
+#### Pasos
+1. `INNER JOIN` deja afuera a los barcos sin viajes.
+2. Cambialo por `LEFT JOIN`.
+3. Tocá **Ejecutar**. Tiene que salir `Tortuga: 0`.
+
 #### Código inicial
 ```php
 <?php
@@ -2019,6 +2062,10 @@ En la bodega de práctica (SQLite) hay que prender ese control con `PRAGMA forei
 
 #### Desafío
 Agregá la clave foránea para que la base frene el borrado.
+
+#### Pasos
+1. En la tabla `viaje`, cambiá `barco_id INTEGER` por `barco_id INTEGER NOT NULL REFERENCES barco(id)`.
+2. Tocá **Ejecutar**. Tiene que salir `No se puede: el Albatros tiene viajes`.
 
 #### Código inicial
 ```php
@@ -2092,6 +2139,12 @@ Con dos `JOIN` se va del viaje al pasaje, y del pasaje al pasajero.
 
 #### Desafío
 Mostrá los pasajeros del viaje a las Forjas, en orden alfabético.
+
+#### Pasos
+1. Borrá el `echo` con `?`.
+2. Armá la consulta que pasa por la tabla del medio: `SELECT pasajero.nombre FROM viaje JOIN pasaje ON pasaje.viaje_id = viaje.id JOIN pasajero ON pasajero.id = pasaje.pasajero_id WHERE viaje.destino = 'Forjas' ORDER BY pasajero.nombre`.
+3. `echo "A Forjas viajan: " . implode(', ', $db->query($sql)->fetchAll(PDO::FETCH_COLUMN)) . "\n";`.
+4. Tocá **Ejecutar**. Tiene que salir `A Forjas viajan: Ana, Olmo`.
 
 #### Código inicial
 ```php
@@ -2840,6 +2893,11 @@ Con MariaDB, la dirección de la base (el **DSN**) sería `mysql:host=…;dbname
 #### Desafío
 Creá la conexión con las opciones recomendadas y leé la fila.
 
+#### Pasos
+1. En el `new PDO(...)`, agregá dos `null` y un array de opciones: `new PDO('sqlite::memory:', null, null, [ ... ])`.
+2. Las opciones: `PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION` y `PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC`.
+3. Tocá **Ejecutar**. Tiene que salir `Columnas: 1`.
+
 #### Código inicial
 ```php
 <?php
@@ -2905,6 +2963,12 @@ Tres formas de traer resultados de una consulta:
 #### Desafío
 Leé cada respuesta con la función que corresponde.
 
+#### Pasos
+1. Para un solo valor: `->fetchColumn()`. Cambiá `fetchAll()` y mostrá `echo "Barcos: $cantidad\n";`.
+2. El más pesado (una fila): `$db->query('SELECT nombre, kilos FROM barco ORDER BY kilos DESC LIMIT 1')->fetch();` y `echo "El mas pesado: {$masPesado['nombre']}\n";`.
+3. Todos los nombres: `->fetchAll(PDO::FETCH_COLUMN)` con `ORDER BY nombre`, y `echo "Todos: " . implode(', ', $nombres) . "\n";`.
+4. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```php
 <?php
@@ -2969,6 +3033,13 @@ Si la base falla, PDO lanza una `PDOException`. Atrapala con `try` / `catch`:
 
 #### Desafío
 Mostrá un mensaje amable en vez del error crudo.
+
+#### Pasos
+1. Antes: `$registro = [];`.
+2. Envolvé la consulta y el `echo` en un `try`.
+3. `catch (PDOException $e)`: `$registro[] = $e->getMessage();` y `echo "La bodega no responde. Proba en un rato.\n";`.
+4. Al final: `echo "Errores registrados: " . count($registro) . "\n";`.
+5. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -3757,6 +3828,12 @@ El truco queda como un nombre raro, no como SQL.
 #### Desafío
 Cambiá la consulta pegada por una preparada.
 
+#### Pasos
+1. Cambiá la consulta pegada por una preparada: `$consulta = $db->prepare('SELECT nombre FROM barco WHERE nombre = ?');`.
+2. `$consulta->execute([$pedido]);`.
+3. `echo "Encontrados: " . count($consulta->fetchAll()) . "\n";`.
+4. Tocá **Ejecutar**. Tiene que salir `Encontrados: 0`.
+
 #### Código inicial
 ```php
 <?php
@@ -3819,6 +3896,11 @@ $c->execute(['destino' => 'Valle', 'min' => 100]);
 #### Desafío
 Usá parámetros con nombre.
 
+#### Pasos
+1. Cambiá los `?` por nombres: `WHERE kilos > :min AND destino = :destino`.
+2. En el `execute`, pasá un array con nombres: `['destino' => 'Valle', 'min' => 100]`.
+3. Tocá **Ejecutar**. Tiene que salir `Barcos: Gaviota`.
+
 #### Código inicial
 ```php
 <?php
@@ -3877,6 +3959,11 @@ Dos datos útiles después de una consulta:
 
 #### Desafío
 Mostrá el número nuevo y cuántas filas cambió la actualización.
+
+#### Pasos
+1. En el primer `echo`, cambiá el `?` por `" . $db->lastInsertId() . "`.
+2. En el segundo, por `" . $baja->rowCount() . "`.
+3. Tocá **Ejecutar**. Tiene que salir `Registro nuevo: 3` y `Dados de baja: 2`.
 
 #### Código inicial
 ```php
@@ -3941,6 +4028,11 @@ Si la columna es `UNIQUE`, la base misma detecta el duplicado y el `INSERT` lanz
 
 #### Desafío
 Avisá el duplicado con un mensaje claro.
+
+#### Pasos
+1. Envolvé el `execute` y el `echo` en un `try`.
+2. `catch (PDOException $e)`: `echo "La matricula {$datos[0]} ya esta registrada\n";`.
+3. Tocá **Ejecutar**. Tiene que salir `La matricula PM-01 ya esta registrada`.
 
 #### Código inicial
 ```php
@@ -4736,6 +4828,11 @@ Dos funciones que reciben la conexión:
 #### Desafío
 Escribí `alta` y `listado`.
 
+#### Pasos
+1. En `alta`: `$db->prepare('INSERT INTO repuesto (nombre, stock) VALUES (?, ?)')->execute([$nombre, $stock]);`.
+2. En `listado`: `return $db->query('SELECT id, nombre, stock FROM repuesto ORDER BY nombre')->fetchAll();`.
+3. Tocá **Ejecutar**. Tiene que salir `2. cadena: 3`.
+
 #### Código inicial
 ```php
 <?php
@@ -4814,6 +4911,12 @@ Antes del `UPDATE`, validá el stock (que no sea negativo). Después, mirá `row
 #### Desafío
 Escribí `modificar` con sus dos controles.
 
+#### Pasos
+1. Al principio de `modificar`: si `$stock < 0`, `return "Error: el stock no puede ser negativo";`.
+2. Guardá la consulta en `$c`: `$c = $db->prepare('UPDATE repuesto SET stock = ? WHERE id = ?');` y `$c->execute([$stock, $id]);`.
+3. `return $c->rowCount() === 0 ? "404: no existe el repuesto $id" : "Guardado";`.
+4. Tocá **Ejecutar**. Tiene que salir `404: no existe el repuesto 99`.
+
 #### Código inicial
 ```php
 <?php
@@ -4889,6 +4992,12 @@ Si el repuesto tiene movimientos, la clave foránea frena el `DELETE` (la base l
 
 #### Desafío
 Escribí `baja` con las dos reglas.
+
+#### Pasos
+1. Al principio de `baja`: si `$confirma !== 'si'`, `return "Sin confirmar: no se borra $id";`.
+2. Envolvé el `DELETE` y el `return "Borrado $id";` en un `try`.
+3. `catch (PDOException $e)`: `return "No se puede borrar $id: tiene movimientos";`.
+4. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php
@@ -5925,6 +6034,12 @@ Si algo falla entre medio, `$db->rollBack()` deshace lo que ya se había hecho. 
 #### Desafío
 Envolvé la transferencia en una transacción.
 
+#### Pasos
+1. Al principio de la función: `$db->beginTransaction();` y un `try {` con los dos `UPDATE` y el `if ($seCorta)` en el medio.
+2. Al final del `try`: `$db->commit();`.
+3. `catch (Throwable $e)`: `$db->rollBack();` y `throw $e;`.
+4. Tocá **Ejecutar**. El astillero tiene que seguir con 500.
+
 #### Código inicial
 ```php
 <?php
@@ -6026,6 +6141,12 @@ El resultado de la consulta es el mismo; lo que cambia es cuánto tarda (con muc
 #### Desafío
 Creá el índice y buscá los envíos de la noche del 14/03/2006.
 
+#### Pasos
+1. Después de cargar los envíos: `$db->exec('CREATE INDEX idx_fecha ON envio (fecha)');`.
+2. Al final: `$c = $db->prepare('SELECT detalle FROM envio WHERE fecha = ? ORDER BY id');` y `$c->execute(['2006-03-14']);`.
+3. `foreach ($c->fetchAll(PDO::FETCH_COLUMN) as $detalle)` → `echo "- $detalle\n";`.
+4. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```php
 <?php
@@ -6106,6 +6227,10 @@ Después basta con `SELECT * FROM pendientes`.
 
 #### Desafío
 Creá la vista y usala.
+
+#### Pasos
+1. Después del `INSERT`: `$db->exec('CREATE VIEW pendientes AS SELECT id, destino FROM envio WHERE entregado = 0 ORDER BY id');`.
+2. Tocá **Ejecutar**. Tienen que salir Valle y Ciudadela.
 
 #### Código inicial
 ```php
@@ -6983,6 +7108,11 @@ El resto del programa le pide a ella.
 #### Desafío
 Escribí el repositorio con `activos()`.
 
+#### Pasos
+1. Dentro de la clase: `public function __construct(private PDO $db) {}`.
+2. `public function activos(): array` → `return $this->db->query('SELECT nombre FROM barco WHERE activo = 1 ORDER BY nombre')->fetchAll(PDO::FETCH_COLUMN);`.
+3. Tocá **Ejecutar**. Tienen que salir Albatros y Gaviota.
+
 #### Código inicial
 ```php
 <?php
@@ -7064,6 +7194,12 @@ Y el objeto sabe hacer sus cosas, como `pesado()`.
 
 #### Desafío
 Hacé que `buscar()` devuelva un objeto `Barco` (o `null` si no existe).
+
+#### Pasos
+1. Cambiá el tipo de `buscar` a `: ?Barco`.
+2. En lugar de `return $c->fetch();`: `$fila = $c->fetch();`.
+3. `return $fila === false ? null : new Barco($fila['nombre'], (int) $fila['kilos']);`.
+4. Tocá **Ejecutar**. Tiene que salir `No existe el 7`.
 
 #### Código inicial
 ```php
@@ -7179,6 +7315,12 @@ Para entrar, el repositorio trae la fila por nombre de usuario, y se compara lo 
 
 #### Desafío
 Completá `entrar` para que use la base.
+
+#### Pasos
+1. Buscá al usuario: `$c = $db->prepare('SELECT huella, rol FROM usuario WHERE nombre = ?');`, `$c->execute([$nombre]);` y `$u = $c->fetch();`.
+2. Si `$u === false || !password_verify($clave, $u['huella'])`: `return "Usuario o clave incorrectos";`.
+3. Si no: `return "Bienvenida, $nombre ({$u['rol']})";`.
+4. Tocá **Ejecutar**. Tiene que salir `Bienvenida, iara (escribiente)`.
 
 #### Código inicial
 ```php
@@ -8068,6 +8210,12 @@ Si `rowCount()` da 0, no había suficiente.
 #### Desafío
 Hacé que la venta no deje el stock en negativo.
 
+#### Pasos
+1. Que la resta solo pase si alcanza: `UPDATE producto SET stock = stock - ? WHERE id = ? AND stock >= ?`.
+2. Guardala en `$c` y `$c->execute([$cantidad, $id, $cantidad]);`.
+3. `return $c->rowCount() === 1 ? "Vendido" : "Sin stock";`.
+4. Tocá **Ejecutar**. Tiene que salir `Stock: 0`.
+
 #### Código inicial
 ```php
 <?php
@@ -8141,6 +8289,12 @@ Los precios cambian, pero un pedido viejo tiene que seguir valiendo lo que se pa
 #### Desafío
 Guardá el precio en el pedido y calculá con él.
 
+#### Pasos
+1. En la tabla `pedido`, agregá la columna `precio_unitario INTEGER`.
+2. Cargá el pedido copiando el precio de ese momento: `INSERT INTO pedido (producto_id, cantidad, precio_unitario) SELECT id, 3, precio FROM producto WHERE id = 1`.
+3. La cuenta usa el precio guardado: `SELECT cantidad * precio_unitario FROM pedido WHERE id = 1`.
+4. Tocá **Ejecutar**. Tiene que salir `Pedido 1: 30 sellos`.
+
 #### Código inicial
 ```php
 <?php
@@ -8206,6 +8360,14 @@ La Serpiente se enrosca alrededor de los sistemas que Nilo armó en la Oficina: 
 
 #### Desafío
 Completá `comprar` y probala con las tres compras.
+
+#### Pasos
+1. En `comprar`: `$db->beginTransaction();` y un `try`.
+2. Restá con control: `UPDATE producto SET stock = stock - ? WHERE id = ? AND stock >= ?`. Si `rowCount() === 0`, `$db->rollBack();` y `return "Sin stock para el producto $producto";`.
+3. Guardá el pedido con el precio del día: `INSERT INTO pedido (producto_id, cantidad, precio_unitario) SELECT id, ?, precio FROM producto WHERE id = ?`.
+4. `$db->commit();` y `return "Pedido " . $db->lastInsertId() . " confirmado";`.
+5. `catch (Throwable $e)`: `$db->rollBack();` y `return "Fallo la compra";`.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```php

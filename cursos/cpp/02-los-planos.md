@@ -8266,6 +8266,11 @@ int Torre::altura() const { ... }
 #### Desafío
 Decí de qué clase es el método.
 
+#### Pasos
+1. Afuera de la clase, el método tiene que decir de qué clase es.
+2. Cambiá `int altura() const` por `int Torre::altura() const`.
+3. Tocá **Ejecutar**. Tiene que salir `Altura: 36 metros`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -8355,6 +8360,11 @@ La solución es escribir la definición, con el nombre de la clase y `::` adelan
 
 #### Desafío
 Escribí el detalle que prometió la ficha.
+
+#### Pasos
+1. La ficha promete `pisos()`, pero falta su detalle.
+2. Arriba de `Torre::altura`, agregá `int Torre::pisos() const { return pisos_; }`.
+3. Tocá **Ejecutar**. Tiene que salir `15 pisos, 45 metros`.
 
 #### Código inicial
 ```cpp
@@ -8456,6 +8466,12 @@ La primera vez, `MAPA_H` no existe: se define y se pega la ficha. La segunda, ya
 
 #### Desafío
 Poné las guardas para que la segunda copia no pegue nada.
+
+#### Pasos
+1. Envolvé cada copia de la clase entre guardas.
+2. Arriba de cada `class Torre {`: `#ifndef TORRE_H` y `#define TORRE_H`.
+3. Debajo de cada `};`: `#endif`.
+4. Tocá **Ejecutar**. Tiene que salir `La torre tiene 12 pisos`.
 
 #### Código inicial
 ```cpp
@@ -9123,6 +9139,11 @@ Cada forma es una derivada de `Forma` y escribe su propia versión de `danio(gol
 #### Desafío
 Completá la forma de serpiente.
 
+#### Pasos
+1. A la serpiente le falta su `danio`.
+2. Debajo de `nombre()`, agregá `int danio(const std::string& golpe) const override { return golpe == "llave" ? 20 : 10; }`.
+3. Tocá **Ejecutar**. Tiene que salir `serpiente: llave 20, red 10`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -9247,6 +9268,11 @@ Las formas se turnan en ronda. Con el resto se da la vuelta: la forma del turno 
 #### Desafío
 Elegí la forma de cada turno con el resto.
 
+#### Pasos
+1. Siempre devuelve la forma 0.
+2. Usá el resto del turno: `return *formas_[t % formas_.size()];`.
+3. Tocá **Ejecutar**. Las formas tienen que ir rotando.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -9370,6 +9396,11 @@ Cada golpe justo baja 20 de vida.
 
 #### Desafío
 Usá el método de cada forma en lugar de la cadena de `if`.
+
+#### Pasos
+1. Borrá el `std::string golpe = "llave";` y la cadena de `if`.
+2. En su lugar: `std::string golpe = f.mejor_golpe();`.
+3. Tocá **Ejecutar**. Tiene que salir `cabra recibe palanca`.
 
 #### Código inicial
 ```cpp
@@ -9508,6 +9539,11 @@ El constructor tiene que guardar la medida que recibe en el dato de la llave, en
 #### Desafío
 Hacé que cada llave tenga la medida que se le pide.
 
+#### Pasos
+1. El constructor pone 10 en todas las llaves.
+2. Cambiá `medida_(10)` por `medida_(medida)`.
+3. Tocá **Ejecutar**. Todas tienen que encajar.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -9616,6 +9652,15 @@ termina cuando alguien cae o se acaba la entrada.
 **Para superarla:**
 - `Quimera` compone formas polimórficas y no usa `if` por forma.
 - El daño efectivo se calcula con la defensa de la forma actual.
+
+#### Pasos
+1. `class Forma` abstracta: destructor virtual, `nombre()`, `dano()` y `defensa(const std::string& arma)`, todos `const` y `= 0`.
+2. `Leon` → `"león"`, 16 y `arma == "lanza" ? 0 : 50`. `Cabra` → `"cabra"`, 8 y `arma == "martillo" ? 0 : 30`. `Serpiente` → `"serpiente"`, 12 y `arma == "espada" ? 0 : 60`.
+3. `class Quimera` con `std::vector<std::unique_ptr<Forma>> formas_`, `actual_ = 0` y `vida_ = 100`. En el constructor, `push_back` de las tres con `make_unique`.
+4. `forma()` → `*formas_[actual_]`. `recibir(arma, fuerza)`: `int efectivo = fuerza * (100 - forma().defensa(arma)) / 100;`, restá sin bajar de 0 y devolvelo. `cambiar()` → `actual_ = (actual_ + 1) % formas_.size();`.
+5. En `main`: `lima = 80` y `while (lima > 0 && q.vida() > 0 && std::cin >> arma)`. Mostrá el turno; si el arma no es espada, lanza ni martillo, pierde el golpe; si no, `q.recibir(arma, 30)`. Si la Quimera sigue viva, golpea con `q.forma().dano()` y `q.cambiar();`.
+6. Al final, uno de los tres mensajes. Copiá los textos de la salida.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp

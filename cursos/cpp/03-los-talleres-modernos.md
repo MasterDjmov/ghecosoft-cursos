@@ -249,6 +249,11 @@ En los Talleres Modernos, Bron escribe `auto` en todos lados, encantado. Quiere 
 #### Desafío
 Hacé que el bucle cambie las vagonetas de verdad.
 
+#### Pasos
+1. `for (auto x : carga)` cambia una copia de cada vagoneta.
+2. Agregale `&`: `for (auto& x : carga)`.
+3. Tocá **Ejecutar**. Tiene que salir `Cargas: 6 14 4 10`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -326,6 +331,11 @@ Los nombres entre corchetes se asignan en **orden**: el primero recibe el `first
 #### Desafío
 Poné los nombres en el orden correcto.
 
+#### Pasos
+1. Cada par tiene primero el nombre y después los pisos.
+2. Cambiá `[pisos, nombre]` por `[nombre, pisos]`.
+3. Tocá **Ejecutar**. Tiene que salir `Torre Reloj: 12 pisos`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -395,6 +405,11 @@ std::array<int, 3> podio = {10, 8, 7};
 
 #### Desafío
 Dale al array el tamaño de la semana.
+
+#### Pasos
+1. La semana tiene 7 días y el array tiene lugar para 6.
+2. Cambiá `std::array<int, 6>` por `std::array<int, 7>`.
+3. Tocá **Ejecutar**. Tiene que salir `7 dias, 44 horas`.
 
 #### Código inicial
 ```cpp
@@ -478,6 +493,14 @@ promedio. En `main`, recibilo con structured bindings.
 **Para superarla:**
 - Usa `std::array` para los datos y los nombres.
 - La función devuelve un struct y `main` lo separa con `auto [a, b, c]`.
+
+#### Pasos
+1. `struct Resumen { int maximo; int minimo; double promedio; };`.
+2. `Resumen resumir(const std::array<int, 7>& t)`: buscá máxima y mínima con un `for`, y `return {maximo, minimo, std::accumulate(t.begin(), t.end(), 0) / 7.0};`.
+3. En `main`: `const std::array<std::string, 7> dias = {"lun", "mar", "mié", "jue", "vie", "sáb", "dom"};` y `std::array<int, 7> temperaturas{};`. Leé con `for (auto& t : temperaturas) std::cin >> t;`.
+4. Mostrá cada día con su temperatura.
+5. `auto [maximo, minimo, promedio] = resumir(temperaturas);` y `"Máxima " << maximo << ", mínima " << minimo << ", promedio " << promedio`.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -595,6 +618,14 @@ entrada. Mostrá el tablero y el resultado.
 - Usa `std::array` anidado y `fill`.
 - `ganador` revisa filas, columnas y diagonales.
 - Recorre el tablero con `for` de rango (`const auto&`).
+
+#### Pasos
+1. `using Tablero = std::array<std::array<char, 3>, 3>;`.
+2. `char ganador(const Tablero& t)`: revisá cada fila y cada columna (tres iguales y distintas de `'.'`), y las dos diagonales. Si nadie ganó, `'.'`.
+3. `void mostrar(const Tablero& t)` con dos `for` de rango.
+4. En `main`: `Tablero t;` y `for (auto& fila : t) fila.fill('.');`. `char turno = 'X';`.
+5. `while (ganador(t) == '.' && jugadas < 9 && std::cin >> f >> c)`: si está fuera o la casilla ocupada, `"Jugada inválida: "` y `continue;`. Si no, poné la ficha, sumá la jugada y cambiá el turno.
+6. `mostrar(t);` y `"Gana "`, `"Empate"` o `"Partida sin terminar"`. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -734,6 +765,14 @@ Con un vector de engranajes (`nombre`, `dientes`): chico 12, mediano 24, grande 
 **Para superarla:**
 - Los tres pasos muestran la diferencia entre copia y referencia.
 - El último recorrido usa `const auto& [nombre, dientes]`.
+
+#### Pasos
+1. `struct Engranaje { std::string nombre; int dientes = 0; };` y `caja = {{"chico", 12}, {"mediano", 24}, {"grande", 48}}`.
+2. `for (auto e : caja) e.dientes -= 2;` y mostrá `"Tras 'auto':"` con los dientes.
+3. `for (auto& e : caja) e.dientes -= 2;` y mostrá `"Tras 'auto&':"`.
+4. `auto primero = caja[0];` y `auto& ultimo = caja.back();`. Cambiales el nombre a `"COPIA"` y `"GIGANTE"`.
+5. `for (const auto& [nombre, dientes] : caja)` → `nombre << "(" << dientes << ") "`.
+6. Antes de ejecutar, anotá qué esperás. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -1210,6 +1249,11 @@ Lo que sigue al `;` empieza en `p + 1`.
 #### Desafío
 Cortá el nombre sin el punto y coma.
 
+#### Pasos
+1. `substr(0, p + 1)` incluye el punto y coma.
+2. Cambialo por `linea.substr(0, p)`.
+3. Tocá **Ejecutar**. Tiene que salir `Nombre: [Lima]`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -1284,6 +1328,12 @@ Un texto con cifras no es un número: `"12" + "15"` pega los textos y da `"1215"
 
 #### Desafío
 Sumá las edades como números.
+
+#### Pasos
+1. Sumar textos los pega uno detrás del otro.
+2. Cambiá `std::string suma;` por `int suma = 0;`.
+3. Y `suma += edad;` por `suma += std::stoi(edad);`.
+4. Tocá **Ejecutar**. Tiene que salir `Suma de edades: 166`.
 
 #### Código inicial
 ```cpp
@@ -1362,6 +1412,12 @@ while (ss >> palabra) {
 
 #### Desafío
 Contá las palabras con un `istringstream`.
+
+#### Pasos
+1. Contar espacios falla con espacios de más.
+2. Cambiá el conteo por `std::istringstream ss(linea);`, `std::string palabra;` e `int palabras = 0;`.
+3. `while (ss >> palabra) palabras++;`.
+4. Tocá **Ejecutar**. Tiene que salir `Palabras: 4`.
 
 #### Código inicial
 ```cpp
@@ -1452,6 +1508,14 @@ carpeta (o `.` si no tiene), el nombre sin extensión y la extensión (o
 - Usa `rfind` para la última `/` y el último `.`.
 - Compara con `std::string::npos` antes de usar las posiciones.
 - Contempla archivos sin carpeta, sin extensión y ocultos.
+
+#### Pasos
+1. `void partes(const std::string& ruta)`: `std::size_t barra = ruta.rfind('/');`.
+2. Si `barra == std::string::npos`, la carpeta es `"."` y el archivo es la ruta entera; si no, cortá con `substr`.
+3. `std::size_t punto = archivo.rfind('.');`. Nombre y extensión arrancan como `archivo` y `"(ninguna)"`. Si `punto != std::string::npos && punto != 0`, cortalos.
+4. Mostrá `ruta`, `"\n  carpeta: "`, `"\n  nombre: "` y `"\n  extensión: "`.
+5. En `main`: `while (std::getline(std::cin, ruta))` y, si no está vacía, `partes(ruta);`.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -1567,6 +1631,13 @@ Tiene que funcionar aunque `poner` contenga a `buscar` (por ejemplo, "gris" por
 - Recibe el texto por referencia.
 - Sigue buscando después de lo reemplazado (no queda en un bucle infinito).
 
+#### Pasos
+1. `int reemplazar_todo(std::string& texto, const std::string& buscar, const std::string& poner)`: si `buscar` está vacío, `return 0;`.
+2. `std::size_t pos = texto.find(buscar);` y `while (pos != std::string::npos)`.
+3. Adentro: `texto.replace(pos, buscar.size(), poner);`, sumá un cambio y `pos = texto.find(buscar, pos + poner.size());` (seguí después de lo puesto).
+4. En `main`: leé `buscar` y `poner` con `getline`. Después, cada línea: sumá los reemplazos y mostrala.
+5. Al final: `"(" << total << " reemplazos)"`. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -1667,6 +1738,14 @@ registros válidos hay y la edad promedio.
 **Para superarla:**
 - Parte las líneas con `std::getline(in, campo, ';')`.
 - Valida antes de llamar a `std::stoi`.
+
+#### Pasos
+1. `std::vector<std::string> partir(const std::string& linea, char sep)`: `std::istringstream in(linea);` y `while (std::getline(in, campo, sep)) campos.push_back(campo);`.
+2. `bool es_numero(const std::string& s)`: falso si está vacío o si algún carácter no está entre `'0'` y `'9'`.
+3. En `main`: leé cada línea contando. `auto c = partir(linea, ';');`. Si `c.size() != 3 || c[0].empty() || !es_numero(c[1])`, `"Línea " << n << " inválida: " << linea` y `continue;`.
+4. Si vale: `int edad = std::stoi(c[1]);`, sumala y mostrá `c[0] << " (" << edad << "), " << c[2]`.
+5. Al final: `validos << " registros, edad promedio " << static_cast<double>(suma_edades) / validos`.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -2180,6 +2259,11 @@ Con `[]`, si la clave no existía, se crea con valor 0 (para números). Por eso,
 #### Desafío
 Contá cuántas veces llega cada pieza.
 
+#### Pasos
+1. `conteo[pieza] = 1;` pisa la cuenta cada vez.
+2. Cambialo por `conteo[pieza]++;`.
+3. Tocá **Ejecutar**. Tiene que salir `engranaje: 3`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -2259,6 +2343,12 @@ Para preguntar sin crear nada: `mapa.contains("x")` devuelve `true` o `false`. Y
 
 #### Desafío
 Preguntá sin agregar fichas falsas.
+
+#### Pasos
+1. `fichero[buscado]` crea una ficha vacía si no existe.
+2. Cambiá la condición por `fichero.contains(buscado)`.
+3. Y al mostrar, usá `fichero.at(buscado)`.
+4. Tocá **Ejecutar**. Tiene que salir `Fichas: 3`.
 
 #### Código inicial
 ```cpp
@@ -2342,6 +2432,11 @@ numeros.insert(3);   // no se repite
 
 #### Desafío
 Usá un conjunto para que no haya repetidos.
+
+#### Pasos
+1. Cambiá `std::vector<std::string> aprobados;` por `std::set<std::string> aprobados;`.
+2. Cambiá `push_back` por `insert`.
+3. Tocá **Ejecutar**. Tiene que salir `Aprobados (3): guiso pan sopa`.
 
 #### Código inicial
 ```cpp
@@ -2437,6 +2532,13 @@ distintas hay y la más común (si hay empate, la primera en orden alfabético).
 - Cuenta con `veces[palabra]++`.
 - Descarta lo que queda vacío al limpiar.
 - Recorre el map con structured bindings.
+
+#### Pasos
+1. `std::string limpiar(const std::string& palabra)`: recorrela y agregá solo las letras (`std::isalpha`), pasadas por `std::tolower` (con `static_cast<unsigned char>`).
+2. En `main`: `std::map<std::string, int> veces;`. Por cada palabra: `p = limpiar(palabra)` y, si no quedó vacía, `veces[p]++` y sumá al total.
+3. Recorré `for (const auto& [p, n] : veces)`: mostrá `p << ": " << n` y guardá la más común (solo si `n > maximo`, así gana la primera en orden).
+4. Al final: `total << " palabras, " << veces.size() << " distintas; la más común: " << mas_comun`.
+5. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -2559,6 +2661,13 @@ consulta puede crear contactos por accidente.
 - `baja` usa el valor que devuelve `erase`.
 - Distingue alta nueva de actualización.
 
+#### Pasos
+1. `std::unordered_map<std::string, std::string> agenda;` y `while (std::cin >> orden >> nombre)`.
+2. `"alta"`: leé el teléfono, `bool nuevo = !agenda.contains(nombre);`, guardalo y `"Agregado: "` o `"Actualizado: "`.
+3. `"ver"`: `auto it = agenda.find(nombre);`. Si `it != agenda.end()`, `nombre << ": " << it->second`; si no, `"No está "`.
+4. `"baja"`: `agenda.erase(nombre) > 0 ? "Borrado: " : "No estaba: "`.
+5. Al final: `"Contactos: " << agenda.size()`. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -2671,6 +2780,14 @@ visitaron **las dos**, los que visitaron **solo** la Norte y los que visitaron
 **Para superarla:**
 - Usa `std::set` para no repetir visitantes.
 - Calcula intersección, diferencia y unión con `contains` e `insert`.
+
+#### Pasos
+1. `void mostrar(const std::string& titulo, const std::set<std::string>& s)` → `titulo << " (" << s.size() << "):"` y cada nombre.
+2. En `main`: `std::set<std::string> norte, reloj;` y leé `torre quien`, insertando en el que corresponde.
+3. `ambas`, `solo_norte` y `alguna = norte`. Recorré `norte`: si `reloj.contains(q)`, a `ambas`; si no, a `solo_norte`.
+4. `alguna.insert(reloj.begin(), reloj.end());`.
+5. Mostrá los cinco: `"Norte"`, `"Reloj"`, `"Las dos"`, `"Solo Norte"` y `"Alguna"`.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -3186,6 +3303,11 @@ Cada valor se escribe con el nombre del enum adelante y `::`. Es más claro y m�
 #### Desafío
 Completá la conversión del estado a texto.
 
+#### Pasos
+1. Al `switch` le falta el caso del averiado.
+2. Antes del `default`: `case Estado::Averiado:` y `return "averiado";`.
+3. Tocá **Ejecutar**. Tiene que salir `Caldera: averiado`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -3284,6 +3406,12 @@ Quien llama pregunta si tiene algo con `if (r)`, y lo saca con `*r`.
 #### Desafío
 Reemplazá el −1 por un `optional`.
 
+#### Pasos
+1. Cambiá el tipo que devuelve `buscar` por `std::optional<int>`.
+2. Cambiá el `return -1;` por `return std::nullopt;`.
+3. En `main`: `std::optional<int> r = buscar(maquinas, n);`. Si `r`, mostrá `*r`; si no, `n << ": no esta"`.
+4. Tocá **Ejecutar**. Tiene que salir `molino: no esta`.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -3377,6 +3505,11 @@ Falta una transición: estando averiada, si llega `arreglar`, pasa a apagada.
 
 #### Desafío
 Agregá la transición que falta.
+
+#### Pasos
+1. En el `case Estado::Averiado:`, antes del `break`, falta la transición.
+2. Agregá `if (evento == "arreglar") e = Estado::Apagado;`.
+3. Tocá **Ejecutar**. Tiene que salir `arreglar -> apagada`.
 
 #### Código inicial
 ```cpp
@@ -3506,6 +3639,13 @@ eventos de la entrada mostrando cada cambio (o que sigue igual).
 **Para superarla:**
 - Usa `enum class` y un `switch` sin `default` en `a_texto`.
 - La lógica de transiciones está en `siguiente`.
+
+#### Pasos
+1. `enum class Luz { Apagada, Girando, Destellos, Averiada };`.
+2. `std::string a_texto(Luz l)` con un `switch` sin `default`: `"apagada"`, `"girando"`, `"destellos"` y `"averiada"`. Después del `switch`, `return "?";`.
+3. `Luz siguiente(Luz actual, const std::string& evento)`: si es `"rayo"`, `Luz::Averiada`. Si no, un `switch (actual)` con las reglas de la consigna (`noche`, `niebla`, `despeja`, `dia` y `reparar`); si no aplica, `actual`.
+4. En `main`: `Luz luz = Luz::Apagada;`. Por cada evento: `Luz nueva = siguiente(luz, evento);`. Si cambió, `evento << ": " << a_texto(luz) << " -> " << a_texto(nueva)` y sumá; si no, `evento << ": sigue " << a_texto(luz)`.
+5. Al final: `cambios << " cambios; termina " << a_texto(luz)`. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -3651,6 +3791,14 @@ usá `value_or` para mostrar el precio de X99 (o 0).
 - Se abre el optional con `if (p)` y `p->`.
 - Usa `value_or`.
 
+#### Pasos
+1. `struct Pieza { std::string codigo; std::string nombre; int precio = 0; };`.
+2. `std::optional<Pieza> buscar(const std::vector<Pieza>& catalogo, const std::string& codigo)`: si la encuentra, `return p;`; si no, `return std::nullopt;`.
+3. En `main`: el catálogo constante con E24, R10 y V03.
+4. Por cada código: `auto p = buscar(catalogo, codigo);`. Si `p`, `codigo << ": " << p->nombre << " $" << p->precio` y sumá; si no, `": no existe"`.
+5. `"Total: $"` y `buscar(catalogo, "X99").value_or(Pieza{"", "", 0}).precio`.
+6. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```cpp
 #include <iostream>
@@ -3770,6 +3918,14 @@ sumá las que son números y avisá cuáles ignorás.
 - No usa `std::stoi` (ni excepciones).
 - Rechaza `12abc`, `-`, `+` solo y números demasiado grandes.
 - Usa `if (auto n = a_entero(p))`.
+
+#### Pasos
+1. `std::optional<int> a_entero(const std::string& s)`: si está vacío, `std::nullopt`.
+2. Si empieza con `'-'` o `'+'`, anotá el signo y arrancá desde 1. Si no queda nada después, `std::nullopt`.
+3. `long long valor = 0;` y recorré: si no es dígito, `std::nullopt`. `valor = valor * 10 + (s[i] - '0');` y, si pasa de `2147483647LL`, `std::nullopt`.
+4. `return static_cast<int>(negativo ? -valor : valor);`.
+5. En `main`: por cada palabra, `if (auto n = a_entero(palabra))` → sumá `*n`; si no, `"ignoro \"" << palabra << "\""`. Al final, `validos << " números, suma " << suma`.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -4271,6 +4427,11 @@ Los `[]` marcan que empieza una lambda; después van los parámetros y el cuerpo
 #### Desafío
 Corregí la regla de la tarjeta.
 
+#### Pasos
+1. La lambda ordena de la más liviana a la más pesada.
+2. Dala vuelta: `return a.peso > b.peso;`.
+3. Tocá **Ejecutar**. Tiene que empezar con `yunque 90`.
+
 #### Código inicial
 ```cpp
 #include <algorithm>
@@ -4358,6 +4519,11 @@ auto grande = [minimo](int x) { return x > minimo; };
 #### Desafío
 Capturá el límite.
 
+#### Pasos
+1. La lambda usa `limite` pero no lo captura.
+2. Cambiá `[]` por `[limite]`.
+3. Tocá **Ejecutar**. Tiene que salir `Pasan de 10: 3`.
+
 #### Código inicial
 ```cpp
 #include <algorithm>
@@ -4433,6 +4599,12 @@ Borra todos los que cumplen la condición de la lambda, y devuelve cuántos borr
 
 #### Desafío
 Borrá los defectuosos con `erase_if`.
+
+#### Pasos
+1. Borrar dentro del `for` saltea elementos.
+2. Cambiá el `for` entero por `auto borrados = std::erase_if(dientes, [](int d) { return d < 10; });`.
+3. Agregá `std::cout << "Borrados: " << borrados << "\n";`.
+4. Tocá **Ejecutar**. Tiene que salir `Quedan: 12 40 24`.
 
 #### Código inicial
 ```cpp
@@ -4520,6 +4692,13 @@ el nombre, los puntos y la diferencia (con `+` si es positiva).
 **Para superarla:**
 - Un solo `std::sort` con una lambda de varios criterios.
 - Las comparaciones son estrictas.
+
+#### Pasos
+1. `struct Equipo` con `nombre`, `puntos`, `goles_favor` y `goles_contra`, y `diferencia() const` → `goles_favor - goles_contra`.
+2. En `main`: leé los equipos en un vector.
+3. Un solo `std::sort` con una lambda: si los puntos son distintos, `a.puntos > b.puntos`; si no, compará la diferencia (mayor primero); si no, los goles a favor; y al final, `a.nombre < b.nombre`.
+4. Mostrá `i + 1 << ". " << nombre << " " << puntos << " pts ("`, un `"+"` si la diferencia es positiva, la diferencia y `")"`.
+5. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -4640,6 +4819,14 @@ Guardá la distancia y "está en alcance" en variables lambda y reutilizalas.
 - Hay lambdas guardadas en variables y reutilizadas.
 - Alguna lambda captura el alcance por copia.
 
+#### Pasos
+1. `struct Contacto { std::string nombre; double x = 0; double y = 0; };`. Leé el alcance y los contactos.
+2. Dos lambdas guardadas: `auto distancia = [](const Contacto& k) { return std::hypot(k.x, k.y); };` y `auto en_alcance = [alcance, distancia](const Contacto& k) { return distancia(k) <= alcance; };`.
+3. `std::count_if(..., en_alcance)` y `"Dentro del alcance (" << alcance << "): " << dentro << " de " << radar.size()`.
+4. `std::find_if(..., en_alcance)` → `"Primer contacto en alcance: "`. `std::min_element` con una lambda que compara distancias → `"El más cercano: " << nombre << " a " << distancia(*cercano)`.
+5. `std::none_of` con distancia menor a 2: `"Nadie pegado a la muralla."` o `"¡Hay alguien pegado a la muralla!"`.
+6. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```cpp
 #include <algorithm>
@@ -4756,6 +4943,14 @@ daño a todos con `for_each` (capturando el daño); borrá los caídos con
 - El `for_each` recibe cada enemigo por referencia.
 - Usa el valor que devuelve `std::erase_if`.
 - El vector destino de `transform` tiene el tamaño justo.
+
+#### Pasos
+1. `struct Enemigo { std::string nombre; int vida = 0; };` y `mostrar(v)` → `" " << nombre << "(" << vida << ")"` de cada uno.
+2. Leé los enemigos y mostralos con `"Al principio:"`.
+3. `int dano = 25;` y `std::for_each(campo.begin(), campo.end(), [dano](Enemigo& x) { x.vida -= dano; });`. Mostrá `"Tras la explosión:"`.
+4. `auto caidos = std::erase_if(campo, [](const Enemigo& x) { return x.vida <= 0; });` y `"Caen " << caidos << "; quedan:"`.
+5. `std::vector<std::string> nombres(campo.size());` y `std::transform(campo.begin(), campo.end(), nombres.begin(), [](const Enemigo& x) { return x.nombre + "!"; });`. Mostrá `"Gritos:"`.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -5273,6 +5468,11 @@ Si querés leer lo que escribiste, el archivo tiene que estar cerrado antes: pon
 #### Desafío
 Cerrá el archivo antes de leerlo, con un bloque.
 
+#### Pasos
+1. El archivo se lee mientras sigue abierto para escribir.
+2. Envolvé la creación de `out` y sus tres líneas entre `{` y `}`: al cerrar el bloque, se cierra el archivo.
+3. Tocá **Ejecutar**. Tiene que salir `Lineas: 3`.
+
 #### Código inicial
 ```cpp
 #include <fstream>
@@ -5361,6 +5561,11 @@ std::ofstream f("notas.txt", std::ios::app);
 #### Desafío
 Hacé que cada guiso se sume al archivo.
 
+#### Pasos
+1. Cada vez que se abre, el archivo se vacía.
+2. Abrilo para agregar: `std::ofstream f("guisos.txt", std::ios::app);`.
+3. Tocá **Ejecutar**. Tienen que salir los tres guisos.
+
 #### Código inicial
 ```cpp
 #include <fstream>
@@ -5447,6 +5652,11 @@ Para saltearla, leela con un `std::getline` **antes** del bucle y no la uses. De
 
 #### Desafío
 Salteá el encabezado.
+
+#### Pasos
+1. La primera línea es el encabezado, y no es un número.
+2. Después de `std::string linea;`, agregá `std::getline(std::cin, linea);` para saltearla.
+3. Tocá **Ejecutar**. Tiene que salir `Total de piezas: 185`.
 
 #### Código inicial
 ```cpp
@@ -5545,6 +5755,13 @@ con la cantidad de líneas y de bytes de texto.
 **Para superarla:**
 - Crea el archivo de cero y después agrega con `std::ios::app`.
 - Relee el archivo desde el disco (no desde memoria).
+
+#### Pasos
+1. `const std::string RUTA = "bitacora.txt";`. En un bloque: `std::ofstream out(RUTA);` y la primera línea.
+2. Por cada línea no vacía de la entrada: `std::ofstream out(RUTA, std::ios::app);`, escribila y contá.
+3. `"Agregadas: " << agregadas`.
+4. Releé: `std::ifstream in(RUTA);`. Por cada línea, numerala, sumá `linea.size()` y mostrá `numero << ": " << linea`.
+5. Al final: `numero << " líneas, " << caracteres << " bytes de texto"`. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -5654,6 +5871,13 @@ curso, con 2 decimales.
 - Escribe el CSV y lo cierra antes de leerlo.
 - Lee con `getline` e `istringstream` con separador `,`.
 - Revisa que el archivo se haya abierto.
+
+#### Pasos
+1. En un bloque: `std::ofstream out("notas.csv");`, la cabecera `"alumno,nota1,nota2,nota3\n"` y cada alumno separado por comas.
+2. `std::ifstream in(RUTA);`. Si `!in`, avisá y `return 1;`. Salteá la cabecera con `getline`.
+3. `std::fixed << std::setprecision(2)`. Por cada línea: `std::istringstream campos(linea);`, el nombre con `std::getline(campos, nombre, ',')` y las notas con otro `getline` hasta el final, sumando `std::stod(nota)`.
+4. Mostrá `nombre << ": " << promedio` y `" (recupera)"` si es menor que 6.
+5. Al final: `"Promedio del curso: "`. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp
@@ -5785,6 +6009,14 @@ ruta relativa a la carpeta base. Al final, el total, y borrá todo.
 - Ordena antes de mostrar (el orden del directorio no está garantizado).
 - Deja todo limpio con `fs::remove_all`.
 
+#### Pasos
+1. `namespace fs = std::filesystem;` y `const fs::path BASE = "archivo_ciudadela";`.
+2. Por cada línea: `fs::create_directories(BASE / carpeta);` y `std::ofstream(BASE / carpeta / nombre) << contenido << "\n";`.
+3. Un `struct Archivo { std::string ruta; std::uintmax_t bytes; };`. Recorré `fs::recursive_directory_iterator(BASE)` y guardá los `is_regular_file()` con `e.path().lexically_relative(BASE).string()` y `e.file_size()`.
+4. Ordená: `a.bytes != b.bytes ? a.bytes > b.bytes : a.ruta < b.ruta`. Mostrá `bytes << "\t" << ruta` y sumá.
+5. `archivos.size() << " archivos, " << total << " bytes"`, `fs::remove_all(BASE);` y `"¿Quedó algo? "` con `fs::exists(BASE)`.
+6. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```cpp
 #include <algorithm>
@@ -5905,6 +6137,15 @@ El gremio guarda sus miembros en un archivo **binario**, `gremio.dat`. Escribí 
 - `Miembro` no tiene `std::string` ni métodos virtuales, y se escribe con `write` y `sizeof`.
 - `subir` lee y escribe solo ese registro, sin cargar todo el archivo.
 - La cantidad sale del tamaño del archivo.
+
+#### Pasos
+1. `class Miembro` con `char nombre_[20] = {};` e `int nivel_ = 0;`, sin `std::string` ni `virtual`. El constructor copia con `std::strncpy(nombre_, nombre.c_str(), sizeof nombre_ - 1);`. Agregá `nombre()`, `nivel()` y `subir()`.
+2. `const char* RUTA = "gremio.dat";` e `int cantidad()`: abrí con `std::ios::binary | std::ios::ate` y devolvé `f.tellg() / sizeof(Miembro)`.
+3. `alta(m)`: abrí con `std::ios::binary | std::ios::app` y `f.write(reinterpret_cast<const char*>(&m), sizeof m);`.
+4. `bool subir(int pos)`: si está fuera de rango, `false`. Abrí con `std::fstream` (`in | out | binary`), `f.seekg(pos * sizeof(Miembro));`, leé, `m.subir();`, `f.seekp(pos * sizeof(Miembro));` y escribí encima.
+5. `listar()`: leé de a uno con `f.read(...)` y mostrá `pos << ". " << nombre << " (nivel " << nivel << ")"`. Al final, `"Miembros: "`.
+6. En `main`: vaciá el archivo con `std::ofstream(RUTA, std::ios::binary);` y leé las órdenes `alta`, `subir` (si da `false`, `"No existe la posicion "`) y `listar`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```cpp

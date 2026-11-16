@@ -2272,6 +2272,11 @@ El termómetro marca **−1** y el Gólem dice «Hace calor». Un ogro, abrigado
 #### Desafío
 Tocá **Ejecutar** y mirá lo que dice. Después cambiá el salto para que, con −1, el ojo diga `Hace frio`.
 
+#### Pasos
+1. `ja` compara sin signo: para él, −1 es un número enorme.
+2. Cambiá `ja  calor` por `jg  calor` (el que entiende negativos).
+3. Tocá **Ejecutar**. Tiene que salir `Hace frio`.
+
 #### Código inicial
 ```asm
 .model small
@@ -2364,6 +2369,11 @@ El termómetro sube y sube con el sol: ya marca **127**, lo máximo que entra co
 #### Desafío
 Completá la suma para que AL pase de 127 al desborde, y mirá en **Interruptores** cómo se prenden OF y SF.
 
+#### Pasos
+1. Hay un `___` en `add al, ___`.
+2. Sumale `1`: 127 + 1 se pasa del máximo con signo.
+3. Tocá **Ejecutar**. AL tiene que quedar en −128, con OF y SF en 1.
+
 #### Código inicial
 ```asm
 .model small
@@ -2436,6 +2446,11 @@ El saldo puede ser negativo, así que el salto va **con signo**: *menor* con sig
 
 #### Desafío
 Completá el salto para que, con −5, el ojo diga `Gheco debe monedas.`
+
+#### Pasos
+1. Hay un `___` antes de `debe`.
+2. Para «menor que» con signo: `jl`.
+3. Tocá **Ejecutar**. Tiene que salir `Gheco debe monedas.`
 
 #### Código inicial
 ```asm
@@ -2528,6 +2543,13 @@ Poné la primera en AL y compará con la segunda. Si AL es **mayor con signo** (
 #### Desafío
 Escribí las órdenes desde cero, donde dice `; tus órdenes`, para que BL quede con la temperatura más alta.
 
+#### Pasos
+1. Borrá `; tus órdenes`. `mov al, temp1` y `cmp al, temp2`.
+2. Si la primera es mayor (con signo): `jg  primera`.
+3. Si no: `mov bl, temp2` y `jmp listo`.
+4. `primera:` → `mov bl, al`. Después, la etiqueta `listo:`.
+5. Tocá **Ejecutar**. BL tiene que quedar en 2.
+
 #### Código inicial
 ```asm
 .model small
@@ -2609,6 +2631,11 @@ Su espejo es **`jge`**: mayor **o igual**, con signo. Sin signo, los mismos son 
 
 #### Desafío
 Tocá **Ejecutar** y mirá qué dice. Después cambiá el salto para que, con 0 grados, el ojo diga `Se congela`.
+
+#### Pasos
+1. `jl` salta solo si es menor, y con 0 justo no salta.
+2. Cambiá `jl  hielo` por `jle hielo` (menor o igual).
+3. Tocá **Ejecutar**. Tiene que salir `Se congela`.
 
 #### Código inicial
 ```asm
@@ -2876,6 +2903,12 @@ Poné en CX cuántas vueltas querés. Adentro, CX va valiendo 5, 4, 3, 2, 1: mos
 #### Desafío
 Completá la cantidad de vueltas y el `loop` para que el ojo muestre la cuenta regresiva.
 
+#### Pasos
+1. Hay dos `___`.
+2. En `mov cx, ___`: las vueltas, `5`.
+3. En `loop ___`: la etiqueta del bucle, `cuenta`.
+4. Tocá **Ejecutar**. Tiene que salir `5 4 3 2 1`.
+
 #### Código inicial
 ```asm
 .model small
@@ -2961,6 +2994,11 @@ BL es el **acumulador**: empieza en 0. En cada vuelta, sumale CL (que va 5, 4, 3
 #### Desafío
 Completá la suma de adentro del bucle para que BL termine con la fuerza total.
 
+#### Pasos
+1. Hay un `___` en `add bl, ___`.
+2. Sumá el contador de vueltas: `cl`.
+3. Tocá **Ejecutar**. BL tiene que quedar en 15.
+
 #### Código inicial
 ```asm
 .model small
@@ -3039,6 +3077,11 @@ Kira dejó anotado en un cajón cuántas estrellas hay que dibujar en el muslo: 
 
 #### Desafío
 Tocá **Ejecutar** y mirá lo que pasa. Después agregá el `jcxz` para que, con 0 estrellas, no se dibuje ninguna.
+
+#### Pasos
+1. Con CX en 0, `loop` da 65536 vueltas.
+2. Antes de `estrella:`, agregá `jcxz sin_estrellas`.
+3. Tocá **Ejecutar**. Tiene que salir `Estrellas:` sin ninguna.
 
 #### Código inicial
 ```asm
@@ -3137,6 +3180,13 @@ El bucle de adentro dibuja una fila con `loop` (CX = 6). El de afuera cuenta las
 #### Desafío
 Completá las tres órdenes que faltan para que se dibujen las 3 filas.
 
+#### Pasos
+1. Hay tres `___`.
+2. En `mov bl, ___`: las filas, `3`.
+3. En `mov cx, ___`: los ladrillos por fila, `6`.
+4. Antes de `filas` (después del `dec bl`): `jnz`.
+5. Tocá **Ejecutar**. Tienen que salir tres filas de `######`.
+
 #### Código inicial
 ```asm
 .model small
@@ -3233,6 +3283,14 @@ Un `loop` con CX = 9 y un acumulador en BL que suma CL en cada vuelta. Después,
 
 #### Desafío
 Escribí las órdenes desde cero, donde dice `; tus órdenes`, para que el ojo diga `Suma: 45`.
+
+#### Pasos
+1. Borrá `; tus órdenes`. Sumá de 9 a 1: `mov bl, 0`, `mov cx, 9`, la etiqueta `sumar:`, `add bl, cl` y `loop sumar`.
+2. Separá decenas y unidades: `mov al, bl`, `mov ah, 0`, `mov bl, 10` y `div bl`.
+3. Guardá el resultado: `mov cx, ax` (CL queda con las decenas y CH con las unidades).
+4. Mostrá las decenas: `mov dl, cl`, `add dl, '0'`, `mov ah, 02h` e `int 21h`.
+5. Mostrá las unidades: `mov dl, ch`, `add dl, '0'` e `int 21h`.
+6. Tocá **Ejecutar**. Tiene que salir `Suma: 45`.
 
 #### Código inicial
 ```asm
@@ -3498,6 +3556,12 @@ Arriba de todo, la pregunta: `cmp calor, 8` y, si ya es **mayor o igual**, salir
 #### Desafío
 Completá el salto de salida y el de vuelta.
 
+#### Pasos
+1. Hay dos `___`.
+2. El de salida, después de `cmp calor, 8`: `jae fin_mientras` (si ya llegó a 8 o más).
+3. El de vuelta, después del `add`: `jmp mientras`.
+4. Tocá **Ejecutar**. `[calor]` tiene que quedar en 9.
+
 #### Código inicial
 ```asm
 .model small
@@ -3580,6 +3644,11 @@ Ejecutá **paso a paso**: ¿qué cambia en cada vuelta? Si `calor` no sube nunca
 #### Desafío
 Tocá **Ejecutar** y mirá el aviso. Después agregá lo que falta para que el calor suba de a 3 y el bucle termine.
 
+#### Pasos
+1. Dentro del bucle, nada cambia el calor: por eso no termina.
+2. Después de `jae fin_mientras`, agregá `add calor, 3`.
+3. Tocá **Ejecutar**. `[calor]` tiene que quedar en 9.
+
 #### Código inicial
 ```asm
 .model small
@@ -3661,6 +3730,11 @@ Con `ja`, el bucle sigue también cuando el escalón ya es 5. Para salir apenas 
 
 #### Desafío
 Tocá **Ejecutar** y mirá el escalón de más. Después arreglá el salto para que muestre `12345`.
+
+#### Pasos
+1. `ja` sale recién cuando pasa de 5, y por eso sube un escalón de más.
+2. Cambialo por `jae arriba` (sale al llegar a 5).
+3. Tocá **Ejecutar**. Tiene que salir `12345`.
 
 #### Código inicial
 ```asm
@@ -3751,6 +3825,12 @@ El cuerpo va primero: leer una tecla y, si es `'g'`, sumar un golpe. Al final, l
 
 #### Desafío
 Completá la comparación del final y el salto de vuelta. Kira va a golpear `g`, `g`, `z`, `g` y `x`.
+
+#### Pasos
+1. Hay dos `___` después de `no_golpe:`.
+2. Compará con la tecla de salida: `cmp al, 'x'`.
+3. Si no es esa, volvé: `jne hacer`.
+4. Tocá **Ejecutar**. Tiene que salir `Golpes: 3`.
 
 #### Código inicial
 ```asm
@@ -3867,6 +3947,14 @@ Un «hasta que»: leer una tecla; si es `'a'`, sumar 1 a un contador; repetir ha
 
 #### Desafío
 Escribí las órdenes desde cero, donde dice `; tus órdenes`. Kira va a dictar `h`, `a`, `d`, `a`, `a` y `.`, y el ojo tiene que terminar diciendo `Aes: 3`.
+
+#### Pasos
+1. Borrá `; tus órdenes`. La etiqueta `leer:`, `mov ah, 01h` e `int 21h` (lee una tecla en AL).
+2. `cmp al, 'a'` y `jne no_a`. Si es una a: `inc aes`.
+3. `no_a:` → `cmp al, '.'` y `jne leer`.
+4. Mostrá el texto: `lea dx, t_aes`, `mov ah, 09h` e `int 21h`.
+5. Mostrá el número: `mov dl, aes`, `add dl, '0'`, `mov ah, 02h` e `int 21h`.
+6. Tocá **Ejecutar**. Tiene que salir `Aes: 3`.
 
 #### Código inicial
 ```asm
@@ -4117,6 +4205,11 @@ El tablero de la cintura tiene prendidos tres interruptores: `00000111b`. El del
 #### Desafío
 Completá la máscara para que el tablero quede en `00000101b` (5).
 
+#### Pasos
+1. Hay un `___` en `and tablero, ___`.
+2. Para apagar solo el bit 1 (el freno), la máscara tiene todos en 1 menos ese: `11111101b`.
+3. Tocá **Ejecutar**. `[tablero]` tiene que quedar en 5.
+
 #### Código inicial
 ```asm
 .model small
@@ -4187,6 +4280,11 @@ En el tablero hay grabada una **K** mayúscula, pero el hechizo de la cintura pi
 
 #### Desafío
 Completá la máscara para que AL pase de `'K'` a `'k'` y el ojo la muestre.
+
+#### Pasos
+1. Hay un `___` en `or  al, ___`.
+2. La minúscula tiene prendido el bit 5: `00100000b`.
+3. Tocá **Ejecutar**. Tiene que salir `k`.
 
 #### Código inicial
 ```asm
@@ -4266,6 +4364,12 @@ Todo número impar tiene el **bit 0** prendido. `test al, 1` lo consulta sin cam
 
 #### Desafío
 Completá el `test` y el salto. Kira va a decir el `6`.
+
+#### Pasos
+1. Hay dos `___`.
+2. En `test al, ___`: el bit de más a la derecha, `1`.
+3. En el salto: si dio cero, es par: `jz  par`.
+4. Tocá **Ejecutar**. Tiene que salir `Es par.`
 
 #### Código inicial
 ```asm
@@ -4377,6 +4481,11 @@ Correr 3 lugares a la izquierda es multiplicar por 2 × 2 × 2 = 8. Pero en el 8
 #### Desafío
 Tocá **Ejecutar** para ver al goblin. Después arreglalo para que AL pase de 3 a **24**.
 
+#### Pasos
+1. En el 8086, `shl` corre de a 1 o con la cantidad en CL.
+2. Cambiá `shl al, 3` por dos órdenes: `mov cl, 3` y `shl al, cl`.
+3. Tocá **Ejecutar**. AL tiene que quedar en 24.
+
 #### Código inicial
 ```asm
 .model small
@@ -4448,6 +4557,13 @@ Un `loop` de 8 vueltas. En cada una, `shl bl, 1` empuja el bit más alto a **CF*
 
 #### Desafío
 Escribí las órdenes desde cero, donde dice `; tus órdenes`, para que el ojo muestre la N en binario.
+
+#### Pasos
+1. Borrá `; tus órdenes`. `mov cx, 8` y la etiqueta `bits:`.
+2. `shl bl, 1`: el bit de la izquierda cae en el acarreo (CF).
+3. `mov dl, '0'`. Si no hubo acarreo, `jnc cero`; si hubo, `mov dl, '1'`.
+4. `cero:` → `mov ah, 02h`, `int 21h` y `loop bits`.
+5. Tocá **Ejecutar**. Tiene que salir `N = 01001110`.
 
 #### Código inicial
 ```asm
@@ -4542,6 +4658,11 @@ El bit 5 (`00100000b`) es el que separa mayúsculas de minúsculas. Con `xor dl,
 #### Desafío
 Completá la máscara de las dos órdenes `xor` para que el ojo muestre `Nn`.
 
+#### Pasos
+1. Hay dos `___`, uno en cada `xor`.
+2. Los dos con la misma máscara, la del bit 5: `00100000b`.
+3. Tocá **Ejecutar**. Tiene que salir `Nn`.
+
 #### Código inicial
 ```asm
 .model small
@@ -4627,6 +4748,11 @@ Para dividir por 2 algo que puede ser negativo, `sar`. Para cantidades sin signo
 #### Desafío
 Tocá **Ejecutar** y mirá AL en el tablero (`7Ch`, o sea 124). Después cambiá la orden para que AL quede en `FCh` (−4).
 
+#### Pasos
+1. `shr` mete un 0 a la izquierda y se pierde el signo.
+2. Cambialo por `sar al, 1`, que conserva el signo.
+3. Tocá **Ejecutar**. AL tiene que quedar en `FCh`.
+
 #### Código inicial
 ```asm
 .model small
@@ -4701,6 +4827,12 @@ Y un detalle: `not` **no** es cambiar el signo. `not` de 5 da `FAh` (−6 con si
 
 #### Desafío
 Completá las dos órdenes: la que da vuelta todas las luces del cajón `luces`, y la que, después del `not al`, deja AL en **−5** (`FBh`).
+
+#### Pasos
+1. Hay dos `___`.
+2. El primero da vuelta todos los bits: `not luces`.
+3. El segundo suma uno: `inc al`.
+4. Tocá **Ejecutar**. `[luces]` tiene que quedar en `5Ah` y AL en `FBh`.
 
 #### Código inicial
 ```asm
@@ -4961,6 +5093,11 @@ El primer elemento está en el índice **0**. El cuarto, entonces, en el índice
 #### Desafío
 Completá el índice para que AL quede con el daño de la cuarta arma.
 
+#### Pasos
+1. Hay un `___` en `mov si, ___`.
+2. Se cuenta desde 0: la cuarta arma está en la posición `3`.
+3. Tocá **Ejecutar**. AL tiene que quedar en 7.
+
 #### Código inicial
 ```asm
 .model small
@@ -5034,6 +5171,12 @@ SI empieza señalando el primer cajón. En cada vuelta: mostrar lo que hay en `[
 
 #### Desafío
 Completá la lectura y el avance para que el ojo muestre `EABLD`.
+
+#### Pasos
+1. Hay dos `___`.
+2. En `mov dl, [___]`: el índice, `si`.
+3. En `inc ___`: avanzá el índice, `si`.
+4. Tocá **Ejecutar**. Tiene que salir `EABLD`.
 
 #### Código inicial
 ```asm
@@ -5122,6 +5265,11 @@ Los escudos son **words**: cada uno ocupa 2 cajones. Con `inc si`, SI avanza med
 #### Desafío
 Ejecutá y mirá AX. Después arreglá el avance para que AX termine con la resistencia total: **19**.
 
+#### Pasos
+1. Los escudos son palabras: cada uno ocupa 2 bytes.
+2. Cambiá `inc si` por `add si, 2`.
+3. Tocá **Ejecutar**. AX tiene que quedar en 19.
+
 #### Código inicial
 ```asm
 .model small
@@ -5207,6 +5355,11 @@ Kira afila las cinco armas: cada una gana **1** de daño. Nova escribe `inc [si]
 #### Desafío
 Tocá **Ejecutar** para ver al goblin. Después arreglá la orden para que cada daño suba 1.
 
+#### Pasos
+1. `inc [si]` no dice si es un byte o una palabra.
+2. Cambialo por `inc byte ptr [si]`.
+3. Tocá **Ejecutar** y mirá los daños en el tablero.
+
 #### Código inicial
 ```asm
 .model small
@@ -5290,6 +5443,12 @@ Hay 5 armas: la última está en el índice **4**. Empezá SI ahí, mostrá `arm
 
 #### Desafío
 Completá el índice inicial y la orden que lo hace bajar, para que el ojo muestre `DLBAE`.
+
+#### Pasos
+1. Hay dos `___`.
+2. En `mov si, ___`: el último lugar, `4`.
+3. En `___ si`: que baje, `dec`.
+4. Tocá **Ejecutar**. Tiene que salir `DLBAE`.
 
 #### Código inicial
 ```asm
@@ -5376,6 +5535,14 @@ Guardá en BL el **daño mínimo** y en DI su **posición**. Empezá con el prim
 
 #### Desafío
 Escribí las órdenes desde cero, donde dice `; tus órdenes`, para que el ojo diga `Mas debil: B 2`.
+
+#### Pasos
+1. Borrá `; tus órdenes`. Arrancá con la primera: `mov bl, danio` y `mov di, 0`. Seguí desde la segunda: `mov si, 1` y `mov cx, 4`.
+2. `buscar:` → `mov al, danio[si]`, `cmp al, bl` y `jae no_menor`. Si es menor: `mov bl, al` y `mov di, si`.
+3. `no_menor:` → `inc si` y `loop buscar`.
+4. Mostrá la letra: `mov dl, armas[di]`, `mov ah, 02h` e `int 21h`. Un espacio: `mov dl, ' '` e `int 21h`.
+5. El daño: `mov dl, bl`, `add dl, '0'` e `int 21h`.
+6. Tocá **Ejecutar**. Tiene que salir `Mas debil: B 2`.
 
 #### Código inicial
 ```asm
@@ -5617,6 +5784,11 @@ Ejecutá **paso a paso** y mirá ZF justo antes del `je`. El `inc si` está entr
 #### Desafío
 Ejecutá, mirá BL y encontrá al ogro. Arreglá el programa para que BL cuente bien: **2**.
 
+#### Pasos
+1. El `inc si` está entre el `cmp` y el `jne`, y cambia las banderas que mira el salto.
+2. Sacalo de ahí y ponelo después de `no_es:`, antes del `loop`.
+3. Tocá **Ejecutar**. BL tiene que quedar en 2.
+
 #### Código inicial
 ```asm
 .model small
@@ -5706,6 +5878,11 @@ Las temperaturas pueden ser negativas. ¿Qué salto está usando para «menor»?
 
 #### Desafío
 Encontrá al ogro y arreglá el salto para que BL cuente bien: **3**.
+
+#### Pasos
+1. `jb` compara sin signo y no ve los negativos.
+2. Cambialo por `jl  helada`.
+3. Tocá **Ejecutar**. BL tiene que quedar en 3.
 
 #### Código inicial
 ```asm
@@ -5801,6 +5978,12 @@ Los dos bucles usan `loop`, y los dos cuentan con CX. Cuando termina el de adent
 
 #### Desafío
 Tocá **Ejecutar** y mirá el aviso. Después arreglá el bucle de afuera para que use BL y la muralla salga bien.
+
+#### Pasos
+1. El bucle de adentro también usa CX y pisa la cuenta de las filas.
+2. Contá las filas con BL: cambiá `mov cx, 2` por `mov bl, 2`.
+3. Al final, cambiá `loop filas` por `dec bl` y `jnz filas`.
+4. Tocá **Ejecutar**. Tienen que salir dos filas de `###`.
 
 #### Código inicial
 ```asm
@@ -5901,6 +6084,15 @@ Un «hasta que» con la `01h` hasta el `'.'`. Adentro: si la tecla es un dígito
 
 #### Desafío
 Escribí las órdenes desde cero, donde dice `; tus órdenes`. Kira va a dictar `3`, `x`, `5`, `8` y `.`.
+
+#### Pasos
+1. Borrá `; tus órdenes`. `leer:` → `mov ah, 01h` e `int 21h`. Si `cmp al, '.'`, `je  listo`.
+2. Si no es dígito, volvé a leer: `cmp al, '0'`, `jb  leer`, `cmp al, '9'` y `ja  leer`.
+3. `sub al, '0'`, `add bl, al` y `jmp leer`.
+4. `listo:` → mostrá `t_suma` con `lea dx, t_suma`, `mov ah, 09h` e `int 21h`. Guardá una copia: `mov bh, bl`.
+5. Separá y mostrá los dos dígitos como en la feria: `mov al, bl`, `mov ah, 0`, `mov bl, 10`, `div bl`, `mov cx, ax`, y `mov dl, cl`/`mov dl, ch` con `add dl, '0'` y `int 21h`.
+6. `test bh, 1` y `jz  es_par`. Si es impar, `lea dx, t_impar` y `jmp mostrar`. `es_par:` → `lea dx, t_par`. `mostrar:` → `mov ah, 09h` e `int 21h`.
+7. Tocá **Ejecutar**. Tiene que salir `Suma: 16, par.`
 
 #### Código inicial
 ```asm
@@ -6230,6 +6422,11 @@ La deuda es **−7**, que en un byte se guarda como `F9h`. `mul` no sabe de sign
 #### Desafío
 Tocá **Ejecutar** y mirá AX en el tablero (`02EBh`). Después cambiá la orden para que AX quede en **−21** (`FFEBh`).
 
+#### Pasos
+1. `mul` multiplica sin signo y toma −7 como 249.
+2. Cambiá `mul bl` por `imul bl`, que entiende el signo.
+3. Tocá **Ejecutar**. AX tiene que quedar en `FFEBh`.
+
 #### Código inicial
 ```asm
 .model small
@@ -6308,6 +6505,11 @@ Para que AX sea −7 (`FFF9h`), AH tiene que llenarse con **unos**, porque AL es
 
 #### Desafío
 Tocá **Ejecutar** y mirá AL (`7Ch`, 124). Después reemplazá el `mov ah, 0` por `cbw`, para que AL quede en **−3** (`FDh`) y AH, el resto, en **−1** (`FFh`).
+
+#### Pasos
+1. `mov ah, 0` borra el signo de la deuda antes de dividir.
+2. Cambialo por `cbw`, que copia el signo de AL a AH.
+3. Tocá **Ejecutar**. AL tiene que quedar en `FDh` y AH en `FFh`.
 
 #### Código inicial
 ```asm
@@ -6391,6 +6593,11 @@ Con un word, `idiv bx` divide el número de 32 bits que forman **DX:AX**. Con `m
 #### Desafío
 Reemplazá el `mov dx, 0` por la orden que estira AX hasta DX:AX con su signo, para que AX quede en **−233** (`FF17h`) y DX, el resto, en **−1** (`FFFFh`).
 
+#### Pasos
+1. `mov dx, 0` borra el signo.
+2. Cambialo por `cwd`, que estira AX hasta DX:AX con su signo.
+3. Tocá **Ejecutar**. AX tiene que quedar en `FF17h` y DX en `FFFFh`.
+
 #### Código inicial
 ```asm
 .model small
@@ -6473,6 +6680,11 @@ DX:AX = `0001h:FFFFh` (131.071 monedas). `add ax, 1` hace dar la vuelta a AX (`0
 #### Desafío
 Cambiá la orden de la parte alta para que sume el acarreo, y que DX:AX quede en `0002h:0000h` (131.072 monedas).
 
+#### Pasos
+1. `add dx, 0` no suma el acarreo que dejó la parte baja.
+2. Cambialo por `adc dx, 0`.
+3. Tocá **Ejecutar**. DX tiene que quedar en 2 y AX en 0.
+
 #### Código inicial
 ```asm
 .model small
@@ -6551,6 +6763,11 @@ Ahora hay que **pagar** una moneda del tesoro de 131.072 (`0002h:0000h`). La par
 #### Desafío
 Cambiá la orden de la parte alta para que reste el préstamo, y que DX:AX quede en `0001h:FFFFh` (131.071).
 
+#### Pasos
+1. `sub dx, 0` no resta el préstamo.
+2. Cambialo por `sbb dx, 0`.
+3. Tocá **Ejecutar**. DX tiene que quedar en 1 y AX en `FFFFh`.
+
 #### Código inicial
 ```asm
 .model small
@@ -6626,6 +6843,12 @@ Kira trae el tesoro del Gremio para guardarlo junto al del Gólem: **70.000** mo
 
 #### Desafío
 Escribí las dos órdenes, donde dice `; tus órdenes`, para que DX:AX quede con la suma: **140.000** (`0002h:22E0h`).
+
+#### Pasos
+1. Borrá `; tus órdenes`.
+2. Sumá las partes bajas: `add ax, bx`.
+3. Sumá las altas con el acarreo: `adc dx, cx`.
+4. Tocá **Ejecutar**. DX tiene que quedar en 2 y AX en `22E0h`.
 
 #### Código inicial
 ```asm
@@ -6902,6 +7125,11 @@ La cerradura tiene dos lucecitas prendidas, una en cada punta: `10000001b`. Para
 #### Desafío
 Tocá **Ejecutar** y mirá AL (`02h`: se perdió una luz). Después cambiá la orden para que AL quede en `03h`.
 
+#### Pasos
+1. `shl` tira el bit que sale por la izquierda.
+2. Cambialo por `rol al, 1`, que lo hace entrar por la derecha.
+3. Tocá **Ejecutar**. AL tiene que quedar en `03h`.
+
 #### Código inicial
 ```asm
 .model small
@@ -6979,6 +7207,11 @@ ror al, cl
 #### Desafío
 Tocá **Ejecutar** para ver el error del goblin. Después arreglalo con CL, para que AL quede en `11100000b` (`E0h`).
 
+#### Pasos
+1. En el 8086, para girar más de un lugar la cantidad va en CL.
+2. Cambiá `ror al, 3` por `mov cl, 3` y `ror al, cl`.
+3. Tocá **Ejecutar**. AL tiene que quedar en `E0h`.
+
 #### Código inicial
 ```asm
 .model small
@@ -7053,6 +7286,12 @@ Para un word es todavía más fácil: sus dos bytes son BH y BL. Para cambiarlos
 
 #### Desafío
 Completá las dos órdenes: la que gira AL para que quede en **C3h**, y la que deja BX en **3412h**.
+
+#### Pasos
+1. Hay dos `___`.
+2. El primero gira las dos mitades de AL: `rol al, cl` (CL ya vale 4).
+3. El segundo intercambia las dos mitades de BX: `xchg bh, bl`.
+4. Tocá **Ejecutar**. AL tiene que quedar en `C3h` y BX en `3412h`.
 
 #### Código inicial
 ```asm
@@ -7142,6 +7381,11 @@ Es el `"0123456789ABCDEF"[11]` de C.
 
 #### Desafío
 Completá la orden que busca en la tabla, para que el ojo muestre **B**.
+
+#### Pasos
+1. Hay un `___` después de `mov al, 11`.
+2. La orden que busca AL en la tabla que señala BX es `xlat`.
+3. Tocá **Ejecutar**. Tiene que salir `B`.
 
 #### Código inicial
 ```asm
@@ -7236,6 +7480,13 @@ Guardá la letra en CH: la `02h` cambia AL.
 #### Desafío
 Escribí las órdenes desde cero, donde dice `; tus órdenes`, para que el ojo muestre el código de la Z: **5A**.
 
+#### Pasos
+1. Borrá `; tus órdenes`. La cifra de arriba: `mov al, ch` y `shr al, cl` (CL vale 4).
+2. Buscala en la tabla y mostrala: `xlat`, `mov dl, al`, `mov ah, 02h` e `int 21h`.
+3. La cifra de abajo: `mov al, ch` y `and al, 0Fh`.
+4. Lo mismo: `xlat`, `mov dl, al`, `mov ah, 02h` e `int 21h`.
+5. Tocá **Ejecutar**. Tiene que salir `5A`.
+
 #### Código inicial
 ```asm
 .model small
@@ -7327,6 +7578,11 @@ DX:AX = `0001h:8000h`. `shl ax, 1` deja AX en 0 y el bit de arriba cae en **CF**
 
 #### Desafío
 Tocá **Ejecutar** y mirá DX (`0002h`). Después cambiá la orden de la parte alta para que DX:AX quede en `0003h:0000h`, el doble.
+
+#### Pasos
+1. `shl dx, 1` no recibe el bit que salió de AX.
+2. Cambialo por `rcl dx, 1`, que mete el acarreo por la derecha.
+3. Tocá **Ejecutar**. DX tiene que quedar en 3 y AX en 0.
 
 #### Código inicial
 ```asm
@@ -7586,6 +7842,11 @@ Por la cinta de la izquierda pasa un nombre, letra por letra, y la mano mecánic
 #### Desafío
 Completá la orden que toma la letra, para que el ojo muestre **KIRA**.
 
+#### Pasos
+1. Hay un `___` después de `letra:`.
+2. La orden que toma un byte de `[SI]` en AL y avanza es `lodsb`.
+3. Tocá **Ejecutar**. Tiene que salir `KIRA`.
+
 #### Código inicial
 ```asm
 .model small
@@ -7675,6 +7936,11 @@ Ojo: DI trabaja con el segmento **ES**, por eso el programa tiene `mov es, ax` a
 
 #### Desafío
 Completá la orden repetida, para que el muro quede con **10** ladrillos `#`.
+
+#### Pasos
+1. Hay un `___` después de `rep`.
+2. La orden que guarda AL en `[DI]` y avanza es `stosb`.
+3. Tocá **Ejecutar**. Tienen que salir diez `#`.
 
 #### Código inicial
 ```asm
@@ -7768,6 +8034,11 @@ Pero DI trabaja con **ES**, y al empezar ES no señala `.data`. La copia se fue 
 
 #### Desafío
 Tocá **Ejecutar** para ver el error. Después agregá la orden que falta, para que el ojo muestre `NOVA`.
+
+#### Pasos
+1. Las órdenes de cadena escriben en ES:DI, y ES no está cargado.
+2. Debajo de `mov ds, ax`, agregá `mov es, ax`.
+3. Tocá **Ejecutar**. Tiene que salir `NOVA`.
 
 #### Código inicial
 ```asm
@@ -7865,6 +8136,11 @@ Es el `memchr` de C, o el `.index()` de Python.
 #### Desafío
 Completá el prefijo que repite **mientras no encuentre**, para que BX quede con la posición de la J (**3**, contando desde 0).
 
+#### Pasos
+1. Hay un `___` antes de `scasb`.
+2. «Repetir mientras no sea igual» es `repne`.
+3. Tocá **Ejecutar**. BX tiene que quedar en 3.
+
 #### Código inicial
 ```asm
 .model small
@@ -7956,6 +8232,13 @@ Es el `strcmp` o el `memcmp` de C, o el `==` entre dos textos de Python.
 
 #### Desafío
 Escribí las órdenes donde dice `; tus órdenes`: que SI señale `clave`, DI señale `intento`, CX tenga **5**, y la comparación repetida. Si son iguales, el ojo tiene que mostrar `Adelante`.
+
+#### Pasos
+1. Borrá `; tus órdenes`.
+2. `lea si, clave` y `lea di, intento`.
+3. `mov cx, 5`.
+4. Compará mientras sean iguales: `repe cmpsb`.
+5. Tocá **Ejecutar**. Tiene que salir `Adelante`.
 
 #### Código inicial
 ```asm
@@ -8218,6 +8501,11 @@ El reloj del pecho de {mentor} marca **47** minutos, y Nova quiere mostrarlos en
 #### Desafío
 Completá la orden que separa las cifras, para que el ojo muestre **47**.
 
+#### Pasos
+1. Hay un `___` después de `mov al, 47`.
+2. La orden que separa AL en decenas (AH) y unidades (AL) es `aam`.
+3. Tocá **Ejecutar**. Tiene que salir `47`.
+
 #### Código inicial
 ```asm
 .model small
@@ -8311,6 +8599,11 @@ Kira dejó escritas dos cifras para poner el reloj en hora: un **3** y un **8**.
 #### Desafío
 Completá la orden que junta las cifras, para que AX quede en **38** (`0026h`).
 
+#### Pasos
+1. Hay un `___` después de cargar las unidades.
+2. La orden que junta AH y AL en un número es `aad`.
+3. Tocá **Ejecutar**. AX tiene que quedar en 38.
+
 #### Código inicial
 ```asm
 .model small
@@ -8383,6 +8676,11 @@ Con una cifra por byte (BCD desempaquetado), después del `add` va **`aaa`**: si
 
 #### Desafío
 Completá la orden de ajuste, para que AX quede en `0102h` (un 1 y un 2).
+
+#### Pasos
+1. Hay un `___` después de la suma.
+2. El ajuste de la suma en BCD desempaquetado es `aaa`.
+3. Tocá **Ejecutar**. AX tiene que quedar en `0102h`.
 
 #### Código inicial
 ```asm
@@ -8458,6 +8756,10 @@ El reloj marca las **19h**, en BCD. Pasa una hora, Nova le suma 1… y el reloj 
 #### Desafío
 Agregá la orden de ajuste después de la suma, para que AL quede en `20h`.
 
+#### Pasos
+1. Después de `add al, 1`, agregá el ajuste del BCD empaquetado: `daa`.
+2. Tocá **Ejecutar**. AL tiene que quedar en `20h`.
+
 #### Código inicial
 ```asm
 .model small
@@ -8530,6 +8832,12 @@ Kira programa una cuenta regresiva en el reloj para la próxima carrera del Grem
 
 #### Desafío
 Escribí las dos órdenes donde dice `; tus órdenes`: la resta de un minuto y su ajuste, para que AL quede en `19h`.
+
+#### Pasos
+1. Borrá `; tus órdenes`.
+2. Restá un minuto: `sub al, 1`.
+3. Ajustá la resta: `das`.
+4. Tocá **Ejecutar**. AL tiene que quedar en `19h`.
 
 #### Código inicial
 ```asm

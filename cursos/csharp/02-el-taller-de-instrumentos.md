@@ -140,6 +140,12 @@ class Tambor
 #### Desafío
 Creá un `Violin` llamado `nuevo`, cambiale el color a `azul` y mostralo.
 
+#### Pasos
+1. Borrá el comentario `// Fabricá el violín acá`.
+2. Escribí `Violin nuevo = new Violin();` y `nuevo.color = "azul";`.
+3. Mostralo: `Console.WriteLine(nuevo.color);`.
+4. Tocá **Ejecutar**. Tiene que salir `azul`.
+
 #### Código inicial
 ```csharp
 // Fabricá el violín acá
@@ -199,6 +205,11 @@ Console.WriteLine(b.tamanio);   // chico
 
 #### Desafío
 Fabricá un segundo violín, `segundo`, y pintalo de `verde`. El primero tiene que seguir `rojo`.
+
+#### Pasos
+1. Borrá el comentario `// el segundo violín`.
+2. Escribí `Violin segundo = new Violin();` y `segundo.color = "verde";`.
+3. Tocá **Ejecutar**. Tiene que salir `rojo` y `verde`.
 
 #### Código inicial
 ```csharp
@@ -273,6 +284,10 @@ class Tambor
 #### Desafío
 Agregale al plano un campo `public string duenio = "el taller";`. El programa ya lo muestra.
 
+#### Pasos
+1. En la clase, debajo de `public string color = "natural";`, escribí `public string duenio = "el taller";`.
+2. Tocá **Ejecutar**. Tiene que salir `natural, de el taller`.
+
 #### Código inicial
 ```csharp
 Violin v = new Violin();
@@ -340,6 +355,11 @@ class Tambor
 
 #### Desafío
 Escribí en la clase el método `public void Tocar()`, que muestre `El violín <color> suena`, y llamalo para los dos violines.
+
+#### Pasos
+1. En la clase, cambiá `// el método Tocar` por `public void Tocar()`.
+2. Entre llaves: `Console.WriteLine($"El violín {color} suena");`.
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp
@@ -417,6 +437,11 @@ Para usarlo desde afuera, agregale `public` adelante.
 
 #### Desafío
 Ensayá, leé el error y arreglá el campo para que el programa muestre el precio.
+
+#### Pasos
+1. Sin `public`, el campo no se ve desde afuera de la clase.
+2. Cambiá `int precio = 120;` por `public int precio = 120;`.
+3. Tocá **Ejecutar**. Tiene que salir `Precio: 120`.
 
 #### Código inicial
 ```csharp
@@ -686,6 +711,10 @@ class Pintor
 #### Desafío
 Completá el método `Afinar` para que ponga en `true` el campo `afinado` del violín que recibe.
 
+#### Pasos
+1. Cambiá `// afinalo` por `v.afinado = true;`.
+2. Tocá **Ejecutar**. Tiene que salir `¿Afinado? True`.
+
 #### Código inicial
 ```csharp
 Violin v = new Violin();
@@ -765,6 +794,11 @@ foreach (Tambor t in banda)
 
 #### Desafío
 Recorré el estante con un `foreach` y afiná cada violín con el afinador. El programa después cuenta los afinados.
+
+#### Pasos
+1. Cambiá `// afiná todos` por `foreach (Violin v in estante)`.
+2. Debajo, entre llaves: `a.Afinar(v);`.
+3. Tocá **Ejecutar**. Tiene que salir `Afinados: 3 de 3`.
 
 #### Código inicial
 ```csharp
@@ -863,6 +897,11 @@ public void CambiarTamanio(string tamanio)
 #### Desafío
 Arreglá `CambiarColor` usando `this` para que el violín quede `dorado`.
 
+#### Pasos
+1. `color = color;` copia el parámetro sobre sí mismo.
+2. Cambialo por `this.color = color;` (`this.color` es el campo del violín).
+3. Tocá **Ejecutar**. Tiene que salir `dorado`.
+
 #### Código inicial
 ```csharp
 Violin v = new Violin();
@@ -937,6 +976,11 @@ class Pintor
 
 #### Desafío
 Agregá al afinador un segundo `Afinar` que reciba un `Violin[]` y afine cada uno usando el primero. El programa ya lo llama con el estante.
+
+#### Pasos
+1. Cambiá `// el Afinar que recibe muchos` por `public void Afinar(Violin[] varios)`.
+2. Entre llaves: `foreach (Violin v in varios) Afinar(v);`.
+3. Tocá **Ejecutar**. Tiene que salir `True True True`.
 
 #### Código inicial
 ```csharp
@@ -1029,6 +1073,11 @@ Casi siempre es una mayúscula: el método se llama `Tocar`, no `tocar`.
 
 #### Desafío
 Ensayá, leé el error y arreglá la llamada.
+
+#### Pasos
+1. El método se llama `Tocar`, con mayúscula.
+2. Cambiá `v.tocar();` por `v.Tocar();`.
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp
@@ -1304,6 +1353,10 @@ public int Golpes
 #### Desafío
 Completá el `set` de `Cuerdas` para que solo guarde valores de `1` a `5`.
 
+#### Pasos
+1. Cambiá `_cuerdas = value;` por `if (value >= 1 && value <= 5) _cuerdas = value;`.
+2. Tocá **Ejecutar**. Tiene que salir `4` y `5`.
+
 #### Código inicial
 ```csharp
 Violin v = new Violin();
@@ -1388,6 +1441,10 @@ class Tambor
 #### Desafío
 Agregale a `Violin` una propiedad automática `Duenio`, de texto, que empiece vacía.
 
+#### Pasos
+1. Cambiá `// la propiedad Duenio` por `public string Duenio { get; set; } = "";`.
+2. Tocá **Ejecutar**. Tiene que salir `Violín de Ceci`.
+
 #### Código inicial
 ```csharp
 Violin v = new Violin();
@@ -1446,6 +1503,10 @@ public bool Cansado => Golpes > 100;
 
 #### Desafío
 Agregá la propiedad calculada `EsViejo`, que sea `true` si `Anios` es mayor que `50`.
+
+#### Pasos
+1. Cambiá `// EsViejo` por `public bool EsViejo => Anios > 50;`.
+2. Tocá **Ejecutar**. Tiene que salir `True False`.
 
 #### Código inicial
 ```csharp
@@ -1517,6 +1578,10 @@ public void Golpear()
 
 #### Desafío
 Completá el método `Reparar` para que sume uno a `Arreglos`. El programa lo llama dos veces.
+
+#### Pasos
+1. Cambiá `// sumá un arreglo` por `Arreglos++;`.
+2. Tocá **Ejecutar**. Tiene que salir `Arreglos: 2`.
 
 #### Código inicial
 ```csharp
@@ -1590,6 +1655,11 @@ Si el modelo no se puede cambiar, la línea que lo cambia **sobra**.
 
 #### Desafío
 Ensayá, leé el error y sacá la línea del goblin.
+
+#### Pasos
+1. `Modelo` solo se puede leer desde afuera.
+2. Borrá la línea `v.Modelo = "de juguete";`.
+3. Tocá **Ejecutar**. Tiene que salir `Modelo: clásico`.
 
 #### Código inicial
 ```csharp
@@ -1872,6 +1942,11 @@ class Tambor
 #### Desafío
 Escribí el constructor de `Violin` que reciba `string duenio` y lo guarde en `Duenio`.
 
+#### Pasos
+1. Cambiá `// el constructor` por `public Violin(string duenio)`.
+2. Entre llaves: `Duenio = duenio;`.
+3. Tocá **Ejecutar**. Tiene que salir `Violín de Ceci`.
+
 #### Código inicial
 ```csharp
 Violin v = new Violin("Ceci");
@@ -1939,6 +2014,10 @@ public Tambor(string marca, int tamanio)
 
 #### Desafío
 Completá el `new` del programa con los dos datos: `Bemol` y `negro`.
+
+#### Pasos
+1. Cambiá `new Violin()` por `new Violin("Bemol", "negro")`.
+2. Tocá **Ejecutar**. Tiene que salir `negro, de Bemol`.
 
 #### Código inicial
 ```csharp
@@ -2019,6 +2098,10 @@ class Tambor
 #### Desafío
 En el constructor, sumá uno a `Fabricados`. El programa fabrica tres violines.
 
+#### Pasos
+1. En el constructor, debajo de `Duenio = duenio;`, escribí `Fabricados++;`.
+2. Tocá **Ejecutar**. Tiene que salir `Fabricados: 3`.
+
 #### Código inicial
 ```csharp
 Violin a = new Violin("Ceci");
@@ -2095,6 +2178,11 @@ public override string ToString()
 #### Desafío
 Escribí el `ToString` de `Violin` para que muestre `Violín de <Duenio>`.
 
+#### Pasos
+1. Cambiá `// ToString` por `public override string ToString()`.
+2. Entre llaves: `return $"Violín de {Duenio}";`.
+3. Tocá **Ejecutar**. Tiene que salir `Violín de Ceci`.
+
 #### Código inicial
 ```csharp
 Violin v = new Violin("Ceci");
@@ -2170,6 +2258,11 @@ El error dice qué parámetro falta: `duenio`.
 
 #### Desafío
 Ensayá, leé el error y dale al violín el dueño `el taller`.
+
+#### Pasos
+1. El constructor pide el dueño.
+2. Cambiá `new Violin()` por `new Violin("el taller")`.
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp
@@ -2447,6 +2540,11 @@ Tambor tuyo = new Tambor();   // otro tambor de verdad
 #### Desafío
 Cambiá la línea de `deBemol` para que sea un violín nuevo, así el de Ceci sigue `natural`.
 
+#### Pasos
+1. `deBemol = deCeci` no copia: los dos nombres apuntan al mismo violín.
+2. Cambialo por `Violin deBemol = new Violin();`.
+3. Tocá **Ejecutar**. Ceci tiene que seguir `natural`.
+
 #### Código inicial
 ```csharp
 Violin deCeci = new Violin();
@@ -2511,6 +2609,12 @@ b.X = 7;      // a.X sigue en 1
 
 #### Desafío
 Hacé que `ceci` sea una copia de `clave` y cambiale la butaca a `6`. El lugar de Clave tiene que quedar igual.
+
+#### Pasos
+1. Borrá el comentario `// copiá y cambiá la butaca`.
+2. Escribí `ceci = clave;` (es un `struct`: se copia entero).
+3. Debajo, `ceci.Butaca = 6;`.
+4. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp
@@ -2587,6 +2691,10 @@ Console.WriteLine((int)hoy);   // 1
 #### Desafío
 Escribí el `enum Cuerda` con `Sol`, `Re`, `La` y `Mi`, en ese orden.
 
+#### Pasos
+1. Cambiá `// el enum` por `enum Cuerda { Sol, Re, La, Mi }`.
+2. Tocá **Ejecutar**. Tiene que salir `La es la cuerda 2`.
+
 #### Código inicial
 ```csharp
 Cuerda c = Cuerda.La;
@@ -2640,6 +2748,12 @@ string tipo = hoy switch
 
 #### Desafío
 Completá `Tono` con un `switch`: `Sol` es `grave`, `Mi` es `agudo` y las demás, `medio`.
+
+#### Pasos
+1. Cambiá `return "medio";` por `return c switch`.
+2. Debajo, entre llaves: `Cuerda.Sol => "grave",`, `Cuerda.Mi => "agudo",` y `_ => "medio",`.
+3. Cerrá con `};`.
+4. Tocá **Ejecutar**. Tiene que salir `grave`, `medio` y `agudo`.
 
 #### Código inicial
 ```csharp
@@ -2710,6 +2824,10 @@ Tambor copia = new Tambor { Color = original.Color };
 
 #### Desafío
 Cambiá la llamada para que el troll reciba una copia del violín, no el original.
+
+#### Pasos
+1. Cambiá `Prestar(mio);` por `Prestar(new Violin { Color = mio.Color });`.
+2. Tocá **Ejecutar**. Tiene que salir `Mi violín: rojo`.
 
 #### Código inicial
 ```csharp
@@ -2947,6 +3065,10 @@ Console.WriteLine(n);   // Nota { Nombre = La, Duracion = 4 }
 #### Desafío
 Escribí el `record Ficha` con `string Nombre` e `int Anios`.
 
+#### Pasos
+1. Cambiá `// el record` por `record Ficha(string Nombre, int Anios);`.
+2. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```csharp
 Ficha f = new Ficha("Violín rojo", 12);
@@ -2998,6 +3120,11 @@ Console.WriteLine(a == b);   // True
 
 #### Desafío
 Mostrá si `a` es igual a `b`, y si `a` es igual a `c`.
+
+#### Pasos
+1. Cambiá `// compará` por `Console.WriteLine(a == b);`.
+2. Debajo, `Console.WriteLine(a == c);`.
+3. Tocá **Ejecutar**. Tiene que salir `True` y `False`.
 
 #### Código inicial
 ```csharp
@@ -3056,6 +3183,10 @@ Nota larga = n with { Duracion = 8 };
 
 #### Desafío
 Creá `nueva` como una copia de `vieja` con `Anios` en `13`.
+
+#### Pasos
+1. Cambiá `// la ficha nueva` por `Ficha nueva = vieja with { Anios = 13 };`.
+2. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp
@@ -3117,6 +3248,10 @@ Console.WriteLine(sobrenombre ?? "ninguno");   // ninguno
 
 #### Desafío
 Completá `Mostrar` para que use el apodo, o `sin apodo` si falta.
+
+#### Pasos
+1. En el `WriteLine`, cambiá `{f.Apodo}` por `{f.Apodo ?? "sin apodo"}`.
+2. Tocá **Ejecutar**. Tiene que salir `Violín azul: sin apodo`.
 
 #### Código inicial
 ```csharp
@@ -3180,6 +3315,10 @@ int largo = s?.Length ?? 0;   // 0, sin explotar
 
 #### Desafío
 Ensayá, mirá cómo explota y arreglá la línea para que, si no hay apodo, el largo sea `0`.
+
+#### Pasos
+1. Cambiá `apodo!.Length` por `apodo?.Length ?? 0`.
+2. Tocá **Ejecutar**. Tiene que salir `Letras: 0`.
 
 #### Código inicial
 ```csharp
@@ -3422,6 +3561,11 @@ class Bombo : Tambor
 #### Desafío
 Escribí la clase `Viola`, que herede de `Cuerdas` y le pase `viola` como nombre.
 
+#### Pasos
+1. Cambiá `// la clase Viola` por `class Viola : Cuerdas`.
+2. Entre llaves: `public Viola() : base("viola") { }`.
+3. Tocá **Ejecutar**. Tiene que salir `viola, 4 cuerdas`.
+
 #### Código inicial
 ```csharp
 Viola v = new Viola();
@@ -3504,6 +3648,11 @@ class Bombo : Tambor
 
 #### Desafío
 Agregale a `Chelo` el método `Apoyar()`, que muestre `<Nombre> se apoya en el piso`.
+
+#### Pasos
+1. En `Chelo`, cambiá `// Apoyar` por `public void Apoyar()`.
+2. Entre llaves: `Console.WriteLine($"{Nombre} se apoya en el piso");`.
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp
@@ -3596,6 +3745,10 @@ class Bombo : Tambor
 #### Desafío
 Hacé que `Contrabajo` reemplace `Voz()` para que devuelva `muy grave`.
 
+#### Pasos
+1. En `Contrabajo`, debajo del constructor, escribí `public override string Voz() => "muy grave";`.
+2. Tocá **Ejecutar**. Tiene que salir `contrabajo: muy grave`.
+
 #### Código inicial
 ```csharp
 Cuerdas c = new Contrabajo();
@@ -3686,6 +3839,10 @@ class Bombo : Tambor
 #### Desafío
 El violín no puede usar `afinacion` porque es `private`. Cambialo a `protected`.
 
+#### Pasos
+1. Cambiá `private int afinacion` por `protected int afinacion`.
+2. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```csharp
 Violin v = new Violin();
@@ -3750,6 +3907,11 @@ Para que la derivada reemplace de verdad, la base dice `virtual` y la derivada, 
 
 #### Desafío
 Arreglá el plano para que el violín diga que su voz es `aguda`.
+
+#### Pasos
+1. En la clase de arriba, cambiá `public string Voz()` por `public virtual string Voz()`.
+2. En el violín, cambiá `public new string Voz()` por `public override string Voz()`.
+3. Tocá **Ejecutar**. Tiene que salir `Voz: aguda`.
 
 #### Código inicial
 ```csharp
@@ -4030,6 +4192,11 @@ foreach (Tambor t in banda)
 #### Desafío
 Recorré la orquesta y mostrá lo que toca cada instrumento.
 
+#### Pasos
+1. Cambiá `// ¡toquen!` por `foreach (Instrumento i in orquesta)`.
+2. Entre llaves: `Console.WriteLine(i.Tocar());`.
+3. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```csharp
 Instrumento[] orquesta = { new Violin(), new Tambor() };
@@ -4114,6 +4281,11 @@ class Bombo : Instrumento
 
 #### Desafío
 Escribí la clase `Flauta`, que toque `fiu fiu`. El arreglo ya la incluye.
+
+#### Pasos
+1. Cambiá `// la Flauta` por `class Flauta : Instrumento`.
+2. Entre llaves: `public override string Tocar() => "fiu fiu";`.
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp
@@ -4200,6 +4372,12 @@ abstract class Forma
 #### Desafío
 Al tambor le falta su `Tocar()` y nadie se dio cuenta: suena `...`. Convertí `Instrumento` en `abstract` y su `Tocar()` en un método `abstract`, sin cuerpo. Ensayá: el compilador te va a avisar que el tambor no lo escribió (`CS0534`). Escribiselo, que toque `pum pum`.
 
+#### Pasos
+1. Cambiá `class Instrumento` por `abstract class Instrumento`.
+2. Cambiá su `Tocar` por `public abstract string Tocar();` (sin cuerpo).
+3. En el tambor, entre sus llaves: `public override string Tocar() => "pum pum";`.
+4. Tocá **Ejecutar**. Tiene que salir `pum pum`.
+
 #### Código inicial
 ```csharp
 Instrumento t = new Tambor();
@@ -4267,6 +4445,11 @@ if (t is Bombo b)
 
 #### Desafío
 Recorré la orquesta y, si el instrumento es un `Chelo`, llamá a `Apoyar()`.
+
+#### Pasos
+1. Cambiá `// acomodá los chelos` por `foreach (Instrumento i in orquesta)`.
+2. Entre llaves: `if (i is Chelo c) c.Apoyar();`.
+3. Tocá **Ejecutar**. Tiene que salir `Chelo apoyado`.
 
 #### Código inicial
 ```csharp
@@ -4340,6 +4523,13 @@ abstract class Instrumento
 
 #### Desafío
 Sacá el método del ogro y reemplazalo por un `Tocar()` en cada clase. El tambor toca `pum pum`.
+
+#### Pasos
+1. En el `foreach`, cambiá `TocarComoOgro(i)` por `i.Tocar()`.
+2. Borrá el método `TocarComoOgro` entero.
+3. `abstract class Instrumento` con `public abstract string Tocar();`.
+4. `Violin`: `public override string Tocar() => "la la la";`. `Tambor`: lo mismo con `"pum pum"`.
+5. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp
@@ -4651,6 +4841,11 @@ interface ISaluda
 #### Desafío
 Escribí la interface `IMarcaCompas` con el método `void Marcar();`. El metrónomo ya la cumple.
 
+#### Pasos
+1. Cambiá `// la interface` por `interface IMarcaCompas`.
+2. Entre llaves: `void Marcar();`.
+3. Tocá **Ejecutar**. Tiene que salir `tic tac`.
+
 #### Código inicial
 ```csharp
 IMarcaCompas m = new Metronomo();
@@ -4716,6 +4911,11 @@ class Loro : ISaluda
 
 #### Desafío
 Escribí la clase `Tamborilero`, que cumpla `IMarcaCompas` y marque `pum pum`.
+
+#### Pasos
+1. Cambiá `// el Tamborilero` por `class Tamborilero : IMarcaCompas`.
+2. Entre llaves: `public void Marcar() => Console.WriteLine("pum pum");`.
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp
@@ -4799,6 +4999,11 @@ static void Presentar(ISaluda alguien)
 
 #### Desafío
 Completá `Ensayar` para que llame a `Marcar()` dos veces sobre lo que recibe.
+
+#### Pasos
+1. Cambiá `// dos compases` por `quien.Marcar();`.
+2. Debajo, otra vez `quien.Marcar();`.
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp
@@ -4894,6 +5099,11 @@ class Loro : ISaluda, IVuela
 #### Desafío
 Hacé que `Tamborilero` cumpla también `ICanta`, cantando `la la la`.
 
+#### Pasos
+1. Cambiá `class Tamborilero : IMarcaCompas` por `class Tamborilero : IMarcaCompas, ICanta`.
+2. Adentro, debajo de `Marcar`: `public void Cantar() => Console.WriteLine("la la la");`.
+3. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```csharp
 Tamborilero bemol = new Tamborilero();
@@ -4974,6 +5184,10 @@ error CS0535: "Goblin" no implementa el miembro de interfaz "IMarcaCompas.Marcar
 
 #### Desafío
 Ensayá, leé el error y escribile al `Goblin` su `Marcar()`, que muestre `tac… tac…`.
+
+#### Pasos
+1. Adentro de las llaves del `Goblin`, escribí `public void Marcar() => Console.WriteLine("tac… tac…");`.
+2. Tocá **Ejecutar**. Tiene que salir `tac… tac…`.
 
 #### Código inicial
 ```csharp
@@ -5244,6 +5458,10 @@ class Tambor
 #### Desafío
 Agregale a `Violin` una propiedad `Arco` de tipo `IArco`, que empiece con un `new ArcoDulce()`.
 
+#### Pasos
+1. Cambiá `// el arco` por `public IArco Arco { get; set; } = new ArcoDulce();`.
+2. Tocá **Ejecutar**. Tiene que salir `mi…`.
+
 #### Código inicial
 ```csharp
 Violin v = new Violin();
@@ -5319,6 +5537,10 @@ public string Golpear() => Palillos.Pegar();
 
 #### Desafío
 Escribí en `Violin` el método `Tocar(string nota)` que devuelva lo que suena el arco.
+
+#### Pasos
+1. Cambiá `// Tocar` por `public string Tocar(string nota) => Arco.Sonar(nota);`.
+2. Tocá **Ejecutar**. Tiene que salir `la…`.
 
 #### Código inicial
 ```csharp
@@ -5399,6 +5621,12 @@ tambor.Palillos = new Mazas();
 
 #### Desafío
 Escribí la clase `ArcoFuerte`, que suene `¡<NOTA en mayúsculas>!`, y cambiá el arco antes de la segunda nota.
+
+#### Pasos
+1. Cambiá `// cambiá de arco` por `v.Arco = new ArcoFuerte();`.
+2. Cambiá `// el ArcoFuerte` por `class ArcoFuerte : IArco`.
+3. Entre llaves: `public string Sonar(string nota) => $"¡{nota.ToUpper()}!";`.
+4. Tocá **Ejecutar**. Tiene que salir `sol…` y `¡SOL!`.
 
 #### Código inicial
 ```csharp
@@ -5503,6 +5731,11 @@ class Mazas : IPalillos
 #### Desafío
 Completá `ArcoAcento`: que cuente las notas y, cada tres, devuelva la nota en mayúsculas con `!`; las demás, en minúsculas.
 
+#### Pasos
+1. Antes del `return`, contá la nota: `_notas++;`.
+2. Cambiá el `return` por `return _notas % 3 == 0 ? nota.ToUpper() + "!" : nota.ToLower();`.
+3. Tocá **Ejecutar**. Tiene que salir `do re MI! fa sol LA!`.
+
 #### Código inicial
 ```csharp
 Violin v = new Violin { Arco = new ArcoAcento() };
@@ -5602,6 +5835,10 @@ string color = tambor.Funda?.Color ?? "sin funda";
 
 #### Desafío
 Ensayá, mirá cómo explota y arreglá la línea del color para que muestre `sin estuche`.
+
+#### Pasos
+1. Cambiá `{v.Estuche!.Color}` por `{v.Estuche?.Color ?? "sin estuche"}`.
+2. Tocá **Ejecutar**. Tiene que salir `Estuche: sin estuche`.
 
 #### Código inicial
 ```csharp
@@ -5890,6 +6127,12 @@ public int Vida
 #### Desafío
 Convertí `volumen` en una propiedad `Volumen` que solo acepte valores de `0` a `10` (empieza en `5`).
 
+#### Pasos
+1. En la clase, cambiá `public int volumen = 5;` por `private int _volumen = 5;`.
+2. Debajo: `public int Volumen` con `get => _volumen;` y un `set` que haga `if (value >= 0 && value <= 10) _volumen = value;`.
+3. En el programa, cambiá los cuatro `v.volumen` por `v.Volumen`.
+4. Tocá **Ejecutar**. Tiene que salir `Volumen: 5` y `Volumen: 8`.
+
 #### Código inicial
 ```csharp
 Violin v = new Violin();
@@ -5968,6 +6211,12 @@ public Obra(string titulo)
 #### Desafío
 Escribí un constructor en `Partitura` que reciba el título y lo guarde. Después, cambiá los `new` del programa para que cada partitura nazca con su título: `Nana` y `Marcha`.
 
+#### Pasos
+1. En `Partitura`, cambiá `public string Titulo { get; } = "";` por `public string Titulo { get; }`.
+2. Debajo: `public Partitura(string titulo)` y, entre llaves, `Titulo = titulo;`.
+3. En el programa: `new Partitura("Nana")` y `new Partitura("Marcha")`.
+4. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```csharp
 Partitura a = new Partitura();
@@ -6037,6 +6286,12 @@ abstract class Ave
 
 #### Desafío
 Convertí `Instrumento` en `abstract` con `Sonido()` abstracto, y escribí el `Sonido()` de cada uno: el arpa hace `tlin tlin` y la trompeta `tururú`.
+
+#### Pasos
+1. Cambiá `class Instrumento` por `abstract class Instrumento` y su `Sonido` por `public abstract string Sonido();`.
+2. `Arpa`, entre llaves: `public override string Sonido() => "tlin tlin";`.
+3. `Trompeta`, entre llaves: `public override string Sonido() => "tururú";`.
+4. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp
@@ -6118,6 +6373,12 @@ class Jinete
 
 #### Desafío
 Cambiá `Musico` para que **no** herede de `Violin` y en cambio **tenga** un `IInstrumento` (que empiece con un `Violin`). Su `Tocar()` usa el sonido del instrumento. El programa después le da un tambor.
+
+#### Pasos
+1. Cambiá `class Musico : Violin` por `class Musico`.
+2. Adentro: `public IInstrumento Instrumento { get; set; } = new Violin();`.
+3. Cambiá `Tocar` por `public string Tocar() => Instrumento.Sonido();`.
+4. Tocá **Ejecutar**. Tiene que salir `la la la` y `pum pum`.
 
 #### Código inicial
 ```csharp
@@ -6209,6 +6470,12 @@ De a uno. Ensayá, leé el **primer** error, arreglalo y volvé a ensayar. Los c
 
 #### Desafío
 Arreglá los tres errores para que la orquesta toque completa. La flauta hace `fiu fiu`, y el tercer músico es `Clave`.
+
+#### Pasos
+1. Al tercer músico le falta el nombre: `new Musico("Clave", new Violin())`.
+2. Cambiá `m.tocar()` por `m.Tocar()`.
+3. En la `Flauta`, entre sus llaves: `public string Sonido() => "fiu fiu";`.
+4. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp

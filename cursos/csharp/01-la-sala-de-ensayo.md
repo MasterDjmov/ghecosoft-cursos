@@ -4066,6 +4066,11 @@ Muestra `Vuelta 1` y `Vuelta 2`.
 #### Desafío
 Cambiá el `for` para que cuente de 1 a 3, en lugar de 1 a 5.
 
+#### Pasos
+1. Buscá `i <= 5` en el `for`.
+2. Cambialo por `i <= 3`.
+3. Tocá **Ejecutar**. Tiene que salir 1, 2 y 3.
+
 #### Código inicial
 ```csharp
 for (int i = 1; i <= 5; i++)
@@ -4124,6 +4129,10 @@ Muestra `30`.
 
 #### Desafío
 Sumá `i` al `total` en cada vuelta, para que muestre el total de rondas de los 5 días.
+
+#### Pasos
+1. Adentro de las llaves del `for`, escribí `total += i;`.
+2. Tocá **Ejecutar**. Tiene que salir `15`.
 
 #### Código inicial
 ```csharp
@@ -4185,6 +4194,11 @@ Muestra `-1`: la última vuelta pasó de 1 a -1.
 #### Desafío
 Completá el bucle: en cada vuelta, restale 3 a `vela` y sumale 1 a `ensayos`.
 
+#### Pasos
+1. Adentro de las llaves del bucle, escribí `vela -= 3;`.
+2. Debajo, `ensayos++;`.
+3. Tocá **Ejecutar**. Tiene que salir `Ensayos: 3`.
+
 #### Código inicial
 ```csharp
 int vela = 10;
@@ -4245,6 +4259,10 @@ while (true)
 
 #### Desafío
 Agregá, antes del `WriteLine`, la línea que corta el bucle cuando la opción es `"0"`. Después del bucle tiene que mostrar `Gracias por venir`.
+
+#### Pasos
+1. Debajo de `string opcion = ...`, escribí `if (opcion == "0") break;`.
+2. Tocá **Ejecutar**. Al final tiene que salir `Gracias por venir`.
 
 #### Código inicial
 ```csharp
@@ -4315,6 +4333,10 @@ while (i < 2)
 
 #### Desafío
 Ejecutalo y mirá cómo se corta. Agregá `golpe++;` adentro del bucle para que dé solo 4 golpes.
+
+#### Pasos
+1. Debajo del `Console.WriteLine($"Tac {golpe}");`, escribí `golpe++;`.
+2. Tocá **Ejecutar**. Tienen que salir 4 golpes.
 
 #### Código inicial
 ```csharp
@@ -4568,6 +4590,11 @@ Muestra `verde`.
 #### Desafío
 Mostrá la tercera obra del arreglo.
 
+#### Pasos
+1. Los casilleros empiezan en 0: la tercera obra está en el `2`.
+2. Cambiá `repertorio.Length` por `repertorio[2]`.
+3. Tocá **Ejecutar**. Tiene que salir `Nocturno`.
+
 #### Código inicial
 ```csharp
 string[] repertorio = { "Serenata", "Minueto", "Nocturno", "Vals" };
@@ -4621,6 +4648,11 @@ Muestra `30`.
 
 #### Desafío
 Recorré `minutos` con `foreach` y sumá cada valor a `total`.
+
+#### Pasos
+1. Antes del `Console.WriteLine`, escribí `foreach (int m in minutos)`.
+2. Debajo, entre llaves: `total += m;`.
+3. Tocá **Ejecutar**. Tiene que salir `Total: 21 minutos`.
 
 #### Código inicial
 ```csharp
@@ -4680,6 +4712,11 @@ Muestra `1) afinar` y `2) tocar`.
 #### Desafío
 Completá el `WriteLine` para que muestre cada obra con su número, desde 1.
 
+#### Pasos
+1. Buscá `Console.WriteLine(obras[0]);`.
+2. Cambialo por `Console.WriteLine($"{i + 1}. {obras[i]}");`.
+3. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```csharp
 string[] obras = { "Serenata", "Minueto", "Nocturno" };
@@ -4738,6 +4775,10 @@ Muestra `10 20 30`.
 #### Desafío
 Ordená `volumenes` antes de mostrarlo.
 
+#### Pasos
+1. Debajo de la primera línea, escribí `Array.Sort(volumenes);`.
+2. Tocá **Ejecutar**. Tiene que salir `20, 40, 70, 95`.
+
 #### Código inicial
 ```csharp
 int[] volumenes = { 70, 20, 95, 40 };
@@ -4785,6 +4826,11 @@ for (int i = 0; i < nombres.Length; i++)
 
 #### Desafío
 Ejecutalo y mirá el error del orco. Arreglá la condición del `for`.
+
+#### Pasos
+1. Con `<=`, la `i` llega a 3, y ese casillero no existe.
+2. En el `for`, cambiá `i <= obras.Length` por `i < obras.Length`.
+3. Tocá **Ejecutar**. Tienen que salir las tres obras sin error.
 
 #### Código inicial
 ```csharp
@@ -5014,6 +5060,10 @@ Muestra `3`: fila 1, columna 0.
 #### Desafío
 Mostrá lo que hay en la fila `1`, columna `2`.
 
+#### Pasos
+1. Cambiá `escenario[0, 0]` por `escenario[1, 2]`.
+2. Tocá **Ejecutar**. Tiene que salir `F`.
+
 #### Código inicial
 ```csharp
 char[,] escenario =
@@ -5065,6 +5115,11 @@ Con un `for` adentro de otro recorrés toda la matriz: el de afuera pasa por las
 
 #### Desafío
 Completá el `for` de adentro para que recorra las columnas y muestre cada lugar con `Console.Write`.
+
+#### Pasos
+1. Arriba del `Console.WriteLine();`, escribí `for (int c = 0; c < escenario.GetLength(1); c++)`.
+2. Debajo, entre llaves: `Console.Write(escenario[f, c]);`.
+3. Tocá **Ejecutar**. Tiene que salir `VVC` y `.F.`.
 
 #### Código inicial
 ```csharp
@@ -5130,6 +5185,11 @@ if (mapa[f, c] == 'X') cuenta++;
 
 #### Desafío
 Adentro del `for` de las columnas, sumá 1 a `violines` cada vez que el lugar sea `'V'`.
+
+#### Pasos
+1. Adentro de las llaves del `for` de las columnas, escribí `if (escenario[f, c] == 'V') violines++;`.
+2. La `'V'` va con comillas simples: es un carácter.
+3. Tocá **Ejecutar**. Tiene que salir `Violines: 3`.
 
 #### Código inicial
 ```csharp
@@ -5205,6 +5265,10 @@ Muestra `1`: el original no cambió.
 #### Desafío
 Cambiá la segunda línea para que `prueba` sea una copia de verdad. Así el original sigue empezando con `70`.
 
+#### Pasos
+1. Cambiá `int[] prueba = volumenes;` por `int[] prueba = (int[])volumenes.Clone();`.
+2. Tocá **Ejecutar**. Tiene que salir `70`.
+
 #### Código inicial
 ```csharp
 int[] volumenes = { 70, 40, 90 };
@@ -5251,6 +5315,10 @@ El troll usa `=` con arreglos para que dos nombres compartan el mismo estante. S
 
 #### Desafío
 Ejecutalo: la lista de Bemol muestra `442`, aunque nadie la tocó. Arreglá la segunda línea con `Clone()` para que la de Bemol siga en `440`.
+
+#### Pasos
+1. Cambiá `int[] deBemol = deCeci;` por `int[] deBemol = (int[])deCeci.Clone();`.
+2. Tocá **Ejecutar**. Tiene que salir `Bemol: 440`.
 
 #### Código inicial
 ```csharp
@@ -5498,6 +5566,10 @@ Muestra `¡Clap!` dos veces.
 #### Desafío
 Agregá una segunda llamada a `Estribillo()` después de la estrofa.
 
+#### Pasos
+1. Debajo de `Console.WriteLine("Estrofa");`, escribí `Estribillo();`.
+2. Tocá **Ejecutar**. `La la la` tiene que salir dos veces.
+
 #### Código inicial
 ```csharp
 Estribillo();
@@ -5561,6 +5633,11 @@ static void Felicitar(string quien)
 
 #### Desafío
 Agregale al método un parámetro `string obra` y usalo en el anuncio, en lugar de «algo».
+
+#### Pasos
+1. Cambiá `static void Anunciar()` por `static void Anunciar(string obra)`.
+2. Cambiá el `WriteLine` por `Console.WriteLine($"Ahora suena: {obra}");`.
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp
@@ -5627,6 +5704,10 @@ Muestra `12`.
 #### Desafío
 Completá el método para que devuelva `compases * segundos`.
 
+#### Pasos
+1. Cambiá `return 0;` por `return compases * segundos;`.
+2. Tocá **Ejecutar**. Tiene que salir `96`.
+
 #### Código inicial
 ```csharp
 Console.WriteLine(Duracion(32, 3));
@@ -5689,6 +5770,10 @@ Muestra `Buen día, Ana` y `¡Hola, Leo`.
 #### Desafío
 Dale a `veces` el valor por defecto `1`, para que `Tocar("Vals")` compile y toque una sola vez.
 
+#### Pasos
+1. Cambiá `int veces` por `int veces = 1`.
+2. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```csharp
 Tocar("Vals");
@@ -5743,6 +5828,11 @@ C# distingue mayúsculas de minúsculas: `Afinar` y `afinar` son dos nombres dis
 
 #### Desafío
 Ejecutalo y leé el error del esqueleto. Arreglá la llamada para que use el nombre exacto del método.
+
+#### Pasos
+1. El método se llama `Afinar`, con mayúscula.
+2. Cambiá `afinar();` por `Afinar();`.
+3. Tocá **Ejecutar**. Tiene que salir `La 440`.
 
 #### Código inicial
 ```csharp
@@ -5992,6 +6082,10 @@ Muestra `90`.
 #### Desafío
 Guardá lo que devuelve `Acelerar` en `tempo`, para que muestre `80`.
 
+#### Pasos
+1. Cambiá `Acelerar(tempo);` por `tempo = Acelerar(tempo);`.
+2. Tocá **Ejecutar**. Tiene que salir `80`.
+
 #### Código inicial
 ```csharp
 int tempo = 60;
@@ -6056,6 +6150,10 @@ Muestra `3 y sobran 2`.
 
 #### Desafío
 Hacé que el método devuelva `(menor, mayor)` en lugar de `(0, 0)`.
+
+#### Pasos
+1. Cambiá `return (0, 0);` por `return (menor, mayor);`.
+2. Tocá **Ejecutar**. Tiene que salir `4 y 9`.
 
 #### Código inicial
 ```csharp
@@ -6122,6 +6220,11 @@ Muestra `2`.
 
 #### Desafío
 Agregá `ref` en el parámetro del método y en la llamada, para que `perilla` quede en `50`.
+
+#### Pasos
+1. En la llamada: `Girar(ref perilla);`.
+2. En el método: `static void Girar(ref int p)`.
+3. Tocá **Ejecutar**. Tiene que salir `50`.
 
 #### Código inicial
 ```csharp
@@ -6190,6 +6293,11 @@ Muestra `2` y `1`.
 #### Desafío
 Completá el caso que corta: cuando `n` es `0`, mostrá `¡Arriba el telón!` y terminá con `return`.
 
+#### Pasos
+1. Arriba del `Console.WriteLine(n);`, escribí `if (n == 0)`.
+2. Entre llaves: `Console.WriteLine("¡Arriba el telón!");` y `return;`.
+3. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```csharp
 Cuenta(3);
@@ -6250,6 +6358,10 @@ Para que la recursión termine, cada llamada tiene que **acercarse** al caso que
 
 #### Desafío
 Ejecutalo y mirá cómo se rompe. Arreglá la llamada para que `n` baje en lugar de subir.
+
+#### Pasos
+1. Cambiá `Nota(n + 1);` por `Nota(n - 1);`.
+2. Tocá **Ejecutar**. Tiene que terminar en `Nota de 1 tiempos`.
 
 #### Código inicial
 ```csharp
@@ -6457,6 +6569,11 @@ El error dice la línea entre paréntesis: `(1,21)` es la línea 1. Cada orden t
 #### Desafío
 Ejecutalo, leé las líneas del error y poné los `;` que faltan.
 
+#### Pasos
+1. Agregá `;` al final de `string obra = "Vals"`.
+2. Y al final de `int compases = 24`.
+3. Tocá **Ejecutar**. Tiene que salir `Vals: 24 compases`.
+
 #### Código inicial
 ```csharp
 string obra = "Vals"
@@ -6501,6 +6618,10 @@ Cada `{` tiene que tener su `}`. Cuando falta una, el error aparece **al final**
 
 #### Desafío
 Agregá la llave que cierra el `for`, antes de mostrar el total.
+
+#### Pasos
+1. Debajo de `total += minutos[i];`, escribí `}`.
+2. Tocá **Ejecutar**. Tiene que salir `Total: 16 min`.
 
 #### Código inicial
 ```csharp
@@ -6554,6 +6675,11 @@ Un texto sin su comilla de cierre confunde al compilador por el resto de la lín
 #### Desafío
 Cerrá el texto con su comilla y el `WriteLine` con su paréntesis.
 
+#### Pasos
+1. Después del `!`, escribí la comilla `"`.
+2. Queda: `Console.WriteLine($"Esta noche, concierto en el {sala}!");`.
+3. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```csharp
 string sala = "Conservatorio";
@@ -6595,6 +6721,11 @@ Primero que compile. Después, que dé lo correcto: el programa lee pedidos hast
 
 #### Desafío
 Arreglá el error de compilación (falta un `;`) y la condición del `if`, que también cuenta el `4`, que no es una obra.
+
+#### Pasos
+1. Agregá `;` al final de `int validos = 0`.
+2. En el `if`, cambiá `obra <= 4` por `obra <= 3`.
+3. Tocá **Ejecutar**. Tiene que salir `Pedidos válidos: 3`.
 
 #### Código inicial
 ```csharp
@@ -6667,6 +6798,11 @@ Hay dos errores. Leé el primero, arreglalo y ensayá: el segundo aparece cuando
 
 #### Desafío
 Arreglá la llamada al método y el formato del precio, para que el concierto salga completo.
+
+#### Pasos
+1. Cambiá `anunciar(` por `Anunciar(` (con mayúscula).
+2. En el precio, cerrá la llave: `{entrada:F2}`.
+3. Tocá **Ejecutar**. Tiene que salir `Entrada: 7,50`.
 
 #### Código inicial
 ```csharp

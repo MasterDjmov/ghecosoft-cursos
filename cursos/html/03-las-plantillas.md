@@ -179,6 +179,13 @@ La tarjeta violeta, hecha solo con clases de Tailwind. Escribí todo **adentro d
 
 **Se comprueba:** un `article` con `border` y `border-violet-900`, un `div` con `w-[45%]` y `bg-violet-400`, y algo con `text-violet-400`.
 
+#### Pasos
+1. En el `body`: `<article class="border border-violet-900">` con un título y un texto adentro.
+2. Adentro del `article`, la barra: `<div class="h-2 w-[45%] bg-violet-400"></div>`.
+3. También adentro: `<p class="text-violet-400">+420 XP</p>`.
+4. Cerrá con `</article>`.
+5. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <!DOCTYPE html>
@@ -269,6 +276,11 @@ Dos botones de la misma familia: uno relleno y otro solo con borde. Escribí tod
 Los dos comparten `inline-block`, `rounded-lg`, `px-5` y `py-3`. El segundo **no** lleva ninguna clase `bg-...`.
 
 **Se comprueba:** dos enlaces; uno con `bg-cyan-400` y `text-slate-950`, otro con `border`, y los dos con `inline-block`, `rounded-lg`, `px-5` y `py-3`.
+
+#### Pasos
+1. En el `body`: `<a href="#" class="inline-block rounded-lg px-5 py-3 bg-cyan-400 text-slate-950">Continuar campaña</a>`.
+2. Al lado: `<a href="#" class="inline-block rounded-lg px-5 py-3 border">Nodos</a>`.
+3. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -374,6 +386,12 @@ Fijate que el `type` sea `text/tailwindcss` y que `@import "tailwindcss";` lleve
 
 **Se comprueba:** que haya un `style` de tipo `text/tailwindcss` con `@import "tailwindcss";` adentro.
 
+#### Pasos
+1. En la primera línea, antes del `h1`, escribí `<style type="text/tailwindcss">`.
+2. Debajo, `@import "tailwindcss";`.
+3. Debajo, `</style>`.
+4. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <h1 class="text-cyan-400">El cofre del Gremio</h1>
@@ -438,6 +456,11 @@ En Tailwind no se escribe CSS: cada **clase** ya es una regla. Las clases van to
 
 **Se comprueba:** que el `class` del `h1` sea exactamente `text-cyan-400 font-bold`.
 
+#### Pasos
+1. Buscá `<h1>`.
+2. Cambialo por `<h1 class="text-cyan-400 font-bold">`.
+3. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <style type="text/tailwindcss">
@@ -496,6 +519,11 @@ Así queda la apertura: `<div class="bg-slate-900 p-4 text-slate-100">`. Las tre
 
 **Se comprueba:** que el `class` del `div` sea exactamente `bg-slate-900 p-4 text-slate-100`.
 
+#### Pasos
+1. Buscá `<div>`.
+2. Cambialo por `<div class="bg-slate-900 p-4 text-slate-100">`.
+3. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <style type="text/tailwindcss">
@@ -553,6 +581,10 @@ Queremos las esquinas redondeadas, **sin borrar** las clases que ya tiene.
 Queda: `class="bg-slate-900 p-4 text-slate-100 rounded-xl"`.
 
 **Se comprueba:** que el `class` del `div` sea exactamente `bg-slate-900 p-4 text-slate-100 rounded-xl`.
+
+#### Pasos
+1. En el `class` del `div`, después de `text-slate-100`, dejá un espacio y escribí `rounded-xl`.
+2. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -838,6 +870,13 @@ Un avatar con un anillo y una etiqueta de nivel encima. Escribí todo **adentro 
 
 **Se comprueba:** la imagen con `ring-2` y `ring-cyan-400` directamente adentro del `relative`, con `alt`, y el `span` *LV.14* con `absolute`, `left-1/2` y `-translate-x-1/2`.
 
+#### Pasos
+1. En el `body`: `<div class="relative">`.
+2. Adentro: `<img src="/img/cursos/html/heroe-avatar.webp" alt="Avatar del héroe" class="ring-2 ring-cyan-400">`.
+3. Debajo: `<span class="absolute left-1/2 -translate-x-1/2">LV.14</span>`.
+4. Cerrá con `</div>`.
+5. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <!DOCTYPE html>
@@ -923,6 +962,11 @@ Dos títulos con el texto pintado en degradé. Escribí todo **adentro del `<bod
 `bg-linear-to-r` hace el degradé de izquierda a derecha; `from-` es el color del principio y `to-`, el del final. `bg-clip-text text-transparent` recorta el degradé con la forma de las letras.
 
 **Se comprueba:** que el `h1` diga *Hall of Fame* y el `h2` *Liga Obsidiana*, cada uno con todas sus clases.
+
+#### Pasos
+1. En el `body`: `<h1 class="bg-linear-to-r from-amber-300 to-orange-500 bg-clip-text text-transparent">Hall of Fame</h1>`.
+2. Debajo: `<h2 class="bg-linear-to-r from-fuchsia-400 via-violet-400 to-cyan-400 bg-clip-text text-transparent">Liga Obsidiana</h2>`.
+3. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -1022,6 +1066,10 @@ El título y el párrafo están muy pegados. Le damos un margen abajo al título
 
 **Se comprueba:** que el `class` del `h2` sea exactamente `text-xl font-bold mb-6`.
 
+#### Pasos
+1. En el `class` del `h2`, después de `font-bold`, dejá un espacio y escribí `mb-6`.
+2. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <style type="text/tailwindcss">
@@ -1082,6 +1130,11 @@ En ese orden y separadas por un espacio.
 
 **Se comprueba:** que el `class` del `h2` sea exactamente `text-2xl font-semibold tracking-wide`.
 
+#### Pasos
+1. Buscá `<h2>`.
+2. Cambialo por `<h2 class="text-2xl font-semibold tracking-wide">`.
+3. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <style type="text/tailwindcss">
@@ -1139,6 +1192,10 @@ El fondo cian es muy fuerte. Lo queremos casi transparente.
 El `/20` va pegado, sin espacios: quiere decir «al 20 %». La clase `p-4` queda igual.
 
 **Se comprueba:** que el `class` del `div` sea exactamente `bg-cyan-400/20 p-4`.
+
+#### Pasos
+1. En el `class` del `div`, cambiá `bg-cyan-400` por `bg-cyan-400/20`.
+2. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -1198,6 +1255,11 @@ La tarjeta de Teo tiene clases que se contradicen: tres fondos, dos rellenos, do
 3. Tiene que quedar: `class="tarjeta rounded-lg bg-slate-800 p-4 text-slate-100"`.
 
 **Se comprueba:** que el `class` sea exactamente `tarjeta rounded-lg bg-slate-800 p-4 text-slate-100`.
+
+#### Pasos
+1. En el `class`, borrá `bg-red-500`, `bg-green-500`, `p-8`, `text-yellow-300` y `animate-bounce`.
+2. Tiene que quedar `class="tarjeta rounded-lg bg-slate-800 p-4 text-slate-100"`.
+3. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -1514,6 +1576,12 @@ Una barra de navegación pegada abajo, como en las apps del celular. Escribí to
 
 **Se comprueba:** el `body` con `min-h-screen`, `flex` y `flex-col`; el `main` con `flex-1`; y el `nav` con `flex` y cuatro enlaces con `flex-1`.
 
+#### Pasos
+1. Cambiá `<body>` por `<body class="min-h-screen flex flex-col">`.
+2. Adentro: `<main class="flex-1">Contenido</main>`.
+3. Debajo: `<nav class="flex">` con cuatro `<a href="#" class="flex-1">Inicio</a>` (cada uno con su texto) y `</nav>`.
+4. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <!DOCTYPE html>
@@ -1603,6 +1671,13 @@ Un tablero de dos columnas donde la primera estadística ocupa todo el ancho. Es
 3. Al **primero** sumale `col-span-2`: `<div class="rounded-xl col-span-2">`.
 
 **Se comprueba:** un contenedor con `grid` y `grid-cols-2`, tres `div` adentro con `rounded-xl` y uno de ellos con `col-span-2`.
+
+#### Pasos
+1. En el `body`: `<div class="grid grid-cols-2">`.
+2. Adentro, tres `<div class="rounded-xl">` con un dato cada uno.
+3. Al primero sumale `col-span-2`: `<div class="rounded-xl col-span-2">`.
+4. Cerrá con `</div>`.
+5. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -1703,6 +1778,11 @@ Las clases de Tailwind también hacen Flexbox. Ponemos el escudo en una punta y 
 
 **Se comprueba:** que el `class` del `header` sea exactamente `flex justify-between items-center`.
 
+#### Pasos
+1. Buscá `<header>`.
+2. Cambialo por `<header class="flex justify-between items-center">`.
+3. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <style type="text/tailwindcss">
@@ -1766,6 +1846,10 @@ Los enlaces están pegados. Les dejamos espacio entre ellos.
 Queda: `class="flex gap-4"`.
 
 **Se comprueba:** que el `class` del `nav` sea exactamente `flex gap-4`.
+
+#### Pasos
+1. En el `class` del `nav`, después de `flex`, dejá un espacio y escribí `gap-4`.
+2. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -1832,6 +1916,11 @@ Los cuatro lugares están uno debajo del otro. Los ordenamos en dos columnas.
 Los cuatro `div` de adentro no se tocan.
 
 **Se comprueba:** que el `class` del `div` de afuera sea exactamente `grid grid-cols-2 gap-4`.
+
+#### Pasos
+1. Buscá el primer `<div>` (el de afuera, sin clases).
+2. Cambialo por `<div class="grid grid-cols-2 gap-4">`.
+3. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -1900,6 +1989,11 @@ El formulario está todo en una línea. Queremos cada cosa debajo de la otra, co
 `flex-col` quiere decir «en columna». Las clases del `input` y del `button` no se tocan.
 
 **Se comprueba:** que el `class` del `form` sea exactamente `flex flex-col gap-2`.
+
+#### Pasos
+1. Buscá `<form>`.
+2. Cambialo por `<form class="flex flex-col gap-2">`.
+3. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -2200,6 +2294,13 @@ Una fila del ranking que en el celular muestra lo justo y en la compu muestra to
 
 **Se comprueba:** un `div` con `flex` y `md:grid`, cinco `span` adentro, y dos de ellos con `hidden` y `md:block`.
 
+#### Pasos
+1. En el `body`: `<div class="flex md:grid">`.
+2. Adentro, cinco `span`: puesto, nombre, especialidad, racha y puntos.
+3. A la especialidad y a la racha: `<span class="hidden md:block">`.
+4. Cerrá con `</div>`.
+5. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <!DOCTYPE html>
@@ -2289,6 +2390,11 @@ Un título que crece con la pantalla y un párrafo que no se estira de más. Esc
 Sin prefijo vale para el celular; `sm:` desde una pantalla chica y `lg:` desde una grande.
 
 **Se comprueba:** el `h1` con `text-2xl`, `sm:text-4xl` y `lg:text-6xl`, y un párrafo con `lg:max-w-xl`.
+
+#### Pasos
+1. En el `body`: `<h1 class="text-2xl sm:text-4xl lg:text-6xl">` con un texto y `</h1>`.
+2. Debajo: `<p class="lg:max-w-xl">` con un texto y `</p>`.
+3. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -2390,6 +2496,10 @@ Queda: `class="grid gap-4 md:grid-cols-2"`. Mirá la vista previa en *Celular* y
 
 **Se comprueba:** que el `class` del `div` de afuera sea exactamente `grid gap-4 md:grid-cols-2`.
 
+#### Pasos
+1. En el `class` del `div` de afuera, después de `gap-4`, dejá un espacio y escribí `md:grid-cols-2`.
+2. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <style type="text/tailwindcss">
@@ -2453,6 +2563,11 @@ Este menú no tiene que verse en el celular, pero sí en una pantalla mediana o 
 `hidden` lo esconde siempre, y `md:flex` lo vuelve a mostrar, en fila, desde la pantalla mediana. En ese orden. Probalo en *Celular* y en *Compu*.
 
 **Se comprueba:** que el `class` del `nav` sea exactamente `hidden md:flex gap-4`.
+
+#### Pasos
+1. Buscá `<nav>`.
+2. Cambialo por `<nav class="hidden md:flex gap-4">`.
+3. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -2523,6 +2638,11 @@ Primero el tamaño del celular (`text-2xl`), después el de la pantalla mediana 
 
 **Se comprueba:** que el `class` del `h1` sea exactamente `text-2xl md:text-4xl font-bold`.
 
+#### Pasos
+1. En el `class` del `h1`, cambiá `text-5xl` por `text-2xl md:text-4xl`.
+2. Tiene que quedar `class="text-2xl md:text-4xl font-bold"`.
+3. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <style type="text/tailwindcss">
@@ -2580,6 +2700,11 @@ En una compu ancha, el texto ocupa toda la pantalla y cuesta leerlo. Le ponemos 
 `max-w-5xl` es el ancho máximo, `mx-auto` lo centra y `px-4` deja aire a los costados en el celular. En ese orden.
 
 **Se comprueba:** que el `class` del `main` sea exactamente `mx-auto max-w-5xl px-4`.
+
+#### Pasos
+1. Buscá `<main>`.
+2. Cambialo por `<main class="mx-auto max-w-5xl px-4">`.
+3. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -2877,6 +3002,13 @@ Una fila del ranking que se ilumina entera al pasar el mouse. Escribí todo **ad
 
 **Se comprueba:** el enlace con `group`, `transition` y `hover:bg-slate-800`; adentro, algo con `group-hover:text-cyan-400` y algo con `opacity-0`, `transition` y `group-hover:opacity-100`.
 
+#### Pasos
+1. En el `body`: `<a href="#" class="group transition hover:bg-slate-800">`.
+2. Adentro: `<span class="group-hover:text-cyan-400">#1</span>`.
+3. También adentro: `<span class="opacity-0 transition group-hover:opacity-100">></span>`.
+4. Cerrá con `</a>`.
+5. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <!DOCTYPE html>
@@ -2966,6 +3098,13 @@ Un interruptor de encendido hecho con una casilla escondida. Escribí todo **ade
 `peer` marca a la casilla; `peer-checked:` cambia al `span` cuando la casilla está marcada; `after:` dibuja la bolita.
 
 **Se comprueba:** adentro del `label`, la casilla con `peer` y `sr-only`, y el `span` con `peer-checked:bg-cyan-400`, `after:absolute` y `peer-checked:after:translate-x-5`.
+
+#### Pasos
+1. En el `body`, abrí `<label>`.
+2. Adentro: `<input type="checkbox" class="peer sr-only">`.
+3. Después: `<span class="peer-checked:bg-cyan-400 after:absolute peer-checked:after:translate-x-5"></span>`.
+4. El texto `Recordarme en esta terminal` y `</label>`.
+5. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -3065,6 +3204,10 @@ Probalo pasando el mouse por la vista previa: el botón se aclara.
 
 **Se comprueba:** que el `class` del botón sea exactamente `rounded-lg bg-cyan-400 px-4 py-2 hover:bg-cyan-300`.
 
+#### Pasos
+1. En el `class` del botón, después de `py-2`, dejá un espacio y escribí `hover:bg-cyan-300`.
+2. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <style type="text/tailwindcss">
@@ -3122,6 +3265,10 @@ Quien usa el teclado (con la tecla Tab) no ve qué botón está seleccionado. Le
 Son dos clases, y las dos llevan el prefijo `focus-visible:`. Probalo con la tecla Tab en la vista previa.
 
 **Se comprueba:** que el `class` termine en `hover:bg-cyan-300 focus-visible:ring-2 focus-visible:ring-cyan-400`.
+
+#### Pasos
+1. En el `class` del botón, después de `hover:bg-cyan-300`, agregá ` focus-visible:ring-2 focus-visible:ring-cyan-400`.
+2. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -3181,6 +3328,10 @@ Queremos que la tarjeta se levante un poquito, suave, al pasar el mouse.
 
 **Se comprueba:** que el `class` termine en `text-slate-100 transition hover:-translate-y-1`.
 
+#### Pasos
+1. En el `class` del `article`, después de `text-slate-100`, agregá ` transition hover:-translate-y-1`.
+2. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <style type="text/tailwindcss">
@@ -3239,6 +3390,11 @@ Queremos que el título cambie de color cuando el mouse pasa por **cualquier par
 `group` marca a la tarjeta como «el grupo», y `group-hover:` cambia al hijo cuando el mouse está sobre el grupo.
 
 **Se comprueba:** que el `article` tenga `group rounded-xl bg-slate-800 p-4` y el `h3`, `font-bold text-slate-100 group-hover:text-cyan-400`.
+
+#### Pasos
+1. En el `class` del `article`, al principio, escribí `group `.
+2. En el `class` del `h3`, al final, agregá ` group-hover:text-cyan-400`.
+3. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -3564,6 +3720,12 @@ El brillo va **solo con el mouse encima**: usá `hover:texto-neon`, no `texto-ne
 
 **Se comprueba:** el `main` con `fondo-cuadricula`, un párrafo adentro con `hover:texto-neon`, y que nada tenga `texto-neon` sin el `hover:`.
 
+#### Pasos
+1. En el `body`: `<main class="fondo-cuadricula">`.
+2. Adentro: `<p class="text-6xl hover:texto-neon">NEON</p>`.
+3. Cerrá con `</main>`.
+4. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <!DOCTYPE html>
@@ -3762,6 +3924,11 @@ Como la variable se llama `--color-neon`, Tailwind crea `text-neon`, `bg-neon`, 
 
 **Se comprueba:** que el `@theme` tenga `--color-neon` con `#22d3ee` y que el `class` del `h1` sea `text-neon`.
 
+#### Pasos
+1. Debajo de `@import "tailwindcss";`, escribí `@theme {`, después `--color-neon: #22d3ee;` y después `}`.
+2. En el `h1`, cambiá `text-[#22d3ee]` por `text-neon`.
+3. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <style type="text/tailwindcss">
@@ -3824,6 +3991,10 @@ Queremos un cian más claro en toda la página. Como el color está en el tema, 
 No toques los `class` del HTML: el título y el párrafo cambian solos.
 
 **Se comprueba:** que `--color-neon` en el `@theme` sea `#67e8f9`.
+
+#### Pasos
+1. En el `@theme`, cambiá `#22d3ee` por `#67e8f9`.
+2. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -3896,6 +4067,11 @@ Los dos `h2` repiten las mismas clases. Les damos ese estilo a **todos** los `h2
 `@apply` aplica clases de Tailwind adentro de una regla.
 
 **Se comprueba:** que la regla `h2` tenga `@apply font-bold text-neon` y que ningún `h2` tenga `class`.
+
+#### Pasos
+1. Debajo del `@theme`, escribí `@layer base {`, después `h2 { @apply font-bold text-neon; }` y después `}`.
+2. En los dos `h2`, borrá ` class="font-bold text-neon"`.
+3. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -3971,6 +4147,10 @@ La letra *Space Grotesk* ya se carga, pero falta crear la clase `font-display` q
 El nombre de la fuente va entre comillas dobles, después una coma y `sans-serif`. Como la variable se llama `--font-display`, Tailwind crea la clase `font-display`.
 
 **Se comprueba:** que el `@theme` tenga `--font-display` con `"Space Grotesk", sans-serif`.
+
+#### Pasos
+1. En el `@theme`, debajo de `--color-neon`, escribí `--font-display: "Space Grotesk", sans-serif;`.
+2. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html

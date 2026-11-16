@@ -4367,6 +4367,13 @@ Una galería que tiene 1 columna en el celular, 2 en una tablet, 3 en una compu 
 
 **Se comprueba:** la regla de base (`grid` con `1fr`), las columnas de cada `@media` y los seis `li`.
 
+#### Pasos
+1. En el `body`: `<ul class="galeria">` con seis `<li>1</li>`… `<li>6</li>` y `</ul>`.
+2. En el `<style>`, la base: `.galeria { display: grid; grid-template-columns: 1fr; }`.
+3. Debajo: `@media (min-width: 30rem) { .galeria { grid-template-columns: repeat(2, 1fr); } }`.
+4. Igual con `48rem` y `repeat(3, 1fr)`, y con `80rem` y `repeat(6, 1fr)`, en ese orden.
+5. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <!DOCTYPE html>
@@ -4490,6 +4497,12 @@ Un panel con menú: en el celular el menú va arriba y se desliza de costado; en
    - `nav { flex-direction: column; }` (el menú en columna)
 
 **Se comprueba:** las propiedades de base, las dos de adentro del `@media`, cuatro enlaces en el `nav` y el `main` adentro de `.layout`.
+
+#### Pasos
+1. En el `body`: `<div class="layout">`, adentro un `<nav>` con cuatro `<a href="#">…</a>`, después un `<main>` con un texto, y `</div>`.
+2. En el `<style>`: `.layout { display: grid; grid-template-columns: 1fr; }` y `nav { display: flex; overflow-x: auto; }`.
+3. Debajo: `@media (min-width: 48rem) { … }` con `.layout { grid-template-columns: 14rem 1fr; }` y `nav { flex-direction: column; }` adentro.
+4. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -4639,6 +4652,11 @@ Copiala tal cual: `width=device-width` y `initial-scale=1` van separados por una
 
 **Se comprueba:** que haya un `meta` con `name="viewport"` y ese `content`.
 
+#### Pasos
+1. Buscá el `<title>` dentro del `<head>`.
+2. Debajo, escribí `<meta name="viewport" content="width=device-width, initial-scale=1">`.
+3. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <!DOCTYPE html>
@@ -4723,6 +4741,12 @@ La regla `.grilla` va **adentro** de las llaves del `@media`. No agregues `grid-
 
 **Se comprueba:** que la regla `.grilla` de afuera no tenga columnas («no hay») y que la de adentro del `@media` tenga `repeat(2, 1fr)`.
 
+#### Pasos
+1. En el `<style>`, debajo de las dos reglas, escribí `@media (min-width: 768px) {`.
+2. Adentro: `.grilla { grid-template-columns: repeat(2, 1fr); }`.
+3. Cerrá con `}`.
+4. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <style>
@@ -4795,6 +4819,10 @@ La imagen es más ancha que la pantalla del celular. Queremos que nunca se pase 
 
 **Se comprueba:** que `img` tenga `max-width` `100%` y `height` `auto`.
 
+#### Pasos
+1. Entre `<style>` y `</style>`, escribí `img { max-width: 100%; height: auto; }`.
+2. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <style>
@@ -4854,6 +4882,10 @@ Queremos que la cabecera quede pegada arriba cuando bajás por la página.
 `top: 0` dice dónde se pega: en el borde de arriba. Bajá en la vista previa para ver cómo queda fija.
 
 **Se comprueba:** que `header` tenga `position` `sticky` y `top` `0`.
+
+#### Pasos
+1. En la regla `header`, después de la `{`, escribí `position: sticky; top: 0;`.
+2. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -5091,6 +5123,11 @@ El color no se toca. `#muro .aviso` quiere decir «el `.aviso` que está adentro
 
 **Se comprueba:** que ya no haya una regla `.aviso` sola («no hay») y que `#muro .aviso` tenga `color` `#f59e0b`.
 
+#### Pasos
+1. Buscá la línea `.aviso { color: #f59e0b; }`.
+2. Cambiá solo el principio: `#muro .aviso {`.
+3. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <style>
@@ -5160,6 +5197,11 @@ Las dos clases van **pegadas, sin espacio**: así apunta al elemento que tiene l
 
 **Se comprueba:** que ya no haya una regla `.destacado` sola («no hay») y que `.encargo.destacado` tenga `border-color` `#fbbf24`.
 
+#### Pasos
+1. Buscá `.destacado {`.
+2. Cambialo por `.encargo.destacado {` (sin espacio entre las dos clases).
+3. Tocá **Ver** y fijate que el inspector quede en verde.
+
 #### Código inicial
 ```html
 <style>
@@ -5223,6 +5265,11 @@ El `!important` obliga a que el título sea gris, y después no hay forma de cam
 2. Debajo, escribí una regla nueva: `.muro .titulo { color: #22d3ee; }`
 
 **Se comprueba:** que `.titulo` siga con `color` `#64748b` (sin `!important`) y que `.muro .titulo` tenga `color` `#22d3ee`.
+
+#### Pasos
+1. En `.titulo`, borrá ` !important`: queda `color: #64748b;`.
+2. Debajo, escribí `.muro .titulo { color: #22d3ee; }`.
+3. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html
@@ -5290,6 +5337,10 @@ Hay dos reglas iguales para `.boton`. Cuando pasa eso, gana la que está **más 
 Así queda una sola regla, con el fondo cian.
 
 **Se comprueba:** que el `background` de `.boton` sea `#22d3ee`.
+
+#### Pasos
+1. Borrá la línea `.boton { background: #1e293b; }`.
+2. Tocá **Ver** y fijate que el inspector quede en verde.
 
 #### Código inicial
 ```html

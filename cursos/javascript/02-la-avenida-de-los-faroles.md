@@ -678,6 +678,12 @@ puestos.append(nuevo);
 #### Desafío
 Agregá un aviso que diga `Volvió la luz a la Avenida`.
 
+#### Pasos
+1. Creá el elemento: `const aviso = document.createElement('li');`.
+2. Ponele el texto: `aviso.textContent = 'Volvió la luz a la Avenida';`.
+3. Colgalo en el tablero: `avisos.append(aviso);`.
+4. Tocá **Ejecutar**. El aviso tiene que aparecer en `#avisos`.
+
 #### Página
 ```html
 <style>
@@ -748,6 +754,11 @@ El `createElement` tiene que estar **adentro** del bucle: cada vuelta necesita u
 
 #### Desafío
 Colgá los tres avisos, en orden.
+
+#### Pasos
+1. Recorré los textos: `for (const texto of nuevos) {`.
+2. Adentro: `const li = document.createElement('li');`, `li.textContent = texto;` y `avisos.append(li);`.
+3. Tocá **Ejecutar**. Tienen que aparecer los tres avisos, en orden.
 
 #### Página
 ```html
@@ -824,6 +835,11 @@ Primero hay que encontrarlo: mirá en el HTML qué clase tiene el aviso vencido,
 #### Desafío
 Sacá el aviso vencido del tablero.
 
+#### Pasos
+1. Debajo del comentario, buscá el aviso vencido y sacalo.
+2. Escribí `document.querySelector('.vencido').remove();`.
+3. Tocá **Ejecutar**. Tienen que quedar 2 avisos.
+
 #### Página
 ```html
 <style>
@@ -894,6 +910,11 @@ El resto es igual que antes: crear el `li`, ponerle el texto (y, si la consigna 
 
 #### Desafío
 Agregá `¡Los fuegos se adelantan!` al principio del tablero.
+
+#### Pasos
+1. `append` lo pone al final.
+2. Cambialo por `avisos.prepend(urgente);`.
+3. Tocá **Ejecutar**. El aviso urgente tiene que quedar arriba de todo.
 
 #### Página
 ```html
@@ -980,6 +1001,13 @@ Fijate en la consigna qué texto lleva cada ganador, y desde cuántos puntos va 
 #### Desafío
 Armá la lista de ganadores en `#ganadores`.
 
+#### Pasos
+1. Recorré los ganadores: `for (const g of ganadores) {`.
+2. Adentro: `const li = document.createElement('li');` y `` li.textContent = `${g.nombre}: ${g.puntos}`; ``.
+3. Si `g.puntos > 20`, `li.classList.add('oro');`.
+4. `lista.append(li);`.
+5. Tocá **Ejecutar**. Tiene que haber 2 con la clase `oro`.
+
 #### Página
 ```html
 <style>
@@ -1064,6 +1092,11 @@ Con un texto que escribió otra persona (un mensaje, un nombre, algo del buzón)
 
 #### Desafío
 Colgá el aviso como **texto**, para que no aparezca ningún botón.
+
+#### Pasos
+1. `innerHTML` interpreta las etiquetas y crea el botón.
+2. Cambialo por `li.textContent = delBuzon;`.
+3. Tocá **Ejecutar**. No tiene que aparecer ningún botón.
 
 #### Página
 ```html
@@ -1247,6 +1280,11 @@ Al ejecutar no pasa nada todavía: el programa queda **escuchando**. Tocá el el
 #### Desafío
 Hacé que la bailarina gire al tocar la manija.
 
+#### Pasos
+1. Escuchá el click de la manija: `manija.addEventListener('click', () => {`.
+2. Adentro: `bailarina.classList.add('girando');`.
+3. Cerrá con `});`. Tocá **Ejecutar**.
+
 #### Página
 ```html
 <style>
@@ -1328,6 +1366,11 @@ Va con `let` porque cambia. `aplausos++` es lo mismo que `aplausos = aplausos + 
 #### Desafío
 Cada click en la manija suma una vuelta y la muestra.
 
+#### Pasos
+1. Un contador afuera: `let vueltas = 0;`.
+2. `manija.addEventListener('click', () => {` con `vueltas++;` y `cuenta.textContent = vueltas;` adentro.
+3. Tocá **Ejecutar**. Tiene que salir 3.
+
 #### Página
 ```html
 <style>
@@ -1407,6 +1450,11 @@ boton.addEventListener('click', (evento) => {
 
 #### Desafío
 Escuchá el click de cada títere y mostrá en `#ultimo` el nombre del que tocaron.
+
+#### Pasos
+1. Hay un renglón vacío dentro del `addEventListener`.
+2. Escribí `ultimo.textContent = evento.target.textContent;`.
+3. Tocá **Ejecutar**. Tiene que salir `Payaso`.
 
 #### Página
 ```html
@@ -1492,6 +1540,11 @@ bandera.addEventListener('click', flamear);   // bien: flamea al tocar
 
 #### Desafío
 Arreglalo para que el farol se prenda **recién** al tocar el botón. (La comprobación mira cómo está antes del click y después.)
+
+#### Pasos
+1. `prender()` con paréntesis llama a la función en el momento, sin esperar el click.
+2. Pasá la función sin paréntesis: `addEventListener('click', prender)`.
+3. Tocá **Ejecutar**. El farol se tiene que prender recién con el click.
 
 #### Página
 ```html
@@ -1585,6 +1638,11 @@ cartel.addEventListener('mouseout', () => cartel.classList.remove('grande'));
 #### Desafío
 El farol se prende cuando el mouse pasa por encima y se apaga cuando sale. (La comprobación pasa y sale, y vuelve a pasar.)
 
+#### Pasos
+1. Al pasar el mouse: `farol.addEventListener('mouseover', () => farol.classList.add('prendido'));`.
+2. Al salir: `farol.addEventListener('mouseout', () => farol.classList.remove('prendido'));`.
+3. Tocá **Ejecutar** y compará.
+
 #### Página
 ```html
 <style>
@@ -1660,6 +1718,11 @@ Va después de la llave que cierra la función, separado por una coma.
 
 #### Desafío
 Agregá `{ once: true }` para que el cofre dé una sola ficha aunque lo toquen tres veces.
+
+#### Pasos
+1. Mirá el final del `addEventListener`: `});`.
+2. Agregá la opción: `}, { once: true });`.
+3. Tocá **Ejecutar**. Tiene que salir `1`.
 
 #### Página
 ```html
@@ -1857,6 +1920,11 @@ Escribí en el campo de la página y mirá cómo cambia a medida que tipeás.
 #### Desafío
 El saludo se actualiza mientras se escribe.
 
+#### Pasos
+1. Escuchá lo que se escribe: `campo.addEventListener('input', () => {`.
+2. Adentro: `` saludo.textContent = `¡Hola, ${campo.value}!`; ``.
+3. Cerrá con `});`. Tocá **Ejecutar**. Tiene que salir `¡Hola, Nima!`.
+
 #### Página
 ```html
 <style>
@@ -1936,6 +2004,12 @@ Se escucha el **formulario**, no el botón: así también funciona si apretan En
 
 #### Desafío
 Cada envío agrega un `li` con el nombre, sin recargar.
+
+#### Pasos
+1. Escuchá el envío: `formulario.addEventListener('submit', (evento) => {`.
+2. Lo primero, que no recargue: `evento.preventDefault();`.
+3. Después: `const li = document.createElement('li');`, `li.textContent = campo.value;` y `lista.append(li);`.
+4. Tocá **Ejecutar**. Tienen que aparecer Nima y Bruno.
 
 #### Página
 ```html
@@ -2020,6 +2094,11 @@ const edad = Number(campoEdad.value);
 
 #### Desafío
 Arreglá la suma para que el total dé 8.
+
+#### Pasos
+1. `campo.value` es texto: el `+` lo pega en vez de sumar.
+2. Convertilo: `total = total + Number(campo.value);`.
+3. Tocá **Ejecutar**. Tiene que salir `8`.
 
 #### Página
 ```html
@@ -2110,6 +2189,12 @@ if (apodo.trim() === '') {
 
 #### Desafío
 Completá la validación. La comprobación prueba un envío vacío, uno con letras y uno bien.
+
+#### Pasos
+1. Borrá el comentario. Si `nombre === ''`: `avisar('Falta el nombre');` y `return;`.
+2. Si `Number.isNaN(fichas)`: `avisar('Las fichas tienen que ser un número');` y `return;`.
+3. Si está todo bien: `` avisar(`Entra ${nombre} con ${fichas} fichas`); ``.
+4. Tocá **Ejecutar**. Tienen que salir los tres avisos.
 
 #### Página
 ```html
@@ -2234,6 +2319,12 @@ Después de cambiar el número, hay que volver a mostrarlo: el programa ya trae 
 #### Desafío
 La posición cambia con las flechas. (La comprobación aprieta tres veces la derecha y una la izquierda.)
 
+#### Pasos
+1. Escuchá las teclas: `document.addEventListener('keydown', (evento) => {`.
+2. `if (evento.key === 'ArrowRight') x += 10;` y `if (evento.key === 'ArrowLeft') x -= 10;`.
+3. Después: `dibujar();`. Cerrá con `});`.
+4. Tocá **Ejecutar**. Tiene que salir `20`.
+
 #### Página
 ```html
 <style>
@@ -2332,6 +2423,12 @@ if (evento.key === 'x' && abierto) { … }
 
 #### Desafío
 Contá los disparos válidos en `#disparos`. (La comprobación aprieta: Enter, espacio, Enter, espacio, Escape, Enter, espacio, Enter.)
+
+#### Pasos
+1. Dentro del `keydown` hay un renglón vacío.
+2. Con espacio se tensa: `if (evento.key === ' ') tenso = true;`. Con Escape se suelta: `if (evento.key === 'Escape') tenso = false;`.
+3. Con Enter, si está tenso: `total++;`, `tenso = false;` y `disparos.textContent = total;`.
+4. Tocá **Ejecutar**. Tiene que salir `2`.
 
 #### Página
 ```html
@@ -2535,6 +2632,12 @@ estante.addEventListener('click', (evento) => {
 #### Desafío
 Cada farol tocado alterna la clase `prendido`. (La comprobación toca el 1, el 3 y otra vez el 1.)
 
+#### Pasos
+1. Un solo oyente en la galería: `galeria.addEventListener('click', (evento) => {`.
+2. Buscá el farol tocado: `const farol = evento.target.closest('.farol');` y, si no hay, `return;`.
+3. `farol.classList.toggle('prendido');`. Cerrá con `});`.
+4. Tocá **Ejecutar** y compará.
+
 #### Página
 ```html
 <style>
@@ -2614,6 +2717,11 @@ Desde el programa se leen con `.dataset` y el nombre sin el `data-`: `frasco.dat
 #### Desafío
 El cartel muestra `Farol rojo`, `Farol verde`, etc., según el que tocaron.
 
+#### Pasos
+1. `galeria.addEventListener('click', (evento) => {` y buscá el farol con `closest('.farol')` (si no hay, `return;`).
+2. Mostrá el color: `` cartel.textContent = `Farol ${farol.dataset.color}`; ``.
+3. Tocá **Ejecutar**. Tiene que salir `Farol violeta`.
+
 #### Página
 ```html
 <style>
@@ -2688,6 +2796,12 @@ Con delegación no pasa: se escucha en el **contenedor**, que siempre está, y `
 
 #### Desafío
 Que los faroles agregados con el botón también se prendan al tocarlos.
+
+#### Pasos
+1. El `for` le pone oyentes solo a los faroles que ya estaban.
+2. Cambialo por un oyente en la galería: `galeria.addEventListener('click', (evento) => {`.
+3. Adentro: `const farol = evento.target.closest('.farol');` y `if (farol) farol.classList.toggle('prendido');`.
+4. Tocá **Ejecutar**. Tiene que haber 2 prendidos.
 
 #### Página
 ```html
@@ -2785,6 +2899,12 @@ Si tocan la estrella, `evento.target` es el `<span>`, no el botón. Por eso se u
 #### Desafío
 Arreglalo para que, aunque toquen la estrellita, se prenda el farol.
 
+#### Pasos
+1. `evento.target` es la estrellita, no el farol.
+2. Buscá el farol: `const farol = evento.target.closest('.farol');`.
+3. `if (farol) farol.classList.toggle('prendido');`.
+4. Tocá **Ejecutar**. La estrellita no tiene que tener `prendido`.
+
 #### Página
 ```html
 <style>
@@ -2865,6 +2985,12 @@ El `data-` también llega como texto: por eso el `Number`. Poné ese cálculo en
 
 #### Desafío
 Mostrá en `#gasto` el total de los faroles prendidos. (La comprobación prende el 1 y el 3, y después apaga el 1.)
+
+#### Pasos
+1. Borrá el comentario. `let total = 0;`.
+2. `for (const farol of document.querySelectorAll('.farol.prendido')) {` → `total += Number(farol.dataset.precio);`.
+3. `gasto.textContent = total;`.
+4. Tocá **Ejecutar**. Tiene que salir `3`.
 
 #### Página
 ```html
@@ -2969,6 +3095,12 @@ foto.hidden = foto.id !== elegida;   // se esconde si no es la elegida
 
 #### Desafío
 Que se vea solo el cartel del botón tocado. (La comprobación toca *Pan* y después *Fuegos*.)
+
+#### Pasos
+1. `menu.addEventListener('click', (evento) => {` y buscá el botón: `const boton = evento.target.closest('[data-puesto]');` (si no hay, `return;`).
+2. Recorré los carteles: `for (const cartel of document.querySelectorAll('.cartel')) {`.
+3. Adentro: `cartel.hidden = cartel.id !== boton.dataset.puesto;`.
+4. Tocá **Ejecutar**. Solo el último cartel tiene que verse.
 
 #### Página
 ```html
@@ -3163,6 +3295,12 @@ Con el texto no se puede hacer `.sabor`; con el objeto armado de vuelta, sí.
 #### Desafío
 Pasá el récord a texto, mostralo, y después volvelo a objeto para mostrar los puntos.
 
+#### Pasos
+1. Hay dos `___`.
+2. De objeto a texto: `JSON.stringify(record)`.
+3. De texto a objeto: `JSON.parse(texto)`.
+4. Tocá **Ejecutar**. Tiene que salir el texto y `18`.
+
 #### Código inicial
 ```javascript
 const record = { nombre: 'Bruno', puntos: 18 };
@@ -3223,6 +3361,11 @@ Un objeto se guarda pasado a texto con `JSON.stringify`. Después de ejecutar, m
 #### Desafío
 Guardá el récord en `localStorage` con la clave `record`.
 
+#### Pasos
+1. `localStorage` guarda texto.
+2. Escribí `localStorage.setItem('record', JSON.stringify(record));`.
+3. Tocá **Ejecutar**. En el estado tiene que aparecer el récord guardado.
+
 #### Estado
 ```
 local record
@@ -3280,6 +3423,11 @@ Se lee: «si hay algo guardado, armalo con `JSON.parse`; si no, usá un arreglo 
 
 #### Desafío
 Mostrá en `#record` el récord guardado, como `Bruno: 18`.
+
+#### Pasos
+1. Hay un `___` en `const record = ___;`.
+2. Si hay algo guardado, convertilo; si no, uno vacío: `guardado ? JSON.parse(guardado) : { nombre: 'nadie', puntos: 0 }`.
+3. Tocá **Ejecutar**. Tiene que salir `Bruno: 18`.
 
 #### Página
 ```html
@@ -3356,6 +3504,11 @@ No te olvides del `setItem` al final: si no se guarda, la próxima vez vuelve al
 #### Desafío
 Mostrá `Visita número 4` y dejá guardado `4`.
 
+#### Pasos
+1. `getItem` devuelve texto (o `null`), y `+ 1` lo pega.
+2. Cambialo por `Number(localStorage.getItem('visitas') ?? 0) + 1`.
+3. Tocá **Ejecutar**. Tiene que salir `Visita número 4`.
+
 #### Página
 ```html
 <style>
@@ -3426,6 +3579,11 @@ Así la página siempre muestra lo que dice el estado. Para agregar al arreglo e
 
 #### Desafío
 Completá `guardar` y el `submit`. La consigna ya trae dos avisos guardados de ayer; la comprobación agrega uno.
+
+#### Pasos
+1. En `guardar`: `localStorage.setItem('avisos', JSON.stringify(avisos));`.
+2. En el `submit`, después del `preventDefault`: `avisos.push(document.querySelector('#texto').value);`, `guardar();` y `dibujar();`.
+3. Tocá **Ejecutar**. Tienen que quedar los tres avisos.
 
 #### Página
 ```html
@@ -3558,6 +3716,12 @@ En el `catch` va lo que se hace «por las dudas»: el valor de reserva y el avis
 #### Desafío
 Que la página no explote: si el récord está roto, mostrá `nadie: 0` y escribí `Récord roto, empiezo de cero` en la consola.
 
+#### Pasos
+1. `JSON.parse` explota si el texto está roto.
+2. `let record;` y un `try { record = JSON.parse(localStorage.getItem('record')); }`.
+3. `catch { console.log('Récord roto, empiezo de cero'); record = { nombre: 'nadie', puntos: 0 }; }`.
+4. Tocá **Ejecutar**. Tiene que salir `nadie: 0`.
+
 #### Página
 ```html
 <style>
@@ -3677,6 +3841,11 @@ El Fantasma pasó por la fila de faroles y los carteles dicen *undefined*. Nima 
 #### Desafío
 Que ningún cartel diga `undefined`.
 
+#### Pasos
+1. `farol.nombr` está mal escrito y da `undefined`.
+2. Cambialo por `${farol.nombre ?? 'sin nombre'}`.
+3. Tocá **Ejecutar**. El último tiene que decir `sin nombre`.
+
 #### Página
 ```html
 <style>
@@ -3753,6 +3922,12 @@ Es la forma del estado de R02-N06, con eventos:
 
 #### Desafío
 Completá el evento. La consigna trae guardado que el farol 2 ya estaba prendido; la comprobación prende el 4 y apaga el 2.
+
+#### Pasos
+1. Borrá el comentario. Si `prendidos.includes(n)`: `prendidos = prendidos.filter((x) => x !== n);`.
+2. Si no: `prendidos.push(n);`.
+3. `localStorage.setItem('prendidos', JSON.stringify(prendidos));` y `dibujar();`.
+4. Tocá **Ejecutar**. Solo el 4 tiene que quedar prendido.
 
 #### Página
 ```html
@@ -3875,6 +4050,13 @@ Completá `agregar` (con su validación) y el evento de borrar. La consigna trae
 - en la lista quedan `Calesita · 6 h` y `Fuente · 3 h`;
 - el mensaje dice `Farol agregado: Fuente`;
 - el total dice `Total: 9 h`.
+
+#### Pasos
+1. En `agregar`, borrá los comentarios. Si `nombre === ''`: `mensaje.textContent = 'Falta el nombre';` y `return;`.
+2. Si `Number.isNaN(horas) || horas <= 0`: `'Las horas tienen que ser un número mayor que 0'` y `return;`.
+3. Si está bien: `faroles.push({ nombre, horas });`, `guardar();`, `dibujar();` y `` mensaje.textContent = `Farol agregado: ${nombre}`; ``.
+4. En el click de la lista: `const boton = evento.target.closest('.borrar');` (si no hay, `return;`), `faroles.splice(Number(boton.dataset.i), 1);`, `guardar();` y `dibujar();`.
+5. Tocá **Ejecutar** y compará.
 
 #### Página
 ```html

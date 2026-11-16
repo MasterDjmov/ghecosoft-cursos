@@ -2770,6 +2770,12 @@ cabeza = nuevo;
 #### Desafío
 Completá el enganche.
 
+#### Pasos
+1. Hay dos `___`.
+2. `n->siguiente = cabeza;` (el nuevo apunta al que era el primero).
+3. `return n;` (el nuevo pasa a ser la cabeza).
+4. Tocá **Ejecutar**. Tiene que salir `[450][120][300]`.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -2884,6 +2890,12 @@ El orden de esos dos pasos importa: si lo hacés al revés, perdés el resto de 
 
 #### Desafío
 Completá la condición del avance y el enganche del medio.
+
+#### Pasos
+1. Hay tres `___`.
+2. En el `while`: `p->siguiente != NULL && p->siguiente->carga < n->carga` (avanzá mientras el siguiente sea más liviano).
+3. `n->siguiente = p->siguiente;` y después `p->siguiente = n;` (en ese orden, para no perder la cadena).
+4. Tocá **Ejecutar**. Tienen que quedar ordenados.
 
 #### Código inicial
 ```c
@@ -3028,6 +3040,12 @@ Primero se une y **recién después** se libera. Si liberás antes, ya no podés
 
 #### Desafío
 Completá la unión y la liberación.
+
+#### Pasos
+1. Hay dos `___;`.
+2. El primero une saltando al que sale: `ant->siguiente = sale->siguiente;`
+3. El segundo lo libera: `free(sale);`
+4. Tocá **Ejecutar**. Tiene que salir `[120][450]`.
 
 #### Código inicial
 ```c
@@ -3179,6 +3197,11 @@ El truco para mostrarla **al revés**: primero te llamás con el resto y **despu
 #### Desafío
 Completá la llamada recursiva.
 
+#### Pasos
+1. Buscá el `___;` antes del `printf`.
+2. Cambialo por `al_reves(p->siguiente);` (primero el resto, después este: así sale al revés).
+3. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -3283,6 +3306,13 @@ Escribí `int contar(const Nodo *cabeza)` y `bool contiene(const Nodo *cabeza, c
 - Recorre con un puntero hasta `NULL`, sin modificar la lista (`const`).
 - Funciona con la lista vacía.
 - Libera la lista al final.
+
+#### Pasos
+1. Arriba de `main`, `int contar(const Nodo *cabeza)`: `for (const Nodo *p = cabeza; p != NULL; p = p->siguiente) n++;` y devolvé `n`.
+2. `bool contiene(const Nodo *cabeza, const char *item)`: el mismo `for`; si `strcmp(p->item, item) == 0`, `return true;`. Al final, `return false;`
+3. En `main`, después de `Nodo *mochila = NULL;`: `printf("vacía: %d elementos\n", contar(mochila));`
+4. Cambiá `/* ... */` por: `mostrar(mochila);`, `printf("elementos: %d\n", contar(mochila));` y las dos preguntas (`Llave` y `Mapa`) con `? "sí" : "no"`.
+5. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```c
@@ -3479,6 +3509,13 @@ Escribí `Nodo *invertir(Nodo *cabeza)`, que da vuelta la lista **sin crear nodo
 - Devuelve la cabeza nueva.
 - Funciona con la lista vacía.
 
+#### Pasos
+1. Arriba de `main`, `Nodo *invertir(Nodo *cabeza)` con `Nodo *anterior = NULL;`
+2. `while (cabeza != NULL)`: `Nodo *siguiente = cabeza->siguiente;`, `cabeza->siguiente = anterior;`, `anterior = cabeza;` y `cabeza = siguiente;`
+3. Devolvé `anterior`.
+4. En `main`, insertá `"Pocion"`, `"Llave"`, `"Espada"` y `"Antorcha"` con un `for` y `insertar_frente`, `mostrar`, `mochila = invertir(mochila);`, `mostrar`, y `mostrar(invertir(NULL));`
+5. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -3664,6 +3701,13 @@ Escribí `Nodo *insertar_ordenado(Nodo *cabeza, const char *item)`, que inserta 
 - Inserta al frente cuando corresponde (antes de la cabeza o lista vacía).
 - Si no, busca el nodo después del cual va.
 - La lista queda ordenada siempre; se libera al final.
+
+#### Pasos
+1. Arriba de `main`, `Nodo *insertar_ordenado(Nodo *cabeza, const char *item)` con `Nodo *n = nodo_nuevo(item);` (si es `NULL`, devolvé `cabeza`).
+2. Si `cabeza == NULL || strcmp(item, cabeza->item) < 0`: `n->siguiente = cabeza;` y `return n;`
+3. Si no: avanzá `p` mientras `p->siguiente != NULL && strcmp(p->siguiente->item, item) <= 0`. Después `n->siguiente = p->siguiente;`, `p->siguiente = n;` y `return cabeza;`
+4. En `main`: `Nodo *lista = NULL;` y `char linea[40];`. Mientras `fgets` lea: sacá el Enter; si no está vacía, `lista = insertar_ordenado(lista, linea);` y `mostrar(lista);`
+5. Al final, `liberar(lista);`. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```c
@@ -4339,6 +4383,12 @@ Con un array y un contador:
 #### Desafío
 Completá apilar y desapilar.
 
+#### Pasos
+1. Hay dos `___`.
+2. En apilar: `p->datos[p->cantidad++] = x;` (guarda y después suma).
+3. En desapilar: `return p->datos[--p->cantidad];` (primero resta, después lee).
+4. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -4450,6 +4500,12 @@ En los dos casos, el nuevo pasa a ser el fondo.
 
 #### Desafío
 Completá el enganche al fondo.
+
+#### Pasos
+1. Hay dos `___;`.
+2. Adentro del `else`: `c->fondo->siguiente = n;` (el último apunta al nuevo).
+3. Abajo: `c->fondo = n;` (el nuevo pasa a ser el fondo).
+4. Tocá **Ejecutar**. Tienen que salir en el orden en que llegaron.
 
 #### Código inicial
 ```c
@@ -4569,6 +4625,11 @@ Al final, la pila tiene que quedar vacía: si queda algo, hay una apertura sin c
 #### Desafío
 Completá el carácter de apertura que espera cada cierre.
 
+#### Pasos
+1. Buscá `s[i] == ')' ? ___ : ___`.
+2. El primer `___`: `'('`. El segundo: `'['`.
+3. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -4678,6 +4739,11 @@ El `%` lo hace solo: el lugar donde entra el próximo es `(frente + cantidad) % 
 #### Desafío
 Completá la posición donde entra cada pieza.
 
+#### Pasos
+1. Buscá `int pos = ___;`.
+2. Cambiá `___` por `(frente + cantidad) % MAX` (el `%` hace que dé la vuelta).
+3. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -4779,6 +4845,15 @@ más con la pila vacía.
 - La pila es un struct con el array y la cantidad; las funciones la reciben por puntero.
 - `apilar` avisa cuando está llena y `desapilar` cuando está vacía, sin salirse del array.
 - Las bolsas bajan en el orden inverso al que subieron.
+
+#### Pasos
+1. Arriba de `main`: `#define MAX 3`, `typedef struct { char duenio[12]; int kilos; } Bolsa;` y `typedef struct { Bolsa datos[MAX]; int cantidad; } Pila;`
+2. `vacia` devuelve `p->cantidad == 0`. `apilar`: si está llena, `return false;`; si no, copiá dueño y kilos en `p->datos[p->cantidad]`, `p->cantidad++;` y `return true;`
+3. `desapilar(Pila *p, Bolsa *sale)`: si está vacía, `return false;`; si no, `p->cantidad--;`, `*sale = p->datos[p->cantidad];` y `return true;`
+4. `tope`: devuelve `NULL` si está vacía o `&p->datos[p->cantidad - 1]`.
+5. En `main`: apilá Kira 12, Hulda 20, Chispa 7 y Ferrum 30, con `"apilada: %s (%d kg)\n"` o `"llena: no entra la de %s\n"`. Después `"arriba de todo: %s\n"` con `tope(&p)->duenio`.
+6. `while (desapilar(&p, &b))` → `"baja: %s (%d kg)\n"`. Al final, si no se puede desapilar: `"vacia: no hay nada para bajar\n"`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```c
@@ -4924,6 +4999,14 @@ apertura se apila; cada cierre tiene que coincidir con el tope.
 - Un cierre que no coincide con el tope, o una pila con algo al final, es «no cierra».
 - Ignora los demás caracteres y muestra el resultado de cada línea.
 
+#### Pasos
+1. Arriba de `main`: `#define MAX 100` y `bool balanceada(const char *linea)` con `char pila[MAX];` e `int cantidad = 0;`
+2. Recorré la línea: si es `(`, `[` o `{`, apilala (si está llena, `return false;`).
+3. Si es `)`, `]` o `}`: `char espera = c == ')' ? '(' : c == ']' ? '[' : '{';`. Si la pila está vacía o el tope no es `espera`, `return false;`. Si coincide, `cantidad--;`
+4. Al final: `return cantidad == 0;`
+5. En `main`: leé líneas con `fgets`, sacá el Enter, numeralas y mostrá `printf("línea %d: %s\n", n, balanceada(linea) ? "cierra" : "no cierra");`
+6. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -5038,6 +5121,14 @@ cuántas quedaron en la fila y liberalas.
 - La cola tiene punteros al frente y al fondo; encolar no recorre la lista.
 - Al sacar la última, el fondo también vuelve a `NULL`.
 - Salen por orden de llegada y al final se liberan todos los nodos.
+
+#### Pasos
+1. Arriba de `main`: `typedef struct NodoV { int numero; int carga; struct NodoV *siguiente; } NodoV;` y `typedef struct { NodoV *frente; NodoV *fondo; int cantidad; } Cola;`
+2. `encolar`: `malloc` un nodo, cargá número y carga, `siguiente = NULL`. Si `c->fondo == NULL`, `c->frente = n;`; si no, `c->fondo->siguiente = n;`. Después `c->fondo = n;` y `c->cantidad++;`
+3. `desencolar(Cola *c, NodoV *sale)`: si `c->frente == NULL`, `return false;`. Copiá el primero en `*sale`, avanzá el frente; si quedó vacía, `c->fondo = NULL;`. `free` del primero, `c->cantidad--;` y `return true;`
+4. En `main`: `Cola fila = { NULL, NULL, 0 };` y `while (scanf("%9s", orden) == 1)`: con `f` termina; con `l` leé número y carga, encolá y `"llega la vagoneta %d (%d kg)\n"`; si no, desencolá: `"sale la vagoneta %d con %d kg\n"` o `"no hay vagonetas\n"`.
+5. Al final: `printf("quedan %d en la fila\n", fila.cantidad);` y un `while (desencolar(&fila, &v))` vacío para liberar todo.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```c

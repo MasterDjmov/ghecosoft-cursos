@@ -7443,6 +7443,15 @@ La salida tiene que ser la misma, pero ahora sin ningún aviso del sanitizador.
 - Revisa el `NULL` de cada `malloc`.
 - Explica los tres errores en un comentario; sin avisos del sanitizador.
 
+#### Pasos
+1. Primer error: buscá `t->nombre = pedir(strlen(nombre));` y cambialo por `pedir(strlen(nombre) + 1)` (falta el byte del `'\0'`).
+2. Los `NULL`: después de `Tunel *t = pedir(sizeof *t);`, si `t == NULL`, `return cabeza;`. Después de pedir el nombre, si es `NULL`, `devolver(t);` y `return cabeza;`
+3. En `derrumbar`, cambiá el `for` por un `while (cabeza != NULL)`.
+4. Adentro: primero guardá `Tunel *siguiente = cabeza->siguiente;` (segundo error: no se puede leer después de liberar).
+5. Después `devolver(cabeza->nombre);` (tercer error: el nombre también se libera), `devolver(cabeza);` y `cabeza = siguiente;`
+6. Cambiá el comentario de arriba por uno que explique los tres errores con tus palabras.
+7. Tocá **Ejecutar**. Tiene que salir `Bloques sin devolver: 0`.
+
 #### Código inicial
 ```c
 /*

@@ -217,6 +217,13 @@ Acá los archivos viven en una carpeta de mentira, en tu navegador.
 #### Desafío
 Completá la apertura, la escritura y el cierre.
 
+#### Pasos
+1. Hay cuatro `___`.
+2. Abrir para escribir: `fopen("pedidos.txt", "w")`.
+3. Los dos siguientes son la función que escribe en el archivo: `fprintf`.
+4. El último cierra: `fclose(f)`.
+5. Tocá **Ejecutar**. Tiene que salir `pedidos guardados`.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -295,6 +302,12 @@ Cada vuelta lee un renglón. Cuando no quedan más, `fgets` devuelve `NULL` y el
 
 #### Desafío
 Completá la apertura para leer y la condición del bucle.
+
+#### Pasos
+1. Hay dos `___`.
+2. En `fopen`: `"r"` (leer).
+3. En el `while`: `fgets(linea, sizeof linea, f) != NULL` (lee hasta que no haya más).
+4. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```c
@@ -392,6 +405,11 @@ Si devuelve 2, encontró los dos datos. Ojo: `nombre` es un array, así que va s
 
 #### Desafío
 Completá el formato del `sscanf`.
+
+#### Pasos
+1. Buscá `sscanf(linea, "___", ...)`.
+2. Cambiá `___` por `%19[^;];%d` (hasta 19 letras que no sean `;`, el `;` y un número).
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```c
@@ -495,6 +513,11 @@ Llevá la cuenta del número de renglón para avisar dónde está el error, y se
 
 #### Desafío
 Completá la condición del renglón válido.
+
+#### Pasos
+1. Buscá `if (___)`.
+2. Cambiá `___` por `sscanf(linea, "%19[^;];%d", pieza, &cant) == 2` (pudo leer los dos datos).
+3. Tocá **Ejecutar**. Tiene que salir `total valido: 15`.
 
 #### Código inicial
 ```c
@@ -608,6 +631,12 @@ Hay un tercer modo de abrir: `"a"` (de *append*, agregar). Escribe **al final**,
 - Revisa el `NULL` de `fopen` y cierra cada archivo.
 - Muestra las tres entradas numeradas.
 
+#### Pasos
+1. Arriba de `main`: `#define RUTA "diario.txt"` y `int agregar(const char *texto)`: `FILE *f = fopen(RUTA, "a");` (si es `NULL`, `perror(RUTA);` y `return 0;`), `fprintf(f, "%s\n", texto);`, `fclose(f);` y `return 1;`
+2. En `main`: `remove(RUTA);` y las tres entradas con `agregar("Día 1: templé mi primera hoja.");`, etc.
+3. Abrí con `"r"` (revisá el `NULL`), y por cada línea: `printf("%2d | %s", ++n, linea);`
+4. `fclose(f);` y `remove(RUTA);`. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -713,6 +742,14 @@ Una palabra empieza cuando aparece un carácter que no es espacio después de un
 - Lee con `fgetc` hasta `EOF` (en una variable `int`).
 - Cuenta bien las palabras aunque haya varios espacios seguidos.
 - Da el mismo resultado que `wc` sobre el archivo.
+
+#### Pasos
+1. Escribí el archivo: `fopen("cancion.txt", "w")` y un `fputs` con las cuatro líneas pegadas con `\n` (copiá los dos espacios de la tercera). Cerralo.
+2. Abrilo con `"r"`. Variables: `int lineas = 0, palabras = 0, bytes = 0;`, `bool en_palabra = false;` e `int c;`
+3. `while ((c = fgetc(f)) != EOF)`: `bytes++;`; si `c == '\n'`, `lineas++;`
+4. Si `isspace(c)`, `en_palabra = false;`. Si no y `!en_palabra`, `en_palabra = true;` y `palabras++;`
+5. Cerrá, `remove("cancion.txt");` y `printf("líneas: %d, palabras: %d, bytes: %d\n", lineas, palabras, bytes);`
+6. Tocá **Ejecutar**. Tiene que salir `palabras: 19`.
 
 #### Código inicial
 ```c
@@ -824,6 +861,15 @@ Leelo salteando el encabezado. Cada línea tiene que tener exactamente 3 datos (
 - Valida los rangos por separado.
 - Informa cada error con su número de línea y sigue con la siguiente.
 - Calcula el valor del stock válido.
+
+#### Pasos
+1. Escribí `precios.csv` con un `fputs` de las siete líneas del desafío y cerralo.
+2. Abrilo con `"r"`. Leé el encabezado con un `fgets` y contalo como línea 1.
+3. Por cada línea: `numero++;`, sacá el Enter y `sscanf(linea, "%29[^;];%lf;%d%c", producto, &precio, &stock, &sobra)`.
+4. Si no da 3: `printf("línea %d: formato inválido (\"%s\")\n", numero, linea);` y `errores++;`
+5. Si `precio <= 0 || stock < 0`: `"línea %d: valores fuera de rango (\"%s\")\n"` y `errores++;`. Si no: `valor += precio * stock;`
+6. Al final: cerrá, `remove`, y `printf("Valor del stock válido: $%.2f (%d líneas con error)\n", valor, errores);`
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```c
@@ -1252,6 +1298,12 @@ Los modos llevan una `b` de binario: `"wb"` para escribir y `"rb"` para leer. Un
 #### Desafío
 Completá la escritura y la lectura.
 
+#### Pasos
+1. Hay dos `___;`.
+2. Escribir: `fwrite(&guardado, sizeof guardado, 1, f);`
+3. Leer: `fread(&leido, sizeof leido, 1, f);`
+4. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -1353,6 +1405,11 @@ fseek(f, k * (long) sizeof(Ficha), SEEK_SET);
 
 #### Desafío
 Completá el `fseek` para ir al registro 3 (contando desde 0).
+
+#### Pasos
+1. Buscá `fseek(f, ___, SEEK_SET);`.
+2. Cambiá `___` por `3 * (long) sizeof l` (saltear 3 registros).
+3. Tocá **Ejecutar**. Tiene que salir `registro 3: codigo 103`.
 
 #### Código inicial
 ```c
@@ -1456,6 +1513,11 @@ Para corregir un registro en su lugar, abrí con `"r+b"`: leer y escribir en el 
 
 #### Desafío
 Completá la vuelta atrás.
+
+#### Pasos
+1. Buscá `fseek(f, ___, SEEK_CUR);`.
+2. Cambiá `___` por `-(long) sizeof l` (volver un registro para atrás, para escribir encima).
+3. Tocá **Ejecutar**. El 102 tiene que quedar en 35.
 
 #### Código inicial
 ```c
@@ -1587,6 +1649,12 @@ Para dar de baja: leés, cambiás el estado a `'B'`, volvés con `fseek` y reesc
 
 #### Desafío
 Completá la baja y el filtro del listado.
+
+#### Pasos
+1. Hay dos `___`.
+2. La baja: `l.estado = 'B';`
+3. El filtro: `l.estado == 'A'` (solo los activos).
+4. Tocá **Ejecutar**. Tiene que salir `activos: 100 102`.
 
 #### Código inicial
 ```c
@@ -1736,6 +1804,14 @@ Con un struct `Progreso` (nombre de 16, nivel, oro, x, y), escribí `bool guarda
 - Revisa lo que devuelven `fwrite` y `fread`.
 - Informa el fallo al cargar un archivo que no existe.
 
+#### Pasos
+1. Arriba de `main`: `typedef struct { char nombre[16]; int nivel; int oro; int x, y; } Progreso;`
+2. `bool guardar(const Progreso *p, const char *ruta)`: abrí con `"wb"` (si es `NULL`, `return false;`), `bool ok = fwrite(p, sizeof *p, 1, f) == 1;` y `return fclose(f) == 0 && ok;`
+3. `bool cargar(Progreso *p, const char *ruta)`: abrí con `"rb"`, `bool ok = fread(p, sizeof *p, 1, f) == 1;`, `fclose(f);` y `return ok;`
+4. `mostrar`: `printf("%s: %s, nivel %d, %d de oro, en (%d, %d)\n", ...)`.
+5. En `main`: `Progreso actual = { "Kira", 7, 380, 12, 4 };`, mostralo, guardalo con `"guardar: %s\n"` (`"ok"` o `"falló"`), cargalo en `recuperado`, mostralo, y probá `cargar` con `"no_existe.dat"`.
+6. Al final `remove("progreso.dat");`. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -1849,6 +1925,14 @@ Para cambiar uno en su lugar, la receta de siempre: leelo, cambialo, volvé un r
 - Vuelve con `fseek` antes de reescribir.
 - Muestra el registro 7 y todas las vidas con el 3 en 0.
 
+#### Pasos
+1. Arriba de `main`: `typedef struct { int numero; int vida; } Enemigo;`
+2. Escribí `horda.dat` con `"wb"`: 10 enemigos con `{ i, 10 + i * 5 }` y `fwrite`. Cerralo.
+3. Abrilo con `"r+b"`. Andá al 7: `fseek(f, 7 * (long) sizeof e, SEEK_SET);`, `fread` y `printf("registro 7: enemigo %d con %d de vida\n", e.numero, e.vida);`
+4. El 3: `fseek` a `3 * sizeof`, `fread`, `e.vida = 0;`, otra vez `fseek` a `3 * sizeof` y `fwrite`.
+5. `rewind(f);`, `printf("vidas:");`, un `while (fread(...) == 1)` con `" %d"` y `"\n"`.
+6. Cerrá y `remove("horda.dat");`. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -1950,6 +2034,14 @@ Guardá 1000 enteros (`i * 1234`) de dos formas: como texto (uno por línea con 
 - Escribe los dos archivos.
 - Mide el tamaño con `fseek(f, 0, SEEK_END)` y `ftell`.
 - Explica la diferencia.
+
+#### Pasos
+1. Arriba de `main`, `long tamanio(const char *ruta)`: abrí con `"rb"`, `fseek(f, 0, SEEK_END);`, `long t = ftell(f);`, cerrá y devolvé `t`.
+2. En `main`: `int numeros[1000];` llenos con `i * 1234`.
+3. Abrí `numeros.txt` con `"w"` y `numeros.dat` con `"wb"`. En el de texto, `fprintf(texto, "%d\n", numeros[i]);` por cada uno; en el binario, un solo `fwrite(numeros, sizeof numeros[0], 1000, binario);`. Cerralos.
+4. Mostrá: `printf("texto:   %ld bytes\n", tamanio("numeros.txt"));` y `printf("binario: %ld bytes (%zu por número)\n", tamanio("numeros.dat"), sizeof(int));`
+5. Y la frase final de la salida esperada. Borrá los dos archivos con `remove`.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```c

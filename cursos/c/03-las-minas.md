@@ -5623,6 +5623,12 @@ printf("%d\n", maquina(5));   // 15
 #### Desafío
 Hacé que la palanca señale primero a `bomba` y después a `fuelle`.
 
+#### Pasos
+1. Hay dos `___`.
+2. El primero: `bomba` (el nombre de la función, sin paréntesis).
+3. El segundo: `fuelle`.
+4. Tocá **Ejecutar**. Tienen que salir 20 y 110.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -5715,6 +5721,11 @@ En vez de un `switch` largo, elegís la función por su número.
 #### Desafío
 Completá la llamada con la tabla.
 
+#### Pasos
+1. Buscá el `___;` debajo del `scanf`.
+2. Cambialo por `destinos[opcion](tren);` (elegí la función de la tabla y llamala).
+3. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -5802,6 +5813,11 @@ Adentro, en cada vuelta llamás a `criterio(v[i])`: si devuelve verdadero, sumá
 #### Desafío
 Completá la pregunta dentro de `contar`.
 
+#### Pasos
+1. Buscá `if (___)`.
+2. Cambiá `___` por `criterio(v[i])` (llamá a la función que te pasaron).
+3. Tocá **Ejecutar**. Tienen que salir 3 y 5.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -5888,6 +5904,11 @@ La comparación devuelve negativo si el primero va antes. Restando `*x - *y` que
 
 #### Desafío
 Completá la comparación de mayor a menor.
+
+#### Pasos
+1. Buscá `return ___;`.
+2. Cambiá `___` por `*y - *x` (al revés: de mayor a menor).
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```c
@@ -5982,6 +6003,14 @@ Cada condición recibe un enemigo y contesta `true` o `false` (vivo, peligroso, 
 - Define un `typedef` para la condición.
 - Una sola función `filtrar` sirve para las tres condiciones.
 - Muestra los tres listados.
+
+#### Pasos
+1. Arriba de `main`: `typedef struct { const char *nombre; int vida; int ataque; } Enemigo;` y `typedef bool (*Condicion)(const Enemigo *);`
+2. Las tres condiciones: `esta_vivo` (`e->vida > 0`), `es_peligroso` (`e->ataque >= 10`) y `esta_herido` (`e->vida > 0 && e->vida < 20`).
+3. `int filtrar(const Enemigo *v, int n, Condicion cumple, const Enemigo **salida)`: si `cumple(&v[i])`, `salida[k++] = &v[i];`. Devolvé `k`.
+4. `void listar(const char *titulo, const Enemigo *v, int n, Condicion c)`: filtrá en `const Enemigo *elegidos[10];`, `printf("%-12s (%d):", titulo, k);` y cada nombre con `" %s"`.
+5. En `main`: la horda Slime (0, 2), Goblin (15, 6), Orco (40, 12), Troll (8, 15) y Esqueleto (25, 9), y `listar("vivos", ...)`, `listar("peligrosos", ...)`, `listar("heridos", ...)`.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```c
@@ -6094,6 +6123,14 @@ Hulda (vida 40, maná 20) lee órdenes, una por línea: `fuego` (cuesta 10), `cu
 - Usa una tabla de structs con un puntero a función.
 - No usa un `if` por hechizo para decidir qué hacer.
 - Controla el maná antes de ejecutar y avisa las órdenes desconocidas.
+
+#### Pasos
+1. Arriba de `main`: `typedef struct { int vida; int mana; } Mago;` y `typedef void (*Accion)(Mago *);`
+2. Tres funciones: `bola_de_fuego` (−10 maná), `curarse` (−5 maná, +15 vida) y `meditar` (+8 maná), cada una con su `printf` de la salida esperada.
+3. `typedef struct { const char *orden; int costo; Accion hacer; } Hechizo;` y la tabla `LIBRO[] = { { "fuego", 10, bola_de_fuego }, { "curar", 5, curarse }, { "meditar", 0, meditar } };`
+4. En `main`: `Mago hulda = { 40, 20 };`. Por cada línea: sacá el Enter, buscá en `LIBRO` con `strcmp` y `printf("> %s\n", linea);`
+5. Si no está: `"  Hulda no conoce ese hechizo.\n"`. Si `hulda.mana < h->costo`: `"  No alcanza el maná (%d).\n"`. Si no: `h->hacer(&hulda);`
+6. Después: `printf("  vida %d, maná %d\n", hulda.vida, hulda.mana);`. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```c
@@ -6232,6 +6269,14 @@ Con un array de armas (nombre, daño, peso), escribí tres comparadores para `qs
 - Guarda los tres comparadores en un array.
 - El comparador por peso no resta `double`.
 - Valida la opción.
+
+#### Pasos
+1. Arriba de `main`: `typedef struct { char nombre[12]; int danio; double peso; } Arma;`
+2. Tres comparadores: `por_nombre` (`strcmp`), `por_danio` (`b->danio - a->danio`) y `por_peso` (`(pa > pb) - (pa < pb)`, sin restar).
+3. `typedef int (*Comparador)(const void *, const void *);`
+4. En `main`: las armas Hacha (14, 4.5), Daga (6, 0.8), Espada (11, 3.2) y Arco (9, 1.5); `Comparador formas[] = { por_nombre, por_danio, por_peso };` y `titulos[] = { "por nombre", "por daño", "por peso" };`
+5. Por cada línea: si no es 1, 2 o 3, `"Elegí 1, 2 o 3.\n"` y `continue;`. Si no, `qsort(armas, n, sizeof armas[0], formas[op - 1]);` y mostrá `"%s:"` con el título y cada arma con `" %s(%d, %.1f)"`.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```c
@@ -6593,6 +6638,12 @@ Usá un contador `static` afuera de las funciones. Si al final no da 0, algo se 
 #### Desafío
 Completá las dos cuentas.
 
+#### Pasos
+1. Hay dos `___;`.
+2. Después de pedir memoria: `prestadas++;`
+3. Después de `free(p);`: `prestadas--;`
+4. Tocá **Ejecutar**. Tienen que salir 1 y 0.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -6707,6 +6758,12 @@ Como cruzar un río saltando piedras: mirás la próxima antes de soltar la que 
 #### Desafío
 Completá la liberación segura.
 
+#### Pasos
+1. Hay dos `___;` adentro del `while`.
+2. El primero guarda el siguiente antes de liberar: `Vagon *sig = p->siguiente;`
+3. El segundo avanza: `p = sig;`
+4. Tocá **Ejecutar**. Tiene que salir `vagones liberados: 5`.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -6808,6 +6865,12 @@ Si liberás primero el de afuera, ya no podés leer el puntero de adentro, y ese
 
 #### Desafío
 Completá los dos `free` en el orden correcto.
+
+#### Pasos
+1. Hay dos `___;`.
+2. Primero el nombre: `free(m->nombre);`
+3. Después la ficha: `free(m);` (si liberás la ficha primero, perdés el nombre).
+4. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```c
@@ -6935,6 +6998,13 @@ Para desencolar: guardás el del frente, el frente pasa al siguiente, y liberás
 
 #### Desafío
 Completá el desencolado y la cuenta.
+
+#### Pasos
+1. Hay tres `___;`.
+2. `frente = frente->siguiente;`
+3. `free(sale);`
+4. `prestadas--;`
+5. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```c
@@ -7101,6 +7171,15 @@ El registro es un **array dinámico** que crece duplicando. Al terminar, mostrá
 - Cada nombre tiene su propia memoria y se libera al quitar y al final.
 - Ordena con una tabla de comparadores.
 - Sin fugas ni errores con `-fsanitize=address`.
+
+#### Pasos
+1. Los tipos: `Enemigo` con `char *nombre`, `int vida` e `int ataque`; `Horda` con `Enemigo *datos`, `int cantidad` e `int capacidad`.
+2. Funciones de memoria: `duplicar` (`malloc(strlen + 1)` y `strcpy`), `buscar` (posición o `-1`), `agregar` (crece duplicando con `realloc` y temporal, copia el nombre con `duplicar`), `quitar` (primero `free` del nombre, después corre los de atrás) y `liberar` (todos los nombres y después el array).
+3. Comparadores `por_vida`, `por_ataque` (de mayor a menor) y `por_nombre`, en una tabla `ORDENES[] = { { "vida", por_vida }, { "ataque", por_ataque }, { "nombre", por_nombre } };`
+4. `mostrar`: `"  %d enemigos:"` y cada uno con `" %s(%d/%d)"`.
+5. En `main`: leé líneas, mostrá `"> %s\n"`, y según la primera palabra: `agregar` (valida con `sscanf(linea, "%*s %39s %d %d", ...)`), `golpe` (resta vida; si cae, `"  ¡%s cae!\n"` y `quitar`), `ordenar` (busca en la tabla y hace `qsort`) o `mostrar`. Si no: `"  Orden desconocida\n"`.
+6. Copiá los mensajes de error de la salida esperada. Al final: `printf("Fin del registro: quedan %d. Se libera todo.\n", h.cantidad);` y `liberar(&h);`
+7. Tocá **Ejecutar** y compará renglón por renglón.
 
 #### Código inicial
 ```c

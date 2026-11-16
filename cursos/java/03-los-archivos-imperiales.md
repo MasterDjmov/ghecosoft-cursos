@@ -281,6 +281,11 @@ Zed pide un `Random` sin decir de dónde, y un **esqueleto** sale del estante: *
 #### Desafío
 Ejecutalo, leé el error y agregá el `import` que falta en la primera línea.
 
+#### Pasos
+1. `Random` está en el paquete `java.util` y falta traerlo.
+2. En la primera línea, arriba de `public class Sorteo`, escribí `import java.util.Random;`.
+3. Tocá **Ejecutar**. Tienen que salir la sala y el estante.
+
 #### Código inicial
 ```java
 public class Sorteo {
@@ -336,6 +341,11 @@ recompensa: xp 10, oro 10
 
 #### Desafío
 Completá la palabra que declara el paquete.
+
+#### Pasos
+1. Hay un `___` antes de `imperio.archivos;`.
+2. El paquete se declara con `package`.
+3. Tocá **Ejecutar**. Tiene que salir `Nombre completo: imperio.archivos.Pergamino`.
 
 #### Código inicial
 ```java
@@ -393,6 +403,11 @@ Sin modificador, un atributo es **de paquete**: lo ven las clases del mismo paqu
 
 #### Desafío
 Ejecutalo, leé el error y sacale el `private` al atributo `ubicacion` para que lo vean las clases de la misma sala.
+
+#### Pasos
+1. `ubicacion` es `private`: solo la ve su propia clase.
+2. Borrá la palabra `private` de ese renglón (sin modificador, la ven todas las clases del paquete).
+3. Tocá **Ejecutar**. Tiene que salir `Ubicación: estante 14, sala norte`.
 
 #### Código inicial
 ```java
@@ -469,6 +484,13 @@ Escribí el porqué de cada respuesta como comentario y mostrá el resumen en un
 
 **Para superarla:**
 - Las cinco respuestas son correctas y explican el nivel de acceso involucrado.
+
+#### Pasos
+1. Borrá el comentario. Mirá en el código de ejemplo qué modificador tiene cada cosa: `titulo` (`protected`), `vida` (`private`), `nivel` (sin modificador), `nombre` (`public`) y `Academia` (`public`, sin constructor).
+2. Escribí un comentario por caso: 1 no compila (`protected` y `Main` no es subclase ni está en el paquete), 2 no (`private`), 3 no (sin modificador y otro paquete) y 4 sí (`public`).
+3. 5 sí: sin constructores escritos, Java pone uno por defecto, `public` como la clase.
+4. `System.out.println("1 no, 2 no, 3 no, 4 sí, 5 sí");`
+5. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -1259,6 +1281,11 @@ Un `ArrayList` es un array que **crece solo**: `add(x)` agrega al final, `get(i)
 #### Desafío
 Agregá el pergamino que falta, "Mapa del sur", con el método que agrega al final.
 
+#### Pasos
+1. Hay un `___` en `estante.___("Mapa del sur")`.
+2. El método que agrega al final es `add`.
+3. Tocá **Ejecutar**. Tiene que salir `Pergaminos: 3`.
+
 #### Código inicial
 ```java
 import java.util.ArrayList;
@@ -1330,6 +1357,11 @@ Los genéricos solo aceptan clases. Para enteros se usa la clase **envoltorio** 
 
 #### Desafío
 Completá el tipo de la lista con la clase envoltorio de `int`.
+
+#### Pasos
+1. Hay un `___` en `List<___>`.
+2. La clase envoltorio de `int` es `Integer`.
+3. Tocá **Ejecutar**. Tiene que salir `Total: 253`.
 
 #### Código inicial
 ```java
@@ -1407,6 +1439,11 @@ En una `List<Integer>`, `remove(2)` borra la **posición** 2. Para borrar el **v
 #### Desafío
 Ejecutalo, mirá qué sala desaparece y arreglalo para borrar el valor 2.
 
+#### Pasos
+1. `salas.remove(2)` borra la posición 2, no el valor 2.
+2. Pasale el valor como objeto: `salas.remove(Integer.valueOf(2));`.
+3. Tocá **Ejecutar**. Tiene que salir `[5, 9, 7]`.
+
 #### Código inicial
 ```java
 import java.util.ArrayList;
@@ -1464,6 +1501,11 @@ El Archivista quiere un cofre que guarde **una** cosa, de cualquier tipo, pero s
 
 #### Desafío
 Completá el parámetro de tipo de la clase.
+
+#### Pasos
+1. Hay un `___` en `class Cofre<___>`.
+2. El parámetro de tipo que usa la clase es `T`.
+3. Tocá **Ejecutar**. Tiene que salir `CARTA DEL VIDRIERO`.
 
 #### Código inicial
 ```java
@@ -1552,6 +1594,15 @@ items tiene.
 **Para superarla:**
 - Usa `List<String>` con `ArrayList`.
 - Usa `contains`, `remove` y `Collections.sort`.
+
+#### Pasos
+1. En el `main`: el `Scanner` y `List<String> lista = new ArrayList<>();`.
+2. Leé renglones hasta `"fin"`. Separá la orden del resto con `String[] partes = linea.split(" ", 2);`.
+3. `switch (partes[0])`. `"agregar"`: si `lista.contains(partes[1])`, `partes[1] + " ya está en la lista"`; si no, `lista.add(...)`.
+4. `"quitar"`: si `!lista.remove(partes[1])`, `partes[1] + " no estaba en la lista"`.
+5. `"ver"` → `"Lista: " + lista`. `"ordenar"` → `Collections.sort(lista)`. `default` → `"Comando desconocido: " + partes[0]`.
+6. Al final: `"Final: " + lista + " (" + lista.size() + " items)"`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -1664,6 +1715,14 @@ Leé puntajes enteros (uno por línea) hasta una línea vacía y guardalos en un
 **Para superarla:**
 - Usa `List<Integer>` y `Collections.max`/`min`.
 - Borra con `Iterator` (no en un for-each).
+
+#### Pasos
+1. En el `main`: `Locale.setDefault(Locale.US);`, el `Scanner` y `List<Integer> puntajes = new ArrayList<>();`. Leé hasta una línea vacía con `Integer.parseInt`.
+2. Calculá el promedio y contá cuántos lo superan.
+3. Mostrá `"Puntajes: "`, `printf("Promedio: %.1f%n", ...)`, `"Máximo: " + Collections.max(puntajes) + ", mínimo: " + Collections.min(puntajes)` y `"Superan el promedio: "`.
+4. Borrá con un `Iterator<Integer> it = puntajes.iterator();`: mientras `it.hasNext()`, si `it.next() < 50`, `it.remove();`. Después `"Sin los menores a 50: " + puntajes`.
+5. Copiá la lista, `Collections.sort`, `Collections.reverse` y `"Los tres mejores: " + ordenados.subList(0, Math.min(3, ordenados.size()))`.
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -1789,6 +1848,15 @@ lleno()` y `toString`. Usala con un `Estante<String>` de pociones y un
 **Para superarla:**
 - `Estante<T>` usa una `List<T>` por dentro.
 - Se usa con dos tipos distintos sin castings.
+
+#### Pasos
+1. Abajo: `class Estante<T> {` con `private final List<T> cosas = new ArrayList<>();` y `capacidad` (en el constructor).
+2. `poner(T cosa)`: si `lleno()`, `false`; si no, `add` y `true`.
+3. `T sacarUltimo()`: si está vacía, `null`; si no, `return cosas.remove(cosas.size() - 1);`.
+4. `cantidad()` → `cosas.size()`. `lleno()` → `cosas.size() == capacidad`. `toString` → `cosas.toString()`.
+5. En el `main`: `Estante<String> pociones = new Estante<>(2);`, poné `"vida"`, `"furia"` y `"sueño"` en un `println` y mostrá el estante y si está lleno. Después `"Saco: " + pociones.sacarUltimo()`.
+6. `Estante<Integer> monedas = new Estante<>(5);` con 10, 25 y 5. Mientras quede alguna, sumá `sacarUltimo()`. Mostrá el último renglón (copialo de la salida).
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -2267,6 +2335,11 @@ Un **mapa** asocia cada clave con un valor. Para contar: `censo.put(c, censo.get
 #### Desafío
 Completá el valor por defecto del conteo: si todavía no estaba, cuenta desde cero.
 
+#### Pasos
+1. Hay un `___` en `getOrDefault(c, ___)`.
+2. Si no estaba, arranca en `0`.
+3. Tocá **Ejecutar**. Tiene que salir `Slimes: 3`.
+
 #### Código inicial
 ```java
 import java.util.Map;
@@ -2333,6 +2406,11 @@ El Archivista quiere el listado de las ciudades con su población, una por rengl
 
 #### Desafío
 Completá el método que lee el valor de cada par.
+
+#### Pasos
+1. Hay un `___` en `e.___()`.
+2. El valor de cada par se lee con `getValue`.
+3. Tocá **Ejecutar**. Tiene que salir `Capital: 120000`.
 
 #### Código inicial
 ```java
@@ -2401,6 +2479,11 @@ Un `Set` es un conjunto: no guarda repetidos. `invitados.add(n)` devuelve `true`
 
 #### Desafío
 Completá el método que agrega al conjunto (y devuelve si era nuevo).
+
+#### Pasos
+1. Hay un `___` en `invitados.___(n)`.
+2. Agregar a un conjunto es `add`, y devuelve `false` si ya estaba.
+3. Tocá **Ejecutar**. Tiene que salir `Vienen 4 invitados`.
 
 #### Código inicial
 ```java
@@ -2475,6 +2558,11 @@ Zed busca la ficha del viajero por su clave: **«el Vidriero»**. `get` devuelve
 
 #### Desafío
 Completá el método que pregunta si la clave existe.
+
+#### Pasos
+1. Hay un `___` en el `else if`.
+2. Para preguntar si la clave existe: `containsKey`.
+3. Tocá **Ejecutar**. Tiene que salir `el Vidriero: la ficha existe, pero alguien la vació`.
 
 #### Código inicial
 ```java
@@ -2564,6 +2652,13 @@ criatura y mostrá el censo ordenado alfabéticamente, el total y la criatura m�
 **Para superarla:**
 - Acumula con `merge` o `getOrDefault`.
 - Muestra el censo ordenado (por usar `TreeMap`).
+
+#### Pasos
+1. En el `main`: el `Scanner` y `Map<String, Integer> censo = new TreeMap<>();`.
+2. Leé hasta una línea vacía. Hacé `String[] p = linea.split(" ");` y `censo.merge(p[0], Integer.parseInt(p[1]), Integer::sum);`.
+3. Recorré `censo.entrySet()`: mostrá `e.getKey() + ": " + e.getValue()`, sumá el total y guardá la más vista.
+4. `"Total: " + total` y `"La más vista: " + masVista`.
+5. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -2667,6 +2762,14 @@ espacios (pasalos a un formato común antes de guardarlos).
 - Usa `addAll`, `retainAll` y `removeAll` sobre copias.
 - Normaliza los nombres antes de guardarlos.
 
+#### Pasos
+1. Un método `static Set<String> leerLista(String linea)`: `new TreeSet<>()` y por cada nombre de `linea.split(",")`, `trim().toLowerCase()`. Si no está vacío, guardalo con la primera letra en mayúscula: `limpio.substring(0, 1).toUpperCase() + limpio.substring(1)`.
+2. En el `main`: leé `casa1` y `casa2` con `leerLista(teclado.nextLine())`.
+3. Unión: `Set<String> todos = new TreeSet<>(casa1);` y `todos.addAll(casa2);`.
+4. Intersección: una copia de `casa1` con `retainAll(casa2)`. Solo la primera: otra copia con `removeAll(casa2)`.
+5. Mostrá los cuatro renglones (copiá los títulos de la salida) y `"Lugares a preparar: " + todos.size()`.
+6. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```java
 import java.util.Scanner;
@@ -2766,6 +2869,15 @@ producto` (muestra cuánto hay). Al final mostrá el inventario.
 **Para superarla:**
 - Usa `LinkedHashMap` y `getOrDefault`.
 - Quita los productos que llegan a 0.
+
+#### Pasos
+1. En el `main`: el `Scanner` y `Map<String, Integer> inventario = new LinkedHashMap<>();`.
+2. Leé hasta `"fin"`. `String[] p = linea.split(" ");`, `String producto = p[1];` e `int actual = inventario.getOrDefault(producto, 0);`.
+3. `switch (p[0])`: `"+"` → `inventario.put(producto, actual + Integer.parseInt(p[2]))`.
+4. `"-"`: si la cantidad es mayor que `actual`, `"No alcanza " + producto + ": hay " + actual`. Si es igual, `inventario.remove(producto)`. Si no, guardá la resta.
+5. `"?"` → `producto + ": " + actual`.
+6. Al final: `"Inventario: " + inventario`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -3337,6 +3449,11 @@ Lo que puede fallar va adentro de `try { … }`. Si falla, Java salta al `catch`
 #### Desafío
 Completá el tipo de excepción que se atrapa.
 
+#### Pasos
+1. Hay un `___` en el `catch`.
+2. `Integer.parseInt("doce")` lanza `NumberFormatException`.
+3. Tocá **Ejecutar**. Tiene que salir `Campana: «doce» no es un número de tomo`.
+
 #### Código inicial
 ```java
 public class Campana {
@@ -3402,6 +3519,11 @@ El bloque `finally` va después del `try`/`catch` y se ejecuta **siempre**, haya
 
 #### Desafío
 Completá la palabra del bloque que se ejecuta siempre.
+
+#### Pasos
+1. Hay un `___` antes del último bloque.
+2. El bloque que se ejecuta siempre es `finally`.
+3. Tocá **Ejecutar**. Tiene que salir `Vela apagada` dos veces.
 
 #### Código inicial
 ```java
@@ -3475,6 +3597,11 @@ Una excepción propia se declara extendiendo `Exception`. El método que la pued
 
 #### Desafío
 Completá el `throw`: lanzá una `SinStockException` nueva con el mensaje armado.
+
+#### Pasos
+1. Hay un `___` en el `throw`.
+2. Creá la excepción con el mensaje: `new SinStockException("pidieron " + ganchos + " y hay hierro para " + stock)`.
+3. Tocá **Ejecutar**. Tiene que salir la campana de la herrería.
 
 #### Código inicial
 ```java
@@ -3572,6 +3699,11 @@ Al lanzar una excepción nueva por culpa de otra, pasale la original como **caus
 
 #### Desafío
 Completá el método que recupera la excepción original.
+
+#### Pasos
+1. Hay un `___` en `e.___()`.
+2. La excepción original se recupera con `getCause`.
+3. Tocá **Ejecutar**. Tiene que salir `Causa: For input string: "???"`.
 
 #### Código inicial
 ```java
@@ -3674,6 +3806,15 @@ división por cero. Atrapá cada caso con su propio `catch` y un mensaje claro, 
 - Un `catch` específico por tipo de error, del más específico al más general.
 - El `finally` cuenta todas las líneas, fallen o no.
 
+#### Pasos
+1. En el `main`: el `Scanner`, `int procesadas = 0;` e `int bien = 0;`. Leé hasta una línea vacía.
+2. `try`: `String[] partes = linea.split("/");`, los dos `Integer.parseInt` y `System.out.println(linea + " = " + (a / b));`. Sumá uno a `bien`.
+3. `catch (NumberFormatException e)` → `linea + ": hay algo que no es un número"`.
+4. `catch (ArithmeticException e)` → `linea + ": no se puede dividir por cero"`. `catch (ArrayIndexOutOfBoundsException e)` → `linea + ": falta la barra"`.
+5. `finally { procesadas++; }`.
+6. Al final: `bien + " de " + procesadas + " líneas salieron bien"`.
+7. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```java
 import java.util.Scanner;
@@ -3775,6 +3916,15 @@ de pedidos del `main` informando cada resultado, y al final mostrá el stock.
 **Para superarla:**
 - `StockInsuficienteException` extiende `Exception` y tiene getters.
 - `retirar` declara `throws` y el `main` maneja las dos excepciones por separado.
+
+#### Pasos
+1. Abajo: `class StockInsuficienteException extends Exception {` con `producto`, `pedido` y `disponible`. El constructor llama a `super("stock insuficiente de " + producto);` y guarda los tres. Agregá los getters.
+2. `class Deposito {` con `private final Map<String, Integer> stock = new TreeMap<>();` y `cargar(producto, cantidad)` → `stock.merge(producto, cantidad, Integer::sum);`.
+3. `retirar(String producto, int cantidad) throws StockInsuficienteException`: si no existe, `throw new IllegalArgumentException("no existe el producto " + producto);`. Si no alcanza, `throw new StockInsuficienteException(producto, cantidad, hay);`. Si alcanza, guardá la resta.
+4. `toString` → `stock.toString()`.
+5. En el `main`: cargá espada 3 y escudo 1. Pedidos: `{{"espada", "2"}, {"escudo", "2"}, {"lanza", "1"}, {"espada", "1"}}`.
+6. Por cada pedido, un `try` con `retirar` y `"Entregado: "`. En `catch (StockInsuficienteException e)`, `"Sin stock: pidieron " + e.getPedido() + " " + e.getProducto() + " y hay " + e.getDisponible()`. En `catch (IllegalArgumentException e)`, `"Pedido inválido: " + e.getMessage()`.
+7. `"Stock final: " + d`. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -3910,6 +4060,16 @@ con la original como **causa**, y mostrá la causa.
 - `Registro` implementa `AutoCloseable` y se usa con `try (…)`.
 - El registro se cierra aunque haya un error.
 - La excepción propia lleva la original como causa.
+
+#### Pasos
+1. Abajo: `class RegistroException extends Exception {` con un constructor `(String mensaje, Throwable causa)` → `super(mensaje, causa);`.
+2. `class Registro implements AutoCloseable {` con el array de tres líneas (copialas de la salida) y `boolean cerrado = false;`. El constructor muestra `"abriendo registro"`.
+3. `leerLinea(int n)`: si está cerrado, `throw new IllegalStateException("el registro está cerrado");`. Si `n` no existe, `throw new IndexOutOfBoundsException("no existe la línea " + n);`. Si no, devolvé la línea.
+4. `close()` → `cerrado = true;` y `"cerrando registro"`.
+5. `static void leerVarias(int[] lineas) throws RegistroException`: `try (Registro r = new Registro())` y leé cada línea. En `catch (IndexOutOfBoundsException e)` → `throw new RegistroException("el registro no tiene todas las líneas pedidas", e);`.
+6. En el `main`: un `try (Registro r = new Registro())` que lee las líneas 0 y 1. Otro que lee 2 y 7, con `catch (IndexOutOfBoundsException e)` → `"Error: " + e.getMessage()`.
+7. Al final, `leerVarias(new int[]{0, 5})` en un `try`. En el `catch (RegistroException e)`, `e.getMessage() + " | causa: " + e.getCause().getClass().getSimpleName()`.
+8. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -4401,6 +4561,11 @@ Una **lambda** es un método sin nombre: `(a, b) -> …`. Si una interfaz tiene 
 #### Desafío
 Completá el cuerpo de la lambda: comparar por largo del título.
 
+#### Pasos
+1. Hay un `___` después de `->`.
+2. Compará los largos: `Integer.compare(a.length(), b.length())`.
+3. Tocá **Ejecutar**. Tiene que empezar con `Censo`.
+
 #### Código inicial
 ```java
 import java.util.ArrayList;
@@ -4459,6 +4624,11 @@ Hay que sacar del depósito todos los pergaminos rotos. Borrar mientras se recor
 #### Desafío
 Completá la condición: se borran los que contienen "roto".
 
+#### Pasos
+1. Hay un `___` después de `p ->`.
+2. Se borran los que contienen `"roto"`: `p.contains("roto")`.
+3. Tocá **Ejecutar**. Tiene que salir `Quedan: [Censo, Tratado]`.
+
 #### Código inicial
 ```java
 import java.util.ArrayList;
@@ -4516,6 +4686,11 @@ Cuando una lambda solo llama a un método, se puede escribir como **referencia a
 
 #### Desafío
 Completá la referencia al método que imprime.
+
+#### Pasos
+1. Hay un `___` en `System.out::___`.
+2. El método que imprime con salto de línea es `println`.
+3. Tocá **Ejecutar**. Tienen que salir las salas en mayúsculas.
 
 #### Código inicial
 ```java
@@ -4576,6 +4751,11 @@ El Archivista quiere los pergaminos del Vidriero ordenados por año y, si dos so
 
 #### Desafío
 Completá el desempate por título.
+
+#### Pasos
+1. Hay un `___` después de `comparing(Pergamino::anio).`.
+2. El desempate se agrega con `thenComparing`.
+3. Tocá **Ejecutar**. `Boceto de ventana` tiene que salir antes que `Vitral del río`.
 
 #### Código inicial
 ```java
@@ -4667,6 +4847,15 @@ jugadores, mostrá la lista ordenada de cuatro formas, cada una en una línea:
 **Para superarla:**
 - Usa las cuatro formas pedidas.
 - Los desempates son correctos.
+
+#### Pasos
+1. Abajo: `record Jugador(String nombre, int puntos, int partidas)` con `promedio()` → `(double) puntos / partidas` y `toString` → `nombre`.
+2. En el `main`: la lista de 6 jugadores (Nara 340/10, Baldo 500/20, Lía 340/8, Pip 90/3, Olmo 410/10, Ada 120/3) con `new ArrayList<>(List.of(...))`.
+3. Por nombre, con clase anónima: `j.sort(new Comparator<Jugador>() { @Override public int compare(Jugador a, Jugador b) { return a.nombre().compareTo(b.nombre()); } });` y `"Por nombre: " + j`.
+4. Por puntos: `j.sort((a, b) -> Integer.compare(b.puntos(), a.puntos()));`.
+5. Por partidas: `j.sort(Comparator.comparingInt(Jugador::partidas).thenComparing(Jugador::nombre));`.
+6. Por promedio: `j.sort(Comparator.comparingDouble(Jugador::promedio).reversed());`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -4773,6 +4962,14 @@ noches, boolean pago)`. Con **lambdas** y **referencias a métodos**, sin bucles
 - No usa bucles `for` ni `while`.
 - Usa al menos un `Predicate` guardado y una referencia a método.
 
+#### Pasos
+1. Abajo: `record Huesped(String nombre, int noches, boolean pago) { }`.
+2. En el `main`: la lista de 6 huéspedes (copialos de la salida) con `new ArrayList<>(List.of(...))`.
+3. `huespedes.forEach(System.out::println);` y `huespedes.removeIf(h -> h.noches() == 0);`. Después `"Sin los de 0 noches: " + huespedes.size()`.
+4. `Predicate<Huesped> debe = h -> !h.pago();`, `System.out.print("Deben:");` y un `forEach` que, si `debe.test(h)`, imprime `" " + h.nombre()`. Después `System.out.println();`.
+5. `List<String> nombres = new ArrayList<>();`, `huespedes.forEach(h -> nombres.add(h.nombre()));`, `nombres.replaceAll(String::toUpperCase);` y `nombres.sort(Comparator.naturalOrder());`.
+6. Mostrá `nombres`. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```java
 import java.util.ArrayList;
@@ -4872,6 +5069,13 @@ hechizos en cadena a 7 recorriendo el mapa con `forEach`.
 **Para superarla:**
 - `Hechizo` tiene un solo método abstracto (marcala con `@FunctionalInterface`).
 - Los hechizos son lambdas guardadas en un mapa.
+
+#### Pasos
+1. Abajo: `@FunctionalInterface` y `interface Hechizo { int lanzar(int poder); }`.
+2. En el `main`: `Map<String, Hechizo> libro = new LinkedHashMap<>();` y cinco `put`: `"duplicar", p -> p * 2`, `"cuadrado", p -> p * p`, `"mitad", p -> p / 2`, `"invertir", p -> -p` y `"tope", p -> Math.min(p, 100)`.
+3. Leé hasta una línea vacía. `split(" ")` y `Hechizo h = libro.get(partes[0]);`. Si es `null`, `"No existe el hechizo " + partes[0]`; si no, `partes[0] + "(" + partes[1] + ") = " + h.lanzar(...)`.
+4. `int[] valor = {7};` y `libro.forEach((nombre, h) -> { valor[0] = h.lanzar(valor[0]); System.out.println("  tras " + nombre + ": " + valor[0]); });`.
+5. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java
@@ -5310,6 +5514,11 @@ Una prueba compara lo que **debería** dar con lo que **da**: `assertEquals(espe
 #### Desafío
 Completá el valor esperado del caso «carga cero».
 
+#### Pasos
+1. Hay un `___` en el primer `assertEquals`.
+2. Con carga cero, el peaje es `0`.
+3. Tocá **Ejecutar**. Tienen que salir los cuatro `OK`.
+
 #### Código inicial
 ```java
 public class Tribunal {
@@ -5392,6 +5601,11 @@ Cuando una prueba falla, leé el caso: qué esperaba y qué dio. «Desde 100» i
 #### Desafío
 Ejecutalo, mirá qué caso falla y arreglá la condición del descuento.
 
+#### Pasos
+1. Mirá el `if (kg > 100)`: con 100 justos no da descuento.
+2. Cambialo por `kg >= 100`.
+3. Tocá **Ejecutar**. Tiene que salir `OK 100 kg, con descuento`.
+
 #### Código inicial
 ```java
 public class Descuentos {
@@ -5469,6 +5683,11 @@ Las pruebas no se tienen que pisar: cada una prepara sus propios objetos. En JUn
 
 #### Desafío
 Ejecutalo, mirá qué prueba falla y hacé que la segunda use un cofre nuevo.
+
+#### Pasos
+1. La segunda prueba usa el cofre que dejó la primera.
+2. Antes de `cofre.depositar(20);`, agregá `cofre = nuevoCofre();`.
+3. Tocá **Ejecutar**. Tienen que salir los dos `OK`.
 
 #### Código inicial
 ```java
@@ -5565,6 +5784,11 @@ Un año es bisiesto si es divisible por 4, **salvo** que sea divisible por 100, 
 
 #### Desafío
 Escribí el `return` de `esBisiesto` para que pasen todas las pruebas.
+
+#### Pasos
+1. Hay un `___` en el `return` de `esBisiesto`.
+2. Divisible por 4 y no por 100, o divisible por 400: `(a % 4 == 0 && a % 100 != 0) || a % 400 == 0`.
+3. Tocá **Ejecutar**. Tienen que salir los cuatro `OK`.
 
 #### Código inicial
 ```java
@@ -6383,6 +6607,11 @@ Para cazar un ogro, mirá los valores intermedios: `suma`, `cantidad` y el resul
 #### Desafío
 Ejecutalo, fijate dónde se pierden los decimales y arreglá la división.
 
+#### Pasos
+1. `suma / cantidad` son dos `int`: la división pierde los decimales.
+2. Convertí uno a `double` antes de dividir: `(double) suma / cantidad`.
+3. Tocá **Ejecutar**. Tiene que salir `Promedio: 2.6`.
+
 #### Código inicial
 ```java
 public class Promedio {
@@ -6449,6 +6678,11 @@ Un `Logger` anota mensajes con un **nivel**: `FINE` (detalle), `INFO` (normal), 
 
 #### Desafío
 Completá el nivel para que se vean INFO y WARNING, pero no los FINE.
+
+#### Pasos
+1. Hay un `___` en `Level.___`.
+2. Para ver desde INFO para arriba (y no los FINE): `INFO`.
+3. Tocá **Ejecutar**. Tienen que salir solo el `INFO` y el `WARNING`.
 
 #### Código inicial
 ```java
@@ -6552,6 +6786,11 @@ Un `log.warning(...)` en el lugar exacto donde pasa lo raro, con los datos que i
 
 #### Desafío
 Completá el mensaje de advertencia: «Borrado: <registro> en <sala>».
+
+#### Pasos
+1. Hay un `___` dentro de `log.warning(...)`.
+2. Armá el texto: `"Borrado: " + registro + " en " + sala`.
+3. Tocá **Ejecutar**. Tienen que salir los dos `WARNING: Borrado: ...`.
 
 #### Código inicial
 ```java
@@ -6700,6 +6939,14 @@ public class Promedios {
 - Corrige los tres errores (el índice del bucle interno, la división entera y el mejor que no se actualiza).
 - Cada corrección tiene su comentario.
 
+#### Pasos
+1. Borrá el comentario. Copiá el programa de la consigna dentro del `main`, con `Locale.setDefault(Locale.US);` al principio.
+2. Error 1: el `for` de adentro empieza en `j = 1`. Cambialo a `j = 0` y escribí un comentario arriba.
+3. Error 2: `suma / notas[i].length` es una división entera. Cambiala por `(double) suma / notas[i].length`, con su comentario.
+4. Error 3: dentro del `if`, falta `mejor = promedio;`. Agregalo, con su comentario.
+5. Mostrá cada promedio con `System.out.printf("%s: %.2f%n", nombres[i], promedio);`.
+6. Tocá **Ejecutar**. Tiene que salir `Mejor promedio: Lía`.
+
 #### Código inicial
 ```java
 import java.util.Locale;
@@ -6786,6 +7033,14 @@ final, así que no uses `println` para los avisos. Procesá las operaciones de l
 
 **Para superarla:**
 - Usa `Logger` con los tres niveles pedidos.
+
+#### Pasos
+1. Arriba del `main`: `private static final Logger LOG = Logger.getLogger(DiarioDeposito.class.getName());`.
+2. En el `main`: `Map<String, Integer> stock = new TreeMap<>();` y el `Scanner`. Leé hasta una línea vacía y separá con `split(" ")`: producto en `p[1]` y cantidad en `p[2]`.
+3. `int hay = stock.getOrDefault(producto, 0);`. Si es `"+"` y la cantidad es negativa: `LOG.severe(...)` y `continue;`. Si no, sumá y `LOG.info("entran " + cantidad + " de " + producto);`.
+4. Si es `"-"` y no alcanza: `LOG.warning(...)` y `continue;`. Si alcanza, restá y `LOG.info("salen " + cantidad + " de " + producto);`.
+5. Al final, el único `println`: `"Stock final: " + stock`.
+6. Tocá **Ejecutar** y compará (los avisos del logger salen aparte).
 
 #### Código inicial
 ```java
@@ -7343,6 +7598,11 @@ Si un método devuelve una lista y no encontró nada, que devuelva una lista **v
 #### Desafío
 Completá el `return` del caso «no encontré nada»: una lista vacía.
 
+#### Pasos
+1. Hay un `___` en el último `return`.
+2. Devolvé una lista vacía, nunca `null`: `new ArrayList<>()`.
+3. Tocá **Ejecutar**. Tiene que salir `el Fantasma: 0 pergaminos`.
+
 #### Código inicial
 ```java
 import java.util.ArrayList;
@@ -7427,6 +7687,11 @@ El constructor revisa los datos y, si no sirven, lanza `IllegalArgumentException
 
 #### Desafío
 Completá la condición que rechaza el título inválido.
+
+#### Pasos
+1. Hay un `___` en el `if` del constructor.
+2. Rechazá el título nulo o en blanco: `titulo == null || titulo.isBlank()`.
+3. Tocá **Ejecutar**. Tienen que salir dos `Rechazado`.
 
 #### Código inicial
 ```java
@@ -7515,6 +7780,11 @@ En lugar de devolver `null`, `buscar` lanza una `PergaminoNoEncontradoException`
 
 #### Desafío
 Completá el mensaje de la excepción: «no existe el pergamino <id>».
+
+#### Pasos
+1. Hay un `___` dentro de `new PergaminoNoEncontradoException(...)`.
+2. Armá el mensaje: `"no existe el pergamino " + id`.
+3. Tocá **Ejecutar**. Tiene que salir `7: no existe el pergamino 7`.
 
 #### Código inicial
 ```java
@@ -7620,6 +7890,11 @@ Cada pedido se procesa adentro de su propio `try`: si uno falla, se avisa y se s
 
 #### Desafío
 Completá el `catch`: atrapá la `IllegalArgumentException` de los pedidos inválidos.
+
+#### Pasos
+1. Hay un `___` en el `catch`.
+2. Escribí `IllegalArgumentException`.
+3. Tocá **Ejecutar**. Tienen que salir los dos `Ignorado` y la ficha.
 
 #### Código inicial
 ```java
@@ -7747,6 +8022,16 @@ programa sigue. Una línea mal formada muestra `Comando inválido`.
 **Para superarla:**
 - Jerarquía de excepciones propias y un procesador de comandos que no se corta.
 - Los listados se ordenan con `Comparator` y nunca son `null`.
+
+#### Pasos
+1. Abajo, las excepciones: `class BibliotecaException extends Exception` con constructor `(String mensaje)`. Tres hijas: `LibroNoEncontradoException(codigo)` → `"no existe el libro " + codigo`; `LibroPrestadoException(codigo, socio)` → `"el libro " + codigo + " ya lo tiene " + socio`; y `LibroNoPrestadoException(codigo)` → `"el libro " + codigo + " no estaba prestado"`.
+2. `record Libro(String codigo, String titulo, String autor)` con un constructor compacto que hace `Objects.requireNonNull` de los tres.
+3. `class Biblioteca` con `Map<String, Libro> libros = new TreeMap<>()` y `Map<String, String> prestamos = new HashMap<>()`. `alta`: si el código ya existe, `throw new BibliotecaException("ya existe el código " + ...)`.
+4. Un `buscar(codigo)` privado que lanza `LibroNoEncontradoException`. `prestar`: buscá; si ya está prestado, `LibroPrestadoException`. `devolver`: buscá; si `prestamos.remove(codigo) == null`, `LibroNoPrestadoException`.
+5. `librosDe(socio)`: una lista nueva ordenada con `Comparator.comparing(Libro::titulo)`. `disponibles()`: los no prestados, ordenados por autor y título (`thenComparing`).
+6. En la clase principal: `ejecutar(Biblioteca b, String linea) throws BibliotecaException` con `split(" ", 2)` y un `switch` para `alta`, `prestar`, `devolver`, `socio` y `disponibles`. En `default`, `throw new IllegalArgumentException(...)`. Copiá los mensajes de la salida esperada.
+7. En el `main`: leé hasta `"salir"`. Con `try`, `ejecutar(b, linea)`. En `catch (BibliotecaException e)`, `"Error: " + e.getMessage()`. En `catch (RuntimeException e)`, `"Comando inválido: " + linea`.
+8. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```java

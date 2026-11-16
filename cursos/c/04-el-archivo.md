@@ -4429,6 +4429,11 @@ Se usa `do … while` y no `while` porque el menú se tiene que mostrar al menos
 #### Desafío
 Completá la condición del bucle.
 
+#### Pasos
+1. Buscá `} while (___);`.
+2. Cambiá `___` por `opcion != 0` (repetí hasta que elija salir).
+3. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -4521,6 +4526,11 @@ Chispa elige «8», que no existe, y el mostrador no dice nada: Chispa queda esp
 #### Desafío
 Agregá el `default` que avisa.
 
+#### Pasos
+1. Buscá `___: printf("la opcion %d no existe\n", opcion);`.
+2. Cambiá `___` por `default` (cualquier opción que no tenga su `case`).
+3. Tocá **Ejecutar**. Tiene que salir `la opcion 8 no existe`.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -4607,6 +4617,11 @@ La receta segura lo evita: `fgets` lee **toda** la línea (aunque sean letras) y
 #### Desafío
 Completá la lectura segura de la opción.
 
+#### Pasos
+1. Buscá `if (___)`.
+2. Cambiá `___` por `sscanf(linea, "%d", &opcion) != 1` (no pudo leer un número).
+3. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -4690,6 +4705,12 @@ Acá el programa se ejecuta dos veces seguidas, como si fueran dos días.
 
 #### Desafío
 Completá la carga y el guardado.
+
+#### Pasos
+1. Hay dos `___;`.
+2. Cargar: `if (fscanf(f, "%d", &prestados) != 1) { prestados = 0; }`
+3. Guardar: `fprintf(f, "%d\n", prestados);`
+4. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```c
@@ -4818,6 +4839,14 @@ Partiendo del ejemplo, agregá la opción `5) Apostar (10 oro)`: si no alcanza e
 - El menú acepta la opción 5.
 - Controla el oro antes de apostar.
 - Usa `rand() % 2` con semilla fija.
+
+#### Pasos
+1. Arriba, agregá `#include <stdlib.h>`.
+2. En el texto del menú, antes de `0) Salir`, agregá `5) Apostar (10 oro)  `.
+3. Al principio de `main`: `srand(5);` con el comentario `/* para jugar: srand(time(NULL)) */`.
+4. Cambiá `pedir_opcion(0, 4, &opcion)` por `pedir_opcion(0, 5, &opcion)`.
+5. Agregá `case 5:`: si `kira.oro < 10`, `"No te alcanza para apostar.\n"`; si `rand() % 2 == 0`, `kira.oro += 20;` y `"¡Ganás la apuesta! +20 de oro.\n"`; si no, `kira.oro -= 10;` y `"Perdés la apuesta. -10 de oro.\n"`. Y `break;`
+6. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```c
@@ -5091,6 +5120,14 @@ Reescribí el menú del ejemplo sin `switch`: cada acción es una función `void
 - El menú se arma recorriendo la tabla.
 - Agregar una opción es agregar una fila (la validación usa el tamaño de la tabla).
 
+#### Pasos
+1. Pasá cada `case` a una función `void accion(Jugador *j)`: `descansar`, `entrenar`, `trabajar` y `comprar` (con los mismos `printf`, cambiando `kira.` por `j->`).
+2. La tabla: `typedef struct { const char *texto; void (*accion)(Jugador *); } Opcion;` y `MENU[] = { { "Descansar", descansar }, { "Entrenar (-10 vida)", entrenar }, { "Trabajar en la forja (+15 oro)", trabajar }, { "Comprar poción (20 oro)", comprar } };`
+3. `#define OPCIONES ((int) (sizeof(MENU) / sizeof(MENU[0])))` y que `pedir_opcion` valide entre 0 y `OPCIONES`.
+4. Borrá `mostrar_estado` y el `switch`. En el bucle: mostrá el estado, recorré la tabla con `printf("%d) %s  ", i + 1, MENU[i].texto);` y `printf("0) Salir\n");`
+5. Pedí la opción; con 0, `break;`. Si no: `printf("\n");` y `MENU[opcion - 1].accion(&kira);`
+6. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```c
 /*
@@ -5347,6 +5384,15 @@ Escribí un menú con `1) Tienda`, `2) Trabajar (+15 oro)` y `0) Salir`:
 - La tienda es una función con su propio bucle.
 - Pide confirmación para salir.
 - Termina ordenado si se acaba la entrada.
+
+#### Pasos
+1. Arriba de `main`: `typedef struct { int vida, oro, flechas, pociones; } Jugador;`
+2. `pedir_linea` (muestra la pregunta y hace `fgets`) y `pedir_opcion` (repite hasta un número en rango; si no, `"\n  Opción inválida.\n"`).
+3. `void tienda(Jugador *j)`: en un `for (;;)` mostrá `"\n  -- Tienda (oro %d) --  1) Flechas x10 (5)  2) Poción (20)  0) Volver\n"` y pedí con `"  Elegí: "`. Con 0, `return;`. Si no alcanza: `"  No alcanza.\n"`; si no, comprá (`"  +10 flechas.\n"` o `"  +1 poción.\n"`).
+4. `bool confirmar(void)`: pregunta `"¿Seguro que querés salir? (s/n): "` y devuelve `true` con `s` o `S` (o si se terminó la entrada).
+5. En `main`: `Jugador kira = { 40, 45, 0, 0 };` y un `for (;;)` que muestra el estado y `"1) Tienda  2) Trabajar (+15 oro)  0) Salir\n"`. 1 → `tienda(&kira);`, 2 → +15 de oro y `"\nTrabajás en la forja.\n"`, 0 → si `confirmar()`, `break;`
+6. Al final: `printf("\nChau. Te llevás %d flechas y %d pociones.\n", kira.flechas, kira.pociones);`
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```c
@@ -5908,6 +5954,12 @@ Un archivo abierto y nunca cerrado puede quedar a medio guardar.
 #### Desafío
 Completá el cierre que falta y el aviso del archivo que no existe.
 
+#### Pasos
+1. Hay dos `___`.
+2. El primero cierra el archivo: `fclose(f);`
+3. El segundo pregunta si no se pudo abrir: `g == NULL`.
+4. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -5992,6 +6044,12 @@ Guardá ese número: es la cantidad que tenés que recorrer después.
 
 #### Desafío
 Completá la escritura y la lectura del array.
+
+#### Pasos
+1. Hay dos `___`.
+2. Escribir el array: `fwrite(inventario, sizeof inventario[0], 3, f);`
+3. Leerlo: `int n = (int) fread(vuelto, sizeof vuelto[0], 10, f);` (devuelve cuántos leyó).
+4. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```c
@@ -6100,6 +6158,11 @@ Para buscar: si el código coincide, lo mostrás y cortás con `break`. Usá una
 
 #### Desafío
 Completá la comparación.
+
+#### Pasos
+1. Buscá `if (___)`.
+2. Cambiá `___` por `e.codigo == 777`.
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```c
@@ -6224,6 +6287,12 @@ Después, `rewind(f)` y otro recorrido que muestra solo los que siguen con `'A'`
 
 #### Desafío
 Completá la condición de la baja y el filtro del listado.
+
+#### Pasos
+1. Hay dos `___`.
+2. La baja: `x.stock < 0 && x.estado == 'A'` (stock negativo y todavía activo).
+3. El listado: `x.estado == 'A'`.
+4. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```c

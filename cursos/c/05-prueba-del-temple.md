@@ -211,6 +211,11 @@ Pista para este: la suma da 30 y hay 4 notas. ¿Qué pasa cuando C divide dos en
 #### Desafío
 Arreglá el promedio sin cambiar las notas.
 
+#### Pasos
+1. Buscá `suma / 4`: dos enteros dan división entera.
+2. Cambiá el `4` por `4.0`.
+3. Tocá **Ejecutar**. Tiene que salir `promedio: 7.50`.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -280,6 +285,11 @@ El compilador lo avisa si compilás con `-Wall`: las **advertencias** (*warnings
 
 #### Desafío
 Corregí la comparación.
+
+#### Pasos
+1. Buscá `if (stock = 0)`: un solo `=` asigna, no compara.
+2. Cambialo por `if (stock == 0)`.
+3. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```c
@@ -354,6 +364,11 @@ Por eso un acumulador siempre se inicializa: `int total = 0;`.
 #### Desafío
 Inicializá el acumulador.
 
+#### Pasos
+1. Buscá `int total___;`.
+2. Cambialo por `int total = 0;` (sin valor inicial, empieza con basura).
+3. Tocá **Ejecutar**. Tiene que salir `450 kg`.
+
 #### Código inicial
 ```c
 #include <stdio.h>
@@ -421,6 +436,11 @@ Si arranca en 1 y tiene que llegar al 7 incluido, la condición tiene que dejar 
 
 #### Desafío
 Corregí el límite para que se cuenten los 7 días.
+
+#### Pasos
+1. Buscá `dia < 7` en el `for`.
+2. Cambialo por `dia <= 7` (empezando en 1, hay que incluir el 7).
+3. Tocá **Ejecutar**. Tiene que salir `7 dias`.
 
 #### Código inicial
 ```c
@@ -501,6 +521,12 @@ El código inicial calcula el promedio de cinco temperaturas y cuántas lo super
 - El bucle ya no lee fuera del array.
 - La división se hace con decimales (`(double) suma / n`).
 - Explica los dos errores; sin avisos del sanitizador.
+
+#### Pasos
+1. Primer error: en el `for` de la función, cambiá `i <= n` por `i < n` (leía una temperatura de más, fuera del array).
+2. Segundo error: cambiá `return suma / n;` por `return (double) suma / n;` (se perdían los decimales).
+3. Cambiá el comentario de arriba por uno que explique los dos errores.
+4. Tocá **Ejecutar**. Tiene que salir `Promedio: 1025.60`.
 
 #### Código inicial
 ```c
@@ -613,6 +639,13 @@ El código inicial tiene **tres** comportamientos indefinidos y, según la compu
 - Separa `x++ + x++` en pasos.
 - Sin advertencias ni informes del sanitizador.
 
+#### Pasos
+1. Cambiá `int total;` por `int total = 0;` (empezaba con basura).
+2. Cambiá `int factorial` por `long long factorial`, y adentro `int r = 1;` por `long long r = 1;`. En el `printf` del factorial, usá `%lld`.
+3. Cambiá `int y = x++ + x++;` por tres líneas: `int a = x++;`, `int b = x++;` e `int y = a + b;`
+4. Cambiá el comentario de arriba por uno que explique los tres problemas.
+5. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```c
 /* Tiene tres comportamientos indefinidos. En tu compu puede "andar". Encontralos. */
@@ -721,6 +754,13 @@ El código inicial calcula con recursión la suma `n + (n - 2) + (n - 4) + …`.
 - Usa `gdb` y `backtrace` para diagnosticar (lo explica en un comentario).
 - Corrige el caso base para que atrape los valores menores o iguales a 0.
 - Muestra los dos resultados.
+
+#### Pasos
+1. Si podés, ejecutalo en `gdb` con `run` y después `bt`: vas a ver `n` negativo (5, 3, 1, −1…).
+2. Con un número impar, `n - 2` nunca pasa por 0.
+3. Buscá `if (n == 0)` y cambialo por `if (n <= 0)`.
+4. Arriba, en un comentario, explicá lo que viste.
+5. Tocá **Ejecutar**. Tienen que salir 6 y 9.
 
 #### Código inicial
 ```c

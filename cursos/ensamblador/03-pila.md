@@ -157,6 +157,12 @@ Sirve para guardar una palanca un rato: la apilás, la usás para otra cosa, y a
 #### Desafío
 Completá el `push` y el `pop` para que, al final, AX vuelva a valer **5**, BX tenga el **9** de la otra cuenta y la torre quede como empezó (SP = 100h).
 
+#### Pasos
+1. Hay dos `___`.
+2. Guardá AX en la torre: `push ax`.
+3. Recuperalo al final: `pop ax`.
+4. Tocá **Ejecutar**. AX tiene que quedar en 5, BX en 9 y SP en `100h`.
+
 #### Código inicial
 ```asm
 .model small
@@ -238,6 +244,12 @@ Ya conocés otras dos formas de intercambiar (Los cajones con nombre): con una p
 #### Desafío
 Escribí las cuatro órdenes donde dice `; tus órdenes` para que AX y BX se intercambien y la torre quede pareja.
 
+#### Pasos
+1. Borrá `; tus órdenes`.
+2. Apilá los dos: `push ax` y `push bx`.
+3. Desapilalos al revés: `pop ax` y `pop bx`.
+4. Tocá **Ejecutar**. AX tiene que quedar en 1 y BX en 2.
+
 #### Código inicial
 ```asm
 .model small
@@ -316,6 +328,12 @@ En la torre solo entran platos **dobles**: words. Apilá AX entero (`push ax`), 
 
 #### Desafío
 Tocá **Ejecutar** para ver al goblin. Después arreglá el `push` y el `pop`. Vas a tipear la `K`.
+
+#### Pasos
+1. La torre guarda palabras de 2 bytes: no se puede apilar AL solo.
+2. Cambiá `push al` por `push ax`.
+3. Cambiá `pop al` por `pop ax`.
+4. Tocá **Ejecutar**. Tiene que salir `Guardada: K`.
 
 #### Código inicial
 ```asm
@@ -416,6 +434,12 @@ Las letras ya están apiladas, de la R a la A. Ahora sacalas: cada `pop dx` deja
 #### Desafío
 Escribí el bucle que desapila donde dice `; tus órdenes`, para que el ojo muestre `AMOR`.
 
+#### Pasos
+1. Borrá `; tus órdenes`. `mov cx, 4` y la etiqueta `desapilar:`.
+2. `pop dx` (la letra queda en DL).
+3. `mov ah, 02h`, `int 21h` y `loop desapilar`.
+4. Tocá **Ejecutar**. Tiene que salir `AMOR`.
+
 #### Código inicial
 ```asm
 .model small
@@ -513,6 +537,12 @@ Nova quiere invertir la palabra **SOL** sin escribir dos veces el 3. Guarda la c
 
 #### Desafío
 Tocá **Ejecutar** y mirá lo que pasa. Después arreglá el programa para que el ojo muestre `LOS`.
+
+#### Pasos
+1. El `push cx` deja la cantidad abajo de las letras, y el `pop cx` saca una letra en su lugar.
+2. Guardá la cantidad en otra palanca: cambiá `push cx` por `mov bx, cx`.
+3. Cambiá `pop cx` por `mov cx, bx`.
+4. Tocá **Ejecutar**. Tiene que salir `LOS`.
 
 #### Código inicial
 ```asm
@@ -612,6 +642,13 @@ En la ida, un bucle del 1 al 5 (podés usar BL, que empieza en `'1'` y sube): mo
 
 #### Desafío
 Escribí las órdenes desde cero, donde dice `; tus órdenes`, para que el ojo muestre `12345 54321`.
+
+#### Pasos
+1. Borrá `; tus órdenes`. `mov bl, '1'`, `mov cx, 5` y la etiqueta `ida:`.
+2. Adentro: `mov dl, bl`, `mov ah, 02h`, `int 21h`, `push dx`, `inc bl` y `loop ida`.
+3. El espacio: `mov dl, ' '`, `mov ah, 02h` e `int 21h`.
+4. `mov cx, 5`, `vuelta:` → `pop dx`, `mov ah, 02h`, `int 21h` y `loop vuelta`.
+5. Tocá **Ejecutar**. Tiene que salir `12345 54321`.
 
 #### Código inicial
 ```asm
@@ -872,6 +909,11 @@ salto endp
 #### Desafío
 Completá la llamada para que las palabras salgan en dos renglones.
 
+#### Pasos
+1. Hay un `___` en `call ___`.
+2. La rutina que baja de renglón se llama `salto`.
+3. Tocá **Ejecutar**. Tienen que salir las dos palabras en dos renglones.
+
 #### Código inicial
 ```asm
 .model small
@@ -978,6 +1020,13 @@ Adentro de la rutina: pasá AL a DL, sumale `'0'`, la `02h` y, al final, `ret` p
 #### Desafío
 Escribí el cuerpo de la rutina donde dice `; tus órdenes`, para que el ojo muestre `703`.
 
+#### Pasos
+1. Borrá `; tus órdenes` dentro de `mostrar_digito`.
+2. `mov dl, al` y `add dl, '0'`.
+3. `mov ah, 02h` e `int 21h`.
+4. Volvé: `ret`.
+5. Tocá **Ejecutar**. Tiene que salir `703`.
+
 #### Código inicial
 ```asm
 .model small
@@ -1073,6 +1122,11 @@ La rutina hace `push dx` y llega al `ret` sin el `pop`. Entonces `ret` saca **DX
 
 #### Desafío
 Tocá **Ejecutar** y leé el aviso. Después arreglá la rutina para que el ojo muestre `703` y el Gólem vuelva bien.
+
+#### Pasos
+1. La rutina hace `push dx` pero nunca lo saca: el `ret` vuelve a cualquier lado.
+2. Antes del `ret`, agregá `pop dx`.
+3. Tocá **Ejecutar**. Tiene que salir `703` y SP en `100h`.
 
 #### Código inicial
 ```asm
@@ -1180,6 +1234,11 @@ Después de la etiqueta `fin:` faltan las dos órdenes que apagan el programa. S
 #### Desafío
 Tocá **Ejecutar** y leé el aviso. Después agregá lo que falta para que el ojo muestre solo el `5` y el programa termine.
 
+#### Pasos
+1. Después de `fin:`, el programa sigue de largo y se mete en la rutina.
+2. Agregá el final del programa: `mov ax, 4C00h` e `int 21h`.
+3. Tocá **Ejecutar**. Tiene que salir solo el `5`.
+
 #### Código inicial
 ```asm
 .model small
@@ -1267,6 +1326,13 @@ Adentro de `separador`: pasá AL a DL y repetí la `02h` con un `loop` (CX ya tr
 
 #### Desafío
 Escribí el cuerpo de la rutina donde dice `; tus órdenes`.
+
+#### Pasos
+1. Borrá `; tus órdenes` dentro de `separador`. El carácter llega en AL y la cantidad en CX.
+2. `mov dl, al` y `mov ah, 02h`.
+3. `repetir:` → `int 21h` y `loop repetir`.
+4. `ret`.
+5. Tocá **Ejecutar**. Tienen que salir los dos separadores.
 
 #### Código inicial
 ```asm
@@ -1529,6 +1595,12 @@ El programa llama 3 veces a la rutina `paso`, pero el Gólem da pasos para siemp
 #### Desafío
 Tocá **Ejecutar** y leé el aviso. Después arreglá la rutina para que el Gólem dé exactamente 3 pasos.
 
+#### Pasos
+1. La rutina pisa CX, que es la cuenta del bucle de afuera.
+2. Al principio de `paso`: `push cx`.
+3. Antes del `ret`: `pop cx`.
+4. Tocá **Ejecutar**. Tienen que salir 3 pasos.
+
 #### Código inicial
 ```asm
 .model small
@@ -1638,6 +1710,13 @@ Adentro de `mayor`: compará AL con BL; si AL ya es mayor o igual (`jae`), no ha
 #### Desafío
 Escribí el cuerpo de la rutina donde dice `; tus órdenes`, para que AL termine con el mayor de los tres.
 
+#### Pasos
+1. Borrá `; tus órdenes` dentro de `mayor`.
+2. `cmp al, bl` y, si AL ya es mayor o igual, `jae listo`.
+3. Si no: `mov al, bl`.
+4. `listo:` y `ret`.
+5. Tocá **Ejecutar**. AL tiene que quedar en 8.
+
 #### Código inicial
 ```asm
 .model small
@@ -1732,6 +1811,11 @@ La rutina hace `push ax`, `push bx` y después `pop ax`, `pop bx`. Lo último qu
 
 #### Desafío
 Ejecutá y mirá AX y BX. Después arreglá el orden para que, al volver de la rutina, AX siga en **1** y BX en **2**.
+
+#### Pasos
+1. Lo que entra último a la torre sale primero.
+2. Si apilaste AX y después BX, desapilá primero BX: `pop bx` y después `pop ax`.
+3. Tocá **Ejecutar**. AX tiene que quedar en 1 y BX en 2.
 
 #### Código inicial
 ```asm
@@ -1840,6 +1924,12 @@ Si AL está entre `'0'` y `'9'`, terminá con `clc` (CF = 0: sí); si no, con `s
 
 #### Desafío
 Completá las dos órdenes que ponen CF en la rutina. Vas a tipear el `7`.
+
+#### Pasos
+1. Hay dos `___`.
+2. Si es dígito, apagá el acarreo: `clc`.
+3. Si no es dígito (después de `no_digito:`), prendelo: `stc`.
+4. Tocá **Ejecutar**. Tiene que salir `Es un digito.`
 
 #### Código inicial
 ```asm
@@ -1967,6 +2057,15 @@ Adentro de `renglon`: mostrá el texto con la `09h` (DX ya lo trae), después el
 
 #### Desafío
 Escribí el cuerpo de `renglon` donde dice `; tus órdenes`.
+
+#### Pasos
+1. Borrá `; tus órdenes` dentro de `renglon`. Cuidá CX: `push cx`. El precio a salvo: `mov cl, al`.
+2. Mostrá el nombre (DX ya lo señala): `mov ah, 09h` e `int 21h`.
+3. El signo: `mov dl, '$'`, `mov ah, 02h` e `int 21h`.
+4. El precio: `mov dl, cl`, `add dl, '0'` e `int 21h`.
+5. Sumalo al total: `add bl, cl`. Bajá de renglón: `call salto`.
+6. `pop cx` y `ret`.
+7. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```asm
@@ -2334,6 +2433,12 @@ Antes de cada `div bx`, DX tiene que estar en **0** (se divide DX:AX). Y despué
 #### Desafío
 Completá las dos palabras que faltan para que el ojo muestre `1234`.
 
+#### Pasos
+1. Hay dos `___`.
+2. Antes de dividir, la parte alta va en cero: `mov dx, 0`.
+3. Apilá la cifra que quedó en el resto: `push dx`.
+4. Tocá **Ejecutar**. Tiene que salir `1234`.
+
 #### Código inicial
 ```asm
 .model small
@@ -2462,6 +2567,11 @@ En la primera vuelta DX vale 0, pero después del `div` queda con el **resto**. 
 #### Desafío
 Tocá **Ejecutar** y leé el aviso. Después mové la orden a su lugar para que el ojo muestre `2026`.
 
+#### Pasos
+1. El `mov dx, 0` quedó afuera del bucle: en la segunda vuelta DX tiene el resto viejo.
+2. Subí la etiqueta `separar:` una línea, para que quede arriba de `mov dx, 0`.
+3. Tocá **Ejecutar**. Tiene que salir `2026`.
+
 #### Código inicial
 ```asm
 .model small
@@ -2588,6 +2698,13 @@ Un bucle con BX de 1 a 12. En cada vuelta: mostrá BX con `imprimir_numero` (AX 
 
 #### Desafío
 Escribí el bucle donde dice `; tus órdenes`. Las rutinas `imprimir_numero`, `espacio` y `salto` ya están.
+
+#### Pasos
+1. Borrá `; tus órdenes`. `mov bx, 1` y la etiqueta `tabla:`.
+2. El número: `mov ax, bx`, `call imprimir_numero` y `call espacio`.
+3. El cuadrado: `mov ax, bx`, `mul bx`, `call imprimir_numero` y `call salto`.
+4. `inc bx`, `cmp bx, 12` y `jbe tabla`.
+5. Tocá **Ejecutar**. Tiene que terminar con `12 144`.
 
 #### Código inicial
 ```asm
@@ -2784,6 +2901,13 @@ En `imprimir_con_signo`: si el bit 15 está prendido (`test ax, 8000h` + `jz` pa
 #### Desafío
 Completá las tres palabras que faltan para que el ojo muestre `-200`.
 
+#### Pasos
+1. Hay tres `___`.
+2. El bit del signo de AX: `test ax, 8000h`.
+3. Para dar vuelta el signo: `neg ax`.
+4. La rutina que muestra el número: `call imprimir_numero`.
+5. Tocá **Ejecutar**. Tiene que salir `-200`.
+
 #### Código inicial
 ```asm
 .model small
@@ -2946,6 +3070,14 @@ AX empieza en 0. Por cada carácter de la bolsa (desde `buffer+2`, tantos como d
 
 #### Desafío
 Escribí la conversión donde dice `; tus órdenes`. Kira va a tipear `125`.
+
+#### Pasos
+1. Borrá el comentario. `mov ax, 0`. La cantidad de letras: `mov cl, buffer+1` y `mov ch, 0`.
+2. `lea si, buffer+2` (la primera letra) y `mov di, 10`.
+3. `convertir:` → `mov bl, [si]`, `sub bl, '0'` y `mov bh, 0`.
+4. Corré lo que había y sumá la cifra: `mul di` y `add ax, bx`.
+5. `inc si` y `loop convertir`.
+6. Tocá **Ejecutar**. Tiene que salir `Doble: 250`.
 
 #### Código inicial
 ```asm
@@ -3127,6 +3259,13 @@ Dividí por 3600 (con `div bx`, DX en 0): el cociente son las **horas** y el res
 
 #### Desafío
 Escribí las órdenes desde cero, donde dice `; tus órdenes`, para que el ojo muestre `1 h 2 min 5 s`.
+
+#### Pasos
+1. Borrá `; tus órdenes`. Horas: `mov ax, segundos`, `mov dx, 0`, `mov bx, 3600` y `div bx`. Guardá lo que sobra: `mov si, dx`.
+2. `call imprimir_numero` y el texto: `lea dx, t_h`, `mov ah, 09h` e `int 21h`.
+3. Minutos: `mov ax, si`, `mov dx, 0`, `mov bx, 60`, `div bx` y `mov si, dx`. Mostralos con `t_min`.
+4. Segundos: `mov ax, si`, `call imprimir_numero` y `t_s`.
+5. Tocá **Ejecutar**. Tiene que salir `1 h 2 min 5 s`.
 
 #### Código inicial
 ```asm
@@ -3447,6 +3586,11 @@ Escribí el nombre de la macro y, al lado, la variable del texto: `imprimir salu
 #### Desafío
 Completá la línea para que el ojo muestre el saludo.
 
+#### Pasos
+1. Hay un `___` antes de `saludo`.
+2. Es el nombre de la macro: `imprimir`.
+3. Tocá **Ejecutar**. Tiene que salir el saludo.
+
 #### Código inicial
 ```asm
 imprimir macro texto
@@ -3537,6 +3681,13 @@ Adentro de la macro: guardá AX y DX, mostrá el 13 y el 10 con la `02h`, y devo
 
 #### Desafío
 Escribí las órdenes de la macro donde dice `; tus órdenes`, para que las dos palabras salgan en dos renglones.
+
+#### Pasos
+1. Borrá `; tus órdenes` dentro de la macro. Cuidá las palancas: `push ax` y `push dx`.
+2. El retorno: `mov dl, 13`, `mov ah, 02h` e `int 21h`.
+3. El salto de renglón: `mov dl, 10` e `int 21h`.
+4. `pop dx` y `pop ax`.
+5. Tocá **Ejecutar**. Las palabras tienen que salir en dos renglones.
 
 #### Código inicial
 ```asm
@@ -3653,6 +3804,12 @@ La `09h` termina en el **primer** `$` que encuentra: el del precio. Cortá el te
 #### Desafío
 Tocá **Ejecutar** y mirá lo que sale. Después arreglá el texto y agregá lo que falta para que el ojo muestre `Lavado: $9`.
 
+#### Pasos
+1. El `$` es el fin del texto para el ojo: lo que sigue no se muestra.
+2. Dejá el texto en `'Lavado: $'`.
+3. Después de `imprimir cartel`, mostrá los dos caracteres sueltos: `mov dl, '$'`, `mov ah, 02h`, `int 21h`, `mov dl, '9'` e `int 21h`.
+4. Tocá **Ejecutar**. Tiene que salir `Lavado: $9`.
+
 #### Código inicial
 ```asm
 imprimir macro texto
@@ -3751,6 +3908,11 @@ Cada vez que se usa, la macro se **copia** con su etiqueta `otra:` adentro: dos 
 #### Desafío
 Tocá **Ejecutar**, leé el error y arreglá la macro para que el ojo muestre `******`.
 
+#### Pasos
+1. Cada vez que se usa la macro se repite la etiqueta `otra`.
+2. En la primera línea de la macro, agregá `local otra`.
+3. Tocá **Ejecutar**. Tiene que salir `******`.
+
 #### Código inicial
 ```asm
 estrellas macro
@@ -3841,6 +4003,12 @@ Adentro de la macro: `mov dl, a`, `add dl, b`, `add dl, '0'` y la `02h`. Como `a
 
 #### Desafío
 Escribí las órdenes de la macro donde dice `; tus órdenes`, para que el ojo muestre `75`.
+
+#### Pasos
+1. Borrá `; tus órdenes` dentro de la macro.
+2. `mov dl, a` y `add dl, b`.
+3. `add dl, '0'`, `mov ah, 02h` e `int 21h`.
+4. Tocá **Ejecutar**. Tiene que salir `75`.
 
 #### Código inicial
 ```asm
@@ -4081,6 +4249,12 @@ Con `mov ah, 02h` e `int 10h` el cursor salta adonde digan DH (fila) y DL (colum
 #### Desafío
 Completá la fila y la columna para que la X quede en el lugar del tesoro.
 
+#### Pasos
+1. Hay dos `___`.
+2. La fila: `2`.
+3. La columna: `5`.
+4. Tocá **Ejecutar**. La X tiene que quedar en el tercer renglón, corrida 5 lugares.
+
 #### Código inicial
 ```asm
 .model small
@@ -4178,6 +4352,12 @@ La `09h` del BIOS escribe AL, con el color de BL, CX veces seguidas. El rojo cla
 #### Desafío
 Completá el color y la cantidad para que el ojo muestre cinco `#` en rojo claro.
 
+#### Pasos
+1. Hay dos `___`.
+2. El rojo claro es el color `12`.
+3. La cantidad: `5`.
+4. Tocá **Ejecutar**. Tienen que salir cinco `#`.
+
 #### Código inicial
 ```asm
 .model small
@@ -4262,6 +4442,11 @@ La `09h` del BIOS no mueve el cursor. Gheco ya escribió la rutina `avanzar`, qu
 
 #### Desafío
 Tocá **Ejecutar** y mirá lo que sale. Después agregá la llamada que falta para que el ojo muestre `NOVA`.
+
+#### Pasos
+1. Cada letra se escribe en el mismo lugar porque el cursor no avanza.
+2. Después del `int 10h` de la letra, agregá `call avanzar`.
+3. Tocá **Ejecutar**. Tiene que salir `NOVA`.
 
 #### Código inicial
 ```asm
@@ -4400,6 +4585,12 @@ Mirá la rutina `azar`: la cuenta es `semilla * 25173 + 13849`. Completá los do
 #### Desafío
 Completá la cuenta del generador para que el ojo muestre los cinco dados de la semilla 1234.
 
+#### Pasos
+1. Hay dos `___`.
+2. El multiplicador: `mov dx, 25173`.
+3. El que se suma: `add ax, 13849`.
+4. Tocá **Ejecutar**. Tiene que salir `42114`.
+
 #### Código inicial
 ```asm
 .model small
@@ -4519,6 +4710,13 @@ En las Forjas, las discusiones se resuelven tirando una moneda: **C** (cara) o *
 
 #### Desafío
 Escribí el bucle donde dice `; tus órdenes`. La semilla es la 2026.
+
+#### Pasos
+1. Borrá `; tus órdenes`. `mov cx, 6` y la etiqueta `tirar:`.
+2. `mov bl, 2` y `call azar` (deja 0 o 1 en AL).
+3. Si `cmp al, 0` no da igual, `jne cruz`. Si es cara: `mov dl, 'C'`, `inc di` y `jmp mostrar`.
+4. `cruz:` → `mov dl, 'X'`. `mostrar:` → `mov ah, 02h`, `int 21h` y `loop tirar`.
+5. Tocá **Ejecutar**. Tiene que salir `CXXXXC`.
 
 #### Código inicial
 ```asm
@@ -4790,6 +4988,11 @@ Contá los platos de **cada** rutina, la de afuera y la de adentro. En una de la
 #### Desafío
 Tocá **Ejecutar** y leé el aviso. Después encontrá la rutina despareja y arreglala para que el ojo muestre `N.` y el programa termine bien.
 
+#### Pasos
+1. Ejecutá paso a paso: una rutina hace `push ax` y nunca lo saca.
+2. En esa rutina, después de `pop dx` y antes del `ret`, agregá `pop ax`.
+3. Tocá **Ejecutar**. Tiene que salir `N.` y SP en `100h`.
+
 #### Código inicial
 ```asm
 .model small
@@ -4908,6 +5111,12 @@ El bucle de afuera usa **BL** para la cifra y **CX** para las vueltas. Mirá qu�
 #### Desafío
 Ejecutá paso a paso, encontrá la palanca robada y arreglá la rutina para que el ojo muestre `1234`.
 
+#### Pasos
+1. La rutina usa BX sin guardarlo, y BX es el contador de afuera.
+2. Después de `push ax`, agregá `push bx`.
+3. Antes de `pop ax`, agregá `pop bx` (después de `pop dx`).
+4. Tocá **Ejecutar**. Tiene que salir `1234`.
+
 #### Código inicial
 ```asm
 .model small
@@ -5020,6 +5229,14 @@ Llevá la cuenta de cuántas letras hay en la torre (en BX). Leé teclas hasta e
 
 #### Desafío
 Escribí las órdenes desde cero, donde dice `; tus órdenes`. Kira va a tipear `<`, `a`, `b`, `<`, `c`, `d` y `.`.
+
+#### Pasos
+1. Borrá `; tus órdenes`. `leer:` → `mov ah, 01h` e `int 21h`. Si es `'.'`, `je  listo`.
+2. Si no es `'<'`, `jne apilar`. Si es `'<'` y BX es 0, `je  leer`. Si no, `pop dx`, `dec bx` y `jmp leer`.
+3. `apilar:` → `push ax`, `inc bx` y `jmp leer`.
+4. `listo:` → mostrá `t_queda` con `lea dx, t_queda`, `mov ah, 09h` e `int 21h`.
+5. `mov cx, bx` y `jcxz vacio`. `mostrar:` → `pop dx`, `mov ah, 02h`, `int 21h` y `loop mostrar`. Después, la etiqueta `vacio:`.
+6. Tocá **Ejecutar**. Tiene que salir `Queda (al reves): dca`.
 
 #### Código inicial
 ```asm
@@ -5338,6 +5555,11 @@ En el libro del vigía, Nova encuentra un programa con una orden de más: `mov a
 #### Desafío
 Reemplazá `mov al, 0` por dos órdenes que no hagan nada, para que AL siga en **5** y `despues` siga en la dirección **9** (BX).
 
+#### Pasos
+1. `mov al, 0` pisa el 5 que había en AL.
+2. Cambialo por dos órdenes que no hacen nada: `nop` y otra vez `nop` (cada una ocupa 1 byte, como el lugar que deja libre).
+3. Tocá **Ejecutar**. AL tiene que quedar en 5 y BX en 9.
+
 #### Código inicial
 ```asm
 .model small
@@ -5415,6 +5637,11 @@ El libro del vigía termina muchos programas con una sola palabra: `HLT`. —El 
 
 #### Desafío
 Completá la orden que detiene al Gólem después de mostrar `Me duermo`, para que la **X** nunca aparezca.
+
+#### Pasos
+1. Hay un `___` después del `int 21h`.
+2. La orden que detiene al Gólem es `hlt`.
+3. Tocá **Ejecutar**. Tiene que salir solo `Me duermo`.
 
 #### Código inicial
 ```asm
@@ -5501,6 +5728,11 @@ Una rutina del libro devuelve la respuesta en CF: 1 si la puerta está **abierta
 #### Desafío
 Completá la orden que da vuelta CF, para que, con la puerta abierta (CF = 1), quede en **0**.
 
+#### Pasos
+1. Hay un `___` después de `stc`.
+2. La orden que da vuelta CF es `cmc`.
+3. Tocá **Ejecutar**. CF tiene que quedar en 0.
+
 #### Código inicial
 ```asm
 .model small
@@ -5578,6 +5810,11 @@ Después de `cmp al, 5` con AL = 5, el resultado es 0: ZF = 1 y PF = 1 (el 0 tie
 #### Desafío
 Completá la orden que copia los interruptores en AH, para que AH quede en **46h**.
 
+#### Pasos
+1. Hay un `___` después del `cmp`.
+2. La orden que copia los interruptores en AH es `lahf`.
+3. Tocá **Ejecutar**. AH tiene que quedar en `46h`.
+
 #### Código inicial
 ```asm
 .model small
@@ -5651,6 +5888,12 @@ Para probar una rutina, Nova necesita que el Gólem «crea» que el último `cmp
 #### Desafío
 Completá el valor de AH y la orden que lo carga en los interruptores, para que queden **ZF = 1** y **CF = 1**.
 
+#### Pasos
+1. Hay dos `___`.
+2. En AH, el bit 6 (ZF) y el bit 0 (CF) en 1: `mov ah, 01000001b`.
+3. La orden que los carga en los interruptores: `sahf`.
+4. Tocá **Ejecutar**. ZF y CF tienen que quedar en 1.
+
 #### Código inicial
 ```asm
 .model small
@@ -5723,6 +5966,12 @@ Kira compara dos llaves (`cmp`), llama a la rutina `revisar` para que las limpie
 
 #### Desafío
 Tocá **Ejecutar** y mirá el error de lógica. Después agregá `pushf` y `popf` en la rutina, para que el ojo diga `Iguales`.
+
+#### Pasos
+1. La rutina cambia los interruptores y el `je` de afuera mira otro resultado.
+2. Al principio de `revisar`, antes de `push bx`: `pushf`.
+3. Al final, después de `pop bx`: `popf`.
+4. Tocá **Ejecutar**. Tiene que salir `Iguales`.
 
 #### Código inicial
 ```asm
@@ -5835,6 +6084,12 @@ El interruptor **IF** dice si el Gólem atiende las interrupciones del hardware.
 
 #### Desafío
 Completá las dos órdenes: la que apaga las interrupciones antes de mudar la torre y la que las vuelve a prender después. Al final, SP tiene que quedar en **80h** e IF en **1**.
+
+#### Pasos
+1. Hay dos `___`.
+2. Antes de mudar la torre: `cli`.
+3. Después: `sti`.
+4. Tocá **Ejecutar**. SP tiene que quedar en `80h` e IF en 1.
 
 #### Código inicial
 ```asm
@@ -6086,6 +6341,11 @@ La solución es declarar la rutina **`proc far`**: así MASM convierte el `call 
 #### Desafío
 Tocá **Ejecutar** y mirá el error. Después agregá `far` a la declaración de `saludo`, para que el ojo muestre `Hola desde lejos` y la torre de platos quede pareja (SP = 100h).
 
+#### Pasos
+1. La rutina se llama desde otra torre (con `call far`) y tiene que volver lejos.
+2. Cambiá `saludo proc` por `saludo proc far`.
+3. Tocá **Ejecutar**. Tiene que salir `Hola desde lejos` y SP en `100h`.
+
 #### Código inicial
 ```asm
 .model small
@@ -6177,6 +6437,12 @@ recompensa: xp 15, oro 15
 #### Desafío
 Completá las dos mitades de la dirección de `t`, para que el ojo muestre su primera letra: **H**.
 
+#### Pasos
+1. Hay dos `___`.
+2. La torre (el segmento): `mov ax, seg t`.
+3. El cajón (el desplazamiento): `mov bx, offset t`.
+4. Tocá **Ejecutar**. Tiene que salir `H`.
+
 #### Código inicial
 ```asm
 .model small
@@ -6260,6 +6526,11 @@ En una variable de 4 bytes, alguien dejó anotada la dirección completa del men
 #### Desafío
 Tocá **Ejecutar** para ver el error. Después cambiá el `mov` por `lds`, para que el ojo muestre `Por el puntero`.
 
+#### Pasos
+1. `mov` carga solo 2 bytes del puntero, y el puntero tiene 4.
+2. Cambiá `mov dx, puntero` por `lds dx, puntero` (carga DS y DX juntos).
+3. Tocá **Ejecutar**. Tiene que salir `Por el puntero`.
+
 #### Código inicial
 ```asm
 .model small
@@ -6338,6 +6609,11 @@ Hay que dejar una marca **\*** en un cajón de la otra torre, y Nova tiene su di
 #### Desafío
 Completá la orden que carga ES:DI desde el puntero, para que el cajón `destino` quede con un **\***.
 
+#### Pasos
+1. Hay un `___` antes de `di, destino_ptr`.
+2. La que carga ES:DI desde un puntero es `les`.
+3. Tocá **Ejecutar**. `[destino]` tiene que quedar con un `*`.
+
 #### Código inicial
 ```asm
 .model small
@@ -6414,6 +6690,11 @@ recompensa: xp 20, oro 20
 
 #### Desafío
 Completá el lugar de la tabla, para que el Gólem llame a la rutina `dos` y el ojo muestre **2**.
+
+#### Pasos
+1. Hay un `___` en `rutinas+___`.
+2. Cada dirección lejana ocupa 4 bytes: la segunda rutina está en `+4`.
+3. Tocá **Ejecutar**. Tiene que salir `2`.
 
 #### Código inicial
 ```asm
@@ -6710,6 +6991,12 @@ La función **25h** de DOS escribe la tarjeta: la campana va en **AL** y la dire
 #### Desafío
 Completá la campana (en AX) y el desplazamiento de la rutina (en DX), para que cada `int 60h` muestre `Din! ` y el ojo diga `Din! Din! `.
 
+#### Pasos
+1. Hay dos `___`.
+2. El desplazamiento de la rutina: `mov dx, offset campana`.
+3. El servicio 25h instala la campana 60h: `mov ax, 2560h`.
+4. Tocá **Ejecutar**. Tiene que salir `Din! Din!`.
+
 #### Código inicial
 ```asm
 .model small
@@ -6831,6 +7118,11 @@ La rutina de la campana contesta bien, pero después de cada llamada la torre de
 #### Desafío
 Tocá **Ejecutar** y mirá SP (`00FCh`). Después cambiá el final de la rutina para que SP vuelva a **100h**.
 
+#### Pasos
+1. Una rutina de campana vuelve con `iret`, que saca también los interruptores.
+2. Cambiá el `ret` del final de `grito` por `iret`.
+3. Tocá **Ejecutar**. SP tiene que quedar en `100h`.
+
 #### Código inicial
 ```asm
 .model small
@@ -6944,6 +7236,11 @@ El programa es largo y Nova quiere frenar justo antes de mostrar el resultado, s
 #### Desafío
 Completá el punto de parada antes de mostrar el resultado. Después tocá **Ejecutar** y mirá cómo se frena con AL en 7. Al terminar, el ojo tiene que mostrar **7**.
 
+#### Pasos
+1. Hay un `___` donde dice «frená acá».
+2. El punto de parada es `int 3`.
+3. Tocá **Ejecutar**. Se frena con AL en 7; seguí y tiene que salir `7`.
+
 #### Código inicial
 ```asm
 .model small
@@ -7025,6 +7322,13 @@ Dividir por cero toca la campana **0**. La rutina `cero` ya está escrita: muest
 
 #### Desafío
 Tocá **Ejecutar** y mirá cómo se detiene. Después escribí las órdenes que instalan `cero` en la campana 0 (donde dice `; tus órdenes`), para que el ojo muestre `No se divide por cero. Sigo vivo.`
+
+#### Pasos
+1. Borrá `; tus órdenes`. Guardá DS: `push ds`.
+2. La rutina está en CS: `mov ax, cs` y `mov ds, ax`.
+3. `mov dx, offset cero`, `mov ax, 2500h` (campana 0) e `int 21h`.
+4. `pop ds`.
+5. Tocá **Ejecutar**. Tiene que salir `No se divide por cero. Sigo vivo.`
 
 #### Código inicial
 ```asm
@@ -7143,6 +7447,11 @@ Nova suma vidas con signo, y cuando 127 + 1 da la vuelta a −128 nadie se enter
 
 #### Desafío
 Completá la orden que avisa el desborde después de la suma, para que el ojo muestre `Desborde! ` antes de la x.
+
+#### Pasos
+1. Hay un `___` después de la suma.
+2. La orden que llama a la campana del desborde si OF está en 1 es `into`.
+3. Tocá **Ejecutar**. Tiene que salir `Desborde! x`.
 
 #### Código inicial
 ```asm
@@ -7270,6 +7579,12 @@ La rutina `latido` suma 1 a la variable `latidos` cada vez que la llaman. Instal
 
 #### Desafío
 Completá la campana y la rutina en la instalación, para que el programa espere tres latidos y el ojo muestre **3**.
+
+#### Pasos
+1. Hay dos `___`.
+2. La rutina: `mov dx, offset latido`.
+3. La campana del reloj es la 1Ch: `mov ax, 251Ch`.
+4. Tocá **Ejecutar**. Tiene que salir `3`.
 
 #### Código inicial
 ```asm

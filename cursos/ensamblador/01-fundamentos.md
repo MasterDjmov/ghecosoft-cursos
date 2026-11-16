@@ -188,6 +188,11 @@ Muestra una **A**.
 #### Desafío
 Completá la orden que falta para que el ojo muestre la letra **N**.
 
+#### Pasos
+1. Buscá `mov dl, ___`.
+2. Cambiá `___` por `'N'`, con comillas simples (la letra).
+3. Tocá **Ejecutar**. El ojo tiene que mostrar `N`.
+
 #### Código inicial
 ```asm
 .model small
@@ -271,6 +276,11 @@ int 21h
 #### Desafío
 El texto ya está guardado en `saludo`. Completá la orden para que DX tenga **su dirección** y el ojo muestre la frase.
 
+#### Pasos
+1. Buscá `mov dx, ___`.
+2. Cambiá `___` por `offset saludo`: `offset` da la dirección donde empieza el texto.
+3. Tocá **Ejecutar**. Tiene que salir `Hola, soy Nova`.
+
 #### Código inicial
 ```asm
 .model small
@@ -347,6 +357,11 @@ La función 09h escribe **hasta el `$`**. Si falta, sigue leyendo los cajones de
 #### Desafío
 Arreglá el texto para que el ojo muestre solo **Despierta** y nada más.
 
+#### Pasos
+1. Buscá `grito db 'Despierta'`, arriba en `.data`.
+2. Agregá `$` al final, adentro de las comillas: `'Despierta$'`. El `$` marca dónde termina el texto.
+3. Tocá **Ejecutar**. Tiene que salir solo `Despierta`.
+
 #### Código inicial
 ```asm
 .model small
@@ -422,6 +437,12 @@ Para bajar de renglón se ponen los códigos **13** y **10** dentro del texto, s
 
 #### Desafío
 Completá el texto para que **Nova** quede en un renglón y **Axón** en el siguiente.
+
+#### Pasos
+1. Buscá `nombres db 'Nova', ___, ___, 'Axon$'`.
+2. El primer `___` es `13` (vuelve al principio del renglón).
+3. El segundo es `10` (baja un renglón).
+4. Tocá **Ejecutar**. Tienen que salir dos renglones.
 
 #### Código inicial
 ```asm
@@ -500,6 +521,11 @@ El carácter `'4'` no tiene el código 4 sino el 52. Sumando `'0'` (48) se pasa 
 #### Desafío
 Agregá la orden que falta para que el ojo muestre el dígito **4**.
 
+#### Pasos
+1. Buscá el `___` solo, debajo de `mov dl, 4`.
+2. Cambialo por `add dl, '0'`: suma el código del carácter `0` y el número pasa a ser el dígito.
+3. Tocá **Ejecutar**. El ojo tiene que mostrar `4`.
+
 #### Código inicial
 ```asm
 .model small
@@ -575,6 +601,12 @@ Juntá lo que aprendiste: la cadena con la función `09h` y el dígito con `add 
 
 #### Desafío
 Completá el programa para que el ojo muestre **Palancas: 5** (el texto ya termina con el espacio después de los dos puntos).
+
+#### Pasos
+1. Hay dos `mov ah, ___`.
+2. El primero (después de `offset etiqueta`) muestra un texto entero: `09h`.
+3. El segundo (después de `add dl, '0'`) muestra un solo carácter: `02h`.
+4. Tocá **Ejecutar**. Tiene que salir `Palancas: 5`.
 
 #### Código inicial
 ```asm
@@ -862,6 +894,12 @@ pociones db 3
 #### Desafío
 Declará la variable `pociones` con el valor **3** y copiala en **AL**.
 
+#### Pasos
+1. Hay dos `___`.
+2. En `.data`, `pociones db ___`: cambiá `___` por `3`.
+3. Abajo, `mov al, ___`: cambiá `___` por `pociones`.
+4. Tocá **Ejecutar**. AL tiene que valer 3.
+
 #### Código inicial
 ```asm
 .model small
@@ -934,6 +972,11 @@ Para escribir en un cajón, el nombre va de destino: `mov pociones, 5`. Como en 
 #### Desafío
 Completá la orden para que el cajón **pociones** pase a tener **5**.
 
+#### Pasos
+1. Buscá `mov ___, ___`.
+2. El primero es el cajón: `pociones`. El segundo, el valor nuevo: `5`.
+3. Queda: `mov pociones, 5`. Tocá **Ejecutar**.
+
 #### Código inicial
 ```asm
 .model small
@@ -1005,6 +1048,11 @@ No: `inc pociones` suma 1 **directo en el cajón**. `dec` resta 1. Es el `pocion
 #### Desafío
 Agregá la orden que suma **una** poción, para que el cajón quede en **4**.
 
+#### Pasos
+1. Buscá el `___` solo.
+2. Cambialo por `inc pociones` (`inc` suma 1).
+3. Tocá **Ejecutar**. El cajón tiene que quedar en 4.
+
 #### Código inicial
 ```asm
 .model small
@@ -1075,6 +1123,12 @@ La vida del Gólem es **300**, y no entra en un cajón chico (hasta 255). {mento
 
 #### Desafío
 Declará `vida` como **word** con el valor **300** y copiala en **AX**.
+
+#### Pasos
+1. Hay dos `___`.
+2. En `.data`, `vida ___ 300`: cambiá `___` por `dw` (word: dos bytes, entra el 300).
+3. Abajo, `mov ___, vida`: cambiá `___` por `ax` (también es de dos bytes).
+4. Tocá **Ejecutar**. AX tiene que valer 300.
 
 #### Código inicial
 ```asm
@@ -1150,6 +1204,12 @@ Nova intenta llevar sus pociones a la palanca AX y aparece un **goblin**, riénd
 #### Desafío
 Tocá **Ejecutar** para ver el error del goblin. Después arreglá la orden para que las pociones queden en **AL**.
 
+#### Pasos
+1. Tocá **Ejecutar** y leé el error: `pociones` es de un byte y AX es de dos.
+2. Buscá `mov ax, pociones`.
+3. Cambiá `ax` por `al` (la mitad de un byte).
+4. Tocá **Ejecutar**. AL tiene que valer 3.
+
 #### Código inicial
 ```asm
 .model small
@@ -1220,6 +1280,12 @@ recompensa: xp 20, oro 20
 
 #### Desafío
 Completá la constante con el valor **9** y cargala en **BL**. Después mostrala en el ojo como dígito (las órdenes de mostrar ya están).
+
+#### Pasos
+1. Hay dos `___`.
+2. Arriba, `MAXIMO equ ___`: cambiá `___` por `9`.
+3. Abajo, `mov bl, ___`: cambiá `___` por `MAXIMO`.
+4. Tocá **Ejecutar**. El ojo tiene que mostrar `9`.
 
 #### Código inicial
 ```asm
@@ -1316,6 +1382,11 @@ Es lo mismo que en C: `int aux = a; a = b; b = aux;`. CL hace de `aux`.
 #### Desafío
 Tocá **Ejecutar** y mirá AL y BL en el tablero: los dos quedan en 2. Después arreglá el intercambio usando **CL** de apoyo, para que AL quede en **2** y BL en **1**.
 
+#### Pasos
+1. Antes de `mov al, bl`, agregá una línea: `mov cl, al` (guarda AL en CL).
+2. Cambiá `mov bl, al` por `mov bl, cl` (usa lo guardado).
+3. Tocá **Ejecutar**. AL tiene que quedar en 2 y BL en 1.
+
 #### Código inicial
 ```asm
 .model small
@@ -1402,6 +1473,11 @@ Es el `std::swap(a, b)` de C++ o el `a, b = b, a` de Python. Las dos tienen que 
 #### Desafío
 Completá la orden que intercambia **AL** y **BL** de una sola vez.
 
+#### Pasos
+1. Buscá `___ al, bl`.
+2. Cambiá `___` por `xchg` (intercambia los dos).
+3. Tocá **Ejecutar**. AL tiene que quedar en 2 y BL en 1.
+
 #### Código inicial
 ```asm
 .model small
@@ -1485,6 +1561,12 @@ mov llave1, al      ; y AL vuelve al primer cajón
 
 #### Desafío
 Tocá **Ejecutar** para ver el error del goblin. Después reemplazá esa orden por las tres de arriba, para que `llave1` quede con la **P** y `llave2` con la **C**.
+
+#### Pasos
+1. Tocá **Ejecutar** y leé el error: `xchg` no puede usar dos cajones de memoria.
+2. Borrá la línea `xchg llave1, llave2`.
+3. En su lugar, tres líneas: `mov al, llave1`, `xchg al, llave2` y `mov llave1, al`.
+4. Tocá **Ejecutar**. `llave1` tiene que tener la P y `llave2` la C.
 
 #### Código inicial
 ```asm
@@ -1768,6 +1850,12 @@ Nova señala el cajón de las pociones. —Adentro hay 3. Pero ¿cuál es su **n
 #### Desafío
 Completá las dos órdenes: que **BX** quede con la **dirección** de `pociones` y **AL** con su **contenido**. Antes de ejecutar, adiviná cuánto va a valer BX.
 
+#### Pasos
+1. Hay dos `___`.
+2. En `mov bx, ___ pociones`, cambiá `___` por `offset`: BX guarda la dirección.
+3. En `mov al, ___`, cambiá `___` por `pociones`: AL guarda lo que hay adentro.
+4. Tocá **Ejecutar** y mirá BX y AL en el tablero.
+
 #### Código inicial
 ```asm
 .model small
@@ -1844,6 +1932,12 @@ recompensa: xp 10, oro 10
 #### Desafío
 Completá la orden con `lea` para que el ojo muestre el saludo de Nova.
 
+#### Pasos
+1. Buscá `lea ___, ___`.
+2. El primero es el registro que recibe la dirección: `dx`.
+3. El segundo es el texto: `saludo`.
+4. Queda: `lea dx, saludo`. Tocá **Ejecutar**.
+
 #### Código inicial
 ```asm
 .model small
@@ -1918,6 +2012,12 @@ Nova quiere una mochila con **cinco** bolsillos vacíos. —¿Tengo que declarar
 
 #### Desafío
 Completá la declaración para que la mochila tenga **cinco** guiones (los bolsillos vacíos) y el ojo los muestre.
+
+#### Pasos
+1. Buscá `mochila db ___ dup(___), '$'`.
+2. El primer `___` es cuántos: `5`.
+3. El segundo es qué va en cada uno: `'-'`, con comillas simples.
+4. Tocá **Ejecutar**. Tienen que salir cinco guiones.
 
 #### Código inicial
 ```asm
@@ -1999,6 +2099,12 @@ Nova encuentra una pluma de luz y la quiere guardar en el **segundo** bolsillo d
 
 #### Desafío
 Completá la orden para que el **segundo** bolsillo tenga una **P** (de pluma). El ojo tiene que mostrar `-P---`.
+
+#### Pasos
+1. Buscá `mov ___, 'P'`.
+2. El primer bolsillo es `mochila`; el segundo, `mochila+1`.
+3. Cambiá `___` por `mochila+1`.
+4. Tocá **Ejecutar**. Tiene que salir `-P---`.
 
 #### Código inicial
 ```asm
@@ -2089,6 +2195,12 @@ Ahora, la pregunta: en `4142h`, la mitad **baja** son las dos cifras de la derec
 
 #### Desafío
 Predecí: ¿qué byte está en el **primer** cajón de `monedas`? Escribilo en hexa en lugar de `___`, para que **BL** quede con ese byte.
+
+#### Pasos
+1. Una palabra (`dw`) se guarda al revés en memoria: primero el byte de abajo.
+2. Mirá cómo está declarada `monedas` y fijate cuál es su mitad de abajo (los dos últimos dígitos hexa).
+3. En `mov bl, ___`, cambiá `___` por `42h`.
+4. Tocá **Ejecutar**. BL tiene que valer 42h.
 
 #### Código inicial
 ```asm
@@ -2181,6 +2293,12 @@ Nova quiere solo la mitad **alta** de las monedas (el `41h`, la letra A) en AL. 
 #### Desafío
 Tocá **Ejecutar** para ver al goblin. Después arreglá la orden para que **AL** quede con la mitad alta de `monedas` (`41h`), y el ojo muestre la A.
 
+#### Pasos
+1. Tocá **Ejecutar** y leé el error: `monedas` es de dos bytes y AL es de uno.
+2. Buscá `mov al, monedas`.
+3. Cambiala por `mov al, byte ptr monedas+1`: el byte de arriba, que está segundo.
+4. Tocá **Ejecutar**. El ojo tiene que mostrar `A`.
+
 #### Código inicial
 ```asm
 .model small
@@ -2267,6 +2385,13 @@ Necesitás tres cosas que ya sabés: escribir en `mochila` y en `mochila+1`, dej
 
 #### Desafío
 Escribí las órdenes desde cero, donde dice `; tus órdenes`, para que el ojo muestre `EP---`.
+
+#### Pasos
+1. Borrá `; tus órdenes`. Vas a escribir cinco órdenes.
+2. El primer bolsillo: `mov mochila, 'E'`.
+3. El segundo: `mov mochila+1, 'P'`.
+4. Mostrala: `lea dx, mochila`, `mov ah, 09h` e `int 21h`.
+5. Tocá **Ejecutar**. Tiene que salir `EP---`.
 
 #### Código inicial
 ```asm
@@ -2578,6 +2703,11 @@ El Gólem espera a que se apriete una tecla, la muestra, y deja su código en `A
 #### Desafío
 Completá la función para que el Gólem **lea una tecla con eco** y la guarde en **BL**. Kira va a apretar la `s`.
 
+#### Pasos
+1. Buscá `mov ah, ___`.
+2. Cambiá `___` por `01h` (leer una tecla y mostrarla).
+3. Tocá **Ejecutar**. BL tiene que quedar con la `s`.
+
 #### Código inicial
 ```asm
 .model small
@@ -2671,6 +2801,12 @@ La `09h` usa AL y lo deja con `'$'`. Cuando llega el `mov dl, al`, la E ya no es
 
 #### Desafío
 Tocá **Ejecutar** y mirá qué sale. Después arreglá el programa para que diga `Elegiste: E`.
+
+#### Pasos
+1. Tocá **Ejecutar**: la tecla se pierde porque AL se pisa después.
+2. Debajo del primer `int 21h` (el que lee la tecla), agregá `mov bl, al` para guardarla.
+3. Más abajo, cambiá `mov dl, al` por `mov dl, bl`.
+4. Tocá **Ejecutar**. Tiene que salir `Elegiste: E`.
 
 #### Código inicial
 ```asm
@@ -2773,6 +2909,11 @@ La `07h` lee una tecla igual que la `01h`, pero **no la muestra**. El programa p
 
 #### Desafío
 Completá la función para que la runa se lea **sin eco**. Kira va a apretar la `R`: en el ojo tiene que aparecer solo el `*`.
+
+#### Pasos
+1. Buscá `mov ah, ___`.
+2. Cambiá `___` por `07h` (leer una tecla sin mostrarla).
+3. Tocá **Ejecutar**. En el ojo tiene que aparecer solo el `*`.
 
 #### Código inicial
 ```asm
@@ -2879,6 +3020,12 @@ La bolsa de la `0Ah` se declara `máximo, ?, máximo dup(?)`. El primer número 
 #### Desafío
 Completá la bolsa para que entren **hasta 20 letras** (más el Enter: 21) y ejecutá. Kira va a escribir `Kira`: al final, el cajón de la cantidad tiene que tener un **4**.
 
+#### Pasos
+1. Buscá `nombre db ___, ?, ___ dup(?)`.
+2. El primer `___` es cuántas letras entran, contando el Enter: `21`.
+3. El segundo es el espacio para guardarlas: `21`.
+4. Tocá **Ejecutar**. El cajón `nombre+1` tiene que tener un 4.
+
 #### Código inicial
 ```asm
 .model small
@@ -2982,6 +3129,12 @@ Las líneas de antes calculan **dónde** va el `'$'`:
 
 #### Desafío
 Tocá **Ejecutar** para ver al goblin. Después arreglá la orden para que el Gólem salude a Kira por su nombre.
+
+#### Pasos
+1. Tocá **Ejecutar** y leé el error: no sabe si `[si]` es un byte o una palabra.
+2. Buscá `mov [si], '$'`.
+3. Cambiala por `mov byte ptr [si], '$'`.
+4. Tocá **Ejecutar**. Tiene que salir `Axon: Hola, Kira`.
 
 #### Código inicial
 ```asm
@@ -3099,6 +3252,12 @@ Los dos primeros cajones de la bolsa no son letras: son el **máximo** y la **ca
 #### Desafío
 Tocá **Ejecutar** y mirá los dos signos raros. Después arreglá desde dónde se muestra el nombre para que el ojo diga `Axon: Hola, Gheco`.
 
+#### Pasos
+1. Tocá **Ejecutar**: los signos raros son los dos primeros bytes de la bolsa (el tamaño y la cantidad).
+2. Buscá `lea dx, nombre` (el segundo, el que muestra el nombre).
+3. Cambialo por `lea dx, nombre+2`: las letras empiezan dos lugares después.
+4. Tocá **Ejecutar**. Tiene que salir `Axon: Hola, Gheco`.
+
 #### Código inicial
 ```asm
 .model small
@@ -3214,6 +3373,15 @@ Son cuatro pasos que ya hiciste: la pregunta con la `09h`; la `0Ah` con `lea dx,
 
 #### Desafío
 Escribí las órdenes desde cero, donde dice `; tus órdenes`. Kira va a escribir `Kira`, y el ojo tiene que terminar diciendo `Axon: Bienvenida, Kira.`
+
+#### Pasos
+1. Borrá `; tus órdenes`. Mostrá la pregunta: `lea dx, pregunta`, `mov ah, 09h`, `int 21h`.
+2. Leé el nombre: `mov ah, 0Ah`, `lea dx, nombre`, `int 21h`.
+3. Poné el `$` al final del nombre: `mov bl, nombre+1`, `mov bh, 0`, `lea si, nombre+2`, `add si, bx` y `mov byte ptr [si], '$'`.
+4. Mostrá el saludo: `lea dx, saludo`, `mov ah, 09h`, `int 21h`.
+5. Mostrá el nombre: `lea dx, nombre+2` e `int 21h`.
+6. Mostrá el punto: `lea dx, punto` e `int 21h`.
+7. Tocá **Ejecutar**. Tiene que salir `Axon: Bienvenida, Kira.`
 
 #### Código inicial
 ```asm
@@ -3543,6 +3711,12 @@ El resultado queda en la misma palanca. Es el `bl += 3` y el `bl -= 2` de C o Py
 #### Desafío
 Completá las dos órdenes que faltan para que BL termine con las pociones que le quedan a Kira, y el ojo las muestre.
 
+#### Pasos
+1. Hay dos `___`, al principio de dos órdenes.
+2. En la que compra 3: `add` (suma). Queda `add bl, 3`.
+3. En la que usa 2: `sub` (resta). Queda `sub bl, 2`.
+4. Tocá **Ejecutar**. Tiene que salir `Pociones: 5`.
+
 #### Código inicial
 ```asm
 .model small
@@ -3640,6 +3814,11 @@ En la pared del núcleo hay una fila de **interruptores**. Gheco señala uno: �
 #### Desafío
 CL empieza en 3. Agregá lo que falta para que llegue a **0** y se prenda **ZF**.
 
+#### Pasos
+1. Buscá las órdenes `dec cl` (cada una resta 1).
+2. CL empieza en 3: hacen falta tres. Agregá otra línea `dec cl` debajo de la última.
+3. Tocá **Ejecutar**. CL tiene que quedar en 0 y ZF en 1.
+
 #### Código inicial
 ```asm
 .model small
@@ -3716,6 +3895,12 @@ AL es de un byte: llega hasta 255 y después da la vuelta (y prende **CF**). AX 
 #### Desafío
 Ejecutalo y mirá AL y CF. Después cambiá el programa para que la cuenta se haga en **AX** y dé **260**, sin que se prenda CF.
 
+#### Pasos
+1. Tocá **Ejecutar**: AL es de un byte, llega hasta 255 y da la vuelta (se prende CF).
+2. Borrá `mov ax, 0` y cambiá `mov al, 250` por `mov ax, 250`.
+3. Cambiá `add al, 10` por `add ax, 10`.
+4. Tocá **Ejecutar**. AX tiene que valer 260 y CF quedar en 0.
+
 #### Código inicial
 ```asm
 .model small
@@ -3790,6 +3975,11 @@ Hay **3** cofres con **3** monedas cada uno. Nova escribe `mul 3`, y un goblin s
 
 #### Desafío
 Tocá **Ejecutar** para ver al goblin. Después arreglá la multiplicación para que AX quede con **9** y el ojo lo muestre.
+
+#### Pasos
+1. Tocá **Ejecutar** y leé el error: `mul` no acepta un número suelto.
+2. Cambiá `mul 3` por dos órdenes: `mov bl, 3` y `mul bl`.
+3. Tocá **Ejecutar**. Tiene que salir `Monedas: 9`.
 
 #### Código inicial
 ```asm
@@ -3891,6 +4081,13 @@ Hay que repartir **8** monedas entre **3** ayudantes. Kira quiere saber cuánto 
 #### Desafío
 Completá la división para que AL quede con lo que le toca a cada uno y AH con lo que sobra.
 
+#### Pasos
+1. Hay tres `___`.
+2. `mov ax, ___`: lo que se reparte, `8`.
+3. `mov bl, ___`: entre cuántos, `3`.
+4. `div ___`: dividí por `bl`.
+5. Tocá **Ejecutar**. AL tiene que valer 2 y AH también 2.
+
 #### Código inicial
 ```asm
 .model small
@@ -3965,6 +4162,11 @@ La `09h` dejó un **9** en AH (el `mov ah, 09h`). Al hacer `mov al, 9`, AX no va
 
 #### Desafío
 Tocá **Ejecutar** para ver el error. Después agregá la orden que falta para que la división dé **4** y sobre **1**.
+
+#### Pasos
+1. Tocá **Ejecutar** y leé el error: `div` divide AX entero, y AH tiene basura.
+2. Debajo de `mov al, 9`, agregá `mov ah, 0`.
+3. Tocá **Ejecutar**. AL tiene que valer 4 y AH 1.
 
 #### Código inicial
 ```asm
@@ -4057,6 +4259,14 @@ Multiplicá 7 × 6 con `mul` (queda en AX). Después dividí por 10: AL tiene la
 #### Desafío
 Escribí las órdenes desde cero, donde dice `; tus órdenes`, para que el ojo diga `Palancas: 42`.
 
+#### Pasos
+1. Borrá `; tus órdenes`. Multiplicá: `mov al, 7`, `mov bl, 6` y `mul bl` (AX = 42).
+2. Separá las cifras: `mov bl, 10` y `div bl` (AL = 4, AH = 2).
+3. Guardalas: `mov cx, ax`.
+4. Primera cifra: `mov dl, cl`, `add dl, '0'`, `mov ah, 02h`, `int 21h`.
+5. Segunda cifra: `mov dl, ch`, `add dl, '0'`, `int 21h`.
+6. Tocá **Ejecutar**. Tiene que salir `Palancas: 42`.
+
 #### Código inicial
 ```asm
 .model small
@@ -4148,6 +4358,12 @@ Tocá **Paso a paso** y, en «La última orden», abrí la **Vista técnica**: a
 
 #### Desafío
 Corré paso a paso hasta `mov ax, 1234h` y mirá su código máquina en la Vista técnica. Después, donde dice `; tus órdenes`, guardá en **AL** el **primer byte** de esa orden.
+
+#### Pasos
+1. Tocá **Paso a paso** hasta la orden `mov ax, 1234h`.
+2. Abrí la Vista técnica y mirá el primer byte de su código máquina: es `B8`.
+3. Borrá `; tus órdenes` y escribí `mov al, 0B8h` (con el 0 adelante, porque empieza con letra).
+4. Tocá **Ejecutar**. AL tiene que valer B8h.
 
 #### Código inicial
 ```asm
@@ -4381,6 +4597,12 @@ Ejecutá y leé el error: dice la **línea** y que **falta un operador**. Entre 
 #### Desafío
 Tocá **Ejecutar**, buscá la línea del error y arreglala para que el ojo muestre la `N` de Nova.
 
+#### Pasos
+1. Tocá **Ejecutar** y mirá en qué línea está el error.
+2. Buscá `mov dl 'N'`: falta la coma.
+3. Cambiala por `mov dl, 'N'`.
+4. Tocá **Ejecutar**. El ojo tiene que mostrar `N`.
+
 #### Código inicial
 ```asm
 .model small
@@ -4454,6 +4676,12 @@ Para el ensamblador, todo lo que empieza con letra es un **nombre**. Un número 
 
 #### Desafío
 Tocá **Ejecutar**, leé el error y arreglá el número para que CL quede con **255**.
+
+#### Pasos
+1. Tocá **Ejecutar** y leé el error.
+2. Buscá `mov cl, FFh`: un hexa que empieza con letra lleva un `0` adelante.
+3. Cambialo por `mov cl, 0FFh`.
+4. Tocá **Ejecutar**. CL tiene que valer 255.
 
 #### Código inicial
 ```asm
@@ -4529,6 +4757,12 @@ Nova quiere guardar el tamaño de la mochila en un cajón llamado `size`. El Sli
 #### Desafío
 Tocá **Ejecutar**, leé el error y cambiá el nombre para que BL quede con lo que hay en el cajón (**5**).
 
+#### Pasos
+1. Tocá **Ejecutar** y leé el error: `size` es una palabra reservada.
+2. Arriba, cambiá `size db 5` por `talla db 5`.
+3. Abajo, cambiá `mov bl, size` por `mov bl, talla`.
+4. Tocá **Ejecutar**. BL tiene que valer 5.
+
 #### Código inicial
 ```asm
 .model small
@@ -4600,6 +4834,12 @@ No intentes ver los tres a la vez. Ejecutá, arreglá **el que te muestra**, y v
 
 #### Desafío
 Arreglá los tres errores, de a uno, para que el ojo diga `Brazo libre`.
+
+#### Pasos
+1. Tocá **Ejecutar** y arreglá el primer error: en `texto db 'Brazo libre$`, falta cerrar la comilla. Queda `'Brazo libre$'`.
+2. Ejecutá de nuevo. Segundo error: `mov ds ax` necesita coma. Queda `mov ds, ax`.
+3. Ejecutá de nuevo. Tercer error: antes de `end main`, agregá la línea `main endp`.
+4. Tocá **Ejecutar**. Tiene que salir `Brazo libre`.
 
 #### Código inicial
 ```asm
@@ -4677,6 +4917,15 @@ Leé cada tecla con la `01h` y pasala de carácter a número con `sub al, '0'` (
 
 #### Desafío
 Escribí las órdenes desde cero, donde dice `; tus órdenes`. Kira va a tipear `7` y `8`, y el ojo tiene que terminar diciendo `Oro: 15`.
+
+#### Pasos
+1. Borrá `; tus órdenes`. Primera tecla: `mov ah, 01h`, `int 21h`, `sub al, '0'` (de carácter a número) y `mov bl, al`.
+2. Segunda tecla: `mov ah, 01h`, `int 21h`, `sub al, '0'` y `add bl, al` (BL = 15).
+3. Mostrá el texto: `lea dx, oro`, `mov ah, 09h`, `int 21h`.
+4. Separá las cifras: `mov al, bl`, `mov ah, 0`, `mov bl, 10`, `div bl` y `mov cx, ax`.
+5. Primera cifra: `mov dl, cl`, `add dl, '0'`, `mov ah, 02h`, `int 21h`.
+6. Segunda cifra: `mov dl, ch`, `add dl, '0'`, `int 21h`.
+7. Tocá **Ejecutar**. Tiene que salir `Oro: 15`.
 
 #### Código inicial
 ```asm

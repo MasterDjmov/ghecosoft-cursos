@@ -263,6 +263,12 @@ En el código vas a ver órdenes arriba (`.model small`, `mov ax, @data`…) y a
 #### Desafío
 Completá la orden para que la palanca **AX** quede en **5**. Después probá **Paso a paso** y mirá cómo se ilumina AX.
 
+#### Pasos
+1. Buscá la línea `mov ax, ___`.
+2. Cambiá `___` por `5`. Queda: `mov ax, 5`
+3. Tocá **Ejecutar** y mirá el tablero: AX tiene que valer 5.
+4. Probá **Paso a paso** para ver cómo cambia AX.
+
 #### Código inicial
 ```asm
 .model small
@@ -331,6 +337,12 @@ No: `mov bx, ax` copia lo que tiene AX en BX. Como en Python `b = a`. AX **no** 
 
 #### Desafío
 AX ya tiene un 7. Completá la segunda orden para que **BX** también quede en 7, **sin escribir el 7**.
+
+#### Pasos
+1. Buscá la línea `mov ___, ___`, debajo de `mov ax, 7`.
+2. El primer `___` es adónde va el dato: `bx`.
+3. El segundo es de dónde sale: `ax`.
+4. Queda: `mov bx, ax`. Tocá **Ejecutar**: BX tiene que valer 7.
 
 #### Código inicial
 ```asm
@@ -407,6 +419,12 @@ En el ensamblador, un número en hexa lleva una **h** al final: `0FFh`. Y si emp
 #### Desafío
 Este programa tiene un slime: el número está mal escrito. Arreglalo para que **CX** quede en **255** (FFh).
 
+#### Pasos
+1. Buscá la línea `mov cx, FFh`.
+2. Un número hexadecimal que empieza con letra lleva un `0` adelante.
+3. Cambiá `FFh` por `0FFh`.
+4. Tocá **Ejecutar**: CX tiene que valer 255.
+
 #### Código inicial
 ```asm
 .model small
@@ -476,6 +494,12 @@ Nova descubre que la palanca AX está hecha de **dos** palancitas pegadas: una d
 
 #### Desafío
 Sin tocar AX entero, mové sus dos mitades para que **AX** quede en **1234h**.
+
+#### Pasos
+1. Hay dos `___`: uno en `mov ah, ___` y otro en `mov al, ___`.
+2. AH es la mitad de arriba: cambiá su `___` por `12h`.
+3. AL es la mitad de abajo: cambiá su `___` por `34h`.
+4. Tocá **Ejecutar**: AX tiene que valer 1234h.
 
 #### Código inicial
 ```asm
@@ -547,6 +571,13 @@ Seguí las órdenes de arriba para abajo, como el Gólem. Si dudás, tocá **Pas
 
 #### Desafío
 Leé las tres órdenes y escribí en la última línea, en lugar de `___`, **el valor que tiene BX** en ese momento (por ejemplo `mov dx, 9`). Así DX queda igual que BX.
+
+#### Pasos
+1. Seguí las órdenes de a una: `mov ax, 3` → AX vale 3.
+2. `mov bx, ax` → BX copia a AX: vale 3.
+3. `mov ax, 8` cambia solo AX: BX sigue en 3.
+4. En `mov dx, ___`, cambiá `___` por `3`.
+5. Tocá **Ejecutar**: DX y BX tienen que valer 3.
 
 #### Código inicial
 ```asm

@@ -171,6 +171,11 @@ El más usado es **ZF** (*zero flag*): se prende si la resta dio 0, o sea, si lo
 #### Desafío
 Completá la comparación para que se prenda **ZF**, y fijate que AL siga valiendo 7.
 
+#### Pasos
+1. Buscá `cmp al, ___`.
+2. Cambiá `___` por `7`: si son iguales, se prende ZF.
+3. Tocá **Ejecutar**. ZF tiene que quedar en 1 y AL seguir en 7 (`cmp` no cambia nada).
+
 #### Código inicial
 ```asm
 .model small
@@ -245,6 +250,11 @@ Un **salto** hace que el Gólem siga en otra parte del programa, en vez de la l�
 
 #### Desafío
 Completá el salto para que el Gólem pase por encima de la trampa y BL se quede en **1**.
+
+#### Pasos
+1. Buscá `jmp ___`.
+2. Cambiá `___` por `listo` (el nombre de la etiqueta de abajo).
+3. Tocá **Ejecutar**. BL tiene que quedar en 1.
 
 #### Código inicial
 ```asm
@@ -321,6 +331,11 @@ Leé el error: dice la línea y el nombre que no encuentra. Comparalo letra por 
 
 #### Desafío
 Tocá **Ejecutar**, leé el error y arreglá el nombre para que el ojo diga `Compuerta abierta`.
+
+#### Pasos
+1. Tocá **Ejecutar** y leé el error: la etiqueta no existe.
+2. Buscá `jmp abirr` y cambialo por `jmp abrir` (la etiqueta se llama `abrir`).
+3. Tocá **Ejecutar**. Tiene que salir `Compuerta abierta`.
 
 #### Código inicial
 ```asm
@@ -408,6 +423,12 @@ Compará la tecla con `'s'` y, si son iguales (`je`), saltá a `abrir`, donde BL
 
 #### Desafío
 Completá la comparación y el salto para que, con la `s`, BL termine en **1**.
+
+#### Pasos
+1. Hay dos `___`.
+2. En `cmp al, ___`: `'s'`, con comillas simples.
+3. En `je ___`: `abrir` (salta si son iguales).
+4. Tocá **Ejecutar**. BL tiene que quedar en 1.
 
 #### Código inicial
 ```asm
@@ -513,6 +534,13 @@ Compará con `'R'`. Con `jne equivocada` saltás al mensaje malo; si no saltó, 
 
 #### Desafío
 Escribí las órdenes desde cero, donde dice `; tus órdenes`. Kira va a apretar la `R`.
+
+#### Pasos
+1. Borrá `; tus órdenes`. Compará: `cmp al, 'R'` y `jne equivocada` (salta si no es la R).
+2. Si es la R: `lea dx, bien` y `jmp mostrar`.
+3. La etiqueta `equivocada:` (sola en su renglón) y debajo `lea dx, mal`.
+4. La etiqueta `mostrar:` y debajo `mov ah, 09h` e `int 21h`.
+5. Tocá **Ejecutar**. Tiene que salir `Pasa, Nova.`
 
 #### Código inicial
 ```asm
@@ -771,6 +799,11 @@ Para mover la rodilla, el Gólem necesita **más de 3** pociones de aceite. Nova
 #### Desafío
 Completá el salto para que, con 5 pociones, el ojo diga `Sobran pociones`.
 
+#### Pasos
+1. Buscá `___ sobran`.
+2. Cambiá `___` por `ja` («salta si es mayor»).
+3. Tocá **Ejecutar**. Tiene que salir `Sobran pociones`.
+
 #### Código inicial
 ```asm
 .model small
@@ -863,6 +896,11 @@ Seguí el programa **paso a paso**: después de mostrar «Faltan», el Gólem si
 
 #### Desafío
 Tocá **Ejecutar** y mirá los dos mensajes. Después agregá lo que falta para que, con 2 pociones, el ojo diga solo `Faltan pociones`.
+
+#### Pasos
+1. Tocá **Ejecutar**: sale también el otro mensaje, porque el programa sigue de largo.
+2. Antes de la etiqueta `sobran:`, agregá `jmp listo`.
+3. Tocá **Ejecutar**. Tiene que salir solo `Faltan pociones`.
 
 #### Código inicial
 ```asm
@@ -959,6 +997,11 @@ Para hacer algo **solo** si es la `x`, saltá **por encima** del bloque cuando *
 #### Desafío
 Completá el salto para que, con la `x`, BL termine en **1**.
 
+#### Pasos
+1. Buscá `___ sigue`.
+2. Cambiá `___` por `jne` («salta si no es igual»): si no es la x, saltea el sombrero.
+3. Tocá **Ejecutar**. BL tiene que quedar en 1.
+
 #### Código inicial
 ```asm
 .model small
@@ -1046,6 +1089,12 @@ Dividí por 2 y mirá el **resto**, que queda en AH: si es 0, el número es par.
 
 #### Desafío
 Completá la comparación y el salto. Kira va a decir el `7`.
+
+#### Pasos
+1. Hay dos `___`.
+2. En `cmp ah, ___`: `0` (AH tiene el resto de dividir por 2).
+3. En `___ par`: `je` (si el resto es 0, es par).
+4. Tocá **Ejecutar**. Con el 7 tiene que salir `Es impar.`
 
 #### Código inicial
 ```asm
@@ -1164,6 +1213,15 @@ Después de leer, la fuerza de Kira está en BL y la del ogro en AL. Un solo `cm
 
 #### Desafío
 Escribí las órdenes desde cero, donde dice `; tus órdenes`. Kira y el ogro van a decir `5` y `5`.
+
+#### Pasos
+1. Borrá `; tus órdenes`. Compará: `cmp bl, al`.
+2. `ja gana` (BL mayor) y `je empate` (iguales).
+3. Si no: `lea dx, t_pierd` y `jmp mostrar`.
+4. `gana:` → `lea dx, t_gana` y `jmp mostrar`.
+5. `empate:` → `lea dx, t_empa`.
+6. `mostrar:` → `mov ah, 09h` e `int 21h`.
+7. Tocá **Ejecutar**. Con 5 y 5 tiene que salir `Empate.`
 
 #### Código inicial
 ```asm
@@ -1421,6 +1479,12 @@ Dos preguntas: si es **menor** que `'0'`, está afuera (`jb`); si es **mayor** q
 #### Desafío
 Completá los dos saltos. El cliente va a apretar la `k`.
 
+#### Pasos
+1. Hay dos `___`, cada uno después de un `cmp`.
+2. Después de `cmp al, '0'`: `jb` («salta si es menor»: está antes del 0).
+3. Después de `cmp al, '9'`: `ja` («salta si es mayor»: está después del 9).
+4. Tocá **Ejecutar**. Con la `k` tiene que salir `Eso no es un numero.`
+
 #### Código inicial
 ```asm
 .model small
@@ -1536,6 +1600,12 @@ Mirá la segunda comparación: `jae` salta si es **mayor o igual** a `'9'`, así
 #### Desafío
 Tocá **Ejecutar** con el `9` y mirá el error del ogro. Después arreglá el salto del borde.
 
+#### Pasos
+1. Tocá **Ejecutar**: el 9 queda afuera porque `jae` salta también cuando es igual.
+2. Buscá `jae no_digito` (después de `cmp al, '9'`).
+3. Cambiá `jae` por `ja`.
+4. Tocá **Ejecutar**. Con el 9 tiene que salir `Ya salen.`
+
 #### Código inicial
 ```asm
 .model small
@@ -1649,6 +1719,11 @@ Ya están los casos de la sopa y del jugo. Falta el del pan: una comparación co
 
 #### Desafío
 Agregá la comparación que falta para que, con el `2`, el ojo diga `Pan caliente.`
+
+#### Pasos
+1. Buscá el comentario `; falta el pan`.
+2. Cambialo por dos órdenes: `cmp al, '2'` y `je pan`.
+3. Tocá **Ejecutar**. Con el 2 tiene que salir `Pan caliente.`
 
 #### Código inicial
 ```asm
@@ -1783,6 +1858,12 @@ Las mayúsculas van de `'A'` a `'Z'` y las minúsculas de `'a'` a `'z'`. Probá 
 #### Desafío
 Completá el rango de las minúsculas. La tabernera va a apretar la `g`.
 
+#### Pasos
+1. Debajo de `no_mayus:` hay dos `cmp al, ___`.
+2. El primero: `'a'` (la primera minúscula).
+3. El segundo: `'z'` (la última).
+4. Tocá **Ejecutar**. Con la `g` tiene que salir `Minuscula.`
+
 #### Código inicial
 ```asm
 .model small
@@ -1912,6 +1993,15 @@ Primero descartá lo que no es un dígito (dos comparaciones). Después, los tra
 
 #### Desafío
 Escribí las órdenes desde cero, donde dice `; tus órdenes`. La nota va a ser un `7`.
+
+#### Pasos
+1. Borrá `; tus órdenes`. Lo que no es dígito: `cmp al, '0'`, `jb invalida`, `cmp al, '9'`, `ja invalida`.
+2. Hasta 3: `cmp al, '3'` y `jbe desaprobada`. Hasta 6: `cmp al, '6'` y `jbe aprobada`.
+3. Si no: `lea dx, t_pro` y `jmp mostrar`.
+4. `desaprobada:` → `lea dx, t_des` y `jmp mostrar`. `aprobada:` → `lea dx, t_apr` y `jmp mostrar`.
+5. `invalida:` → `lea dx, t_inv`.
+6. `mostrar:` → `mov ah, 09h` e `int 21h`.
+7. Tocá **Ejecutar**. Con el 7 tiene que salir `Promocionada.`
 
 #### Código inicial
 ```asm

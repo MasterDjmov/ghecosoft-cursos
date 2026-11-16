@@ -191,6 +191,12 @@ Eso muestra **Buen día**. Las comillas no se ven: solo marcan dónde empieza y 
 #### Desafío
 Escribí una orden que muestre exactamente `Hola, Conservatorio`.
 
+#### Pasos
+1. Borrá el comentario `// Escribí tu orden acá abajo`.
+2. Escribí `Console.WriteLine("Hola, Conservatorio");`
+3. Ojo con la C y la W mayúsculas, las comillas y el `;` final.
+4. Tocá **Ejecutar**. Tiene que salir `Hola, Conservatorio`.
+
 #### Código inicial
 ```csharp
 // Escribí tu orden acá abajo
@@ -238,6 +244,12 @@ Muestra `primero` en un renglón y `segundo` en el de abajo.
 
 #### Desafío
 El programa muestra las notas al revés. Cambiá el orden de las órdenes para que salga primero `do`, después `re` y después `mi`.
+
+#### Pasos
+1. Las órdenes se ejecutan de arriba hacia abajo.
+2. Mové la línea de `"do"` arriba de todo, y la de `"mi"` al final.
+3. Queda: `do`, `re`, `mi`.
+4. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp
@@ -292,6 +304,11 @@ Muestra `Hola, Ana` en un solo renglón. Fijate en el espacio después de la com
 #### Desafío
 Completá la primera línea para que el programa muestre `Primera nota: do` en un solo renglón.
 
+#### Pasos
+1. Buscá la primera línea: `Console.WriteLine("Primera nota: ");`.
+2. Cambiá `WriteLine` por `Write` (no salta de renglón).
+3. Tocá **Ejecutar**. Tiene que salir todo en un renglón.
+
 #### Código inicial
 ```csharp
 Console.WriteLine("Primera nota: ");
@@ -340,6 +357,12 @@ El primer número es **la línea**: ahí hay que mirar. `Se esperaba ;` quiere d
 
 #### Desafío
 Tocá *Ejecutar* para ver el error. Después agregá lo que falta para que el programa funcione.
+
+#### Pasos
+1. Tocá **Ejecutar** y leé el error.
+2. Buscá `Console.WriteLine("Listo")`: le falta el `;` al final.
+3. Agregalo después del `)`.
+4. Tocá **Ejecutar**. Tienen que salir las dos líneas.
 
 #### Código inicial
 ```csharp
@@ -392,6 +415,11 @@ Una línea que empieza con `//` es un **comentario**: una nota para las personas
 
 #### Desafío
 La segunda orden muestra el texto `4 + 4`. Sacale las comillas para que muestre el resultado.
+
+#### Pasos
+1. Borrá el comentario `// Sacale las comillas a la cuenta`.
+2. Buscá `Console.WriteLine("4 + 4");` y sacale las comillas: `Console.WriteLine(4 + 4);`
+3. Tocá **Ejecutar**. Tiene que salir `8`.
 
 #### Código inicial
 ```csharp

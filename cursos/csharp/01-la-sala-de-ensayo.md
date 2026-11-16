@@ -144,6 +144,11 @@ int edad = 12;
 #### Desafío
 Creá una variable `int` llamada `vueltas` con el valor `3`. La orden que la muestra ya está escrita.
 
+#### Pasos
+1. Borrá el comentario `// Creá la variable vueltas acá`.
+2. Escribí `int vueltas = 3;`
+3. Tocá **Ejecutar**. Tiene que salir `3`.
+
 #### Código inicial
 ```csharp
 // Creá la variable vueltas acá
@@ -194,6 +199,11 @@ Muestra `La Rioja`. Las comillas van cuando **creás** el texto; cuando usás la
 #### Desafío
 Creá una variable `string` llamada `obra` que guarde el texto `Vals de la Feria`.
 
+#### Pasos
+1. Borrá el comentario `// Creá la variable obra acá`.
+2. Escribí `string obra = "Vals de la Feria";`
+3. Tocá **Ejecutar** y compará.
+
 #### Código inicial
 ```csharp
 // Creá la variable obra acá
@@ -243,6 +253,11 @@ Muestra `25`: el 10 ya no está. Las órdenes se hacen en orden, así que import
 
 #### Desafío
 Agregá una línea, en el lugar marcado, para que `compases` pase a valer `8`.
+
+#### Pasos
+1. Buscá el comentario `// Cambiá compases a 8 acá`.
+2. Cambialo por `compases = 8;` (sin `int`: la variable ya existe).
+3. Tocá **Ejecutar**. Tienen que salir 4 y 8.
 
 #### Código inicial
 ```csharp
@@ -300,6 +315,12 @@ Muestra `Ana tiene 12 años`. Sin el `$`, se vería `{nombre}` tal cual.
 #### Desafío
 Completá el texto para que muestre `Vals: 8 compases`, usando las dos variables. No escribas el nombre ni el número a mano.
 
+#### Pasos
+1. Buscá `Console.WriteLine($"");`.
+2. Entre las comillas, escribí `{obra}: {compases} compases`.
+3. Queda: `Console.WriteLine($"{obra}: {compases} compases");`
+4. Tocá **Ejecutar**. Tiene que salir `Vals: 8 compases`.
+
 #### Código inicial
 ```csharp
 string obra = "Vals";
@@ -350,6 +371,11 @@ Hay que comparar cómo se creó la variable y cómo se usa: tienen que estar esc
 
 #### Desafío
 Tocá *Ejecutar* y leé el error. Después corregí el nombre en la segunda línea para que el programa funcione.
+
+#### Pasos
+1. Tocá **Ejecutar** y leé el error: `Tempo` no existe.
+2. En la segunda línea, cambiá `Tempo` por `tempo`, con minúscula (C# distingue mayúsculas).
+3. Tocá **Ejecutar**. Tiene que salir `90`.
 
 #### Código inicial
 ```csharp
@@ -533,6 +559,11 @@ Muestra `1,65`. Fijate bien: **en el código se escribe con punto**, y en pantal
 #### Desafío
 Creá una variable `double` llamada `duracion` con el valor `1.5`.
 
+#### Pasos
+1. Borrá el comentario `// Creá la variable duracion acá`.
+2. Escribí `double duracion = 1.5;` (en el código, con punto).
+3. Tocá **Ejecutar**. Sale `1,5`, con coma: así muestra los decimales en español.
+
 #### Código inicial
 ```csharp
 // Creá la variable duracion acá
@@ -582,6 +613,11 @@ Muestra `150,75`. Si te olvidás la `m`, el compilador se queja: cree que es un 
 #### Desafío
 La variable `cuerda` no compila porque al número le falta algo. Agregáselo. El precio es `2.50`.
 
+#### Pasos
+1. Buscá `decimal cuerda = 2.50;`.
+2. Agregá una `m` pegada al número: `2.50m` (así C# sabe que es `decimal`).
+3. Tocá **Ejecutar**. Tiene que salir `2,50`.
+
 #### Código inicial
 ```csharp
 decimal cuerda = 2.50;
@@ -630,6 +666,11 @@ Muestra `True`. Al mostrarlo, sale con mayúscula; en el código va en minúscul
 
 #### Desafío
 Creá una variable `bool` llamada `afinado` que valga `false`.
+
+#### Pasos
+1. Borrá el comentario `// Creá la variable afinado acá`.
+2. Escribí `bool afinado = false;`
+3. Tocá **Ejecutar**. Tiene que salir `False`.
 
 #### Código inicial
 ```csharp
@@ -685,6 +726,11 @@ El mensaje te dice qué tipo le diste (`string`) y cuál hacía falta (`int`).
 #### Desafío
 Tocá *Ejecutar* y leé el error. Después arreglá la primera línea para que `compases` guarde un número de verdad.
 
+#### Pasos
+1. Tocá **Ejecutar** y leé el error: `"12"` entre comillas es un texto.
+2. Cambiá `int compases = "12";` por `int compases = 12;` (sin comillas).
+3. Tocá **Ejecutar**. Tiene que salir `12`.
+
 #### Código inicial
 ```csharp
 int compases = "12";
@@ -734,6 +780,11 @@ Muestra `9`. Se llama **cast**, y **corta** los decimales: no redondea.
 
 #### Desafío
 Completá la segunda línea con un cast, para que `enteras` guarde la parte entera de `monedas`.
+
+#### Pasos
+1. Buscá `int enteras = monedas;`.
+2. Poné `(int)` antes de `monedas`. Queda: `int enteras = (int)monedas;`
+3. Tocá **Ejecutar**. Tiene que salir `7`.
 
 #### Código inicial
 ```csharp
@@ -919,6 +970,11 @@ Muestra `5`. Los símbolos son `+` para sumar, `-` para restar y `*` para multip
 #### Desafío
 Completá la tercera línea para que `sillas` guarde la suma de `violines` y `tambores`.
 
+#### Pasos
+1. Buscá `int sillas = 0;`.
+2. Cambiá el `0` por `violines + tambores`.
+3. Tocá **Ejecutar**. Tiene que salir `10`.
+
 #### Código inicial
 ```csharp
 int violines = 6;
@@ -978,6 +1034,11 @@ Muestra `4,5`.
 #### Desafío
 La cuenta da `3` y tendría que dar `3,5`. Cambiá **un solo número** para que dé con decimales.
 
+#### Pasos
+1. Buscá `7 / 2`: dos enteros dan una división entera.
+2. Cambiá el `7` por `7.0`.
+3. Tocá **Ejecutar**. Tiene que salir `3,5`.
+
 #### Código inicial
 ```csharp
 Console.WriteLine(7 / 2);
@@ -1024,6 +1085,11 @@ Muestra `3` y después `1`. No tiene nada que ver con los porcentajes: es solo q
 
 #### Desafío
 Completá la cuenta de `sobran` para que guarde cuántas partituras quedan sin repartir.
+
+#### Pasos
+1. Buscá `int sobran = 0;`.
+2. Cambiá el `0` por `partituras % musicos` (el resto de la división).
+3. Tocá **Ejecutar**. Tiene que salir `Sobran 2`.
 
 #### Código inicial
 ```csharp
@@ -1083,6 +1149,11 @@ Muestra `9`.
 #### Desafío
 La cuenta tiene que sumar primero `3 + 4` y después multiplicar por `2`. Agregá los paréntesis para que dé `14`.
 
+#### Pasos
+1. Buscá `3 + 4 * 2`.
+2. Poné paréntesis a la suma: `(3 + 4) * 2`.
+3. Tocá **Ejecutar**. Tiene que salir `14`.
+
 #### Código inicial
 ```csharp
 Console.WriteLine(3 + 4 * 2);
@@ -1130,6 +1201,11 @@ Muestra `2` (cajas llenas) y `1` (huevo que sobra). Con los segundos es igual: u
 
 #### Desafío
 Completá las dos cuentas para que el programa muestre cuántos minutos y cuántos segundos dura la cajita.
+
+#### Pasos
+1. Buscá `int minutos = 0;` y cambiá el `0` por `total / 60`.
+2. Buscá `int segundos = 0;` y cambiá el `0` por `total % 60`.
+3. Tocá **Ejecutar**. Tiene que salir `2 minutos y 10 segundos`.
 
 #### Código inicial
 ```csharp
@@ -1308,6 +1384,11 @@ Muestra `False`, porque 14 no es mayor que 18. `>` quiere decir «mayor que» y 
 #### Desafío
 Completá la segunda línea para que pregunte si `puntaje` es mayor que `50`.
 
+#### Pasos
+1. Buscá `Console.WriteLine(puntaje);`.
+2. Cambiá `puntaje` por `puntaje > 50`.
+3. Tocá **Ejecutar**. Tiene que salir `True`.
+
 #### Código inicial
 ```csharp
 int puntaje = 80;
@@ -1358,6 +1439,11 @@ Muestra `True` y después `False`. También sirven con textos: `"do" == "do"` da
 #### Desafío
 Completá la comparación para preguntar si `nota` es igual a `"do"`.
 
+#### Pasos
+1. Buscá `Console.WriteLine(nota);`.
+2. Cambiá `nota` por `nota == "do"` (dos signos igual para comparar).
+3. Tocá **Ejecutar**. Tiene que salir `True`.
+
 #### Código inicial
 ```csharp
 string nota = "do";
@@ -1405,6 +1491,11 @@ Muestra `True`. También existe `<=`, «menor o igual». Se escriben juntos, sin
 
 #### Desafío
 La comparación da `False`, porque usa `>`. Cambiala para que `12` también pueda entrar.
+
+#### Pasos
+1. Buscá `edad > 12`.
+2. Cambiá `>` por `>=` (mayor o igual).
+3. Tocá **Ejecutar**. Tiene que salir `True`.
 
 #### Código inicial
 ```csharp
@@ -1455,6 +1546,11 @@ Muestra `False`, porque una de las dos es falsa.
 
 #### Desafío
 Reemplazá el `false` de la última línea por la pregunta: si `partitura` **y** `afinado` son verdaderas las dos.
+
+#### Pasos
+1. Buscá `Console.WriteLine(false);`.
+2. Cambiá `false` por `partitura && afinado` (`&&` es «y»).
+3. Tocá **Ejecutar**. Tiene que salir `True`.
 
 #### Código inicial
 ```csharp
@@ -1507,6 +1603,11 @@ Muestra `True`. El símbolo `|` se escribe dos veces. Según el teclado, sale co
 
 #### Desafío
 Completá la línea para preguntar si tiene `llave` **o** `permiso`.
+
+#### Pasos
+1. Buscá `Console.WriteLine(llave);`.
+2. Cambiá `llave` por `llave || permiso` (`||` es «o»).
+3. Tocá **Ejecutar**. Tiene que salir `True`.
 
 #### Código inicial
 ```csharp
@@ -1694,6 +1795,11 @@ Muestra `7`. Los espacios también cuentan como letras.
 #### Desafío
 Mostrá cuántas letras tiene `obra`.
 
+#### Pasos
+1. Buscá `Console.WriteLine(obra);`.
+2. Cambiá `obra` por `obra.Length` (cuántas letras tiene).
+3. Tocá **Ejecutar**. Tiene que salir `8`.
+
 #### Código inicial
 ```csharp
 string obra = "Serenata";
@@ -1743,6 +1849,11 @@ Muestra `g` y después `o`.
 
 #### Desafío
 Mostrá la primera letra de `autor` y, en la línea siguiente, la última.
+
+#### Pasos
+1. Cambiá `Console.WriteLine(autor);` por `Console.WriteLine(autor[0]);` (la primera letra).
+2. Debajo, agregá `Console.WriteLine(autor[^1]);` (la última).
+3. Tocá **Ejecutar**. Tienen que salir `V` e `i`.
 
 #### Código inicial
 ```csharp
@@ -1795,6 +1906,11 @@ Muestra `HOLA`: primero `Trim()` saca los espacios y después `ToUpper()` lo pas
 #### Desafío
 Mostrá `etiqueta` sin los espacios de los costados y en mayúsculas.
 
+#### Pasos
+1. Buscá `Console.WriteLine(etiqueta);`.
+2. Cambiá `etiqueta` por `etiqueta.Trim().ToUpper()`.
+3. Tocá **Ejecutar**. Tiene que salir `MINUETO`.
+
 #### Código inicial
 ```csharp
 string etiqueta = "   minueto   ";
@@ -1845,6 +1961,11 @@ Muestra `True` y después `False`. Ojo: `"Gato"` con mayúscula no lo encontrar�
 #### Desafío
 Mostrá si `notas` tiene adentro la palabra `"sol"`.
 
+#### Pasos
+1. Buscá `Console.WriteLine(notas);`.
+2. Cambiá `notas` por `notas.Contains("sol")`.
+3. Tocá **Ejecutar**. Tiene que salir `True`.
+
 #### Código inicial
 ```csharp
 string notas = "do re mi fa sol la";
@@ -1894,6 +2015,11 @@ Muestra `a`, la última.
 
 #### Desafío
 Ejecutalo y mirá el error del orco. Después arreglalo para que muestre la última letra de `danza`, usando `Length - 1`.
+
+#### Pasos
+1. Tocá **Ejecutar** y leé el error: la posición `Length` no existe (se cuenta desde 0).
+2. Cambiá `danza[danza.Length]` por `danza[danza.Length - 1]`.
+3. Tocá **Ejecutar**. Tiene que salir `o`.
 
 #### Código inicial
 ```csharp
@@ -2106,6 +2232,11 @@ Muestra `Aires`: arranca en el lugar 7 y toma 5 letras.
 #### Desafío
 Mostrá solo la palabra `Nocturno`, que son las primeras 8 letras de `obra`.
 
+#### Pasos
+1. Buscá `Console.WriteLine(obra);`.
+2. Cambiá `obra` por `obra.Substring(0, 8)` (desde la posición 0, ocho letras).
+3. Tocá **Ejecutar**. Tiene que salir `Nocturno`.
+
 #### Código inicial
 ```csharp
 string obra = "Nocturno en Do";
@@ -2155,6 +2286,12 @@ Muestra `3` y después `pera`. El separador va entre comillas **simples**, porqu
 
 #### Desafío
 Partí `linea` por el `-` y mostrá cuántas notas hay y, en la línea siguiente, la tercera nota.
+
+#### Pasos
+1. Cambiá `Console.WriteLine(linea);` por `string[] notas = linea.Split('-');`
+2. Debajo: `Console.WriteLine(notas.Length);`
+3. Y: `Console.WriteLine(notas[2]);` (la tercera, porque se cuenta desde 0).
+4. Tocá **Ejecutar**. Tienen que salir `5` y `mi`.
 
 #### Código inicial
 ```csharp
@@ -2208,6 +2345,11 @@ Muestra `lunes y martes`.
 #### Desafío
 Mostrá las notas unidas con un espacio entre cada una.
 
+#### Pasos
+1. Buscá `Console.WriteLine(notas[0]);`.
+2. Cambiá `notas[0]` por `string.Join(" ", notas)`.
+3. Tocá **Ejecutar**. Tiene que salir `do re mi fa sol`.
+
 #### Código inicial
 ```csharp
 string[] notas = "do-re-mi-fa-sol".Split('-');
@@ -2257,6 +2399,11 @@ Muestra `Mide 1,80 m`. Los decimales salen con coma, como en una compu de acá.
 #### Desafío
 Mostrá `Cuerda: 3,50` usando el formato de dos decimales con la variable `precio`.
 
+#### Pasos
+1. Buscá `{precio}` en el texto.
+2. Cambialo por `{precio:F2}` (dos decimales).
+3. Tocá **Ejecutar**. Tiene que salir `Cuerda: 3,50`.
+
 #### Código inicial
 ```csharp
 double precio = 3.5;
@@ -2305,6 +2452,12 @@ Muestra `Le dicen "el Rápido"`.
 
 #### Desafío
 Ejecutalo y mirá el error del goblin. Después arreglalo con `\"` para que muestre las comillas.
+
+#### Pasos
+1. Tocá **Ejecutar** y leé el error: las comillas de `silencio` cortan el texto.
+2. Poné una barra antes de cada una: `\"silencio\"`.
+3. Queda: `Console.WriteLine("Clave dijo: \"silencio\"");`
+4. Tocá **Ejecutar** y compará.
 
 #### Código inicial
 ```csharp
@@ -2502,6 +2655,11 @@ Si en la Entrada dice `azul`, muestra `Te gusta el azul`.
 #### Desafío
 Leé el nombre con `ReadLine` y guardalo en `nombre`, en lugar del texto fijo. Así saluda a cualquiera.
 
+#### Pasos
+1. Buscá `string nombre = "nadie";`.
+2. Cambiá `"nadie"` por `Console.ReadLine() ?? ""`.
+3. Tocá **Ejecutar**. Tiene que salir `¡Bienvenido, Tano!`.
+
 #### Código inicial
 ```csharp
 string nombre = "nadie";
@@ -2555,6 +2713,10 @@ Muestra `Uno, dos.` en una sola línea. Lo que se lee de la Entrada no se ve en 
 
 #### Desafío
 Cambiá el primer `WriteLine` por `Write`, para que la pregunta y la respuesta queden en la misma línea.
+
+#### Pasos
+1. En la primera línea, cambiá `Console.WriteLine` por `Console.Write`.
+2. Tocá **Ejecutar**. La pregunta y la respuesta tienen que quedar en la misma línea.
 
 #### Código inicial
 ```csharp
@@ -2612,6 +2774,11 @@ Si en la Entrada dice `4`, muestra `8`.
 #### Desafío
 Convertí lo leído con `int.Parse` para que la suma dé un número. Ahora pega el texto `"9"` con el `1`.
 
+#### Pasos
+1. Buscá `string anios = Console.ReadLine() ?? "";`.
+2. Cambiala por `int anios = int.Parse(Console.ReadLine() ?? "");`
+3. Tocá **Ejecutar**. Tiene que salir `10`.
+
 #### Código inicial
 ```csharp
 string anios = Console.ReadLine() ?? "";
@@ -2666,6 +2833,11 @@ Muestra `True` y `8`.
 
 #### Desafío
 Mostrá si `pedido` se puede convertir en número, usando `int.TryParse`.
+
+#### Pasos
+1. Cambiá `Console.WriteLine(pedido);` por `bool esNumero = int.TryParse(pedido, out int veces);`
+2. Debajo: `Console.WriteLine(esNumero);`
+3. Tocá **Ejecutar**. Tiene que salir `False`.
 
 #### Código inicial
 ```csharp
@@ -2722,6 +2894,11 @@ Muestra `0`, sin romperse.
 
 #### Desafío
 Ejecutalo y mirá el error del goblin. Después cambiá `int.Parse` por `int.TryParse` con `out int sillas`, para que el programa siga y muestre `Sillas: 0`.
+
+#### Pasos
+1. Tocá **Ejecutar** y leé el error: el texto no es un número.
+2. Cambiá `int sillas = int.Parse(texto);` por `int.TryParse(texto, out int sillas);`
+3. Tocá **Ejecutar**. Tiene que salir `Sillas: 0`.
 
 #### Código inicial
 ```csharp
@@ -2912,6 +3089,11 @@ Muestra `10`.
 #### Desafío
 Mostrá el récord: el mayor entre `ceci` y `bemol`.
 
+#### Pasos
+1. Buscá `Console.WriteLine(bemol);`.
+2. Cambiá `bemol` por `Math.Max(ceci, bemol)` (el mayor de los dos).
+3. Tocá **Ejecutar**. Tiene que salir `14`.
+
 #### Código inicial
 ```csharp
 int ceci = 14;
@@ -2962,6 +3144,11 @@ Muestra `5`, porque 5 × 5 = 25.
 #### Desafío
 Mostrá el lado del escenario: la raíz cuadrada de `superficie`.
 
+#### Pasos
+1. Buscá `Console.WriteLine(superficie);`.
+2. Cambiá `superficie` por `Math.Sqrt(superficie)` (la raíz cuadrada).
+3. Tocá **Ejecutar**. Tiene que salir `8`.
+
 #### Código inicial
 ```csharp
 double superficie = 64;
@@ -3009,6 +3196,11 @@ Muestra `3,14`.
 
 #### Desafío
 Mostrá `precio` redondeado a dos decimales.
+
+#### Pasos
+1. Buscá `Console.WriteLine(precio);`.
+2. Cambiá `precio` por `Math.Round(precio, 2)`.
+3. Tocá **Ejecutar**. Tiene que salir `4,67`.
 
 #### Código inicial
 ```csharp
@@ -3059,6 +3251,11 @@ Muestra `0` y después `7`.
 #### Desafío
 Mostrá `volumen` limitado entre `0` y `100`.
 
+#### Pasos
+1. Buscá `Console.WriteLine(volumen);`.
+2. Cambiá `volumen` por `Math.Clamp(volumen, 0, 100)`.
+3. Tocá **Ejecutar**. Tiene que salir `100`.
+
 #### Código inicial
 ```csharp
 int volumen = 130;
@@ -3108,6 +3305,12 @@ Da un número del 1 al 3. Con la misma semilla (`5`), sale siempre el mismo.
 
 #### Desafío
 Arreglá el dado para que vaya del 1 al 6. Con la semilla `42`, el primer tiro sale `5`.
+
+#### Pasos
+1. Buscá `dado.Next(1, 6)`: el segundo número no se incluye, así que nunca sale 6.
+2. Cambiá el `6` por `7`: `dado.Next(1, 7)`.
+3. En la última línea, cambiá `{6 < 6}` por `{6 < 7}`.
+4. Tocá **Ejecutar**. Tienen que salir `Salió 5` y `True`.
 
 #### Código inicial
 ```csharp
@@ -3341,6 +3544,11 @@ Muestra `Hace calor`.
 #### Desafío
 Completá: si `edad` es 13 o más, mostrá `Entra al coro`; si no, `Todavía no`.
 
+#### Pasos
+1. Debajo de la `}` del `if`, escribí `else`.
+2. Debajo, `{`, adentro `Console.WriteLine("Todavía no");` y `}`.
+3. Tocá **Ejecutar**. Tiene que salir `Todavía no`.
+
 #### Código inicial
 ```csharp
 int edad = 12;
@@ -3402,6 +3610,11 @@ Muestra `Rápido`.
 #### Desafío
 Agregá el caso del medio: con 6 o más, `Aprobado`.
 
+#### Pasos
+1. Entre la línea del `if` y la del `else`, agregá una nueva:
+2. `else if (nota >= 6) Console.WriteLine("Aprobado");`
+3. Tocá **Ejecutar**. Tiene que salir `Aprobado`.
+
 #### Código inicial
 ```csharp
 int nota = 6;
@@ -3459,6 +3672,11 @@ Muestra `ácido`. Con `or` juntás varios casos.
 
 #### Desafío
 Agregá el caso `"violín" or "viola"`, que da `"cuerdas"`.
+
+#### Pasos
+1. Buscá la línea `"flauta" => "vientos",`.
+2. Debajo, agregá `"violín" or "viola" => "cuerdas",` (con la coma al final).
+3. Tocá **Ejecutar**. Tiene que salir `cuerdas`.
 
 #### Código inicial
 ```csharp
@@ -3523,6 +3741,12 @@ Muestra `24`.
 #### Desafío
 Si `pedido` es un número, mostrá `Repito X veces`; si no, `Escribilo con números`.
 
+#### Pasos
+1. Cambiá `Console.WriteLine(pedido);` por `if (int.TryParse(pedido, out int veces))`.
+2. Debajo: `Console.WriteLine($"Repito {veces} veces");`
+3. Después `else` y debajo `Console.WriteLine("Escribilo con números");`
+4. Tocá **Ejecutar**. Con la entrada de prueba tiene que salir `Escribilo con números`.
+
 #### Código inicial
 ```csharp
 string pedido = Console.ReadLine() ?? "";
@@ -3580,6 +3804,11 @@ if (lluvia)
 
 #### Desafío
 Ejecutalo: suena la alarma con 50 personas. Sacá el `;` que sobra para que no muestre nada y solo muestre `Fin`.
+
+#### Pasos
+1. Buscá `if (personas > 200);`: ese `;` termina el `if` ahí mismo y el bloque se ejecuta siempre.
+2. Borrá el `;`. Queda: `if (personas > 200)`
+3. Tocá **Ejecutar**. Tiene que salir solo `Fin`.
 
 #### Código inicial
 ```csharp

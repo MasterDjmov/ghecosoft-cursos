@@ -38,7 +38,8 @@
         ], $fenced['files']);
     }
     // JavaScript (D115): la consigna de una micro-misión de página trae su HTML, los eventos y qué revisar (JSON en `checks`).
-    $isJs = $language === 'javascript';
+    // TypeScript (D115, fase 5) corre en la misma caja, después del compilador: comparte la consigna y el tablero.
+    $isJs = in_array($language, ['javascript', 'typescript'], true);
     $jsMission = $isJs && filled($checks) ? (json_decode((string) $checks, true) ?: ['checks' => (string) $checks]) : [];
     $jsHasPage = $isJs && (filled($jsMission['page'] ?? null) || str_starts_with(ltrim((string) $code), '<'));
     $barButton = 'inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-xs font-medium transition disabled:opacity-50';

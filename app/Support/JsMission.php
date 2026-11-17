@@ -11,7 +11,10 @@ namespace App\Support;
  *   #### Estado          qué se revisa al final: #cartel · li # · .farol @class · cookie x · local x · lienzo · pedidos …
  *   #### Almacenamiento  lo que ya está guardado al empezar: local clave = valor · session clave = valor · cookie nombre = valor
  *   #### Archivos        otros archivos que el código importa (import … from './vec2.js'): el nombre en un renglón y,
- *                        debajo, su bloque ```javascript; el alumno los ve pero no los cambia
+ *                        debajo, su bloque ```javascript; el alumno los ve pero no los cambia. En TypeScript, `vec2.ts`
+ *                        (se importa igual, con './vec2.js')
+ *   #### Compilador      solo TypeScript (fase 5): la micro-misión no ejecuta; su «Salida esperada» son los errores de
+ *                        tipos, uno por renglón (`TS2322 en la línea 3`), o `Compila sin errores`
  *
  * La «Salida esperada» es la consola y, si hay Estado, el bloque «── Estado ──» debajo (lo escribe
  * scripts/js-micro/probar.mjs --fill corriendo la solución, nunca a mano).
@@ -29,6 +32,7 @@ class JsMission
             'checks' => self::text($fields['state'] ?? null),
             ...self::storage((string) ($fields['storage'] ?? '')),
             'files' => self::files((string) ($fields['files'] ?? '')),
+            'compiler' => filled($fields['compiler'] ?? null) ? true : null,
         ], fn ($value) => $value !== null && $value !== [] && $value !== '');
 
         return $mission ? json_encode($mission, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) : null;
@@ -56,7 +60,7 @@ class JsMission
     /** «vec2.js» y su bloque de código, uno detrás del otro → ['vec2.js' => código]. */
     public static function files(string $text): array
     {
-        preg_match_all('/^\s*([\w.-]+\.js)\s*\n(`{3,}|~{3,})[\w-]*\n(.*?)\n\s*\2\s*$/msu', $text, $found, PREG_SET_ORDER);
+        preg_match_all('/^\s*([\w.-]+\.[jt]s)\s*\n(`{3,}|~{3,})[\w-]*\n(.*?)\n\s*\2\s*$/msu', $text, $found, PREG_SET_ORDER);
 
         return collect($found)->mapWithKeys(fn ($m) => [$m[1] => $m[3]])->all();
     }

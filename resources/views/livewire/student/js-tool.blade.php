@@ -18,7 +18,7 @@
     @foreach ($examples as $key => $example)
         <section x-show="open === '{{ $key }}'" @if (! $loop->first) x-cloak @endif class="flex flex-col gap-3">
             <p class="text-sm text-ink-muted">{{ $example['about'] }}</p>
-            <x-code-runner :code="$example['code']" language="javascript" name="feria" :keep="'js-'.$key" autocomplete
+            <x-code-runner :code="$example['code']" :language="$example['language'] ?? 'javascript'" :name="($example['language'] ?? null) === 'typescript' ? 'mirador' : 'feria'" :keep="'js-'.$key" autocomplete
                 :checks="isset($example['page']) ? json_encode(['page' => $example['page']], JSON_UNESCAPED_UNICODE) : null" data-test="js-tool" />
         </section>
     @endforeach
@@ -31,6 +31,7 @@
             <li><strong class="text-ink">El Puerto de Elefa:</strong> <code>fetch('/puerto/…')</code> contesta <code>hola</code>, <code>puestos</code>, <code>puestos/1</code>, <code>heroes</code>, <code>clima</code>, <code>mensajes</code> (también POST), <code>lento</code> (3 s), <code>error</code> (500), <code>roto</code> (JSON cortado), <code>texto</code>, <code>eco</code>, <code>fichas?pagina=2</code> y la sesión (<code>login</code> con nima / luciernaga, <code>perfil</code>, <code>salir</code>). Con <code>?demora=ms</code> cambia cuánto tarda y con <code>?falla=1</code> falla.</li>
             <li><strong class="text-ink">Cookies, localStorage y sessionStorage</strong> de mentira: se ven en el Tablero y se borran al terminar.</li>
             <li><strong class="text-ink">alert, confirm y prompt:</strong> las respuestas salen de la pestaña Entrada, una por línea.</li>
+            <li><strong class="text-ink">TypeScript:</strong> en los ejemplos del Mirador, el compilador revisa los tipos antes de ejecutar (la primera vez baja unos 2 MB). Si algo no encaja, te dice la línea y qué pasa, y el programa no arranca.</li>
             <li><strong class="text-ink">Un tope:</strong> si un bucle no termina, la caja lo corta (como al Gólem) y te avisa.</li>
         </ul>
         @if ($course && ! $inWindow)

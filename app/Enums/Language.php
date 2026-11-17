@@ -70,12 +70,13 @@ enum Language: string
      * con una carpeta vacía en memoria), C++ (D100: el mismo Clang con su encabezado precompilado) y PHP (D105:
      * PHP 8.3 en WebAssembly, el mismo del docente, sin red y con una carpeta vacía en cada ejecución) y JavaScript
      * (D115: en una caja sandbox="allow-scripts" sin mismo origen, sin red y con un mundo virtual: reloj,
-     * temporizadores, cookies, almacenamiento y el Puerto simulado) y C# (D119: Roslyn y .NET en WebAssembly, en un Web
+     * temporizadores, cookies, almacenamiento y el Puerto simulado), TypeScript (D115: el compilador en un Web
+     * Worker revisa los tipos y el JavaScript que sale corre en la misma caja) y C# (D119: Roslyn y .NET en WebAssembly, en un Web
      * Worker, con consola, teclado y carpeta de mentira). El resto, solo quien corrige (D69).
      */
     public function runsForStudents(): bool
     {
-        return in_array($this, [self::Python, self::Html, self::Sql, self::C, self::Cpp, self::Php, self::Asm, self::JavaScript, self::Csharp], true);
+        return in_array($this, [self::Python, self::Html, self::Sql, self::C, self::Cpp, self::Php, self::Asm, self::JavaScript, self::TypeScript, self::Csharp], true);
     }
 
     /**

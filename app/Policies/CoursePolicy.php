@@ -51,7 +51,7 @@ class CoursePolicy
      */
     public function useJsTool(User $user, Course $course): bool
     {
-        return $course->language === Language::JavaScript
+        return in_array($course->language, [Language::JavaScript, Language::TypeScript], true)
             && ($user->isStaff() || ($course->is_published && $this->access->hasActiveSubscription($user, $course)));
     }
 

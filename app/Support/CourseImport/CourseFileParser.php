@@ -87,6 +87,8 @@ class CourseFileParser
         'estado' => 'state',
         'almacenamiento' => 'storage',
         'archivos' => 'files',
+        // TypeScript (D115, fase 5): la micro-misión revisa los tipos sin ejecutar (su salida son los errores).
+        'compilador' => 'compiler',
     ];
 
     /** Columnas que guardan código: se toma el contenido del primer bloque ``` si lo hay. */

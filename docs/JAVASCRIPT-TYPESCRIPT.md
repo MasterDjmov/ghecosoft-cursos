@@ -167,7 +167,7 @@ Todos con ropa opaca y cerrada (alumnos chicos) y sin texto en la imagen.
 | 2 | El curso de JS, R00 y R01 (texto, micro-misiones, `probar.mjs`), con la Clase 0 en producción como Próximamente | la Clase 0 y los Puestos |
 | 3 | JS, R02 a R05 (hecha) y las cinco Sendas (hechas, § 11) | todo el curso, con la simulación |
 | 4 | Imágenes de JS: proyecto de Stitch, logo, moneda, gente, jefes, escenas, ítems y mapa; juego, enciclopedia y landing | publicarlo |
-| 5 | El compilador de TypeScript en el navegador (micro-misiones de tipo Compilador) | errores de tipos en español |
+| 5 | El compilador de TypeScript en el navegador (micro-misiones de tipo Compilador) — **hecha (2026-11-17)**, § 12 | errores de tipos en español |
 | 6 | El curso de TS completo | todo el curso |
 | 7 | Imágenes de TS | publicarlo |
 | 8 | La temporada de inglés de la Feria | — |
@@ -253,3 +253,25 @@ Publicado por el docente el 2026-11-07, y destacado para que salga entre los cur
 | Fermín en `S02-N04-P3` | hecho (2026-11-07): hoja en el proyecto de la Feria y escena rehecha |
 | Temporada en las Crónicas en Inglés | **pendiente**: siguen el Valle y el Imperio ([INGLES.md](INGLES.md) § 8) |
 | TypeScript | **pendiente** (§ 4) |
+
+## 12. La fase 5 hecha: el compilador de TypeScript (2026-11-17)
+
+- **Qué versión:** TypeScript **6.0.3** (`package.json`, `resources/js/runners/typescript-config.js`). TypeScript 7 (el de FullCursos) es nativo, escrito en Go, y no corre en el navegador. Los códigos de error (TS2322…) y lo que se enseña son los mismos; en su compu, el alumno puede usar el 7.
+- **Dónde corre:** en un Web Worker del navegador de quien ejecuta (`resources/js/workers/typescript.worker.js`), nunca en el servidor.
+  - La primera vez baja unos 2 MB de `public/toolchains/typescript/`: el compilador, los `.d.ts` del JavaScript más nuevo con el DOM, y los mensajes en español del propio TypeScript. Los arma `node scripts/build-typescript-toolchain.mjs`, que también corre `deploy.sh`.
+  - Tiempos en Chrome: unos 2,5 s la primera vez y unos 70 ms las siguientes.
+- **Cómo:** `ts-compile.js` revisa los tipos y pasa el código a JavaScript, todo en memoria.
+  - Las opciones son estrictas (`strict`), con ES2022 y módulos.
+  - **Si hay errores de tipos, el programa no se ejecuta.** Es la lengua del Mirador: la pieza que no encaja traba el mecanismo antes de girar.
+  - Si compila, el JavaScript corre en **la misma caja** que JS (`typescript.js` → `runJavaScript`), así que la consola, la página, los eventos, el lienzo y el Puerto andan igual.
+  - Los errores al ejecutar dicen la línea del TypeScript: se traduce con el source map.
+- **Los errores:** `ts-errors.js` muestra el mensaje oficial en español, con su línea, y debajo la criatura del bestiario del Mirador y qué quiere decir. Hay unos 50 códigos explicados.
+- **En la plataforma:**
+  - `Language::TypeScript` corre para los alumnos (`runsForStudents`);
+  - `<x-code-runner language="typescript">` usa la misma consigna y el mismo tablero que JS;
+  - las entregas también corren (`cases.js`).
+- **Micro-misiones de tipo Compilador:** `#### Compilador` (ver FORMATO-CURSO.md). No ejecutan; su «Salida esperada» son los errores (`TS2322 en la línea 3`) o `Compila sin errores`.
+- **Para probar:** *Herramientas → La caja de la Feria* tiene dos ejemplos de TypeScript: «las medidas» y «una pieza que no encaja».
+  - La caja ahora la habilita también un curso de TypeScript.
+  - Pruebas: `node scripts/ts-micro/probar-compilador.mjs` (Node, 14 casos) y `node scripts/ts-micro/probar-navegador.mjs` (Chrome, con la plataforma en el puerto 8123).
+

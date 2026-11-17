@@ -13,7 +13,7 @@ use Livewire\Component;
  * Herramientas → La caja de la Feria (D115): JavaScript suelto, para practicar fuera de las micro-misiones, con
  * ejemplos de todo lo que simula la caja (la consola, el reloj, el Puerto, las cookies, la página y el lienzo).
  * Corre en el navegador de quien la usa, en la caja sin mismo origen ni red. El staff la usa siempre (para probar
- * la caja antes de que exista el curso); el alumno, con el abono vigente de un curso de JavaScript.
+ * la caja antes de que exista el curso); el alumno, con el abono vigente de un curso de JavaScript o de TypeScript.
  */
 #[Title('La caja de la Feria')]
 class JsTool extends Component
@@ -142,6 +142,51 @@ class JsTool extends Component
                 requestAnimationFrame(cuadro);
                 JS,
         ],
+        // TypeScript (D115, fase 5): el compilador revisa los tipos antes de ejecutar, en la misma caja.
+        'tipos' => [
+            'title' => 'TypeScript: las medidas',
+            'language' => 'typescript',
+            'about' => 'TypeScript revisa los tipos ANTES de ejecutar: si una pieza no encaja, el programa no arranca. Cambiá el nivel por un texto ("cinco") y ejecutá.',
+            'code' => <<<'TS'
+                interface Pieza {
+                    nombre: string;
+                    medida: number;
+                    estrella?: string;
+                }
+
+                const piezas: Pieza[] = [
+                    { nombre: 'engranaje', medida: 12 },
+                    { nombre: 'lente', medida: 4, estrella: 'Rigel' },
+                ];
+
+                function total(lista: Pieza[]): number {
+                    return lista.reduce((suma, p) => suma + p.medida, 0);
+                }
+
+                let nivel: number = 1;
+                console.log(`Nivel ${nivel}: ${piezas.length} piezas, ${total(piezas)} mm en total`);
+                for (const p of piezas) console.log(p.nombre, p.estrella ?? '(sin estrella)');
+                TS,
+        ],
+        'mirador' => [
+            'title' => 'TypeScript: una pieza que no encaja',
+            'language' => 'typescript',
+            'about' => 'Este programa tiene dos errores de tipos. Leé lo que dice el compilador y arreglalos.',
+            'code' => <<<'TS'
+                type Estado = 'parado' | 'girando';
+
+                const planisferio = { estado: 'parado' as Estado, vueltas: 0 };
+
+                function girar(vueltas: number): void {
+                    planisferio.estado = 'girando';
+                    planisferio.vueltas += vueltas;
+                }
+
+                girar('tres');
+                const lente = document.querySelector('#lente');
+                console.log(lente.textContent);
+                TS,
+        ],
     ];
 
     public static function allowed(?User $user): bool
@@ -153,7 +198,7 @@ class JsTool extends Component
             return true;
         }
 
-        return Course::where('language', Language::JavaScript)->get()->contains(fn (Course $course) => $user->can('useJsTool', $course));
+        return Course::whereIn('language', [Language::JavaScript, Language::TypeScript])->get()->contains(fn (Course $course) => $user->can('useJsTool', $course));
     }
 
     public function mount(): void
@@ -165,7 +210,7 @@ class JsTool extends Component
     {
         return $this->toolView('livewire.student.js-tool', [
             'examples' => self::EXAMPLES,
-            'course' => Course::where('language', Language::JavaScript)->get()->first(fn (Course $course) => auth()->user()->can('useJsTool', $course) && $course->is_published),
+            'course' => Course::whereIn('language', [Language::JavaScript, Language::TypeScript])->get()->first(fn (Course $course) => auth()->user()->can('useJsTool', $course) && $course->is_published),
         ]);
     }
 }

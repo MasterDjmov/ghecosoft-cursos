@@ -366,7 +366,8 @@ document.addEventListener('alpine:init', () => {
                 // SQL: SQLite en WebAssembly, en el navegador (las micro-misiones de SQL de Java).
                 const { runSql } = await import('./runners/sql.js');
                 result = await runSql(this.runSource ?? this.code, { timeout: config.timeout, onStatus: (status) => (this.status = status) });
-            } else if (config.language === 'javascript') {
+            } else if (config.language === 'javascript' || config.language === 'typescript') {
+                // TypeScript (D115, fase 5): primero el compilador revisa los tipos; después, la misma caja.
                 result = await this.jsRun();
             } else if (config.language === 'csharp') {
                 // C#: el compilador y .NET en WebAssembly, en el navegador (D119).
@@ -414,15 +415,19 @@ document.addEventListener('alpine:init', () => {
         // ---------------- JavaScript: la caja y su mundo virtual (D115)
 
         async jsRun() {
-            const { runJavaScript } = await import('./runners/javascript.js');
+            const run = config.language === 'typescript'
+                ? (await import('./runners/typescript.js')).runTypeScript
+                : (await import('./runners/javascript.js')).runJavaScript;
             const mission = config.jsMission ?? {};
             this.jsHasPage = Boolean(mission.page) || /^\s*</.test(this.code);
             this.jsNotes = [];
             this.jsLive = false;
             this.status = 'Ejecutando…';
             await this.$nextTick();
-            const result = await runJavaScript(this.runSource ?? this.code, {
+            const result = await run(this.runSource ?? this.code, {
                 stdin: this.stdin,
+                compiler: mission.compiler,
+                onStatus: (status) => (this.status = status),
                 page: mission.page,
                 events: mission.events,
                 checks: mission.checks,

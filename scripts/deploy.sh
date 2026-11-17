@@ -42,6 +42,7 @@ fi
 # 2. Assets en esta compu (y PHP en WebAssembly para corregir, D68: sale de node_modules).
 npm run build
 scripts/build-php-toolchain.sh >/dev/null
+node scripts/build-typescript-toolchain.mjs >/dev/null
 
 # 3. Código, dependencias y migraciones en el servidor (con pantalla de mantenimiento).
 ssh "$HOST" bash -s <<EOF
@@ -59,7 +60,7 @@ EOF
 # 4. public/build: se sube a una carpeta nueva y se reemplaza de una vez.
 tar czf - -C public build | ssh "$HOST" "cd ~/$APP_DIR/public && rm -rf build.new && mkdir build.new && tar xzf - -C build.new --strip-components=1 && rm -rf build && mv build.new build"
 
-# 4b. public/toolchains (ejecutores en el navegador: C/C++ D66, PHP D68, C# D119): C/C++ y C# se arman con
+# 4b. public/toolchains (ejecutores en el navegador: C/C++ D66, PHP D68, C# D119, TypeScript D115): C/C++ y C# se arman con
 #     scripts/build-cpp-toolchain.sh y scripts/build-csharp-toolchain.sh (PHP, en el paso 2); se sube solo si cambió (pesa ~27 MB).
 LOCAL_SUM=$(cd public && find toolchains -type f | sort | xargs sha1sum | sha1sum | cut -d' ' -f1)
 REMOTE_SUM=$(ssh "$HOST" "cat ~/$APP_DIR/public/toolchains/.sum 2>/dev/null || true")

@@ -145,3 +145,68 @@ test('los otros archivos de una micro-misión de JavaScript se leen por su nombr
         'heroe.js' => "import { a } from './vec2.js';\nexport default a;",
     ])->and(json_decode(JsMission::encode(['files' => $text]), true)['files'])->toHaveKey('vec2.js');
 });
+
+/*
+ * D115, fase 5: TypeScript. El compilador corre en un Web Worker del navegador (resources/js/workers/typescript.worker.js)
+ * y el JavaScript que sale va a la misma caja. Se prueba con node scripts/ts-micro/probar-compilador.mjs (Node) y
+ * node scripts/ts-micro/probar-navegador.mjs (Chrome).
+ */
+
+test('TypeScript corre para los alumnos, en el navegador y en la misma caja que JavaScript', function () {
+    expect(Language::TypeScript->runsForStudents())->toBeTrue()
+        ->and(Language::TypeScript->extension())->toBe('ts');
+
+    $runner = file_get_contents(resource_path('js/runners/typescript.js'));
+    expect($runner)->toContain("import { runJavaScript } from './javascript.js'")
+        ->and(file_get_contents(resource_path('js/workers/typescript.worker.js')))->not->toContain('runJavaScript');
+});
+
+test('la caja de la Feria trae los ejemplos de TypeScript, y un curso de TypeScript también la habilita', function () {
+    $this->actingAs(User::factory()->admin()->create())
+        ->get(route('student.js-tool'))
+        ->assertSee('data-test="js-example-tipos"', false)
+        ->assertSee('mirador.ts');
+
+    ['course' => $course] = makeCourse(['language' => 'typescript', 'is_published' => true]);
+    $this->actingAs(enrolledStudent($course))->get(route('student.js-tool'))->assertOk();
+});
+
+test('una micro-misión de tipo Compilador y sus módulos .ts viajan en la consigna', function () {
+    $text = "vec2.ts\n```typescript\nexport interface Vec2 { x: number; y: number }\n```";
+    $mission = json_decode(JsMission::encode(['compiler' => 'sí', 'files' => $text]), true);
+
+    expect($mission['compiler'])->toBeTrue()
+        ->and($mission['files'])->toBe(['vec2.ts' => 'export interface Vec2 { x: number; y: number }'])
+        ->and(JsMission::encode(['compiler' => '']))->toBeNull();
+});
+
+test('el importador lee «#### Compilador» en un curso de TypeScript', function () {
+    $step = <<<'MD'
+### Micro-misión R00-N01-P1 · La pieza que no encaja
+
+#### Compilador
+sí
+
+#### Código inicial
+```typescript
+let nivel: number = "cinco";
+```
+
+#### Salida esperada
+```
+TS2322 en la línea 1
+```
+
+#### Solución
+```typescript
+let nivel: number = 5;
+```
+
+
+MD;
+    $md = str_replace(['lenguaje: python', '### Misión R00-N01-M1'], ['lenguaje: typescript', $step.'### Misión R00-N01-M1'], file_get_contents(base_path('tests/Fixtures/curso-ejemplo.md')));
+    $report = app(CourseImporter::class)->import([['name' => 'curso.md', 'content' => $md]], dryRun: false);
+
+    expect($report->errors)->toBe([])
+        ->and(json_decode(NodeStep::where('code', 'R00-N01-P1')->first()->checks, true))->toBe(['compiler' => true]);
+});

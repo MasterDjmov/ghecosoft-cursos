@@ -31,6 +31,11 @@ async function runOne(language, code, stdin, options) {
         const { runJavaScript } = await import('./javascript.js');
         return runJavaScript(code, { stdin, timeout: options.timeout });
     }
+    if (language === 'typescript') {
+        // D115, fase 5: el compilador revisa los tipos y el JavaScript corre en la misma caja.
+        const { runTypeScript } = await import('./typescript.js');
+        return runTypeScript(code, { stdin, timeout: options.timeout });
+    }
     if (language === 'csharp') {
         const { runCsharp } = await import('./csharp.js');
         return runCsharp(code, { stdin, timeout: options.timeout });

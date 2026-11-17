@@ -96,6 +96,8 @@ Unos **28 nodos y 200 micro-misiones**, como PHP. Los jefes R01–R04 ya estaban
 
 ## 4. El curso de TypeScript: el Mirador de las Constelaciones
 
+> **Cambio (2026-11-16):** el docente pidió **un héroe nuevo con aire steampunk** y **todo el Mirador steampunk**, en lugar de Nima. Borrador 1 en [historias/typescript.md](historias/typescript.md) (Rigel, aprendiz de relojero de Tesla; Astrea, estrellas de latón y Fuelle). Lo de abajo queda como estaba, salvo la heroína.
+
 Desde los 22 capítulos de FullCursos (23-TypeScript). El curso **pide JS** (o se recomienda cursarlo después) y cierra con el mismo *Junta las Gemas*, ahora tipado.
 
 **La historia (propuesta, a decidir):**

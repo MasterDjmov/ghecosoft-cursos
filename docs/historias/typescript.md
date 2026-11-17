@@ -1,0 +1,180 @@
+# Historia del curso de TypeScript: El Mirador de las Constelaciones — borrador 1 (2026-11-16)
+
+El docente pidió arrancar TypeScript con **un héroe nuevo con aire steampunk**, y que **todo el Mirador** sea steampunk (2026-11-16). Esto reemplaza lo aprobado el 2026-10-30 en [JAVASCRIPT-TYPESCRIPT.md](../JAVASCRIPT-TYPESCRIPT.md) § 10, donde la heroína de TS era Nima otra vez. Lo demás de § 4 se mantiene, adaptado:
+- el Mirador;
+- Astrea;
+- las estrellas;
+- las ramas;
+- los jefes.
+
+Las preguntas para decidir están en § 10.
+
+## 1. El lugar: un observatorio de latón y vapor
+
+Al final de JavaScript, la flecha de Nima mueve el vitral del portal por primera vez. El vitral muestra **el lugar adonde fue el Vidriero**: un observatorio en la cima de la montaña, arriba de la Feria. Ese lugar es **el Mirador de las Constelaciones**.
+
+El Mirador es **steampunk**:
+- cúpulas de latón con remaches;
+- telescopios enormes que se mueven con engranajes y bielas;
+- caños de cobre que silban vapor;
+- relojes astronómicos;
+- mapas del cielo grabados en discos de bronce que giran.
+
+En el centro está **el Gran Planisferio**, un planetario mecánico del tamaño de una sala: cada estrella es una pieza de vidrio montada en un brazo de latón. **El Planisferio está parado desde que se fue el Vidriero.**
+
+**Para no confundirlo con la Ciudadela de los Artífices (C++):**
+
+| | La Ciudadela (C++) | El Mirador (TS) |
+|---|---|---|
+| Qué es | una fábrica de engranajes | un observatorio |
+| Paleta | rayos y cian | latón, cobre, cielo de noche y el azul de TypeScript |
+| Su oficio | fabricar piezas con planos | **medir el cielo y ponerle forma a cada estrella** |
+
+**La lengua del Mirador:**
+- cada pieza lleva grabada su **medida** antes de montarse;
+- si una estrella no encaja en la ranura de su figura, **el mecanismo no la acepta**: se traba antes de girar, no después.
+
+Eso es el chequeo de tipos: el error aparece al armar (al compilar), no cuando la máquina ya está andando (al ejecutar).
+
+## 2. El héroe: Rigel, el aprendiz de relojero
+
+**Propuesta:** un chico. Los últimos cursos tienen protagonista mujer (Nima, Ceci, Nova, Iris).
+
+**Rigel** (por la estrella de Orión) es **aprendiz de Tesla** en la Ciudadela de los Artífices. Arregla relojes y autómatas chicos.
+- Tiene manos rápidas y mucha imaginación.
+- Arma todo **a ojo**: prueba, y si no anda, lo desarma y vuelve a probar.
+- Le explotan muchos inventos, siempre **con la máquina ya andando**.
+
+Cuando el vitral del balcón se mueve, en la Ciudadela todos los engranajes dan **un solo golpe al mismo tiempo**. Tesla lo entiende: **el Planisferio del Mirador quiere volver a andar.** Lo construyeron él y el Vidriero hace años, y ahora necesita a alguien que lo repare. Le da a Rigel un plano y lo manda montaña arriba.
+
+En el Mirador, Rigel aprende lo contrario de lo que sabe: **medir antes de armar**.
+
+## 3. La medida antes que la pieza (la metáfora del curso)
+
+| En el Mirador | En TypeScript |
+|---|---|
+| la medida grabada en cada pieza | el **tipo** (`string`, `number`, `boolean`) |
+| el calibre que mide sin armar nada | el **compilador** (`tsc`): revisa antes de ejecutar |
+| una pieza que no entra en su ranura | un **error de tipos** (`TS2322`) |
+| la ficha técnica de una pieza: qué tiene y cómo se usa | `interface` y `type` |
+| un molde que sirve para cualquier pieza, con su medida adentro | los **genéricos** (`Caja<T>`) |
+| una ranura que acepta dos formas, con una palanca que pregunta cuál llegó | las **uniones** y el **narrowing** |
+| la pieza que dice «capaz que no estoy» | `null` y `undefined` con `strictNullChecks` |
+| la pieza sin medida, que entra en cualquier lado y rompe todo | `any` (el Camaleón Any) |
+| volver a poner en marcha el Planisferio | el proyecto final: *Junta las Gemas* tipado |
+
+## 4. Ficha de Rigel (para PERSONAJES.md cuando se apruebe)
+
+- **Curso y rol:** TypeScript, el Mirador de las Constelaciones. Protagonista.
+- **Edad y sexo:** 16, varón.
+- **Altura y contextura:** mediano (1,68 m), flaco y ágil, siempre un poco encorvado sobre lo que arregla.
+- **Rasgos:**
+  - piel trigueña con pecas, ojos grises;
+  - **pelo castaño claro, revuelto**, con un mechón quemado por una chispa;
+  - **antiparras de latón** con lentes intercambiables (una lupa, una azul, una de ver estrellas), casi siempre subidas a la frente.
+- **Ropa:**
+  - **chaleco de cuero marrón cerrado**, con muchos bolsillos y botones de bronce, sobre una camisa azul de mangas arremangadas hasta el codo;
+  - **guantes sin dedos** de cuero;
+  - pantalón de lona oscuro con rodilleras, botas de trabajo;
+  - **cinturón de herramientas** (destornilladores chiquitos, pinzas, un aceitero);
+  - **ropa opaca y cerrada** (la usan alumnos chicos).
+- **Objeto que cambia con él:** **el calibre** (un pie de rey de latón, para medir).
+  - Clase 0: **el Calibre de Aprendiz**, gastado, regalo de Tesla.
+  - R02: **el Calibre de Constelaciones**, con un nonio de estrellas que mide figuras.
+  - Final: **el Calibre del Vidriero**, que mide el portal.
+  - En la espalda, siempre, una **mochila con un engranaje a la vista** y un catalejo plegable.
+- **Color:** **azul TypeScript** (#3178C6) con **latón**.
+- **Personalidad:**
+  - curioso, inventor, charlatán y entusiasta;
+  - **arma primero y piensa después**;
+  - se ríe de sus propios desastres;
+  - generoso: le arregla el reloj a cualquiera.
+- **Le gusta:** los relojes por dentro, el olor a aceite de máquina, mirar las estrellas desde el techo de la Ciudadela, el pan con miel de la Feria (se lo hace conocer Nima).
+- **Defecto o miedo:**
+  - **no mide**: confía en el ojo y se equivoca en la pieza que importa;
+  - le da miedo que un invento suyo lastime a alguien al arrancar.
+  - En el Mirador aprende que **lo que se mide antes no explota después**.
+- **Frase:** «Mido dos veces, armo una.»
+- **Relaciones:**
+  - alumno de **Astrea** (§ 5);
+  - aprendiz de **Tesla**: lo conoce **Lima**, y **Bron** le prestó la llave inglesa una vez;
+  - **Nima** sube al Mirador con la imagen que mostró el vitral, y lo ayuda en las Sendas;
+  - **Gheco** lo guía, como en todos los cursos.
+- **Cómo llega:** los engranajes de la Ciudadela dan un golpe al mismo tiempo, Tesla le da el plano y Rigel sube la montaña hasta el Mirador por un **ascensor de vapor** abandonado.
+- **Primera aparición:** TypeScript, Clase 0. Antes no se lo nombra en ningún curso; se puede sumar una mención en la Ciudadela.
+
+## 5. La líder, la moneda y la montura
+
+- **Líder: Astrea, la Lechuza Cartógrafa** (aprobada el 2026-10-30), ahora steampunk:
+  - una lechuza grande, de plumas gris azuladas;
+  - **anteojos de varias lentes de latón** que se acomodan con una ruedita;
+  - un **compás de bronce** y un **chaleco de cartógrafa** con mapas enrollados.
+  - Le pone nombre y figura a cada estrella.
+  - Lema: *«Nada brilla sin su forma.»*
+- **Moneda: estrellas**, ahora **estrellas de latón**: fichas estampadas con una estrella, las que da el Planisferio cuando una pieza encaja.
+- **Montura de Rigel: Fuelle**, un **zorro mecánico de latón** que anda a vapor y suelta silbidos cuando está contento. Rigel lo arma en R01 a partir de un autómata roto del Mirador. Crece por etapas, como Destello: le suma piezas en cada rama.
+- **La gente del Mirador** (para ramas y misiones):
+  - **un farero de estrellas**, que enciende las lámparas de los telescopios;
+  - **una fogonera**, que cuida las calderas;
+  - **una aprendiz de Astrea** que copia los mapas;
+  - **un viejo relojero** que se acuerda del Vidriero.
+
+## 6. El cruce con el misterio del portal
+
+- **El Planisferio y el portal están conectados:** el Vidriero lo construyó para **medir el portal**. Cada figura del Planisferio es una de las figuras del vitral.
+- En **el Atlas del Vidriero** (R05), Rigel encuentra el **plano entero del portal, con todas sus figuras**. Falta una, y esa queda para React Native o Laravel. No se revela cuál es (como estaba en la propuesta).
+- **Final:** Rigel pone en marcha el Planisferio. Las constelaciones giran y el vitral del balcón **se queda quieto en la figura correcta** por primera vez.
+- **Cruces con otros cursos:**
+  - **C++:** Tesla y el Vidriero construyeron juntos el Planisferio. En la Ciudadela no se cuenta.
+  - **JavaScript:** Nima trae la imagen del vitral y es la que sube con la noticia.
+  - **Java:** Astrea y Kaffa se pelean amistosamente por quién inventó los moldes (aprobado).
+
+## 7. El arco (las ramas, como en la propuesta)
+
+| Rama | Zona | Lo que se aprende (capítulos) | Lo que le pasa a Rigel | Jefe |
+|---|---|---|---|---|
+| R00 | El ascensor de vapor | qué es TS, `tsc`, inferencia (01) | Sube la montaña; su primer arreglo explota y Astrea le enseña a medir | — |
+| R01 | La Sala de las Figuras | tipos básicos, tuplas, `any`/`unknown`/`never`, `interface` y `type`, funciones tipadas, sobrecarga (02–04) | Mide sus primeras piezas; arma a Fuelle | **el Camaleón Any**, un autómata que cambia de forma y esconde los errores |
+| R02 | Los Moldes de Estrellas | clases tipadas, `private` contra `#`, `abstract`, `implements`, enums, `as const`, genéricos (05–08) | Hace moldes que sirven para muchas estrellas | **la Hidra de las Mil Formas** (genéricos) |
+| R03 | El Telescopio | uniones, narrowing, uniones discriminadas, `never`, utility types, módulos, `import type` (09–12) | Ajusta el telescopio para ver cada estrella como es | **la Quimera de las Uniones** |
+| R04 | La Cúpula | errores tipados, `Result<T>`, `Promise<T>`, DOM tipado, `strictNullChecks`, decoradores, `tsconfig` (13–19) | Abre la cúpula; aparecen las piezas que «capaz que no están» | **el Espejismo Null** |
+| R05 | El Atlas del Vidriero | JS contra TS, el modelo tipado del juego, *Junta las Gemas* en TS (20–22) | Encuentra el Atlas y pone en marcha el Planisferio | **el Dragón de las Constelaciones Rotas** |
+
+**Jefes:** los cinco están aprobados. Con el Mirador steampunk, se dibujan como **autómatas de latón y vidrio**, con piezas del Planisferio mal armadas. Ver la pregunta 5 por los nombres repetidos.
+
+## 8. El bestiario (los errores, en TypeScript)
+
+| Criatura | En TypeScript |
+|---|---|
+| Slime | sintaxis: llave sin cerrar, `:` de más, anotación mal escrita |
+| Goblin | tipos que no encajan: `TS2322` (un `string` donde va un `number`), `TS2345` en los argumentos |
+| Esqueleto | lo que no existe: `TS2339` (la propiedad no está), `TS2304` (el nombre no está) |
+| Orco | los límites: tuplas de largo fijo, el índice que «capaz que no está», `TS2532` (`Object is possibly undefined`) |
+| Ogro | la lógica: un `switch` que se olvida de un caso (`never`), el `as` que miente |
+| Troll | el tiempo: `Promise<T>` sin `await`, el tipo de lo que todavía no llegó |
+| Dragón | los jefes: un modelo grande hecho de tipos chicos |
+
+Igual que en los otros cursos: «el Goblin del Mirador», «el Esqueleto de la Cúpula». Con el estilo steampunk, son **criaturas de cuerda**: slimes de aceite, goblins con engranajes en la espalda, esqueletos de alambre.
+
+## 9. Lo que sigue (las fases de D115)
+
+| Fase | Qué | Para probar |
+|---|---|---|
+| 5 | El compilador de TypeScript en el navegador: micro-misiones de tipo **Compilador** y errores en español | una micro-misión de prueba que da `TS2322` |
+| 6 | El curso de TS completo (22 capítulos de FullCursos), con Clase 0 en Próximamente | todo el curso, con la simulación |
+| 7 | Imágenes: proyecto de Stitch nuevo para el Mirador, con la hoja de Rigel, Astrea, Fuelle, el fondo, el logo, la moneda, los jefes, las escenas, los ítems y el mapa | publicarlo |
+
+Mientras no esté aprobada la historia, se puede avanzar la fase 5, que no depende de ella.
+
+## 10. Para decidir
+
+1. **Rigel:** ¿chico de 16, aprendiz de relojero de Tesla, con antiparras, chaleco de bronce y calibre? ¿O preferís una chica (por ejemplo, **Vega**, también nombre de estrella)?
+2. **Que venga de la Ciudadela (C++):**
+   - ¿te gusta?
+   - ¿Y que Tesla y el Vidriero hayan construido juntos el Planisferio?
+3. **Astrea steampunk** (lentes de latón y compás), **estrellas de latón** como moneda y **Fuelle**, el zorro mecánico, como montura: ¿van?
+4. **Nima en TS:** solo como cruce (trae la imagen del vitral y aparece en las Sendas). ¿Te parece bien, o preferís que no aparezca?
+5. **Jefes con nombres repetidos:**
+   - C# tiene «Quimera de las Mil Partituras» y «Hidra del Coro», y C++ «la Quimera de la Arena».
+   - ¿Dejamos la Hidra y la Quimera de TS como están, o les buscamos otro bicho (por ejemplo, **el Kraken de Engranajes** para las uniones)?
+6. **Empezar por la fase 5** (el compilador) mientras revisás la historia: ¿dale?

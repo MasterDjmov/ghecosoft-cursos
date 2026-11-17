@@ -1522,6 +1522,29 @@ Historia en [typescript.md](typescript.md). Hasta que el curso se publique, esta
 - **Moneda de la región:** las **estrellas de latón**.
 - **Primera aparición:** TypeScript, Clase 0.
 
+### Don Péndulo
+- **Curso y rol:** TypeScript, el relojero de la fundición del Mirador. Enseña clases, moldes y genéricos (R02).
+- **Edad y sexo:** muy viejo, varón.
+- **Rasgos:** **barba blanca larga**, manos finas de relojero y una **lupa de relojero** en un ojo.
+- **Ropa:** camisa cerrada y **delantal de cuero** con herramientas chiquitas en los bolsillos.
+- **Objeto:** un cuaderno de cuero donde llevó el stock cuarenta años.
+- **Personalidad:** paciente y burlón; habla de «antes» y del Vidriero, a quien conoció.
+- **Primera aparición:** TypeScript, R02-N01.
+
+### El Camaleón Any
+- **Rol:** el jefe de R01 de TypeScript, en la Sala de las Figuras.
+- **Qué error representa:** `any`: apaga la revisión de tipos y esconde los errores hasta que el programa corre.
+- **Cómo se lo vence:** cambiando cada `any` por el tipo de verdad y revisando lo que llega con `unknown` y `typeof`.
+- **Qué es:** un **autómata de latón y vidrio con forma de camaleón** que cambia de color sin parar; al perder sus `any` se queda gris.
+- **Imágenes:** en el proyecto del Mirador (falta su hoja). Deja la **Escama del Camaleón**.
+
+### La Mantícora de las Mil Formas
+- **Rol:** el jefe de R02 de TypeScript, en la fundición.
+- **Qué error representa:** los moldes sin medida: cajas `any`, estado público que cualquiera toca, tipos escritos a mano.
+- **Cómo se la vence:** con genéricos que recuerdan el tipo, `private`, `enum` y clases `abstract`.
+- **Qué es:** un **autómata de bronce con cuerpo de león, alas de vidrio y una cola larga cargada de moldes**; cada pieza que toca cambia de forma.
+- **Imágenes:** en el proyecto del Mirador (falta su hoja). Deja el **Molde de la Mantícora**.
+
 ## Las Crónicas en Inglés (Primaria y Secundaria)
 
 La historia unificada de los cursos de inglés ([ingles.md](ingles.md)). Imágenes generadas en Stitch el 2026-10-13, en el proyecto de los Talleres (`9229721314509917104`); los archivos, en `publicidad/logos cursos/personajes/Crónicas en Inglés/`.

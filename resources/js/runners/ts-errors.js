@@ -39,6 +39,8 @@ const EXPLAIN = {
     TS2564: ['Esqueleto', 'la propiedad no tiene valor: dáselo al declararla o en el constructor.'],
     TS2420: ['Esqueleto', 'la clase dice que cumple una interfaz, pero le falta algo de ella.'],
     TS2515: ['Esqueleto', 'la clase hereda de una abstracta y le falta escribir uno de sus métodos.'],
+    TS2576: ['Esqueleto', 'eso es `static`: es del molde, no de cada objeto. Se usa con el nombre de la clase (`Clase.nombre`).'],
+    TS2416: ['Goblin', 'el método de la clase de abajo no encaja con el de la clase de arriba (otros tipos en los parámetros o en lo que devuelve).'],
     // Orco: los límites (lo que capaz que no está).
     TS2531: ['Orco', 'ese valor puede ser `null`: preguntá antes si está (`if (x)`) o usá `?.`.'],
     TS2532: ['Orco', 'ese valor puede ser `undefined`: preguntá antes si está o usá `?.` y `??`.'],

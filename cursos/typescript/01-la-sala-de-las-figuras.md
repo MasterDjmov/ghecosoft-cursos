@@ -2782,11 +2782,434 @@ Rigel cambia la pieza del ajuste como quien cambia una lente. La cinta obedece. 
 - Rigel (chico flaco con pecas, antiparras de latón, chaleco marrón) encastra una de las piezas.
 - Astrea (lechuza con anteojos de latón) le da una ficha con una estrella; Gheco mira.
 
+## R01-N08 · Más formas: índices, intersecciones y readonly
+
+```meta
+tipo: tema
+padre: R01-N06
+precio: 10
+criatura: goblin
+temas: cal.tipos, col.mapas, col.listas
+```
+
+### Crónica
+
+Antes de enfrentar al Camaleón, Astrea lleva a Rigel al **archivo de las medidas**: un mueble enorme con cajoncitos que se abren con el nombre de cada estrella. Al lado, una vitrina con piezas armadas de **dos piezas soldadas**, y un estante con un cartel: *no se agrega nada*.
+
+—Te faltan tres formas más —dice {mentor}—. Una ficha con cajones que no sabés cuántos van a ser, una pieza hecha de dos y una lista que nadie puede tocar. Y una trampa chiquita que el Camaleón usa mucho: las palabras que parecen exactas pero no lo son.
+
+> Este nodo no está en el material de base (FullCursos): se agregó porque son formas de tipos que se usan todo el tiempo y que hacen falta en las ramas que siguen.
+
+### Objetivos
+
+- Anotar un objeto con claves que no se conocen de antemano: `{ [estrella: string]: number }`.
+- Juntar dos tipos en uno con una **intersección**: `Pieza & { aumento: number }`.
+- Proteger un arreglo con `readonly number[]`.
+- Entender los **tipos literales**: por qué `let modo = 'parado'` es un `string` y `const modo = 'parado'` es exactamente `'parado'`.
+
+### Antes de empezar
+
+- R01-N05 (`interface`) y R01-N06 (`type` y uniones).
+
+### Explicación
+
+#### Claves que no se conocen de antemano
+Un catálogo donde cada estrella tiene su distancia, pero no sabés cuántas estrellas van a ser:
+
+```typescript
+const distancias: { [estrella: string]: number } = {};
+distancias['Vega'] = 25;
+distancias.Rigel = 860;
+distancias.Sirio = 'nueve';   // ✗ TS2322: los valores son number
+```
+
+Eso se llama **firma de índice**: «cualquier clave de texto, y su valor es un número».
+
+#### Intersección: esto **y** aquello
+`|` es **o** (una cosa o la otra). `&` es **y**: tiene todo lo de los dos tipos.
+
+```typescript
+type Pieza = { nombre: string; medida: number };
+type Lente = Pieza & { aumento: number };   // nombre, medida y aumento
+```
+
+#### Una lista que no se toca
+```typescript
+const medidas: readonly number[] = [12, 4, 7];
+medidas.push(9);   // ✗ TS2339: un arreglo readonly no tiene push
+const nuevas = [...medidas, 9];   // ✓ una copia nueva, con lo agregado
+```
+
+#### Los tipos literales
+```typescript
+type Modo = 'parado' | 'girando';
+let a = 'parado';          // TypeScript deduce string (puede cambiar a cualquier texto)
+const b = 'parado';        // TypeScript deduce 'parado' (una const no cambia)
+function poner(m: Modo): void {}
+poner(a);   // ✗ TS2345: un string cualquiera no es un Modo
+poner(b);   // ✓
+```
+
+Con `let`, anotá el tipo: `let a: Modo = 'parado'`.
+
+### Código de ejemplo
+
+```typescript
+type Pieza = { nombre: string; medida: number };
+type Lente = Pieza & { aumento: number };
+
+const distancias: { [estrella: string]: number } = { Vega: 25 };
+distancias.Rigel = 860;
+
+const ocular: Lente = { nombre: 'ocular', medida: 4, aumento: 30 };
+const medidas: readonly number[] = [12, 4, 7];
+const conOcular = [...medidas, ocular.medida];
+
+console.log(Object.keys(distancias).join(', '), distancias.Rigel);
+console.log(`${ocular.nombre}: ${ocular.aumento}x`);
+console.log(medidas.length, conOcular.length);
+```
+
+### Salida esperada
+
+```
+Vega, Rigel 860
+ocular: 30x
+3 4
+```
+
+### ¿Para qué sirve?
+
+Las firmas de índice sirven para diccionarios (los puntajes de cada jugador, las traducciones de cada palabra). Las intersecciones arman tipos grandes con piezas chicas. `readonly` evita que una función cambie sin querer una lista que no es suya. Y entender los literales te ahorra el error más misterioso de las uniones de opciones.
+
+### Errores habituales
+
+**Goblin: un valor de otro tipo en un índice (TS2322).** En `{ [estrella: string]: number }`, todos los valores son números.
+
+**Esqueleto: push en un readonly (TS2339).** *La propiedad 'push' no existe en el tipo 'readonly number[]'*. Hacé una copia: `[...lista, nuevo]`.
+
+**Goblin: el let que es un string cualquiera (TS2345).** *No se puede asignar un argumento de tipo "string" al parámetro de tipo "Modo"*. Anotá la variable con el tipo de la unión.
+
+### Micro-misión R01-N08-P1 · El archivo de las distancias
+
+```meta
+lugar: El archivo de las medidas
+personajes: Rigel, Gheco, Astrea
+carta: Firma de índice | { [estrella: string]: number } · cualquier clave de texto · todos los valores del mismo tipo
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Astrea abre el mueble de cajoncitos: cada uno tiene el nombre de una estrella y guarda su distancia. Siempre se agregan estrellas nuevas.
+
+#### Gheco sugiere
+Cuando las claves de un objeto no se conocen de antemano, se anota con una **firma de índice**:
+
+```ts
+const puntajes: { [jugador: string]: number } = {};
+puntajes.Rigel = 10;
+```
+
+Se lee: «cualquier clave de texto, y su valor es un número».
+
+#### Desafío
+Completá el tipo de `distancias`.
+
+#### Pasos
+1. Buscá el `___` después de `distancias:`.
+2. Cambialo por `{ [estrella: string]: number }`.
+3. Tocá **Ejecutar**. Tiene que salir `Vega: 25, Rigel: 860`.
+
+#### Código inicial
+```typescript
+const distancias: ___ = {};
+distancias.Vega = 25;
+distancias['Rigel'] = 860;
+console.log(`Vega: ${distancias.Vega}, Rigel: ${distancias.Rigel}`);
+```
+
+#### Salida esperada
+```
+Vega: 25, Rigel: 860
+```
+
+#### Solución
+```typescript
+const distancias: { [estrella: string]: number } = {};
+distancias.Vega = 25;
+distancias['Rigel'] = 860;
+console.log(`Vega: ${distancias.Vega}, Rigel: ${distancias.Rigel}`);
+```
+
+#### Al superarla
+Dos cajoncitos nuevos se encienden con los nombres de Vega y Rigel. Astrea asiente.
+
+#### Imagen
+- Un mueble de madera enorme lleno de cajoncitos con placas de latón, dos de ellos encendidos (sin letras legibles).
+- Rigel (chico de 16, flaco, pecas, pelo castaño revuelto, antiparras de latón, camisa azul, chaleco marrón) guarda una tarjeta en un cajón.
+- Astrea (lechuza grande gris azulada con anteojos de latón y chaleco azul) señala con el compás; Gheco sobre el mueble.
+
+### Micro-misión R01-N08-P2 · La pieza soldada
+
+```meta
+lugar: La vitrina de las piezas
+personajes: Rigel, Gheco
+carta: Intersección | type Lente = Pieza & { aumento: number } · & es «y»: todo lo de los dos
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En la vitrina hay un lente hecho de dos piezas soldadas: la pieza común y un aro de aumento. Rigel quiere describirlo sin escribir todo de nuevo.
+
+#### Gheco sugiere
+`|` es **o**: una cosa o la otra. `&` es **y**: un tipo con todo lo de los dos.
+
+```ts
+type Lente = Pieza & { aumento: number };
+```
+
+Un `Lente` tiene `nombre`, `medida` **y** `aumento`. Es parecido al `extends` de las interfaces, pero con `type`.
+
+#### Desafío
+Completá el tipo `Lente`.
+
+#### Pasos
+1. Buscá el `___` después de `type Lente =`.
+2. Cambialo por `Pieza & { aumento: number }`.
+3. Tocá **Ejecutar**. Tiene que salir `ocular: 4 mm, 30x`.
+
+#### Código inicial
+```typescript
+type Pieza = { nombre: string; medida: number };
+type Lente = ___;
+
+const ocular: Lente = { nombre: 'ocular', medida: 4, aumento: 30 };
+console.log(`${ocular.nombre}: ${ocular.medida} mm, ${ocular.aumento}x`);
+```
+
+#### Salida esperada
+```
+ocular: 4 mm, 30x
+```
+
+#### Solución
+```typescript
+type Pieza = { nombre: string; medida: number };
+type Lente = Pieza & { aumento: number };
+
+const ocular: Lente = { nombre: 'ocular', medida: 4, aumento: 30 };
+console.log(`${ocular.nombre}: ${ocular.medida} mm, ${ocular.aumento}x`);
+```
+
+#### Al superarla
+Rigel saca el lente de la vitrina: la soldadura no se nota. Funciona como una sola pieza.
+
+#### Imagen
+- Una vitrina de vidrio con un lente hecho de dos piezas soldadas con una costura brillante de latón.
+- Rigel (chico flaco con pecas, antiparras de latón con la lupa bajada) lo examina.
+- Gheco con la nariz pegada al vidrio.
+
+### Micro-misión R01-N08-P3 · El estante sellado
+
+```meta
+lugar: El archivo de las medidas
+personajes: Rigel, Gheco
+criatura: skeleton
+carta: readonly number[] | un arreglo que no se cambia · push da TS2339 · [...lista, nuevo] hace una copia
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+El estante de las medidas oficiales tiene un cartel: *no se agrega nada*. Rigel necesita una lista con una medida más, sin tocar la oficial.
+
+#### Gheco sugiere
+`readonly number[]` es un arreglo que **no se cambia**: no tiene `push`, ni `pop`, ni nada que lo modifique (`TS2339`). Para tener una lista con algo más, se hace una **copia**:
+
+```ts
+const nuevas = [...oficiales, 9];
+```
+
+#### Desafío
+Cambiá el `push` por una copia nueva con el 9 al final.
+
+#### Pasos
+1. Tocá **Ejecutar** y leé el error.
+2. Borrá la línea `oficiales.push(9);`.
+3. Cambiá `const nuevas = oficiales;` por `const nuevas = [...oficiales, 9];`.
+4. Tocá **Ejecutar**. Tiene que salir `Oficiales: 3 · Nuevas: 4`.
+
+#### Código inicial
+```typescript
+const oficiales: readonly number[] = [12, 4, 7];
+oficiales.push(9);
+const nuevas = oficiales;
+console.log(`Oficiales: ${oficiales.length} · Nuevas: ${nuevas.length}`);
+```
+
+#### Salida esperada
+```
+Oficiales: 3 · Nuevas: 4
+```
+
+#### Solución
+```typescript
+const oficiales: readonly number[] = [12, 4, 7];
+const nuevas = [...oficiales, 9];
+console.log(`Oficiales: ${oficiales.length} · Nuevas: ${nuevas.length}`);
+```
+
+#### Al superarla
+El estante oficial queda intacto. Rigel arma su propia lista en una libreta, con la medida nueva.
+
+#### Imagen
+- Un estante con un cartel de latón sellado con lacre y piezas ordenadas, y al lado una libreta abierta con una lista.
+- Rigel (chico flaco con pecas, antiparras de latón, chaleco marrón) escribe en la libreta.
+- Gheco señala el sello.
+
+### Micro-misión R01-N08-P4 · La palabra que parecía exacta
+
+```meta
+lugar: El Gran Planisferio
+personajes: Rigel, Gheco
+criatura: goblin
+carta: Tipos literales | let x = 'parado' es string · const x = 'parado' es 'parado' · anotá el let con la unión
+recompensa: xp 15, monedas 5
+```
+
+#### Escena
+Rigel guarda la posición de la palanca en una variable y se la pasa a la función que mueve el Planisferio. El compilador se queja, aunque la palabra está bien escrita.
+
+#### Gheco sugiere
+Con `let modo = 'parado'`, TypeScript deduce `string`: un texto **cualquiera**, porque un `let` puede cambiar. Y un texto cualquiera no es un `Modo`.
+
+Con `const` deduce exactamente `'parado'`. Con `let`, hay que anotarlo: `let modo: Modo = 'parado';`.
+
+#### Desafío
+Anotá `modo` con el tipo `Modo`.
+
+#### Pasos
+1. Tocá **Ejecutar** y leé el error (`TS2345`).
+2. Cambiá `let modo = 'parado';` por `let modo: Modo = 'parado';`.
+3. Tocá **Ejecutar**. Tiene que salir `Planisferio: girando`.
+
+#### Código inicial
+```typescript
+type Modo = 'parado' | 'girando' | 'trabado';
+
+function poner(m: Modo): void {
+  console.log(`Planisferio: ${m}`);
+}
+
+let modo = 'parado';
+modo = 'girando';
+poner(modo);
+```
+
+#### Salida esperada
+```
+Planisferio: girando
+```
+
+#### Solución
+```typescript
+type Modo = 'parado' | 'girando' | 'trabado';
+
+function poner(m: Modo): void {
+  console.log(`Planisferio: ${m}`);
+}
+
+let modo: Modo = 'parado';
+modo = 'girando';
+poner(modo);
+```
+
+#### Al superarla
+El Planisferio acepta la palabra y gira. —El Camaleón usa mucho esa trampa —dice Gheco—. Ahora ya la conocés.
+
+#### Imagen
+- La palanca de tres posiciones del planetario mecánico, en la del medio, y las constelaciones girando.
+- Rigel (chico flaco con pecas, antiparras de latón, chaleco marrón) suelta la palanca.
+- Gheco en su hombro, con cara de sabelotodo.
+
+### Micro-misión R01-N08-P5 · El registro de la noche
+
+```meta
+lugar: El archivo de las medidas
+personajes: Rigel, Gheco, Astrea
+carta: Todo junto | índice para el registro · intersección para el lente · readonly para la lista oficial · for…in recorre las claves
+recompensa: xp 15, monedas 5
+```
+
+#### Escena
+Al final de la noche, Astrea pide el registro: cuánto aumento usó cada lente, sin tocar la lista oficial de lentes.
+
+#### Gheco sugiere
+Todo lo del nodo:
+- `readonly Lente[]` para la lista oficial;
+- `{ [nombre: string]: number }` para el registro;
+- `for (const nombre in registro)` recorre las **claves** de un objeto.
+
+#### Desafío
+Completá el tipo del registro y la línea que lo carga.
+
+#### Pasos
+1. El primer `___` es el tipo: `{ [nombre: string]: number }`.
+2. El segundo `___` guarda el aumento: `registro[l.nombre] = l.aumento;`.
+3. Tocá **Ejecutar** y compará con la salida esperada.
+
+#### Código inicial
+```typescript
+type Pieza = { nombre: string; medida: number };
+type Lente = Pieza & { aumento: number };
+
+const lentes: readonly Lente[] = [
+  { nombre: 'ocular', medida: 4, aumento: 30 },
+  { nombre: 'buscador', medida: 9, aumento: 8 },
+];
+
+const registro: ___ = {};
+for (const l of lentes) {
+  ___
+}
+for (const nombre in registro) console.log(`${nombre}: ${registro[nombre]}x`);
+```
+
+#### Salida esperada
+```
+ocular: 30x
+buscador: 8x
+```
+
+#### Solución
+```typescript
+type Pieza = { nombre: string; medida: number };
+type Lente = Pieza & { aumento: number };
+
+const lentes: readonly Lente[] = [
+  { nombre: 'ocular', medida: 4, aumento: 30 },
+  { nombre: 'buscador', medida: 9, aumento: 8 },
+];
+
+const registro: { [nombre: string]: number } = {};
+for (const l of lentes) {
+  registro[l.nombre] = l.aumento;
+}
+for (const nombre in registro) console.log(`${nombre}: ${registro[nombre]}x`);
+```
+
+#### Al superarla
+Astrea guarda el registro en un cajoncito nuevo. —Ya tenés todas las formas. Ahora sí, el Camaleón. —Y le da una **estrella de latón**.
+
+#### Imagen
+- El mueble de cajoncitos con un cajón nuevo encendido y una tarjeta de registro adentro.
+- Astrea (lechuza con anteojos de latón y chaleco azul) cierra el cajón con un ala.
+- Rigel (chico flaco con pecas, antiparras de latón, chaleco marrón) recibe una ficha con una estrella; Gheco sobre el mueble.
+
 ## R01-N07 · Jefe: el Camaleón Any
 
 ```meta
 tipo: jefe
-padre: R01-N06
+padre: R01-N08
 precio: 10
 criatura: dragon
 insignia: Escama del Camaleón
@@ -2810,7 +3233,7 @@ Sobre el estante tapado, un autómata de latón cambia de color sin parar. Es el
 
 ### Antes de empezar
 
-- Todos los nodos de la Sala de las Figuras (R01-N01 a R01-N06).
+- Todos los nodos de la Sala de las Figuras (R01-N01 a R01-N06 y R01-N08).
 
 ### Explicación
 

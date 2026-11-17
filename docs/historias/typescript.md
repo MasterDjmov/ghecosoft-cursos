@@ -156,6 +156,18 @@ En el Mirador, Rigel aprende lo contrario de lo que sabe: **medir antes de armar
 
 Igual que en los otros cursos: «el Goblin del Mirador», «el Esqueleto de la Cúpula». Con el estilo steampunk, son **criaturas de cuerda**: slimes de aceite, goblins con engranajes en la espalda, esqueletos de alambre.
 
+## 8 bis. Lo que se agregó al material de base
+
+FullCursos (cap. 23) está resumido. El docente pidió, el 2026-11-17, sumar lo que falte para no saltear criterios que después hacen falta. Se agregó:
+- **R01-N08 · Más formas:** firmas de índice, intersecciones (`&`), arreglos `readonly` y tipos literales (`let` contra `const`).
+- **R02-N04 · static y set:** miembros `static`, fábricas y `set` que valida.
+- **En R02-N06 y R02-N07:** `Map` y `Set` tipados, `keyof`, `T[K]`, `typeof` en los tipos y genéricos por defecto.
+- **Pendiente para R03 y R04:** type guards propios (`x is T`), `in`, `satisfies`, mapped types y template literal types, `Readonly`/`Required`/`Parameters`/`Awaited`, archivos `.d.ts` y `declare`, y las opciones estrictas de más (`noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`).
+
+**Gente nueva:**
+- **Don Péndulo**, el relojero viejo de la fundición (R02), que conoció al Vidriero.
+- Se nombra a la **fogonera** de las calderas (sin nombre todavía).
+
 ## 9. Lo que sigue (las fases de D115)
 
 | Fase | Qué | Para probar |

@@ -2,25 +2,9 @@
 // Prueba del compilador de TypeScript del navegador (D115, fase 5) con Node: el mismo ts-compile.js que usa el worker,
 // con el compilador y los .d.ts de node_modules. Revisa errores de tipos (con su línea), el JavaScript que sale,
 // las líneas del source map y los módulos. Uso: node scripts/ts-micro/probar-compilador.mjs
-import fs from 'node:fs';
-import path from 'node:path';
-import { createRequire } from 'node:module';
-import { fileURLToPath } from 'node:url';
-import { compile, MAIN } from '../../resources/js/runners/ts-compile.js';
+import { ts, libs, MAIN } from './compilador.mjs';
+import { compile } from '../../resources/js/runners/ts-compile.js';
 import { explainTypeErrors } from '../../resources/js/runners/ts-errors.js';
-
-const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
-const ts = createRequire(import.meta.url)(path.join(ROOT, 'node_modules/typescript'));
-const LIB = path.join(ROOT, 'node_modules/typescript/lib');
-const libs = {};
-const pending = ['esnext.full'];
-while (pending.length) {
-    const name = `lib.${pending.pop()}.d.ts`;
-    if (libs[name] !== undefined) continue;
-    libs[name] = fs.readFileSync(path.join(LIB, name), 'utf8');
-    for (const found of libs[name].matchAll(/\/\/\/\s*<reference\s+lib="([^"]+)"/g)) pending.push(found[1].toLowerCase());
-}
-ts.setLocalizedDiagnosticMessages(JSON.parse(fs.readFileSync(path.join(LIB, 'es/diagnosticMessages.generated.json'), 'utf8')));
 
 let fails = 0;
 const check = (name, got, want) => {

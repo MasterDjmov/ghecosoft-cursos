@@ -3,10 +3,14 @@
 // con la «Salida esperada». Con --fill escribe la salida esperada que falte (o la que cambió, con --force).
 // También avisa si el «Código inicial» ya da la salida (la micro-misión se resolvería sin hacer nada) y prueba el
 // «Código de ejemplo» de cada nodo contra su «Salida esperada».
+// TypeScript (D115, fase 5): si el curso es `lenguaje: typescript`, cada código pasa antes por el compilador (el mismo
+// del navegador, en Node: scripts/ts-micro/compilador.mjs). Las micro-misiones con «#### Compilador» no ejecutan: su
+// salida son los errores de tipos.
 //   node scripts/js-micro/probar.mjs cursos/javascript [--only=R01] [--fill] [--force]
 import fs from 'node:fs';
 import path from 'node:path';
 import { openChrome } from './chrome.mjs';
+import { summarizeTypeErrors, explainTypeErrors } from '../../resources/js/runners/ts-errors.js';
 
 const args = process.argv.slice(2);
 const folder = path.resolve(args.find((a) => !a.startsWith('--')) ?? 'cursos/javascript');
@@ -14,7 +18,26 @@ const only = (args.find((a) => a.startsWith('--only=')) ?? '').slice(7);
 const fill = args.includes('--fill');
 const force = args.includes('--force');
 
-const FIELD = { 'solución': 'solution', 'código inicial': 'starter', 'página': 'page', 'eventos': 'events', 'estado': 'checks', 'almacenamiento': 'storage', 'entrada': 'stdin', 'salida esperada': 'expected', archivos: 'files' };
+const FIELD = { 'solución': 'solution', 'código inicial': 'starter', 'página': 'page', 'eventos': 'events', 'estado': 'checks', 'almacenamiento': 'storage', 'entrada': 'stdin', 'salida esperada': 'expected', archivos: 'files', compilador: 'compiler' };
+const header = fs.existsSync(path.join(folder, '00-curso.md')) ? fs.readFileSync(path.join(folder, '00-curso.md'), 'utf8') : '';
+const typescript = /^lenguaje:\s*typescript\s*$/m.test(header);
+const { compileFiles } = typescript ? await import('../ts-micro/compilador.mjs') : {};
+
+/**
+ * Corre un código en la caja; en TypeScript, antes lo compila (con sus módulos .ts). Una micro-misión de tipo
+ * Compilador no ejecuta: su salida son los errores.
+ */
+async function runCode(chrome, code, options = {}, compiler = false) {
+    if (!typescript) return chrome.run(code, options);
+    const sources = { 'main.ts': code };
+    for (const [name, text] of Object.entries(options.files ?? {})) sources[name.replace(/\.js$/, '.ts')] = text;
+    const compiled = compileFiles(sources);
+    if (compiler) return { output: summarizeTypeErrors(compiled.diagnostics), error: null };
+    if (compiled.diagnostics.length) return { output: '', error: explainTypeErrors(compiled.diagnostics) };
+    const files = {};
+    for (const name of Object.keys(sources)) if (name !== 'main.ts') files[name.replace(/\.ts$/, '.js')] = compiled.js[name.replace(/\.ts$/, '.js')];
+    return chrome.run(compiled.js['main.js'], { ...options, files });
+}
 
 function block(text) {
     const fenced = text.match(/^\s*(`{3,}|~{3,})[\w+-]*[ \t]*\n([\s\S]*?)\n[ \t]*\1\s*$/);
@@ -47,7 +70,7 @@ function missions(text) {
 
 function filesOf(text) {
     const files = {};
-    for (const m of String(text ?? '').matchAll(/^\s*([\w.-]+\.js)\s*\n(`{3,}|~{3,})[\w-]*\n([\s\S]*?)\n\s*\2\s*$/gm)) files[m[1]] = m[3];
+    for (const m of String(text ?? '').matchAll(/^\s*([\w.-]+\.[jt]s)\s*\n(`{3,}|~{3,})[\w-]*\n([\s\S]*?)\n\s*\2\s*$/gm)) files[m[1]] = m[3];
     return files;
 }
 
@@ -83,7 +106,7 @@ function writeExpected(file, mission, output) {
 function examples(text) {
     const found = [];
     for (const node of text.split(/^## /m).slice(1)) {
-        const code = node.match(/^### Código de ejemplo\s*\n+(`{3,})javascript\n([\s\S]*?)\n\1/m);
+        const code = node.match(/^### Código de ejemplo\s*\n+(`{3,})(?:javascript|typescript)\n([\s\S]*?)\n\1/m);
         const expected = node.match(/^### Salida esperada\s*\n+(`{3,})\w*\n([\s\S]*?)\n\1/m);
         if (code) found.push({ code: node.slice(0, node.indexOf(' ')), source: code[2], expected: expected?.[2] ?? null });
     }
@@ -98,7 +121,7 @@ for (const name of fs.readdirSync(folder).filter((f) => f.endsWith('.md')).sort(
     const file = path.join(folder, name);
     for (const example of examples(fs.readFileSync(file, 'utf8'))) {
         if (only && !example.code.startsWith(only)) continue;
-        const result = await chrome.run(example.source);
+        const result = await runCode(chrome, example.source);
         if (result.error || normalize(result.output) !== normalize(example.expected)) {
             console.log(`  ✗ ${example.code}: el código de ejemplo no da su salida esperada.${result.error ? ` ${result.error}` : `\n    da: ${JSON.stringify(normalize(result.output))}`}`);
             bad++;
@@ -116,7 +139,7 @@ for (const name of fs.readdirSync(folder).filter((f) => f.endsWith('.md')).sort(
         }
         const { storage, cookies } = storageOf(f.storage);
         const options = { page: f.page, events: f.events, checks: f.checks, stdin: f.stdin, storage, cookies, files: filesOf(f.files) };
-        const result = await chrome.run(f.solution, options);
+        const result = await runCode(chrome, f.solution, options, Boolean(f.compiler));
         if (result.error) {
             console.log(`  ✗ ${mission.code}: la solución falla: ${result.error}`);
             bad++;
@@ -140,7 +163,7 @@ for (const name of fs.readdirSync(folder).filter((f) => f.endsWith('.md')).sort(
             continue;
         }
         if (f.starter) {
-            const starter = await chrome.run(f.starter, options);
+            const starter = await runCode(chrome, f.starter, options, Boolean(f.compiler));
             if (!starter.error && normalize(starter.output) === output) {
                 console.log(`  ! ${mission.code}: el código inicial ya da la salida esperada`);
                 bad++;

@@ -162,7 +162,8 @@ FullCursos (cap. 23) está resumido. El docente pidió, el 2026-11-17, sumar lo 
 - **R01-N08 · Más formas:** firmas de índice, intersecciones (`&`), arreglos `readonly` y tipos literales (`let` contra `const`).
 - **R02-N04 · static y set:** miembros `static`, fábricas y `set` que valida.
 - **En R02-N06 y R02-N07:** `Map` y `Set` tipados, `keyof`, `T[K]`, `typeof` en los tipos y genéricos por defecto.
-- **Pendiente para R03 y R04:** type guards propios (`x is T`), `in`, `satisfies`, mapped types y template literal types, `Readonly`/`Required`/`Parameters`/`Awaited`, archivos `.d.ts` y `declare`, y las opciones estrictas de más (`noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`).
+- **En R03:** el `filter` con guardia, `NonNullable`, `satisfies` (R03-N05) y **R03-N06 · Tipos que fabrican tipos** (mapped types, modificadores, template literal types y `as`). Los guardias propios (`x is T`) y `in` ya estaban en FullCursos.
+- **Pendiente para R04:** `Awaited`, archivos `.d.ts` y `declare`, y las opciones estrictas de más (`noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`).
 
 **Gente nueva:**
 - **Don Péndulo**, el relojero viejo de la fundición (R02), que conoció al Vidriero.

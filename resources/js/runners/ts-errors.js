@@ -20,6 +20,7 @@ const EXPLAIN = {
     TS2365: ['Goblin', 'ese signo no se puede usar con esos tipos.'],
     TS2367: ['Goblin', 'esa comparación nunca puede dar verdadero: los tipos no tienen nada en común.'],
     TS2352: ['Goblin', 'ese `as` convierte a un tipo que no tiene nada que ver: probablemente es un error.'],
+    TS2678: ['Goblin', 'ese `case` no es ninguna de las opciones de la unión: ¿está bien escrito?'],
     TS2769: ['Goblin', 'ninguna de las formas de llamar a esa función acepta esos valores.'],
     TS18046: ['Goblin', 'esa variable es `unknown`: antes de usarla, preguntá qué es (con `typeof`, `instanceof` o `in`).'],
     // Esqueleto: lo que no existe.
@@ -30,6 +31,7 @@ const EXPLAIN = {
     TS2554: ['Esqueleto', 'la función pide otra cantidad de valores que los que le pasaste.'],
     TS2555: ['Esqueleto', 'a la función le faltan valores.'],
     TS2307: ['Esqueleto', 'no hay ningún archivo con ese nombre para importar (se importa con `./nombre.js`).'],
+    TS2724: ['Esqueleto', 'ese archivo no exporta ese nombre; el mensaje te sugiere el parecido.'],
     TS2305: ['Esqueleto', 'ese archivo no exporta ese nombre: revisá el nombre o agregale `export`.'],
     TS2741: ['Esqueleto', 'al objeto le falta una propiedad que el tipo pide.'],
     TS2739: ['Esqueleto', 'al objeto le faltan propiedades que el tipo pide.'],
@@ -39,6 +41,7 @@ const EXPLAIN = {
     TS2564: ['Esqueleto', 'la propiedad no tiene valor: dáselo al declararla o en el constructor.'],
     TS2420: ['Esqueleto', 'la clase dice que cumple una interfaz, pero le falta algo de ella.'],
     TS2515: ['Esqueleto', 'la clase hereda de una abstracta y le falta escribir uno de sus métodos.'],
+    TS2344: ['Esqueleto', 'ese tipo no cumple lo que pide el genérico (por ejemplo, un nombre de propiedad que no existe en un Pick u Omit).'],
     TS2576: ['Esqueleto', 'eso es `static`: es del molde, no de cada objeto. Se usa con el nombre de la clase (`Clase.nombre`).'],
     TS2416: ['Goblin', 'el método de la clase de abajo no encaja con el de la clase de arriba (otros tipos en los parámetros o en lo que devuelve).'],
     // Orco: los límites (lo que capaz que no está).

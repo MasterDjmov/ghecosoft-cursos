@@ -32,7 +32,7 @@ class Encyclopedia
 
     /** El lenguaje que dice entre paréntesis la sección de cada mundo. */
     private const WORLDS = ['Python' => 'python', 'C' => 'c', 'C++' => 'cpp', 'HTML y CSS' => 'html', 'Java' => 'java', 'PHP' => 'php', 'Ensamblador 8086' => 'asm', 'C#' => 'csharp',
-        'JavaScript y TypeScript' => 'javascript'];
+        'JavaScript y TypeScript' => 'javascript', 'JavaScript' => 'javascript', 'TypeScript' => 'typescript'];
 
     /** Los nodos que abrió el alumno (id → posición). */
     private ?Collection $unlocked = null;

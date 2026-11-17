@@ -1465,6 +1465,63 @@ Historia en [csharp.md](csharp.md).
 - **Cómo habla:** no habla: hace clic-clic y se ríe con chispitas.
 - **Cómo termina:** sin bucle donde esconderse, se queda quieto en el núcleo; Nova lo junta con las dos manos y lo devuelve a su palanca, donde encaja con un clic. Deja la insignia **Domadora de Bits** (las Sendas no dejan ítem).
 
+## El Mirador de las Constelaciones (TypeScript)
+
+Historia en [typescript.md](typescript.md). Hasta que el curso se publique, estas fichas no salen en la enciclopedia del alumno. **Estética steampunk** en todo el Mirador: latón, cobre, vapor y el azul de TypeScript.
+
+### Rigel
+- **Curso y rol:** TypeScript, el Mirador de las Constelaciones. Protagonista ([typescript.md](typescript.md)).
+- **Edad y sexo:** 16, varón.
+- **Altura y contextura:** mediano (1,68 m), **flaco y ágil**, un poco encorvado sobre lo que arregla.
+- **Rasgos:**
+  - piel trigueña con **pecas**, ojos grises;
+  - **pelo castaño claro, revuelto**, con un mechón quemado por una chispa;
+  - **antiparras de latón** con lentes intercambiables (una lupa, una azul, una de ver estrellas), casi siempre subidas a la frente.
+- **Ropa:**
+  - **chaleco de cuero marrón cerrado**, con muchos bolsillos y botones de bronce;
+  - camisa azul con las mangas arremangadas hasta el codo;
+  - **guantes sin dedos** de cuero;
+  - pantalón de lona oscuro con rodilleras y botas de trabajo;
+  - **cinturón de herramientas** (destornilladores chiquitos, pinzas, un aceitero).
+  - **Ropa opaca y cerrada** (la usan alumnos chicos).
+- **Objeto:** **el calibre**, un pie de rey de latón para medir, que cambia con él:
+  - **el Calibre de Aprendiz** (Clase 0, regalo de Tesla);
+  - **el Calibre de Constelaciones** (R02);
+  - **el Calibre del Vidriero** (final).
+  - A la espalda, siempre, una **mochila con un engranaje a la vista** y un catalejo plegable.
+- **Color:** **azul TypeScript** con **latón**.
+- **Personalidad:** curioso, inventor, charlatán y entusiasta; **arma primero y piensa después**; se ríe de sus propios desastres; le arregla el reloj a cualquiera.
+- **Le gusta:** los relojes por dentro, el olor a aceite de máquina, mirar las estrellas desde el techo de la Ciudadela, el pan con miel de la Feria.
+- **Defecto o miedo:** **no mide**: confía en el ojo y le explotan los inventos con la máquina andando. Le da miedo que un invento suyo lastime a alguien. En el Mirador aprende que **lo que se mide antes no explota después** (los tipos y el compilador).
+- **Frase:** «Mido dos veces, armo una.»
+- **Relaciones:**
+  - alumno de Astrea;
+  - aprendiz de Tesla en la Ciudadela; Lima lo conoce y Bron le prestó la llave inglesa una vez;
+  - Nima sube al Mirador con la imagen del vitral;
+  - Gheco lo guía.
+- **Cómo llega:** cuando el vitral del balcón se mueve (final de JavaScript), todos los engranajes de la Ciudadela dan un golpe al mismo tiempo. Tesla entiende que el Gran Planisferio del Mirador quiere volver a andar, le da un plano y lo manda montaña arriba por un **ascensor de vapor** abandonado.
+- **Pieza del misterio:** en el Atlas del Vidriero encuentra el plano entero del portal, con todas sus figuras menos una. Al final pone en marcha el Planisferio y el vitral se queda quieto en la figura correcta.
+- **Montura:** **Fuelle**, un **zorro mecánico de latón** que anda a vapor y silba cuando está contento. Rigel lo arma en R01 con un autómata roto del Mirador y le suma piezas en cada rama.
+- **Primera aparición:** TypeScript, Clase 0.
+
+### Astrea
+- **Rol:** la líder del Mirador de las Constelaciones, la **Lechuza Cartógrafa**. Le pone nombre y figura a cada estrella y le enseña a Rigel la lengua del Mirador: medir antes de armar ([typescript.md](typescript.md)).
+- **Edad y sexo:** antigua como el cielo del Mirador; voz grave y tranquila, femenina.
+- **Altura y contextura:** una **lechuza grande**, más alta que una persona, de plumas gris azuladas.
+- **Rasgos:**
+  - ojos enormes color ámbar;
+  - **anteojos de varias lentes de latón** que se acomodan con una ruedita;
+  - un **chaleco de cartógrafa** cerrado, con mapas enrollados en los bolsillos.
+- **Objeto:** un **compás de bronce** con el que mide las constelaciones.
+- **Color:** gris azulado y latón, sobre el azul de noche del Mirador.
+- **Personalidad:** precisa, paciente, de pocas palabras; se le escapa una sonrisa cuando una pieza encaja.
+- **Le gusta:** los mapas recién dibujados, las noches sin nubes, que cada cosa tenga su nombre.
+- **Defecto o miedo:** que una estrella sin forma desarme el cielo entero.
+- **Frase:** «Nada brilla sin su forma.»
+- **Relaciones:** maestra de Rigel; conoció al Vidriero y a Tesla cuando construyeron el Planisferio; se pelea amistosamente con **Kaffa** (Java) por quién inventó los moldes.
+- **Moneda de la región:** las **estrellas de latón**.
+- **Primera aparición:** TypeScript, Clase 0.
+
 ## Las Crónicas en Inglés (Primaria y Secundaria)
 
 La historia unificada de los cursos de inglés ([ingles.md](ingles.md)). Imágenes generadas en Stitch el 2026-10-13, en el proyecto de los Talleres (`9229721314509917104`); los archivos, en `publicidad/logos cursos/personajes/Crónicas en Inglés/`.

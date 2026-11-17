@@ -31,7 +31,8 @@ En la plataforma, Kira es el alumno: cada estudiante le pone su nombre.
 | **El Puerto de los Mensajeros** | PHP | **Elefa**, la Capitana del Puerto, una elefanta | sellos de lacre | puerto con barcos, faro y una torre cuya campana suena con cada pedido; "ningún mensaje se queda sin respuesta" |
 | **Los Talleres de los Vitrales** | HTML y CSS | **Tesela, la Vitralista** | cristales | ciudad de ventanales de colores, ríos de plomo fundido y hornos; "todo vitral empieza chico" |
 | **El Conservatorio de Do Sostenido** | C# | **Clave, la Directora** | corcheas | conservatorio gótico con torres de tubos de órgano y aurora violeta; "acá la magia se escribe y se ensaya antes de sonar" |
-| **La Feria de las Luces** (curso por armar) | JavaScript y TypeScript | **Lumina, la Reina de las Luciérnagas** | fichas de la Feria | feria nocturna que nunca cierra: farolitos, calesitas, fuegos artificiales y títeres de luz; "nada pasa hasta que algo pasa" |
+| **La Feria de las Luces** | JavaScript | **Lumina, la Reina de las Luciérnagas** | fichas de la Feria | feria nocturna que nunca cierra: farolitos, calesitas, fuegos artificiales y títeres de luz; "nada pasa hasta que algo pasa" |
+| **El Mirador de las Constelaciones** (curso por armar) | TypeScript | **Astrea, la Lechuza Cartógrafa** | estrellas de latón | observatorio **steampunk** en la cima de la montaña, arriba de la Feria: cúpulas de latón, telescopios con engranajes, caños de vapor y el Gran Planisferio parado; "nada brilla sin su forma" |
 
 ## Cómo se cruzan las historias
 
@@ -41,6 +42,7 @@ En la plataforma, Kira es el alumno: cada estudiante le pone su nombre.
 - **Elefa responde lo que arman los Talleres.** Los formularios se hacen en los Talleres; cuando alguien los completa, el mensaje viaja al Puerto y Elefa lo contesta.
 - **Los caminos optativos conectan regiones.** Desde la Ciudadela de Tesla sale la *Senda de los Vitrales* y desde el Puerto de Elefa, la *Senda del Escaparate*: las dos llevan hacia los Talleres.
 - **La cajita de música une la Feria y el Conservatorio.** Hilván, el titiritero de la Feria, tiene una cajita que suena desafinada desde siempre; la lleva su hermana **Ceci** al Conservatorio de **Clave**. La cajita la hizo el Vidriero: su melodía es la que falta para que el vitral, además de moverse, **cante** ([historias/csharp.md](historias/csharp.md)).
+- **La Ciudadela y el Mirador.** Tesla y el Vidriero construyeron juntos el **Gran Planisferio** del Mirador, un planetario mecánico que mide el portal. Cuando el vitral se mueve, los engranajes de la Ciudadela dan un golpe y Tesla manda a su aprendiz **Rigel** a repararlo ([historias/typescript.md](historias/typescript.md)).
 - **El Imperio y el Conservatorio son primos.** Clave y **Kaffa** aprendieron juntos a declarar todo: por eso C# y Java se parecen tanto.
 - **La galería de las líderes.** En el Hall of Fame de los Talleres, Kira arma un vitral con las seis líderes juntas.
 

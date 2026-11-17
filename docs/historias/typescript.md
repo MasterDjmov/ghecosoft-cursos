@@ -1,4 +1,4 @@
-# Historia del curso de TypeScript: El Mirador de las Constelaciones — borrador 1 (2026-11-16)
+# Historia del curso de TypeScript: El Mirador de las Constelaciones — aprobada (2026-11-16)
 
 El docente pidió arrancar TypeScript con **un héroe nuevo con aire steampunk**, y que **todo el Mirador** sea steampunk (2026-11-16). Esto reemplaza lo aprobado el 2026-10-30 en [JAVASCRIPT-TYPESCRIPT.md](../JAVASCRIPT-TYPESCRIPT.md) § 10, donde la heroína de TS era Nima otra vez. Lo demás de § 4 se mantiene, adaptado:
 - el Mirador;
@@ -7,7 +7,7 @@ El docente pidió arrancar TypeScript con **un héroe nuevo con aire steampunk**
 - las ramas;
 - los jefes.
 
-Las preguntas para decidir están en § 10.
+Lo que decidió el docente está en § 10.
 
 ## 1. El lugar: un observatorio de latón y vapor
 
@@ -135,12 +135,12 @@ En el Mirador, Rigel aprende lo contrario de lo que sabe: **medir antes de armar
 |---|---|---|---|---|
 | R00 | El ascensor de vapor | qué es TS, `tsc`, inferencia (01) | Sube la montaña; su primer arreglo explota y Astrea le enseña a medir | — |
 | R01 | La Sala de las Figuras | tipos básicos, tuplas, `any`/`unknown`/`never`, `interface` y `type`, funciones tipadas, sobrecarga (02–04) | Mide sus primeras piezas; arma a Fuelle | **el Camaleón Any**, un autómata que cambia de forma y esconde los errores |
-| R02 | Los Moldes de Estrellas | clases tipadas, `private` contra `#`, `abstract`, `implements`, enums, `as const`, genéricos (05–08) | Hace moldes que sirven para muchas estrellas | **la Hidra de las Mil Formas** (genéricos) |
-| R03 | El Telescopio | uniones, narrowing, uniones discriminadas, `never`, utility types, módulos, `import type` (09–12) | Ajusta el telescopio para ver cada estrella como es | **la Quimera de las Uniones** |
+| R02 | Los Moldes de Estrellas | clases tipadas, `private` contra `#`, `abstract`, `implements`, enums, `as const`, genéricos (05–08) | Hace moldes que sirven para muchas estrellas | **la Mantícora de las Mil Formas** (genéricos) |
+| R03 | El Telescopio | uniones, narrowing, uniones discriminadas, `never`, utility types, módulos, `import type` (09–12) | Ajusta el telescopio para ver cada estrella como es | **el Cerbero de las Uniones** (cada cabeza, un tipo) |
 | R04 | La Cúpula | errores tipados, `Result<T>`, `Promise<T>`, DOM tipado, `strictNullChecks`, decoradores, `tsconfig` (13–19) | Abre la cúpula; aparecen las piezas que «capaz que no están» | **el Espejismo Null** |
 | R05 | El Atlas del Vidriero | JS contra TS, el modelo tipado del juego, *Junta las Gemas* en TS (20–22) | Encuentra el Atlas y pone en marcha el Planisferio | **el Dragón de las Constelaciones Rotas** |
 
-**Jefes:** los cinco están aprobados. Con el Mirador steampunk, se dibujan como **autómatas de latón y vidrio**, con piezas del Planisferio mal armadas. Ver la pregunta 5 por los nombres repetidos.
+**Jefes:** los cinco están aprobados. Con el Mirador steampunk, se dibujan como **autómatas de latón y vidrio**, con piezas del Planisferio mal armadas. La Hidra y la Quimera de la propuesta cambiaron de bicho porque se repetían con C# y C++ (§ 10).
 
 ## 8. El bestiario (los errores, en TypeScript)
 
@@ -166,15 +166,26 @@ Igual que en los otros cursos: «el Goblin del Mirador», «el Esqueleto de la C
 
 Mientras no esté aprobada la historia, se puede avanzar la fase 5, que no depende de ella.
 
-## 10. Para decidir
+## 10. Lo que decidió el docente (2026-11-16)
 
-1. **Rigel:** ¿chico de 16, aprendiz de relojero de Tesla, con antiparras, chaleco de bronce y calibre? ¿O preferís una chica (por ejemplo, **Vega**, también nombre de estrella)?
-2. **Que venga de la Ciudadela (C++):**
-   - ¿te gusta?
-   - ¿Y que Tesla y el Vidriero hayan construido juntos el Planisferio?
-3. **Astrea steampunk** (lentes de latón y compás), **estrellas de latón** como moneda y **Fuelle**, el zorro mecánico, como montura: ¿van?
-4. **Nima en TS:** solo como cruce (trae la imagen del vitral y aparece en las Sendas). ¿Te parece bien, o preferís que no aparezca?
-5. **Jefes con nombres repetidos:**
-   - C# tiene «Quimera de las Mil Partituras» y «Hidra del Coro», y C++ «la Quimera de la Arena».
-   - ¿Dejamos la Hidra y la Quimera de TS como están, o les buscamos otro bicho (por ejemplo, **el Kraken de Engranajes** para las uniones)?
-6. **Empezar por la fase 5** (el compilador) mientras revisás la historia: ¿dale?
+Aprobó todos los puntos como estaban propuestos:
+1. **Rigel**, chico de 16, aprendiz de relojero de Tesla.
+2. **Viene de la Ciudadela** (C++). Tesla y el Vidriero construyeron juntos el Planisferio.
+3. **Astrea steampunk**, las **estrellas de latón** como moneda y **Fuelle**, el zorro mecánico, como montura.
+4. **Nima** aparece solo como cruce.
+5. **Los jefes repetidos cambian de bicho.** El Kraken de la propuesta también se repetía (C++ tiene el Kraken de los Contenedores), así que quedaron:
+   - R02: **la Mantícora de las Mil Formas**;
+   - R03: **el Cerbero de las Uniones**, tres cabezas, cada una un tipo.
+6. **Se empieza la fase 5** (el compilador).
+
+También pidió **armar los personajes con sus hojas de perfil (8 ángulos)** antes de las escenas, para que después salgan siempre bien (§ 11).
+
+## 11. Imágenes y hojas
+
+Proyecto de Stitch nuevo para el Mirador. De cada uno: imagen de cuerpo entero (la referencia) y su hoja de 8 ángulos (ver [ESCENAS.md](../ESCENAS.md) § Hojas):
+- Rigel;
+- Astrea;
+- Fuelle;
+- Gheco.
+
+Ids y estado, abajo, a medida que se aprueban.

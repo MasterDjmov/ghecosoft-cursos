@@ -188,4 +188,19 @@ Proyecto de Stitch nuevo para el Mirador. De cada uno: imagen de cuerpo entero (
 - Fuelle;
 - Gheco.
 
-Ids y estado, abajo, a medida que se aprueban.
+Proyecto de Stitch: **`7987528111863289727`** («El Mirador de las Constelaciones (TypeScript)»). Copias en `scripts/escenas/referencias/7987528111863289727/` y las hojas anotadas en `referencias/hojas.json`.
+
+| Quién | Cuerpo entero | Hoja de 8 ángulos | Detalles aceptados |
+|---|---|---|---|
+| Rigel | `169e526a…` | `9d90852f…` (2026-11-17) | la figura sentada quedó arriba a la derecha, no abajo |
+| Astrea | `f12c34b1…` | `ab58ee50…` (2026-11-17) | — |
+| Fuelle | `20837fe3…` | `62a7aff4…` (2026-11-17) | la vista de espaldas es poco clara |
+| Gheco | falta | falta | el MCP no sube imágenes: el docente tiene que subir la oficial (`gheco-code.webp`) en la web de Stitch, y ahí se le hace la hoja |
+
+Falta, para las escenas:
+- el fondo del Mirador;
+- el logo del curso;
+- la moneda;
+- los jefes, cada uno con su hoja.
+
+Todo eso va en la fase 7.

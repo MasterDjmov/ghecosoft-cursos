@@ -89,10 +89,12 @@ class CourseFileParser
         'archivos' => 'files',
         // TypeScript (D115, fase 5): la micro-misión revisa los tipos sin ejecutar (su salida son los errores).
         'compilador' => 'compiler',
+        // TypeScript: las «compilerOptions» de la micro-misión, en JSON (por ejemplo, {"noUncheckedIndexedAccess": true}).
+        'tsconfig' => 'tsconfig',
     ];
 
     /** Columnas que guardan código: se toma el contenido del primer bloque ``` si lo hay. */
-    private const CODE_FIELDS = ['example_code', 'sample_input', 'checks', 'expected_output', 'starter_code', 'reference_solution', 'solution', 'page', 'events', 'state', 'storage'];
+    private const CODE_FIELDS = ['example_code', 'sample_input', 'checks', 'expected_output', 'starter_code', 'reference_solution', 'solution', 'page', 'events', 'state', 'storage', 'tsconfig'];
 
     private const SEPARATOR = '\s*[·:–—-]\s*';
 

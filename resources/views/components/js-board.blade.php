@@ -23,8 +23,16 @@
     {{-- Los otros archivos de la consigna (módulos que el código importa): se leen, no se cambian. --}}
     <template x-for="(source, file) in jsFiles" :key="file">
         <details class="border-b border-outline/60 px-3 py-2 text-xs" data-test="js-file">
-            <summary class="cursor-pointer font-mono text-ink"><span x-text="file"></span> <span class="text-ink-muted">· otro archivo, se importa con './<span x-text="file"></span>'</span></summary>
+            <summary class="cursor-pointer font-mono text-ink"><span x-text="file"></span> <span class="text-ink-muted">· <span x-text="jsFileHint(file)"></span></span></summary>
             <pre class="mt-2 max-h-64 overflow-auto rounded bg-surface-lowest p-2 font-mono text-ink" x-text="source"></pre>
+        </details>
+    </template>
+
+    {{-- TypeScript: las opciones del compilador que esta micro-misión cambia (`#### tsconfig`). --}}
+    <template x-if="jsTsconfig">
+        <details class="border-b border-outline/60 px-3 py-2 text-xs" data-test="js-tsconfig">
+            <summary class="cursor-pointer font-mono text-ink">tsconfig.json <span class="text-ink-muted">· las opciones del compilador en esta micro-misión</span></summary>
+            <pre class="mt-2 max-h-64 overflow-auto rounded bg-surface-lowest p-2 font-mono text-ink" x-text="jsTsconfig"></pre>
         </details>
     </template>
 

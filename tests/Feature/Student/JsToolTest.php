@@ -210,3 +210,10 @@ MD;
     expect($report->errors)->toBe([])
         ->and(json_decode(NodeStep::where('code', 'R00-N01-P1')->first()->checks, true))->toBe(['compiler' => true]);
 });
+
+test('una micro-misión de TypeScript puede traer su tsconfig, y si no es JSON es un error del importador', function () {
+    $mission = json_decode(JsMission::encode(['tsconfig' => '{"noUncheckedIndexedAccess": true}']), true);
+
+    expect($mission['tsconfig'])->toBe(['noUncheckedIndexedAccess' => true])
+        ->and(implode(' ', JsMission::problems(['tsconfig' => '{noUnchecked: si'])))->toContain('no es un JSON válido');
+});

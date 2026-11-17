@@ -168,7 +168,7 @@ Todos con ropa opaca y cerrada (alumnos chicos) y sin texto en la imagen.
 | 3 | JS, R02 a R05 (hecha) y las cinco Sendas (hechas, § 11) | todo el curso, con la simulación |
 | 4 | Imágenes de JS: proyecto de Stitch, logo, moneda, gente, jefes, escenas, ítems y mapa; juego, enciclopedia y landing | publicarlo |
 | 5 | El compilador de TypeScript en el navegador (micro-misiones de tipo Compilador) — **hecha (2026-11-17)**, § 12 | errores de tipos en español |
-| 6 | El curso de TS completo — **en curso**: Clase 0 y R01 a R03 hechas (2026-11-17, 142 micro-misiones; `cursos/typescript/`, Próximamente y sin publicar) | todo el curso |
+| 6 | El curso de TS completo — **en curso**: Clase 0 y R01 a R04 hechas (2026-11-17, 191 micro-misiones; `cursos/typescript/`, Próximamente y sin publicar) | todo el curso |
 | 7 | Imágenes de TS | publicarlo |
 | 8 | La temporada de inglés de la Feria | — |
 
@@ -271,6 +271,9 @@ Publicado por el docente el 2026-11-07, y destacado para que salga entre los cur
   - `<x-code-runner language="typescript">` usa la misma consigna y el mismo tablero que JS;
   - las entregas también corren (`cases.js`).
 - **Micro-misiones de tipo Compilador:** `#### Compilador` (ver FORMATO-CURSO.md). No ejecutan; su «Salida esperada» son los errores (`TS2322 en la línea 3`) o `Compila sin errores`.
+- **Agregado con R04 (2026-11-17):**
+  - `#### tsconfig`: las «compilerOptions» propias de una micro-misión, por ejemplo `{"noUncheckedIndexedAccess": true}`. Se muestran en el tablero.
+  - En `#### Archivos`, una biblioteca `.js` sin tipos con su `.d.ts`: el `.js` va tal cual a la caja y el `.d.ts` solo al compilador (`ts-files.js`).
 - **Para probar:** *Herramientas → La caja de la Feria* tiene dos ejemplos de TypeScript: «las medidas» y «una pieza que no encaja».
   - La caja ahora la habilita también un curso de TypeScript.
   - Pruebas: `node scripts/ts-micro/probar-compilador.mjs` (Node, 14 casos) y `node scripts/ts-micro/probar-navegador.mjs` (Chrome, con la plataforma en el puerto 8123).

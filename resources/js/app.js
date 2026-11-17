@@ -273,6 +273,15 @@ document.addEventListener('alpine:init', () => {
         jsHasPage: Boolean(config.jsHasPage),
         jsLive: false,
         jsFiles: config.jsMission?.files ?? {},
+        // TypeScript: las «compilerOptions» propias de la micro-misión (`#### tsconfig`), para mostrarlas en el tablero.
+        jsTsconfig: config.jsMission?.tsconfig ? JSON.stringify({ compilerOptions: config.jsMission.tsconfig }, null, 2) : null,
+
+        /** Cómo se usa cada archivo de la consigna (en TypeScript, `vec2.ts` se importa como './vec2.js'). */
+        jsFileHint(file) {
+            if (file.endsWith('.d.ts')) return `declara los tipos de './${file.replace(/\.d\.ts$/, '.js')}'`;
+            if (config.language === 'typescript' && file.endsWith('.js')) return 'JavaScript sin tipos: sus tipos están en su .d.ts';
+            return `otro archivo, se importa con './${file.replace(/\.ts$/, '.js')}'`;
+        },
         // HTML y CSS (solapas): los nombres de los archivos, la solapa abierta, sus editores y su texto original.
         files: [],
         fileTab: 0,
@@ -427,6 +436,7 @@ document.addEventListener('alpine:init', () => {
             const result = await run(this.runSource ?? this.code, {
                 stdin: this.stdin,
                 compiler: mission.compiler,
+                tsconfig: mission.tsconfig,
                 onStatus: (status) => (this.status = status),
                 page: mission.page,
                 events: mission.events,

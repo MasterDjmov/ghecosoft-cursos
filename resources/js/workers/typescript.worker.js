@@ -32,14 +32,14 @@ async function load(base, version) {
 }
 
 self.onmessage = async ({ data }) => {
-    const { id, files, base, version } = data;
+    const { id, files, tsconfig, base, version } = data;
     try {
         if (!ts) {
             await load(base, version);
             self.postMessage({ id, type: 'loaded' });
         }
         const started = performance.now();
-        const result = compile(ts, libs, files);
+        const result = compile(ts, libs, files, tsconfig);
         self.postMessage({ id, type: 'done', ...result, ms: Math.round(performance.now() - started) });
     } catch (error) {
         self.postMessage({ id, type: 'failed', message: String(error?.message ?? error) });

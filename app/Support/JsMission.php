@@ -15,6 +15,9 @@ namespace App\Support;
  *                        (se importa igual, con './vec2.js')
  *   #### Compilador      solo TypeScript (fase 5): la micro-misión no ejecuta; su «Salida esperada» son los errores de
  *                        tipos, uno por renglón (`TS2322 en la línea 3`), o `Compila sin errores`
+ *   #### tsconfig        solo TypeScript: las «compilerOptions» de la micro-misión, en JSON, que se suman a las del Mirador
+ *                        (por ejemplo {"noUncheckedIndexedAccess": true} o {"strict": false})
+ *   En TypeScript, «Archivos» también acepta un `.js` sin tipos junto a su `.d.ts` (la declaración de sus tipos).
  *
  * La «Salida esperada» es la consola y, si hay Estado, el bloque «── Estado ──» debajo (lo escribe
  * scripts/js-micro/probar.mjs --fill corriendo la solución, nunca a mano).
@@ -33,6 +36,7 @@ class JsMission
             ...self::storage((string) ($fields['storage'] ?? '')),
             'files' => self::files((string) ($fields['files'] ?? '')),
             'compiler' => filled($fields['compiler'] ?? null) ? true : null,
+            'tsconfig' => filled($fields['tsconfig'] ?? null) ? json_decode((string) $fields['tsconfig'], true) : null,
         ], fn ($value) => $value !== null && $value !== [] && $value !== '');
 
         return $mission ? json_encode($mission, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) : null;
@@ -78,6 +82,9 @@ class JsMission
             if (! in_array($verb, self::EVENTS, true)) {
                 $problems[] = "tiene un evento que no se entiende: «{$line}» (por ejemplo: click #boton, escribir #nombre Ana, tecla ArrowUp, esperar 1000)";
             }
+        }
+        if (filled($fields['tsconfig'] ?? null) && ! is_array(json_decode((string) $fields['tsconfig'], true))) {
+            $problems[] = 'tiene un «tsconfig» que no es un JSON válido (por ejemplo: {"noUncheckedIndexedAccess": true})';
         }
         foreach (preg_split('/\R/u', (string) ($fields['storage'] ?? '')) as $line) {
             if (trim($line) !== '' && ! preg_match('/^\s*(local|session|cookie)\s+[^=\s]+\s*=/u', $line)) {

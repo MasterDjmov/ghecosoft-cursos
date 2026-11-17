@@ -54,6 +54,24 @@ check('el await suelto anda (cada archivo es un módulo)', codes(r), []);
 r = compile(ts, libs, { [MAIN]: 'let x = ;\n' });
 check('un error de escritura (TS1109)', codes(r), ['TS1109@1']);
 
+r = compile(ts, libs, { [MAIN]: 'const lista: number[] = [1, 2];\nconst x: number = lista[5];\n' }, { noUncheckedIndexedAccess: true });
+check('el tsconfig de la consigna suma opciones (noUncheckedIndexedAccess)', codes(r), ['TS2322@2']);
+
+r = compile(ts, libs, { [MAIN]: 'let nivel: number = 1;\nnivel = null;\n' }, { strict: false });
+check('y también las puede apagar (strict: false)', codes(r), []);
+
+r = compile(ts, libs, { [MAIN]: 'const x = 1;\n' }, { noExisto: true });
+check('una opción que no existe es un error de la configuración', r.diagnostics.map((d) => [d.code, d.line]), [['TS5023', null]]);
+
+r = compile(ts, libs, {
+    [MAIN]: 'import { brillo } from "./estrellas.js";\nconst b: number = brillo("Vega");\n',
+    'estrellas.d.ts': 'export function brillo(nombre: string): number;\n',
+});
+check('un .d.ts describe un .js sin tipos (y no genera JavaScript)', [codes(r), Object.keys(r.js).sort()], [[], ['main.js']]);
+
+r = compile(ts, libs, { [MAIN]: 'import { brillo } from "./estrellas.js";\nbrillo(3);\n', 'estrellas.d.ts': 'export function brillo(nombre: string): number;\n' });
+check('y el compilador revisa las llamadas contra el .d.ts', codes(r), ['TS2345@2']);
+
 const text = explainTypeErrors(compile(ts, libs, { [MAIN]: 'let nivel: number = 4;\nnivel = "cinco";\n' }).diagnostics);
 check('la explicación nombra la línea, la criatura y el código', [text.includes('Línea 2'), text.includes('Goblin'), text.includes('TS2322')], [true, true, true]);
 console.log(`\n${text}\n`);

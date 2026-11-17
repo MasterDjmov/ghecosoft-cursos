@@ -23,6 +23,6 @@ ts.setLocalizedDiagnosticMessages(JSON.parse(fs.readFileSync(path.join(LIB, 'es/
 export { MAIN };
 
 /** Compila main.ts y sus módulos (`vec2.ts`…) como en el navegador. */
-export function compileFiles(files) {
-    return compile(ts, libs, files);
+export function compileFiles(files, tsconfig = null) {
+    return compile(ts, libs, files, tsconfig);
 }

@@ -31,12 +31,15 @@ const libCache = new Map();
 /**
  * @param {object} ts el compilador
  * @param {Record<string, string>} libs los .d.ts (nombre → texto)
- * @param {Record<string, string>} files los archivos del alumno: main.ts y los que importa (vec2.ts…)
+ * @param {Record<string, string>} files los archivos del alumno: main.ts y los que importa (vec2.ts…, y los .d.ts)
+ * @param {object} [tsconfig] las «compilerOptions» de la consigna (`#### tsconfig`), como en un tsconfig.json
  * @returns {{diagnostics: Array<{code: string, line: number|null, column: number|null, file: string|null, message: string}>,
  *   js: Record<string, string>, maps: Record<string, number[]>}}
  */
-export function compile(ts, libs, files) {
-    const options = compilerOptions(ts);
+export function compile(ts, libs, files, tsconfig = null) {
+    const extra = tsconfig ? ts.convertCompilerOptionsFromJson(tsconfig, '/') : { options: {}, errors: [] };
+    // Lo que la consigna no puede cambiar: que sea JavaScript moderno, en módulos y con los .d.ts del navegador.
+    const options = { ...compilerOptions(ts), ...extra.options, lib: [DEFAULT_LIB], module: ts.ModuleKind.ESNext, moduleResolution: ts.ModuleResolutionKind.Bundler, sourceMap: true, types: [] };
     const output = {};
     const bare = (name) => name.replace(/^\/+/, '');
     const host = {
@@ -61,7 +64,7 @@ export function compile(ts, libs, files) {
     };
 
     const program = ts.createProgram(Object.keys(files).map((name) => `/${name}`), options, host);
-    const diagnostics = ts.getPreEmitDiagnostics(program)
+    const diagnostics = [...extra.errors, ...ts.getPreEmitDiagnostics(program)]
         .filter((d) => d.category === ts.DiagnosticCategory.Error)
         .filter((d) => !d.file || files[bare(d.file.fileName)] !== undefined)
         .map((d) => {

@@ -18,10 +18,11 @@ const only = (args.find((a) => a.startsWith('--only=')) ?? '').slice(7);
 const fill = args.includes('--fill');
 const force = args.includes('--force');
 
-const FIELD = { 'solución': 'solution', 'código inicial': 'starter', 'página': 'page', 'eventos': 'events', 'estado': 'checks', 'almacenamiento': 'storage', 'entrada': 'stdin', 'salida esperada': 'expected', archivos: 'files', compilador: 'compiler' };
+const FIELD = { 'solución': 'solution', 'código inicial': 'starter', 'página': 'page', 'eventos': 'events', 'estado': 'checks', 'almacenamiento': 'storage', 'entrada': 'stdin', 'salida esperada': 'expected', archivos: 'files', compilador: 'compiler', tsconfig: 'tsconfig' };
 const header = fs.existsSync(path.join(folder, '00-curso.md')) ? fs.readFileSync(path.join(folder, '00-curso.md'), 'utf8') : '';
 const typescript = /^lenguaje:\s*typescript\s*$/m.test(header);
 const { compileFiles } = typescript ? await import('../ts-micro/compilador.mjs') : {};
+const { splitFiles, cajaFiles } = typescript ? await import('../../resources/js/runners/ts-files.js') : {};
 
 /**
  * Corre un código en la caja; en TypeScript, antes lo compila (con sus módulos .ts). Una micro-misión de tipo
@@ -29,14 +30,11 @@ const { compileFiles } = typescript ? await import('../ts-micro/compilador.mjs')
  */
 async function runCode(chrome, code, options = {}, compiler = false) {
     if (!typescript) return chrome.run(code, options);
-    const sources = { 'main.ts': code };
-    for (const [name, text] of Object.entries(options.files ?? {})) sources[name.replace(/\.js$/, '.ts')] = text;
-    const compiled = compileFiles(sources);
+    const { sources, raw } = splitFiles(code, options.files);
+    const compiled = compileFiles(sources, options.tsconfig ? JSON.parse(options.tsconfig) : null);
     if (compiler) return { output: summarizeTypeErrors(compiled.diagnostics), error: null };
     if (compiled.diagnostics.length) return { output: '', error: explainTypeErrors(compiled.diagnostics) };
-    const files = {};
-    for (const name of Object.keys(sources)) if (name !== 'main.ts') files[name.replace(/\.ts$/, '.js')] = compiled.js[name.replace(/\.ts$/, '.js')];
-    return chrome.run(compiled.js['main.js'], { ...options, files });
+    return chrome.run(compiled.js['main.js'], { ...options, files: { ...raw, ...cajaFiles(sources, compiled.js) } });
 }
 
 function block(text) {
@@ -138,7 +136,7 @@ for (const name of fs.readdirSync(folder).filter((f) => f.endsWith('.md')).sort(
             continue;
         }
         const { storage, cookies } = storageOf(f.storage);
-        const options = { page: f.page, events: f.events, checks: f.checks, stdin: f.stdin, storage, cookies, files: filesOf(f.files) };
+        const options = { page: f.page, events: f.events, checks: f.checks, stdin: f.stdin, storage, cookies, files: filesOf(f.files), tsconfig: f.tsconfig };
         const result = await runCode(chrome, f.solution, options, Boolean(f.compiler));
         if (result.error) {
             console.log(`  ✗ ${mission.code}: la solución falla: ${result.error}`);

@@ -7,6 +7,7 @@
 import { runJavaScript } from './javascript.js';
 import { TS_BASE, TS_VERSION } from './typescript-config.js';
 import { explainTypeErrors, summarizeTypeErrors } from './ts-errors.js';
+import { cajaFiles, splitFiles } from './ts-files.js';
 
 /** Lo que tarda en bajar y revisar no cuenta para el programa: tiene su propio tope, generoso. */
 const COMPILE_TIMEOUT = 60000;
@@ -15,7 +16,7 @@ let worker = null;
 let loaded = false;
 let sequence = 0;
 
-function compileInWorker(files, onStatus) {
+function compileInWorker(files, tsconfig, onStatus) {
     worker ??= new Worker(new URL('../workers/typescript.worker.js', import.meta.url), { type: 'module' });
     const current = worker;
     const id = ++sequence;
@@ -44,7 +45,7 @@ function compileInWorker(files, onStatus) {
             clearTimeout(timer);
             resolve(data);
         };
-        current.postMessage({ id, files, base: TS_BASE, version: TS_VERSION });
+        current.postMessage({ id, files, tsconfig: tsconfig ?? null, base: TS_BASE, version: TS_VERSION });
     });
 }
 
@@ -60,15 +61,13 @@ function remap(text, maps) {
 
 /**
  * @param {string} code el TypeScript del alumno (main.ts)
- * @param {object} options los de runJavaScript (js-caja.js), más `compiler` (micro-misión de tipo Compilador) y
- *   `onStatus`. Los `files` de la consigna son módulos .ts que el código importa con './nombre.js'.
+ * @param {object} options los de runJavaScript (js-caja.js), más `compiler` (micro-misión de tipo Compilador),
+ *   `tsconfig` (las opciones de la consigna) y `onStatus`. Los `files` de la consigna son módulos .ts que el código importa con './nombre.js'.
  */
 export async function runTypeScript(code, options = {}) {
     const started = performance.now();
-    const sources = { 'main.ts': code };
-    for (const [name, text] of Object.entries(options.files ?? {})) sources[name.replace(/\.js$/, '.ts')] = text;
-
-    const compiled = await compileInWorker(sources, options.onStatus);
+    const { sources, raw } = splitFiles(code, options.files);
+    const compiled = await compileInWorker(sources, options.tsconfig, options.onStatus);
     const ms = Math.round(performance.now() - started);
     const empty = { stderr: '', ms, state: null, board: null, notes: [] };
 
@@ -86,10 +85,7 @@ export async function runTypeScript(code, options = {}) {
         return { ...empty, output: '', error: explainTypeErrors(errors), line: firstLine, typeErrors: errors, syntax: true };
     }
 
-    const files = {};
-    for (const name of Object.keys(sources)) {
-        if (name !== 'main.ts') files[name.replace(/\.ts$/, '.js')] = compiled.js[name.replace(/\.ts$/, '.js')] ?? '';
-    }
+    const files = { ...raw, ...cajaFiles(sources, compiled.js) };
     options.onStatus?.('Ejecutando…');
     const result = await runJavaScript(compiled.js['main.js'] ?? '', { ...options, files });
 

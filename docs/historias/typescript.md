@@ -163,7 +163,7 @@ FullCursos (cap. 23) está resumido. El docente pidió, el 2026-11-17, sumar lo 
 - **R02-N04 · static y set:** miembros `static`, fábricas y `set` que valida.
 - **En R02-N06 y R02-N07:** `Map` y `Set` tipados, `keyof`, `T[K]`, `typeof` en los tipos y genéricos por defecto.
 - **En R03:** el `filter` con guardia, `NonNullable`, `satisfies` (R03-N05) y **R03-N06 · Tipos que fabrican tipos** (mapped types, modificadores, template literal types y `as`). Los guardias propios (`x is T`) y `in` ya estaban en FullCursos.
-- **Pendiente para R04:** `Awaited`, archivos `.d.ts` y `declare`, y las opciones estrictas de más (`noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`).
+- **En R04:** `Awaited` (R04-N02), `noUncheckedIndexedAccess` y `exactOptionalPropertyTypes` (R04-N06), `noImplicitReturns`/`noUnusedLocals` en micro-misiones con su `tsconfig`, archivos `.d.ts` y `declare` (R04-N08), la trampa de las funciones con la pregunta por `null` (R04-N04 y N05) y los decoradores con parámetros (R04-N07).
 
 **Gente nueva:**
 - **Don Péndulo**, el relojero viejo de la fundición (R02), que conoció al Vidriero.

@@ -168,7 +168,7 @@ Todos con ropa opaca y cerrada (alumnos chicos) y sin texto en la imagen.
 | 3 | JS, R02 a R05 (hecha) y las cinco Sendas (hechas, § 11) | todo el curso, con la simulación |
 | 4 | Imágenes de JS: proyecto de Stitch, logo, moneda, gente, jefes, escenas, ítems y mapa; juego, enciclopedia y landing | publicarlo |
 | 5 | El compilador de TypeScript en el navegador (micro-misiones de tipo Compilador) — **hecha (2026-11-17)**, § 12 | errores de tipos en español |
-| 6 | El curso de TS completo — **en curso**: Clase 0 y R01 a R05 hechas, el tronco completo (2026-11-17, 217 micro-misiones; faltan las Sendas; `cursos/typescript/`, Próximamente y sin publicar) | todo el curso |
+| 6 | El curso de TS completo — **en curso**: Clase 0, R01 a R05 y las cinco Sendas (S01 Catálogo de Estrellas, S02 Correo Neumático, S03 Fundición de Don Péndulo, S04 Herramientas del Calibre, S05 Planisferio Vivo) hechas (2026-11-18, 317 micro-misiones; faltan las imágenes, fase 7; `cursos/typescript/`, Próximamente y sin publicar) | todo el curso |
 | 7 | Imágenes de TS | publicarlo |
 | 8 | La temporada de inglés de la Feria | — |
 

@@ -1545,6 +1545,67 @@ Historia en [typescript.md](typescript.md). Hasta que el curso se publique, esta
 - **Qué es:** un **autómata de bronce con cuerpo de león, alas de vidrio y una cola larga cargada de moldes**; cada pieza que toca cambia de forma.
 - **Imágenes:** en el proyecto del Mirador (falta su hoja). Deja el **Molde de la Mantícora**.
 
+### El Cerbero de las Uniones
+- **Rol:** el jefe de R03 de TypeScript, en el Telescopio.
+- **Qué error representa:** las uniones sin achicar: usar un valor sin saber cuál de sus tipos es.
+- **Cómo se lo vence:** con `typeof`, `in`, uniones discriminadas, `never` y guardias propios.
+- **Qué es:** un **autómata de bronce con tres cabezas de perro**, enroscado alrededor del tubo del Telescopio; cada cabeza ladra un tipo distinto.
+- **Imágenes:** en el proyecto del Mirador (falta su hoja). Deja el **Collar del Cerbero**.
+
+### El Espejismo Null
+- **Rol:** el jefe de R04 de TypeScript, en la Cúpula.
+- **Qué error representa:** lo que se usa sin preguntar si está: `null`, `undefined`, el `!` que no revisa, lo que llega del Puerto sin guardia.
+- **Cómo se lo vence:** preguntando por todo lo que puede faltar, con las opciones estrictas y con guardias para lo que llega de afuera.
+- **Qué es:** un **autómata transparente de vidrio y latón** que cambia de forma; todo lo que toca parece estar y no está.
+- **Imágenes:** en el proyecto del Mirador (falta su hoja). Deja la **Lente del Espejismo**.
+
+### El Dragón de las Constelaciones Rotas
+- **Rol:** el jefe final de TypeScript (R05), en la sala del Gran Planisferio.
+- **Qué error representa:** todos los del curso juntos: un `any` por acá, un caso que falta, un estado mal escrito.
+- **Cómo se lo vence:** pieza por pieza, armando el juego entero tipado; al vencerlo, el Planisferio arranca y el vitral se queda quieto.
+- **Qué es:** un **autómata enorme de vidrio y bronce**, armado con las estrellas sueltas del Planisferio, con **alas de constelaciones mal armadas**.
+- **Imágenes:** en el proyecto del Mirador (falta su hoja). Deja **el Calibre del Vidriero**.
+
+### La Polilla de Bronce
+- **Rol:** el jefe de la Senda del Catálogo de Estrellas (S01) de TypeScript, en la biblioteca del Mirador.
+- **Qué error representa:** los datos desordenados y rotos: fichas sueltas, mordidas o sin revisar.
+- **Cómo se la vence:** buscando, ordenando, agrupando y mostrando el catálogo con sus tipos, y pasando lo roto por un guardia.
+- **Qué es:** una **polilla mecánica del tamaño de un gato, con alas de engranajes**, que el Vidriero hizo para limpiar el polvo; se le descompuso el apetito y come fichas. Don Péndulo se lo arregla y desde entonces solo come polvo.
+- **Imágenes:** ninguna todavía (falta cuerpo entero y hoja). Deja el **Sello del Catálogo**.
+
+### El Autómata Falsificador
+- **Rol:** el jefe de la Senda del Correo Neumático (S02) de TypeScript, en el cuarto de máquinas del tubo.
+- **Qué error representa:** las respuestas que no se revisan (`as` en vez de un guardia) y la sesión descuidada.
+- **Cómo se lo vence:** con un cliente que pasa todo por guardias, la sesión `HttpOnly` y saliendo al terminar.
+- **Qué es:** un **autómata flaco de latón con brazos de pinza y un sello de lacre falso**, que abre las cápsulas del tubo y las cambia. Elefa se lo lleva al Puerto para que clasifique cápsulas.
+- **Imágenes:** ninguna todavía (falta cuerpo entero y hoja). Deja el **Sello del Correo Neumático**.
+
+### El Gólem de Vapor
+- **Rol:** el jefe de la Senda de la Fundición de Don Péndulo (S03) de TypeScript. Cruce con C++: lo construyeron el Vidriero y **Tesla**.
+- **Qué error representa:** una máquina de estados sin tabla: pasos imposibles y estados que no existen.
+- **Cómo se lo vence:** arreglando su tabla de transiciones con la máquina genérica, sus avisos y su memoria.
+- **Qué es:** una **mole de hierro y cobre con una caldera en el pecho y ojos de vidrio rojo** (ámbar cuando está tranquilo). Se calma y se queda junto a la caldera, como un perro viejo.
+- **Imágenes:** ninguna todavía (falta cuerpo entero y hoja). Deja la **Llave de la Fundición**.
+
+### La Urraca de Cobre
+- **Rol:** el jefe de la Senda de las Herramientas del Calibre (S04) de TypeScript, en el taller de Rigel.
+- **Qué error representa:** las herramientas copiadas en cada programa y los tipos importados sin cuidado.
+- **Cómo se la vence:** con una biblioteca propia en su módulo, `import type` y los `.d.ts`, y validando lo que llega.
+- **Qué es:** una **urraca mecánica de cobre con ojos de vidrio verde** que se lleva todo lo que brilla. Devuelve todo (y un botón del chaleco de Rigel) y se queda a vivir en el taller.
+- **Imágenes:** ninguna todavía (falta cuerpo entero y hoja). Deja la **Caja del Calibre**.
+
+### El Eclipse de Hierro
+- **Rol:** el jefe de la Senda del Planisferio Vivo (S05) de TypeScript, en la cúpula del Planisferio.
+- **Qué error representa:** un jefe de juego: fases, ataques con espera y una partida guardada que se puede romper.
+- **Cómo se lo vence:** jugando: fases calculadas por la vida, esperas, partida validada y la pelea final en el lienzo.
+- **Qué es:** un **disco enorme de hierro con engranajes en el borde**, la pieza del Planisferio que mostraba los eclipses; se soltó y tapa las constelaciones. Vuelve a su lugar en el borde del Planisferio.
+- **Imágenes:** ninguna todavía (falta cuerpo entero y hoja). Deja la **Corona del Planisferio**.
+
+### La fogonera
+- **Rol:** trabaja en la fundición del Mirador alimentando la caldera grande (R02 y la Senda S03 de TypeScript). Todavía sin nombre.
+- **Aspecto:** **mujer fuerte, con delantal de cuero, pañuelo en la cabeza y una pala**; ropa opaca y cerrada.
+- **Imágenes:** ninguna todavía (falta cuerpo entero y hoja).
+
 ## Las Crónicas en Inglés (Primaria y Secundaria)
 
 La historia unificada de los cursos de inglés ([ingles.md](ingles.md)). Imágenes generadas en Stitch el 2026-10-13, en el proyecto de los Talleres (`9229721314509917104`); los archivos, en `publicidad/logos cursos/personajes/Crónicas en Inglés/`.

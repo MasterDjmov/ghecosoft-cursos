@@ -265,8 +265,7 @@ REFS = {
         ],
     },
     'typescript': {
-        # El Mirador de las Constelaciones (D115). Gheco, Nima, Elefa y Tesla todavía no tienen imagen en este proyecto:
-        # el docente tiene que subir las oficiales en la web de Stitch y ahí se les hace la hoja (docs/historias/typescript.md § 11).
+        # El Mirador de las Constelaciones (D115). Gheco, Nima, Elefa y Tesla: las oficiales que subió el docente (2026-11-18).
         'project': '7987528111863289727',
         'region': 'El Mirador de las Constelaciones',
         'cierre': 'Imagen solo de dibujo, sin escritura; carteles, papeles, pizarras y pantallas lisos, sin letras, números ni símbolos.',
@@ -288,12 +287,12 @@ REFS = {
             (r'\bRigel\b', 'Rigel', ['169e526ab4394f6793be264a45ee772d'], 'Rigel aparece UNA sola vez. Es un chico de 16 años, flaco, de estatura mediana, con la ropa cerrada.'),
             (r'Astrea', 'Astrea', ['f12c34b10e3348159724c81fc31afe3b'], 'Astrea es una lechuza de verdad, más alta que una persona (nunca una mujer).'),
             (r'Fuelle', 'Fuelle', ['20837fe312b54dd19a0a612521802fe3'], 'Fuelle es un zorro mecánico del tamaño de un perro mediano.'),
-            (r'Gheco|gecko', 'Gheco', [], 'Gheco es un gecko chiquito, que cabe en la palma de una mano, exactamente como en su referencia: mascota de caricatura FLACA y ALARGADA (cuello largo, torso angosto, patas finas, cola larga y fina; nunca gordito ni chibi), aguamarina claro translúcido y liso con brillo cian, finas líneas de circuito, antiparras de aviador con lente redondo y visor holográfico al costado, sin manchas.'),
+            (r'Gheco|gecko', 'Gheco', ['10934227677483509139'], 'Gheco es un gecko chiquito, que cabe en la palma de una mano, exactamente como en su referencia: mascota de caricatura FLACA y ALARGADA (cuello largo, torso angosto, patas finas, cola larga y fina; nunca gordito ni chibi), aguamarina claro translúcido y liso con brillo cian, finas líneas de circuito, antiparras de aviador con lente redondo y visor holográfico al costado, sin manchas.'),
             (r'P[eé]ndulo', 'Don Péndulo', ['ea76e5e1acb34f2d86b92b72bae7c7fb'], 'Don Péndulo es bajo, muy viejo y encorvado: más bajo que Rigel.'),
             (r'[Ff]ogonera', 'la fogonera', ['14eb2a0086b54b6aa1c8c13eaffae6b7'], 'La fogonera es alta y fuerte, más alta que Rigel.'),
-            (r'\bNima\b', 'Nima', [], 'Nima tiene la piel morena oscura y lleva un saco de cuero negro largo hasta los muslos, cerrado.'),
-            (r'\bElefa\b', 'Elefa', [], 'Elefa es una elefanta enorme (2,60 m) erguida en dos patas.'),
-            (r'\bTesla\b', 'Tesla', [], ''),
+            (r'\bNima\b', 'Nima', ['2429561718569983230'], 'Nima tiene la piel morena oscura, una trenza negra alta y un saco de cuero negro largo hasta los muslos, cerrado del cuello hasta abajo.'),
+            (r'\bElefa\b', 'Elefa', ['14525450941318787061'], 'Elefa es una elefanta enorme (2,60 m) erguida en dos patas, con casco gris y violeta, armadura gris y violeta con sellos de lacre y un bastón coronado por un sello violeta.'),
+            (r'\bTesla\b', 'Tesla', ['9194223829305361546'], 'Tesla es un muchacho de estatura mediana (1,75 m), delgado, de pelo en punta y visor cian.'),
             (r'Camale[oó]n', 'el Camaleón Any', ['3ef2e8687fb248bcaf6dceb41131c565'], 'El Camaleón es del tamaño de un caballo.'),
             (r'Mant[ií]cora', 'la Mantícora de las Mil Formas', ['85ec12ecf5d147519f47d5900408187f'], 'La Mantícora es del tamaño de un león grande.'),
             (r'Cerbero', 'el Cerbero de las Uniones', ['acc511e29a8246bc950c5e6d665c430b'], 'El Cerbero tiene TRES cabezas y es del tamaño de un caballo.'),

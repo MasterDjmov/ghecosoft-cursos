@@ -2698,6 +2698,7 @@ lugar: La sala del Planisferio
 personajes: Rigel, Gheco, Astrea, Fuelle, el Dragón de las Constelaciones Rotas
 carta: El jefe | obtenerElemento · Caja y chocan · EstadoJuego · bucle con dt · el juego entero, tipado, compila y anda
 recompensa: xp 20, monedas 5
+item: Calibre del Vidriero
 ```
 
 #### Escena

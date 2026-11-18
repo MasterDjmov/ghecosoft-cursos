@@ -664,6 +664,11 @@ class GameItems extends Command
         'llave-de-dientes' => 'Una llave inglesa de latón con dientes blancos de goblin en la boca y alambre de cobre enrollado en el mango.',
         'guardapolvo-forrado' => 'Un guardapolvo largo gris abotonado y acolchado, con musgo verde asomando en el cuello y los puños.',
         'calibre-de-la-garra' => 'Un calibre grande de bronce con garras curvas de ogro en las mordazas y escamas rojas en la regla.',
+        'typescript-escama-del-camaleon' => 'Una escama grande de vidrio emplomado que cambia de color (verde, violeta, naranja y azul), con borde de latón.',
+        'typescript-molde-de-la-manticora' => 'Un molde de fundición de bronce con forma de estrella, colgado de un eslabón de cadena, con brillo ámbar.',
+        'typescript-collar-del-cerbero' => 'Un collar de latón con tres vidrios redondos engarzados: uno azul, uno verde y uno naranja.',
+        'typescript-lente-del-espejismo' => 'Una lente redonda de vidrio transparente con marco fino de latón y un reflejo violeta pálido adentro.',
+        'typescript-calibre-del-vidriero' => 'Un calibre antiguo de latón dorado con incrustaciones de estrellas de vidrio celeste, brillando suave.',
         // Ensamblador: el Corazón del Gólem (bronce, pátina verde, engranajes y luz cian)
         'llave-de-palanca' => 'Una llave inglesa grande de bronce con pátina verde, del largo de un brazo, con un remache brillante en el mango.',
         'martillo-de-remaches' => 'Un martillo de herrero de cabeza cuadrada de bronce, con remaches incrustados en la cabeza y polvo dorado.',

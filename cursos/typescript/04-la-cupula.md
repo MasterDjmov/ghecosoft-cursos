@@ -4734,6 +4734,7 @@ personajes: Rigel, Gheco, Astrea, el Espejismo Null
 criatura: dragon
 carta: El jefe | elementos con su tipo y una pregunta · fetch con guardia y Result · async en un evento · el cartel muestra la verdad
 recompensa: xp 20, monedas 5
+item: Lente del Espejismo
 ```
 
 #### Escena

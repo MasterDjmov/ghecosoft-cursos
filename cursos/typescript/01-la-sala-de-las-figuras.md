@@ -3521,6 +3521,7 @@ personajes: Rigel, Gheco, Astrea, el Camaleón Any
 criatura: dragon
 carta: El jefe | interface con opcional · unión de tipos · callback tipado · cada pieza con su medida
 recompensa: xp 20, monedas 5
+item: Escama del Camaleón
 ```
 
 #### Escena

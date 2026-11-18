@@ -4026,6 +4026,7 @@ personajes: Rigel, Gheco, Astrea, el Cerbero de las Uniones
 criatura: dragon
 carta: El jefe | guardia para lo que llega · unión discriminada · switch exhaustivo · un manejador por cabeza con un mapped type
 recompensa: xp 20, monedas 5
+item: Collar del Cerbero
 ```
 
 #### Escena

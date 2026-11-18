@@ -4450,6 +4450,7 @@ personajes: Rigel, Gheco, Don Péndulo, Astrea, la Mantícora de las Mil Formas
 criatura: dragon
 carta: El jefe | clase genérica con dos tipos · Map privado · static para contar · un set que valida
 recompensa: xp 20, monedas 5
+item: Molde de la Mantícora
 ```
 
 #### Escena

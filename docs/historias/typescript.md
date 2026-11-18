@@ -210,11 +210,27 @@ Proyecto de Stitch: **`7987528111863289727`** («El Mirador de las Constelacione
 | Astrea | `f12c34b1…` | `ab58ee50…` (2026-11-17) | — |
 | Fuelle | `20837fe3…` | `62a7aff4…` (2026-11-17) | la vista de espaldas es poco clara |
 | Gheco | falta | falta | el MCP no sube imágenes: el docente tiene que subir la oficial (`gheco-code.webp`) en la web de Stitch, y ahí se le hace la hoja |
+| Don Péndulo | `ea76e5e1…` | `9244a9f3…` (2026-11-18) | — |
+| la fogonera | `14eb2a00…` | `f0d544d4…` | — |
+| el Camaleón Any | `3ef2e868…` | `da3b196f…` | franja blanca abajo |
+| la Mantícora | `85ec12ec…` | `45a01c90…` | — |
+| el Cerbero | `acc511e2…` | `39ddd228…` | en la figura 7 cambia el orden de los colores; franja abajo |
+| el Espejismo Null | `2b8d2ea2…` | `2d66524f…` | el engranaje del cuerpo entero no es hueco (en la hoja sí) |
+| el Dragón | `c7a6ee79…` | `7add35e1…` | alas más de murciélago que en el cuerpo entero |
+| la Polilla de Bronce | `ca3f7924…` | `3a21259c…` | orejitas de gato |
+| el Autómata Falsificador | `dcbb76c9…` | `e0759b12…` | dos ojos en la figura de frente |
+| el Gólem de Vapor | `5d3be231…` | `ced88c5f…` | franja abajo |
+| la Urraca de Cobre | `2ec1c615…` | `f767fb01…` | franja abajo |
+| el Eclipse de Hierro | `59e10421…` | `9cc949c9…` | — |
+| goblin de cuerda | `15f7f0e0…` | `96dfd131…` | — |
+| esqueleto de alambre | `73b6b91c…` | `e4191c54…` | — |
+| ogro de cuerda | `947320f9…` | `225536b8…` | — |
+| troll de cuerda | `e427f195…` | `8a5e6f53…` | — |
+| orco de cuerda | `40e0c7d6…` | `1e4912fa…` | franja abajo |
 
-Falta, para las escenas:
-- el fondo del Mirador;
-- el logo del curso;
-- la moneda;
-- los jefes, cada uno con su hoja.
+Hecho en la fase 7 (2026-11-18): el fondo del Mirador (`cursos/typescript/marca/mundo_astrea.webp`), la moneda (`marca/moneda.webp`), el mapa de las expediciones (`public/img/mundos/mirador/mapa.webp`), los 6 aspectos de Rigel, los 5 niveles de Fuelle, los 16 ítems y la enciclopedia del elenco. Las ids completas, en `scripts/escenas/pendientes.py` (`REFS['typescript']`) y `referencias/hojas.json`.
 
-Todo eso va en la fase 7.
+**Falta:**
+- **subir a la web de Stitch, en este proyecto, las imágenes oficiales de Gheco, Nima, Elefa y Tesla** (el MCP no sube imágenes); ahí se les hace la hoja y recién entonces arrancan las escenas (316 de las 317 llevan a Gheco);
+- el logo del curso, como los demás: Gheco con «GhecoSoft - TS» (lo hace el docente);
+- los ítems que dejan los jefes (las micro-misiones de los jefes todavía no tienen `item:`).

@@ -169,7 +169,7 @@ Todos con ropa opaca y cerrada (alumnos chicos) y sin texto en la imagen.
 | 4 | Imágenes de JS: proyecto de Stitch, logo, moneda, gente, jefes, escenas, ítems y mapa; juego, enciclopedia y landing | publicarlo |
 | 5 | El compilador de TypeScript en el navegador (micro-misiones de tipo Compilador) — **hecha (2026-11-17)**, § 12 | errores de tipos en español |
 | 6 | El curso de TS completo — **en curso**: Clase 0, R01 a R05 y las cinco Sendas (S01 Catálogo de Estrellas, S02 Correo Neumático, S03 Fundición de Don Péndulo, S04 Herramientas del Calibre, S05 Planisferio Vivo) hechas (2026-11-18, 317 micro-misiones; faltan las imágenes, fase 7; `cursos/typescript/`, Próximamente y sin publicar) | todo el curso |
-| 7 | Imágenes de TS | publicarlo |
+| 7 | Imágenes de TS — **en curso** (2026-11-18): hechos cuerpo entero + hoja de Don Péndulo, la fogonera, los 10 jefes y las 5 criaturas de cuerda; Rigel protagonista con sus 6 aspectos; Fuelle montura (5 niveles); mapa y fondo del Mirador; la estrella de latón; 16 ítems con imagen y 4 recetas; enciclopedia del elenco. **Falta:** las 317 escenas (316 llevan a Gheco: el docente tiene que subir la oficial al proyecto del Mirador, y también Nima, Elefa y Tesla), el logo del curso (con Gheco y «GhecoSoft - TS», lo hace el docente) y los ítems que dejan los jefes | publicarlo |
 | 8 | La temporada de inglés de la Feria | — |
 
 ## 8. Lo que no entra (por ahora)

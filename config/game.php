@@ -662,6 +662,11 @@ return [
         ['code' => 'arco-dentado', 'gives' => ['arco-dentado' => 1], 'needs' => ['arco-de-feria' => 1, 'diente-de-goblin' => 4, 'hueso-de-esqueleto' => 3], 'minutes' => 15, 'min_level' => 5],
         ['code' => 'abrigo-acolchado', 'gives' => ['abrigo-acolchado' => 1], 'needs' => ['abrigo-del-farolero' => 1, 'musgo-de-troll' => 3, 'baba-de-slime' => 4], 'minutes' => 15, 'min_level' => 6],
         ['code' => 'arco-de-la-garra', 'gives' => ['arco-de-la-garra' => 1], 'needs' => ['arco-de-faroles' => 1, 'garra-de-ogro' => 4, 'escama-de-dragon' => 2], 'minutes' => 30, 'min_level' => 10],
+        // El Mirador de las Constelaciones (TypeScript): sin slimes en la montaña; los materiales de sus criaturas de cuerda.
+        ['code' => 'chocolate-doble', 'gives' => ['chocolate-de-la-fogonera' => 2], 'needs' => ['hueso-de-esqueleto' => 3], 'minutes' => 5, 'min_level' => 1],
+        ['code' => 'llave-de-dientes', 'gives' => ['llave-de-dientes' => 1], 'needs' => ['llave-de-aprendiz' => 1, 'diente-de-goblin' => 4, 'hueso-de-esqueleto' => 3], 'minutes' => 15, 'min_level' => 5],
+        ['code' => 'guardapolvo-forrado', 'gives' => ['guardapolvo-forrado' => 1], 'needs' => ['guardapolvo-de-la-fundicion' => 1, 'musgo-de-troll' => 3, 'diente-de-goblin' => 4], 'minutes' => 15, 'min_level' => 6],
+        ['code' => 'calibre-de-la-garra', 'gives' => ['calibre-de-la-garra' => 1], 'needs' => ['calibre-del-mirador' => 1, 'garra-de-ogro' => 4, 'escama-de-dragon' => 2], 'minutes' => 30, 'min_level' => 10],
         // El Corazón del Gólem (Ensamblador): los mismos materiales, con los ítems de la taberna del pie.
         ['code' => 'aceite-doble', 'gives' => ['aceite-de-rodilla' => 2], 'needs' => ['baba-de-slime' => 3], 'minutes' => 5, 'min_level' => 1],
         ['code' => 'llave-dentada', 'gives' => ['llave-dentada' => 1], 'needs' => ['llave-de-palanca' => 1, 'diente-de-goblin' => 4, 'hueso-de-esqueleto' => 3], 'minutes' => 15, 'min_level' => 5],

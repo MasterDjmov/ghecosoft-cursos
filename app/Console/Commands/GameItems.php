@@ -299,6 +299,30 @@ class GameItems extends Command
             ['code' => 'csharp-escama-de-do-sostenido', 'name' => 'Escama de Do Sostenido', 'kind' => 'accessory', 'rarity' => 'legendary', 'intelligence' => 5, 'luck' => 4, 'description' => 'La dejó el Dragón del Conservatorio cuando Ceci tocó entera la melodía del Vidriero: una escama de bronce con forma de sostenido, tibia todavía. La última parte de la melodía.'],
             ['code' => 'csharp-cuerda-de-la-quimera', 'name' => 'Cuerda de la Quimera', 'kind' => 'accessory', 'rarity' => 'epic', 'intelligence' => 3, 'dexterity' => 2, 'luck' => 1, 'description' => 'La cola de la Quimera de las Mil Partituras, enroscada y dorada. Vibra cuando un plano está bien hecho.'],
         ],
+        // El Mirador de las Constelaciones (TypeScript, D115, docs/historias/typescript.md): la relojería de Don Péndulo.
+        'typescript' => [
+            // Armas
+            ['code' => 'llave-de-aprendiz', 'name' => 'Llave de Aprendiz', 'kind' => 'weapon', 'rarity' => 'common', 'attack' => 2, 'price' => 120, 'min_level' => 1, 'droppable' => true, 'description' => 'Una llave inglesa chica de latón, de las que Tesla regala a sus aprendices. Ajusta cualquier tuerca, si se la mide antes.'],
+            ['code' => 'martillo-de-relojero', 'name' => 'Martillo de Relojero', 'kind' => 'weapon', 'rarity' => 'common', 'attack' => 3, 'strength' => 1, 'price' => 300, 'min_level' => 3, 'droppable' => true, 'description' => 'Diminuto y preciso. Don Péndulo dice que con un golpe bien medido se arregla lo que mil golpes rompen.'],
+            ['code' => 'calibre-del-mirador', 'name' => 'Calibre del Mirador', 'kind' => 'weapon', 'rarity' => 'rare', 'attack' => 5, 'intelligence' => 2, 'price' => 900, 'min_level' => 6, 'droppable' => true, 'description' => 'Un pie de rey pesado, de bronce, con las mordazas afiladas. Mide primero y pega después.'],
+            ['code' => 'lanzatuercas', 'name' => 'Lanzatuercas', 'kind' => 'weapon', 'rarity' => 'rare', 'attack' => 6, 'dexterity' => 2, 'price' => 1200, 'min_level' => 8, 'droppable' => true, 'description' => 'Una ballestita de cobre que dispara tuercas con un soplido de vapor. Los goblins de cuerda le tienen terror.'],
+            ['code' => 'baston-de-vapor', 'name' => 'Bastón de Vapor', 'kind' => 'weapon', 'rarity' => 'epic', 'attack' => 9, 'intelligence' => 4, 'droppable' => true, 'description' => 'Un bastón de latón con una caldera chiquita en el puño. Al golpear, suelta una nube de vapor con chispas azules.'],
+            // Ropa
+            ['code' => 'chaleco-de-aprendiz', 'name' => 'Chaleco de Aprendiz', 'kind' => 'armor', 'rarity' => 'common', 'defense' => 2, 'price' => 100, 'min_level' => 1, 'droppable' => true, 'description' => 'De cuero marrón, cerrado, con un bolsillo para cada herramienta y uno más para lo que se encuentre.'],
+            ['code' => 'guardapolvo-de-la-fundicion', 'name' => 'Guardapolvo de la Fundición', 'kind' => 'armor', 'rarity' => 'common', 'defense' => 3, 'dexterity' => 1, 'price' => 280, 'min_level' => 3, 'droppable' => true, 'description' => 'Largo y gris, de lona gruesa, con manchas de hollín que la fogonera llama condecoraciones.'],
+            ['code' => 'gabardina-del-mirador', 'name' => 'Gabardina del Mirador', 'kind' => 'armor', 'rarity' => 'rare', 'defense' => 5, 'strength' => 1, 'price' => 850, 'min_level' => 6, 'droppable' => true, 'description' => 'Azul noche, larga y cerrada, con botones de latón en forma de estrella. Abriga en las guardias más frías.'],
+            ['code' => 'coraza-de-engranajes', 'name' => 'Coraza de Engranajes', 'kind' => 'armor', 'rarity' => 'epic', 'defense' => 9, 'intelligence' => 3, 'luck' => 1, 'droppable' => true, 'description' => 'Placas de latón con engranajes que giran al moverse. Cuando la golpean, los dientes se traban y el golpe no pasa.'],
+            // Accesorios
+            ['code' => 'antiparras-de-repuesto', 'name' => 'Antiparras de Repuesto', 'kind' => 'accessory', 'rarity' => 'common', 'intelligence' => 1, 'luck' => 1, 'price' => 150, 'min_level' => 2, 'droppable' => true, 'description' => 'Con lentes intercambiables: una lupa, una azul y una para ver estrellas. Siempre conviene tener otras.'],
+            ['code' => 'reloj-de-bolsillo', 'name' => 'Reloj de Bolsillo', 'kind' => 'accessory', 'rarity' => 'rare', 'intelligence' => 2, 'price' => 900, 'min_level' => 7, 'droppable' => true, 'description' => 'Uno de los de Don Péndulo, con la tapa grabada con una constelación. Nunca se atrasa: espera.'],
+            ['code' => 'estrella-de-vidrio', 'name' => 'Estrella de Vidrio', 'kind' => 'accessory', 'rarity' => 'epic', 'intelligence' => 2, 'luck' => 3, 'droppable' => true, 'description' => 'Una estrella que se soltó del Planisferio y no quiso volver. Brilla más cuando algo encaja.'],
+            // Pociones
+            ['code' => 'chocolate-de-la-fogonera', 'name' => 'Chocolate de la Fogonera', 'kind' => 'potion', 'rarity' => 'common', 'heal' => 40, 'price' => 30, 'min_level' => 1, 'description' => 'Espeso y caliente, calentado en la caldera grande. Cura los raspones y las noches de guardia.'],
+            // Solo se fabrican en el taller (D93)
+            ['code' => 'llave-de-dientes', 'name' => 'Llave de Dientes', 'kind' => 'weapon', 'rarity' => 'rare', 'attack' => 5, 'intelligence' => 2, 'description' => 'La Llave de Aprendiz con dientes de goblin en la boca y huesos de alambre en el mango. Ya no parece de aprendiz.'],
+            ['code' => 'guardapolvo-forrado', 'name' => 'Guardapolvo Forrado', 'kind' => 'armor', 'rarity' => 'rare', 'defense' => 5, 'dexterity' => 2, 'description' => 'El Guardapolvo de la Fundición forrado con musgo de troll: no deja pasar ni el calor de la caldera.'],
+            ['code' => 'calibre-de-la-garra', 'name' => 'Calibre de la Garra', 'kind' => 'weapon', 'rarity' => 'epic', 'attack' => 10, 'intelligence' => 4, 'description' => 'El Calibre del Mirador con garras de ogro en las mordazas y escamas de dragón en la regla: mide y muerde.'],
+        ],
         // El Corazón del Gólem (Ensamblador, D110, docs/historias/ensamblador.md): la taberna del pie. Armas
         'ensamblador' => [
             ['code' => 'llave-de-palanca', 'name' => 'Llave de Palanca', 'kind' => 'weapon', 'rarity' => 'common', 'attack' => 2, 'price' => 120, 'min_level' => 1, 'droppable' => true, 'description' => 'Una llave de bronce del largo de un brazo. Destraba palancas viejas… y espanta goblins.'],
@@ -623,6 +647,23 @@ class GameItems extends Command
         'javascript-hilo-de-oro' => 'Un ovillo chico de hilo dorado brillante, con una punta suelta que flota.',
         'javascript-flecha-de-regreso' => 'Una flecha de luz cian con plumas blancas, doblada suavemente en forma de arco, como si volviera.',
         'javascript-arco-del-vitral' => 'Un arco majestuoso hecho de vidrio de colores en marco dorado, como un vitral curvado, con cuerda de luz.',
+        // TypeScript: el Mirador de las Constelaciones (latón, cobre, vapor y azul de noche)
+        'llave-de-aprendiz' => 'Una llave inglesa chica de latón pulido, con la boca ajustable y un engranaje grabado en el mango.',
+        'martillo-de-relojero' => 'Un martillo diminuto de relojero, de cabeza de latón y mango de madera oscura, al lado de un tornillito.',
+        'calibre-del-mirador' => 'Un calibre (pie de rey) grande de bronce con mordazas afiladas, sin números ni marcas legibles.',
+        'lanzatuercas' => 'Una ballesta chica de cobre con una caldera diminuta, cargada con una tuerca de latón, soltando un hilo de vapor.',
+        'baston-de-vapor' => 'Un bastón de latón con una caldera chiquita en el puño, soltando vapor con chispas azules.',
+        'chaleco-de-aprendiz' => 'Un chaleco de cuero marrón cerrado, con botones de bronce y muchos bolsillos chicos, de frente.',
+        'guardapolvo-de-la-fundicion' => 'Un guardapolvo largo de lona gris, abotonado, con manchas de hollín, colgado de un perchero de hierro.',
+        'gabardina-del-mirador' => 'Una gabardina larga azul noche, cerrada, con botones de latón en forma de estrella, de frente.',
+        'coraza-de-engranajes' => 'Una coraza de placas de latón con engranajes de cobre a la vista y remaches, de frente.',
+        'antiparras-de-repuesto' => 'Unas antiparras de latón con correa de cuero y tres lentes de recambio al lado (una lupa, una azul, una oscura).',
+        'reloj-de-bolsillo' => 'Un reloj de bolsillo de oro abierto, con engranajes a la vista y una cadena, sin números en la esfera.',
+        'estrella-de-vidrio' => 'Una estrella de cinco puntas de vidrio facetado que brilla dorado y celeste, flotando con chispas.',
+        'chocolate-de-la-fogonera' => 'Un jarro de lata humeante con chocolate espeso, al lado de una pala de carbón chiquita.',
+        'llave-de-dientes' => 'Una llave inglesa de latón con dientes blancos de goblin en la boca y alambre de cobre enrollado en el mango.',
+        'guardapolvo-forrado' => 'Un guardapolvo largo gris abotonado y acolchado, con musgo verde asomando en el cuello y los puños.',
+        'calibre-de-la-garra' => 'Un calibre grande de bronce con garras curvas de ogro en las mordazas y escamas rojas en la regla.',
         // Ensamblador: el Corazón del Gólem (bronce, pátina verde, engranajes y luz cian)
         'llave-de-palanca' => 'Una llave inglesa grande de bronce con pátina verde, del largo de un brazo, con un remache brillante en el mango.',
         'martillo-de-remaches' => 'Un martillo de herrero de cabeza cuadrada de bronce, con remaches incrustados en la cabeza y polvo dorado.',

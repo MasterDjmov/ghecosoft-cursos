@@ -82,6 +82,9 @@
                             @if ($active->has($person->id))
                                 <flux:badge size="sm" color="green">Abono vigente</flux:badge>
                             @endif
+                            @if ($expired->has($person->id))
+                                <flux:badge size="sm" color="red" data-test="expired-badge">{{ $expired[$person->id] === 1 ? '1 abono vencido' : $expired[$person->id].' abonos vencidos' }}</flux:badge>
+                            @endif
                             @unless ($finding)
                                 <span class="font-mono text-xs text-ink-muted">{{ $person->xp_total }} {{ term('xp.short') }}</span>
                             @endunless
@@ -107,7 +110,11 @@
                                             <x-course-logo :course="$row['course']" size="size-9" />
                                             <div class="flex min-w-0 flex-col">
                                                 <span class="truncate text-sm text-white">{{ $row['course']->title }}</span>
-                                                <span class="text-xs {{ $row['active'] ? 'text-success' : 'text-ink-muted' }}">{{ $row['active'] ? 'Abono vigente' : 'Abono vencido' }}</span>
+                                                @if ($row['active'])
+                                                    <span class="text-xs text-success" data-test="course-subscription-{{ $row['course']->id }}">Abono vigente · vence el {{ $row['endsAt']->format('d/m') }} ({{ $row['endsAt']->diffForHumans() }})</span>
+                                                @else
+                                                    <span class="text-xs font-semibold text-danger" data-test="course-subscription-{{ $row['course']->id }}">Abono vencido · venció el {{ $row['endsAt']->format('d/m') }} ({{ $row['endsAt']->diffForHumans() }})</span>
+                                                @endif
                                                 {{-- XP del curso y los últimos días: verde si anduvo por el curso, rojo si no (gris, antes de su primer abono). --}}
                                                 @if ($row['activity'])
                                                 <div class="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1" data-test="course-activity-{{ $row['course']->id }}">
@@ -157,13 +164,13 @@
                                 @endforelse
                                 @if ($isAdmin)
                                     {{-- Matricular en otro curso (o renovar uno), como en el alta: pasa por el aprobador. --}}
-                                    @php($taken = collect($detail)->pluck('course.id')->flip())
+                                    @php($taken = collect($detail)->keyBy('course.id'))
                                     <form wire:submit="enroll" class="flex flex-col gap-2 border-t border-outline pt-3 sm:flex-row sm:items-end" data-test="enroll-form">
                                         <flux:select size="sm" class="sm:flex-1" wire:model.live="enrollCourseId" label="Matricular en un curso">
                                             <flux:select.option value="">Elegí un curso…</flux:select.option>
                                             @foreach ($enrollCourses as $course)
                                                 <flux:select.option :value="(string) $course->id">
-                                                    {{ $course->title }}{{ $course->is_published ? '' : ' (sin publicar)' }}{{ $taken->has($course->id) ? ' · renueva el abono' : '' }}
+                                                    {{ $course->title }}{{ $course->is_published ? '' : ' (sin publicar)' }}@if ($taken->has($course->id)){{ $taken[$course->id]['active'] ? ' · renueva el abono (vence el '.$taken[$course->id]['endsAt']->format('d/m').')' : ' · VENCIDO el '.$taken[$course->id]['endsAt']->format('d/m').': renovar' }}@endif
                                                 </flux:select.option>
                                             @endforeach
                                         </flux:select>

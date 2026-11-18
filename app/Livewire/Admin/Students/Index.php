@@ -164,6 +164,10 @@ class Index extends Component
             'recent' => $recent,
             'newCount' => $viewer->isAdmin() ? User::where('role', Role::Student)->where('created_at', '>=', $since)->count() : 0,
             'active' => CourseSubscription::active()->whereIn('user_id', $people->pluck('id'))->pluck('user_id')->flip(),
+            // Cursos cuyo último abono ya venció (para marcarlo en rojo sin desplegar al alumno).
+            'expired' => CourseSubscription::whereIn('user_id', $people->pluck('id'))
+                ->groupBy('user_id', 'course_id')->havingRaw('MAX(ends_at) < ?', [now()])
+                ->get(['user_id', 'course_id'])->countBy('user_id'),
             'detail' => $this->expanded && ! $teachers ? $this->detail($this->expanded, $viewer, $scope) : null,
             'enrollCourses' => $viewer->isAdmin() && $this->expanded && ! $teachers ? Course::orderBy('title')->get(['id', 'title', 'is_published']) : collect(),
             'enrollCohorts' => $this->enrollCourseId !== '' ? Cohort::where('course_id', (int) $this->enrollCourseId)->orderBy('name')->get() : collect(),
@@ -200,6 +204,7 @@ class Index extends Component
                     'course' => $course,
                     'cohort' => $subscription->cohort,
                     'active' => $subscription->ends_at->isFuture(),
+                    'endsAt' => $subscription->ends_at,
                     // Buscando alumnos de otros («sumar»), el docente no ve cómo le va en los cursos que no le da.
                     'activity' => $viewer->isAdmin() || $scope->teaches($viewer, $student, $course) ? $activity[$course->id] : null,
                     'options' => $options,

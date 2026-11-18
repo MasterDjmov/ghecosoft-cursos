@@ -1737,12 +1737,12 @@ Esta misión no se ejecuta: el compilador revisa la tabla. Hay dos roturas:
 Pero el compilador, cuando un objeto tiene un error **adentro**, avisa ese primero y recién después mira si le falta algo. Por eso ahora vas a ver uno solo. Es normal: se arregla uno y aparece el siguiente.
 
 #### Desafío
-Tocá **Ejecutar** y leé qué está roto.
+Arreglá el destino que no existe y mirá cómo aparece la segunda rotura.
 
 #### Pasos
-1. Leé la tabla buscando las dos roturas.
-2. Tocá **Ejecutar**: sale un solo error, `TS2322` en la línea 6 (`'volando'` no es un `Estado`).
-3. Si querés, cambiá `'volando'` por `'quieto'` y volvé a ejecutar: aparece el otro (`TS2741`, la fila que falta). Después dejalo como estaba para comparar.
+1. Tocá **Ejecutar**: sale un solo error, `TS2322` en la línea 6 (`'volando'` no es un `Estado`).
+2. Cambiá `soltar: 'volando'` por `soltar: 'quieto'`.
+3. Tocá **Ejecutar**: ahora aparece la segunda rotura, `TS2741` (la fila que falta). Esa la arreglás en la próxima misión.
 
 #### Compilador
 sí
@@ -1761,7 +1761,7 @@ const TABLA: Record<Estado, Partial<Record<Evento, Estado>>> = {
 
 #### Salida esperada
 ```
-TS2322 en la línea 6
+TS2741 en la línea 4
 ```
 
 #### Solución
@@ -1771,7 +1771,7 @@ type Evento = 'andar' | 'frenar' | 'cargar' | 'soltar';
 
 const TABLA: Record<Estado, Partial<Record<Evento, Estado>>> = {
   quieto: { andar: 'caminando', cargar: 'cargando' },
-  caminando: { frenar: 'quieto', soltar: 'volando' },
+  caminando: { frenar: 'quieto', soltar: 'quieto' },
   cargando: { soltar: 'descargando' },
 };
 ```

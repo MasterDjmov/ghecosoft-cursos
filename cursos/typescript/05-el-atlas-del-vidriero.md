@@ -2531,12 +2531,12 @@ Esta misión no se ejecuta: el compilador revisa el código y muestra los errore
 Después, tocá **Ejecutar** y compará.
 
 #### Desafío
-Tocá **Ejecutar** y mirá qué códigos y qué líneas da el compilador.
+Leé los tres errores y arreglá el más fácil: la propiedad mal escrita.
 
 #### Pasos
-1. Leé el código y buscá las tres constelaciones rotas.
-2. Tocá **Ejecutar**: la salida son los errores, con su código y su línea (`TS2420`, `TS2345` y `TS2551`).
-3. Si querés, arreglalos uno por uno para ver cómo desaparecen (y volvé a dejarlos como estaban para comparar).
+1. Tocá **Ejecutar**: la salida son los errores, con su código y su línea (`TS2420`, `TS2345` y `TS2551`).
+2. Cambiá `polar.nombr` por `polar.nombre`.
+3. Tocá **Ejecutar**: quedan dos constelaciones rotas, `TS2420` y `TS2345`. Las vas a vencer con las próximas trampas.
 
 #### Compilador
 sí
@@ -2559,7 +2559,6 @@ console.log(polar.nombr);
 ```
 TS2420 en la línea 5
 TS2345 en la línea 9
-TS2551 en la línea 10
 ```
 
 #### Solución
@@ -2573,7 +2572,7 @@ class Estrella implements Dibujable {
 }
 
 const polar = new Estrella('Polar', 'mucho');
-console.log(polar.nombr);
+console.log(polar.nombre);
 ```
 
 #### Al superarla

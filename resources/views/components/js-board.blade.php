@@ -49,10 +49,11 @@
                 @endif
             </button>
         @endforeach
-        <span class="ms-auto truncate ps-2 font-mono text-[11px]" x-bind:class="error ? 'text-danger' : 'text-ink-muted'" x-text="status"></span>
+        <span class="ms-auto truncate ps-2 font-mono text-[11px]" x-bind:class="error ? 'text-danger' : (running && /^Cargando/.test(status ?? '') ? 'text-primary-bright motion-safe:animate-pulse' : 'text-ink-muted')" x-text="status"></span>
     </div>
 
     <div x-show="tab === 'output'" role="tabpanel" @class(['flex flex-col gap-1 p-3', 'min-h-0 flex-1 overflow-auto' => $fill])>
+        <x-compiler-loading />
         <pre @class(['min-h-12 font-mono text-sm whitespace-pre-wrap', 'max-h-72 overflow-auto' => ! $fill]) x-show="output !== null && ! lines" x-cloak
             x-bind:class="error ? 'text-danger' : 'text-success'" x-text="output"></pre>
         <div @class(['min-h-12 font-mono text-sm', 'max-h-72 overflow-auto' => ! $fill]) x-show="lines" x-cloak data-test="output-lines">

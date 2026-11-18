@@ -12,7 +12,7 @@
             <button type="button" x-on:click="run" x-bind:disabled="running" class="inline-flex items-center gap-1.5 rounded-md bg-primary/15 px-2.5 py-1.5 text-xs font-medium text-primary-bright transition hover:bg-primary/25 disabled:opacity-40">
                 <flux:icon name="play" variant="micro" /> <span x-text="running ? 'Ejecutando…' : 'Ejecutar'">Ejecutar</span>
             </button>
-            <span class="min-w-0 flex-1 truncate font-mono text-[11px]" x-bind:class="error ? 'text-danger' : (matches === true ? 'text-success' : 'text-ink-muted')"
+            <span class="min-w-0 flex-1 truncate font-mono text-[11px]" x-bind:class="error ? 'text-danger' : (matches === true ? 'text-success' : (running && /^Cargando/.test(status ?? '') ? 'text-primary-bright motion-safe:animate-pulse' : 'text-ink-muted'))"
                 x-text="matches === true ? '✓ Coincide con la salida esperada' : status"></span>
             <button type="button" x-on:click="consoleDockOpen = ! consoleDockOpen" data-test="console-dock-toggle"
                 class="inline-flex items-center gap-1.5 rounded-md border border-outline px-2.5 py-1.5 text-xs font-medium text-ink-muted transition hover:text-ink"
@@ -58,10 +58,11 @@
             Entrada (stdin)
             <span class="size-1.5 rounded-full bg-primary-bright" x-show="stdin.trim() !== ''" x-cloak title="Tiene datos de entrada"></span>
         </button>
-        <span class="ms-auto truncate ps-2 font-mono text-[11px]" x-bind:class="error ? 'text-danger' : 'text-ink-muted'" x-text="status"></span>
+        <span class="ms-auto truncate ps-2 font-mono text-[11px]" x-bind:class="error ? 'text-danger' : (running && /^Cargando/.test(status ?? '') ? 'text-primary-bright motion-safe:animate-pulse' : 'text-ink-muted')" x-text="status"></span>
     </div>
 
     <div x-show="tab === 'output'" role="tabpanel" @class(['flex flex-col gap-1 p-3', 'min-h-0 flex-1 overflow-auto' => $fill])>
+        <x-compiler-loading />
         <pre @class(['min-h-12 font-mono text-sm whitespace-pre-wrap', 'max-h-72 overflow-auto' => ! $fill]) x-show="output !== null && ! lines" x-cloak
             x-bind:class="error ? 'text-danger' : 'text-success'" x-text="output"></pre>
         {{-- No coincide: cada renglón con ✓ (igual al esperado) o ✗ (ahí hay que corregir), y los que faltan. --}}

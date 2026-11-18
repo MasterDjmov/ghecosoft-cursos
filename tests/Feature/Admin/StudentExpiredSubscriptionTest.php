@@ -1,6 +1,8 @@
 <?php
 
+use App\Livewire\Admin\Requests;
 use App\Livewire\Admin\Students\Index as StudentsIndex;
+use App\Models\EnrollmentRequest;
 use App\Models\User;
 use Carbon\CarbonImmutable;
 use Livewire\Livewire;
@@ -32,4 +34,49 @@ test('un curso renovado no cuenta como vencido aunque tenga un abono viejo', fun
     Livewire::actingAs(User::factory()->admin()->create())->test(StudentsIndex::class)
         ->assertDontSee('abono vencido')
         ->assertDontSee('abonos vencidos');
+});
+
+test('el administrador puede renovar por 6 meses: arranca cuando vence el abono vigente', function () {
+    $this->travelTo(CarbonImmutable::parse('2026-11-17 12:00'));
+    ['course' => $course] = makeCourse();
+    $student = enrolledStudent($course);
+    $student->subscriptions()->update(['ends_at' => CarbonImmutable::parse('2026-11-27 12:00')]);
+
+    Livewire::actingAs(User::factory()->admin()->create())->test(StudentsIndex::class)
+        ->call('toggle', $student->id)
+        ->set('enrollCourseId', (string) $course->id)
+        ->set('enrollMonths', '6')
+        ->call('enroll');
+
+    $last = $student->subscriptions()->latest('ends_at')->first();
+    expect($last->starts_at->toDateString())->toBe('2026-11-27')
+        ->and($last->ends_at->toDateString())->toBe('2027-05-27');
+});
+
+test('una duración que no está en la lista no se acepta', function () {
+    ['course' => $course] = makeCourse();
+    $student = enrolledStudent($course);
+    $count = $student->subscriptions()->count();
+
+    Livewire::actingAs(User::factory()->admin()->create())->test(StudentsIndex::class)
+        ->call('toggle', $student->id)
+        ->set('enrollCourseId', (string) $course->id)
+        ->set('enrollMonths', '60')
+        ->call('enroll');
+
+    expect($student->subscriptions()->count())->toBe($count);
+});
+
+test('al aprobar una solicitud se puede elegir un año de abono', function () {
+    ['course' => $course] = makeCourse();
+    $student = User::factory()->create();
+    $request = EnrollmentRequest::create(['user_id' => $student->id, 'course_id' => $course->id, 'kind' => 'new', 'type' => 'contact']);
+
+    Livewire::actingAs(User::factory()->admin()->create())->test(Requests::class)
+        ->call('review', $request->id, 'approve')
+        ->set('months', '12')
+        ->call('confirm');
+
+    $subscription = $student->subscriptions()->first();
+    expect((int) round($subscription->starts_at->diffInMonths($subscription->ends_at)))->toBe(12);
 });

@@ -16,15 +16,23 @@ use Illuminate\Support\Facades\DB;
 
 class EnrollmentApprover
 {
+    /** Duraciones largas que se pueden dar al aprobar (en meses); sin elegir, vale el abono del curso. */
+    public const MONTHS = [2, 3, 6, 12];
+
     public function __construct(private readonly Ledger $ledger) {}
 
     /**
      * Inscripción nueva: acredita las monedas del curso (precio del raíz) y abre el abono.
      * Renovación: solo extiende el abono; arranca cuando vence el actual (o hoy).
+     * Con $months, el abono dura esos meses en vez de los días del curso (un pago de varios meses juntos).
      */
-    public function approve(EnrollmentRequest $request, User $admin, ?string $note = null): CourseSubscription
+    public function approve(EnrollmentRequest $request, User $admin, ?string $note = null, ?int $months = null): CourseSubscription
     {
-        $subscription = DB::transaction(function () use ($request, $admin, $note) {
+        if ($months !== null && ! in_array($months, self::MONTHS, true)) {
+            throw new DomainException('Esa duración no está entre las que se ofrecen.');
+        }
+
+        $subscription = DB::transaction(function () use ($request, $admin, $note, $months) {
             $request = EnrollmentRequest::whereKey($request->id)->lockForUpdate()->firstOrFail();
 
             if ($request->status !== RequestStatus::Pending) {
@@ -70,7 +78,7 @@ class EnrollmentApprover
                 'course_id' => $course->id,
                 'cohort_id' => $cohortId,
                 'starts_at' => $startsAt,
-                'ends_at' => $startsAt->copy()->addDays($course->subscription_days),
+                'ends_at' => $months ? $startsAt->copy()->addMonthsNoOverflow($months) : $startsAt->copy()->addDays($course->subscription_days),
                 'enrollment_request_id' => $request->id,
                 'granted_by' => $admin->id,
             ]);

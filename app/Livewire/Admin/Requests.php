@@ -31,6 +31,9 @@ class Requests extends Component
 
     public string $note = '';
 
+    /** '' = el abono del curso; si no, meses (EnrollmentApprover::MONTHS). */
+    public string $months = '';
+
     public function updated(string $property): void
     {
         if (in_array($property, ['status', 'courseId'], true)) {
@@ -43,6 +46,7 @@ class Requests extends Component
         $this->reviewingId = EnrollmentRequest::where('status', RequestStatus::Pending)->findOrFail($requestId)->id;
         $this->decision = $decision === 'reject' ? 'reject' : 'approve';
         $this->note = '';
+        $this->months = '';
         $this->resetValidation();
 
         Flux::modal('review')->show();
@@ -51,7 +55,8 @@ class Requests extends Component
     public function confirm(EnrollmentApprover $approver): void
     {
         $this->validate(
-            ['note' => [$this->decision === 'reject' ? 'required' : 'nullable', 'string', 'max:1000']],
+            ['note' => [$this->decision === 'reject' ? 'required' : 'nullable', 'string', 'max:1000'],
+                'months' => ['nullable', 'in:'.implode(',', EnrollmentApprover::MONTHS)]],
             ['note.required' => 'Contale al alumno por qué (lo va a ver en la ficha del curso).'],
             ['note' => 'nota'],
         );
@@ -60,7 +65,7 @@ class Requests extends Component
 
         try {
             if ($this->decision === 'approve') {
-                $subscription = $approver->approve($request, auth()->user(), $this->note ?: null);
+                $subscription = $approver->approve($request, auth()->user(), $this->note ?: null, $this->months === '' ? null : (int) $this->months);
                 $text = 'Aprobada: abono hasta el '.$subscription->ends_at->format('d/m/Y').'.';
             } else {
                 $approver->reject($request, auth()->user(), $this->note);

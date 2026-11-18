@@ -8,6 +8,7 @@ use App\Models\Course;
 use App\Models\CourseSubscription;
 use App\Models\User;
 use App\Services\DelayedStudents;
+use App\Services\EnrollmentApprover;
 use App\Services\StudentAccounts;
 use App\Services\TeacherScope;
 use App\Support\CourseActivity;
@@ -49,6 +50,9 @@ class Index extends Component
 
     public string $enrollCohortId = '';
 
+    /** '' = el abono del curso; si no, meses (EnrollmentApprover::MONTHS). */
+    public string $enrollMonths = '';
+
     public function updatedEnrollCourseId(): void
     {
         $this->enrollCohortId = '';
@@ -87,8 +91,14 @@ class Index extends Component
         }
 
         $renewal = $student->subscriptions()->where('course_id', $course->id)->exists();
-        $subscription = $accounts->enroll($student, $course, auth()->user(), $this->enrollCohortId === '' ? null : (int) $this->enrollCohortId);
-        $this->reset('enrollCourseId', 'enrollCohortId');
+        $months = $this->enrollMonths === '' ? null : (int) $this->enrollMonths;
+        if ($months !== null && ! in_array($months, EnrollmentApprover::MONTHS, true)) {
+            Flux::toast(variant: 'danger', text: 'Elegí una duración de la lista.');
+
+            return;
+        }
+        $subscription = $accounts->enroll($student, $course, auth()->user(), $this->enrollCohortId === '' ? null : (int) $this->enrollCohortId, $months);
+        $this->reset('enrollCourseId', 'enrollCohortId', 'enrollMonths');
 
         Flux::toast(variant: 'success', text: $renewal
             ? 'Abono de «'.$course->title.'» renovado hasta el '.$subscription->ends_at->format('d/m/Y').'.'

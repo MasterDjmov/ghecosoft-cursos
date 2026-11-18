@@ -75,6 +75,12 @@
                             Se suman {{ $reviewing->course->subscription_days }} días al abono de {{ $reviewing->course->title }} (sin monedas).
                         @endif
                     </flux:text>
+                    <flux:select wire:model="months" label="Duración del abono" data-test="approve-months">
+                        <flux:select.option value="">{{ $reviewing->course->subscription_days }} días (el abono del curso)</flux:select.option>
+                        @foreach (\App\Services\EnrollmentApprover::MONTHS as $option)
+                            <flux:select.option :value="(string) $option">{{ $option === 12 ? '1 año' : $option.' meses' }}</flux:select.option>
+                        @endforeach
+                    </flux:select>
                 @endif
                 <x-emoji-field><flux:textarea class="pe-10" wire:model="note" :label="$decision === 'approve' ? 'Nota (opcional)' : 'Motivo'" rows="3" /></x-emoji-field>
                 <div class="flex justify-end gap-2">

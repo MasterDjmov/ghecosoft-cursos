@@ -182,6 +182,12 @@
                                                 @endforeach
                                             </flux:select>
                                         @endif
+                                        <flux:select size="sm" class="sm:w-44" wire:model="enrollMonths" label="Duración" data-test="enroll-months">
+                                            <flux:select.option value="">1 abono (los días del curso)</flux:select.option>
+                                            @foreach (\App\Services\EnrollmentApprover::MONTHS as $months)
+                                                <flux:select.option :value="(string) $months">{{ $months === 12 ? '1 año' : $months.' meses' }}</flux:select.option>
+                                            @endforeach
+                                        </flux:select>
                                         <flux:button size="sm" type="submit" variant="primary" icon="academic-cap" :disabled="$enrollCourseId === ''">
                                             {{ $enrollCourseId !== '' && $taken->has((int) $enrollCourseId) ? 'Renovar abono' : 'Matricular' }}
                                         </flux:button>

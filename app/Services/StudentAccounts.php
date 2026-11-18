@@ -59,7 +59,7 @@ class StudentAccounts
     }
 
     /** Pasa por EnrollmentApprover, así queda en el libro igual que una inscripción aprobada. */
-    public function enroll(User $student, Course $course, User $admin, ?int $cohortId = null): CourseSubscription
+    public function enroll(User $student, Course $course, User $admin, ?int $cohortId = null, ?int $months = null): CourseSubscription
     {
         $request = EnrollmentRequest::create([
             'user_id' => $student->id,
@@ -69,7 +69,7 @@ class StudentAccounts
             'type' => RequestType::Admin,
         ]);
 
-        return $this->approver->approve($request, $admin, 'Alta hecha por el docente.');
+        return $this->approver->approve($request, $admin, 'Alta hecha por el docente.', $months);
     }
 
     /**

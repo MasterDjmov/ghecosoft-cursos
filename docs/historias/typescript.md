@@ -233,4 +233,4 @@ Hecho en la fase 7 (2026-11-18): el fondo del Mirador (`cursos/typescript/marca/
 **Falta:**
 - **subir a la web de Stitch, en este proyecto, las imágenes oficiales de Gheco, Nima, Elefa y Tesla** (el MCP no sube imágenes); ahí se les hace la hoja y recién entonces arrancan las escenas (316 de las 317 llevan a Gheco);
 - el logo del curso, como los demás: Gheco con «GhecoSoft - TS» (lo hace el docente);
-- los ítems que dejan los jefes (las micro-misiones de los jefes todavía no tienen `item:`).
+- (hecho) los ítems de los cinco jefes del camino principal, con el nombre de su insignia; los jefes de las Sendas no dejan ítem, como en JS.

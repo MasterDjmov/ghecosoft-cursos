@@ -155,6 +155,16 @@ scripts/deploy.sh             # build local + git pull, composer, migraciones, p
 scripts/deploy.sh --cursos    # además reimporta los cursos de cursos/
 ```
 
+**Se sube en vivo, con alumnos adentro** (2026-11-18). La pantalla de mantenimiento (503) sale solo si el deploy trae migraciones nuevas (o quedaron pendientes) o cambia `composer.json`/`composer.lock`, y solo mientras se aplican: unos segundos (medido en la compu: ~6 s con una migración). En un deploy común (escenas, textos, vistas, cursos) no se corta nada. Cómo:
+
+1. `public/build` y `public/toolchains` se suben primero, a una carpeta nueva que reemplaza a la vieja de una vez; en `build` quedan también los assets de la versión anterior (Vite les cambia el nombre en cada versión), así que una página que ya estaba abierta sigue encontrando los suyos. Los viejos que el manifest ya no usa se borran a los 3 días.
+2. Después el código (`git fetch` + `git merge --ff-only`), `composer install` solo si cambiaron las dependencias, migraciones y caché de config y rutas; `view:cache` va después de abrir (si alguien pide una vista antes, se compila sola).
+3. Los cursos se reimportan con la plataforma abierta: `CourseImporter` hace cada curso en una sola transacción, así que un alumno ve el curso viejo o el nuevo, nunca uno a medias.
+
+Si una migración falla, la plataforma queda en mantenimiento (como antes): arreglar y volver a correr el script, o `php artisan up` a mano si lo nuevo no rompe nada.
+
+Para probar el script sin tocar producción: `DEPLOY_SSH` reemplaza a `ssh` (un script que corre los comandos en una carpeta local que hace de servidor, con su propio `.env` y su base), y `DEPLOY_DIR`/`DEPLOY_URL` apuntan a esa copia. Así se probó el 2026-11-18, con otra terminal pidiendo la página cada 0,2 s: con `--cursos` y sin migraciones, 177 pedidos y ningún 503 en 2 min 17 s; con una migración, 503 durante ~6 s.
+
 Necesita en `~/.ssh/config` de la compu un alias `ghecosoft-prod` (HostName, Port 4444, User `lariojac`, la clave autorizada en el servidor). El servidor lee el repo con su propia deploy key, por el alias `github-ghecosoft_code` de su `~/.ssh/config`.
 
 A mano (si el servidor pudiera compilar):

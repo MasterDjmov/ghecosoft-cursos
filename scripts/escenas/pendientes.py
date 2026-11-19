@@ -295,7 +295,7 @@ REFS = {
             (r'\bTesla\b', 'Tesla', ['9194223829305361546'], 'Tesla es un muchacho de estatura mediana (1,75 m), delgado, de pelo en punta y visor cian.'),
             (r'Camale[oó]n', 'el Camaleón Any', ['3ef2e8687fb248bcaf6dceb41131c565'], 'El Camaleón es del tamaño de un caballo.'),
             (r'Mant[ií]cora', 'la Mantícora de las Mil Formas', ['85ec12ecf5d147519f47d5900408187f'], 'La Mantícora es del tamaño de un león grande.'),
-            (r'Cerbero', 'el Cerbero de las Uniones', ['acc511e29a8246bc950c5e6d665c430b'], 'El Cerbero tiene TRES cabezas y es del tamaño de un caballo.'),
+            (r'Cerbero|cabezas? de perro|aut[oó]mata de perro', 'el Cerbero de las Uniones', ['acc511e29a8246bc950c5e6d665c430b'], 'El Cerbero tiene TRES cabezas y es del tamaño de un caballo.'),
             (r'Espejismo', 'el Espejismo Null', ['2b8d2ea244614961af9abc08f0ca4dc9'], 'El Espejismo flota y es más alto que una persona.'),
             (r'Drag[oó]n', 'el Dragón de las Constelaciones Rotas', ['c7a6ee79775341149ee93afd824cac59'], 'El Dragón es enorme, llena la sala.'),
             (r'Polilla', 'la Polilla de Bronce', ['ca3f7924d9b34ab38cc35342706a1ab5'], 'La Polilla es del tamaño de un gato.'),

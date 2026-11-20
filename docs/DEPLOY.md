@@ -196,7 +196,7 @@ ln -s ~/ghecosoft-code/public ~/public_html
 
 Lo que no se puede perder: **la base de datos**, **`storage/app/private`** (comprobantes, entregas, recursos y autorizaciones) y **`storage/app/public`** (logos, íconos e insignias). Además, el **`.env`**: guardalo en un lugar seguro, fuera del servidor.
 
-`scripts/backup.sh` (corre en el servidor) copia la base (`mysqldump`, sin bloquear las tablas) y los archivos subidos a `~/backups/ghecosoft/`, fuera de la web, y borra los de más de 14 días. Anota cada copia en `~/backups/ghecosoft/backup.log` y, si falla, sale con error.
+`scripts/backup.sh` (corre en el servidor) copia la base (`mysqldump`, sin bloquear las tablas) y los archivos subidos a `~/backups/ghecosoft/`, fuera de la web. De la base guarda los últimos 14 días; de los archivos (~450 MB cada copia) hace una por día como mucho, aunque se suba más de una vez, y deja las 5 más nuevas (el 2026-11-19 una copia por deploy llenó la cuota del hosting: 63 copias, 25 GB). Anota cada copia en `~/backups/ghecosoft/backup.log` y, si falla, sale con error.
 
 - **Todos los días**, desde cPanel → *Cron Jobs* → *Añadir nuevo trabajo de cron*: minuto `30`, hora `4`, día `*`, mes `*`, día de la semana `*`, y como comando:
   ```bash

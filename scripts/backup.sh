@@ -8,7 +8,8 @@
 #   db-AAAA-MM-DD_HHMM.sql.gz        la base entera (mysqldump)
 #   archivos-AAAA-MM-DD_HHMM.tar.gz  storage/app/private (comprobantes, entregas, apuntes, autorizaciones)
 #                                    y storage/app/public (logos, íconos, insignias)
-# y borra los de más de BACKUP_DAYS días (14 por defecto). Lo que pasa se anota en backup.log;
+# y borra las bases de más de BACKUP_DAYS días (14 por defecto); de los archivos hace una copia por día como mucho
+# (aunque se haga más de un deploy) y deja las BACKUP_FILES_KEEP más nuevas (5). Lo que pasa se anota en backup.log;
 # si algo falla, sale con error (cPanel manda el aviso por mail si tiene una casilla configurada).
 set -euo pipefail
 
@@ -59,13 +60,24 @@ mysqldump --defaults-extra-file="$CNF" --single-transaction --quick --routines -
     | gzip -9 > "$DB_FILE" || fail "no se pudo copiar la base $DB_DATABASE"
 gzip -t "$DB_FILE" || fail "la copia de la base quedó dañada"
 
-# 2. Los archivos subidos.
-tar czf "$FILES_FILE" --exclude=private/livewire-tmp -C "$APP_DIR/storage/app" private public 2>> "$DEST/backup.log" \
-    || fail "no se pudieron copiar los archivos de storage/app"
+# 2. Los archivos subidos (~450 MB): uno por día como mucho. Cada deploy corre este script y,
+#    con varios deploys por día, las copias llenaron la cuota del hosting (25 GB, 2026-11-19).
+if [[ -n "$(find "$DEST" -maxdepth 1 -type f -name 'archivos-*.tar.gz' -mmin -1200 -print -quit)" ]]; then
+    FILES_FILE=""
+else
+    tar czf "$FILES_FILE" --exclude=private/livewire-tmp -C "$APP_DIR/storage/app" private public 2>> "$DEST/backup.log" \
+        || fail "no se pudieron copiar los archivos de storage/app"
+    chmod 600 "$FILES_FILE"
+fi
 
-chmod 600 "$DB_FILE" "$FILES_FILE"
+chmod 600 "$DB_FILE"
 
-# 3. Rotación: se quedan los últimos DAYS días.
-find "$DEST" -maxdepth 1 -type f \( -name 'db-*.sql.gz' -o -name 'archivos-*.tar.gz' \) -mtime +"$DAYS" -delete
+# 3. Rotación: las bases de los últimos DAYS días; de los archivos, solo los FILES_KEEP más nuevos.
+find "$DEST" -maxdepth 1 -type f -name 'db-*.sql.gz' -mtime +"$DAYS" -delete
+ls -1t "$DEST"/archivos-*.tar.gz 2>/dev/null | tail -n +"$(( ${BACKUP_FILES_KEEP:-5} + 1 ))" | xargs -r rm -f
 
-log "OK base $(du -h "$DB_FILE" | cut -f1), archivos $(du -h "$FILES_FILE" | cut -f1)"
+if [[ -n "$FILES_FILE" ]]; then
+    log "OK base $(du -h "$DB_FILE" | cut -f1), archivos $(du -h "$FILES_FILE" | cut -f1)"
+else
+    log "OK base $(du -h "$DB_FILE" | cut -f1) (archivos: ya hay una copia de menos de 20 h)"
+fi

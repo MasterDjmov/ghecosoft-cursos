@@ -25,6 +25,15 @@
         </div>
     @endunless
 
+    {{-- D123: el modo enfoque de las micro-misiones (sin motivo); el alumno también lo maneja desde su perfil. --}}
+    <div class="panel flex flex-wrap items-center justify-between gap-3 p-4" data-test="student-focus-mode">
+        <div class="flex min-w-0 flex-col">
+            <span class="font-medium text-white">Modo enfoque: {{ $user->focus_mode ? 'prendido' : 'apagado' }}</span>
+            <span class="text-sm text-ink-muted">En las micro-misiones ve primero el desafío y sus pasos, con letra más grande; la imagen y la historia, plegadas.</span>
+        </div>
+        <flux:button size="sm" :icon="$user->focus_mode ? 'eye' : 'viewfinder-circle'" wire:click="toggleFocusMode" data-test="toggle-focus-mode">{{ $user->focus_mode ? 'Apagar' : 'Prender' }}</flux:button>
+    </div>
+
     @if ($isAdmin)
     <div class="grid gap-4 lg:grid-cols-2">
         <form wire:submit="saveAccount" class="panel flex flex-col gap-4 p-4" data-test="account-form">

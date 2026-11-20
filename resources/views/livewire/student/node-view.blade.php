@@ -172,7 +172,13 @@
     @endif
 
     {{-- Crónica: la historia del nodo, antes de la teoría. --}}
-    @if ($sections['chronicle'])
+    @if ($sections['chronicle'] && auth()->user()->focus_mode && $steps->isNotEmpty())
+        {{-- D123: en modo enfoque, la crónica plegada para que las micro-misiones queden arriba. --}}
+        <details class="rounded-lg border border-secondary/40 bg-secondary/10 px-6 py-3" data-test="chronicle-folded">
+            <summary class="tech-label flex cursor-pointer items-center gap-2 text-secondary-bright"><flux:icon name="sparkles" variant="micro" /> Crónica</summary>
+            <div class="markdown mt-2 text-ink italic">{!! $sections['chronicle'] !!}</div>
+        </details>
+    @elseif ($sections['chronicle'])
         <aside class="relative overflow-hidden rounded-lg border border-secondary/40 bg-secondary/10 px-6 py-5" data-test="chronicle">
             <p class="tech-label mb-2 flex items-center gap-2 text-secondary-bright"><flux:icon name="sparkles" variant="micro" /> Crónica</p>
             <div class="markdown text-ink italic">{!! $sections['chronicle'] !!}</div>

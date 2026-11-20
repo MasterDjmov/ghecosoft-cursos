@@ -19,6 +19,12 @@
             </div>
         </form>
 
+        {{-- D123: el modo enfoque (docs/AYUDA.md § 5). Sin motivo: es para quien lo quiera. --}}
+        <div class="panel my-6 flex flex-col gap-3 p-5" data-test="focus-mode">
+            <flux:switch wire:model.live="focus_mode" label="Modo enfoque"
+                description="En las micro-misiones, primero el desafío y sus pasos, con letra más grande; la imagen y la historia quedan plegadas (las abrís cuando quieras)." />
+        </div>
+
         <form wire:submit="updateProfileInformation" class="my-6 w-full space-y-6">
             <div class="grid gap-6 sm:grid-cols-2">
                 <flux:input wire:model="name" :label="__('Name')" type="text" required autocomplete="given-name" />

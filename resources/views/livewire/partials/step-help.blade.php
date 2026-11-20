@@ -15,7 +15,8 @@
 <div class="mt-3 flex flex-col gap-3" x-show="! result?.ok" data-test="step-help"
     x-data="stepHelp(@js(['stepId' => $step->id, 'compare' => $canCompare, 'expected' => (string) $step->expected_output, 'state' => $state]))"
     x-effect="watchRun()"
-    x-on:step-read.window="if ($event.detail.id === {{ $step->id }}) readAloud(document.getElementById('challenge-{{ $step->id }}'))">
+    x-on:step-read.window="if ($event.detail.id === {{ $step->id }}) readAloud(document.getElementById('challenge-{{ $step->id }}'))"
+    x-on:step-read-guide.window="if ($event.detail.id === {{ $step->id }}) readAloud(document.getElementById('guide-{{ $step->id }}'))">
 
     {{-- Gheco ofrece una mano solo, sin que haga falta animarse a pedir. --}}
     <div x-show="offer" x-cloak x-transition class="flex flex-wrap items-center gap-3 rounded-lg border border-primary-bright/40 bg-primary/10 p-3 text-sm" data-test="step-help-offer">

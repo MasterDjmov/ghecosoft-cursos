@@ -2,7 +2,9 @@
 
 use App\Enums\Language;
 use App\Enums\XpReason;
+use App\Livewire\Admin\Students\Show;
 use App\Livewire\Admin\Students\Tree;
+use App\Livewire\Settings\Profile;
 use App\Livewire\Student\NodeView;
 use App\Models\CoinTransaction;
 use App\Models\Course;
@@ -25,6 +27,7 @@ use App\Services\StepHelper;
 use App\Services\TreeAccess;
 use App\Support\LineDiff;
 use App\Support\StudentJourney;
+use Illuminate\Contracts\Auth\Access\Gate;
 use Livewire\Livewire;
 
 /*
@@ -719,4 +722,48 @@ test('los Pasos se importan y salen en «¿Qué me piden?»; pedirlos queda anot
     Livewire::actingAs($student)->test(NodeView::class, ['course' => $course, 'node' => $course->rootNode])->call('helpLog', $first->id, 'guide');
     expect(StepHelp::where('user_id', $student->id)->where('kind', 'guide')->count())->toBe(1)
         ->and(StudentJourney::helpSummary(StepHelp::where('user_id', $student->id)->get()))->toBe('¿Qué me piden?');
+});
+
+test('modo enfoque (fase 3): el desafío y los Pasos arriba, la escena plegada; lo prende el alumno o su docente', function () {
+    app(CourseImporter::class)->import(stepsCourseFile(fn ($md) => str_replace('### Misión R00-N01-M1',
+        str_replace("#### Código inicial\n```python\n# tu conjuro", "#### Pasos\n1. Escribí `print(\"Hola, Valle\")`.\n2. Tocá **Ejecutar**.\n\n#### Código inicial\n```python\n# tu conjuro", STEPS_MD).'### Misión R00-N01-M1', $md)), dryRun: false);
+    $course = Course::where('slug', 'python-import')->firstOrFail();
+    $course->update(['is_published' => true]);
+    $student = studentWithRootOpen(['course' => $course, 'root' => $course->rootNode]);
+    $url = route('student.node', [$course, $course->rootNode]);
+
+    expect($this->actingAs($student)->get($url)->getContent())
+        ->toContain('data-test="step-help-guide"')
+        ->not->toContain('data-test="step-focus-guide"');
+
+    // El alumno lo prende en su perfil.
+    Livewire::actingAs($student)->test(Profile::class)->set('focus_mode', true);
+    expect($student->fresh()->focus_mode)->toBeTrue();
+
+    $html = $this->actingAs($student->fresh())->get($url)->getContent();
+    expect($html)->toContain('data-test="step-focus-guide"')
+        ->toContain('data-test="step-focus-scene"')
+        ->toContain('text-lg leading-relaxed')
+        ->not->toContain('data-test="step-help-guide"')
+        ->not->toContain('data-test="step-image"');
+    // Ver los Pasos así no cuenta como ayuda pedida.
+    expect(StepHelp::where('user_id', $student->id)->count())->toBe(0);
+
+    // Lo apaga el administrador (o el docente de su comisión) desde la ficha.
+    Livewire::actingAs(User::factory()->admin()->create())
+        ->test(Show::class, ['user' => $student])
+        ->assertSee('Modo enfoque: prendido')
+        ->call('toggleFocusMode')
+        ->assertSee('Modo enfoque: apagado');
+    expect($student->fresh()->focus_mode)->toBeFalse();
+});
+
+test('un docente no cambia el modo enfoque de un alumno ajeno', function () {
+    $made = makeCourse();
+    $student = studentWithRootOpen($made);
+
+    Livewire::actingAs(User::factory()->teacher()->create())
+        ->test(Show::class, ['user' => $student])
+        ->assertForbidden();
+    expect(app(Gate::class)->forUser(User::factory()->teacher()->create())->allows('setFocusMode', $student))->toBeFalse();
 });

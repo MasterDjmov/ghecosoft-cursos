@@ -36,6 +36,9 @@ class Profile extends Component
     /** D38: nombre del héroe, público y único. */
     public string $hero_name = '';
 
+    /** D123: el modo enfoque de las micro-misiones (se guarda al tocarlo). */
+    public bool $focus_mode = false;
+
     public function mount(): void
     {
         $user = Auth::user();
@@ -48,6 +51,13 @@ class Profile extends Component
         $this->dni = (string) $user->dni;
         $this->birth_date = (string) $user->birth_date?->format('Y-m-d');
         $this->hero_name = (string) $user->hero_name;
+        $this->focus_mode = (bool) $user->focus_mode;
+    }
+
+    public function updatedFocusMode(): void
+    {
+        Auth::user()->update(['focus_mode' => $this->focus_mode]);
+        Flux::toast(variant: 'success', text: $this->focus_mode ? 'Modo enfoque prendido.' : 'Modo enfoque apagado.');
     }
 
     public function saveHero(): void

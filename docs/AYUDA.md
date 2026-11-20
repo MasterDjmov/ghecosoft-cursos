@@ -1,4 +1,4 @@
-# Ayuda en las micro-misiones (D123, fase 1 hecha; fase 2 en curso: Pasos de C)
+# Ayuda en las micro-misiones (D123: las 4 fases hechas; la 3, modo enfoque, a probar)
 
 Pedido del docente (2026-11-15): que nadie se **frustre** ni se **estanque** en una micro-misión. Hay alumnos a los que les cuesta leer un enunciado largo (un alumno con TEA que cursa C, personas de más de 50 que recién empiezan). En la clase presencial el docente los destraba; en casa se quedan esperando el mensaje del profe. Lo que quieren es **ver cómo se resuelve**, sin volverse locos; el oro y la XP no les importan.
 
@@ -39,7 +39,8 @@ Si el alumno **falla 2 veces** o pasan **3 minutos sin ejecutar** con el desafí
 ## 6. Para el docente
 
 - En el **Recorrido** (D107): al lado de cada micro-misión, qué ayuda pidió («¿Dónde toco?, 2 líneas de la solución»). Se guarda en una tabla aparte, `step_helps` (`kind` = `offer`, `read`, `where`, `compare`, `line` con qué renglón), para no mezclarla con los fallos de las estadísticas. Se borra al reiniciar la cuenta o el curso. El staff y la Clase 0 de prueba no dejan registros.
-- Falta (fase 2): sumarlo a *Admin → Estadísticas* y mostrar en la consulta al profe cuántas líneas ya había visto.
+- En *Admin → Estadísticas* (2026-11-19), «Ayuda que piden»: cuántos alumnos usaron cada ayuda (y cuántas veces) y las micro-misiones donde más la piden, con las líneas de la solución que se vieron (`ProgressStats::helps`; la oferta de Gheco cuenta aparte porque no la pide el alumno). Con los mismos filtros de curso, comisión, alumno y período.
+- En la consulta al profe (*Admin → Mensajes*), arriba del código: «Ayuda que ya usó: ¿Dónde toco?, 2 líneas de la solución».
 
 ## 7. Cómo quedó la fase 1 (2026-11-15)
 
@@ -59,12 +60,14 @@ Si el alumno **falla 2 veces** o pasan **3 minutos sin ejecutar** con el desafí
    - Hecho (2026-11-15): `#### Pasos` → `node_steps.guide`; «¿Qué me piden?» es la primera ayuda del panel (botón «Mostrame los pasos», con su parlante) y queda anotada (`guide`) en el Recorrido. Muestra: C R00-N01-P1 a P5, para que el docente ajuste el tono.
    - Cómo se escriben: 2 a 6 pasos numerados, una acción por paso; nombrar la línea como se ve en el editor (`printf(…)`, «el primer `___`»); decir qué escribir y dónde; terminar con «Tocá **Ejecutar**» y qué tiene que salir. Sin historia ni metáforas.
    - Hechos: C (71), Python (88), Java (70), PHP (66), Ensamblador (62), C++ (61), JS (59), HTML (56) y C# (50): los 9 cursos, 583 micro-misiones (2026-11-15). Falta: las ayudas en *Admin → Estadísticas*.
-3. **Modo enfoque.**
+3. **Modo enfoque**: hecho (2026-11-19), a probar. Columna `users.focus_mode`; lo prende el alumno en *Mi cuenta → Datos personales* o el docente (de sus comisiones) o el administrador desde la ficha del alumno (`UserPolicy::setFocusMode`). Sin motivo. En la micro-misión que toca: sin la imagen grande; primero el desafío en letra más grande, debajo sus Pasos ya abiertos (con su parlante; verlos así no se anota como ayuda pedida y no se repiten en «Necesito ayuda»), Gheco sugiere y, plegadas, «La escena y la historia». La Crónica del nodo también queda plegada. Las superadas no cambian.
 4. **Pasos del resto de los nodos**: hecha (2026-11-16). Toda micro-misión de los 9 cursos tiene sus Pasos (`ver.py cursos/<curso> R S` da 0 en todos). Un curso o una micro-misión nueva se escribe ya con su `#### Pasos`.
 
 Se frena al final de cada fase para que el docente lo pruebe con sus alumnos.
 
 ## 9. Cómo seguir (traspaso, 2026-11-15)
+
+**Estado (2026-11-19): todo hecho.** Las ayudas en Estadísticas y en Mensajes y el modo enfoque (fase 3) están programados; falta deploy (hay migración) y que el docente lo pruebe.
 
 Estado (2026-11-15, noche): fase 1 en producción. Fase 2: Pasos de los 10 primeros nodos de los 9 cursos hechos (583); falta `git push` + `scripts/deploy.sh --cursos` y que el docente los pruebe. Lo que queda de la fase 2 es el punto 4 (Estadísticas).
 
@@ -74,8 +77,8 @@ Estado (2026-11-15, noche): fase 1 en producción. Fase 2: Pasos de los 10 prime
 1. ~~Pasos de los 10 primeros nodos de C~~ hechos (71/71, 2026-11-15): R00-N01, R01-N01 a R01-N09 (`cursos/c/00-curso.md` y `01-templar-el-metal.md`; ~66 micro-misiones). Va `#### Pasos` justo después de `#### Desafío`, con las reglas de § 8.2. Leer cada código inicial y solución: contar bien los `___`.
 2. Revisar e importar: `php artisan app:import-course cursos/c` y luego con `--apply`. Commit por nodo o tanda.
 3. Frenar para que el docente pruebe (C hecho: falta su OK). Luego los demás cursos. Herramientas: `python3 scripts/ayuda/ver.py cursos/c R01-N02` muestra desafío/inicial/solución/salida de las que no tienen Pasos y `python3 scripts/ayuda/poner.py cursos/c pasos.txt` (bloques `@@ CODIGO` + texto) los inserta (10 primeros nodos de cada uno: Python 88, Java 70, PHP 66, Ensamblador 62, C++ 61, JS 59, HTML 56, C# 50 micro-misiones).
-4. Las ayudas en *Admin → Estadísticas* (tabla `step_helps`, `StepHelp::KINDS`; hoy solo salen en el Recorrido del alumno, `StudentJourney::helpSummary`).
-5. Fase 3: modo enfoque (§ 3).
+4. ~~Las ayudas en *Admin → Estadísticas*~~ hecho (2026-11-19) (tabla `step_helps`, `StepHelp::KINDS`; hoy solo salen en el Recorrido del alumno, `StudentJourney::helpSummary`).
+5. ~~Fase 3: modo enfoque~~ hecho (2026-11-19, § 8).
 6. Fase 4 (resto de los nodos, pedida el 2026-11-15): terminada el 2026-11-16 con los 9 cursos. Para revisar o sumar: `python3 scripts/ayuda/ver.py --diff cursos/<curso> R S` lista las que no tienen Pasos y `poner.py` los inserta.
 
 Prueba en el navegador: `NODE_URL=/cursos/python/nodos/1 node scripts/ayuda/probar.mjs` con `php artisan serve --port=8123`.

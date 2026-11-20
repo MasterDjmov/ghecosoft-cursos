@@ -57,6 +57,12 @@ class UserPolicy
         return $this->viewProgress($user, $student, $course);
     }
 
+    /** D123: prender o apagar su modo enfoque (sin motivo). */
+    public function setFocusMode(User $user, User $student): bool
+    {
+        return $this->viewStudent($user, $student);
+    }
+
     /** Resetear la clave, si el alumno lo pide. */
     public function resetPassword(User $user, User $student): bool
     {

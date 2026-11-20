@@ -10,6 +10,8 @@
     $total = $steps->count();
     $doneCount = $doneSteps->count();
     // La última superada (la que viene justo antes de la actual) se muestra abierta: ahí está lo que pasó.
+    // D123: modo enfoque (docs/AYUDA.md § 5): el desafío y los Pasos primero, con letra más grande; la escena plegada.
+    $focus = (bool) auth()->user()->focus_mode;
     $justDone = $steps->filter(fn ($s) => $doneSteps->has($s->id))->last(fn ($s) => ! $currentStep || $s->position < $currentStep->position);
 @endphp
 <section class="flex flex-col gap-4" data-test="node-steps">
@@ -99,7 +101,8 @@
             {{-- result: lo que contestó el servidor al superarla (se queda en pantalla hasta tocar «Siguiente»). --}}
             <article class="panel panel-active flex flex-col overflow-hidden scroll-mt-20" wire:key="step-current-{{ $step->id }}" data-test="step-current"
                 id="micro-{{ $step->id }}" x-data="{ result: null }">
-                @if ($image = $step->imageUrl() ?? $fallbackScene)
+                @php($image = $step->imageUrl() ?? $fallbackScene)
+                @if ($image && ! $focus)
                     <figure class="relative aspect-[16/7] overflow-hidden border-b border-outline">
                         <img src="{{ $image }}" alt="" class="size-full object-cover" loading="lazy" data-test="step-image">
                         <div class="absolute inset-0 bg-gradient-to-t from-[#070a14] via-transparent to-transparent"></div>
@@ -127,6 +130,7 @@
                 @endif
 
                 <div class="flex flex-col gap-4 p-5">
+                    @unless ($focus)
                     @if ($texts['scene'])
                         <div class="markdown text-ink" data-test="step-scene">{!! $texts['scene'] !!}</div>
                     @endif
@@ -140,11 +144,12 @@
                             </div>
                         </aside>
                     @endif
+                    @endunless
 
                     @if ($texts['challenge'])
                         <div class="flex items-start gap-2">
                             <flux:icon name="code-bracket" variant="mini" class="mt-0.5 shrink-0 text-warning" />
-                            <div class="markdown min-w-0 flex-1 font-medium text-white" id="challenge-{{ $step->id }}">{!! $texts['challenge'] !!}</div>
+                            <div @class(['markdown min-w-0 flex-1 font-medium text-white', 'text-lg leading-relaxed' => $focus]) id="challenge-{{ $step->id }}" data-test="step-challenge">{!! $texts['challenge'] !!}</div>
                             {{-- D123: escuchar el desafío con la voz del navegador (sin voz, no aparece). --}}
                             <button type="button" x-data x-show="'speechSynthesis' in window" x-cloak title="Escuchar el desafío" aria-label="Escuchar el desafío" data-test="step-read"
                                 x-on:click="$dispatch('step-read', { id: {{ $step->id }} })"
@@ -152,6 +157,43 @@
                                 <flux:icon name="speaker-wave" variant="mini" />
                             </button>
                         </div>
+                    @endif
+
+                    @if ($focus)
+                        {{-- Modo enfoque: los Pasos a la vista (no cuentan como ayuda pedida), después Gheco y, plegadas, la
+                             escena y la historia. --}}
+                        @if ($texts['guide'] ?? null)
+                            <div class="flex items-start gap-2 rounded-lg border border-outline bg-surface-lowest/60 p-4" data-test="step-focus-guide">
+                                <div class="markdown min-w-0 flex-1 text-lg leading-relaxed text-white" id="guide-{{ $step->id }}">{!! $texts['guide'] !!}</div>
+                                <button type="button" x-data x-show="'speechSynthesis' in window" x-cloak title="Escuchar los pasos" aria-label="Escuchar los pasos"
+                                    x-on:click="$dispatch('step-read-guide', { id: {{ $step->id }} })"
+                                    class="shrink-0 rounded-md p-1 text-ink-muted transition hover:bg-surface-high hover:text-white">
+                                    <flux:icon name="speaker-wave" variant="mini" />
+                                </button>
+                            </div>
+                        @endif
+                        @if ($texts['hint'])
+                            <aside class="flex items-start gap-3 rounded-lg border border-primary-bright/30 bg-primary/10 p-4" data-test="step-hint">
+                                <img src="{{ asset('img/personajes/gheco.webp') }}" alt="Gheco" class="size-12 shrink-0 rounded-full border border-primary-bright/50 bg-surface-lowest object-cover">
+                                <div class="flex min-w-0 flex-col gap-1">
+                                    <p class="tech-label text-primary-bright">Gheco sugiere</p>
+                                    <div class="markdown text-sm text-ink">{!! $texts['hint'] !!}</div>
+                                </div>
+                            </aside>
+                        @endif
+                        @if ($image || $texts['scene'])
+                            <details class="rounded-lg border border-outline/70 px-3 py-2 text-sm" data-test="step-focus-scene">
+                                <summary class="cursor-pointer text-ink-muted hover:text-white">La escena y la historia</summary>
+                                <div class="mt-3 flex flex-col gap-3">
+                                    @if ($image)
+                                        <img src="{{ $image }}" alt="" class="aspect-[16/7] w-full rounded-lg border border-outline object-cover" loading="lazy">
+                                    @endif
+                                    @if ($texts['scene'])
+                                        <div class="markdown text-ink">{!! $texts['scene'] !!}</div>
+                                    @endif
+                                </div>
+                            </details>
+                        @endif
                     @endif
 
                     {{-- Una micro-misión puede ser de otro lenguaje que el curso (SQL en Java, con SQLite en el navegador). --}}
@@ -170,7 +212,7 @@
                             </div>
                             {{-- D107: los fallos se avisan para las estadísticas (el mismo fallo seguido, una vez), con el código
                                  para que el docente lo vea en el Recorrido. --}}
-                            @include('livewire.partials.step-help', ['step' => $step, 'stepLanguage' => $stepLanguage, 'guide' => $stepTexts[$step->id]['guide'] ?? null])
+                            @include('livewire.partials.step-help', ['step' => $step, 'stepLanguage' => $stepLanguage, 'guide' => $focus ? null : ($stepTexts[$step->id]['guide'] ?? null)])
                             <div x-data="{ lastFail: '', fail(kind) { const out = this.output ?? ''; const src = this.code ?? ''; if (this.lastFail === kind + out + src) return; this.lastFail = kind + out + src; this.$wire.failStep({{ $step->id }}, kind, out.slice(0, 500), src.slice(0, 20000)).catch(() => {}) } }"
                                 x-effect="if (! running && matches === false) fail('{{ filled($step->checks) ? 'checks' : 'output' }}'); else if (! running && error) fail('error')"></div>
                             {{-- Java (D85) sin el ejecutor abierto, o C y C++ (D98, D100) si el compilador del navegador no carga: se corre

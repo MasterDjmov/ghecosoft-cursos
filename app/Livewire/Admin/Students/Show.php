@@ -165,6 +165,14 @@ class Show extends Component
         Flux::toast(variant: 'success', text: 'Cuenta reactivada.');
     }
 
+    /** D123: prender o apagar su modo enfoque (sin motivo). */
+    public function toggleFocusMode(): void
+    {
+        $this->authorize('setFocusMode', $this->user);
+        $this->user->update(['focus_mode' => ! $this->user->focus_mode]);
+        Flux::toast(variant: 'success', text: $this->user->focus_mode ? 'Modo enfoque prendido.' : 'Modo enfoque apagado.');
+    }
+
     public function resetPassword(StudentAccounts $accounts): void
     {
         $this->authorize('resetPassword', $this->user);

@@ -4,6 +4,7 @@ use App\Livewire\Admin\Messages;
 use App\Livewire\PracticeChat;
 use App\Models\NodeStep;
 use App\Models\PracticeMessage;
+use App\Models\StepHelp;
 use App\Models\User;
 use App\Services\NodeUnlocker;
 use Livewire\Livewire;
@@ -126,7 +127,16 @@ test('el alumno consulta desde una micro-misión con su código y el docente lo 
         ->assertSee('Poné un 5 en AX.')
         ->assertSee('print(4)')
         ->assertSee('SOLUCION-SECRETA')
-        ->assertSee('data-test="message-context"', false);
+        ->assertSee('data-test="message-context"', false)
+        ->assertSee('Ayuda que ya usó:')
+        ->assertSee('ninguna');
+
+    // D123: con la ayuda que pidió, el docente ve cuánta solución ya tenía a la vista.
+    foreach (['where', 'line', 'line'] as $kind) {
+        StepHelp::create(['user_id' => $student->id, 'node_step_id' => $step->id, 'course_id' => $step->node->course_id, 'kind' => $kind, 'line' => $kind === 'line' ? 1 : null]);
+    }
+    Livewire::actingAs($admin)->test(Messages::class, ['thread' => $key])
+        ->assertSee('¿Dónde toco?, 2 líneas de la solución');
     expect(Messages::unreadQuery($admin)->count())->toBe(0);
 
     // La respuesta del profe no guarda código, y al alumno le llega el aviso con el link a la micro-misión.

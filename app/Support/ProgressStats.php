@@ -5,6 +5,7 @@ namespace App\Support;
 use App\Models\Node;
 use App\Models\NodeStep;
 use App\Models\StepAttempt;
+use App\Models\StepHelp;
 use App\Models\User;
 use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Builder;
@@ -210,5 +211,61 @@ class ProgressStats
                     'steps' => $group->map(fn ($row) => ['code' => $steps[$row->node_step_id]->node->code.' · '.$steps[$row->node_step_id]->code, 'title' => $steps[$row->node_step_id]->title, 'fails' => (int) $row->fails])->values(),
                 ];
             })->sortByDesc('last_at')->take($limit)->values();
+    }
+
+    /** D123: las ayudas que pidieron los alumnos elegidos, en el curso y el período. */
+    private function helpRows(): Builder
+    {
+        return StepHelp::query()
+            ->whereIn('step_helps.user_id', $this->students)
+            ->when($this->courseId, fn ($q) => $q->where('step_helps.course_id', $this->courseId))
+            ->when($this->courseIds !== null, fn ($q) => $q->whereIn('step_helps.course_id', $this->courseIds ?: [0]))
+            ->when($this->since, fn ($q) => $q->where('step_helps.created_at', '>=', $this->since));
+    }
+
+    /**
+     * D123: cuánto se usa «Necesito ayuda»: por tipo de ayuda (veces y alumnos), y las micro-misiones donde más
+     * alumnos la pidieron, con cuántas líneas de la solución se mostraron. La oferta de Gheco cuenta aparte: no
+     * la pide el alumno.
+     *
+     * @return array{students: int, kinds: Collection<int, array{kind: string, label: string, times: int, students: int}>, steps: Collection<int, array<string, mixed>>}
+     */
+    public function helps(int $limit = 10): array
+    {
+        $byKind = $this->helpRows()->selectRaw('kind, COUNT(*) as times, COUNT(DISTINCT user_id) as students')
+            ->groupBy('kind')->get()->keyBy('kind');
+        $kinds = collect(StepHelp::KINDS)->map(fn ($label, $kind) => [
+            'kind' => $kind,
+            'label' => $label,
+            'times' => (int) ($byKind[$kind]->times ?? 0),
+            'students' => (int) ($byKind[$kind]->students ?? 0),
+        ])->values();
+
+        $asked = fn () => $this->helpRows()->where('kind', '!=', 'offer');
+        $rows = $asked()->selectRaw("node_step_id, COUNT(DISTINCT user_id) as students, SUM(kind = 'line') as line_count, COUNT(DISTINCT CASE WHEN kind = 'line' THEN user_id END) as line_students")
+            ->groupBy('node_step_id')->orderByDesc('students')->orderByDesc('line_count')->limit($limit)->get();
+        $steps = NodeStep::with('node:id,course_id,code,title', 'node.course:id,title')->whereIn('id', $rows->pluck('node_step_id'))->get()->keyBy('id');
+        $stepKinds = $asked()->whereIn('node_step_id', $rows->pluck('node_step_id'))->selectRaw('node_step_id, kind')->distinct()->get()
+            ->groupBy('node_step_id')->map(fn (Collection $group) => $group->pluck('kind'));
+
+        return [
+            'students' => $asked()->distinct()->count('step_helps.user_id'),
+            'kinds' => $kinds,
+            'steps' => $rows->filter(fn ($row) => $steps->has($row->node_step_id))->map(function ($row) use ($steps, $stepKinds) {
+                $step = $steps[$row->node_step_id];
+
+                return [
+                    'id' => $step->id,
+                    'code' => $step->code,
+                    'title' => $step->title ?: $step->code,
+                    'node' => $step->node->code.' · '.$step->node->title,
+                    'course' => $step->node->course->title,
+                    'students' => (int) $row->students,
+                    'lines' => (int) $row->line_count,
+                    'line_students' => (int) $row->line_students,
+                    'kinds' => collect(StepHelp::KINDS)->only($stepKinds[$step->id] ?? [])->except('line')->values(),
+                ];
+            })->values(),
+        ];
     }
 }

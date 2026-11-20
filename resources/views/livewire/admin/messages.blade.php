@@ -50,6 +50,9 @@
 
                 {{-- D110: todo para ayudar sin salir del chat: la consigna, su código y la solución, con «Ejecutar». --}}
                 <div class="flex flex-col gap-3" wire:key="context-{{ $thread }}" data-test="message-context">
+                    @if ($isStep)
+                        <p class="text-xs text-ink-muted" data-test="message-helps">Ayuda que ya usó: <span class="text-ink">{{ $context['helps'] ?? 'ninguna' }}</span></p>
+                    @endif
                     @if (filled($context['challenge']))
                         <details class="rounded-lg border border-outline/70 px-3 py-2 text-sm" open>
                             <summary class="cursor-pointer text-ink-muted">{{ $isStep ? 'El desafío' : 'La consigna' }}</summary>
@@ -68,7 +71,7 @@
                             @endif
                         </div>
                         <div class="flex min-w-0 flex-col gap-1">
-                            <p class="text-xs font-medium text-ink">La solución <span class="font-normal text-ink-muted">(el alumno no la ve)</span></p>
+                            <p class="text-xs font-medium text-ink">La solución <span class="font-normal text-ink-muted">({{ $isStep ? 'el alumno solo ve las líneas que pidió' : 'el alumno no la ve' }})</span></p>
                             @if (filled($context['solution']))
                                 <x-code-runner :code="$context['solution']" :stdin="$context['stdin']" :expected="$context['expected']" :checks="$context['checks']"
                                     :language="$context['language']" name="solucion" :read-only="true" data-test="message-solution" />

@@ -99,6 +99,7 @@ class Statistics extends Component
             'funnel' => $progress->funnel(),
             'hardestSteps' => $progress->hardestSteps(),
             'stuck' => $progress->stuck(),
+            'helps' => $progress->helps(),
             'practiceSummary' => $practices->summary(),
             'mostChosen' => $practices->mostChosen(),
             'hardest' => $practices->hardest(),

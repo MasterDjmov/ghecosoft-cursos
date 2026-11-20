@@ -6,6 +6,7 @@ use App\Models\CourseSubscription;
 use App\Models\NodeStep;
 use App\Models\NodeStepCompletion;
 use App\Models\StepAttempt;
+use App\Models\StepHelp;
 use App\Models\User;
 use App\Services\ActivityLog;
 use App\Support\ProgressStats;
@@ -103,4 +104,27 @@ test('el Inicio muestra el resumen y el enlace a Estadísticas', function () {
         ->assertOk()
         ->assertSee('data-test="stats-overview"', false)
         ->assertSee(route('admin.statistics'));
+});
+
+test('cuenta la ayuda que piden (D123) por tipo y por micro-misión', function () {
+    $help = fn (User $user, string $kind) => StepHelp::create(['user_id' => $user->id, 'node_step_id' => $this->step->id, 'course_id' => $this->made['course']->id, 'kind' => $kind, 'line' => $kind === 'line' ? 1 : null]);
+    $help($this->ana, 'offer');
+    $help($this->ana, 'where');
+    $help($this->ana, 'line');
+    $help($this->ana, 'line');
+    $help($this->beto, 'guide');
+
+    $helps = (new ProgressStats(User::where('role', 'student')->select('id'), $this->made['course']->id))->helps();
+
+    expect($helps['students'])->toBe(2)
+        ->and($helps['kinds']->firstWhere('kind', 'line'))->toMatchArray(['times' => 2, 'students' => 1])
+        ->and($helps['kinds']->firstWhere('kind', 'offer'))->toMatchArray(['times' => 1, 'students' => 1])
+        ->and($helps['steps']->sole())->toMatchArray(['title' => 'El pergamino habla', 'students' => 2, 'lines' => 2, 'line_students' => 1])
+        ->and($helps['steps']->sole()['kinds']->all())->toBe(['¿Qué me piden?', '¿Dónde toco?']);
+
+    Livewire::actingAs(User::factory()->admin()->create())
+        ->test(Statistics::class)
+        ->assertSee('Ayuda que piden')
+        ->assertSee('2 alumnos pidieron ayuda')
+        ->assertSee('2 líneas vistas (1 alumno)');
 });

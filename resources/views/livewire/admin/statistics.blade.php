@@ -181,6 +181,46 @@
         </section>
     </div>
 
+    {{-- D123: cuánto se usa «Necesito ayuda» en las micro-misiones. --}}
+    <section class="panel flex flex-col gap-4 p-5" data-test="stats-helps">
+        <div>
+            <h2 class="font-medium text-white">Ayuda que piden</h2>
+            <p class="text-xs text-ink-muted">Lo que usaron de «Necesito ayuda» en las micro-misiones ({{ $helps['students'] }} {{ $helps['students'] === 1 ? 'alumno la pidió' : 'alumnos la pidieron' }}). Se registra desde el 15/11/2026. Con alguna línea de la solución a la vista, la micro-misión paga la mitad.</p>
+        </div>
+        <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+            @foreach ($helps['kinds'] as $kind)
+                <div class="flex flex-col gap-0.5 rounded-lg border border-outline/70 p-3" wire:key="help-kind-{{ $kind['kind'] }}">
+                    <span class="font-display text-xl font-semibold text-white">{{ $kind['students'] }}</span>
+                    <span class="text-xs text-ink">{{ \Illuminate\Support\Str::ucfirst($kind['label']) }}</span>
+                    <span class="font-mono text-[11px] text-ink-muted">{{ $kind['students'] === 1 ? 'alumno' : 'alumnos' }} · {{ $kind['times'] }} {{ $kind['times'] === 1 ? 'vez' : 'veces' }}</span>
+                </div>
+            @endforeach
+        </div>
+        <div class="flex flex-col gap-2">
+            <h3 class="text-sm font-medium text-ink">Dónde más la piden</h3>
+            @forelse ($helps['steps'] as $step)
+                <div class="flex items-start gap-3 border-t border-outline/60 pt-2" wire:key="help-step-{{ $step['id'] }}">
+                    <span class="w-5 shrink-0 pt-0.5 text-right font-mono text-xs text-ink-muted">{{ $loop->iteration }}</span>
+                    <div class="flex min-w-0 flex-1 flex-col gap-0.5">
+                        <span class="font-medium text-ink">{{ $step['title'] }}</span>
+                        <span class="truncate text-xs text-ink-muted">{{ $selectedCourse ? '' : $step['course'].' · ' }}{{ $step['node'] }} · {{ $step['code'] }}</span>
+                        <span class="flex flex-wrap gap-x-3 font-mono text-[11px] text-ink-muted">
+                            <span class="text-primary-bright">{{ $step['students'] }} {{ $step['students'] === 1 ? 'alumno pidió ayuda' : 'alumnos pidieron ayuda' }}</span>
+                            @if ($step['lines'] > 0)
+                                <span class="text-[#fbbf24]">{{ $step['lines'] }} {{ $step['lines'] === 1 ? 'línea vista' : 'líneas vistas' }} ({{ $step['line_students'] }} {{ $step['line_students'] === 1 ? 'alumno' : 'alumnos' }})</span>
+                            @endif
+                            @if ($step['kinds']->isNotEmpty())
+                                <span>{{ $step['kinds']->implode(', ') }}</span>
+                            @endif
+                        </span>
+                    </div>
+                </div>
+            @empty
+                <flux:text>Nadie pidió ayuda en este período.</flux:text>
+            @endforelse
+        </div>
+    </section>
+
     {{-- Prácticas (entregas corregidas por el docente): lo que antes estaba en el Inicio. --}}
     <section class="flex flex-col gap-4" data-test="practice-stats">
         <div>

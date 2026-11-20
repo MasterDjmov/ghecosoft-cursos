@@ -6,10 +6,12 @@ use App\Models\NodeStep;
 use App\Models\NodeStepCompletion;
 use App\Models\Practice;
 use App\Models\PracticeMessage;
+use App\Models\StepHelp;
 use App\Models\Submission;
 use App\Models\User;
 use App\Services\PracticeMessenger;
 use App\Services\TeacherScope;
+use App\Support\StudentJourney;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Livewire\Attributes\On;
@@ -83,7 +85,7 @@ class Messages extends Component
     /**
      * Lo que se ve arriba del chat para ayudar sin salir de la pantalla.
      *
-     * @return array{language: string, challenge: ?string, studentCode: ?string, studentCodeFrom: ?string, solution: ?string, stdin: string, expected: string, checks: ?string}
+     * @return array{language: string, challenge: ?string, studentCode: ?string, studentCodeFrom: ?string, solution: ?string, stdin: string, expected: string, checks: ?string, helps: ?string}
      */
     private function context(Practice|NodeStep $subject, User $student): array
     {
@@ -110,6 +112,10 @@ class Messages extends Component
             'stdin' => (string) $subject->sample_input,
             'expected' => (string) $subject->expected_output,
             'checks' => $subject instanceof NodeStep ? $subject->checks : null,
+            // D123: la ayuda que ya usó en esa micro-misión («¿Dónde toco?, 2 líneas de la solución»).
+            'helps' => $subject instanceof NodeStep
+                ? StudentJourney::helpSummary(StepHelp::where('user_id', $student->id)->where('node_step_id', $subject->id)->get())
+                : null,
         ];
     }
 

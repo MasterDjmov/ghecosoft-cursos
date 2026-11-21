@@ -57,6 +57,12 @@ class UserPolicy
         return $this->viewProgress($user, $student, $course);
     }
 
+    /** Escribirle un mensaje (campanita y mail) desde *Alumnos*. */
+    public function contact(User $user, User $student): bool
+    {
+        return $this->viewStudent($user, $student);
+    }
+
     /** D123: prender o apagar su modo enfoque (sin motivo). */
     public function setFocusMode(User $user, User $student): bool
     {

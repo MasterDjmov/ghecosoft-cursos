@@ -6,6 +6,7 @@ use App\Enums\Role;
 use App\Models\Cohort;
 use App\Models\Course;
 use App\Models\CourseSubscription;
+use App\Models\StudentContact;
 use App\Models\User;
 use App\Services\DelayedStudents;
 use App\Services\EnrollmentApprover;
@@ -52,6 +53,9 @@ class Index extends Component
 
     /** '' = el abono del curso; si no, meses (EnrollmentApprover::MONTHS). */
     public string $enrollMonths = '';
+
+    /** El mensaje al alumno desplegado (se propone uno y se puede cambiar). */
+    public string $contactBody = '';
 
     public function updatedEnrollCourseId(): void
     {
@@ -103,6 +107,29 @@ class Index extends Component
         Flux::toast(variant: 'success', text: $renewal
             ? 'Abono de «'.$course->title.'» renovado hasta el '.$subscription->ends_at->format('d/m/Y').'.'
             : $student->fullName().' quedó inscripto en «'.$course->title.'», con sus monedas y el abono.');
+    }
+
+    /** Abre el mensaje al alumno desplegado, con un texto propuesto. */
+    public function openContact(): void
+    {
+        $student = User::where('role', Role::Student)->findOrFail($this->expanded);
+        $this->authorize('contact', $student);
+        $this->contactBody = StudentAccounts::contactBody($student, auth()->user());
+        $this->resetErrorBag();
+        Flux::modal('contact')->show();
+    }
+
+    /** Le llega a la campanita y por mail (si contesta el mail, le llega a quien escribió). */
+    public function sendContact(StudentAccounts $accounts): void
+    {
+        $this->validate(['contactBody' => ['required', 'string', 'min:10', 'max:2000']], [], ['contactBody' => 'mensaje']);
+        $student = User::where('role', Role::Student)->findOrFail($this->expanded);
+        $this->authorize('contact', $student);
+
+        $accounts->contact(auth()->user(), $student, trim($this->contactBody));
+        $this->reset('contactBody');
+        Flux::modal('contact')->close();
+        Flux::toast(variant: 'success', text: 'Mensaje enviado a '.$student->fullName().($student->email ? ' (campanita y mail).' : ' (solo a la campanita: no tiene email).'));
     }
 
     /** Comisión del alumno en un curso ('' = sin comisión). */
@@ -184,6 +211,8 @@ class Index extends Component
             'maintenanceAllowed' => array_flip(Maintenance::allowedIds()),
             'maintenanceOn' => Maintenance::platform() || Maintenance::courseIds() !== [],
             'delayedCount' => app(DelayedStudents::class)->for($viewer)->count(),
+            // Los mensajes que ya le mandaron al desplegado (el último arriba).
+            'contacts' => $this->expanded && ! $teachers ? StudentContact::where('user_id', $this->expanded)->with('sender:id,name,last_name')->latest('id')->limit(3)->get() : collect(),
         ]);
     }
 

@@ -193,6 +193,27 @@
                                         </flux:button>
                                     </form>
                                 @endif
+                                {{-- Escribirle (por ejemplo, a uno nuevo que está probando): campanita y mail, o WhatsApp con el mismo texto. --}}
+                                @can('contact', $person)
+                                    @php($waText = \App\Services\StudentAccounts::contactBody($person, auth()->user()))
+                                    <div class="flex flex-col gap-2 border-t border-outline pt-3" data-test="student-contact">
+                                        <div class="flex flex-wrap items-center gap-2">
+                                            <flux:button size="sm" icon="chat-bubble-left-right" wire:click="openContact" data-test="contact-open">Mandar mensaje</flux:button>
+                                            @if ($person->whatsappUrl())
+                                                <flux:button size="sm" variant="ghost" icon="phone" :href="$person->whatsappUrl().'?text='.rawurlencode($waText)" target="_blank" rel="noopener" data-test="contact-whatsapp">WhatsApp</flux:button>
+                                            @endif
+                                            @if ($person->email)
+                                                <flux:button size="sm" variant="ghost" icon="envelope" :href="'mailto:'.$person->email" data-test="contact-mail">Mail</flux:button>
+                                            @endif
+                                        </div>
+                                        @foreach ($contacts as $contact)
+                                            <p class="text-xs text-ink-muted" wire:key="contact-{{ $contact->id }}">
+                                                <span class="text-primary-bright">{{ $contact->sender ? 'Le escribió '.$contact->sender->fullName() : 'Le escribieron' }} el {{ $contact->created_at->format('d/m H:i') }}:</span>
+                                                {{ \Illuminate\Support\Str::limit($contact->body, 120) }}
+                                            </p>
+                                        @endforeach
+                                    </div>
+                                @endcan
                                 @can('viewStudent', $person)
                                     <div><flux:button size="sm" variant="ghost" icon="identification" :href="route('admin.students.show', $person)" wire:navigate>Ver la ficha completa</flux:button></div>
                                 @endcan
@@ -217,4 +238,17 @@
     </div>
 
     {{ $people->links() }}
+    <flux:modal name="contact" class="w-full max-w-lg">
+        @if ($expanded && ($contacting = $people->firstWhere('id', $expanded)))
+            <form wire:submit="sendContact" class="flex flex-col gap-4">
+                <flux:heading size="lg">Mensaje a {{ $contacting->fullName() }}</flux:heading>
+                <flux:text>Le llega a la campanita{{ $contacting->email ? ' y por mail ('.$contacting->email.'); si contesta el mail, la respuesta te llega a vos' : ' (no tiene email)' }}. Queda anotado en su fila.</flux:text>
+                <flux:textarea wire:model="contactBody" rows="6" label="Mensaje" data-test="contact-body" />
+                <div class="flex justify-end gap-2">
+                    <flux:modal.close><flux:button variant="ghost">Cancelar</flux:button></flux:modal.close>
+                    <flux:button type="submit" variant="primary" icon="paper-airplane" data-test="contact-send">Mandar</flux:button>
+                </div>
+            </form>
+        @endif
+    </flux:modal>
 </div>

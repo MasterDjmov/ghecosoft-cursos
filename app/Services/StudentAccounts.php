@@ -8,8 +8,10 @@ use App\Models\Course;
 use App\Models\CourseSubscription;
 use App\Models\EnrollmentRequest;
 use App\Models\GuardianAuthorization;
+use App\Models\StudentContact;
 use App\Models\Submission;
 use App\Models\User;
+use App\Notifications\PlatformNotification;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -123,7 +125,7 @@ class StudentAccounts
         'node_step_completions' => ['user_id'], 'step_attempts' => ['user_id'], 'step_helps' => ['user_id'], 'node_visits' => ['user_id'], 'practice_grants' => ['user_id'], 'node_unlocks' => ['user_id'], 'practice_marks' => ['user_id'],
         'submission_comments' => ['user_id'], 'submissions' => ['user_id'], 'practice_messages' => ['student_id', 'author_id'],
         'course_completions' => ['user_id'], 'user_badges' => ['user_id'], 'ranking_snapshots' => ['user_id'],
-        'universe_votes' => ['user_id'], 'delay_reminders' => ['user_id'], 'delay_dismissals' => ['user_id'], 'course_subscriptions' => ['user_id'], 'enrollment_requests' => ['user_id'],
+        'universe_votes' => ['user_id'], 'delay_reminders' => ['user_id'], 'student_contacts' => ['user_id'], 'delay_dismissals' => ['user_id'], 'course_subscriptions' => ['user_id'], 'enrollment_requests' => ['user_id'],
     ];
 
     /**
@@ -187,6 +189,34 @@ class StudentAccounts
             "Clave provisoria: {$password}",
             'Al entrar te va a pedir que elijas tu propia clave.',
         ]);
+    }
+
+    /**
+     * Escribirle a un alumno desde *Alumnos* (por ejemplo, a uno nuevo que está probando): le llega a la campanita
+     * y por mail; si contesta el mail, le llega a quien le escribió. Queda anotado.
+     */
+    public function contact(User $sender, User $student, string $body): StudentContact
+    {
+        $contact = StudentContact::create(['user_id' => $student->id, 'sent_by' => $sender->id, 'body' => $body, 'created_at' => now()]);
+
+        $student->notify(new PlatformNotification(
+            'contact',
+            'Mensaje de '.$sender->fullName(),
+            $body,
+            route('home'),
+            'chat-bubble-left-right',
+            replyTo: $sender->email ?: config('legal.email'),
+            replyName: $sender->fullName(),
+        ));
+
+        return $contact;
+    }
+
+    /** El texto que se propone para escribirle (se puede cambiar antes de mandarlo). */
+    public static function contactBody(User $student, User $sender): string
+    {
+        return "¡Hola, {$student->name}! Soy {$sender->name}, el profe de ".config('app.name').'. Vi que te registraste hace poco. '
+            .'¿Cómo te va con la clase de prueba? Si tenés alguna duda, sobre los cursos, el abono o cómo se usa la plataforma, escribime y te ayudo.';
     }
 
     /** Fácil de dictar por WhatsApp: sin letras que se confunden (l, o, i). Ej.: "Kxqa4821". */

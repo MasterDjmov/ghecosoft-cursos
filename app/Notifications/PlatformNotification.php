@@ -25,6 +25,9 @@ class PlatformNotification extends Notification
         public readonly string $body,
         public readonly string $url,
         public readonly string $icon = 'bell',
+        // A quién le llega si el alumno contesta el mail (el docente que le escribió).
+        public readonly ?string $replyTo = null,
+        public readonly ?string $replyName = null,
     ) {}
 
     public function via(object $notifiable): array
@@ -61,6 +64,9 @@ class PlatformNotification extends Notification
             ->greeting('Hola, '.$notifiable->name)
             ->line($this->body)
             ->action('Ver en la plataforma', $this->url);
+        if (filled($this->replyTo)) {
+            $mail->replyTo($this->replyTo, $this->replyName);
+        }
 
         // D113: quién lo manda y cómo dejar de recibirlo, en todo mail que no es de la cuenta.
         if ($this->isAnnouncement()) {

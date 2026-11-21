@@ -5,6 +5,7 @@ namespace App\Actions\Fortify;
 use App\Concerns\PasswordValidationRules;
 use App\Concerns\ProfileValidationRules;
 use App\Models\User;
+use App\Notifications\PlatformNotification;
 use App\Support\Maintenance;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\RateLimiter;
@@ -72,6 +73,15 @@ class CreateNewUser implements CreatesNewUsers
             'terms_version' => config('legal.version'),
             'guardian_consent_at' => self::needsGuardianConsent($input['birth_date']) ? now() : null,
         ])->save();
+
+        // Que el administrador se entere de que alguien se registró (campanita, sonido y mail), para escribirle.
+        PlatformNotification::toAdmins(new PlatformNotification(
+            'user.registered',
+            'Se registró '.$user->fullName(),
+            '@'.$user->username.' · '.$user->email.($user->phone ? ' · '.$user->phone : '').'. Está en Alumnos → Nuevos: desde ahí le podés escribir o matricularlo.',
+            route('admin.students.index', ['ver' => 'nuevos']),
+            'user-plus',
+        ));
 
         return $user;
     }

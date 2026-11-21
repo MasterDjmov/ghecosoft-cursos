@@ -2,6 +2,8 @@
 
 use App\Enums\Role;
 use App\Models\User;
+use App\Notifications\PlatformNotification;
+use Illuminate\Support\Facades\Notification;
 
 function registrationData(array $overrides = []): array
 {
@@ -31,6 +33,16 @@ test('un alumno se registra con nombre, apellido y usuario', function () {
     expect($user->last_name)->toBe('Pérez')
         ->and($user->role)->toBe(Role::Student);
     $this->assertAuthenticatedAs($user);
+});
+
+test('al registrarse alguien, le avisa al administrador', function () {
+    Notification::fake();
+    $admin = User::factory()->admin()->create();
+
+    $this->post(route('register.store'), registrationData())->assertSessionHasNoErrors();
+
+    Notification::assertSentTo($admin, PlatformNotification::class,
+        fn ($n) => $n->kind === 'user.registered' && $n->title === 'Se registró Kira Pérez' && str_contains($n->url, 'ver=nuevos'));
 });
 
 test('el registro nunca crea un admin aunque se mande el rol', function () {

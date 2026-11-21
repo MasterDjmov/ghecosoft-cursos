@@ -107,6 +107,12 @@ Valores a cambiar:
 
 Los avisos siempre aparecen en la campanita; por mail salen solo si `MAIL_MAILER=smtp` y hay un host real.
 
+**Avisos al WhatsApp (opcional, CallMeBot, gratis para uso personal):** las cuentas nuevas y los pedidos de abono también le llegan al WhatsApp del docente. Al WhatsApp va solo el título (el nombre de quien se registró o pidió) y el link, nunca su mail ni su teléfono.
+1. En [callmebot.com](https://www.callmebot.com/blog/free-api-whatsapp-messages/), agendá el número del bot (si dice que está lleno, probar a los días).
+2. Mandale por WhatsApp, tal cual: `I allow callmebot to send me messages`. Contesta con tu clave (*APIKEY*).
+3. En el `.env` del servidor: `CALLMEBOT_PHONE=+549380…` (tu número con código de país) y `CALLMEBOT_APIKEY=…`. Después, `php artisan config:cache`.
+4. Probar: `php artisan app:whatsapp-test`. Sin esas dos claves no se manda nada; si CallMeBot falla, queda en `storage/logs` y la plataforma sigue igual.
+
 ## 4. Base de datos, admin y permisos
 
 ```bash

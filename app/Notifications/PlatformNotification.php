@@ -6,6 +6,7 @@ use App\Enums\Role;
 use App\Models\Course;
 use App\Models\User;
 use App\Services\TeacherScope;
+use App\Support\WhatsAppAlert;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\URL;
@@ -18,6 +19,9 @@ class PlatformNotification extends Notification
 {
     /** Avisos que no son de la cuenta (D113): el mail lleva el link de baja y, con la baja, quedan solo en la campanita. */
     public const ANNOUNCEMENTS = ['course.released'];
+
+    /** Los que además le llegan al WhatsApp del docente (CallMeBot): una cuenta nueva y un pedido de abono. */
+    public const WHATSAPP = ['user.registered', 'request.new'];
 
     public function __construct(
         public readonly string $kind,
@@ -80,6 +84,12 @@ class PlatformNotification extends Notification
     /** Avisa a los administradores (pagos, cuentas, privacidad). */
     public static function toAdmins(self $notification): void
     {
+        if (in_array($notification->kind, self::WHATSAPP, true)) {
+            // El registro lleva el mail y el teléfono en el texto: al WhatsApp va solo el título (con el nombre).
+            $extra = $notification->kind === 'request.new' ? "\n".$notification->body : '';
+            WhatsAppAlert::queue('*'.$notification->title.'*'.$extra."\n".$notification->url);
+        }
+
         \Illuminate\Support\Facades\Notification::send(
             User::where('role', Role::Admin)->get(),
             $notification,

@@ -46,4 +46,11 @@ return [
         'url' => env('JAVA_RUNNER_URL', 'http://127.0.0.1:17017'),
     ],
 
+    // Avisos al WhatsApp del docente con CallMeBot (gratis, uso personal): sin las dos variables, no se manda nada.
+    // Se activa mandándole «I allow callmebot to send me messages» al número del bot (callmebot.com).
+    'callmebot' => [
+        'phone' => env('CALLMEBOT_PHONE'),
+        'apikey' => env('CALLMEBOT_APIKEY'),
+    ],
+
 ];

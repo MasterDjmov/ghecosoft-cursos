@@ -43,6 +43,7 @@
         <ul>
             <li><strong>El servicio de alojamiento</strong> donde está la plataforma y sus copias de seguridad.</li>
             <li><strong>Gmail (Google)</strong> para mandar los avisos por email, si cargaste uno. Google puede guardar esos mails fuera de la Argentina.</li>
+            <li><strong>WhatsApp (por medio de CallMeBot)</strong>: cuando te registrás o pedís un abono, el docente recibe en su propio WhatsApp un aviso con tu nombre (nunca tu email ni tu teléfono).</li>
             <li><strong>Google Fonts</strong>: en el curso de HTML y CSS, la vista previa de tu página puede pedir tipografías a Google desde tu navegador.</li>
         </ul>
         <p>El código que escribís se ejecuta en tu propio navegador, no en nuestros servidores.</p>

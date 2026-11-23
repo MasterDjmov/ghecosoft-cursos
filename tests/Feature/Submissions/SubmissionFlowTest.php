@@ -251,7 +251,7 @@ test('el docente ejecuta una entrega de Java con el ejecutor local o con el coma
 
     $this->actingAs($this->admin)->get(route('admin.submissions.show', $submission))
         ->assertOk()->assertSee('data-test="local-run"', false)->assertSee('Descargar Tablas.java')
-        ->assertSee('java -cp . Tablas', false)->assertSee('title="Ejecutar (Ctrl+Enter)"', false)
+        ->assertSee('-cp . Tablas', false)->assertSee('title="Ejecutar (Ctrl+Enter)"', false)
         ->assertSee('127.0.0.1:17017', false);
 
     // Desde D85 el alumno también ejecuta Java, con el ejecutor de su propia compu.

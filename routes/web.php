@@ -48,6 +48,7 @@ use App\Livewire\Student\Mission;
 use App\Livewire\Student\NodeView;
 use App\Livewire\Student\PracticeTool;
 use App\Livewire\Student\RankingBoard;
+use App\Livewire\Student\SavedPractices;
 use App\Livewire\Student\Shop;
 use App\Livewire\Student\Stables;
 use App\Livewire\Student\Universe as StudentUniverse;
@@ -118,6 +119,7 @@ Route::middleware(['auth', 'password.changed'])->group(function () {
     Route::livewire('herramientas/golem-8086', AsmTool::class)->name('student.asm-tool');
     Route::livewire('herramientas/caja-de-la-feria', JsTool::class)->name('student.js-tool');
     Route::livewire('herramientas/practicar/{language}', PracticeTool::class)->name('student.practice-tool');
+    Route::livewire('herramientas/mis-practicas', SavedPractices::class)->name('student.saved-practices');
     Route::get('herramientas/ejecutor-java/descargar', JavaRunnerDownloadController::class)->middleware('throttle:20,1')->name('student.java-runner.download');
     Route::livewire('ranking/{course}', RankingBoard::class)->name('student.ranking.course');
 

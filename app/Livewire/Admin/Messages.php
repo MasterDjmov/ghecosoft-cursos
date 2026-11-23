@@ -6,6 +6,7 @@ use App\Models\NodeStep;
 use App\Models\NodeStepCompletion;
 use App\Models\Practice;
 use App\Models\PracticeMessage;
+use App\Models\SavedPractice;
 use App\Models\StepHelp;
 use App\Models\Submission;
 use App\Models\User;
@@ -54,10 +55,10 @@ class Messages extends Component
     private function threads(): Collection
     {
         $rows = app(TeacherScope::class)->messages(PracticeMessage::query(), auth()->user())
-            ->selectRaw('practice_id, node_step_id, student_id, max(id) as last_id, max(created_at) as last_at')
+            ->selectRaw('practice_id, node_step_id, saved_practice_id, student_id, max(id) as last_id, max(created_at) as last_at')
             ->selectRaw('sum(case when read_at is null and author_id = student_id then 1 else 0 end) as unread')
             ->when($this->student !== '', fn ($q) => $q->where('student_id', (int) $this->student))
-            ->groupBy('practice_id', 'node_step_id', 'student_id')
+            ->groupBy('practice_id', 'node_step_id', 'saved_practice_id', 'student_id')
             ->orderByRaw('sum(case when read_at is null and author_id = student_id then 1 else 0 end) > 0 desc')
             ->orderByDesc('last_at')
             ->limit(100)
@@ -66,15 +67,21 @@ class Messages extends Component
         $last = PracticeMessage::whereIn('id', $rows->pluck('last_id'))->get()->keyBy('id');
         $practices = Practice::with('node.course')->whereIn('id', $rows->pluck('practice_id')->filter())->get()->keyBy('id');
         $steps = NodeStep::with('node.course')->whereIn('id', $rows->pluck('node_step_id')->filter())->get()->keyBy('id');
+        $saved = SavedPractice::whereIn('id', $rows->pluck('saved_practice_id')->filter())->get()->keyBy('id');
         $students = User::whereIn('id', $rows->pluck('student_id'))->get()->keyBy('id');
 
-        return $rows->map(function ($row) use ($practices, $steps, $students, $last) {
-            $subject = $row->practice_id ? ($practices[$row->practice_id] ?? null) : ($steps[$row->node_step_id] ?? null);
+        return $rows->map(function ($row) use ($practices, $steps, $saved, $students, $last) {
+            $subject = match (true) {
+                (bool) $row->practice_id => $practices[$row->practice_id] ?? null,
+                (bool) $row->node_step_id => $steps[$row->node_step_id] ?? null,
+                default => $saved[$row->saved_practice_id] ?? null,
+            };
 
             return (object) [
                 'key' => $subject ? PracticeMessage::threadKey($subject, $row->student_id) : '',
                 'subject' => $subject,
                 'isStep' => $subject instanceof NodeStep,
+                'isSaved' => $subject instanceof SavedPractice,
                 'student' => $students[$row->student_id] ?? null,
                 'last' => $last[$row->last_id] ?? null,
                 'unread' => (int) $row->unread,
@@ -87,8 +94,24 @@ class Messages extends Component
      *
      * @return array{language: string, challenge: ?string, studentCode: ?string, studentCodeFrom: ?string, solution: ?string, stdin: string, expected: string, checks: ?string, helps: ?string}
      */
-    private function context(Practice|NodeStep $subject, User $student): array
+    private function context(Practice|NodeStep|SavedPractice $subject, User $student): array
     {
+        // D124: de Mis prácticas: su código (el del último mensaje o el guardado), sin consigna ni solución.
+        if ($subject instanceof SavedPractice) {
+            $withCode = PracticeMessage::thread($subject, $student)->whereNotNull('code')->latest('id')->first();
+
+            return [
+                'language' => $subject->language,
+                'challenge' => null,
+                'studentCode' => $withCode?->code ?? $subject->code,
+                'studentCodeFrom' => $withCode ? 'con su consulta del '.$withCode->created_at->format('d/m H:i') : 'lo que tiene guardado',
+                'solution' => null,
+                'stdin' => (string) $subject->stdin,
+                'expected' => '',
+                'checks' => null,
+                'helps' => null,
+            ];
+        }
         $course = $subject->node->course;
         // El código del alumno: el que mandó con su último mensaje; si no, lo último que resolvió o entregó.
         $withCode = PracticeMessage::thread($subject, $student)->whereNotNull('code')->latest('id')->first();
@@ -136,6 +159,7 @@ class Messages extends Component
             'threads' => $this->threads(),
             'subject' => $open ? $subject : null,
             'isStep' => $open && $subject instanceof NodeStep,
+            'isSaved' => $open && $subject instanceof SavedPractice,
             'selectedStudent' => $open ? $selectedStudent : null,
             'context' => $open ? $this->context($subject, $selectedStudent) : null,
             // El filtro viene del navegador: el docente solo ve el nombre de alumnos de sus comisiones (D72).

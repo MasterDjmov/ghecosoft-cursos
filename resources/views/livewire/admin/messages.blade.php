@@ -27,8 +27,10 @@
                     <span class="flex items-center gap-1.5 truncate text-xs text-ink-muted">
                         @if ($item->isStep)
                             <flux:badge size="sm" color="cyan">micro</flux:badge>
+                        @elseif ($item->isSaved)
+                            <flux:badge size="sm" color="violet">mi práctica</flux:badge>
                         @endif
-                        <span class="truncate">{{ $item->subject->node->course->title }} · {{ $item->subject->node->title }} · {{ $item->subject->title }}</span>
+                        <span class="truncate">{{ $item->isSaved ? 'Practicar '.$item->subject->languageLabel() : $item->subject->node->course->title.' · '.$item->subject->node->title }} · {{ $item->subject->title }}</span>
                     </span>
                     <span class="line-clamp-2 text-xs text-ink">{{ $item->last->author_id === $item->student->id ? '' : 'Vos: ' }}{{ $item->last->body }}</span>
                 </button>
@@ -40,11 +42,13 @@
         <section class="panel flex min-w-0 flex-col gap-4 p-5" aria-label="Conversación">
             @if ($subject)
                 <div class="flex flex-col gap-1">
-                    <p class="tech-label">{{ $subject->node->course->title }} · {{ $subject->node->title }} · {{ $isStep ? 'micro-misión '.$subject->code : 'práctica' }}</p>
+                    <p class="tech-label">{{ $isSaved ? 'Mis prácticas · Practicar '.$subject->languageLabel() : $subject->node->course->title.' · '.$subject->node->title.' · '.($isStep ? 'micro-misión '.$subject->code : 'práctica') }}</p>
                     <h2 class="font-display text-lg font-semibold text-white">{{ $subject->title }}</h2>
                     <p class="text-sm text-ink-muted">
                         <a href="{{ route('admin.students.show', $selectedStudent) }}" wire:navigate class="text-primary-bright hover:underline">{{ $selectedStudent->fullName() }}</a>
-                        · <a href="{{ route('admin.nodes.edit', [$subject->node->course, $subject->node]) }}" wire:navigate class="hover:underline">ver el nodo</a>
+                        @unless ($isSaved)
+                            · <a href="{{ route('admin.nodes.edit', [$subject->node->course, $subject->node]) }}" wire:navigate class="hover:underline">ver el nodo</a>
+                        @endunless
                     </p>
                 </div>
 
@@ -70,6 +74,7 @@
                                 <p class="rounded-lg border border-dashed border-outline p-3 text-xs text-ink-muted">No mandó código con la consulta ni lo resolvió todavía.</p>
                             @endif
                         </div>
+                        @unless ($isSaved)
                         <div class="flex min-w-0 flex-col gap-1">
                             <p class="text-xs font-medium text-ink">La solución <span class="font-normal text-ink-muted">({{ $isStep ? 'el alumno solo ve las líneas que pidió' : 'el alumno no la ve' }})</span></p>
                             @if (filled($context['solution']))
@@ -79,10 +84,11 @@
                                 <p class="rounded-lg border border-dashed border-outline p-3 text-xs text-ink-muted">Esta {{ $isStep ? 'micro-misión' : 'práctica' }} no tiene solución cargada.</p>
                             @endif
                         </div>
+                        @endunless
                     </div>
                 </div>
 
-                <livewire:practice-chat :practice="$isStep ? null : $subject" :step="$isStep ? $subject : null" :student="$selectedStudent" :key="'admin-chat-'.$thread" />
+                <livewire:practice-chat :practice="$isStep || $isSaved ? null : $subject" :step="$isStep ? $subject : null" :saved="$isSaved ? $subject : null" :student="$selectedStudent" :key="'admin-chat-'.$thread" />
             @else
                 <p class="py-10 text-center text-sm text-ink-muted">Elegí una conversación de la lista.</p>
             @endif

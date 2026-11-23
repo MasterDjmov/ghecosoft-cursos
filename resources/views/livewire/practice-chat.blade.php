@@ -7,6 +7,8 @@
         <p class="rounded-lg border border-dashed border-outline p-3 text-sm text-ink-muted">
             @if ($viewer->isStaff())
                 Todavía no hay mensajes con {{ $student->name }} sobre {{ $isStep ? 'esta micro-misión' : 'esta práctica' }}.
+            @elseif ($isSaved)
+                ¿Tenés una duda con esta práctica? Escribile al profe: junto con tu mensaje le llega el código que tenés en el editor y lo que te dio al ejecutarlo.
             @elseif ($isStep)
                 ¿Te trabaste? Escribile al profe: junto con tu mensaje le llega el código que tenés en el editor y lo que te dio al ejecutarlo.
             @else
@@ -50,6 +52,6 @@
         </form>
         <flux:error name="body" />
     @else
-        <p class="flex items-start gap-2 text-xs text-ink-muted"><flux:icon name="lock-closed" variant="micro" class="mt-px shrink-0" /> Con el abono vencido podés leer la conversación, pero para escribir tenés que renovarlo.</p>
+        <p class="flex items-start gap-2 text-xs text-ink-muted"><flux:icon name="lock-closed" variant="micro" class="mt-px shrink-0" /> {{ $isSaved ? 'Para consultarle al profe necesitás el abono vigente de algún curso; la conversación la podés leer igual.' : 'Con el abono vencido podés leer la conversación, pero para escribir tenés que renovarlo.' }}</p>
     @endif
 </div>

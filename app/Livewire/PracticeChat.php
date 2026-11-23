@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\NodeStep;
 use App\Models\Practice;
 use App\Models\PracticeMessage;
+use App\Models\SavedPractice;
 use App\Models\User;
 use App\Services\PracticeMessenger;
 use Flux\Flux;
@@ -14,8 +15,8 @@ use Livewire\Attributes\Locked;
 use Livewire\Component;
 
 /**
- * El hilo de consultas de un alumno sobre una práctica (D63) o una micro-misión (D110). Lo usan el alumno (modo
- * misión, tarjeta de la práctica y la micro-misión) y el docente (Admin → Mensajes). Se actualiza solo cada 20 s.
+ * El hilo de consultas de un alumno sobre una práctica (D63), una micro-misión (D110) o una práctica guardada (D124).
+ * Lo usan el alumno (modo misión, tarjeta de la práctica, la micro-misión y Mis prácticas) y el docente (Admin → Mensajes). Se actualiza solo cada 20 s.
  * Si está adentro de un editor (codeRunner), el mensaje del alumno lleva la foto de su código y su salida.
  */
 class PracticeChat extends Component
@@ -27,17 +28,21 @@ class PracticeChat extends Component
     public ?int $stepId = null;
 
     #[Locked]
+    public ?int $savedId = null;
+
+    #[Locked]
     public int $studentId;
 
     public string $body = '';
 
-    public function mount(User $student, ?Practice $practice = null, ?NodeStep $step = null): void
+    public function mount(User $student, ?Practice $practice = null, ?NodeStep $step = null, ?SavedPractice $saved = null): void
     {
-        $subject = $practice ?? $step;
+        $subject = $practice ?? $step ?? $saved;
         abort_if($subject === null, 404);
         Gate::authorize('viewThread', [PracticeMessage::class, $subject, $student]);
         $this->practiceId = $practice?->id;
-        $this->stepId = $practice ? null : $step->id;
+        $this->stepId = $practice ? null : $step?->id;
+        $this->savedId = $practice || $step ? null : $saved->id;
         $this->studentId = $student->id;
     }
 
@@ -64,12 +69,14 @@ class PracticeChat extends Component
         $this->dispatch('practice-chat-sent');
     }
 
-    /** @return array{0: Practice|NodeStep, 1: User} */
+    /** @return array{0: Practice|NodeStep|SavedPractice, 1: User} */
     private function thread(): array
     {
-        $subject = $this->practiceId
-            ? Practice::with('node.course')->findOrFail($this->practiceId)
-            : NodeStep::with('node.course')->findOrFail($this->stepId);
+        $subject = match (true) {
+            $this->practiceId !== null => Practice::with('node.course')->findOrFail($this->practiceId),
+            $this->stepId !== null => NodeStep::with('node.course')->findOrFail($this->stepId),
+            default => SavedPractice::findOrFail($this->savedId),
+        };
 
         return [$subject, User::findOrFail($this->studentId)];
     }
@@ -89,6 +96,7 @@ class PracticeChat extends Component
         return view('livewire.practice-chat', [
             'practice' => $practice,
             'isStep' => $practice instanceof NodeStep,
+            'isSaved' => $practice instanceof SavedPractice,
             'student' => $student,
             'viewer' => $viewer,
             'messages' => PracticeMessage::thread($practice, $student)->with('author:id,name,last_name,role')->oldest()->get(),

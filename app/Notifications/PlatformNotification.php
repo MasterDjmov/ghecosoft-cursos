@@ -96,6 +96,15 @@ class PlatformNotification extends Notification
         );
     }
 
+    /** Lo de un alumno que no es de un curso (D124, Mis prácticas): a los administradores y a todos sus docentes. */
+    public static function toStaffOf(self $notification, User $student): void
+    {
+        \Illuminate\Support\Facades\Notification::send(
+            User::where('role', Role::Admin)->get()->merge(app(TeacherScope::class)->allTeachersOf($student))->unique('id'),
+            $notification,
+        );
+    }
+
     /** Lo de un alumno en un curso (entregas, consultas): a los administradores y a sus docentes (D72). */
     public static function toStaff(self $notification, User $student, Course $course): void
     {

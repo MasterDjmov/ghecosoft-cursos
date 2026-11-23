@@ -38,7 +38,17 @@ Pruebas: `node scripts/herramientas/probar.mjs` (la cuenta y las tablas) y `node
 
 Si el lenguaje ya corre en `<x-code-runner>`, alcanza con agregarlo a `PracticeTools::TOOLS` (con su ejemplo, sus avisos y los cursos que lo habilitan) y a `LISTS` en `completions.js`.
 
+## Bajar y Mis prácticas (D124, 2026-11-22)
+
+Pedido del docente: dando clase con Practicar no tenía cómo bajar el archivo que usaba, y quiere que el alumno pueda guardar lo que practica, retomarlo y consultarlo.
+
+- **Bajar**: botón en la barra del editor de Practicar (`<x-code-runner download>`): el código que se ve, como archivo (`practica.php`, o el nombre de la práctica guardada). Se arma en el navegador.
+- **Guardar**: en Practicar, «Guardar» lo deja en **Mis prácticas** (tabla `saved_practices`: lenguaje, nombre, código y entrada) con un nombre que se cambia arriba. Abierta una guardada (`?practica=id`), «Guardar» la actualiza (un punto ámbar avisa los cambios sin guardar), «Copia» guarda otra aparte, y se abre con lo guardado, no con lo que quedó en el navegador. Hasta 200 por persona y 100.000 caracteres cada una.
+- **Mis prácticas** (*Herramientas → Mis prácticas*, `SavedPractices`): la lista, con búsqueda y lenguaje, para abrir, bajar o borrar; marca «el profe te respondió». Las ve solo su dueño, **ni el administrador** (`SavedPracticePolicy`; `Gate::before` las exceptúa). Para abrir una hace falta poder usar esa herramienta (el abono de un curso de ese lenguaje); bajarla y borrarla, siempre.
+- **Preguntale al profe**: desde una práctica guardada, como en las micro-misiones (el mensaje lleva el código y la salida). El hilo va en `practice_messages.saved_practice_id`; lo ven el administrador y **cualquier docente que tenga al alumno en una comisión** (no es de un curso), y les avisa a todos ellos (`PlatformNotification::toStaffOf`). En *Admin → Mensajes* sale con la etiqueta «mi práctica» y su código con «Ejecutar», sin consigna ni solución. Escribir pide el abono vigente de algún curso; leer, no.
+- Se borran al reiniciar la cuenta (`StudentAccounts::RESET`); reiniciar un curso no las toca.
+
 ## Para más adelante
 
 - **Sugerencias que entiendan el código** (por ejemplo, los métodos de una variable). Para C# se podría usar Roslyn, que ya corre en el navegador; para Python, Jedi con Pyodide. Cada lenguaje es un trabajo aparte.
-- **Varios archivos por programa** y bajar el programa como archivo. Hoy se copia con «Copiar».
+- **Varios archivos por programa**. Bajar el archivo ya está (D124).

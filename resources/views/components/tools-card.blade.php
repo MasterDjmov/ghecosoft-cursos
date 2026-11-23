@@ -3,6 +3,14 @@
 <flux:separator variant="subtle" class="my-2" />
 <div class="rounded-xl border border-primary/30 bg-primary/5 p-1 in-data-flux-sidebar-collapsed-desktop:border-0 in-data-flux-sidebar-collapsed-desktop:bg-transparent in-data-flux-sidebar-collapsed-desktop:p-0" data-test="menu-tools">
     <flux:sidebar.group heading="Herramientas" class="grid">
+        {{-- D124: lo guardado desde Practicar; late si el profe respondió una consulta. --}}
+        @if (collect($tools)->contains(fn ($tool) => isset(\App\Support\PracticeTools::TOOLS[$tool['key']])))
+            @php($savedReplies = \App\Models\PracticeMessage::whereNotNull('saved_practice_id')->where('student_id', auth()->id())->unreadFor(auth()->user())->count())
+            <flux:sidebar.item icon="bookmark" :href="route('student.saved-practices')" :current="request()->routeIs('student.saved-practices') || (request()->routeIs('student.practice-tool') && request()->query('practica'))"
+                wire:navigate data-test="menu-saved-practices" :badge="$savedReplies ?: null" badge:color="red">
+                Mis prácticas
+            </flux:sidebar.item>
+        @endif
         @foreach (\App\Support\PracticeTools::utilities() as $tool)
             {{-- Un clic abre (o trae adelante) su ventana flotante; el + abre otra más. --}}
             <div class="group relative grid">

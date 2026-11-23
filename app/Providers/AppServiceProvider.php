@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Http\Middleware\EnsureCourseOpen;
 use App\Http\Middleware\EnsurePasswordChanged;
 use App\Http\Middleware\EnsureRole;
+use App\Models\SavedPractice;
 use App\Models\User;
 use App\Support\MailBudget;
 use App\Support\TrustedProxies;
@@ -38,7 +39,8 @@ class AppServiceProvider extends ServiceProvider
         $this->configureDefaults();
 
         // El docente puede ver y hacer todo; las Policies solo deciden por los alumnos.
-        Gate::before(fn (User $user) => $user->isAdmin() ? true : null);
+        // El administrador puede todo, salvo abrir las prácticas guardadas de otro (D124: son personales).
+        Gate::before(fn (User $user, string $ability, array $arguments = []) => $user->isAdmin() && ! (($arguments[0] ?? null) instanceof SavedPractice) ? true : null);
 
         // También en las acciones de Livewire: con clave provisoria no se hace nada más, y un curso en
         // mantenimiento (D86) frena también las páginas que ya estaban abiertas.

@@ -4,10 +4,11 @@
         @include('partials.head')
     </head>
     <body class="min-h-screen" data-tool-windows="{{ auth()->id() }}">
-        <flux:sidebar sticky collapsible="mobile" class="border-e border-outline bg-surface-lowest/95 backdrop-blur-md">
+        {{-- En la compu se pliega a una tira de íconos (con zoom o pantalla chica molesta menos); Flux recuerda la elección. --}}
+        <flux:sidebar sticky collapsible class="border-e border-outline bg-surface-lowest/95 backdrop-blur-md">
             <flux:sidebar.header>
-                <x-app-logo href="{{ route('home') }}" wire:navigate />
-                <flux:sidebar.collapse class="lg:hidden" />
+                <x-app-logo href="{{ route('home') }}" wire:navigate class="in-data-flux-sidebar-collapsed-desktop:hidden" />
+                <flux:sidebar.collapse tooltip="Plegar o abrir el menú" data-test="sidebar-collapse" />
             </flux:sidebar.header>
 
             <flux:sidebar.nav>
@@ -113,7 +114,7 @@
 
                     {{-- El juego (D84): separado de lo del curso, para que se entienda qué es cada cosa. --}}
                     <flux:separator variant="subtle" class="my-2" />
-                    <div class="rounded-xl border border-secondary/30 bg-secondary/5 p-1" data-test="menu-game">
+                    <div class="rounded-xl border border-secondary/30 bg-secondary/5 p-1 in-data-flux-sidebar-collapsed-desktop:border-0 in-data-flux-sidebar-collapsed-desktop:bg-transparent in-data-flux-sidebar-collapsed-desktop:p-0" data-test="menu-game">
                         <flux:sidebar.group heading="Juego" class="grid">
                             {{-- Mis Crónicas (D80): late cuando hay páginas nuevas sin leer. --}}
                             @php($newPages = (new \App\Support\Chronicles(auth()->user()))->newCount())
@@ -162,7 +163,7 @@
                 </flux:sidebar.item>
             </flux:sidebar.nav>
 
-            <x-legal-links class="justify-start! px-2" />
+            <x-legal-links class="justify-start! px-2 in-data-flux-sidebar-collapsed-desktop:hidden" />
         </flux:sidebar>
 
         {{-- Barra superior: saldos (alumno) y menú del avatar. --}}

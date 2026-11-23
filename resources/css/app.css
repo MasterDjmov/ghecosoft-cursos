@@ -180,3 +180,11 @@ select:focus[data-flux-control] {
 }
 .prologue-kenburns { animation: prologue-kenburns 25s cubic-bezier(.25, 1, .5, 1) forwards; }
 @media (prefers-reduced-motion: reduce) { .prologue-kenburns { animation: none; } }
+
+/* Menú plegado (tira de íconos): Flux esconde los grupos con título; acá se dejan los íconos y se saca solo el título. */
+[data-flux-sidebar-collapsed-desktop] [data-flux-sidebar-group] {
+    display: flex !important;
+}
+[data-flux-sidebar-collapsed-desktop] [data-flux-sidebar-group] > .truncate {
+    display: none;
+}

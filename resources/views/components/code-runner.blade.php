@@ -15,6 +15,8 @@
     // Herramientas (D120): lo escrito se recuerda en este navegador, con sugerencias al escribir.
     'keep' => null,
     'autocomplete' => false,
+    // Botón «Bajar»: lo que hay en el editor como archivo (Herramientas y Mis prácticas).
+    'download' => false,
 ])
 
 @php
@@ -84,6 +86,12 @@
                 <button type="button" x-on:click="copy" title="Copiar" class="{{ $barButton }} text-ink-muted hover:bg-surface-high hover:text-ink">
                     <flux:icon name="clipboard" variant="micro" /> <span class="hidden sm:inline" x-text="copied ? '¡Copiado!' : 'Copiar'">Copiar</span>
                 </button>
+                @if ($download)
+                    <button type="button" x-on:click="download(@js($name.'.'.$extension))" title="Bajar el archivo" data-test="code-download"
+                        class="{{ $barButton }} text-ink-muted hover:bg-surface-high hover:text-ink">
+                        <flux:icon name="arrow-down-tray" variant="micro" /> <span class="hidden sm:inline">Bajar</span>
+                    </button>
+                @endif
                 @if ($canRun && $language !== 'asm')
                     <button type="button" x-on:click="run" x-bind:disabled="running" title="Ejecutar (Ctrl+Enter)"
                         class="{{ $barButton }} bg-primary/15 text-primary-bright hover:bg-primary/25">

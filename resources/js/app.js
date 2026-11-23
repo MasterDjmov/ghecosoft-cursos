@@ -670,6 +670,19 @@ document.addEventListener('alpine:init', () => {
             }
         },
 
+        // Bajar lo que hay en el editor como archivo (Herramientas, Mis prácticas): con solapas, el archivo que se está viendo.
+        download(name) {
+            const tabbed = this.fileEditors.length > 0;
+            const text = tabbed ? this.fileEditors[this.fileTab].state.doc.toString() : this.code;
+            const fileName = (tabbed ? this.files?.[this.fileTab]?.split('/').pop() : null) || name;
+            const url = URL.createObjectURL(new Blob([text], { type: 'text/plain;charset=utf-8' }));
+            const link = Object.assign(document.createElement('a'), { href: url, download: fileName });
+            document.body.append(link);
+            link.click();
+            link.remove();
+            setTimeout(() => URL.revokeObjectURL(url), 1000);
+        },
+
         restore() {
             // Los archivos en solapas se arman de nuevo a partir del ejemplo.
             if (config.keep && this.fileEditors.length) {

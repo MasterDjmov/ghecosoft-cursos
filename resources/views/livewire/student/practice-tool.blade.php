@@ -3,7 +3,7 @@
         Para probar lo que quieras sin instalar nada. Lo que escribís queda en este navegador, por si volvés, y no cuenta para el curso.
     </x-tool-header>
 
-    <x-code-runner :code="$tool['starter']" :language="$language" :name="$tool['name'] ?? 'practica'" :keep="$language" autocomplete data-test="practice-tool" />
+    <x-code-runner :code="$tool['starter']" :language="$language" :name="$tool['name'] ?? 'practica'" :keep="$language" autocomplete download data-test="practice-tool" />
 
     <section class="panel flex flex-col gap-2 p-5 text-sm text-ink">
         <h2 class="font-display text-base font-semibold text-white">Para tener en cuenta</h2>

@@ -81,6 +81,30 @@ class Show extends Component
         return null;
     }
 
+    /** D125: la aprobaste por error: pasa a «Para rehacer» y se devuelve lo que cobró por ella. */
+    public function revoke(SubmissionReviewer $reviewer): void
+    {
+        $this->authorize('review', $this->submission);
+        $this->validate(
+            ['comment' => ['required', 'string', 'max:2000']],
+            ['comment.required' => 'Contale qué tiene que corregir.'],
+            ['comment' => 'comentario'],
+        );
+
+        try {
+            $reviewer->revoke($this->submission, auth()->user(), $this->comment);
+        } catch (DomainException $e) {
+            Flux::toast(variant: 'danger', text: $e->getMessage());
+
+            return;
+        }
+
+        $this->reset('comment');
+        $this->submission->refresh();
+        Flux::modal('revoke')->close();
+        Flux::toast(text: 'Volvió a «Para rehacer» y se le descontó lo que había cobrado. Ya le avisamos.');
+    }
+
     public function redo(SubmissionReviewer $reviewer)
     {
         $this->authorize('review', $this->submission);
@@ -170,6 +194,7 @@ class Show extends Component
             'criteriaHtml' => Markdown::render($practice->approval_criteria),
             'cases' => SubmissionCases::for($submission),
             'canApproveAnyway' => $submission->status === SubmissionStatus::Redo && SubmissionReviewer::isLatestAttempt($submission),
+            'canRevoke' => $submission->status === SubmissionStatus::Approved && SubmissionReviewer::isLatestAttempt($submission),
             'previous' => Submission::where('user_id', $submission->user_id)->where('practice_id', $practice->id)
                 ->whereKeyNot($submission->id)->orderByDesc('attempt')->get(),
             'snippets' => ReviewSnippet::for(auth()->user(), $practice->node->course_id)->get(['id', 'course_id', 'body']),

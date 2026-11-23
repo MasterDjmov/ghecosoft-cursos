@@ -5,6 +5,8 @@ namespace App\Services;
 use App\Enums\CoinReason;
 use App\Enums\SubmissionStatus;
 use App\Enums\XpReason;
+use App\Exceptions\InsufficientFunds;
+use App\Models\CoinTransaction;
 use App\Models\Course;
 use App\Models\CourseCompletion;
 use App\Models\CourseSubscription;
@@ -118,6 +120,48 @@ class SubmissionReviewer
                 'reviewed_by' => $admin->id,
             ])->save();
 
+            $submission->comments()->create(['user_id' => $admin->id, 'body' => $comment]);
+        });
+
+        $this->notifyStudent($submission->fresh(), 'redo', 'Hay que rehacerla: '.str($comment)->limit(120));
+    }
+
+    /**
+     * D125: la aprobaste por error. La última entrega aprobada pasa a «Para rehacer» y se devuelve lo que pagó esa
+     * entrega (sus monedas o comodines y su XP, con movimientos de reversión en el libro), así al aprobarla de nuevo
+     * cobra una sola vez. Lo del nodo completo (su XP, la insignia del jefe) no se toca: nunca se paga dos veces.
+     * Si ya gastó esas monedas, no se puede: el docente decide (dejarla aprobada o descontarlas a mano).
+     */
+    public function revoke(Submission $submission, User $admin, string $comment): void
+    {
+        DB::transaction(function () use ($submission, $admin, $comment) {
+            $submission = Submission::whereKey($submission->id)->lockForUpdate()->firstOrFail();
+            if ($submission->status !== SubmissionStatus::Approved || ! self::isLatestAttempt($submission)) {
+                throw new DomainException('Solo se puede volver atrás la última entrega aprobada.');
+            }
+            $student = $submission->user;
+            $course = $submission->practice->node->course;
+            $source = fn ($query) => $query->where('user_id', $student->id)
+                ->where('source_type', $submission->getMorphClass())->where('source_id', $submission->id);
+
+            foreach ($source(CoinTransaction::query())->where('reason', CoinReason::PracticeApproved)->get() as $paid) {
+                try {
+                    $this->ledger->debit($student, $paid->currency, $paid->amount, CoinReason::Reversal, $submission, $course,
+                        note: 'Entrega aprobada por error', by: $admin);
+                } catch (InsufficientFunds) {
+                    throw new DomainException('Ya gastó '.$paid->amount.' '.$paid->currency->label($paid->amount).' de esta entrega: no se pueden devolver. Podés dejarla aprobada o descontarlas a mano en su ficha.');
+                }
+            }
+            $xp = (int) $source(XpTransaction::query())->where('reason', XpReason::PracticeApproved)->sum('amount');
+            if ($xp > 0) {
+                $this->ledger->addXp($student, -$xp, XpReason::Reversal, $submission, $course, 'Entrega aprobada por error', $admin);
+            }
+
+            $submission->forceFill([
+                'status' => SubmissionStatus::Redo,
+                'reviewed_at' => now(),
+                'reviewed_by' => $admin->id,
+            ])->save();
             $submission->comments()->create(['user_id' => $admin->id, 'body' => $comment]);
         });
 

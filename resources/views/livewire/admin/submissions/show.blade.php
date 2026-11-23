@@ -3,9 +3,34 @@
 <div class="mx-auto flex w-full max-w-5xl flex-col gap-6 p-4 sm:p-8">
     <x-admin.page-header :label="$course->title.' · '.$node->title" :title="$practice->title">
         <x-slot:actions>
+            @if ($canRevoke)
+                {{-- D125: aprobada por error: vuelve a «Para rehacer» y se descuenta lo que cobró. --}}
+                <flux:modal.trigger name="revoke">
+                    <flux:button icon="arrow-uturn-left" data-test="revoke-open">Pedir que la rehaga</flux:button>
+                </flux:modal.trigger>
+            @endif
             <flux:button variant="ghost" icon="arrow-left" :href="route('admin.submissions.index')" wire:navigate>Bandeja ({{ $pendingCount }})</flux:button>
         </x-slot:actions>
     </x-admin.page-header>
+
+    @if ($canRevoke)
+        <flux:modal name="revoke" class="w-full max-w-lg">
+            <form wire:submit="revoke" class="flex flex-col gap-4">
+                <flux:heading size="lg">¿La aprobaste por error?</flux:heading>
+                <flux:text>
+                    Pasa a «Para rehacer» y se le descuenta lo que cobró por ella
+                    (+{{ $practice->coin_reward }} {{ $practice->is_required ? term('coin.course', $course, $practice->coin_reward) : term('coin.wildcard', null, $practice->coin_reward) }} y +{{ $practice->xp_reward }} {{ term('xp.short') }}, si los cobró con esta entrega).
+                    Cuando la mande corregida y la apruebes, cobra de nuevo. Le avisamos con tu comentario.
+                </flux:text>
+                <x-emoji-field><flux:textarea class="pe-10" wire:model="comment" rows="3" placeholder="Qué tiene que corregir: «El recargo se calcula sobre la deuda, no sobre el total.»" aria-label="Comentario" data-test="revoke-comment" /></x-emoji-field>
+                <flux:error name="comment" />
+                <div class="flex justify-end gap-2">
+                    <flux:modal.close><flux:button variant="ghost">Cancelar</flux:button></flux:modal.close>
+                    <flux:button type="submit" variant="danger" icon="arrow-uturn-left" data-test="revoke-send">Pedir que la rehaga</flux:button>
+                </div>
+            </form>
+        </flux:modal>
+    @endif
 
     <section class="panel flex flex-col gap-3 p-5 sm:flex-row sm:items-center">
         <div class="flex min-w-0 flex-1 flex-col gap-1">

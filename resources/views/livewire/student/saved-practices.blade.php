@@ -4,7 +4,7 @@
         <p class="tech-label">Herramientas</p>
         <h1 class="font-display text-2xl font-semibold text-white">Mis prácticas</h1>
         <p class="text-sm text-ink-muted">
-            Lo que guardaste en Practicar, para seguirlo cuando quieras, también desde otra compu. Abrí una para continuar,
+            Lo que guardaste en Practicar, el Gólem 8086 o la caja de la Feria, para seguirlo cuando quieras, también desde otra compu. Abrí una para continuar,
             bajar el archivo{{ $canConsult ? ' o preguntarle al profe sobre ese código' : '' }}. No cuenta para el curso.
         </p>
     </header>
@@ -24,7 +24,7 @@
                 <flux:button variant="primary" icon="plus" icon:trailing="chevron-down">Nueva</flux:button>
                 <flux:menu>
                     @foreach ($tools as $tool)
-                        <flux:menu.item :href="$tool['url']" wire:navigate>Practicar {{ $tool['label'] }}</flux:menu.item>
+                        <flux:menu.item :href="$tool['url']" wire:navigate>{{ $tool['label'] }}</flux:menu.item>
                     @endforeach
                 </flux:menu>
             </flux:dropdown>
@@ -36,7 +36,7 @@
             <flux:icon name="bookmark" class="size-8 text-secondary-bright" />
             <p class="text-ink">{{ $total ? 'Ninguna práctica coincide con lo que buscás.' : 'Todavía no guardaste ninguna práctica.' }}</p>
             @unless ($total)
-                <p class="text-sm text-ink-muted">Entrá a <strong>Practicar</strong> (en Herramientas), escribí lo que quieras y tocá <strong>Guardar</strong>.</p>
+                <p class="text-sm text-ink-muted">Entrá a <strong>Practicar</strong>, al <strong>Gólem 8086</strong> o a <strong>la caja de la Feria</strong> (en Herramientas), escribí lo que quieras y tocá <strong>Guardar</strong>.</p>
             @endunless
         </div>
     @else

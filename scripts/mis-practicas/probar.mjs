@@ -2,7 +2,8 @@
 //   php artisan serve --port=8123   (con los assets compilados)
 //   node scripts/mis-practicas/probar.mjs [carpeta-para-capturas]
 // Entra como admin, escribe en Practicar Python, baja el archivo, guarda, cambia el nombre, edita y vuelve a guardar,
-// y la encuentra en Mis prácticas. Al final borra la práctica de prueba.
+// y la encuentra en Mis prácticas. Después, Bajar y Guardar en el Gólem 8086 y en la caja de la Feria. Al final borra
+// las prácticas de prueba.
 import { spawn } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -105,7 +106,7 @@ try {
     await sleep(300);
     check('marca los cambios sin guardar', await js('!!document.querySelector("[data-test=unsaved-dot]")?.offsetParent'));
     await js('document.querySelector("[data-test=practice-save]").click()');
-    await sleep(1200);
+    await until('!document.querySelector("[data-test=unsaved-dot]")?.offsetParent', 8000).catch(() => {});
     check('al guardar se va la marca', await js('!document.querySelector("[data-test=unsaved-dot]")?.offsetParent'));
     await shot('2-guardada');
 
@@ -118,8 +119,29 @@ try {
 
     await go('/herramientas/mis-practicas');
     await js(`window.confirm = () => true; document.querySelector('[data-test=saved-practice-${id}] [data-test=saved-practice-delete]').click()`);
-    await sleep(1200);
+    await until(`!document.querySelector('[data-test=saved-practice-${id}]')`, 8000).catch(() => {});
     check('se borra', await js(`!document.querySelector('[data-test=saved-practice-${id}]')`));
+
+    // El Gólem 8086 y la caja de la Feria: Bajar y Guardar.
+    for (const [url, file, sel] of [['/herramientas/golem-8086', 'practica.asm', '[data-test=asm-tool]'], ['/herramientas/caja-de-la-feria', 'feria.js', '[data-test=js-tool]']]) {
+        for (const f of fs.readdirSync(downloads)) fs.rmSync(path.join(downloads, f));
+        await go(url);
+        await until(`typeof Alpine !== "undefined" && !!Alpine.$data(document.querySelector("${sel}"))?.editor`);
+        await js(`Alpine.$data(document.querySelector("${sel}")).editor.setDoc("; prueba\\n")`);
+        await sleep(300);
+        await js(`document.querySelector("${sel} [data-test=code-download]").click()`);
+        await sleep(1500);
+        check(`${url}: Bajar deja ${file}`, fs.readdirSync(downloads), [file]);
+        await js(`document.querySelector("${sel} [data-test=practice-save]").click()`);
+        await until('location.search.includes("practica=")', 20000);
+        await until('!!document.querySelector("[data-test=saved-practice-header]")');
+        await shot(`4-guardada-${file}`);
+        const saved = await js('new URLSearchParams(location.search).get("practica")');
+        await go('/herramientas/mis-practicas');
+        await js(`window.confirm = () => true; document.querySelector('[data-test=saved-practice-${saved}] [data-test=saved-practice-delete]').click()`);
+        await until(`!document.querySelector('[data-test=saved-practice-${saved}]')`, 8000).catch(() => {});
+        check(`${url}: se guardó y se borró`, await js(`!document.querySelector('[data-test=saved-practice-${saved}]')`));
+    }
     check('sin errores de JavaScript', errors, []);
 } finally {
     browser.close();

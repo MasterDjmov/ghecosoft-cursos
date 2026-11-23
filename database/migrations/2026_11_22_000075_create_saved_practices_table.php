@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 /**
- * D124: Mis prácticas. Lo que cada uno escribe en Herramientas → Practicar se puede guardar con un nombre, retomar
+ * D124: Mis prácticas. Lo que cada uno escribe en Herramientas (Practicar, el Gólem 8086, la caja de la Feria) se puede guardar con un nombre, retomar
  * después y consultarlo con el profe (el hilo va en practice_messages.saved_practice_id).
  */
 return new class extends Migration
@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('title', 120);
             $table->mediumText('code');
             $table->text('stdin')->nullable();
+            // La caja de la Feria: el HTML de la página donde corre el JavaScript (si tiene).
+            $table->text('page')->nullable();
             $table->timestamps();
 
             $table->index(['user_id', 'updated_at']);

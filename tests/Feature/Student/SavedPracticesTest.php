@@ -2,6 +2,8 @@
 
 use App\Livewire\Admin\Messages;
 use App\Livewire\PracticeChat;
+use App\Livewire\Student\AsmTool;
+use App\Livewire\Student\JsTool;
 use App\Livewire\Student\PracticeTool;
 use App\Livewire\Student\SavedPractices;
 use App\Models\Cohort;
@@ -108,4 +110,27 @@ test('sin abono vigente puede leer la conversación pero no escribir', function 
 
     expect($this->student->can('viewThread', [PracticeMessage::class, $saved, $this->student]))->toBeTrue()
         ->and($this->student->can('send', [PracticeMessage::class, $saved, $this->student]))->toBeFalse();
+});
+
+test('el Gólem 8086 y la caja de la Feria también bajan y guardan, y cada guardada abre en su herramienta', function () {
+    $admin = User::factory()->admin()->create();
+    makeCourse(['language' => 'asm', 'is_published' => true]);
+
+    $this->actingAs($admin)->get(route('student.asm-tool'))->assertOk()->assertSee('data-test="practice-save"', false)->assertSee('data-test="code-download"', false);
+    Livewire::actingAs($admin)->test(AsmTool::class)->call('save', "mov ax, 1\n")->assertRedirect();
+    $asm = SavedPractice::where('language', 'asm')->sole();
+    expect($asm->title)->toStartWith('Práctica del Gólem')
+        ->and($asm->url())->toContain('/herramientas/golem-8086?practica='.$asm->id)
+        ->and($asm->fileName())->toEndWith('.asm');
+    $this->actingAs($admin)->get($asm->url())->assertOk()->assertSee('data-test="saved-practice-header"', false);
+
+    Livewire::actingAs($admin)->test(JsTool::class)->call('save', 'console.log(1)', null, 'typescript', '<h1>hola</h1>')->assertRedirect();
+    $ts = SavedPractice::where('language', 'typescript')->sole();
+    expect($ts->page)->toBe('<h1>hola</h1>')->and($ts->fileName())->toEndWith('.ts')->and($ts->languageLabel())->toBe('TypeScript');
+    $this->actingAs($admin)->get($ts->url())->assertOk()->assertSee('data-test="saved-practice-header"', false);
+
+    // La caja no guarda lenguajes que no son suyos, y una guardada de Python que se pide en el Gólem va a Practicar.
+    Livewire::actingAs($admin)->test(JsTool::class)->call('save', 'x', null, 'php')->assertStatus(422);
+    $py = SavedPractice::create(['user_id' => $admin->id, 'language' => 'python', 'title' => 'Py', 'code' => 'x']);
+    Livewire::actingAs($admin)->withQueryParams(['practica' => $py->id])->test(AsmTool::class)->assertRedirect($py->url());
 });

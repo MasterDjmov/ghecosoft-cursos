@@ -196,6 +196,16 @@ class PracticeTools
     }
 
     /**
+     * D124: las herramientas donde se guarda en Mis prácticas (los Practicar, el Gólem y la caja de la Feria).
+     *
+     * @return list<array{key: string, label: string, icon: string, url: string, route: string, window: bool}>
+     */
+    public static function savable(User $user): array
+    {
+        return array_values(array_filter(self::menu($user), fn ($tool) => isset(self::TOOLS[$tool['key']]) || in_array($tool['key'], ['asm-tool', 'js-tool'], true)));
+    }
+
+    /**
      * Lo que va en la tarjeta de Herramientas de este usuario.
      *
      * @return list<array{key: string, label: string, icon: string, url: string, route: string, window: bool}>

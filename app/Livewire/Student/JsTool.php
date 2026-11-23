@@ -4,6 +4,7 @@ namespace App\Livewire\Student;
 
 use App\Enums\Language;
 use App\Livewire\Student\Concerns\RendersToolPage;
+use App\Livewire\Student\Concerns\SavesPractices;
 use App\Models\Course;
 use App\Models\User;
 use Livewire\Attributes\Title;
@@ -14,11 +15,12 @@ use Livewire\Component;
  * ejemplos de todo lo que simula la caja (la consola, el reloj, el Puerto, las cookies, la página y el lienzo).
  * Corre en el navegador de quien la usa, en la caja sin mismo origen ni red. El staff la usa siempre (para probar
  * la caja antes de que exista el curso); el alumno, con el abono vigente de un curso de JavaScript o de TypeScript.
+ * Cada ejemplo se baja y se guarda en Mis prácticas (D124), con su página si la tiene.
  */
 #[Title('La caja de la Feria')]
 class JsTool extends Component
 {
-    use RendersToolPage;
+    use RendersToolPage, SavesPractices;
 
     /** Los ejemplos: título, qué muestra, el código y, si es una página, su HTML. */
     public const EXAMPLES = [
@@ -204,13 +206,28 @@ class JsTool extends Component
     public function mount(): void
     {
         abort_unless(self::allowed(auth()->user()), 403);
+        $this->openSaved();
+    }
+
+    protected function savableLanguages(): array
+    {
+        return ['javascript', 'typescript'];
+    }
+
+    protected function savedLabel(string $language): string
+    {
+        return $language === 'typescript' ? 'de TypeScript' : 'de JavaScript';
     }
 
     public function render()
     {
+        $saved = $this->savedOrNull();
+
         return $this->toolView('livewire.student.js-tool', [
             'examples' => self::EXAMPLES,
+            'saved' => $saved,
+            'canConsult' => $this->canConsult($saved),
             'course' => Course::whereIn('language', [Language::JavaScript, Language::TypeScript])->get()->first(fn (Course $course) => auth()->user()->can('useJsTool', $course) && $course->is_published),
-        ]);
+        ])->title($saved ? $saved->title : 'La caja de la Feria');
     }
 }

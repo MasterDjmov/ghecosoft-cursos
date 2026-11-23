@@ -1,27 +1,49 @@
 <div @class(['mx-auto flex w-full max-w-5xl flex-col gap-6', 'p-4 sm:p-8' => ! $inWindow, 'p-3' => $inWindow]) x-data="{ open: 'consola' }">
-    <x-tool-header title="La caja de la Feria" :in-window="$inWindow">
-        JavaScript para practicar lo que quieras. Corre acá mismo, en tu navegador, dentro de una caja: no tiene internet, no ve tu sesión
-        y todo lo que toca es de mentira (el reloj, las cookies, el almacenamiento y el Puerto de Elefa), y se borra al terminar.
-        Tu código queda en este navegador, por si volvés, y no cuenta para el curso.
-    </x-tool-header>
+    @if ($saved)
+        @include('livewire.student.partials.saved-header', ['toolLabel' => 'La caja de la Feria · '.$saved->languageLabel()])
+        {{-- Una guardada: sola, con su página si la tiene. --}}
+        <x-code-runner :code="$saved->code" :stdin="(string) $saved->stdin" :language="$saved->language"
+            :name="\Illuminate\Support\Str::beforeLast($saved->fileName(), '.')" autocomplete download
+            :checks="filled($saved->page) ? json_encode(['page' => $saved->page], JSON_UNESCAPED_UNICODE) : null" data-test="js-tool" wire:key="runner-{{ $saved->id }}">
+            <x-slot:actions>
+                @include('livewire.student.partials.saved-actions')
+            </x-slot:actions>
+            @if ($canConsult)
+                <x-slot:footer>
+                    @include('livewire.student.partials.saved-chat')
+                </x-slot:footer>
+            @endif
+        </x-code-runner>
+    @else
+        <x-tool-header title="La caja de la Feria" :in-window="$inWindow">
+            JavaScript para practicar lo que quieras. Corre acá mismo, en tu navegador, dentro de una caja: no tiene internet, no ve tu sesión
+            y todo lo que toca es de mentira (el reloj, las cookies, el almacenamiento y el Puerto de Elefa), y se borra al terminar.
+            Tu código queda en este navegador, por si volvés, y no cuenta para el curso.
+            Con <strong class="text-ink">Guardar</strong> queda en <a href="{{ route('student.saved-practices') }}" wire:navigate class="text-primary-bright hover:underline">Mis prácticas</a>.
+        </x-tool-header>
 
-    <nav class="flex flex-wrap gap-2" aria-label="Ejemplos">
+        <nav class="flex flex-wrap gap-2" aria-label="Ejemplos">
+            @foreach ($examples as $key => $example)
+                <button type="button" x-on:click="open = '{{ $key }}'" data-test="js-example-{{ $key }}"
+                    class="rounded-full border px-3 py-1 text-sm transition"
+                    x-bind:class="open === '{{ $key }}' ? 'border-primary-bright bg-primary/15 text-white' : 'border-outline text-ink-muted hover:text-ink'">
+                    {{ $example['title'] }}
+                </button>
+            @endforeach
+        </nav>
+
         @foreach ($examples as $key => $example)
-            <button type="button" x-on:click="open = '{{ $key }}'" data-test="js-example-{{ $key }}"
-                class="rounded-full border px-3 py-1 text-sm transition"
-                x-bind:class="open === '{{ $key }}' ? 'border-primary-bright bg-primary/15 text-white' : 'border-outline text-ink-muted hover:text-ink'">
-                {{ $example['title'] }}
-            </button>
+            <section x-show="open === '{{ $key }}'" @if (! $loop->first) x-cloak @endif class="flex flex-col gap-3">
+                <p class="text-sm text-ink-muted">{{ $example['about'] }}</p>
+                <x-code-runner :code="$example['code']" :language="$example['language'] ?? 'javascript'" :name="($example['language'] ?? null) === 'typescript' ? 'mirador' : 'feria'" :keep="'js-'.$key" autocomplete
+                    :checks="isset($example['page']) ? json_encode(['page' => $example['page']], JSON_UNESCAPED_UNICODE) : null" download data-test="js-tool">
+                    <x-slot:actions>
+                        @include('livewire.student.partials.saved-actions', ['extra' => ', '.\Illuminate\Support\Js::from($example['language'] ?? 'javascript').', '.\Illuminate\Support\Js::from($example['page'] ?? null)])
+                    </x-slot:actions>
+                </x-code-runner>
+            </section>
         @endforeach
-    </nav>
-
-    @foreach ($examples as $key => $example)
-        <section x-show="open === '{{ $key }}'" @if (! $loop->first) x-cloak @endif class="flex flex-col gap-3">
-            <p class="text-sm text-ink-muted">{{ $example['about'] }}</p>
-            <x-code-runner :code="$example['code']" :language="$example['language'] ?? 'javascript'" :name="($example['language'] ?? null) === 'typescript' ? 'mirador' : 'feria'" :keep="'js-'.$key" autocomplete
-                :checks="isset($example['page']) ? json_encode(['page' => $example['page']], JSON_UNESCAPED_UNICODE) : null" data-test="js-tool" />
-        </section>
-    @endforeach
+    @endif
 
     <section class="panel flex flex-col gap-2 p-5 text-sm text-ink">
         <h2 class="font-display text-base font-semibold text-white">Lo que hay en la caja</h2>

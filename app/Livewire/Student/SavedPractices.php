@@ -12,7 +12,7 @@ use Livewire\Component;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
- * D124: Mis prácticas. Lo guardado desde Herramientas → Practicar, de cada uno: abrir para seguir, bajar el archivo,
+ * D124: Mis prácticas. Lo guardado desde Herramientas (Practicar, el Gólem 8086, la caja de la Feria), de cada uno: abrir para seguir, bajar el archivo,
  * borrar. Si el profe respondió una consulta, se marca.
  */
 #[Title('Mis prácticas')]
@@ -65,7 +65,7 @@ class SavedPractices extends Component
             'total' => (clone $all)->count(),
             'languages' => (clone $all)->distinct()->pluck('language')->mapWithKeys(fn ($key) => [$key => PracticeTools::TOOLS[$key]['label'] ?? $key])->sort(),
             // Para arrancar una nueva: los lenguajes con los que puede practicar.
-            'tools' => collect(PracticeTools::TOOLS)->filter(fn ($tool, $key) => PracticeTools::allows($user, $key))->map(fn ($tool, $key) => ['label' => $tool['label'], 'url' => route('student.practice-tool', $key)]),
+            'tools' => collect(PracticeTools::savable($user)),
             'limit' => SavedPractice::LIMIT,
             'canConsult' => ! $user->isStaff(),
         ]);

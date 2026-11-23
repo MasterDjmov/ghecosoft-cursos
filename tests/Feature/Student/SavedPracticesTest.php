@@ -134,3 +134,14 @@ test('el Gólem 8086 y la caja de la Feria también bajan y guardan, y cada guar
     $py = SavedPractice::create(['user_id' => $admin->id, 'language' => 'python', 'title' => 'Py', 'code' => 'x']);
     Livewire::actingAs($admin)->withQueryParams(['practica' => $py->id])->test(AsmTool::class)->assertRedirect($py->url());
 });
+
+test('sin guardar, al alumno se le explica cómo consultar; guardada, tiene el chat; el staff no ve ninguno', function () {
+    $this->actingAs($this->student)->get(route('student.practice-tool', 'python'))
+        ->assertSee('data-test="saved-chat-hint"', false)->assertDontSee('data-test="saved-practice-chat"', false);
+    $saved = SavedPractice::create(['user_id' => $this->student->id, 'language' => 'python', 'title' => 'Mía', 'code' => 'x']);
+    $this->actingAs($this->student)->get($saved->url())
+        ->assertSee('data-test="saved-practice-chat"', false)->assertDontSee('data-test="saved-chat-hint"', false);
+
+    $this->actingAs(User::factory()->admin()->create())->get(route('student.practice-tool', 'python'))
+        ->assertDontSee('data-test="saved-chat-hint"', false);
+});

@@ -40,6 +40,9 @@
                     <x-slot:actions>
                         @include('livewire.student.partials.saved-actions', ['extra' => ', '.\Illuminate\Support\Js::from($example['language'] ?? 'javascript').', '.\Illuminate\Support\Js::from($example['page'] ?? null)])
                     </x-slot:actions>
+                    <x-slot:footer>
+                        @include('livewire.student.partials.saved-chat-hint')
+                    </x-slot:footer>
                 </x-code-runner>
             </section>
         @endforeach

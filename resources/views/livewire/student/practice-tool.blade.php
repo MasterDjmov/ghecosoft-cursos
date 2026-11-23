@@ -15,11 +15,13 @@
         <x-slot:actions>
             @include('livewire.student.partials.saved-actions')
         </x-slot:actions>
-        @if ($canConsult)
-            <x-slot:footer>
+        <x-slot:footer>
+            @if ($canConsult)
                 @include('livewire.student.partials.saved-chat')
-            </x-slot:footer>
-        @endif
+            @elseif (! $saved)
+                @include('livewire.student.partials.saved-chat-hint')
+            @endif
+        </x-slot:footer>
     </x-code-runner>
 
     <section class="panel flex flex-col gap-2 p-5 text-sm text-ink">

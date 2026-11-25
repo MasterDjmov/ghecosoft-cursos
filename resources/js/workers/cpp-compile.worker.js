@@ -6,13 +6,23 @@ import { CLANG_URL, SYSROOT_URL, PCH_URL, COMPILE_FLAGS, LINK_FLAGS, C_FLAGS } f
 import comun from '../runners/cpp-comun.hpp?raw';
 // El SDL3 de la plataforma (D126): el juego incluye <SDL3/SDL.h> como con SDL3 real.
 import sdlHeader from '../runners/sdl3/SDL.h?raw';
+import imageHeader from '../runners/sdl3/SDL3_image/SDL_image.h?raw';
+import ttfHeader from '../runners/sdl3/SDL3_ttf/SDL_ttf.h?raw';
+import mixerHeader from '../runners/sdl3/SDL3_mixer/SDL_mixer.h?raw';
+import netHeader from '../runners/sdl3/SDL3_net/SDL_net.h?raw';
 
 // Como compila FullCursos con CMake (gnu11: M_PI y compañía), y exportando la tabla de funciones y la pila de C:
 // los hilos y los temporizadores del SDL de la plataforma llaman a funciones del juego y le dan a cada hilo su pila.
 const SDL_FLAGS = [...C_FLAGS.map((flag) => (flag === '-std=c11' ? '-std=gnu11' : flag)), '-I/',
     '-Wl,--export-table', '-Wl,--export=__stack_pointer'];
 
-const SDL_FILES = { SDL3: { 'SDL.h': sdlHeader, 'SDL_main.h': '/* SDL3 de la plataforma: no hace falta nada. */\n' } };
+const SDL_FILES = {
+    SDL3: { 'SDL.h': sdlHeader, 'SDL_main.h': '/* SDL3 de la plataforma: no hace falta nada. */\n' },
+    SDL3_image: { 'SDL_image.h': imageHeader },
+    SDL3_ttf: { 'SDL_ttf.h': ttfHeader },
+    SDL3_mixer: { 'SDL_mixer.h': mixerHeader },
+    SDL3_net: { 'SDL_net.h': netHeader },
+};
 
 async function gunzip(response) {
     if (!response.ok) throw new Error(`No se pudo bajar ${response.url} (${response.status})`);

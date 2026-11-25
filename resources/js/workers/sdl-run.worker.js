@@ -45,6 +45,21 @@ let timerSeq = 0;
 const mutexes = new Map(); // puntero → { owner, depth }
 const streams = new Map(); // id → { format, channels, freq, paused, pendingMs, playEnd, callback, userdata }
 let streamSeq = 0;
+const textures = new Map(); // id → { canvas, ctx, w, h, smooth, alpha, tint, tinted }
+let textureSeq = 0;
+let target = 0; // 0 = la ventana; si no, la textura donde se dibuja (SDL_SetRenderTarget)
+const blobs = new Map(); // datos que esperan que C los copie a su memoria (imágenes decodificadas, PNG, texto)
+let blobSeq = 0;
+const fonts = new Map(); // id → nombre de la fuente cargada en el worker
+let fontSeq = 0;
+// SDL3_mixer: los audios y las pistas los reproduce la página; acá se lleva la cuenta de qué suena.
+const mixAudios = new Map(); // id → { ms }
+const mixTracks = new Map(); // id → { audio, playingUntil, paused }
+let mixSeq = 0;
+// SDL3_net, la red de mentira: la página conecta los juegos por número de puerto.
+const netServers = new Map(); // id → { port, pending: [socket ids] }
+const netSockets = new Map(); // id → { status, conn, inbox: [Uint8Array], closed, waiters: [] }
+let netSeq = 0;
 
 const bytes = () => new Uint8Array(memory.buffer);
 const view = () => new DataView(memory.buffer);
@@ -88,6 +103,65 @@ const suspending = (body) => new WebAssembly.Suspending((...args) => {
         return value;
     });
 });
+
+/** Guarda bytes para que C los copie (sdlw_blob_copy) cuando ya reservó la memoria. */
+function keepBlob(data) {
+    const id = ++blobSeq;
+    blobs.set(id, data);
+    return id;
+}
+
+/** Los píxeles del juego (32 bits, en el formato que diga) a RGBA, como los entiende el lienzo. */
+function toRGBA(pointer, w, h, pitch, format) {
+    const src = bytes();
+    const out = new Uint8ClampedArray(w * h * 4);
+    // Dónde está cada canal dentro del píxel (en memoria, de a bytes), según SDL_PixelFormat.
+    const order = {
+        0x16362004: [2, 1, 0, 3], 0x16161804: [2, 1, 0, -1], 0x16462004: [3, 2, 1, 0], 0x16862004: [1, 2, 3, 0],
+    }[format] ?? [0, 1, 2, 3];
+    for (let y = 0; y < h; y++) {
+        let from = pointer + y * pitch;
+        let to = y * w * 4;
+        for (let x = 0; x < w; x++, from += 4, to += 4) {
+            out[to] = src[from + order[0]];
+            out[to + 1] = src[from + order[1]];
+            out[to + 2] = src[from + order[2]];
+            out[to + 3] = order[3] < 0 ? 255 : src[from + order[3]];
+        }
+    }
+    return out;
+}
+
+/** Una textura con color (SDL_SetTextureColorMod): se tiñe una copia una vez y se guarda. */
+function tinted(texture) {
+    if (texture.tint === 0xffffff) return texture.canvas;
+    if (texture.tinted?.key === texture.tint && texture.tinted.version === texture.version) return texture.tinted.canvas;
+    const canvas = new OffscreenCanvas(texture.w, texture.h);
+    const c = canvas.getContext('2d');
+    c.drawImage(texture.canvas, 0, 0);
+    c.globalCompositeOperation = 'multiply';
+    c.fillStyle = `#${texture.tint.toString(16).padStart(6, '0')}`;
+    c.fillRect(0, 0, texture.w, texture.h);
+    c.globalCompositeOperation = 'destination-in';
+    c.drawImage(texture.canvas, 0, 0);
+    texture.tinted = { key: texture.tint, version: texture.version, canvas };
+    return canvas;
+}
+
+function fontCss(id, size, style) {
+    return `${style & 2 ? 'italic ' : ''}${style & 1 ? 'bold ' : ''}${Math.max(1, size)}px "${fonts.get(id)}"`;
+}
+
+function textBox(c, text) {
+    const metrics = c.measureText(text);
+    const ascent = Math.ceil(metrics.fontBoundingBoxAscent ?? metrics.actualBoundingBoxAscent);
+    const descent = Math.ceil(metrics.fontBoundingBoxDescent ?? metrics.actualBoundingBoxDescent);
+    return { w: Math.max(1, Math.ceil(metrics.width)), h: Math.max(1, ascent + descent), ascent };
+}
+
+function netSend(message) {
+    post({ type: 'net', ...message });
+}
 
 function crash(error) {
     post({ type: 'crash', message: String(error?.message ?? error) });
@@ -142,6 +216,7 @@ const sdl = {
         back = new OffscreenCanvas(size.w, size.h);
         ctx = back.getContext('2d');
         ctx.imageSmoothingEnabled = false;
+        target = 0;
         post({ type: 'window', title: string(title), w: size.w, h: size.h });
         return 1;
     },
@@ -174,7 +249,7 @@ const sdl = {
         ctx.setTransform(1, 0, 0, 1, 0, 0);
         ctx.globalCompositeOperation = 'copy';
         ctx.fillStyle = `rgba(${color[0]},${color[1]},${color[2]},${color[3] / 255})`;
-        ctx.fillRect(0, 0, size.w, size.h);
+        ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
         ctx.restore();
         return 1;
     },
@@ -336,6 +411,291 @@ const sdl = {
         post({ type: 'audio', action: ['', 'resume', 'pause', 'clear', 'destroy', 'gain'][action], id, value });
         return 1;
     },
+
+    // ---------- Texturas (SDL_Texture): cada una es un lienzo chico
+    tex_create(w, h) {
+        if (w < 1 || h < 1 || w > 8192 || h > 8192) return 0;
+        const canvas = new OffscreenCanvas(w, h);
+        const id = ++textureSeq;
+        textures.set(id, { canvas, ctx: canvas.getContext('2d'), w, h, smooth: true, alpha: 255, tint: 0xffffff, version: 0, tinted: null });
+        return id;
+    },
+    tex_update(id, x, y, w, h, pixels, pitch, format) {
+        const texture = textures.get(id);
+        if (!texture || w < 1 || h < 1) return 0;
+        texture.ctx.putImageData(new ImageData(toRGBA(pixels, w, h, pitch, format), w, h), x, y);
+        texture.version++;
+        return 1;
+    },
+    tex_draw(id, src, dst, angle, center, flip) {
+        const texture = textures.get(id);
+        if (!texture) return 0;
+        const v = view();
+        const rect = (p, w, h) => (p ? [v.getFloat32(p, true), v.getFloat32(p + 4, true), v.getFloat32(p + 8, true), v.getFloat32(p + 12, true)] : [0, 0, w, h]);
+        const [sx, sy, sw, sh] = rect(src, texture.w, texture.h);
+        const [dx, dy, dw, dh] = rect(dst, ctx.canvas.width / scale[0], ctx.canvas.height / scale[1]);
+        if (sw <= 0 || sh <= 0 || dw === 0 || dh === 0) return 1;
+        const cx = center ? v.getFloat32(center, true) : dw / 2;
+        const cy = center ? v.getFloat32(center + 4, true) : dh / 2;
+        ctx.save();
+        ctx.imageSmoothingEnabled = texture.smooth;
+        ctx.globalAlpha = texture.alpha / 255;
+        ctx.translate(dx + cx, dy + cy);
+        if (angle) ctx.rotate((angle * Math.PI) / 180);
+        ctx.scale(flip & 1 ? -1 : 1, flip & 2 ? -1 : 1);
+        ctx.drawImage(tinted(texture), sx, sy, sw, sh, -cx, -cy, dw, dh);
+        ctx.restore();
+        return 1;
+    },
+    tex_set(id, what, value) {
+        const texture = textures.get(id);
+        if (!texture) return 0;
+        if (what === 1) texture.smooth = value === 1;
+        else if (what === 2) texture.alpha = value & 255;
+        else if (what === 3) texture.tint = value & 0xffffff;
+        return 1;
+    },
+    tex_destroy(id) {
+        if (target === id) sdl.set_target(0);
+        textures.delete(id);
+    },
+    set_target(id) {
+        const texture = id ? textures.get(id) : null;
+        if (id && !texture) return 0;
+        target = id;
+        ctx = texture ? texture.ctx : back.getContext('2d');
+        ctx.setTransform(scale[0], 0, 0, scale[1], 0, 0);
+        ctx.imageSmoothingEnabled = false;
+        if (texture) texture.version++;
+        return 1;
+    },
+
+    // ---------- Imágenes (SDL3_image): el navegador decodifica y codifica
+    image_decode: suspending(async (pointer, length, w, h) => {
+        try {
+            const image = await createImageBitmap(new Blob([bytes().slice(pointer, pointer + length)]));
+            const canvas = new OffscreenCanvas(image.width, image.height);
+            const c = canvas.getContext('2d');
+            c.drawImage(image, 0, 0);
+            const v = view();
+            v.setInt32(w, image.width, true);
+            v.setInt32(h, image.height, true);
+            return keepBlob(c.getImageData(0, 0, image.width, image.height).data);
+        } catch {
+            return 0;
+        }
+    }),
+    blob_copy(id, pointer) {
+        const data = blobs.get(id);
+        blobs.delete(id);
+        if (data) bytes().set(data, pointer);
+    },
+    image_encode: suspending(async (pixels, w, h, pitch, format, size) => {
+        try {
+            const canvas = new OffscreenCanvas(w, h);
+            canvas.getContext('2d').putImageData(new ImageData(toRGBA(pixels, w, h, pitch, format), w, h), 0, 0);
+            const png = new Uint8Array(await (await canvas.convertToBlob({ type: 'image/png' })).arrayBuffer());
+            view().setInt32(size, png.length, true);
+            return keepBlob(png);
+        } catch {
+            return 0;
+        }
+    }),
+
+    // ---------- Fuentes (SDL3_ttf): el archivo .ttf se carga en el worker y el lienzo dibuja el texto
+    font_open: suspending(async (pointer, length) => {
+        try {
+            const id = ++fontSeq;
+            const face = new FontFace(`sdlfuente${id}`, bytes().slice(pointer, pointer + length));
+            await face.load();
+            self.fonts.add(face);
+            fonts.set(id, `sdlfuente${id}`);
+            return id;
+        } catch {
+            return 0;
+        }
+    }),
+    font_measure(id, size, style, text, length, w, h) {
+        if (!fonts.has(id)) return 0;
+        const c = new OffscreenCanvas(1, 1).getContext('2d');
+        c.font = fontCss(id, size, style);
+        const box = textBox(c, new TextDecoder().decode(bytes().slice(text, text + length)));
+        const v = view();
+        if (w) v.setInt32(w, box.w, true);
+        if (h) v.setInt32(h, box.h, true);
+        return 1;
+    },
+    font_render(id, size, style, text, length, fg, bg, mode, w, h) {
+        if (!fonts.has(id)) return 0;
+        const words = new TextDecoder().decode(bytes().slice(text, text + length));
+        const measure = new OffscreenCanvas(1, 1).getContext('2d');
+        measure.font = fontCss(id, size, style);
+        const box = textBox(measure, words);
+        const canvas = new OffscreenCanvas(box.w, box.h);
+        const c = canvas.getContext('2d');
+        const rgba = (n) => `rgba(${n >>> 24},${(n >>> 16) & 255},${(n >>> 8) & 255},${(n & 255) / 255})`;
+        if (mode === 2) {
+            c.fillStyle = rgba(bg);
+            c.fillRect(0, 0, box.w, box.h);
+        }
+        c.font = fontCss(id, size, style);
+        c.fillStyle = rgba(fg);
+        c.textBaseline = 'alphabetic';
+        c.fillText(words, 0, box.ascent);
+        const data = c.getImageData(0, 0, box.w, box.h).data;
+        // Solid: sin bordes suaves (cada píxel, lleno o vacío).
+        if (mode === 1) for (let i = 3; i < data.length; i += 4) data[i] = data[i] >= 128 ? 255 : 0;
+        const v = view();
+        v.setInt32(w, box.w, true);
+        v.setInt32(h, box.h, true);
+        return keepBlob(data);
+    },
+
+    // ---------- SDL3_mixer: la página tiene el audio; acá, la cuenta de qué suena y hasta cuándo
+    mix_create() {
+        const id = ++mixSeq;
+        post({ type: 'mix', action: 'mixer', id });
+        return id;
+    },
+    mix_audio_pcm(format, channels, freq, pointer, length) {
+        if (channels < 1 || freq < 1000) return 0;
+        const id = ++mixSeq;
+        const samples = toFloat(format, pointer, length);
+        mixAudios.set(id, { ms: (samples.length / channels / freq) * 1000 });
+        post({ type: 'mix', action: 'pcm', id, channels, freq, samples }, [samples.buffer]);
+        return id;
+    },
+    mix_audio_encoded(pointer, length) {
+        const id = ++mixSeq;
+        mixAudios.set(id, { ms: null });
+        post({ type: 'mix', action: 'encoded', id, data: bytes().slice(pointer, pointer + length) });
+        return id;
+    },
+    mix_audio_sine(hz, amplitude, ms) {
+        const id = ++mixSeq;
+        const freq = 44100;
+        const samples = new Float32Array(Math.max(1, Math.round((freq * Math.max(1, ms)) / 1000)));
+        for (let i = 0; i < samples.length; i++) samples[i] = Math.sin((2 * Math.PI * hz * i) / freq) * amplitude;
+        mixAudios.set(id, { ms });
+        post({ type: 'mix', action: 'pcm', id, channels: 1, freq, samples }, [samples.buffer]);
+        return id;
+    },
+    mix_track(mixer) {
+        const id = ++mixSeq;
+        mixTracks.set(id, { audio: 0, playingUntil: 0, paused: null });
+        post({ type: 'mix', action: 'track', id, mixer });
+        return id;
+    },
+    mix_control(what, id, arg, value) {
+        const now = performance.now();
+        const track = mixTracks.get(id);
+        const length = (audio) => mixAudios.get(audio)?.ms ?? 0;
+        switch (what) {
+            case 1: if (!track) return 0; track.audio = arg; break;
+            case 2:
+                if (!track || !track.audio) return 0;
+                track.paused = null;
+                track.playingUntil = arg < 0 ? Infinity : now + length(track.audio) * (arg + 1);
+                break;
+            case 3: if (!track) return 0; if (track.playingUntil > now) track.paused = track.playingUntil - now; track.playingUntil = 0; break;
+            case 4: if (!track) return 0; if (track.paused !== null) track.playingUntil = now + track.paused; track.paused = null; break;
+            case 5: if (!track) return 0; track.playingUntil = 0; track.paused = null; break;
+            case 7: return track && track.playingUntil > now ? 1 : 0;
+            case 10: mixTracks.delete(id); break;
+            case 9: mixAudios.delete(id); break;
+            default: break;
+        }
+        post({ type: 'mix', action: ['', 'set', 'play', 'pause', 'resume', 'stop', 'gain', '', 'fire', 'free-audio', 'free-track', 'free-mixer', 'master'][what], id, arg, value });
+        return 1;
+    },
+
+    // ---------- SDL3_net: la red de mentira (los juegos de la página se conectan por número de puerto)
+    net_listen(port) {
+        for (const server of netServers.values()) if (server.port === port) return 0;
+        const id = ++netSeq;
+        netServers.set(id, { port, pending: [] });
+        netSend({ op: 'listen', port, server: id });
+        return id;
+    },
+    net_unlisten(id) {
+        const server = netServers.get(id);
+        if (!server) return;
+        netServers.delete(id);
+        netSend({ op: 'unlisten', port: server.port, server: id });
+    },
+    net_accept(id) {
+        return netServers.get(id)?.pending.shift() ?? 0;
+    },
+    net_connect(port) {
+        const id = ++netSeq;
+        netSockets.set(id, { status: 0, conn: 0, inbox: [], closed: false, waiters: [] });
+        netSend({ op: 'connect', port, sock: id });
+        return id;
+    },
+    net_wait_connected: suspending((id, timeout) => {
+        const sock = netSockets.get(id);
+        if (!sock) return -1;
+        if (sock.status !== 0 || timeout === 0) return sock.status;
+        return new Promise((resolve) => {
+            const done = () => resolve(sock.status);
+            sock.waiters.push(done);
+            if (timeout > 0) setTimeout(done, timeout);
+            post({ type: 'alive' });
+        });
+    }),
+    net_status(id) {
+        return netSockets.get(id)?.status ?? -1;
+    },
+    net_write(id, pointer, length) {
+        const sock = netSockets.get(id);
+        if (!sock || sock.status !== 1 || sock.closed) return 0;
+        if (length > 0) netSend({ op: 'data', conn: sock.conn, sock: id, data: bytes().slice(pointer, pointer + length) });
+        return 1;
+    },
+    net_read(id, pointer, length) {
+        const sock = netSockets.get(id);
+        if (!sock) return -1;
+        let read = 0;
+        while (read < length && sock.inbox.length) {
+            const chunk = sock.inbox[0];
+            const n = Math.min(chunk.length, length - read);
+            bytes().set(chunk.subarray(0, n), pointer + read);
+            read += n;
+            if (n === chunk.length) sock.inbox.shift();
+            else sock.inbox[0] = chunk.subarray(n);
+        }
+        if (!read && (sock.closed || sock.status === -1)) return -1;
+        return read;
+    },
+    net_close(id) {
+        const sock = netSockets.get(id);
+        if (!sock) return;
+        netSockets.delete(id);
+        if (sock.conn) netSend({ op: 'close', conn: sock.conn, sock: id });
+    },
+    net_wait_input: suspending((ids, count, timeout) => {
+        const ready = () => {
+            const v = view();
+            let n = 0;
+            for (let i = 0; i < count; i++) {
+                const id = v.getInt32(ids + i * 4, true);
+                const sock = netSockets.get(id);
+                if ((sock && (sock.inbox.length || sock.closed)) || netServers.get(id)?.pending.length) n++;
+            }
+            return n;
+        };
+        const now = ready();
+        if (now || timeout === 0) return now;
+        const until = timeout < 0 ? Infinity : performance.now() + timeout;
+        return new Promise((resolve) => {
+            const check = () => {
+                const n = ready();
+                if (n || performance.now() >= until) resolve(n);
+                else setTimeout(check, 5);
+            };
+            pause(5).then(check);
+        });
+    }),
 
     // ---------- Archivos: lo de prefs/ queda guardado en el navegador (los récords siguen ahí la próxima vez)
     files_changed() {
@@ -500,6 +860,29 @@ function setKey(scancode, down) {
     if (keysPointer && scancode > 0 && scancode < keyCount) bytes()[keysPointer + scancode] = down ? 1 : 0;
 }
 
+/** La red de mentira: lo que la página reparte entre los juegos conectados. */
+function receiveNet({ op, sock, server, conn, data }) {
+    if (op === 'incoming') {
+        // Alguien se conectó a un servidor de este juego: nace el socket de este lado, listo para NET_AcceptClient.
+        const id = ++netSeq;
+        netSockets.set(id, { status: 1, conn, inbox: [], closed: false, waiters: [] });
+        netServers.get(server)?.pending.push(id);
+        netSend({ op: 'accepted', conn, sock: id });
+        return;
+    }
+    const socket = netSockets.get(sock);
+    if (!socket) return;
+    if (op === 'connected' || op === 'refused') {
+        socket.status = op === 'connected' ? 1 : -1;
+        socket.conn = conn ?? 0;
+        socket.waiters.splice(0).forEach((wake) => wake());
+    } else if (op === 'data') {
+        socket.inbox.push(data);
+    } else if (op === 'closed') {
+        socket.closed = true;
+    }
+}
+
 /** Lo que llega de la página: teclas, mouse, joysticks y el botón de cerrar. */
 function receive(message) {
     switch (message.type) {
@@ -552,6 +935,9 @@ function receive(message) {
         case 'quit':
             queue.push({ type: EVENT.QUIT, data: [] });
             break;
+        case 'net':
+            receiveNet(message);
+            break;
     }
     // Una cola que nadie lee (el juego no llama a SDL_PollEvent) no crece sin fin.
     if (queue.length > 512) queue.splice(0, queue.length - 512);
@@ -563,6 +949,16 @@ self.onmessage = async ({ data }) => {
     screen = data.canvas;
     display = data.display ?? display;
     files = new PreopenDirectory('.', restoreFiles(data.files));
+    // Los archivos que trae el juego (fuentes, imágenes, sonidos): solo para leer.
+    for (const [path, content] of Object.entries(data.assets ?? {})) {
+        const parts = path.split('/').filter(Boolean);
+        let dir = files.dir.contents;
+        for (const part of parts.slice(0, -1)) {
+            if (!dir.has(part)) dir.set(part, new Directory(new Map()));
+            dir = dir.get(part).contents;
+        }
+        dir.set(parts.at(-1), new File(content, { readonly: true }));
+    }
     const decoder = new TextDecoder();
     const fds = [
         new OpenFile(new File(new Uint8Array())),
@@ -571,7 +967,7 @@ self.onmessage = async ({ data }) => {
         files,
     ];
     try {
-        const wasi = new WASI(['juego'], [], fds);
+        const wasi = new WASI(['juego', ...(data.args ?? [])], [], fds);
         const module = await WebAssembly.compile(data.wasm);
         const instance = await WebAssembly.instantiate(module, { wasi_snapshot_preview1: wasi.wasiImport, sdl });
         memory = instance.exports.memory;

@@ -12,7 +12,10 @@
             <li><strong>Jugar</strong> compila tu código y abre la ventana del juego. Hacé clic en el juego para usar el teclado.</li>
             <li>El joystick o el control de consola se conecta por USB o Bluetooth: tocá un botón para que el navegador lo vea.</li>
             <li>Si el juego no llama nunca a <code>SDL_PollEvent</code>, <code>SDL_RenderPresent</code> ni <code>SDL_Delay</code>, se corta a los 3 segundos: es el Bucle Eterno.</li>
-            <li>El texto de <code>SDL_RenderDebugText</code> es de 8 × 8 píxeles y no tiene tildes ni ñ (tampoco en SDL3 real).</li>
+            <li>El texto de <code>SDL_RenderDebugText</code> es de 8 × 8 píxeles y no tiene tildes ni ñ (tampoco en SDL3 real). Para tildes y ñ, SDL3_ttf con <code>assets/fonts/DejaVuSans.ttf</code>, que ya viene.</li>
+            <li>Andan también <strong>SDL3_image</strong>, <strong>SDL3_ttf</strong>, <strong>SDL3_mixer</strong> y <strong>SDL3_net</strong>. Los hilos (<code>SDL_CreateThread</code>) se turnan con el juego en cada pausa.</li>
+            <li>Lo que el juego guarda con <code>SDL_GetPrefPath</code> (por ejemplo, los récords) queda en este navegador para la próxima vez.</li>
+            <li>La red es <strong>de mentira</strong>: no sale a internet. Con <strong>Otra ventana</strong> se abre el mismo juego al lado y se conectan entre sí, como dos compus (uno anfitrión, el otro invitado).</li>
             <li>Anda en Chrome y en Edge actualizados.</li>
             <li><strong>Bajar</strong> te da el <code>.c</code>. En Linux, con SDL3 instalado: <code>gcc pong.c -o pong $(pkg-config --cflags --libs sdl3)</code>.</li>
         </ul>

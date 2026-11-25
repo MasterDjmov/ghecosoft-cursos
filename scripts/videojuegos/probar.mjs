@@ -203,6 +203,35 @@ try {
     await until(`${runner}.status.startsWith('El juego terminó')`, 60000);
     check('printf y SDL_Log se ven en la salida', await js(`${runner}.output.trim()`), 'hola 3\nchau');
 
+    // Los archivos de SDL_GetPrefPath quedan guardados en el navegador: la segunda vez se lee lo de la primera.
+    const vueltas = `#include <SDL3/SDL.h>
+#include <stdio.h>
+int main(void) {
+    char *pref = SDL_GetPrefPath("Prueba", "Vueltas");
+    char ruta[600];
+    SDL_snprintf(ruta, sizeof ruta, "%svueltas.dat", pref);
+    SDL_free(pref);
+    int n = 0;
+    SDL_IOStream *io = SDL_IOFromFile(ruta, "rb");
+    if (io) { SDL_ReadIO(io, &n, sizeof n); SDL_CloseIO(io); }
+    n++;
+    io = SDL_IOFromFile(ruta, "wb");
+    SDL_WriteIO(io, &n, sizeof n);
+    SDL_CloseIO(io);
+    printf("vuelta %d\\n", n);
+    return 0;
+}
+`;
+    await js(`Object.keys(localStorage).filter((k) => k.endsWith(':archivos')).forEach((k) => localStorage.removeItem(k))`);
+    const laps = [];
+    for (let i = 0; i < 2; i++) {
+        await js(`${runner}.editor.setDoc(${JSON.stringify(vueltas)})`);
+        await js(`void ${runner}.run()`);
+        await until(`${runner}.status.startsWith('El juego terminó')`, 60000);
+        laps.push(await js(`${runner}.output.trim()`));
+    }
+    check('lo que guarda en SDL_GetPrefPath sigue ahí la próxima vez', laps, ['vuelta 1', 'vuelta 2']);
+
     check('sin errores de JavaScript en la página', errors, []);
 } catch (e) {
     fails++;

@@ -13,7 +13,7 @@ const BASE = process.env.BASE ?? 'http://127.0.0.1:8123';
 const FULL = process.env.FULLCURSOS ?? '/home/djmov/Programas/Cursos/FullCursos';
 const SHOTS = process.argv[2] ?? null;
 const FILTER = process.argv[3] ?? '';
-const SKIP = { '16-ImagenesSprites': 'SDL3_image', '18-Fuentes': 'SDL3_ttf', '19-MusicaYEfectos': 'SDL3_mixer', '22-Red': 'SDL3_net', '08-PongEnRed': 'SDL3_net', '23-YAhoraQue': 'solo lectura' };
+const SKIP = { '23-YAhoraQue': 'solo lectura' };
 
 const programs = ['06-SDL3', '29-Juegos-SDL3'].flatMap((stage) => fs.readdirSync(path.join(FULL, stage))
     .filter((dir) => /^\d\d-/.test(dir) && fs.existsSync(path.join(FULL, stage, dir, 'main.c')))
@@ -102,11 +102,36 @@ try {
             continue;
         }
         const code = fs.readFileSync(program.file, 'utf8');
-        const usesAudio = code.includes('SDL_PutAudioStreamData');
+        const usesAudio = /SDL_PutAudioStreamData|MIX_Play/.test(code);
         await js(`window.sdlAudioChunks = 0; ${runner}.editor.setDoc(${JSON.stringify(code)})`);
         await js(`void ${runner}.run()`);
         const started = await until(`${runner}.gamePlaying || (! ${runner}.running && ${runner}.status !== '' && ! ${runner}.status.startsWith('Compilando'))`, 180000);
         await sleep(1200);
+        if (program.dir === '08-PongEnRed') {
+            // Dos ventanas en la red de mentira: la primera es anfitrión (1) y la segunda, invitado (2).
+            await js('document.querySelector("[data-test=game-canvas]").focus()');
+            await key('Digit1', '1', 49);
+            await js(`${runner}.gameSecondRun()`.replace('gameSecondRun()', 'gameSecondRun(), 0'));
+            const second = await until('document.querySelectorAll("[data-test=game-canvas]").length === 2', 60000);
+            await sleep(800);
+            await js('document.querySelectorAll("[data-test=game-canvas]")[1].focus()');
+            await key('Digit2', '2', 49 + 1);
+            await sleep(3000);
+            const output = await js(`${runner}.output`);
+            const connected = /invitado conectado/.test(output);
+            const both = await js(`${runner}.gamePlaying && ${runner}.gameSecond`);
+            const ok = second && connected && both;
+            if (!ok) fails++;
+            if (process.env.SALIDA) console.log(output.trim().split('\n').slice(-10).map((l) => `    | ${l}`).join('\n'));
+            console.log(`${ok ? '✓' : '✗'} ${name} (dos ventanas: ${second ? 'sí' : 'no'}, conectadas: ${connected ? 'sí' : 'no'})`);
+            if (SHOTS) {
+                const shot = await page('Page.captureScreenshot', { format: 'png' });
+                fs.writeFileSync(path.join(SHOTS, `${program.stage}-${program.dir}.png`), Buffer.from(shot.result.data, 'base64'));
+            }
+            await js(`${runner}.gameStop()`);
+            await sleep(2000);
+            continue;
+        }
         // Salir del menú, por si tiene: Enter, Espacio y 1.
         await js('document.querySelector("[data-test=game-canvas]")?.focus()');
         await key('Enter', 'Enter', 13);
@@ -114,10 +139,14 @@ try {
         await key('Digit1', '1', 49);
         await sleep(500);
         // Ya en la partida: saltar o disparar (así suenan los que solo suenan al hacer algo).
-        for (const [code, name, vk] of [['Space', ' ', 32], ['KeyW', 'w', 87], ['ArrowUp', 'ArrowUp', 38]]) {
-            await page('Input.dispatchKeyEvent', { type: 'keyDown', code, key: name, windowsVirtualKeyCode: vk });
-            await sleep(150);
-            await page('Input.dispatchKeyEvent', { type: 'keyUp', code, key: name, windowsVirtualKeyCode: vk });
+        // (dos tandas: un salto solo suena si arranca desde el piso)
+        for (let round = 0; round < 2; round++) {
+            for (const [code, name, vk] of [['Space', ' ', 32], ['KeyW', 'w', 87], ['ArrowUp', 'ArrowUp', 38]]) {
+                await page('Input.dispatchKeyEvent', { type: 'keyDown', code, key: name, windowsVirtualKeyCode: vk });
+                await sleep(250);
+                await page('Input.dispatchKeyEvent', { type: 'keyUp', code, key: name, windowsVirtualKeyCode: vk });
+            }
+            await sleep(900);
         }
         await sleep(1500);
         const state = await js(`({ playing: ${runner}.gamePlaying, error: ${runner}.error, status: ${runner}.status, output: ${runner}.output })`);
@@ -130,6 +159,7 @@ try {
         if (!state.error && !state.playing && !/terminó \(devolvió 0\)/.test(state.status)) problems.push(`terminó solo: ${state.status}`);
         if (state.playing && seen.count < 2) problems.push('la pantalla está vacía');
         if (usesAudio && state.playing && audio === 0) problems.push('no sonó');
+        if (process.env.SALIDA) console.log((state.output ?? '').trim().split('\n').slice(-12).map((l) => `    | ${l}`).join('\n'));
         if (problems.length) fails++;
         console.log(`${problems.length ? '✗' : '✓'} ${name}${state.playing ? ` (${seen.count} colores${usesAudio ? `, ${audio} sonidos` : ''})` : ''}${problems.length ? ': ' + problems.join(' · ') : ''}`);
         await js(`${runner}.gameControl?.kill()`);

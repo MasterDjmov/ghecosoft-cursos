@@ -996,4 +996,251 @@ static inline const char *SDL_GetScancodeName(SDL_Scancode scancode)
 }
 static inline const char *SDL_GetKeyName(SDL_Keycode key) { return SDL_GetScancodeName(SDL_GetScancodeFromKey(key, NULL)); }
 
+/* ---------- Superficies (píxeles en la memoria del juego) y texturas (imágenes que dibuja el renderer) ---------- */
+
+#define SDL_PIXELFORMAT_UNKNOWN 0u
+#define SDL_PIXELFORMAT_XRGB8888 0x16161804u
+#define SDL_PIXELFORMAT_ARGB8888 0x16362004u
+#define SDL_PIXELFORMAT_RGBA8888 0x16462004u
+#define SDL_PIXELFORMAT_ABGR8888 0x16762004u
+#define SDL_PIXELFORMAT_BGRA8888 0x16862004u
+#define SDL_PIXELFORMAT_RGBA32 SDL_PIXELFORMAT_ABGR8888
+#define SDL_PIXELFORMAT_ARGB32 SDL_PIXELFORMAT_BGRA8888
+#define SDL_PIXELFORMAT_BGRA32 SDL_PIXELFORMAT_ARGB8888
+#define SDL_PIXELFORMAT_ABGR32 SDL_PIXELFORMAT_RGBA8888
+
+typedef Uint32 SDL_SurfaceFlags;
+typedef struct SDL_Surface {
+    SDL_SurfaceFlags flags; SDL_PixelFormat format; int w; int h; int pitch; void *pixels; int refcount; void *reserved;
+} SDL_Surface;
+
+typedef enum SDL_TextureAccess { SDL_TEXTUREACCESS_STATIC, SDL_TEXTUREACCESS_STREAMING, SDL_TEXTUREACCESS_TARGET } SDL_TextureAccess;
+typedef enum SDL_ScaleMode { SDL_SCALEMODE_INVALID = -1, SDL_SCALEMODE_NEAREST, SDL_SCALEMODE_LINEAR, SDL_SCALEMODE_PIXELART } SDL_ScaleMode;
+typedef enum SDL_FlipMode { SDL_FLIP_NONE, SDL_FLIP_HORIZONTAL, SDL_FLIP_VERTICAL } SDL_FlipMode;
+/* Como en SDL3: lo de arriba se puede leer (tex->w, tex->h); `id` es de la plataforma. */
+typedef struct SDL_Texture { SDL_PixelFormat format; int w; int h; int refcount; int id; } SDL_Texture;
+
+SDLW_IMPORT(tex_create) int sdlw_tex_create(int w, int h);
+SDLW_IMPORT(tex_update) bool sdlw_tex_update(int id, int x, int y, int w, int h, const void *pixels, int pitch, Uint32 format);
+SDLW_IMPORT(tex_draw) bool sdlw_tex_draw(int id, const SDL_FRect *src, const SDL_FRect *dst, double angle, const SDL_FPoint *center, int flip);
+SDLW_IMPORT(tex_set) bool sdlw_tex_set(int id, int what, Uint32 value);
+SDLW_IMPORT(tex_destroy) void sdlw_tex_destroy(int id);
+SDLW_IMPORT(set_target) bool sdlw_set_target(int id);
+SDLW_IMPORT(image_decode) int sdlw_image_decode(const void *data, int length, int *w, int *h);
+SDLW_IMPORT(blob_copy) void sdlw_blob_copy(int blob, void *out);
+SDLW_IMPORT(image_encode) int sdlw_image_encode(const void *pixels, int w, int h, int pitch, Uint32 format, int *size);
+
+/* Dónde va cada canal (rojo, verde, azul, alfa) dentro de un píxel de 32 bits, según el formato. */
+static inline void sdlw_shifts(SDL_PixelFormat f, int *r, int *g, int *b, int *a)
+{
+    switch (f) {
+    case SDL_PIXELFORMAT_ARGB8888: case SDL_PIXELFORMAT_XRGB8888: *a = 24; *r = 16; *g = 8; *b = 0; break;
+    case SDL_PIXELFORMAT_RGBA8888: *r = 24; *g = 16; *b = 8; *a = 0; break;
+    case SDL_PIXELFORMAT_BGRA8888: *b = 24; *g = 16; *r = 8; *a = 0; break;
+    default: *a = 24; *b = 16; *g = 8; *r = 0; break; /* ABGR8888 = RGBA32 */
+    }
+}
+static inline Uint32 SDL_MapSurfaceRGBA(SDL_Surface *s, Uint8 r, Uint8 g, Uint8 b, Uint8 a)
+{
+    int sr, sg, sb, sa;
+    sdlw_shifts(s ? s->format : SDL_PIXELFORMAT_RGBA32, &sr, &sg, &sb, &sa);
+    return (Uint32)r << sr | (Uint32)g << sg | (Uint32)b << sb | (Uint32)a << sa;
+}
+static inline Uint32 SDL_MapSurfaceRGB(SDL_Surface *s, Uint8 r, Uint8 g, Uint8 b) { return SDL_MapSurfaceRGBA(s, r, g, b, 255); }
+static inline void sdlw_unmap(SDL_PixelFormat f, Uint32 px, Uint8 *r, Uint8 *g, Uint8 *b, Uint8 *a)
+{
+    int sr, sg, sb, sa;
+    sdlw_shifts(f, &sr, &sg, &sb, &sa);
+    *r = (Uint8)(px >> sr); *g = (Uint8)(px >> sg); *b = (Uint8)(px >> sb);
+    *a = f == SDL_PIXELFORMAT_XRGB8888 ? 255 : (Uint8)(px >> sa);
+}
+static inline SDL_Surface *SDL_CreateSurface(int w, int h, SDL_PixelFormat format)
+{
+    if (w <= 0 || h <= 0 || w > 8192 || h > 8192) return NULL;
+    SDL_Surface *s = (SDL_Surface *)calloc(1, sizeof(SDL_Surface));
+    if (!s) return NULL;
+    s->format = format == SDL_PIXELFORMAT_UNKNOWN ? SDL_PIXELFORMAT_RGBA32 : format;
+    s->w = w; s->h = h; s->pitch = w * 4; s->refcount = 1;
+    s->pixels = calloc((size_t)h, (size_t)s->pitch);
+    if (!s->pixels) { free(s); return NULL; }
+    return s;
+}
+static inline void SDL_DestroySurface(SDL_Surface *s)
+{
+    if (!s || --s->refcount > 0) return;
+    free(s->pixels);
+    free(s);
+}
+static inline bool SDL_LockSurface(SDL_Surface *s) { return s != NULL; }
+static inline void SDL_UnlockSurface(SDL_Surface *s) { (void)s; }
+static inline bool SDL_FillSurfaceRect(SDL_Surface *s, const SDL_Rect *rect, Uint32 color)
+{
+    if (!s) return false;
+    int x0 = rect ? rect->x : 0, y0 = rect ? rect->y : 0;
+    int x1 = rect ? rect->x + rect->w : s->w, y1 = rect ? rect->y + rect->h : s->h;
+    if (x0 < 0) x0 = 0;
+    if (y0 < 0) y0 = 0;
+    if (x1 > s->w) x1 = s->w;
+    if (y1 > s->h) y1 = s->h;
+    for (int y = y0; y < y1; y++) {
+        Uint32 *row = (Uint32 *)((Uint8 *)s->pixels + y * s->pitch);
+        for (int x = x0; x < x1; x++) row[x] = color;
+    }
+    return true;
+}
+/* Copia un pedazo de una superficie sobre otra, mezclando con la transparencia (como SDL_BlitSurface). */
+static inline bool SDL_BlitSurface(SDL_Surface *src, const SDL_Rect *srcrect, SDL_Surface *dst, const SDL_Rect *dstrect)
+{
+    if (!src || !dst) return false;
+    SDL_Rect a = srcrect ? *srcrect : (SDL_Rect){ 0, 0, src->w, src->h };
+    int dx = dstrect ? dstrect->x : 0, dy = dstrect ? dstrect->y : 0;
+    for (int y = 0; y < a.h; y++) {
+        int sy = a.y + y, ty = dy + y;
+        if (sy < 0 || sy >= src->h || ty < 0 || ty >= dst->h) continue;
+        Uint32 *from = (Uint32 *)((Uint8 *)src->pixels + sy * src->pitch);
+        Uint32 *to = (Uint32 *)((Uint8 *)dst->pixels + ty * dst->pitch);
+        for (int x = 0; x < a.w; x++) {
+            int sx = a.x + x, tx = dx + x;
+            if (sx < 0 || sx >= src->w || tx < 0 || tx >= dst->w) continue;
+            Uint8 r, g, b, al, R, G, B, A;
+            sdlw_unmap(src->format, from[sx], &r, &g, &b, &al);
+            sdlw_unmap(dst->format, to[tx], &R, &G, &B, &A);
+            int k = al;
+            to[tx] = SDL_MapSurfaceRGBA(dst, (Uint8)((r * k + R * (255 - k)) / 255), (Uint8)((g * k + G * (255 - k)) / 255),
+                                        (Uint8)((b * k + B * (255 - k)) / 255), (Uint8)(k + A * (255 - k) / 255));
+        }
+    }
+    return true;
+}
+
+static inline SDL_Texture *SDL_CreateTexture(SDL_Renderer *renderer, SDL_PixelFormat format, SDL_TextureAccess access, int w, int h)
+{
+    (void)renderer; (void)access;
+    int id = sdlw_tex_create(w, h);
+    if (!id) return NULL;
+    SDL_Texture *t = (SDL_Texture *)calloc(1, sizeof(SDL_Texture));
+    if (!t) { sdlw_tex_destroy(id); return NULL; }
+    t->format = format == SDL_PIXELFORMAT_UNKNOWN ? SDL_PIXELFORMAT_RGBA32 : format;
+    t->w = w; t->h = h; t->refcount = 1; t->id = id;
+    return t;
+}
+static inline bool SDL_UpdateTexture(SDL_Texture *t, const SDL_Rect *rect, const void *pixels, int pitch)
+{
+    if (!t || !pixels) return false;
+    SDL_Rect a = rect ? *rect : (SDL_Rect){ 0, 0, t->w, t->h };
+    return sdlw_tex_update(t->id, a.x, a.y, a.w, a.h, pixels, pitch, t->format);
+}
+static inline SDL_Texture *SDL_CreateTextureFromSurface(SDL_Renderer *renderer, SDL_Surface *s)
+{
+    if (!s) return NULL;
+    SDL_Texture *t = SDL_CreateTexture(renderer, s->format, SDL_TEXTUREACCESS_STATIC, s->w, s->h);
+    if (t) SDL_UpdateTexture(t, NULL, s->pixels, s->pitch);
+    return t;
+}
+static inline bool SDL_GetTextureSize(SDL_Texture *t, float *w, float *h)
+{
+    if (!t) return false;
+    if (w) *w = (float)t->w;
+    if (h) *h = (float)t->h;
+    return true;
+}
+static inline bool SDL_RenderTexture(SDL_Renderer *renderer, SDL_Texture *t, const SDL_FRect *src, const SDL_FRect *dst)
+{
+    (void)renderer;
+    return t && sdlw_tex_draw(t->id, src, dst, 0.0, NULL, SDL_FLIP_NONE);
+}
+static inline bool SDL_RenderTextureRotated(SDL_Renderer *renderer, SDL_Texture *t, const SDL_FRect *src, const SDL_FRect *dst,
+                                            double angle, const SDL_FPoint *center, SDL_FlipMode flip)
+{
+    (void)renderer;
+    return t && sdlw_tex_draw(t->id, src, dst, angle, center, (int)flip);
+}
+static inline bool SDL_SetTextureScaleMode(SDL_Texture *t, SDL_ScaleMode mode) { return t && sdlw_tex_set(t->id, 1, (Uint32)mode); }
+static inline bool SDL_SetTextureAlphaMod(SDL_Texture *t, Uint8 alpha) { return t && sdlw_tex_set(t->id, 2, alpha); }
+static inline bool SDL_SetTextureColorMod(SDL_Texture *t, Uint8 r, Uint8 g, Uint8 b) { return t && sdlw_tex_set(t->id, 3, (Uint32)r << 16 | (Uint32)g << 8 | b); }
+static inline bool SDL_SetTextureBlendMode(SDL_Texture *t, SDL_BlendMode mode) { return t && sdlw_tex_set(t->id, 4, (Uint32)mode); }
+static inline bool SDL_SetRenderTarget(SDL_Renderer *renderer, SDL_Texture *t) { (void)renderer; return sdlw_set_target(t ? t->id : 0); }
+static inline void SDL_DestroyTexture(SDL_Texture *t)
+{
+    if (!t || --t->refcount > 0) return;
+    sdlw_tex_destroy(t->id);
+    free(t);
+}
+
+/* Una imagen (PNG, JPG, BMP…) de un archivo a una superficie: la decodifica el navegador. */
+static inline SDL_Surface *sdlw_load_image(const char *file)
+{
+    size_t size = 0;
+    void *data = SDL_LoadFile(file, &size);
+    if (!data) return NULL;
+    int w = 0, h = 0;
+    int blob = sdlw_image_decode(data, (int)size, &w, &h);
+    free(data);
+    if (!blob) return NULL;
+    SDL_Surface *s = SDL_CreateSurface(w, h, SDL_PIXELFORMAT_RGBA32);
+    if (s) sdlw_blob_copy(blob, s->pixels);
+    return s;
+}
+static inline SDL_Surface *SDL_LoadBMP(const char *file) { return sdlw_load_image(file); }
+
+/* ---------- Propiedades (SDL_PropertiesID): opciones con nombre, por ejemplo para SDL3_mixer ---------- */
+
+typedef Uint32 SDL_PropertiesID;
+typedef struct { char name[64]; Sint64 number; float decimal; bool boolean; void *pointer; } sdlw_property;
+typedef struct { bool used; int count; sdlw_property items[16]; } sdlw_property_set;
+__attribute__((weak)) sdlw_property_set sdlw_properties[32];
+
+static inline SDL_PropertiesID SDL_CreateProperties(void)
+{
+    for (int i = 0; i < 32; i++) {
+        if (!sdlw_properties[i].used) { memset(&sdlw_properties[i], 0, sizeof sdlw_properties[i]); sdlw_properties[i].used = true; return (SDL_PropertiesID)(i + 1); }
+    }
+    return 0;
+}
+static inline void SDL_DestroyProperties(SDL_PropertiesID props) { if (props >= 1 && props <= 32) sdlw_properties[props - 1].used = false; }
+static inline sdlw_property *sdlw_property_find(SDL_PropertiesID props, const char *name, bool create)
+{
+    if (props < 1 || props > 32 || !sdlw_properties[props - 1].used || !name) return NULL;
+    sdlw_property_set *set = &sdlw_properties[props - 1];
+    for (int i = 0; i < set->count; i++) if (strcmp(set->items[i].name, name) == 0) return &set->items[i];
+    if (!create || set->count >= 16) return NULL;
+    sdlw_property *p = &set->items[set->count++];
+    memset(p, 0, sizeof *p);
+    SDL_strlcpy(p->name, name, sizeof p->name);
+    return p;
+}
+static inline bool SDL_SetNumberProperty(SDL_PropertiesID props, const char *name, Sint64 value)
+{
+    sdlw_property *p = sdlw_property_find(props, name, true);
+    if (p) p->number = value;
+    return p != NULL;
+}
+static inline Sint64 SDL_GetNumberProperty(SDL_PropertiesID props, const char *name, Sint64 default_value)
+{
+    sdlw_property *p = sdlw_property_find(props, name, false);
+    return p ? p->number : default_value;
+}
+static inline bool SDL_SetFloatProperty(SDL_PropertiesID props, const char *name, float value)
+{
+    sdlw_property *p = sdlw_property_find(props, name, true);
+    if (p) p->decimal = value;
+    return p != NULL;
+}
+static inline float SDL_GetFloatProperty(SDL_PropertiesID props, const char *name, float default_value)
+{
+    sdlw_property *p = sdlw_property_find(props, name, false);
+    return p ? p->decimal : default_value;
+}
+static inline bool SDL_SetBooleanProperty(SDL_PropertiesID props, const char *name, bool value)
+{
+    sdlw_property *p = sdlw_property_find(props, name, true);
+    if (p) p->boolean = value;
+    return p != NULL;
+}
+static inline bool SDL_GetBooleanProperty(SDL_PropertiesID props, const char *name, bool default_value)
+{
+    sdlw_property *p = sdlw_property_find(props, name, false);
+    return p ? p->boolean : default_value;
+}
+
 #endif

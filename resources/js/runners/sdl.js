@@ -42,7 +42,7 @@ export function gamesSupported() {
  *
  * @returns {Promise<{ok: boolean, error?: string, diagnostics?: string, stop?: () => void, done?: Promise<{exit?: number, error?: string}>}>}
  */
-export async function runGame(code, { container, onStatus, onOutput, onWindow, storageKey = 'sdl', watchdog = 3000 } = {}) {
+export async function runGame(code, { container, onStatus, onOutput, onWindow, storageKey = 'sdl', args = [], watchdog = 3000 } = {}) {
     if (!gamesSupported()) {
         return { ok: false, error: 'Este navegador no puede correr los juegos todavía: abrilo en Chrome o en Edge (actualizados).' };
     }
@@ -52,6 +52,7 @@ export async function runGame(code, { container, onStatus, onOutput, onWindow, s
     const compiled = await compile(code, 'c', () => onStatus?.('Compilando…'), true);
     if (compiled.type === 'loadFailed') return { ok: false, error: `No se pudo cargar el compilador: ${compiled.message}` };
     if (compiled.type === 'compileError') return { ok: false, error: 'No compila.', diagnostics: compiled.diagnostics };
+    const assets = await loadAssets(code);
 
     container.replaceChildren();
     const canvas = document.createElement('canvas');
@@ -77,6 +78,7 @@ export async function runGame(code, { container, onStatus, onOutput, onWindow, s
         finished = true;
         worker.terminate();
         audio.close();
+        network.drop(worker);
         cleanups.forEach((cleanup) => cleanup());
         finish(result);
     };
@@ -93,6 +95,10 @@ export async function runGame(code, { container, onStatus, onOutput, onWindow, s
             onWindow?.({ ...size, title: data.title });
         } else if (data.type === 'audio') {
             audio.handle(data);
+        } else if (data.type === 'mix') {
+            audio.mix(data);
+        } else if (data.type === 'net') {
+            network.handle(worker, data);
         } else if (data.type === 'files') {
             saveFiles(storageKey, data.files, onOutput);
         } else if (data.type === 'output') {
@@ -170,7 +176,7 @@ export async function runGame(code, { container, onStatus, onOutput, onWindow, s
     canvas.addEventListener('focus', focusStatus);
     canvas.addEventListener('blur', focusStatus);
     worker.postMessage({
-        type: 'start', wasm: compiled.wasm, canvas: offscreen, files: loadFiles(storageKey),
+        type: 'start', wasm: compiled.wasm, canvas: offscreen, files: loadFiles(storageKey), assets, args,
         display: { w: screen.width, h: screen.height, density: devicePixelRatio || 1 },
     }, [offscreen]);
     canvas.focus();
@@ -227,6 +233,38 @@ function startAudio() {
         stream.end = 0;
     };
 
+    // SDL3_mixer: los audios (ya decodificados), los mixers (un volumen general) y las pistas.
+    const mixers = new Map(); // id → GainNode
+    const sounds = new Map(); // id → AudioBuffer o Promise<AudioBuffer>
+    const tracks = new Map(); // id → { mixer, audio, gain, source, loops, started, offset }
+    const buffer = (channels, freq, samples) => {
+        const frames = Math.max(1, Math.floor(samples.length / channels));
+        const out = context.createBuffer(channels, frames, freq);
+        for (let c = 0; c < channels; c++) {
+            const channel = out.getChannelData(c);
+            for (let i = 0; i < frames; i++) channel[i] = samples[i * channels + c] ?? 0;
+        }
+        return out;
+    };
+    const play = async (track, offset = 0) => {
+        window.sdlAudioChunks = (window.sdlAudioChunks ?? 0) + 1; // para las pruebas
+        const sound = await sounds.get(track.audio);
+        if (!sound || tracks.get(track.id) !== track) return;
+        track.source?.stop?.();
+        const source = context.createBufferSource();
+        source.buffer = sound;
+        source.loop = track.loops !== 0;
+        source.connect(track.gain);
+        source.start(0, offset % sound.duration);
+        track.started = context.currentTime - (offset % sound.duration);
+        track.source = source;
+        if (track.loops > 0) setTimeout(() => { if (track.source === source) source.loop = false; }, (sound.duration * (track.loops + 1) - offset) * 1000 - 50);
+    };
+    const halt = (track) => {
+        try { track.source?.stop(); } catch { /* ya terminó */ }
+        track.source = null;
+    };
+
     return {
         handle({ action, id, channels, freq, samples, value }) {
             if (!context) return;
@@ -258,7 +296,52 @@ function startAudio() {
                 streams.delete(id);
             }
         },
+        mix({ action, id, arg, value, channels, freq, samples, data, mixer }) {
+            if (!context) return;
+            if (action === 'mixer') {
+                const gain = context.createGain();
+                gain.connect(context.destination);
+                mixers.set(id, gain);
+            } else if (action === 'pcm') {
+                sounds.set(id, buffer(channels, freq, samples));
+            } else if (action === 'encoded') {
+                sounds.set(id, context.decodeAudioData(data.buffer.slice(0)).catch(() => null));
+            } else if (action === 'track') {
+                const gain = context.createGain();
+                gain.connect(mixers.get(mixer) ?? context.destination);
+                tracks.set(id, { id, mixer, audio: 0, gain, source: null, loops: 0, started: 0, offset: 0 });
+            } else if (action === 'fire') {
+                window.sdlAudioChunks = (window.sdlAudioChunks ?? 0) + 1; // para las pruebas
+                // Disparar y olvidar: suena una vez, encima de lo que haya.
+                Promise.resolve(sounds.get(arg)).then((sound) => {
+                    if (!sound) return;
+                    const source = context.createBufferSource();
+                    source.buffer = sound;
+                    source.connect(mixers.get(id) ?? context.destination);
+                    source.start();
+                });
+            } else if (action === 'master') {
+                const gain = mixers.get(id);
+                if (gain) gain.gain.value = value;
+            } else if (action === 'free-audio') {
+                sounds.delete(id);
+            } else if (action === 'free-mixer') {
+                mixers.get(id)?.disconnect();
+                mixers.delete(id);
+            } else {
+                const track = tracks.get(id);
+                if (!track) return;
+                if (action === 'set') track.audio = arg;
+                else if (action === 'play') { track.loops = arg; play(track); }
+                else if (action === 'pause') { track.offset = track.source ? context.currentTime - track.started : 0; halt(track); }
+                else if (action === 'resume') play(track, track.offset);
+                else if (action === 'stop') halt(track);
+                else if (action === 'gain') track.gain.gain.value = value;
+                else if (action === 'free-track') { halt(track); track.gain.disconnect(); tracks.delete(id); }
+            }
+        },
         close() {
+            tracks.forEach(halt);
             streams.forEach(stop);
             context?.close?.().catch(() => {});
         },
@@ -295,4 +378,67 @@ function saveFiles(key, files, onOutput) {
     } catch {
         /* sin lugar o sin permiso: el juego sigue igual */
     }
+}
+
+/**
+ * La red de mentira (SDL3_net en la página): un «conmutador» que conecta los juegos abiertos en esta página por número
+ * de puerto. No sale nada a internet: los bytes van de un worker a otro (o al mismo, si es «localhost»).
+ */
+const network = {
+    servers: new Map(), // puerto → { worker, server }
+    conns: new Map(), // id → { a: { worker, sock }, b: { worker, sock } }
+    seq: 0,
+    handle(worker, { op, port, server, sock, conn, data }) {
+        if (op === 'listen') {
+            if (!this.servers.has(port)) this.servers.set(port, { worker, server });
+        } else if (op === 'unlisten') {
+            if (this.servers.get(port)?.server === server && this.servers.get(port)?.worker === worker) this.servers.delete(port);
+        } else if (op === 'connect') {
+            const target = this.servers.get(port);
+            if (!target) return worker.postMessage({ type: 'net', op: 'refused', sock });
+            const id = ++this.seq;
+            this.conns.set(id, { a: { worker, sock }, b: { worker: target.worker, sock: 0 } });
+            target.worker.postMessage({ type: 'net', op: 'incoming', server: target.server, conn: id });
+        } else if (op === 'accepted') {
+            const link = this.conns.get(conn);
+            if (!link) return;
+            link.b.sock = sock;
+            link.a.worker.postMessage({ type: 'net', op: 'connected', sock: link.a.sock, conn });
+        } else if (op === 'data' || op === 'close') {
+            const link = this.conns.get(conn);
+            if (!link) return;
+            const other = link.a.worker === worker && link.a.sock === sock ? link.b : link.a;
+            if (op === 'data') other.worker.postMessage({ type: 'net', op: 'data', sock: other.sock, data }, [data.buffer]);
+            else {
+                other.worker.postMessage({ type: 'net', op: 'closed', sock: other.sock });
+                this.conns.delete(conn);
+            }
+        }
+    },
+    /** Un juego que se cerró: sus servidores se apagan y a quien estaba conectado le llega el cierre. */
+    drop(worker) {
+        for (const [port, entry] of this.servers) if (entry.worker === worker) this.servers.delete(port);
+        for (const [id, link] of this.conns) {
+            if (link.a.worker !== worker && link.b.worker !== worker) continue;
+            const other = link.a.worker === worker ? link.b : link.a;
+            if (other.worker !== worker) other.worker.postMessage({ type: 'net', op: 'closed', sock: other.sock });
+            this.conns.delete(id);
+        }
+    },
+};
+
+// Lo que trae la plataforma para los juegos (se lee como un archivo más: TTF_OpenFont("assets/fonts/DejaVuSans.ttf")).
+const GAME_ASSETS = { 'assets/fonts/DejaVuSans.ttf': '/games/assets/fonts/DejaVuSans.ttf' };
+
+async function loadAssets(code) {
+    const wanted = Object.entries(GAME_ASSETS).filter(([path]) => code.includes(path.split('/').pop()));
+    const loaded = await Promise.all(wanted.map(async ([path, url]) => {
+        try {
+            const response = await fetch(url);
+            return response.ok ? [path, new Uint8Array(await response.arrayBuffer())] : null;
+        } catch {
+            return null;
+        }
+    }));
+    return Object.fromEntries(loaded.filter(Boolean));
 }

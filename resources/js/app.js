@@ -264,6 +264,9 @@ document.addEventListener('alpine:init', () => {
         gamePlaying: false,
         gameTitle: '',
         gamePads: 0,
+        // La segunda ventana del mismo juego (la red de mentira de SDL3_net).
+        gameSecond: false,
+        gameSecondStatus: '',
         asmDock: false,
         asmDockOpen: false,
         asmDockPanel: 'registers',
@@ -345,6 +348,7 @@ document.addEventListener('alpine:init', () => {
 
         destroy() {
             this.gameControl?.kill();
+            this.gameSecondControl?.kill();
             clearTimeout(this.gameWatch);
             clearTimeout(this.renderTimer);
             if (this.fileEditors.length) this.fileEditors.forEach((editor) => editor.destroy());
@@ -469,6 +473,7 @@ document.addEventListener('alpine:init', () => {
             const result = await started.done;
             if (this.gameRound !== round) return;
             clearTimeout(this.gameWatch);
+            this.gameSecondStop();
             this.gamePlaying = false;
             this.gameControl = null;
             if (result.error) {
@@ -483,6 +488,39 @@ document.addEventListener('alpine:init', () => {
 
         gameStop() {
             this.gameControl?.stop();
+            this.gameSecondStop();
+        },
+
+        /** Otra copia del juego que está corriendo, al lado: se conectan por la red de mentira (anfitrión e invitado). */
+        async gameSecondRun() {
+            if (this.gameSecond || !this.gamePlaying) return;
+            this.gameSecond = true;
+            const round = (this.gameSecondRound = (this.gameSecondRound ?? 0) + 1);
+            this.gameSecondStatus = 'Compilando…';
+            const { runGame } = await import('./runners/sdl.js');
+            const second = await runGame(this.runSource ?? this.code, {
+                container: this.$refs.gameScreen2,
+                onStatus: (status) => (this.gameSecondStatus = status),
+                onOutput: (text) => (this.output = (this.output + text.replace(/^(?=.)/gm, '[ventana 2] ')).slice(-20000)),
+                storageKey: `${config.keep ?? 'sdl'}:2`,
+            });
+            if (!second.ok) {
+                this.gameSecondStatus = second.error;
+                return;
+            }
+            this.gameSecondControl = second;
+            const result = await second.done;
+            if (this.gameSecondRound !== round) return;
+            this.gameSecondControl = null;
+            this.gameSecondStatus = result.error ? result.error : 'Terminó.';
+        },
+
+        gameSecondStop() {
+            this.gameSecondRound = (this.gameSecondRound ?? 0) + 1;
+            this.gameSecondControl?.kill();
+            this.gameSecondControl = null;
+            this.gameSecond = false;
+            this.$refs.gameScreen2?.replaceChildren();
         },
 
         gameFullscreen() {

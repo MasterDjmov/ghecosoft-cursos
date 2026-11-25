@@ -230,24 +230,33 @@ prompt de esta charla y el 2026-11-25 FullCursos ya lo trae, marcado «(agregado
 | Rama final: Pong para dos compus | `29-Juegos-SDL3` 08 |
 | Proyecto final | `08-ProyectoFinal` (C++) o un juego propio |
 
+**Para corregir en FullCursos** (aviso de Clang, 2026-11-25): en `29-Juegos-SDL3/08-PongEnRed/main.c`, salir con Escape o
+cerrar la ventana desde el menú hace `goto salir` antes de `int ret = 0;`, y `return ret;` devuelve un valor sin
+iniciar. Se arregla declarando `int ret = 0;` antes del menú.
+
 El Pong de la fase 1 (`resources/games/pong.c`) era solo la prueba técnica: el curso usa el de
 `29-Juegos-SDL3/01-Pong`, armado de a poco con micro-misiones.
 
-### 4.6 Lo que le falta al SDL3 de la plataforma para correr todo FullCursos en la web
+### 4.6 El SDL3 de la plataforma frente a FullCursos (hecho el 2026-11-25, a probar)
+
+**Hecho (fase 3, 2026-11-25):** los **30 programas** de `06-SDL3` (01–22) y `29-Juegos-SDL3` (01–08) compilan y se
+juegan en la web, con sonido, imágenes, fuentes con ñ, música, récords guardados, hilos emulados y la red de mentira
+(el Pong en red, en dos ventanas). Prueba: `node scripts/videojuegos/probar-fullcursos.mjs [carpeta] [filtro]`.
+Lo que se agregó, por grupo (la tabla dice qué era y cómo quedó resuelto):
 
 Se comparó cada función de SDL que usan los capítulos 14–23 y los 8 juegos con `resources/js/runners/sdl3/SDL.h`
 (2026-11-25). Los juegos 01–07 usan casi solo lo que ya anda; lo grande es el audio. Va en la fase 3:
 
-| Grupo | Funciones | Cómo se resuelve en la web | Lo usan |
+| Grupo | Funciones | Cómo quedó en la web | Lo usan |
 |---|---|---|---|
 | Utilidades de C | `SDL_atof`, `SDL_sin`, `SDL_strlcpy`, `SDL_strcasecmp`, `SDL_memcpy`, `SDL_memmove`, `SDL_sscanf`, `SDL_zero` | en el mismo `SDL.h`, con la biblioteca de C | todos |
 | **Audio de SDL3** | `SDL_OpenAudioDeviceStream`, `SDL_PutAudioStreamData`, `SDL_ResumeAudioStreamDevice`, `SDL_DestroyAudioStream`, `SDL_GetAudioStreamQueued`, `SDL_LoadWAV`, `SDL_GetCurrentAudioDriver` | con el audio del navegador (Web Audio): las muestras que arma el juego se reproducen tal cual | 17 y **los 8 juegos** |
-| Texturas e imágenes | `SDL_CreateSurface`, `SDL_FillSurfaceRect`, `SDL_MapSurfaceRGBA`, `SDL_CreateTextureFromSurface`, `SDL_RenderTexture`, `SDL_DestroyTexture`, `SDL_GetTextureSize`, `SDL_SetTextureScaleMode`, `IMG_LoadTexture`, `IMG_SavePNG` | superficies en la memoria del juego; texturas como imágenes del lienzo; PNG con el navegador | 16, 18 |
-| Fuentes (SDL3_ttf) | `TTF_Init`, `TTF_OpenFont`, `TTF_RenderText_Blended`, `TTF_CloseFont`, `TTF_Quit` | el lienzo dibuja el texto con la misma fuente (DejaVu Sans, en la plataforma) | 18 |
-| Música (SDL3_mixer 3) | `MIX_Init`, `MIX_CreateMixerDevice`, `MIX_LoadAudio`, `MIX_CreateSineWaveAudio`, `MIX_CreateTrack`, `MIX_SetTrackAudio`, `MIX_PlayTrack`, `MIX_PauseTrack`, `MIX_ResumeTrack`, `MIX_SetTrackGain`, `MIX_PlayAudio`, los `Destroy` y `SDL_*Properties` | Web Audio, una pista por `MIX_Track` | 19 |
+| Texturas e imágenes | `SDL_CreateSurface`, `SDL_FillSurfaceRect`, `SDL_BlitSurface`, `SDL_MapSurfaceRGBA`, `SDL_CreateTexture`, `SDL_UpdateTexture`, `SDL_CreateTextureFromSurface`, `SDL_RenderTexture`, `SDL_RenderTextureRotated`, `SDL_SetRenderTarget`, `SDL_SetTextureColorMod`/`AlphaMod`/`ScaleMode`, `IMG_Load`, `IMG_LoadTexture`, `IMG_SavePNG`, `SDL_LoadBMP` | superficies en la memoria del juego (mismo `struct` que SDL3); texturas como lienzos; PNG, JPG, BMP, GIF y WebP los decodifica el navegador | 16, 18 |
+| Fuentes (SDL3_ttf) | `TTF_Init`, `TTF_OpenFont`, `TTF_RenderText_Blended`, `TTF_CloseFont`, `TTF_Quit` | el lienzo dibuja el texto con el archivo `.ttf` del juego; DejaVu Sans viene con la plataforma en `assets/fonts/DejaVuSans.ttf` (`public/games/assets/`, con su licencia) | 18 |
+| Música (SDL3_mixer 3) | `MIX_Init`, `MIX_CreateMixerDevice`, `MIX_LoadAudio`, `MIX_CreateSineWaveAudio`, `MIX_CreateTrack`, `MIX_SetTrackAudio`, `MIX_PlayTrack`, `MIX_PauseTrack`, `MIX_ResumeTrack`, `MIX_SetTrackGain`, `MIX_PlayAudio`, los `Destroy` y `SDL_*Properties` | Web Audio: WAV leído por la plataforma, OGG y MP3 por el navegador; una pista por `MIX_Track`, con vueltas, pausa y volumen | 19 |
 | Archivos | `SDL_GetPrefPath`, `SDL_IOFromFile`, `SDL_ReadIO`, `SDL_WriteIO`, `SDL_CloseIO` | una carpeta propia del juego que **queda guardada en el navegador** de cada uno entre partidas (decidido 2026-11-25: el récord sigue ahí la próxima vez) | 20, Snake |
 | Hilos y timers | `SDL_CreateThread`, `SDL_WaitThread`, `SDL_GetAtomicInt`, `SDL_SetAtomicInt`, `SDL_AddTimer`, `SDL_RemoveTimer`, `SDL_PushEvent`, `SDL_RegisterEvents` | los timers y los eventos propios, sí; **los hilos se emulan** (decidido 2026-11-25): se turnan con el bucle del juego en cada pausa, así el mismo código anda en la web y, al bajarlo, con hilos de verdad | 21, 22 y Pong en red |
-| Red (SDL3_net) | `NET_Init`, `NET_ResolveHostname`, `NET_CreateServer`, `NET_AcceptClient`, `NET_CreateClient`, `NET_WaitUntilConnected`, `NET_ReadFromStreamSocket`, `NET_WriteToStreamSocket`, los `Destroy` y `NET_Quit` | **sin red real** (regla de la plataforma): la red de mentira entre dos ventanas del juego en la página (§ 4.4) | 22, Pong en red |
+| Red (SDL3_net) | `NET_Init`, `NET_ResolveHostname`, `NET_CreateServer`, `NET_AcceptClient`, `NET_CreateClient`, `NET_WaitUntilConnected`, `NET_ReadFromStreamSocket`, `NET_WriteToStreamSocket`, los `Destroy` y `NET_Quit` | **sin red real** (regla de la plataforma): la red de mentira; la página conecta los juegos por número de puerto (el mismo juego con un hilo servidor, o **Otra ventana** del mismo juego al lado) | 22, Pong en red |
 
 ## 5. Bajarlo y correrlo en la compu
 

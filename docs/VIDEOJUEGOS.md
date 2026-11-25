@@ -169,6 +169,34 @@ un curso, y si pide créditos) y anotarlo en una página de créditos del curso:
 
 Los assets van a la plataforma (para la web) y adentro del .zip para bajar.
 
+### 4.4 La caja de herramientas de SDL (pedido del docente, 2026-11-25, a revisar)
+
+Que el alumno conozca **todas las bibliotecas** que acompañan a SDL, para que después pueda hacer lo que quiera por su
+cuenta. En FullCursos casi no están: `SDL_image` solo para `IMG_Load`, `SDL_mixer` y `SDL_ttf` nombradas una vez, y
+`SDL_net` nada; tampoco el audio, los archivos ni los hilos del propio SDL3. Se suman, sencillas y muy explicadas.
+
+Cada una, con lo mismo: **para qué sirve**, **un ejemplo mínimo** que se juega en la página, **cómo se instala** en
+Linux y en Windows, y **en qué juego de la escalera se usa** (así no queda suelta).
+
+| Biblioteca | Para qué sirve | En la web (SDL de la plataforma) | Dónde se usa |
+|---|---|---|---|
+| **SDL3** (el núcleo) | ventana, dibujo, eventos, teclado, mouse, joystick, tiempo (lo de la fase 1) | ya anda | Clase 0 y R01 |
+| **SDL3**: audio | sonidos `.wav` (`SDL_LoadWAV`, `SDL_AudioStream`) | con el audio del navegador | R01 · Sonido; el «pong» del rebote |
+| **SDL3**: archivos | guardar y leer los récords (`SDL_IOFromFile`, `SDL_GetPrefPath`) | una carpeta de mentira, como en C (D98) | la tabla de récords de Snake y Tetris |
+| **SDL3**: hilos y temporizadores | hacer dos cosas a la vez (`SDL_CreateThread`, `SDL_AddTimer`) | solo explicado (en la web no hay hilos); se prueba al bajarlo | nodo de lectura, al final |
+| **SDL3_image** | cargar PNG y JPG como texturas (`IMG_LoadTexture`) | lo decodifica el navegador | R01 · Imágenes y sprites; todos los juegos con dibujos |
+| **SDL3_ttf** | texto con fuentes de verdad, **con tildes y ñ** (`TTF_OpenFont`, `TTF_RenderText_Blended`) | con las fuentes que vienen en el curso | menús y puntajes desde Arkanoid (lo que el texto de 8 × 8 no puede) |
+| **SDL3_mixer** | música de fondo y muchos efectos a la vez (`Mix_LoadMUS`, `Mix_PlayChannel`) | con el audio del navegador | la música de Tetris y Pac-Man |
+| **SDL3_net** | jugar entre dos compus por la red (TCP y UDP) | **sin red real** (regla de la plataforma): una **red de mentira** entre dos ventanas del mismo juego en la página, como el Puerto simulado de JavaScript | rama final opcional: **Pong para dos compus** (se juega de verdad al bajarlo) |
+| Otras, para saber que existen | `SDL_gpu` (dibujo con la placa de video, el puente a OpenGL), `SDL3_rtf`, `SDL_shadercross` | solo explicadas | nodo de lectura «¿Y ahora qué?» |
+
+- **Dónde se ve todo junto:** una rama **«La caja de herramientas»** (lectura + micro-misiones cortas), y en la
+  Enciclopedia del alumno una ficha por biblioteca (como los artefactos), con su ejemplo para copiar.
+- **Bajar y correr en la compu** (fase 6): el .zip trae SDL3 y las bibliotecas que use ese juego (image, ttf, mixer,
+  net), así no tiene que instalar nada.
+- **A confirmar al llegar:** las versiones estables de SDL3_mixer y SDL3_net en ese momento (las de SDL3 salieron
+  después que el núcleo) y la licencia de cada fuente y sonido (§ 4.3).
+
 ## 5. Bajarlo y correrlo en la compu
 
 - Botón **Bajar** (como en Mis prácticas, D124): un .zip con el juego, SDL3 y un lanzador para **Linux** y otro para
@@ -190,11 +218,12 @@ Los assets van a la plataforma (para la web) y adentro del .zip para bajar.
 1. **Prototipo:** Pong editable y jugable en la página, con teclado y joystick, y el mismo archivo compilando con SDL3
    real en Linux. Si anda, el resto es posible.
 2. **Requisitos entre cursos** (§ 6), con Videojuegos y Ensamblador 32/64.
-3. **El SDL3 de la plataforma completo** para R00 y R01, y la prueba de que cada ejemplo da lo mismo en la web y en la
-   compu.
+3. **El SDL3 de la plataforma completo** para R00 y R01 (con el audio, los archivos, SDL3_image, SDL3_ttf y SDL3_mixer,
+   § 4.4), y la prueba de que cada ejemplo da lo mismo en la web y en la compu.
 4. **El curso:** historia, Clase 0 y R01 con micro-misiones; Kira mejorada (hoja de 8 ángulos), Arcadia, las criaturas,
    escenas.
-5. **La escalera de juegos**, una máquina por vez.
+5. **La escalera de juegos**, una máquina por vez; al final, la caja de herramientas y la red de mentira de SDL3_net
+   (§ 4.4).
 6. **Bajar y correr en la compu** (el .zip con lanzadores).
 7. Después: las alas de SFML, Phaser y OpenGL.
 

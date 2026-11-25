@@ -1,11 +1,11 @@
-# Videojuegos (D126) — propuesta para revisar
+# Videojuegos: Ciudad Arcadia (D126) — propuesta cerrada, sin programar
 
 Pedido del docente (2026-11-25): un curso de **videojuegos** que arranque con **SDL3** y siga con SFML, Phaser y algo de
 OpenGL. Es pedagógico ante todo: que el alumno aprenda a hacer juegos de verdad, de a poco, con juegos simples y
 demostrables. En la plataforma el alumno **ve** el juego, lo **edita sí o sí** y lo **juega en la página**, sin bajar
 IDEs; como opción, lo **baja y lo corre en su compu** (Linux y Windows), para que le quede.
 
-Nada de esto está programado. Este documento es para revisar y corregir antes de arrancar.
+Nada de esto está programado. Las decisiones están cerradas (2026-11-25, § 8); falta el OK para la fase 1 (§ 7).
 
 ## 1. Decisiones (charla con el docente, 2026-11-25)
 
@@ -32,7 +32,7 @@ juego, como en los demás cursos.
 
 - **El lugar.** Una ciudad que construyó **el Vidriero**, el que hizo el portal-vitral y desapareció. Se apagó cuando
   él se fue: las máquinas y las atracciones están quietas, y cada una hay que programarla para que vuelva a andar.
-  Nombre provisorio: **Ciudad Arcadia** (ver § 8).
+  Se llama **Ciudad Arcadia** (decidido el 2026-11-25).
 - **Kira, Forjadora de Mundos.** La protagonista de las Forjas (C) ya no forja espadas: forja mundos. Llegó al Mundo
   del Código por un portal; ahora aprende a construir los suyos. Es la misma Kira, mejorada (como Nova en Ensamblador
   32/64): por eso el curso pide C.
@@ -197,14 +197,12 @@ Los assets van a la plataforma (para la web) y adentro del .zip para bajar.
 6. **Bajar y correr en la compu** (el .zip con lanzadores).
 7. Después: las alas de SFML, Phaser y OpenGL.
 
-## 8. Para decidir
+## 8. Decisiones cerradas (2026-11-25)
 
-Respondido el 2026-11-25: la escalera está bien (cada juego claro y completo); los cameos, sí; la Clase 0 se prueba
-sin el requisito, con imágenes de referencia; y en vez de un salón, **un mundo nuevo con su mapa** (§ 2).
-
-Después (2026-11-25): el mundo es **una ciudad con mapa** (como un gran centro de entretenimiento, sin apuestas), no un
-parque ni un salón.
-
-1. **El nombre de la ciudad.** Propuestas: **Ciudad Arcadia**, **Neón**, **Pixelia**, **Villa Crédito**. ¿Alguna, u otra?
-2. **El nombre del curso.** Por ejemplo «Videojuegos: Ciudad Arcadia».
-3. ¿Los lugares del mapa (§ 2.1) cuadran? ¿Cambiarías alguno?
+- La escalera de juegos queda así; cada juego, claro y completo.
+- Los cameos de Nova y Zed, sí, siempre que sumen (sus temas, en el universo de cursos).
+- La Clase 0 se prueba sin el requisito, con imágenes de referencia de cada juego.
+- El mundo es **una ciudad con mapa** (como un gran centro de entretenimiento, sin apuestas): **Ciudad Arcadia**.
+- El curso se llama **«Videojuegos: Ciudad Arcadia»**.
+- Los lugares del mapa (§ 2.1) quedan así; como es un juego, pueden cambiar más adelante.
+- **Pixelia** queda reservado para un futuro curso de **pixel art**.

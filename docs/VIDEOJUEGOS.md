@@ -197,6 +197,30 @@ Linux y en Windows, y **en qué juego de la escalera se usa** (así no queda sue
 - **A confirmar al llegar:** las versiones estables de SDL3_mixer y SDL3_net en ese momento (las de SDL3 salieron
   después que el núcleo) y la licencia de cada fuente y sonido (§ 4.3).
 
+### 4.5 Lo que no está en FullCursos y se agrega (pedido del docente, 2026-11-25)
+
+Regla: lo que falte en FullCursos **se suma al curso** y queda anotado como agregado (FullCursos es de solo lectura:
+no se toca desde este proyecto). FullCursos trae `06-SDL3` (13 capítulos en C: iniciar, ventana, eventos, teclado,
+mouse, game loop, rectángulos, color, movimiento, delta time y FPS, jugador y enemigo, colisiones y «junta las
+monedas»), `07-SDL3-Cpp` (texturas con SDL_image, animación, cámara, escenas) y `08-ProyectoFinal` (en C++, con audio
+de SDL3 que arma las notas a mano y fuentes).
+
+| Tema | En FullCursos | En el curso |
+|---|---|---|
+| Joystick y gamepad (`SDL_Gamepad`) | no está | **se agrega** en R01 (anda en la web: fase 1) |
+| Texto en pantalla (`SDL_RenderDebugText`) | no está | **se agrega** en R01 (puntajes y menús) |
+| Imágenes y sprites (SDL3_image) | solo en C++ (07) | **se agrega en C** en R01 |
+| Sonido (audio de SDL3, `.wav`) | solo en el proyecto final en C++, con notas armadas a mano | **se agrega en C**, con archivos `.wav` |
+| Fuentes TrueType con tildes y ñ (SDL3_ttf) | se nombra, sin explicar | **se agrega** (§ 4.4) |
+| Música y efectos (SDL3_mixer) | se nombra, sin explicar | **se agrega** (§ 4.4) |
+| Guardar récords (archivos de SDL3) | no está | **se agrega** (Snake y Tetris) |
+| Red (SDL3_net) | no está | **se agrega** al final, con la red de mentira (§ 4.4) |
+| Hilos y temporizadores | no está | **se agrega** como lectura |
+| La escalera de juegos (Pong, Arkanoid, Snake, Tetris, naves, Pac-Man, plataformas) | solo «junta las monedas» y el proyecto final | **se agrega** entera (R02 en adelante) |
+
+Al escribir el curso (fase 4), el temario (`cursos/videojuegos/`) dice al lado de cada nodo qué capítulo de FullCursos
+usa, o «agregado (no está en FullCursos)».
+
 ## 5. Bajarlo y correrlo en la compu
 
 - Botón **Bajar** (como en Mis prácticas, D124): un .zip con el juego, SDL3 y un lanzador para **Linux** y otro para

@@ -11,30 +11,33 @@ Nada de esto está programado. Este documento es para revisar y corregir antes d
 
 | Pregunta | Decisión |
 |---|---|
-| ¿Curso propio o anexo? | **Curso propio**, «Videojuegos», que se apoya en otro: pide C. SDL3 es el primero; SFML, Phaser y OpenGL vienen después como alas del mismo mundo (§ 3). |
+| ¿Curso propio o anexo? | **Curso propio**, «Videojuegos», que se apoya en otro: pide C. SDL3 es el primero; SFML, Phaser y OpenGL vienen después como barrios del mismo mundo (§ 3). |
 | ¿Lenguaje? | **C** para SDL3: SDL es una biblioteca de C, se lee más simple y continúa el curso de C. SFML (C++) llega después. |
 | ¿Requisito? | Haber completado **C hasta el jefe de la rama R02** («Pasillos numerados»: arrays, strings, structs, punteros, punteros y structs, arrays de structs). Si no, el curso lo dice claro (§ 6). |
 | ¿Dónde corre? | **En el navegador**, editable (§ 4). Y el mismo archivo, sin cambios, compila con SDL3 real en la compu (§ 5). |
-| ¿Historia? | Sí, unida al universo: **Kira, mejorada**, en **un mundo nuevo, el Parque del Vidriero** (§ 2), con **Arcadia** de mentora. |
+| ¿Historia? | Sí, unida al universo: **Kira, mejorada**, en **un mundo nuevo, una ciudad de los videojuegos** (§ 2; nombre provisorio Ciudad Arcadia), con **Arcadia** de mentora. |
 | ¿Cómo se ve Kira? | Diseño nuevo, «versión videojuegos», del proyecto de Stitch **Kira Game Designer Concept** (https://stitch.google.com/projects/4092585402994005468, creado por el docente para las muestras). **Elegida la segunda imagen (2026-11-25):** mono oscuro con líneas cian, visor, auricular, cinturón de herramientas y un brazal con **un control de juego** del que sale un escudo de luz hexagonal. Ropa cerrada (regla de siempre). Falta su hoja de 8 ángulos. |
 | ¿Cómo son los juegos? | **Cada juego claro y completo**: menú, partida, puntaje, vidas o niveles, fin del juego y volver a jugar. Nada a medias. |
 | ¿Cameos? | Sí, siempre que sumen al curso: los temas compartidos aparecen en el universo de cursos (*Admin → Universo*, `cursos/temas.md`). |
 | ¿Clase 0 sin requisito? | Sí, para que vean de lo que son capaces. Además, **imágenes de referencia** de cada juego (cómo se verá al terminar), para que sepan qué van a hacer y hasta dónde llega. |
 
-## 2. La historia: el Parque del Vidriero (un mundo nuevo)
+## 2. La historia: la ciudad de los videojuegos (un mundo nuevo)
 
-No es un salón: es **otra región del Mundo del Código**, con su propio mapa. Cada lugar del mapa es **un desarrollo**:
-un juego, o una técnica (una montaña rusa, un cubo que gira en el cielo para OpenGL). El mapa también sirve para las
-expediciones del juego (como los mapas de los demás cursos).
+No es un salón: es **otra región del Mundo del Código**, una **ciudad** con su propio mapa, como los demás mundos. La
+idea del docente (2026-11-25): algo como un gran centro de entretenimiento, con mucha luz y movimiento, pero en forma
+de pueblo o ciudad. **Sin apuestas ni nada de casino** (los alumnos son chicos): es la ciudad de los videojuegos, con
+calles de neón, máquinas en cada esquina y atracciones. Cada lugar del mapa es **un desarrollo**: un juego, o una
+técnica (una montaña rusa, un cubo que gira en el cielo para OpenGL). El mapa también sirve para las expediciones del
+juego, como en los demás cursos.
 
-- **El lugar.** Un **parque de atracciones abandonado** que construyó **el Vidriero**, el que hizo el portal-vitral y
-  desapareció. Las atracciones están apagadas; cada una es una máquina que hay que programar para que vuelva a andar.
-  Nombre provisorio: **el Parque del Vidriero** (ver § 8).
+- **El lugar.** Una ciudad que construyó **el Vidriero**, el que hizo el portal-vitral y desapareció. Se apagó cuando
+  él se fue: las máquinas y las atracciones están quietas, y cada una hay que programarla para que vuelva a andar.
+  Nombre provisorio: **Ciudad Arcadia** (ver § 8).
 - **Kira, Forjadora de Mundos.** La protagonista de las Forjas (C) ya no forja espadas: forja mundos. Llegó al Mundo
   del Código por un portal; ahora aprende a construir los suyos. Es la misma Kira, mejorada (como Nova en Ensamblador
   32/64): por eso el curso pide C.
-- **La mentora: Arcadia**, la maquinista del parque. Aprendiz de Maese Ferrum, como Tesla y Tesela, pero eligió las
-  máquinas que juegan. Overol cerrado lleno de fichas y destornilladores; conoce cada atracción por su ruido.
+- **La mentora: Arcadia**, la maquinista de la ciudad (la ciudad lleva su nombre porque es la única que se quedó a cuidarla). Aprendiz de Maese Ferrum, como Tesla y Tesela, pero eligió las
+  máquinas que juegan. Overol cerrado lleno de fichas y destornilladores; conoce cada máquina por su ruido.
   Su frase (propuesta): *«Un juego es un bucle que nunca deja de escuchar.»*
 - **El hilo con el misterio.** Cada atracción que Kira hace andar muestra, en su pantalla de *Game Over*, un pedazo
   del mapa del Vidriero. La última revela para qué construyó el portal.
@@ -45,7 +48,7 @@ expediciones del juego (como los mapas de los demás cursos).
 
 | Lugar | Qué se aprende ahí |
 |---|---|
-| **La Boletería** (la entrada) | Clase 0: la ventana y el bucle del juego. Insertá un crédito. |
+| **La Boletería** (la entrada de la ciudad) | Clase 0: la ventana y el bucle del juego. Insertá un crédito. |
 | **El Banco de Pruebas de Arcadia** | R01, lo básico: teclado, mouse, delta time, colisiones, joystick, texto, sprites, sonido |
 | **La Cancha de las Paletas** | Pong |
 | **El Muro de Ladrillos** | Arkanoid |
@@ -54,10 +57,10 @@ expediciones del juego (como los mapas de los demás cursos).
 | **La Pista de los Biplanos** | naves tipo 1942 |
 | **El Tren Fantasma** | Pac-Man (el laberinto y los cuatro fantasmas) |
 | **La Montaña Rusa** | plataformas tipo Megaman: gravedad, salto, subir y caer |
-| **El Castillo del Vidriero** (el centro del parque) | el proyecto final y el último pedazo del mapa |
+| **El Castillo del Vidriero** (el centro de la ciudad) | el proyecto final y el último pedazo del mapa |
 | **La Vuelta al Mundo** (llega de la Ciudadela) | el ala de **SFML** (C++), con Bron: engranajes que giran |
 | **Los Puestos de la Kermés** (el borde que toca la Feria) | el ala de **Phaser** (JavaScript), con Nima |
-| **El Cubo del Cielo** (flota sobre el parque) | el ala de **OpenGL**, con Rigel: un cubo que gira, luces y cámara |
+| **El Cubo del Cielo** (flota sobre la ciudad) | el ala de **OpenGL**, con Rigel: un cubo que gira, luces y cámara |
 
 ### 2.2 El bestiario de los glitches (los errores típicos de un juego)
 
@@ -71,18 +74,18 @@ expediciones del juego (como los mapas de los demás cursos).
 
 - **Los jefes son los juegos clásicos:** el campeón invicto de Pong, la Torre que no para (Tetris), la Nave Nodriza
   (naves), los cuatro fantasmas (Pac-Man) y un robot maestro (plataformas).
-- **Cameos que unen cursos** (y temas compartidos en el universo): **Nova** pasa por el parque (en Ensamblador 32/64
+- **Cameos que unen cursos** (y temas compartidos en el universo): **Nova** pasa por la ciudad (en Ensamblador 32/64
   hace «Junta las gemas» con SDL desde ensamblador) y **Zed** reconoce las máquinas (en Java vio el Arcade Imperial
   sin botones: eran de acá).
 
 Al sumarlo, recorrer [ALTA-DE-CURSOS-Y-PERSONAJES.md](ALTA-DE-CURSOS-Y-PERSONAJES.md) (Arcadia, Kira mejorada, las
 criaturas, la moneda, el mundo y su mapa, su temporada de inglés).
 
-## 3. Las alas del parque (lo que viene después de SDL3)
+## 3. Los barrios que vienen después de SDL3
 
 | Ala | Lenguaje | Región que la abre | Héroe |
 |---|---|---|---|
-| **El parque: SDL3** | C | las Forjas | Kira |
+| **La ciudad: SDL3** | C | las Forjas | Kira |
 | **La Vuelta al Mundo: SFML** | C++ | la Ciudadela | Bron, el mecánico de Tesla |
 | **Los Puestos de la Kermés: Phaser** | JavaScript | la Feria de las Luces | Nima |
 | **El Cubo del Cielo: OpenGL** | C/C++ | el Mirador (el Gran Planisferio proyecta estrellas: OpenGL es proyectar en pantalla) | Rigel |
@@ -159,7 +162,7 @@ un curso, y si pide créditos) y anotarlo en una página de créditos del curso:
   propia licencia: CC0 o con atribución).
 - Personajes y escenarios: KayKit de Kay Lousberg (https://kaylousberg.itch.io/) y Pixel Adventure de Pixel Frog
   (https://pixelfrog-assets.itch.io/pixel-adventure-1).
-- Paleta: Resurrect 64 (https://lospec.com/palette-list/resurrect-64), para que todos los juegos del parque compartan
+- Paleta: Resurrect 64 (https://lospec.com/palette-list/resurrect-64), para que todos los juegos de la ciudad compartan
   colores.
 - Sprites generados: SpriteCook (https://www.spritecook.ai/), revisando sus términos de uso.
 
@@ -199,7 +202,9 @@ Los assets van a la plataforma (para la web) y adentro del .zip para bajar.
 Respondido el 2026-11-25: la escalera está bien (cada juego claro y completo); los cameos, sí; la Clase 0 se prueba
 sin el requisito, con imágenes de referencia; y en vez de un salón, **un mundo nuevo con su mapa** (§ 2).
 
-1. **El nombre del mundo.** Propuestas: **el Parque del Vidriero**, **el Parque Arcadia** (el de su maquinista),
-   **Pixelia**. ¿Alguna, u otra?
-2. **El nombre del curso.** Por ejemplo «Videojuegos: el Parque del Vidriero».
+Después (2026-11-25): el mundo es **una ciudad con mapa** (como un gran centro de entretenimiento, sin apuestas), no un
+parque ni un salón.
+
+1. **El nombre de la ciudad.** Propuestas: **Ciudad Arcadia**, **Neón**, **Pixelia**, **Villa Crédito**. ¿Alguna, u otra?
+2. **El nombre del curso.** Por ejemplo «Videojuegos: Ciudad Arcadia».
 3. ¿Los lugares del mapa (§ 2.1) cuadran? ¿Cambiarías alguno?

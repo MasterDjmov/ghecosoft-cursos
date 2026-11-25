@@ -42,10 +42,12 @@ export function gamesSupported() {
  *
  * @returns {Promise<{ok: boolean, error?: string, diagnostics?: string, stop?: () => void, done?: Promise<{exit?: number, error?: string}>}>}
  */
-export async function runGame(code, { container, onStatus, onOutput, onWindow, watchdog = 3000 } = {}) {
+export async function runGame(code, { container, onStatus, onOutput, onWindow, storageKey = 'sdl', watchdog = 3000 } = {}) {
     if (!gamesSupported()) {
         return { ok: false, error: 'Este navegador no puede correr los juegos todavía: abrilo en Chrome o en Edge (actualizados).' };
     }
+    // El audio se prende con el clic en Jugar (el navegador no deja sonar sin que la persona toque algo).
+    const audio = startAudio();
     onStatus?.('Compilando…');
     const compiled = await compile(code, 'c', () => onStatus?.('Compilando…'), true);
     if (compiled.type === 'loadFailed') return { ok: false, error: `No se pudo cargar el compilador: ${compiled.message}` };
@@ -74,6 +76,7 @@ export async function runGame(code, { container, onStatus, onOutput, onWindow, w
         if (finished) return;
         finished = true;
         worker.terminate();
+        audio.close();
         cleanups.forEach((cleanup) => cleanup());
         finish(result);
     };
@@ -88,6 +91,10 @@ export async function runGame(code, { container, onStatus, onOutput, onWindow, w
             onWindow?.(data);
         } else if (data.type === 'title') {
             onWindow?.({ ...size, title: data.title });
+        } else if (data.type === 'audio') {
+            audio.handle(data);
+        } else if (data.type === 'files') {
+            saveFiles(storageKey, data.files, onOutput);
         } else if (data.type === 'output') {
             onOutput?.(data.text);
         } else if (data.type === 'exit') {
@@ -129,6 +136,11 @@ export async function runGame(code, { container, onStatus, onOutput, onWindow, w
         worker.postMessage({ type: 'mouse', kind, button: event.button === 1 ? 2 : event.button === 2 ? 3 : 1, ...point(event) });
     };
     ['mousemove', 'mousedown', 'mouseup'].forEach((type) => canvas.addEventListener(type, onMouse));
+    // La rueda: positivo hacia arriba (lejos de la persona), como en SDL3.
+    canvas.addEventListener('wheel', (event) => {
+        event.preventDefault();
+        worker.postMessage({ type: 'mouse', kind: 'wheel', wheelX: Math.sign(event.deltaX), wheelY: -Math.sign(event.deltaY), ...point(event) });
+    }, { passive: false });
     canvas.addEventListener('contextmenu', (event) => event.preventDefault());
 
     // Los joysticks solo se leen desde la página: se mandan cuando cambian.
@@ -152,12 +164,15 @@ export async function runGame(code, { container, onStatus, onOutput, onWindow, w
     cleanups.push(() => cancelAnimationFrame(frame));
 
     // Abajo se ve si las teclas van al juego o no (si el foco quedó en el editor, las teclas escriben ahí).
-    const focusStatus = () => onStatus?.(document.activeElement === canvas
+    const focusStatus = () => !finished && onStatus?.(document.activeElement === canvas
         ? '🎮 El teclado está en el juego (ESC vuelve al menú)'
         : 'Hacé clic en el juego para usar el teclado');
     canvas.addEventListener('focus', focusStatus);
     canvas.addEventListener('blur', focusStatus);
-    worker.postMessage({ type: 'start', wasm: compiled.wasm, canvas: offscreen }, [offscreen]);
+    worker.postMessage({
+        type: 'start', wasm: compiled.wasm, canvas: offscreen, files: loadFiles(storageKey),
+        display: { w: screen.width, h: screen.height, density: devicePixelRatio || 1 },
+    }, [offscreen]);
     canvas.focus();
     focusStatus();
 
@@ -176,4 +191,108 @@ export async function runGame(code, { container, onStatus, onOutput, onWindow, w
             end({ exit: 0, stopped: true });
         },
     };
+}
+
+/**
+ * El audio del juego (SDL_AudioStream): el worker manda las muestras y acá se ponen en fila, una detrás de la otra,
+ * con el audio del navegador. Cada stream tiene su volumen y arranca en pausa, como en SDL3.
+ */
+function startAudio() {
+    const Context = window.AudioContext ?? window.webkitAudioContext;
+    const context = Context ? new Context() : null;
+    context?.resume?.().catch(() => {});
+    const streams = new Map();
+
+    const schedule = (stream, samples) => {
+        const frames = Math.floor(samples.length / stream.channels);
+        if (!frames) return;
+        const buffer = context.createBuffer(stream.channels, frames, stream.freq);
+        for (let c = 0; c < stream.channels; c++) {
+            const channel = buffer.getChannelData(c);
+            for (let i = 0; i < frames; i++) channel[i] = samples[i * stream.channels + c];
+        }
+        const source = context.createBufferSource();
+        source.buffer = buffer;
+        source.connect(stream.gain);
+        const at = Math.max(context.currentTime + 0.01, stream.end);
+        source.start(at);
+        stream.end = at + buffer.duration;
+        stream.sources.add(source);
+        source.onended = () => stream.sources.delete(source);
+    };
+    const stop = (stream) => {
+        stream.sources.forEach((source) => { try { source.stop(); } catch { /* ya terminó */ } });
+        stream.sources.clear();
+        stream.pending = [];
+        stream.end = 0;
+    };
+
+    return {
+        handle({ action, id, channels, freq, samples, value }) {
+            if (!context) return;
+            if (action === 'open') {
+                const gain = context.createGain();
+                gain.connect(context.destination);
+                streams.set(id, { channels, freq, gain, paused: true, pending: [], end: 0, sources: new Set() });
+                return;
+            }
+            const stream = streams.get(id);
+            if (!stream) return;
+            if (action === 'put') {
+                window.sdlAudioChunks = (window.sdlAudioChunks ?? 0) + 1; // para las pruebas: cuánto sonido llegó
+                if (stream.paused) stream.pending.push(samples);
+                else schedule(stream, samples);
+            } else if (action === 'resume') {
+                stream.paused = false;
+                stream.pending.splice(0).forEach((chunk) => schedule(stream, chunk));
+            } else if (action === 'pause') {
+                stop(stream);
+                stream.paused = true;
+            } else if (action === 'clear') {
+                stop(stream);
+            } else if (action === 'gain') {
+                stream.gain.gain.value = value;
+            } else if (action === 'destroy') {
+                stop(stream);
+                stream.gain.disconnect();
+                streams.delete(id);
+            }
+        },
+        close() {
+            streams.forEach(stop);
+            context?.close?.().catch(() => {});
+        },
+    };
+}
+
+// La carpeta prefs/ del juego (récords, opciones) queda en el navegador de cada uno: hasta 512 KB.
+const FILES_LIMIT = 512 * 1024;
+
+function loadFiles(key) {
+    try {
+        const saved = JSON.parse(localStorage.getItem(`${key}:archivos`) ?? '{}');
+        return Object.fromEntries(Object.entries(saved).map(([path, base64]) => [path, Uint8Array.from(atob(base64), (c) => c.charCodeAt(0))]));
+    } catch {
+        return {};
+    }
+}
+
+function saveFiles(key, files, onOutput) {
+    let size = 0;
+    const encoded = {};
+    for (const [path, data] of Object.entries(files)) {
+        size += data.length;
+        let text = '';
+        for (let i = 0; i < data.length; i += 0x8000) text += String.fromCharCode(...data.subarray(i, i + 0x8000));
+        encoded[path] = btoa(text);
+    }
+    if (size > FILES_LIMIT) {
+        onOutput?.(`\n(Los archivos del juego pasan de ${FILES_LIMIT / 1024} KB: no se guardan en el navegador.)\n`);
+        return;
+    }
+    try {
+        localStorage.setItem(`${key}:archivos`, JSON.stringify(encoded));
+    } catch {
+        /* sin lugar o sin permiso: el juego sigue igual */
+    }
 }

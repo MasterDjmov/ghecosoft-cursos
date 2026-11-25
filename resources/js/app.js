@@ -446,6 +446,8 @@ document.addEventListener('alpine:init', () => {
                 onStatus: (status) => (this.status = status),
                 onOutput: (text) => (this.output = (this.output + text).slice(-20000)),
                 onWindow: ({ title }) => (this.gameTitle = title),
+                // Los récords y archivos del juego, guardados en este navegador (por persona).
+                storageKey: config.keep ?? 'sdl',
             });
             this.running = false;
             const compiler = started.diagnostics ? `── Compilador ──\n${started.diagnostics.trimEnd()}\n` : '';

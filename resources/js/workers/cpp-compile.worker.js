@@ -7,6 +7,11 @@ import comun from '../runners/cpp-comun.hpp?raw';
 // El SDL3 de la plataforma (D126): el juego incluye <SDL3/SDL.h> como con SDL3 real.
 import sdlHeader from '../runners/sdl3/SDL.h?raw';
 
+// Como compila FullCursos con CMake (gnu11: M_PI y compañía), y exportando la tabla de funciones y la pila de C:
+// los hilos y los temporizadores del SDL de la plataforma llaman a funciones del juego y le dan a cada hilo su pila.
+const SDL_FLAGS = [...C_FLAGS.map((flag) => (flag === '-std=c11' ? '-std=gnu11' : flag)), '-I/',
+    '-Wl,--export-table', '-Wl,--export=__stack_pointer'];
+
 const SDL_FILES = { SDL3: { 'SDL.h': sdlHeader, 'SDL_main.h': '/* SDL3 de la plataforma: no hace falta nada. */\n' } };
 
 async function gunzip(response) {
@@ -69,7 +74,7 @@ self.onmessage = async ({ data: { id, code, language, sdl = false } }) => {
         try {
             // C: como gcc -std=c11 del curso (las cabeceras de C son livianas: no hace falta el PCH).
             const linked = language === 'c'
-                ? await runClang(['clang', ...C_FLAGS, ...(sdl ? ['-I/'] : []), 'main.c', '-lm', '-o', 'programa.wasm'],
+                ? await runClang(['clang', ...(sdl ? SDL_FLAGS : C_FLAGS), 'main.c', '-lm', '-o', 'programa.wasm'],
                     { sysroot, 'main.c': code, ...(sdl ? SDL_FILES : {}) }, { stderr })
                 : await runClang(['clang++', ...COMPILE_FLAGS, '-include-pch', 'comun.pch', '-Wall', '-Wextra', '-c', 'main.cpp', '-o', 'main.o'],
                     { sysroot, 'main.cpp': code, 'comun.pch': pch, 'comun.hpp': comun }, { stderr })

@@ -2,12 +2,12 @@
 // (resources/js/runners/sdl3/SDL.h) dibujando en un lienzo. Vive en su propio worker: no ve la página ni la sesión,
 // y si se cuelga se lo corta. El bucle del juego (`while (jugando)`) se pausa en SDL_Delay y SDL_RenderPresent
 // con JSPI (WebAssembly.Suspending): mientras tanto el navegador dibuja y llegan el teclado y el joystick.
-import { WASI, File, OpenFile, ConsoleStdout, PreopenDirectory, WASIProcExit } from '@bjorn3/browser_wasi_shim';
+import { WASI, File, Directory, OpenFile, ConsoleStdout, PreopenDirectory, WASIProcExit } from '@bjorn3/browser_wasi_shim';
 import { glyphOf } from '../runners/sdl3/font8x8.js';
 
 const EVENT = {
     QUIT: 0x100, KEY_DOWN: 0x300, KEY_UP: 0x301,
-    MOUSE_MOTION: 0x400, MOUSE_BUTTON_DOWN: 0x401, MOUSE_BUTTON_UP: 0x402,
+    MOUSE_MOTION: 0x400, MOUSE_BUTTON_DOWN: 0x401, MOUSE_BUTTON_UP: 0x402, MOUSE_WHEEL: 0x403,
     PAD_AXIS: 0x650, PAD_BUTTON_DOWN: 0x651, PAD_BUTTON_UP: 0x652, PAD_ADDED: 0x653, PAD_REMOVED: 0x654,
 };
 // Los botones del «mapeo estándar» del navegador, en el orden de SDL_GamepadButton.
@@ -30,6 +30,21 @@ const queue = [];
 const mouse = { x: 0, y: 0, buttons: 0 };
 const pads = new Map(); // id → { name, axes[], buttons[] }
 const glyphs = new Map();
+let exports = null; // lo que exporta el juego: la memoria, la tabla de funciones y la pila (__stack_pointer)
+let display = { w: 1920, h: 1080, density: 1 };
+let files = null; // la carpeta del juego (WASI), para guardar prefs/ en el navegador
+let filesTimer = 0;
+
+// Los hilos emulados (SDL_CreateThread): cada uno es otra «pila» de JSPI sobre la misma memoria, con su propio pedazo
+// de pila de C. Se turnan en cada pausa; `fiber` dice quién corre (0 = el juego) y cada pausa repone su pila al volver.
+let fiber = 0;
+let threadSeq = 0;
+const threads = new Map(); // id → { done, result, promise }
+const timers = new Map(); // id → { callback, userdata, interval, handle }
+let timerSeq = 0;
+const mutexes = new Map(); // puntero → { owner, depth }
+const streams = new Map(); // id → { format, channels, freq, paused, pendingMs, playEnd, callback, userdata }
+let streamSeq = 0;
 
 const bytes = () => new Uint8Array(memory.buffer);
 const view = () => new DataView(memory.buffer);
@@ -51,7 +66,31 @@ function pause(ms) {
         lastAlive = now;
     }
     lastYield = now;
+    feedAudio();
     return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+const getSP = () => exports.__stack_pointer.value;
+const setSP = (value) => { exports.__stack_pointer.value = value; };
+const fn = (pointer) => exports.__indirect_function_table.get(pointer);
+
+/**
+ * Una función de SDL que puede pausar al que la llama (el juego o un hilo). Si devuelve una promesa, al volver repone
+ * la pila y el hilo del que se pausó: mientras tanto pudo correr otro.
+ */
+const suspending = (body) => new WebAssembly.Suspending((...args) => {
+    const result = body(...args);
+    if (!(result instanceof Promise)) return result;
+    const mine = { sp: getSP(), fiber };
+    return result.then((value) => {
+        setSP(mine.sp);
+        fiber = mine.fiber;
+        return value;
+    });
+});
+
+function crash(error) {
+    post({ type: 'crash', message: String(error?.message ?? error) });
 }
 
 function glyph(code) {
@@ -172,7 +211,7 @@ const sdl = {
         drawText(x, y, string(pointer));
         return 1;
     },
-    present: new WebAssembly.Suspending(async () => {
+    present: suspending(async () => {
         if (back) {
             const screenCtx = screen.getContext('2d');
             screenCtx.globalCompositeOperation = 'copy';
@@ -181,17 +220,22 @@ const sdl = {
         await pause(0);
         return 1;
     }),
-    delay: new WebAssembly.Suspending(async (ms) => {
+    delay: suspending(async (ms) => {
         await pause(Math.min(ms >>> 0, 1000));
     }),
     ticks() {
         return performance.now() - started;
     },
     // Si el bucle no se pausa nunca, igual se cede de vez en cuando (si no, la página no le puede mandar teclas).
-    poll: new WebAssembly.Suspending((pointer) => {
+    poll: suspending((pointer, raw) => {
         const next = queue.shift();
         if (next) {
             const v = view();
+            if (next.raw) {
+                bytes().set(next.raw, raw);
+                v.setInt32(pointer + 20, 1, true);
+                return next.type;
+            }
             next.data.forEach((value, i) => v.setInt32(pointer + i * 4, value | 0, true));
             return next.type;
         }
@@ -235,7 +279,222 @@ const sdl = {
     log(pointer) {
         post({ type: 'output', text: string(pointer) + '\n' });
     },
+    push_event(pointer) {
+        const raw = bytes().slice(pointer, pointer + 128);
+        queue.push({ type: new DataView(raw.buffer).getUint32(0, true), raw });
+        return 1;
+    },
+    display(w, h, density) {
+        const v = view();
+        v.setInt32(w, display.w, true);
+        v.setInt32(h, display.h, true);
+        v.setFloat32(density, display.density, true);
+    },
+
+    // ---------- Audio: el juego arma las muestras; la página las reproduce (el worker no tiene audio)
+    audio_open(format, channels, freq, callback, userdata) {
+        if (channels < 1 || channels > 8 || freq < 1000 || freq > 192000) return 0;
+        const id = ++streamSeq;
+        streams.set(id, { format, channels, freq, paused: true, pendingMs: 0, playEnd: 0, callback, userdata });
+        post({ type: 'audio', action: 'open', id, channels, freq });
+        return id;
+    },
+    audio_put(id, pointer, length) {
+        const stream = streams.get(id);
+        if (!stream || length <= 0) return stream ? 1 : 0;
+        const samples = toFloat(stream.format, pointer, length);
+        const ms = (samples.length / stream.channels / stream.freq) * 1000;
+        const now = performance.now();
+        if (stream.paused) stream.pendingMs += ms;
+        else stream.playEnd = Math.max(now, stream.playEnd) + ms;
+        post({ type: 'audio', action: 'put', id, samples }, [samples.buffer]);
+        return 1;
+    },
+    audio_queued(id) {
+        const stream = streams.get(id);
+        if (!stream) return -1;
+        const ms = stream.paused ? stream.pendingMs : Math.max(0, stream.playEnd - performance.now());
+        return Math.round((ms / 1000) * stream.freq) * stream.channels * bytesPerSample(stream.format);
+    },
+    audio_control(id, action, value) {
+        const stream = streams.get(id);
+        if (!stream) return 0;
+        const now = performance.now();
+        if (action === 1 && stream.paused) {
+            stream.paused = false;
+            stream.playEnd = now + stream.pendingMs;
+            stream.pendingMs = 0;
+        } else if (action === 2 && !stream.paused) {
+            stream.paused = true;
+            stream.pendingMs = 0;
+        } else if (action === 3) {
+            stream.pendingMs = 0;
+            stream.playEnd = now;
+        } else if (action === 4) {
+            streams.delete(id);
+        }
+        post({ type: 'audio', action: ['', 'resume', 'pause', 'clear', 'destroy', 'gain'][action], id, value });
+        return 1;
+    },
+
+    // ---------- Archivos: lo de prefs/ queda guardado en el navegador (los récords siguen ahí la próxima vez)
+    files_changed() {
+        clearTimeout(filesTimer);
+        filesTimer = setTimeout(saveFiles, 200);
+    },
+
+    // ---------- Hilos, temporizadores y candados
+    thread_create(pointer, data, stackTop) {
+        const id = ++threadSeq;
+        const parent = { sp: getSP(), fiber };
+        const thread = { done: false, result: 0, promise: null };
+        threads.set(id, thread);
+        setSP(stackTop);
+        fiber = id;
+        let promise;
+        try {
+            promise = WebAssembly.promising(fn(pointer))(data);
+        } finally {
+            setSP(parent.sp);
+            fiber = parent.fiber;
+        }
+        thread.promise = promise.then(
+            (result) => { thread.done = true; thread.result = result; return result; },
+            (error) => { thread.done = true; if (!(error instanceof WASIProcExit)) crash(error); return -1; },
+        );
+        return id;
+    },
+    thread_wait: suspending((id) => {
+        const thread = threads.get(id);
+        if (!thread) return 0;
+        return thread.done ? thread.result : thread.promise;
+    }),
+    thread_current() {
+        return BigInt(fiber + 1);
+    },
+    timer_add(interval, callback, userdata) {
+        if (!callback) return 0;
+        const id = ++timerSeq;
+        const timer = { callback, userdata, interval: Math.max(1, interval >>> 0), handle: 0 };
+        const fire = () => {
+            if (!timers.has(id)) return;
+            let next = 0;
+            try {
+                next = fn(timer.callback)(timer.userdata, id, timer.interval) >>> 0;
+            } catch (error) {
+                crash(error);
+                return;
+            }
+            if (!next || !timers.has(id)) return void timers.delete(id);
+            timer.interval = next;
+            timer.handle = setTimeout(fire, next);
+        };
+        timer.handle = setTimeout(fire, timer.interval);
+        timers.set(id, timer);
+        return id;
+    },
+    timer_remove(id) {
+        const timer = timers.get(id);
+        if (!timer) return 0;
+        clearTimeout(timer.handle);
+        timers.delete(id);
+        return 1;
+    },
+    // Un candado tomado por otro hilo: se espera (cediendo) hasta que lo suelte.
+    mutex_lock: suspending((pointer) => {
+        const take = () => {
+            const lock = mutexes.get(pointer);
+            if (!lock || lock.owner === fiber) {
+                mutexes.set(pointer, { owner: fiber, depth: (lock?.depth ?? 0) + 1 });
+                return true;
+            }
+            return false;
+        };
+        if (take()) return undefined;
+        const me = fiber;
+        return new Promise((resolve) => {
+            const retry = () => {
+                fiber = me;
+                if (take()) resolve();
+                else setTimeout(retry, 1);
+            };
+            setTimeout(retry, 1);
+        });
+    }),
+    mutex_unlock(pointer) {
+        const lock = mutexes.get(pointer);
+        if (!lock || lock.owner !== fiber) return;
+        if (--lock.depth <= 0) mutexes.delete(pointer);
+    },
 };
+
+function bytesPerSample(format) {
+    return (format & 0xff) / 8;
+}
+
+/** Las muestras del juego (U8, S8, S16, S32 o F32) a decimales entre -1 y 1, como las pide el audio del navegador. */
+function toFloat(format, pointer, length) {
+    const size = bytesPerSample(format);
+    const count = Math.floor(length / size);
+    const v = view();
+    const little = (format & 0x1000) === 0;
+    const out = new Float32Array(count);
+    for (let i = 0, at = pointer; i < count; i++, at += size) {
+        if (format === 0x0008) out[i] = (v.getUint8(at) - 128) / 128;
+        else if (size === 1) out[i] = v.getInt8(at) / 128;
+        else if (size === 2) out[i] = v.getInt16(at, little) / 32768;
+        else if (format & 0x0100) out[i] = v.getFloat32(at, little);
+        else out[i] = v.getInt32(at, little) / 2147483648;
+    }
+    return out;
+}
+
+/** Los audios con callback (SDL_OpenAudioDeviceStream con función): se les pide más cuando queda poco. */
+function feedAudio() {
+    for (const [id, stream] of streams) {
+        if (!stream.callback || stream.paused) continue;
+        const frameBytes = stream.channels * bytesPerSample(stream.format);
+        const queued = sdl.audio_queued(id);
+        const wanted = Math.round(stream.freq * 0.1) * frameBytes;
+        if (queued < wanted) {
+            try {
+                fn(stream.callback)(stream.userdata, id, wanted - queued, wanted - queued);
+            } catch (error) {
+                crash(error);
+            }
+        }
+    }
+}
+
+/** La carpeta prefs/ como { 'prefs/org/app/records.dat': bytes }, para que la página la guarde. */
+function saveFiles() {
+    const out = {};
+    const walk = (dir, path) => {
+        for (const [name, entry] of dir.contents) {
+            if (entry instanceof Directory) walk(entry, `${path}${name}/`);
+            else if (entry instanceof File) out[path + name] = entry.data;
+        }
+    };
+    const prefs = files?.dir.contents.get('prefs');
+    if (prefs instanceof Directory) walk(prefs, 'prefs/');
+    post({ type: 'files', files: out });
+}
+
+/** Lo guardado de antes, otra vez como carpetas y archivos de WASI. */
+function restoreFiles(saved) {
+    const root = new Map();
+    for (const [path, data] of Object.entries(saved ?? {})) {
+        const parts = path.split('/').filter((part) => part && part !== '.' && part !== '..');
+        if (parts[0] !== 'prefs' || parts.length < 2) continue;
+        let dir = root;
+        for (const part of parts.slice(0, -1)) {
+            if (!dir.has(part)) dir.set(part, new Directory(new Map()));
+            dir = dir.get(part).contents;
+        }
+        dir.set(parts.at(-1), new File(data));
+    }
+    return root;
+}
 
 function setKey(scancode, down) {
     if (keysPointer && scancode > 0 && scancode < keyCount) bytes()[keysPointer + scancode] = down ? 1 : 0;
@@ -252,6 +511,8 @@ function receive(message) {
             const { x, y, kind, button } = message;
             if (kind === 'move') {
                 queue.push({ type: EVENT.MOUSE_MOTION, data: [x, y, x - mouse.x, y - mouse.y, mouse.buttons] });
+            } else if (kind === 'wheel') {
+                queue.push({ type: EVENT.MOUSE_WHEEL, data: [message.wheelX, message.wheelY, x, y] });
             } else {
                 const mask = 1 << (button - 1);
                 mouse.buttons = kind === 'down' ? mouse.buttons | mask : mouse.buttons & ~mask;
@@ -300,18 +561,21 @@ self.onmessage = async ({ data }) => {
     if (data.type !== 'start') return receive(data);
 
     screen = data.canvas;
+    display = data.display ?? display;
+    files = new PreopenDirectory('.', restoreFiles(data.files));
     const decoder = new TextDecoder();
     const fds = [
         new OpenFile(new File(new Uint8Array())),
         new ConsoleStdout((b) => post({ type: 'output', text: decoder.decode(b, { stream: true }) })),
         new ConsoleStdout((b) => post({ type: 'output', text: decoder.decode(b, { stream: true }), stderr: true })),
-        new PreopenDirectory('.', new Map()),
+        files,
     ];
     try {
         const wasi = new WASI(['juego'], [], fds);
         const module = await WebAssembly.compile(data.wasm);
         const instance = await WebAssembly.instantiate(module, { wasi_snapshot_preview1: wasi.wasiImport, sdl });
         memory = instance.exports.memory;
+        exports = instance.exports;
         wasi.inst = instance;
         started = lastYield = performance.now();
         let exit = 0;
@@ -321,8 +585,14 @@ self.onmessage = async ({ data }) => {
             if (!(e instanceof WASIProcExit)) throw e;
             exit = e.code;
         }
+        timers.forEach((timer) => clearTimeout(timer.handle));
+        timers.clear();
+        if (filesTimer) {
+            clearTimeout(filesTimer);
+            saveFiles();
+        }
         post({ type: 'exit', exit });
     } catch (e) {
-        post({ type: 'crash', message: String(e?.message ?? e) });
+        crash(e);
     }
 };

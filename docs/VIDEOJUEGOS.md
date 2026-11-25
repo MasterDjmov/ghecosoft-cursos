@@ -11,28 +11,55 @@ Nada de esto está programado. Este documento es para revisar y corregir antes d
 
 | Pregunta | Decisión |
 |---|---|
-| ¿Curso propio o anexo? | **Curso propio**, «Videojuegos», que se apoya en otro: pide C. SDL3 es el primero; SFML, Phaser y OpenGL vienen después como alas del mismo salón (§ 3). |
+| ¿Curso propio o anexo? | **Curso propio**, «Videojuegos», que se apoya en otro: pide C. SDL3 es el primero; SFML, Phaser y OpenGL vienen después como alas del mismo mundo (§ 3). |
 | ¿Lenguaje? | **C** para SDL3: SDL es una biblioteca de C, se lee más simple y continúa el curso de C. SFML (C++) llega después. |
 | ¿Requisito? | Haber completado **C hasta el jefe de la rama R02** («Pasillos numerados»: arrays, strings, structs, punteros, punteros y structs, arrays de structs). Si no, el curso lo dice claro (§ 6). |
 | ¿Dónde corre? | **En el navegador**, editable (§ 4). Y el mismo archivo, sin cambios, compila con SDL3 real en la compu (§ 5). |
-| ¿Historia? | Sí, unida al universo: **Kira, mejorada**, en **el Salón Arcade del Vidriero**, con **Arcadia** de mentora (§ 2). |
-| ¿Cómo se ve Kira? | Diseño nuevo, «versión videojuegos»: el del proyecto de Stitch **Kira Game Designer Concept** (https://stitch.google.com/projects/4092585402994005468): mono oscuro con líneas cian, visor, auricular, cinturón de herramientas y un brazal-control del que sale un escudo de luz hexagonal. Ropa cerrada (regla de siempre). Falta su hoja de 8 ángulos. |
+| ¿Historia? | Sí, unida al universo: **Kira, mejorada**, en **un mundo nuevo, el Parque del Vidriero** (§ 2), con **Arcadia** de mentora. |
+| ¿Cómo se ve Kira? | Diseño nuevo, «versión videojuegos», del proyecto de Stitch **Kira Game Designer Concept** (https://stitch.google.com/projects/4092585402994005468, creado por el docente para las muestras). **Elegida la segunda imagen (2026-11-25):** mono oscuro con líneas cian, visor, auricular, cinturón de herramientas y un brazal con **un control de juego** del que sale un escudo de luz hexagonal. Ropa cerrada (regla de siempre). Falta su hoja de 8 ángulos. |
+| ¿Cómo son los juegos? | **Cada juego claro y completo**: menú, partida, puntaje, vidas o niveles, fin del juego y volver a jugar. Nada a medias. |
+| ¿Cameos? | Sí, siempre que sumen al curso: los temas compartidos aparecen en el universo de cursos (*Admin → Universo*, `cursos/temas.md`). |
+| ¿Clase 0 sin requisito? | Sí, para que vean de lo que son capaces. Además, **imágenes de referencia** de cada juego (cómo se verá al terminar), para que sepan qué van a hacer y hasta dónde llega. |
 
-## 2. La historia: el Salón Arcade del Vidriero
+## 2. La historia: el Parque del Vidriero (un mundo nuevo)
 
+No es un salón: es **otra región del Mundo del Código**, con su propio mapa. Cada lugar del mapa es **un desarrollo**:
+un juego, o una técnica (una montaña rusa, un cubo que gira en el cielo para OpenGL). El mapa también sirve para las
+expediciones del juego (como los mapas de los demás cursos).
+
+- **El lugar.** Un **parque de atracciones abandonado** que construyó **el Vidriero**, el que hizo el portal-vitral y
+  desapareció. Las atracciones están apagadas; cada una es una máquina que hay que programar para que vuelva a andar.
+  Nombre provisorio: **el Parque del Vidriero** (ver § 8).
 - **Kira, Forjadora de Mundos.** La protagonista de las Forjas (C) ya no forja espadas: forja mundos. Llegó al Mundo
   del Código por un portal; ahora aprende a construir los suyos. Es la misma Kira, mejorada (como Nova en Ensamblador
   32/64): por eso el curso pide C.
-- **El lugar.** Un **salón de máquinas arcade abandonado** que construyó **el Vidriero**, el que hizo el portal-vitral y
-  desapareció. Cada máquina (Pong, Arkanoid, Tetris, naves, Pac-Man, plataformas) está apagada o rota.
-- **La mentora: Arcadia**, la maquinista del salón. Aprendiz de Maese Ferrum, como Tesla y Tesela, pero eligió las
-  máquinas que juegan. Overol cerrado lleno de fichas y destornilladores; conoce cada máquina por su ruido.
+- **La mentora: Arcadia**, la maquinista del parque. Aprendiz de Maese Ferrum, como Tesla y Tesela, pero eligió las
+  máquinas que juegan. Overol cerrado lleno de fichas y destornilladores; conoce cada atracción por su ruido.
   Su frase (propuesta): *«Un juego es un bucle que nunca deja de escuchar.»*
-- **El hilo con el misterio.** Cada juego que Kira arma **revive una máquina**, y cada máquina revivida muestra en su
-  pantalla de *Game Over* un pedazo del mapa del Vidriero. El último juego revela para qué construyó el portal.
+- **El hilo con el misterio.** Cada atracción que Kira hace andar muestra, en su pantalla de *Game Over*, un pedazo
+  del mapa del Vidriero. La última revela para qué construyó el portal.
 - **La moneda: créditos** («INSERT COIN»). Se ganan con las micro-misiones que vienen de misiones y abren los nodos,
   como en los demás cursos.
-- **El bestiario de los glitches** (los errores típicos de un juego):
+
+### 2.1 El mapa: cada lugar es un desarrollo
+
+| Lugar | Qué se aprende ahí |
+|---|---|
+| **La Boletería** (la entrada) | Clase 0: la ventana y el bucle del juego. Insertá un crédito. |
+| **El Banco de Pruebas de Arcadia** | R01, lo básico: teclado, mouse, delta time, colisiones, joystick, texto, sprites, sonido |
+| **La Cancha de las Paletas** | Pong |
+| **El Muro de Ladrillos** | Arkanoid |
+| **El Jardín de la Serpiente** | Snake (un guiño al Valle de Ofidia) |
+| **La Torre que no para** | Tetris |
+| **La Pista de los Biplanos** | naves tipo 1942 |
+| **El Tren Fantasma** | Pac-Man (el laberinto y los cuatro fantasmas) |
+| **La Montaña Rusa** | plataformas tipo Megaman: gravedad, salto, subir y caer |
+| **El Castillo del Vidriero** (el centro del parque) | el proyecto final y el último pedazo del mapa |
+| **La Vuelta al Mundo** (llega de la Ciudadela) | el ala de **SFML** (C++), con Bron: engranajes que giran |
+| **Los Puestos de la Kermés** (el borde que toca la Feria) | el ala de **Phaser** (JavaScript), con Nima |
+| **El Cubo del Cielo** (flota sobre el parque) | el ala de **OpenGL**, con Rigel: un cubo que gira, luces y cámara |
+
+### 2.2 El bestiario de los glitches (los errores típicos de un juego)
 
 | Criatura | Qué error representa |
 |---|---|
@@ -44,20 +71,21 @@ Nada de esto está programado. Este documento es para revisar y corregir antes d
 
 - **Los jefes son los juegos clásicos:** el campeón invicto de Pong, la Torre que no para (Tetris), la Nave Nodriza
   (naves), los cuatro fantasmas (Pac-Man) y un robot maestro (plataformas).
-- **Cameos que unen cursos:** **Nova** pasa por el salón (en Ensamblador 32/64 hace «Junta las gemas» con SDL desde
-  ensamblador) y **Zed** reconoce las máquinas (en Java vio el Arcade Imperial sin botones: eran de acá).
+- **Cameos que unen cursos** (y temas compartidos en el universo): **Nova** pasa por el parque (en Ensamblador 32/64
+  hace «Junta las gemas» con SDL desde ensamblador) y **Zed** reconoce las máquinas (en Java vio el Arcade Imperial
+  sin botones: eran de acá).
 
 Al sumarlo, recorrer [ALTA-DE-CURSOS-Y-PERSONAJES.md](ALTA-DE-CURSOS-Y-PERSONAJES.md) (Arcadia, Kira mejorada, las
-criaturas, la moneda, el mundo, su temporada de inglés).
+criaturas, la moneda, el mundo y su mapa, su temporada de inglés).
 
-## 3. Las alas del salón (lo que viene después de SDL3)
+## 3. Las alas del parque (lo que viene después de SDL3)
 
 | Ala | Lenguaje | Región que la abre | Héroe |
 |---|---|---|---|
-| **El salón principal: SDL3** | C | las Forjas | Kira |
-| **El taller de SFML** | C++ | la Ciudadela | Bron, el mecánico de Tesla |
-| **Los puestos de Phaser** | JavaScript | la Feria de las Luces | Nima |
-| **El proyector de OpenGL** | C/C++ | el Mirador (el Gran Planisferio proyecta estrellas: OpenGL es proyectar en pantalla) | Rigel |
+| **El parque: SDL3** | C | las Forjas | Kira |
+| **La Vuelta al Mundo: SFML** | C++ | la Ciudadela | Bron, el mecánico de Tesla |
+| **Los Puestos de la Kermés: Phaser** | JavaScript | la Feria de las Luces | Nima |
+| **El Cubo del Cielo: OpenGL** | C/C++ | el Mirador (el Gran Planisferio proyecta estrellas: OpenGL es proyectar en pantalla) | Rigel |
 
 Cada ala es un curso (o una Senda) que pide el curso de su región. Primero se hace SDL3 entero.
 
@@ -95,6 +123,10 @@ muy explicada (regla de sencillez) y un juego que se juega al final.
 | **Plataformas (tipo Megaman)** | gravedad, salto, el mapa de bloques, la cámara que sigue, enemigos con patrón |
 | **Proyecto final** | un juego propio, o «El Guardián de las Gemas» de FullCursos |
 
+**Cada juego, claro y completo:** menú, partida, puntaje, vidas o niveles, fin del juego y volver a jugar. Cada rama
+arranca con una **imagen de referencia** del juego terminado (para saber qué se hace y hasta dónde llega) y termina con
+el juego entero andando.
+
 Material de partida: `FullCursos/06-SDL3` (13 capítulos en C), `07-SDL3-Cpp`, `08-ProyectoFinal` y el SDL2 desde
 ensamblador de `28-Ensamblador-32-64` (parte 4). Los juegos de la escalera se escriben nuevos, sencillos y muy
 explicados.
@@ -117,6 +149,21 @@ explicados.
 El juego corre unos cuadros con **teclas simuladas** y se revisa el resultado (dónde quedó la paleta, cuántos puntos
 hay, si la pelota rebotó). Ejemplos: «que la paleta no salga de la pantalla», «sumá un punto al romper un ladrillo».
 El docente corrige solo los proyectos.
+
+### 4.3 Assets (gráficos y sonidos)
+
+Referencias que pasó el docente (2026-11-25). **Antes de usar cada uno, revisar su licencia** (que permita usarlo en
+un curso, y si pide créditos) y anotarlo en una página de créditos del curso:
+
+- Sonidos: Freesound, por ejemplo https://freesound.org/people/Victor_Natas/sounds/766921/ (cada sonido tiene su
+  propia licencia: CC0 o con atribución).
+- Personajes y escenarios: KayKit de Kay Lousberg (https://kaylousberg.itch.io/) y Pixel Adventure de Pixel Frog
+  (https://pixelfrog-assets.itch.io/pixel-adventure-1).
+- Paleta: Resurrect 64 (https://lospec.com/palette-list/resurrect-64), para que todos los juegos del parque compartan
+  colores.
+- Sprites generados: SpriteCook (https://www.spritecook.ai/), revisando sus términos de uso.
+
+Los assets van a la plataforma (para la web) y adentro del .zip para bajar.
 
 ## 5. Bajarlo y correrlo en la compu
 
@@ -149,7 +196,10 @@ El docente corrige solo los proyectos.
 
 ## 8. Para decidir
 
-1. ¿El orden de la escalera de juegos está bien? ¿Sacar o sumar alguno (Snake, Space Invaders, Asteroids)?
-2. ¿Los cameos de Nova y Zed, sí?
-3. ¿La Clase 0 de prueba se puede hacer sin cumplir el requisito (§ 6)?
-4. El nombre del curso: ¿«El Salón Arcade»? ¿«Videojuegos: el Salón Arcade del Vidriero»?
+Respondido el 2026-11-25: la escalera está bien (cada juego claro y completo); los cameos, sí; la Clase 0 se prueba
+sin el requisito, con imágenes de referencia; y en vez de un salón, **un mundo nuevo con su mapa** (§ 2).
+
+1. **El nombre del mundo.** Propuestas: **el Parque del Vidriero**, **el Parque Arcadia** (el de su maquinista),
+   **Pixelia**. ¿Alguna, u otra?
+2. **El nombre del curso.** Por ejemplo «Videojuegos: el Parque del Vidriero».
+3. ¿Los lugares del mapa (§ 2.1) cuadran? ¿Cambiarías alguno?

@@ -14,6 +14,9 @@ for (let i = 0; i < 26; i++) SCANCODES[`Key${String.fromCharCode(65 + i)}`] = 4 
 for (let i = 1; i <= 9; i++) SCANCODES[`Digit${i}`] = 29 + i;
 SCANCODES.Digit0 = 39;
 for (let i = 1; i <= 12; i++) SCANCODES[`F${i}`] = 57 + i;
+// El teclado numérico tiene sus propias teclas en SDL3 (SDLK_KP_1…), distintas de los números de arriba.
+Object.assign(SCANCODES, { NumpadDivide: 84, NumpadMultiply: 85, NumpadSubtract: 86, NumpadAdd: 87, NumpadEnter: 88, Numpad0: 98, NumpadDecimal: 99 });
+for (let i = 1; i <= 9; i++) SCANCODES[`Numpad${i}`] = 88 + i;
 
 const PRINTABLE = { 40: 0x0d, 41: 0x1b, 42: 0x08, 43: 0x09, 44: 0x20 };
 
@@ -148,9 +151,15 @@ export async function runGame(code, { container, onStatus, onOutput, onWindow, w
     frame = requestAnimationFrame(readPads);
     cleanups.push(() => cancelAnimationFrame(frame));
 
-    onStatus?.('Jugando: hacé clic en el juego para usar el teclado');
+    // Abajo se ve si las teclas van al juego o no (si el foco quedó en el editor, las teclas escriben ahí).
+    const focusStatus = () => onStatus?.(document.activeElement === canvas
+        ? '🎮 El teclado está en el juego (ESC vuelve al menú)'
+        : 'Hacé clic en el juego para usar el teclado');
+    canvas.addEventListener('focus', focusStatus);
+    canvas.addEventListener('blur', focusStatus);
     worker.postMessage({ type: 'start', wasm: compiled.wasm, canvas: offscreen }, [offscreen]);
     canvas.focus();
+    focusStatus();
 
     return {
         ok: true,

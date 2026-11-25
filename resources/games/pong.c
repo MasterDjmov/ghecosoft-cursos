@@ -132,8 +132,15 @@ int main(int argc, char *argv[])
             } else if (e.type == SDL_EVENT_KEY_DOWN && !e.key.repeat) {
                 if (e.key.key == SDLK_ESCAPE) {
                     estado = MENU;
-                } else if (estado != JUGANDO && (e.key.key == SDLK_1 || e.key.key == SDLK_2)) {
-                    jugadores = e.key.key == SDLK_1 ? 1 : 2;
+                } else if (estado != JUGANDO && (e.key.key == SDLK_1 || e.key.key == SDLK_KP_1 || e.key.key == SDLK_RETURN ||
+                                                 e.key.key == SDLK_KP_ENTER || e.key.key == SDLK_SPACE)) {
+                    /* 1 (el de arriba o el del teclado numérico), Enter o Espacio: contra la compu. */
+                    jugadores = 1;
+                    izq.puntos = der.puntos = 0;
+                    sacar(&pelota, 1);
+                    estado = JUGANDO;
+                } else if (estado != JUGANDO && (e.key.key == SDLK_2 || e.key.key == SDLK_KP_2)) {
+                    jugadores = 2;
                     izq.puntos = der.puntos = 0;
                     sacar(&pelota, 1);
                     estado = JUGANDO;
@@ -225,9 +232,10 @@ int main(int argc, char *argv[])
             SDL_SetRenderDrawColor(pincel, 255, 210, 80, 255);
             texto_centrado(pincel, 150, 3.0f, estado == FIN ? ganador : "PONG");
             SDL_SetRenderDrawColor(pincel, 220, 225, 240, 255);
-            texto_centrado(pincel, 240, 2.0f, "1: un jugador   2: dos jugadores");
-            texto_centrado(pincel, 280, 1.0f, "Jugador 1: W y S    Jugador 2: flechas    Joystick: START");
-            texto_centrado(pincel, 300, 1.0f, "ESC: volver al menu");
+            texto_centrado(pincel, 240, 2.0f, "1 o ENTER: contra la compu");
+            texto_centrado(pincel, 266, 2.0f, "2: dos jugadores");
+            texto_centrado(pincel, 310, 1.0f, "Jugador 1: W y S    Jugador 2: flechas    Joystick: START");
+            texto_centrado(pincel, 330, 1.0f, "ESC: volver al menu");
         }
 
         SDL_RenderPresent(pincel);

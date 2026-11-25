@@ -106,8 +106,8 @@ async function look() {
 }
 
 const key = async (code, type, text = '') => {
-    const keyName = { KeyW: 'w', KeyS: 's', Digit1: '1', Digit2: '2', Escape: 'Escape' }[code] ?? code;
-    const vk = { KeyW: 87, KeyS: 83, Digit1: 49, Digit2: 50, Escape: 27 }[code];
+    const keyName = { KeyW: 'w', KeyS: 's', Digit1: '1', Digit2: '2', Numpad1: '1', Enter: 'Enter', Escape: 'Escape' }[code] ?? code;
+    const vk = { KeyW: 87, KeyS: 83, Digit1: 49, Digit2: 50, Numpad1: 97, Enter: 13, Escape: 27 }[code];
     await page('Input.dispatchKeyEvent', { type, code, key: keyName, text: type === 'keyDown' ? text : undefined, windowsVirtualKeyCode: vk });
 };
 
@@ -133,6 +133,7 @@ try {
     await until(`${runner}.gamePlaying || ${runner}.error`, 240000);
     console.log(`  (compilar y arrancar: ${((Date.now() - started) / 1000).toFixed(1)} s)`);
     check('el juego arrancó', await js(`${runner}.gamePlaying`));
+    await until(`${runner}.gameTitle !== ''`, 5000).catch(() => {});
     check('la ventana se llama como en SDL_CreateWindow', await js(`${runner}.gameTitle`), 'La Cancha de las Paletas');
     check('ve el joystick', await js(`${runner}.gamePads`), 1);
     await sleep(800);
@@ -140,10 +141,14 @@ try {
     await shot('1-menu');
     check('el menú muestra el título en amarillo', Boolean(seen.yellow && seen.yellow.y0 > 100 && seen.yellow.y1 < 200));
 
-    // Teclado: el 1 empieza contra la compu.
-    await js('document.querySelector("[data-test=game-canvas]").focus()');
-    await key('Digit1', 'keyDown', '1');
-    await key('Digit1', 'keyUp');
+    // Teclado: el 1 del teclado numérico (y el de arriba, y Enter) empieza contra la compu. Se hace clic en el juego,
+    // como el alumno.
+    await page('Input.dispatchMouseEvent', { type: 'mousePressed', x: 700, y: 300, button: 'left', clickCount: 1 });
+    await page('Input.dispatchMouseEvent', { type: 'mouseReleased', x: 700, y: 300, button: 'left', clickCount: 1 });
+    check('el clic deja el juego listo para el teclado', await js('document.activeElement?.dataset.test'), 'game-canvas');
+    check('y abajo lo dice', await js(`${runner}.status`), '🎮 El teclado está en el juego (ESC vuelve al menú)');
+    await key('Numpad1', 'keyDown', '1');
+    await key('Numpad1', 'keyUp');
     await sleep(300);
     const a = await look();
     await sleep(300);

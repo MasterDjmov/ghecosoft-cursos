@@ -99,7 +99,7 @@ Columnas:
 | 03 | C++ | 12 | 0 | ❌ | formato viejo · en la plataforma: `cursos/cpp`, ramas 1 y 2, reescrito desde cero (D53) |
 | 04 | C++ moderno / STL | 14 | 0 | ❌ | formato viejo · en la plataforma: `cursos/cpp`, rama 3 (D53) |
 | 05 | C++ videojuegos (consola) | 7 | 0 | ❌ | formato viejo · en la plataforma: `cursos/cpp`, rama 5 y jefe final (D53) |
-| 06 | SDL3 en C | 13 | 0 | ❌ (ventana gráfica) | formato viejo |
+| 06 | SDL3 en C | 23 (14–23 agregados el 2026-11-25) | 0 | ✅ en el navegador con el SDL3 de la plataforma (D126, en construcción) | formato viejo · base del curso «Videojuegos: Ciudad Arcadia» (D126) |
 | 07 | SDL3 en C++ | 9 | 0 | ❌ | formato viejo · en la plataforma: Senda de la Linterna Mágica de `cursos/cpp` (D53) |
 | 08 | Proyecto final "Guardián de las Gemas" | 1 proyecto | — | ❌ | proyecto único (~1200 líneas, con assets) |
 | 09 | SFML | 8 | 0 | ❌ | ⏳ falta `libsfml-dev` |
@@ -119,6 +119,9 @@ Columnas:
 | 21 | PHP | 23 | 0 | ❌ hoy (posible con php-wasm) | en la plataforma: `cursos/php`, tronco de 5 ramas y Senda de la Arena (D59) |
 | 22 | JS Vanilla | 22 | 0 | ⚠️ JS corre nativo en el navegador | formato viejo |
 | 23 | TypeScript | 22 | 0 | ⚠️ ídem, compilando TS en el cliente | formato viejo |
+| 29 | Juegos SDL3 en C (agregada el 2026-11-25) | 8 juegos | 0 | ✅ con el SDL3 de la plataforma (D126, falta el audio) | Pong, Arkanoid, Snake, Tetris, Naves, Pac-Man, Plataformas y Pong en red · la escalera de juegos de D126 |
+
+> **2026-11-25:** a pedido del docente, FullCursos sumó a `06-SDL3` el bloque 14–23 (gamepad, texto, imágenes, audio, fuentes, música, récords, hilos y timers, red, «¿y ahora qué?»), la etapa `29-Juegos-SDL3` y los scripts de SDL3_image, _ttf, _mixer y _net en `external/`; pasó a SDL 3.4.x. Qué usa cada parte del curso de Videojuegos y qué le falta a la web: [VIDEOJUEGOS.md](VIDEOJUEGOS.md) § 4.5 y § 4.6.
 
 **Conclusión:** para un primer curso real en la plataforma, lo que está listo es:
 - **C bloques 1–2** (16 clases);

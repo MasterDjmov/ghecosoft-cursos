@@ -197,29 +197,57 @@ Linux y en Windows, y **en qué juego de la escalera se usa** (así no queda sue
 - **A confirmar al llegar:** las versiones estables de SDL3_mixer y SDL3_net en ese momento (las de SDL3 salieron
   después que el núcleo) y la licencia de cada fuente y sonido (§ 4.3).
 
-### 4.5 Lo que no está en FullCursos y se agrega (pedido del docente, 2026-11-25)
+### 4.5 Lo que faltaba en FullCursos: ya está agregado (2026-11-25)
 
-Regla: lo que falte en FullCursos **se suma al curso** y queda anotado como agregado (FullCursos es de solo lectura:
-no se toca desde este proyecto). FullCursos trae `06-SDL3` (13 capítulos en C: iniciar, ventana, eventos, teclado,
-mouse, game loop, rectángulos, color, movimiento, delta time y FPS, jugador y enemigo, colisiones y «junta las
-monedas»), `07-SDL3-Cpp` (texturas con SDL_image, animación, cámara, escenas) y `08-ProyectoFinal` (en C++, con audio
-de SDL3 que arma las notas a mano y fuentes).
+Regla del docente: lo que falte en FullCursos se suma (allá, con su propia sesión) y queda anotado. Se pidió con el
+prompt de esta charla y el 2026-11-25 FullCursos ya lo trae, marcado «(agregado: nuevo en esta versión)»:
 
-| Tema | En FullCursos | En el curso |
-|---|---|---|
-| Joystick y gamepad (`SDL_Gamepad`) | no está | **se agrega** en R01 (anda en la web: fase 1) |
-| Texto en pantalla (`SDL_RenderDebugText`) | no está | **se agrega** en R01 (puntajes y menús) |
-| Imágenes y sprites (SDL3_image) | solo en C++ (07) | **se agrega en C** en R01 |
-| Sonido (audio de SDL3, `.wav`) | solo en el proyecto final en C++, con notas armadas a mano | **se agrega en C**, con archivos `.wav` |
-| Fuentes TrueType con tildes y ñ (SDL3_ttf) | se nombra, sin explicar | **se agrega** (§ 4.4) |
-| Música y efectos (SDL3_mixer) | se nombra, sin explicar | **se agrega** (§ 4.4) |
-| Guardar récords (archivos de SDL3) | no está | **se agrega** (Snake y Tetris) |
-| Red (SDL3_net) | no está | **se agrega** al final, con la red de mentira (§ 4.4) |
-| Hilos y temporizadores | no está | **se agrega** como lectura |
-| La escalera de juegos (Pong, Arkanoid, Snake, Tetris, naves, Pac-Man, plataformas) | solo «junta las monedas» y el proyecto final | **se agrega** entera (R02 en adelante) |
+- **`06-SDL3`, bloque nuevo 14–23** (en C, con `main.c`, `build.sh`, `CMakeLists.txt` y README):
+  14 Gamepad · 15 Texto en pantalla · 16 Imágenes y sprites (SDL3_image) · 17 Audio (`SDL_LoadWAV`,
+  `SDL_AudioStream`) · 18 Fuentes (SDL3_ttf, con `assets/fonts/DejaVuSans.ttf`) · 19 Música y efectos (SDL3_mixer 3,
+  funciones `MIX_*`) · 20 Récords (`SDL_GetPrefPath`, `SDL_IOFromFile`) · 21 Hilos y timers · 22 Red (SDL3_net,
+  funciones `NET_*`, TCP en localhost y entre dos compus) · 23 ¿Y ahora qué? (lectura: SDL_GPU, SDL_shadercross,
+  SDL3_rtf).
+- **`29-Juegos-SDL3`, etapa nueva:** 01 Pong · 02 Arkanoid · 03 Snake (con récords) · 04 Tetris (con música) ·
+  05 Naves · 06 Pac-Man · 07 Plataformas · **08 Pong en red** (servidor que manda, protocolo de texto, recibir → simular
+  → enviar). Cada uno de 250 a 500 líneas, completo (menú, partida, puntaje, vidas o niveles, fin, volver a jugar),
+  con sonido **generado con código** (sin archivos) y teclado y joystick.
+- **`external/`:** `build-sdl3-image.sh`, `-ttf.sh`, `-mixer.sh`, `-net.sh` (se instalan junto a SDL3, sin sudo).
+- **Cambio de versión:** FullCursos pasó a **SDL 3.4.x** (SDL3_mixer pide 3.4 o más). Los capítulos 01–13 siguen
+  iguales. Para Linux hay que instalar antes `libasound2-dev libpulse-dev libudev-dev` (si no, SDL queda sin sonido
+  ni joystick). La prueba de la fase 1 se hizo con 3.2.26: al retomar, compilar 3.4 y repetirla.
+- Todos los programas aceptan `./build.sh N` (corren N segundos y salen: `SDL_atof(argv[1])`). En la web no hay
+  argumentos, así que juegan sin límite.
 
-Al escribir el curso (fase 4), el temario (`cursos/videojuegos/`) dice al lado de cada nodo qué capítulo de FullCursos
-usa, o «agregado (no está en FullCursos)».
+**De dónde sale cada parte del curso** (el temario de `cursos/videojuegos/` lo repite al lado de cada nodo):
+
+| Curso | FullCursos |
+|---|---|
+| Clase 0 y R01 · Lo básico | `06-SDL3` 01–13 |
+| R01 · Joystick, texto, imágenes, sonido | `06-SDL3` 14–17 |
+| La caja de herramientas (§ 4.4) | `06-SDL3` 18–23 |
+| La escalera de juegos (R02 en adelante) | `29-Juegos-SDL3` 01–07 |
+| Rama final: Pong para dos compus | `29-Juegos-SDL3` 08 |
+| Proyecto final | `08-ProyectoFinal` (C++) o un juego propio |
+
+El Pong de la fase 1 (`resources/games/pong.c`) era solo la prueba técnica: el curso usa el de
+`29-Juegos-SDL3/01-Pong`, armado de a poco con micro-misiones.
+
+### 4.6 Lo que le falta al SDL3 de la plataforma para correr todo FullCursos en la web
+
+Se comparó cada función de SDL que usan los capítulos 14–23 y los 8 juegos con `resources/js/runners/sdl3/SDL.h`
+(2026-11-25). Los juegos 01–07 usan casi solo lo que ya anda; lo grande es el audio. Va en la fase 3:
+
+| Grupo | Funciones | Cómo se resuelve en la web | Lo usan |
+|---|---|---|---|
+| Utilidades de C | `SDL_atof`, `SDL_sin`, `SDL_strlcpy`, `SDL_strcasecmp`, `SDL_memcpy`, `SDL_memmove`, `SDL_sscanf`, `SDL_zero` | en el mismo `SDL.h`, con la biblioteca de C | todos |
+| **Audio de SDL3** | `SDL_OpenAudioDeviceStream`, `SDL_PutAudioStreamData`, `SDL_ResumeAudioStreamDevice`, `SDL_DestroyAudioStream`, `SDL_GetAudioStreamQueued`, `SDL_LoadWAV`, `SDL_GetCurrentAudioDriver` | con el audio del navegador (Web Audio): las muestras que arma el juego se reproducen tal cual | 17 y **los 8 juegos** |
+| Texturas e imágenes | `SDL_CreateSurface`, `SDL_FillSurfaceRect`, `SDL_MapSurfaceRGBA`, `SDL_CreateTextureFromSurface`, `SDL_RenderTexture`, `SDL_DestroyTexture`, `SDL_GetTextureSize`, `SDL_SetTextureScaleMode`, `IMG_LoadTexture`, `IMG_SavePNG` | superficies en la memoria del juego; texturas como imágenes del lienzo; PNG con el navegador | 16, 18 |
+| Fuentes (SDL3_ttf) | `TTF_Init`, `TTF_OpenFont`, `TTF_RenderText_Blended`, `TTF_CloseFont`, `TTF_Quit` | el lienzo dibuja el texto con la misma fuente (DejaVu Sans, en la plataforma) | 18 |
+| Música (SDL3_mixer 3) | `MIX_Init`, `MIX_CreateMixerDevice`, `MIX_LoadAudio`, `MIX_CreateSineWaveAudio`, `MIX_CreateTrack`, `MIX_SetTrackAudio`, `MIX_PlayTrack`, `MIX_PauseTrack`, `MIX_ResumeTrack`, `MIX_SetTrackGain`, `MIX_PlayAudio`, los `Destroy` y `SDL_*Properties` | Web Audio, una pista por `MIX_Track` | 19 |
+| Archivos | `SDL_GetPrefPath`, `SDL_IOFromFile`, `SDL_ReadIO`, `SDL_WriteIO`, `SDL_CloseIO` | la carpeta de mentira de C (D98); **a decidir:** que los récords queden guardados en el navegador entre partidas | 20, Snake |
+| Hilos y timers | `SDL_CreateThread`, `SDL_WaitThread`, `SDL_GetAtomicInt`, `SDL_SetAtomicInt`, `SDL_AddTimer`, `SDL_RemoveTimer`, `SDL_PushEvent`, `SDL_RegisterEvents` | los timers y los eventos propios, sí; los hilos de verdad no existen en la caja: se explican y se prueban al bajar el juego (o se simulan por turnos, **a decidir**) | 21, 22 y Pong en red |
+| Red (SDL3_net) | `NET_Init`, `NET_ResolveHostname`, `NET_CreateServer`, `NET_AcceptClient`, `NET_CreateClient`, `NET_WaitUntilConnected`, `NET_ReadFromStreamSocket`, `NET_WriteToStreamSocket`, los `Destroy` y `NET_Quit` | **sin red real** (regla de la plataforma): la red de mentira entre dos ventanas del juego en la página (§ 4.4) | 22, Pong en red |
 
 ## 5. Bajarlo y correrlo en la compu
 

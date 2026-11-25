@@ -1,11 +1,12 @@
-# Videojuegos: Ciudad Arcadia (D126) — propuesta cerrada, sin programar
+# Videojuegos: Ciudad Arcadia (D126) — fase 1 (prototipo) hecha, a probar
 
 Pedido del docente (2026-11-25): un curso de **videojuegos** que arranque con **SDL3** y siga con SFML, Phaser y algo de
 OpenGL. Es pedagógico ante todo: que el alumno aprenda a hacer juegos de verdad, de a poco, con juegos simples y
 demostrables. En la plataforma el alumno **ve** el juego, lo **edita sí o sí** y lo **juega en la página**, sin bajar
 IDEs; como opción, lo **baja y lo corre en su compu** (Linux y Windows), para que le quede.
 
-Nada de esto está programado. Las decisiones están cerradas (2026-11-25, § 8); falta el OK para la fase 1 (§ 7).
+Las decisiones están cerradas (2026-11-25, § 8). La fase 1, el prototipo de Pong, está hecha y espera que el docente
+la pruebe (§ 9); el resto (§ 7) no está programado.
 
 ## 1. Decisiones (charla con el docente, 2026-11-25)
 
@@ -206,3 +207,32 @@ Los assets van a la plataforma (para la web) y adentro del .zip para bajar.
 - El curso se llama **«Videojuegos: Ciudad Arcadia»**.
 - Los lugares del mapa (§ 2.1) quedan así; como es un juego, pueden cambiar más adelante.
 - **Pixelia** queda reservado para un futuro curso de **pixel art**.
+
+## 9. Fase 1: el prototipo (hecho el 2026-11-25, a probar)
+
+*Herramientas → Juegos con SDL3 (prueba)* (`herramientas/arcadia`, por ahora **solo el staff**): el Pong completo
+(`resources/games/pong.c`: menú, uno o dos jugadores, la compu como rival, pelota que acelera, puntaje hasta 5, fin y
+volver a jugar), editable, con **Jugar**, **Bajar**, **Cerrar el juego** y **Pantalla completa**.
+
+- **El mismo archivo compila con SDL3 real**: `gcc -std=c11 -Wall -Wextra pong.c -o pong $(pkg-config --cflags --libs sdl3)`
+  (probado en Linux con SDL3 3.2.26 compilado en `~/.local/sdl3`, sin avisos).
+- **El SDL3 de la plataforma:** `resources/js/runners/sdl3/SDL.h` (los nombres, tipos y constantes de SDL3: ventana,
+  renderer, colores, rectángulos, líneas, puntos, escala, `SDL_RenderDebugText`, eventos, teclado, mouse, gamepad,
+  tiempo, azar, `SDL_Log`) + `resources/js/workers/sdl-run.worker.js` (dibuja en un lienzo con doble buffer, como SDL)
+  + `resources/js/runners/sdl.js` (compila con el Clang de C, abre el lienzo, manda teclado, mouse y joysticks).
+  La letra de 8 × 8 es la de SDL3 (`sdl3/font8x8.js`, dominio público): el texto se ve igual que en la compu.
+- **El bucle `while` del juego** se pausa en `SDL_Delay`, `SDL_RenderPresent` y `SDL_PollEvent` con **JSPI**
+  (`WebAssembly.Suspending`): anda en **Chrome y Edge**; los demás navegadores reciben un aviso. Si hace falta Firefox
+  o Safari, la alternativa es Asyncify (binaryen en el navegador, ~10 MB más).
+- **Seguridad:** el juego corre en su propio worker y solo ve lo que le da el SDL de la plataforma (no la página, ni la
+  sesión, ni la red). Si deja de ceder el control 3 segundos (el **Bucle Eterno**), se corta.
+- **Joystick:** el navegador lee joysticks y controles (USB o Bluetooth) con el mapeo estándar; se conectan tocando un
+  botón. En el Pong, la cruz o la palanca mueven la paleta y START empieza.
+- **No anda todavía:** imágenes (texturas), sonido, texto con tildes (SDL3 tampoco lo tiene en el texto de depuración),
+  guardar en Mis prácticas, el .zip con lanzadores (fase 6).
+- **Prueba:** `node scripts/videojuegos/probar.mjs [carpeta]` (Chrome, con la plataforma local en el puerto 8123):
+  compila, menú, la pelota se mueve, W sube la paleta, un joystick simulado la baja, ESC, cerrar, error de compilación,
+  Bucle Eterno, `printf` y `SDL_Log`.
+
+**Pedagogía (pedido del docente, 2026-11-25):** el Pong de la prueba es el juego terminado. En el curso se arma de a
+poco, como en los otros cursos: un concepto por micro-misión, todo muy explicado, y el juego entero al final de la rama.

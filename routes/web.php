@@ -38,6 +38,7 @@ use App\Livewire\Student\CourseDetail;
 use App\Livewire\Student\CourseTree;
 use App\Livewire\Student\Encyclopedia as StudentEncyclopedia;
 use App\Livewire\Student\Expeditions;
+use App\Livewire\Student\GameTool;
 use App\Livewire\Student\Grimoire;
 use App\Livewire\Student\Hero;
 use App\Livewire\Student\Heroes;
@@ -118,6 +119,7 @@ Route::middleware(['auth', 'password.changed'])->group(function () {
     Route::livewire('herramientas/ejecutor-java', StudentJavaRunner::class)->name('student.java-runner');
     Route::livewire('herramientas/golem-8086', AsmTool::class)->name('student.asm-tool');
     Route::livewire('herramientas/caja-de-la-feria', JsTool::class)->name('student.js-tool');
+    Route::livewire('herramientas/arcadia', GameTool::class)->name('student.game-tool');
     Route::livewire('herramientas/practicar/{language}', PracticeTool::class)->name('student.practice-tool');
     Route::livewire('herramientas/mis-practicas', SavedPractices::class)->name('student.saved-practices');
     Route::get('herramientas/ejecutor-java/descargar', JavaRunnerDownloadController::class)->middleware('throttle:20,1')->name('student.java-runner.download');

@@ -17,6 +17,8 @@
     'autocomplete' => false,
     // Botón «Bajar»: lo que hay en el editor como archivo (Herramientas y Mis prácticas).
     'download' => false,
+    // D126: un juego en C con SDL3 que se ve en un lienzo (el SDL3 de la plataforma) en lugar de la consola.
+    'game' => false,
 ])
 
 @php
@@ -57,7 +59,7 @@
         'pyodideUrl' => config('services.pyodide.url'), 'javaRunnerUrl' => config('services.java_runner.url'), 'javaHelpUrl' => $javaHelpUrl, 'timeout' => config('services.pyodide.timeout_ms'),
         'references' => (object) array_filter($references), 'checks' => ($isHtml || $language === 'asm') && filled($checks) ? (string) $checks : null,
         'jsMission' => (object) $jsMission, 'jsHasPage' => $jsHasPage, 'fenced' => $fenced,
-        'keep' => $keep ? 'practice:'.auth()->id().':'.$keep : null, 'autocomplete' => $autocomplete,
+        'keep' => $keep ? 'practice:'.auth()->id().':'.$keep : null, 'autocomplete' => $autocomplete, 'game' => $game,
     ]))">
     <div class="code-window overflow-hidden rounded-lg border border-outline bg-surface-lowest transition focus-within:border-primary-bright/60">
         {{-- Barra de la ventana --}}
@@ -95,7 +97,7 @@
                 @if ($canRun && $language !== 'asm')
                     <button type="button" x-on:click="run" x-bind:disabled="running" title="Ejecutar (Ctrl+Enter)"
                         class="{{ $barButton }} bg-primary/15 text-primary-bright hover:bg-primary/25">
-                        <flux:icon name="play" variant="micro" /> <span class="hidden sm:inline" x-text="running ? 'Ejecutando…' : '{{ $isHtml ? 'Ver' : 'Ejecutar' }}'">{{ $isHtml ? 'Ver' : 'Ejecutar' }}</span>
+                        <flux:icon name="play" variant="micro" /> <span class="hidden sm:inline" x-text="running ? 'Ejecutando…' : '{{ $isHtml ? 'Ver' : ($game ? 'Jugar' : 'Ejecutar') }}'">{{ $isHtml ? 'Ver' : ($game ? 'Jugar' : 'Ejecutar') }}</span>
                     </button>
                 @endif
                 {{ $actions ?? '' }}
@@ -127,6 +129,8 @@
             @endif
         @elseif ($canRun && $isJs)
             <x-js-board class="border-t border-outline" />
+        @elseif ($canRun && $game)
+            <x-game-board class="border-t border-outline" />
         @elseif ($canRun && $language === 'asm')
             <x-asm-board class="border-t border-outline" />
         @elseif ($canRun)

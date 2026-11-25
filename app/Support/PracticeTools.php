@@ -3,6 +3,7 @@
 namespace App\Support;
 
 use App\Enums\Language;
+use App\Livewire\Student\GameTool;
 use App\Livewire\Student\JsTool;
 use App\Models\Course;
 use App\Models\User;
@@ -223,6 +224,10 @@ class PracticeTools
         }
         if (Course::where('language', Language::Asm)->get()->contains(fn (Course $course) => $user->can('useAsmTool', $course))) {
             $tools[] = ['key' => 'asm-tool', 'label' => 'Gólem 8086', 'icon' => 'cpu-chip', 'url' => route('student.asm-tool'), 'route' => 'student.asm-tool', 'window' => true];
+        }
+        // D126, fase 1: el prototipo de los juegos con SDL3 (por ahora, solo el staff).
+        if (GameTool::allowed($user)) {
+            $tools[] = ['key' => 'game-tool', 'label' => 'Juegos con SDL3 (prueba)', 'icon' => 'puzzle-piece', 'url' => route('student.game-tool'), 'route' => 'student.game-tool', 'window' => false];
         }
         // El ejecutor es para instalar (D85): lo ve también quien pidió el curso y todavía no tiene el abono.
         $java = $user->isStaff() || Course::where('language', Language::Java)

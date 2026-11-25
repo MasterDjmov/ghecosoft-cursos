@@ -12,7 +12,7 @@ function getCompiler() {
     return compiler;
 }
 
-function compile(code, language, onLoaded) {
+export function compile(code, language, onLoaded, sdl = false) {
     const id = ++sequence;
     const worker = getCompiler();
 
@@ -30,7 +30,7 @@ function compile(code, language, onLoaded) {
             }
             resolve(data);
         };
-        worker.postMessage({ id, code, language });
+        worker.postMessage({ id, code, language, sdl });
     });
 }
 

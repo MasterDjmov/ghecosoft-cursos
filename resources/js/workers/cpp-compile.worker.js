@@ -4,6 +4,10 @@
 import { CLANG_URL, SYSROOT_URL, PCH_URL, COMPILE_FLAGS, LINK_FLAGS, C_FLAGS } from '../runners/cpp-config.js';
 // El mismo encabezado con el que scripts/build-cpp-toolchain.sh armó el PCH: Clang lo pide junto al PCH.
 import comun from '../runners/cpp-comun.hpp?raw';
+// El SDL3 de la plataforma (D126): el juego incluye <SDL3/SDL.h> como con SDL3 real.
+import sdlHeader from '../runners/sdl3/SDL.h?raw';
+
+const SDL_FILES = { SDL3: { 'SDL.h': sdlHeader, 'SDL_main.h': '/* SDL3 de la plataforma: no hace falta nada. */\n' } };
 
 async function gunzip(response) {
     if (!response.ok) throw new Error(`No se pudo bajar ${response.url} (${response.status})`);
@@ -55,7 +59,7 @@ async function load(language) {
     }
 }
 
-self.onmessage = async ({ data: { id, code, language } }) => {
+self.onmessage = async ({ data: { id, code, language, sdl = false } }) => {
     try {
         const { runClang, sysroot, pch } = await load(language);
         self.postMessage({ id, type: 'loaded' });
@@ -65,7 +69,8 @@ self.onmessage = async ({ data: { id, code, language } }) => {
         try {
             // C: como gcc -std=c11 del curso (las cabeceras de C son livianas: no hace falta el PCH).
             const linked = language === 'c'
-                ? await runClang(['clang', ...C_FLAGS, 'main.c', '-lm', '-o', 'programa.wasm'], { sysroot, 'main.c': code }, { stderr })
+                ? await runClang(['clang', ...C_FLAGS, ...(sdl ? ['-I/'] : []), 'main.c', '-lm', '-o', 'programa.wasm'],
+                    { sysroot, 'main.c': code, ...(sdl ? SDL_FILES : {}) }, { stderr })
                 : await runClang(['clang++', ...COMPILE_FLAGS, '-include-pch', 'comun.pch', '-Wall', '-Wextra', '-c', 'main.cpp', '-o', 'main.o'],
                     { sysroot, 'main.cpp': code, 'comun.pch': pch, 'comun.hpp': comun }, { stderr })
                     .then((object) => runClang(['clang++', ...LINK_FLAGS, 'main.o', '-o', 'programa.wasm'], { sysroot, 'main.o': object['main.o'] }, { stderr }));

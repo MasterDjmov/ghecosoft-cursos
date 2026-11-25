@@ -259,6 +259,11 @@ document.addEventListener('alpine:init', () => {
         // Lo mismo para la consola de los otros lenguajes: Ejecutar y la salida a mano sin bajar.
         consoleDock: false,
         consoleDockOpen: false,
+        // Juegos con SDL3 (D126): el juego que corre, su ventana y los joysticks que ve.
+        gameStarted: false,
+        gamePlaying: false,
+        gameTitle: '',
+        gamePads: 0,
         asmDock: false,
         asmDockOpen: false,
         asmDockPanel: 'registers',
@@ -339,6 +344,8 @@ document.addEventListener('alpine:init', () => {
         },
 
         destroy() {
+            this.gameControl?.kill();
+            clearTimeout(this.gameWatch);
             clearTimeout(this.renderTimer);
             if (this.fileEditors.length) this.fileEditors.forEach((editor) => editor.destroy());
             else this.editor?.destroy();
@@ -347,6 +354,7 @@ document.addEventListener('alpine:init', () => {
         async run() {
             if (config.language === 'html') return this.renderHtml();
             if (config.language === 'asm') return this.asmRun();
+            if (config.game) return this.gameRun();
             if (this.running || config.runnable === false) return;
             this.running = true;
             this.tab = 'output';
@@ -419,6 +427,65 @@ document.addEventListener('alpine:init', () => {
                 if (!this.matches && !compiler && !notices) this.lines = compareLines(config.expected, result.output);
             }
             this.running = false;
+        },
+
+        // ---------------- Juegos con SDL3 (D126): compila y abre la ventana del juego
+
+        async gameRun() {
+            if (this.running) return;
+            this.gameControl?.kill();
+            // Cada partida tiene su número: si se vuelve a tocar Jugar, la anterior ya no toca el estado.
+            const round = (this.gameRound = (this.gameRound ?? 0) + 1);
+            this.running = true;
+            this.error = false;
+            this.output = '';
+            this.gameTitle = '';
+            const { runGame } = await import('./runners/sdl.js');
+            const started = await runGame(this.runSource ?? this.code, {
+                container: this.$refs.gameScreen,
+                onStatus: (status) => (this.status = status),
+                onOutput: (text) => (this.output = (this.output + text).slice(-20000)),
+                onWindow: ({ title }) => (this.gameTitle = title),
+            });
+            this.running = false;
+            const compiler = started.diagnostics ? `── Compilador ──\n${started.diagnostics.trimEnd()}\n` : '';
+            if (!started.ok) {
+                this.error = true;
+                this.status = started.error;
+                this.output = compiler + (started.diagnostics ? '' : started.error);
+                return;
+            }
+            this.output = compiler;
+            this.gameStarted = true;
+            this.gamePlaying = true;
+            this.gameControl = started;
+            const pads = () => {
+                this.gamePads = [...(navigator.getGamepads?.() ?? [])].filter(Boolean).length;
+                this.gameWatch = setTimeout(pads, 1000);
+            };
+            pads();
+            const result = await started.done;
+            if (this.gameRound !== round) return;
+            clearTimeout(this.gameWatch);
+            this.gamePlaying = false;
+            this.gameControl = null;
+            if (result.error) {
+                this.error = true;
+                this.status = result.hung ? 'Se colgó (el Bucle Eterno)' : 'Error';
+                this.output = (this.output ? this.output.replace(/\n*$/, '\n') : '') + result.error;
+            } else {
+                this.status = result.stopped ? 'Cerraste el juego.' : `El juego terminó (devolvió ${result.exit}).`;
+                this.error = !result.stopped && result.exit !== 0;
+            }
+        },
+
+        gameStop() {
+            this.gameControl?.stop();
+        },
+
+        gameFullscreen() {
+            const canvas = this.gameControl?.canvas;
+            canvas?.requestFullscreen?.().then(() => canvas.focus()).catch(() => {});
         },
 
         // ---------------- JavaScript: la caja y su mundo virtual (D115)

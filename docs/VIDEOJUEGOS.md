@@ -392,12 +392,11 @@ poco, como en los otros cursos: un concepto por micro-misión, todo muy explicad
 - **Imágenes (2026-11-26):** el proyecto de Kira (`4092585402994005468`) es del editor nuevo de Stitch y el MCP no ve sus
   pantallas; el docente subió las Kiras al proyecto del Mirador (`7987528111863289727`, editor clásico, que ya tiene la
   hoja de Gheco). Ahí quedó la **hoja de 8 ángulos de Kira de Arcadia** (`e45aeaf3…`, desde la imagen del guantelete con
-  el control, `15682724029684616970`) y la de **Arcadia** (`ba550cf0…`): el docente eligió el mono mostaza con chaleco negro y el cubo de colores que brilla desde adentro, con el rodete rojizo y los auriculares gamer al cuello (cuerpo entero `efb10edd…`). Diseño de las cinco criaturas para revisar: `3fc790ea…`. En Stitch,
+  el control, `15682724029684616970`) y la de **Arcadia** (`ba550cf0…`): el docente eligió el mono mostaza con chaleco negro y el cubo de colores que brilla desde adentro, con el rodete rojizo y los auriculares gamer al cuello (cuerpo entero `efb10edd…`). Las cinco criaturas (diseño aprobado `3fc790ea…`) con sus hojas: el Glitch `bb6b18f7…`, el Fantasma del Fotograma `aff1ed36…` (el primer intento perdió las copias y los ojos huecos), el Atraviesaparedes `3c56cd0f…` (atraviesa una pared de vidrio), el Bucle Eterno `cf04c6b1…` y la Fuga de Texturas `26c55040…` (detalle aceptado: la figura que descansa salió como nube lisa; el segundo intento se mezcló con el Glitch). Stitch copió en varias la frase de restricciones de la lámina en el borde inferior: se tapó en la copia local (`referencias/7987528111863289727/`), en Stitch sigue. En Stitch,
   siempre el editor clásico.
 
 **Falta (fase 4):**
-- Las
-  criaturas (Glitch, Fantasma del Fotograma, Atraviesaparedes, Bucle Eterno, Fuga de Texturas); el fondo de Ciudad Arcadia;
+- El fondo de Ciudad Arcadia;
   las escenas de cada micro-misión; el logo del curso y el de la moneda (créditos).
 - Las imágenes de referencia de cada juego para la Clase 0 (§ 1).
 - Recorrer ALTA-DE-CURSOS-Y-PERSONAJES.md (PERSONAJES.md, enciclopedia, Mis Crónicas, juego, universo, inglés).

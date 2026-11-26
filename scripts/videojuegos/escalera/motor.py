@@ -1,4 +1,4 @@
-"""Motor de las micro-misiones de Pong (R02): una plantilla en C por nodo con bloques marcados.
+"""Motor de las micro-misiones de la escalera de juegos (R02 Pong, R03 Arkanoid…): una plantilla en C por nodo con bloques marcados.
 
     //@ n1: acá: lo que tiene que agregar
     ...líneas nuevas...
@@ -64,9 +64,9 @@ def para(t):
     return textwrap.dedent(t).strip()
 
 
-def mission(code, k, m, template):
+def mission(code, k, m, template, lugar='La Cancha de las Paletas'):
     starter, solution = mission_codes(template, k)
-    meta = [f"lugar: {m.get('lugar', 'La Cancha de las Paletas')}", f"personajes: {m.get('personajes', 'Kira, Gheco, Arcadia')}"]
+    meta = [f"lugar: {m.get('lugar', lugar)}", f"personajes: {m.get('personajes', 'Kira, Gheco, Arcadia')}"]
     if m.get('criatura'):
         meta.append(f"criatura: {m['criatura']}")
     meta.append(f"carta: {m['carta']}")
@@ -96,5 +96,17 @@ def node(n):
              '### Antes de empezar\n\n' + para(n['antes']), '### Explicación\n\n' + para(n['explicacion']),
              '### Código de ejemplo\n\n' + block('c', full(n['plantilla'])),
              '### ¿Para qué sirve?\n\n' + para(n['para_que']), '### Errores habituales\n\n' + para(n['errores'])]
-    parts += [mission(n['codigo'], k, m, n['plantilla']) for k, m in enumerate(n['misiones'], 1)]
+    lugar = n.get('lugar', 'La Cancha de las Paletas')
+    parts += [mission(n['codigo'], k, m, n['plantilla'], lugar) for k, m in enumerate(n['misiones'], 1)]
     return '\n\n'.join(parts)
+
+
+def crecer(base, cambios):
+    """El programa terminado del nodo anterior con cambios exactos (viejo, nuevo); cada viejo tiene que estar una vez."""
+    code = textwrap.dedent(base).strip('\n')
+    for old, new in cambios:
+        old, new = old.strip('\n'), new.strip('\n')   # con la sangría exacta del programa
+        if code.count(old) != 1:
+            raise SystemExit(f'crecer: {code.count(old)} veces: {old[:80]!r}')
+        code = code.replace(old, new)
+    return code

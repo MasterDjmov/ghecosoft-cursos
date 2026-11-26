@@ -5,7 +5,7 @@
 # así que se compilan acá y se sube public/build/ por SSH.
 #
 #   scripts/deploy.sh            # código + assets + migraciones (+ public/toolchains si cambió)
-#   scripts/deploy.sh --cursos   # además reimporta cursos/python, cursos/c, cursos/cpp, cursos/java, cursos/php, cursos/html, las Crónicas en Inglés (cursos/ingles-primaria, cursos/ingles-secundaria) Ensamblador (cursos/ensamblador), C# (cursos/csharp), JavaScript (cursos/javascript) y TypeScript (cursos/typescript)
+#   scripts/deploy.sh --cursos   # además reimporta cursos/python, cursos/c, cursos/cpp, cursos/java, cursos/php, cursos/html, las Crónicas en Inglés (cursos/ingles-primaria, cursos/ingles-secundaria) Ensamblador (cursos/ensamblador), C# (cursos/csharp), JavaScript (cursos/javascript) TypeScript (cursos/typescript) y Videojuegos (cursos/videojuegos)
 #
 # El orden importa para que nadie vea un error mientras sube:
 #   1. public/build y public/toolchains primero, sin borrar los archivos de la versión anterior (Vite les pone
@@ -107,7 +107,7 @@ php artisan view:cache
 php artisan app:game-items   # ítems de ejemplo del juego que falten (D90; no toca los existentes)
 php artisan app:prune-access-logs   # IP y navegador de más de 12 meses (D113, Privacidad § 6)
 if [[ $CURSOS == 1 ]]; then
-    for c in cursos/python/ cursos/c/ cursos/cpp/ cursos/java/ cursos/php/ cursos/html/ cursos/ingles-primaria/ cursos/ingles-secundaria/ cursos/ensamblador/ cursos/csharp/ cursos/javascript/ cursos/typescript/; do php artisan app:import-course "\$c" --apply; done
+    for c in cursos/python/ cursos/c/ cursos/cpp/ cursos/java/ cursos/php/ cursos/html/ cursos/ingles-primaria/ cursos/ingles-secundaria/ cursos/ensamblador/ cursos/csharp/ cursos/javascript/ cursos/typescript/ cursos/videojuegos/; do php artisan app:import-course "\$c" --apply; done
 fi
 git log --oneline -1
 EOF

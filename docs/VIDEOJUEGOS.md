@@ -362,7 +362,7 @@ poco, como en los otros cursos: un concepto por micro-misión, todo muy explicad
   tablero del juego. Sin «pegá la salida de tu compu» (un juego no imprime su pantalla).
 - `App\Support\GameMission` (el importador junta Eventos y Estado en `checks` y avisa lo que no entiende) y
   `node scripts/videojuegos/probar-curso.mjs cursos/videojuegos [--only=R00] [--fill] [--force]`.
-- **`cursos/videojuegos/00-curso.md`**: el curso (sin publicar, `requiere: c:R02-N07`), el diccionario (créditos,
+- **`cursos/videojuegos/00-curso.md`**: el curso (publicado desde el 2026-11-26, `requiere: c:R02-N07`), el diccionario (créditos,
   Arcadia, Ciudad Arcadia, los cinco glitches del bestiario, la historia de entrada y de cierre) y la **Clase 0, «La
   máquina que se enciende»** (la Boletería): la ventana, los colores RGB, el bucle del juego y cerrar bien, con 5
   micro-misiones (el título, el fondo violeta, la cruz de la ventana, ESC e INSERT COIN). La última muestra el primer
@@ -394,6 +394,12 @@ poco, como en los otros cursos: un concepto por micro-misión, todo muy explicad
   hoja de Gheco). Ahí quedó la **hoja de 8 ángulos de Kira de Arcadia** (`e45aeaf3…`, desde la imagen del guantelete con
   el control, `15682724029684616970`) y la de **Arcadia** (`ba550cf0…`): el docente eligió el mono mostaza con chaleco negro y el cubo de colores que brilla desde adentro, con el rodete rojizo y los auriculares gamer al cuello (cuerpo entero `efb10edd…`). Las cinco criaturas (diseño aprobado `3fc790ea…`) con sus hojas: el Glitch `bb6b18f7…`, el Fantasma del Fotograma `aff1ed36…` (el primer intento perdió las copias y los ojos huecos), el Atraviesaparedes `3c56cd0f…` (atraviesa una pared de vidrio), el Bucle Eterno `cf04c6b1…` y la Fuga de Texturas `26c55040…` (detalle aceptado: la figura que descansa salió como nube lisa; el segundo intento se mezcló con el Glitch). Stitch copió en varias la frase de restricciones de la lámina en el borde inferior: se tapó en la copia local (`referencias/7987528111863289727/`), en Stitch sigue. En Stitch,
   siempre el editor clásico.
+
+- **Publicado con 12 nodos (2026-11-26, pedido del docente para activarlo y promocionarlo):** `publicado: si` y el primer
+  nodo de la escalera, **`cursos/videojuegos/02-la-cancha-de-las-paletas.md`**: R02-N01 «La cancha y las dos paletas»
+  (la red con un `for`, dos jugadores en un teclado, la pelota con `vx`/`vy` que rebota arriba y abajo, y la paleta que
+  la devuelve; se juega de a dos). Las 4 micro-misiones, comprobadas por el robot. Lo que sigue de Pong (los puntos, la
+  pelota que acelera, la IA simple, el menú y el fin) es la fase 5. Escenas: la Clase 0 y R01-N01 a N04 hechas.
 
 **Falta (fase 4):**
 - El fondo de Ciudad Arcadia;

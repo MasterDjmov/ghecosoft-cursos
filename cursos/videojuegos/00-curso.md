@@ -10,7 +10,7 @@ precio_raiz: 10
 dias_abono: 30
 destacado: no
 proximamente: no
-publicado: no
+publicado: si
 micromisiones_completan: si
 requiere: c:R02-N07
 ```

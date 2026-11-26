@@ -410,6 +410,7 @@ REFS = {
             (r'\bKira\b', 'Kira de Arcadia', ['15682724029684616970'], 'Kira es una chica joven de estatura mediana, delgada, con la ropa cerrada.'),
             (r'\bArcadia\b', 'Arcadia', ['efb10edd28fd4699932a55b33f87d88b'], 'Arcadia es una mujer adulta, un poco más alta que Kira, con el mono mostaza y el chaleco negro cerrados.'),
             (r'Doña Ficha', 'Doña Ficha', ['f96862195ad64ac2bc97f9b90f4af2d4'], 'Doña Ficha es una señora mayor, bajita y redonda, más baja que Kira.'),
+            (r'Campeón Invicto|del Campeón', 'el Campeón Invicto', ['91ec10cbb0bb4b55a1bd331740e76815'], 'El Campeón Invicto es una máquina de juegos enorme de madera, más alta que Arcadia.'),
             (r'Gheco|gecko', 'Gheco', ['10934227677483509139'], 'Gheco es un gecko chiquito, que cabe en la palma de una mano, exactamente como en su referencia: mascota de caricatura FLACA y ALARGADA (cuello largo, torso angosto, patas finas, cola larga y fina; nunca gordito ni chibi), aguamarina claro translúcido y liso con brillo cian, finas líneas de circuito, antiparras de aviador con lente redondo y visor holográfico al costado, sin manchas.'),
             (r'[Gg]litch', 'el Glitch', ['3fc790eaa72749f19625c488f35503b4'], 'El glitch es chiquito, como un gato.'),
             (r'Fantasma del Fotograma', 'el Fantasma del Fotograma', ['3fc790eaa72749f19625c488f35503b4'], ''),

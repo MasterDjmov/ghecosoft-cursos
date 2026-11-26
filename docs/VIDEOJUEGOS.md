@@ -401,6 +401,24 @@ poco, como en los otros cursos: un concepto por micro-misión, todo muy explicad
   la devuelve; se juega de a dos). Las 4 micro-misiones, comprobadas por el robot. Lo que sigue de Pong (los puntos, la
   pelota que acelera, la IA simple, el menú y el fin) es la fase 5. Escenas: las 49 hechas.
 
+## 11. Fase 5: la escalera de juegos (empezada el 2026-11-26, con el OK del docente)
+
+**R02 · La Cancha de las Paletas: Pong, completa** (`cursos/videojuegos/02-la-cancha-de-las-paletas.md`, 7 nodos y 28
+micro-misiones, todas comprobadas por el robot):
+1. La cancha y las dos paletas (la red, dos jugadores, el rebote, la paleta que devuelve).
+2. Los puntos (sumar, el saque hacia el otro lado, el marcador grande con la escala, un respiro antes del saque).
+3. La pelota que acelera (×1.1 por golpe, el tope de 600 contra el Atraviesaparedes, el ángulo según dónde pega).
+4. La máquina juega (seguir con velocidad máxima, la zona muerta, volver al medio, uno o dos jugadores).
+5. Menú, partido y fin (`enum` de estados, empezar con espacio, fin a 5, revancha con R, ESC al menú).
+6. Sonido y pausa (el toc y el bum con `pitido`, la pausa con P, el silencio con M).
+7. Jefe: El Campeón Invicto (la rapidez que crece con el marcador, el saque al azar, fácil o difícil, el cartel del
+   campeón centrado): el tercer pedazo del mapa del Vidriero (el muro de ladrillos) y la **Paleta del Campeón**.
+
+Se escribieron con un generador de plantillas por nodo (cada micro-misión es el mismo programa con los bloques de las
+anteriores puestos y un «/* acá */» donde va lo suyo); el .md es la fuente. El Campeón Invicto tiene ficha en
+`PERSONAJES.md` e imágenes en la Enciclopedia. **Faltan:** las 24 escenas de R02-N02 a N07 y la hoja de 8 ángulos del
+Campeón. Sigue la máquina siguiente: **el Muro de Ladrillos (Arkanoid)**, R03.
+
 **Falta (fase 4):**
 - Escenas: las 49 hechas (2026-11-26); las de cada nodo nuevo, con `pendientes.py cursos/videojuegos`.
 - La temporada de inglés.

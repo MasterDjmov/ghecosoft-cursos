@@ -1698,6 +1698,15 @@ Historia en [../VIDEOJUEGOS.md](../VIDEOJUEGOS.md) § 2. La ciudad de los videoj
 - **Qué es:** una **niebla de imágenes repetidas** que llena la memoria de a poco, hasta que la máquina se ahoga.
 - **Primera aparición:** Videojuegos, R01-N08.
 
+### El Campeón Invicto
+- **Rol:** el jefe de R02 de Videojuegos, en el fondo de la Cancha de las Paletas.
+- **Qué error representa:** un juego sin rival ni final de verdad: el saque que se aprende de memoria, la máquina que juega siempre igual y el cartel que no dice quién ganó.
+- **Cómo se lo vence:** con un rival que se apura según el marcador, el saque al azar, la dificultad para elegir y el cartel del final centrado.
+- **Qué es:** una **máquina de juegos enorme y viva, de madera oscura**, con una placa de bronce lisa, dos paletas gastadas, patitas de bronce y una coronita dorada torcida; en la pantalla, dos ojos de píxeles y una sonrisa confiada. El Vidriero le enseñó a jugar sola y nadie le ganó en treinta años. Orgulloso, no malo: apto para chicos.
+- **Cómo termina:** cuando por fin pierde, dice «LE GANASTE AL CAMPEON», muestra otro pedazo del mapa del Vidriero (un muro de ladrillos de colores) y deja la **Paleta del Campeón**.
+- **Imágenes:** cuerpo entero `91ec10cbb0bb4b55a1bd331740e76815` en el proyecto de Stitch de Ciudad Arcadia (falta su hoja de 8 ángulos).
+- **Primera aparición:** Videojuegos, R02-N07.
+
 ## Las Crónicas en Inglés (Primaria y Secundaria)
 
 La historia unificada de los cursos de inglés ([ingles.md](ingles.md)). Imágenes generadas en Stitch el 2026-10-13, en el proyecto de los Talleres (`9229721314509917104`); los archivos, en `publicidad/logos cursos/personajes/Crónicas en Inglés/`.

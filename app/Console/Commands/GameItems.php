@@ -710,6 +710,7 @@ class GameItems extends Command
         'paleta-dentada' => 'Una paleta blanca de máquina de juegos con dientes blancos de goblin en el borde y huesitos atados al mango.',
         'buzo-forrado' => 'Un buzo oscuro con capucha, acolchado, con musgo verde asomando en el cuello y los puños.',
         'lanzafichas-de-la-garra' => 'Una gomera oscura con garras curvas de ogro en la horqueta y escamas rojas, cargada con una ficha en llamas.',
+        'videojuegos-paleta-del-campeon' => 'Una paleta rectangular vieja de madera oscura pulida, gastada en la punta, con un anillo de bronce en el mango y un brillo dorado.',
         'videojuegos-fotograma-congelado' => 'Un cuadrito de vidrio celeste translúcido con la silueta de un fantasma redondo quieta adentro, sin copias.',
         // Ensamblador: el Corazón del Gólem (bronce, pátina verde, engranajes y luz cian)
         'llave-de-palanca' => 'Una llave inglesa grande de bronce con pátina verde, del largo de un brazo, con un remache brillante en el mango.',

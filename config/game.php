@@ -210,6 +210,9 @@ return [
             'name' => 'Kira',
             'slug' => 'kira-arcadia',
             'title' => 'Forjadora de Mundos',
+            // Su ficha de la Enciclopedia es la de Ciudad Arcadia («Kira, Forjadora de Mundos»), no la de los protagonistas
+            // (esa es la Kira de las Forjas).
+            'own_sheet' => false,
             'expeditions' => [
                 'opens_after' => 'R01-N05',
                 'map' => 'img/mundos/arcadia/mapa.webp',

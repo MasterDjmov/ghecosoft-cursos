@@ -1606,6 +1606,82 @@ Historia en [typescript.md](typescript.md). Hasta que el curso se publique, esta
 - **Aspecto:** **mujer fuerte, con delantal de cuero, pañuelo en la cabeza y una pala**; ropa opaca y cerrada.
 - **Imágenes:** ninguna todavía (falta cuerpo entero y hoja).
 
+## Ciudad Arcadia (Videojuegos)
+
+Historia en [../VIDEOJUEGOS.md](../VIDEOJUEGOS.md) § 2. La ciudad de los videojuegos (SDL3 en C), sin apuestas ni casino: calles de neón, máquinas en cada esquina y atracciones apagadas que hay que programar. **Estética cyber-arcade**: violeta y cian sobre azul de noche. Imágenes en el proyecto de Stitch `7987528111863289727` (hojas de 8 ángulos aprobadas).
+
+### Kira, Forjadora de Mundos
+- **Curso y rol:** Videojuegos, Ciudad Arcadia. La protagonista: la misma Kira de las Forjas (C), mejorada; ya no forja espadas, forja mundos.
+- **Edad y sexo:** 16, mujer.
+- **Altura y contextura:** mediana, delgada y ágil.
+- **Rasgos:**
+  - **pelo negro corto con un mechón cian**;
+  - **auricular con micrófono** y un **visor cian** sobre un ojo.
+- **Ropa:**
+  - **mono oscuro cerrado hasta el cuello**, con líneas de neón cian;
+  - cinturón de herramientas y botas;
+  - **Ropa opaca y cerrada** (la usan alumnos chicos).
+- **Objeto:** **el brazal con un control de juego** (cruz, botones y palanca) en el antebrazo izquierdo; de él sale un **escudo de luz hexagonal** cian.
+- **Color:** cian sobre negro.
+- **Personalidad:** decidida y curiosa; en las Forjas aprendió a medir cada byte y ahora quiere ver todo moverse.
+- **Le gusta:** que las cosas respondan al tocarlas, las máquinas viejas, ganarle a Arcadia en la Cancha.
+- **Defecto o miedo:** se apura por jugar antes de terminar de programar.
+- **Frase:** «Si responde al toque, está viva.»
+- **Relaciones:** alumna de Arcadia; aprendió con Maese Ferrum en las Forjas; Gheco la acompaña.
+- **Avatares:** sus 6 aspectos de héroe en `public/img/protagonistas/kira-arcadia/` (Forjadora de Mundos, Jugadora Nocturna, Piloto de Biplanos, Campeona de la Cancha, Cazadora de Glitches y Guardiana del Cubo).
+- **Primera aparición:** Videojuegos, Clase 0.
+
+### Arcadia
+- **Rol:** la líder de Ciudad Arcadia, **la maquinista**. La única que se quedó a cuidar la ciudad cuando el Vidriero se fue (por eso lleva su nombre). Aprendiz de Maese Ferrum, como Tesla y Tesela, pero eligió las máquinas que juegan.
+- **Edad y sexo:** unos 35, mujer.
+- **Altura y contextura:** un poco más alta que Kira, firme.
+- **Rasgos:** **pelo rojizo recogido en un rodete**; **auriculares gamer al cuello**.
+- **Ropa:** **mono mostaza cerrado** de mangas largas y **chaleco negro** de bolsillos llenos de fichas; botas de trabajo. Ropa opaca y cerrada.
+- **Objeto:** **un cubo de colores que brilla desde adentro**.
+- **Color:** mostaza y negro, con violeta.
+- **Personalidad:** alegre, paciente y orgullosa de cada máquina; conoce cada una por su ruido.
+- **Le gusta:** el zumbido de un gabinete que vuelve a andar, ganar al Pong, las fichas viejas.
+- **Defecto o miedo:** que la ciudad se quede apagada para siempre.
+- **Frase:** «Un juego es un bucle que nunca deja de escuchar.»
+- **Relaciones:** maestra de Kira; aprendiz de Maese Ferrum; conoció al Vidriero.
+- **Moneda de la región:** los **créditos** (INSERT COIN).
+- **Primera aparición:** Videojuegos, Clase 0.
+
+### El Bucle Eterno
+- **Rol:** la criatura de la Clase 0 y del teclado (R01-N02) de Videojuegos.
+- **Qué error representa:** la ventana que no responde: un bucle que no lee los eventos.
+- **Cómo se lo vence:** leyendo los eventos en cada vuelta con `SDL_PollEvent` y saliendo del bucle con la cruz o con ESC.
+- **Qué es:** una **serpiente de luz que se muerde la cola** y da vueltas sin parar; mientras gira, la ventana no escucha a nadie. Apta para chicos.
+- **Primera aparición:** Videojuegos, R00-N01.
+
+### El Glitch
+- **Rol:** la criatura de las coordenadas, el mouse, el joystick, el texto y el sonido (R01) de Videojuegos.
+- **Qué error representa:** un sprite que aparece corrido o parpadea: dibujar antes de limpiar o con las coordenadas mal.
+- **Cómo se lo vence:** limpiando la pantalla en cada cuadro y midiendo bien dónde está el 0,0.
+- **Qué es:** una **chispa de colores pixelada** que se cuela en las pantallas: deja rastro, tiembla o aparece donde no tenía que estar. Travieso, no malo.
+- **Primera aparición:** Videojuegos, R01-N01.
+
+### El Fantasma del Fotograma
+- **Rol:** la criatura del movimiento (R01-N04) y del jefe «Junta las gemas» (R01-N10) de Videojuegos.
+- **Qué error representa:** el juego que va rápido en una compu y lento en otra: moverse sin *delta time*.
+- **Cómo se lo vence:** midiendo cuánto tiempo pasó entre un cuadro y el otro (`SDL_GetTicks`) y moviéndose en píxeles por segundo.
+- **Qué es:** un **fantasma redondo y translúcido**, borroso como una foto movida, con **varias copias de sí mismo** y ojos huecos; acelera y frena el tiempo a su antojo.
+- **Primera aparición:** Videojuegos, R01-N04.
+
+### El Atraviesaparedes
+- **Rol:** la criatura de las colisiones (R01-N05) y de la Cancha de las Paletas (R02-N01) de Videojuegos.
+- **Qué error representa:** la colisión mal calculada: la pelota se mete en el ladrillo o atraviesa la paleta.
+- **Cómo se lo vence:** con la prueba de los dos rectángulos (AABB), devolviendo lo que choca al borde y mirando hacia dónde va.
+- **Qué es:** una **criatura gomosa y translúcida**, redonda como una gelatina, que no respeta los bordes: se mete en las paredes y queda trabada adentro de los ladrillos.
+- **Primera aparición:** Videojuegos, R01-N05.
+
+### La Fuga de Texturas
+- **Rol:** la criatura de las imágenes y los sprites (R01-N08) de Videojuegos.
+- **Qué error representa:** la memoria que crece porque se cargan texturas en cada cuadro y no se liberan.
+- **Cómo se la vence:** creando cada textura una sola vez, reusándola y liberándola con `SDL_DestroyTexture` al terminar.
+- **Qué es:** una **niebla de imágenes repetidas** que llena la memoria de a poco, hasta que la máquina se ahoga.
+- **Primera aparición:** Videojuegos, R01-N08.
+
 ## Las Crónicas en Inglés (Primaria y Secundaria)
 
 La historia unificada de los cursos de inglés ([ingles.md](ingles.md)). Imágenes generadas en Stitch el 2026-10-13, en el proyecto de los Talleres (`9229721314509917104`); los archivos, en `publicidad/logos cursos/personajes/Crónicas en Inglés/`.
@@ -1658,6 +1734,7 @@ La historia unificada de los cursos de inglés ([ingles.md](ingles.md)). Imágen
 | **Elefa** | Puerto (PHP) | la Capitana del Puerto, una elefanta con armadura y el bastón del sello; ficha completa arriba |
 | **Tesela** | Talleres (HTML y CSS) | la Vitralista, monóculo de cristal |
 | **Lumina** | Feria de las Luces (JavaScript y TypeScript) | la Reina de las Luciérnagas, farolito que nunca se apaga; ficha completa arriba |
+| **Arcadia** | Ciudad Arcadia (Videojuegos) | la maquinista, rodete rojizo, mono mostaza y el cubo que brilla; ficha completa arriba |
 
 ## 5. Para el alumno: la Gran Enciclopedia
 

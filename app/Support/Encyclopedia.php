@@ -32,7 +32,8 @@ class Encyclopedia
 
     /** El lenguaje que dice entre paréntesis la sección de cada mundo. */
     private const WORLDS = ['Python' => 'python', 'C' => 'c', 'C++' => 'cpp', 'HTML y CSS' => 'html', 'Java' => 'java', 'PHP' => 'php', 'Ensamblador 8086' => 'asm', 'C#' => 'csharp',
-        'JavaScript y TypeScript' => 'javascript', 'JavaScript' => 'javascript', 'TypeScript' => 'typescript'];
+        'JavaScript y TypeScript' => 'javascript', 'JavaScript' => 'javascript', 'TypeScript' => 'typescript',
+        'Videojuegos' => 'videojuegos'];
 
     /** Los nodos que abrió el alumno (id → posición). */
     private ?Collection $unlocked = null;
@@ -50,7 +51,7 @@ class Encyclopedia
     public function entries(): Collection
     {
         $courses = Course::where('is_published', true)->orderBy('id')->get();
-        $protagonists = collect(config('game.protagonists'))->mapWithKeys(fn (array $hero, string $language) => [$hero['name'] => $language]);
+        $protagonists = collect(config('game.protagonists'))->reject(fn (array $hero) => ($hero['own_sheet'] ?? true) === false)->mapWithKeys(fn (array $hero, string $language) => [$hero['name'] => $language]);
 
         return CharacterSheets::all()->map(function (array $sheet) use ($courses, $protagonists) {
             $fields = self::fields($sheet['body']);

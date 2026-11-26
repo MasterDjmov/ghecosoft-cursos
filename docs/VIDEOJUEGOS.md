@@ -403,8 +403,14 @@ poco, como en los otros cursos: un concepto por micro-misión, todo muy explicad
 
 **Falta (fase 4):**
 - Escenas: las 49 hechas (2026-11-26); las de cada nodo nuevo, con `pendientes.py cursos/videojuegos`.
-- La tienda de Ciudad Arcadia (con sus ítems e imágenes), las fichas de Arcadia, Kira de Arcadia y las criaturas en
-  `PERSONAJES.md` (para la Enciclopedia), la figura de cuerpo entero para Mis Crónicas y la temporada de inglés.
+- La tienda de Ciudad Arcadia (con sus ítems e imágenes) y la temporada de inglés.
+
+**La Enciclopedia (2026-11-26):** en `docs/historias/PERSONAJES.md`, la sección «Ciudad Arcadia (Videojuegos)» con
+Kira, Forjadora de Mundos, Arcadia y las cinco criaturas (cada una se descubre en su nodo); `Encyclopedia::WORLDS`
+conoce «Videojuegos». Sus retratos y cuerpos en `public/img/enciclopedia/` (los cuerpos de Kira y Arcadia son los de
+Stitch; los de las criaturas, nuevos desde sus hojas). La Kira de este curso lleva `own_sheet => false` en
+`config/game.php`: su ficha es la de la ciudad y la de protagonista sigue siendo la de las Forjas. Mis Crónicas usa
+`kira-arcadia.webp` y `kira-arcadia-cuerpo.webp` para la narradora.
 
 **La presentación (2026-11-26):** en `cursos/videojuegos/marca/` el logo (Gheco con el joystick, «GhecoSoft -
 Videojuegos»), la moneda (la ficha de crédito con el joystick), el retrato de Arcadia y el fondo de la ciudad

@@ -439,7 +439,7 @@ micro-misiones, todas comprobadas por el robot; plantillas en `scripts/videojueg
    Arcoíris** (imagen en `cursos/videojuegos/items/`).
 
 El Muro Gruñón tiene ficha en `PERSONAJES.md` e imágenes en la Enciclopedia (cuerpo entero
-`818b2e4d39a341e1b9154b8ec4c2fa8d`). **Faltan:** las 28 escenas de R03 y la hoja de 8 ángulos del Muro. Para probar las
+`818b2e4d39a341e1b9154b8ec4c2fa8d`). Las 28 escenas de R03 y la hoja de 8 ángulos del Muro (`766633aa7c5849dea015f5bbcb740d71`), hechas (2026-11-26). Para probar las
 micro-misiones nuevas: `probar-curso.mjs --fill` escribe la salida y recién la pasada **sin** `--fill` compara con el
 código inicial. Sigue la máquina siguiente: **el Jardín de la Serpiente (Snake)**, R04.
 

@@ -1,4 +1,4 @@
-# Videojuegos: Ciudad Arcadia (D126) — fases 1, 2 y 3 hechas; fase 4 empezada (el robot y la Clase 0), a probar
+# Videojuegos: Ciudad Arcadia (D126) — fases 1, 2 y 3 hechas; fase 4: el robot, la Clase 0 y R01 hechos, a probar
 
 Pedido del docente (2026-11-25): un curso de **videojuegos** que arranque con **SDL3** y siga con SFML, Phaser y algo de
 OpenGL. Es pedagógico ante todo: que el alumno aprenda a hacer juegos de verdad, de a poco, con juegos simples y
@@ -369,8 +369,27 @@ poco, como en los otros cursos: un concepto por micro-misión, todo muy explicad
   pedazo del mapa del Vidriero. Lo carga el seeder local (`VideojuegosCourseSeeder`).
 - Tests: `tests/Feature/Student/GameMissionTest.php`.
 
+- **`cursos/videojuegos/01-banco-de-pruebas.md`** (hecho el 2026-11-26): R01, el Banco de Pruebas de Arcadia, 10 nodos con
+  4 micro-misiones cada uno (40), todas comprobadas por el robot. La ventana y los colores ya estaban en la Clase 0, así
+  que R01 arranca en los rectángulos:
+  1. Rectángulos y coordenadas (la caja centrada, el marco, el orden de dibujo, una fila de ladrillos con `for`).
+  2. Eventos y teclado (un paso por toque, mantener apretado, las cuatro flechas, los bordes).
+  3. El mouse (la mira, la marca del clic, ¿le pegué al botón?, la cuenta de clics).
+  4. Movimiento y delta time (medir el cuadro, píxeles por segundo, rebotar, en diagonal).
+  5. Colisiones (la prueba AABB, juntar la gema una vez, frenar contra la pared, la paleta).
+  6. El joystick (abrirlo, la cruz, la palanca con zona muerta, el botón A y el escudo de luz de Kira).
+  7. Texto y puntaje (las vidas, sumar con la barra, centrar, letras grandes con la escala).
+  8. Imágenes y sprites (una grilla de píxeles hecha textura, reusarla, animar con el reloj, el espejo; la Fuga de
+     Texturas). Las imágenes de archivo (`SDL_LoadBMP`, SDL3_image) se usan en las máquinas.
+  9. Sonido (muestras y frecuencia, un pitido con un seno, por tecla, cuántas muestras, el tic del rebote). Los archivos
+     de sonido (SDL3_mixer), en las máquinas.
+  10. Jefe: Junta las gemas (moverse sin salirse, gemas al azar, el reloj de 10 s y el fin, la revancha con R): el
+      segundo pedazo del mapa del Vidriero, con la Torre que no para.
+- Arreglos del robot al escribirlo: lo del cuadro 0 llega después de `SDL_Init`, y los rectángulos con decimales se
+  pintan con bordes nítidos, como SDL (antes salía medio píxel borroneado). Se sumaron `SDL_HasRectIntersection(Float)` y
+  `SDL_PointInRect(Float)` al SDL.h de la plataforma.
+
 **Falta (fase 4):**
-- R01, el Banco de Pruebas de Arcadia (los 11 nodos de § 4), con el mismo formato.
 - Kira versión videojuegos: su hoja de 8 ángulos (de la imagen elegida en Stitch); Arcadia (diseño y hoja); las
   criaturas (Glitch, Fantasma del Fotograma, Atraviesaparedes, Bucle Eterno, Fuga de Texturas); el fondo de Ciudad Arcadia;
   las escenas de cada micro-misión; el logo del curso y el de la moneda (créditos).

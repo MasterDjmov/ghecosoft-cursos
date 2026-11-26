@@ -63,6 +63,26 @@ typedef struct SDL_Color { Uint8 r, g, b, a; } SDL_Color;
 #define SDL_max(x, y) (((x) > (y)) ? (x) : (y))
 #define SDL_clamp(x, a, b) (((x) < (a)) ? (a) : (((x) > (b)) ? (b) : (x)))
 
+/* Rectángulos (SDL_rect.h): ¿se pisan dos rectángulos? ¿un punto cae adentro? */
+static inline bool SDL_HasRectIntersection(const SDL_Rect *a, const SDL_Rect *b)
+{
+    if (!a || !b || a->w <= 0 || a->h <= 0 || b->w <= 0 || b->h <= 0) return false;
+    return a->x < b->x + b->w && b->x < a->x + a->w && a->y < b->y + b->h && b->y < a->y + a->h;
+}
+static inline bool SDL_HasRectIntersectionFloat(const SDL_FRect *a, const SDL_FRect *b)
+{
+    if (!a || !b || a->w < 0 || a->h < 0 || b->w < 0 || b->h < 0) return false;
+    return a->x < b->x + b->w && b->x < a->x + a->w && a->y < b->y + b->h && b->y < a->y + a->h;
+}
+static inline bool SDL_PointInRect(const SDL_Point *p, const SDL_Rect *r)
+{
+    return p && r && p->x >= r->x && p->x < r->x + r->w && p->y >= r->y && p->y < r->y + r->h;
+}
+static inline bool SDL_PointInRectFloat(const SDL_FPoint *p, const SDL_FRect *r)
+{
+    return p && r && p->x >= r->x && p->x <= r->x + r->w && p->y >= r->y && p->y <= r->y + r->h;
+}
+
 typedef enum SDL_BlendMode {
     SDL_BLENDMODE_NONE = 0x00000000u,
     SDL_BLENDMODE_BLEND = 0x00000001u,

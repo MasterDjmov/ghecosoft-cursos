@@ -144,7 +144,10 @@ function testFrameDone() {
     return pause(0);
 }
 
-/** Entrega las teclas, el mouse y el joystick de la prueba que tocan hasta este cuadro. */
+/**
+ * Entrega las teclas, el mouse y el joystick de la prueba que tocan hasta este cuadro. Lo del cuadro 0 llega al
+ * terminar el primero: antes, el juego todavía no llamó a SDL_Init.
+ */
 function deliverTest() {
     while (test.timeline.length && test.timeline[0].at <= testFrame) receive(test.timeline.shift().message);
 }
@@ -364,13 +367,16 @@ const sdl = {
         const [x, y, w, h] = pointer
             ? [v.getFloat32(pointer, true), v.getFloat32(pointer + 4, true), v.getFloat32(pointer + 8, true), v.getFloat32(pointer + 12, true)]
             : [0, 0, size.w / scale[0], size.h / scale[1]];
+        // Como SDL: se pintan los píxeles cuyo centro cae adentro (bordes nítidos, sin medio píxel borroneado).
+        const x1 = Math.round(x), y1 = Math.round(y);
+        const rw = Math.round(x + w) - x1, rh = Math.round(y + h) - y1;
         if (filled) {
             ctx.fillStyle = fill();
-            ctx.fillRect(x, y, w, h);
+            ctx.fillRect(x1, y1, rw, rh);
         } else {
             ctx.strokeStyle = fill();
             ctx.lineWidth = 1;
-            ctx.strokeRect(x + 0.5, y + 0.5, Math.max(0, w - 1), Math.max(0, h - 1));
+            ctx.strokeRect(x1 + 0.5, y1 + 0.5, Math.max(0, rw - 1), Math.max(0, rh - 1));
         }
         return 1;
     },
@@ -1115,7 +1121,6 @@ self.onmessage = async ({ data }) => {
         exports = instance.exports;
         wasi.inst = instance;
         started = lastYield = performance.now();
-        if (test) deliverTest();
         let exit = 0;
         try {
             await WebAssembly.promising(instance.exports._start)();

@@ -1713,7 +1713,7 @@ Historia en [../VIDEOJUEGOS.md](../VIDEOJUEGOS.md) § 2. La ciudad de los videoj
 - **Cómo se lo vence:** con un temporizador que hace bajar la pared, cápsulas al azar que agrandan la paleta, un récord que queda entre partidas y el cartel del final centrado.
 - **Qué es:** un **paredón vivo de ladrillos de vidrio** de colores (rosa, naranja, verde, violeta y metal), con dos ojos redondos de vidrio, cejas de ladrillitos, bracitos de ladrillo cruzados y dos pies cuadrados. Gruñe como un abuelo, pero está contento de que alguien juegue en serio después de treinta años. Apto para chicos.
 - **Cómo termina:** cuando por fin lo vencen, se sienta en el piso de la plaza riéndose, dice «EL MURO SE RINDE», muestra otro pedazo del mapa del Vidriero (un jardín con una serpiente de luz enroscada entre flores) y le da a Kira el **Ladrillo Arcoíris**.
-- **Imágenes:** cuerpo entero `818b2e4d39a341e1b9154b8ec4c2fa8d` en el proyecto de Stitch de Ciudad Arcadia (falta su hoja de 8 ángulos).
+- **Imágenes:** cuerpo entero `818b2e4d39a341e1b9154b8ec4c2fa8d` y hoja de 8 ángulos `766633aa7c5849dea015f5bbcb740d71` en el proyecto de Stitch de Ciudad Arcadia.
 - **Primera aparición:** Videojuegos, R03-N07.
 
 ## Las Crónicas en Inglés (Primaria y Secundaria)

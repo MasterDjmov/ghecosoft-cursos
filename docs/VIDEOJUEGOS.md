@@ -392,11 +392,11 @@ poco, como en los otros cursos: un concepto por micro-misión, todo muy explicad
 - **Imágenes (2026-11-26):** el proyecto de Kira (`4092585402994005468`) es del editor nuevo de Stitch y el MCP no ve sus
   pantallas; el docente subió las Kiras al proyecto del Mirador (`7987528111863289727`, editor clásico, que ya tiene la
   hoja de Gheco). Ahí quedó la **hoja de 8 ángulos de Kira de Arcadia** (`e45aeaf3…`, desde la imagen del guantelete con
-  el control, `15682724029684616970`) y tres propuestas de Arcadia (`84b59e79…`) para que el docente elija. En Stitch,
+  el control, `15682724029684616970`) y la de **Arcadia** (`ba550cf0…`): el docente eligió el mono mostaza con chaleco negro y el cubo de colores que brilla desde adentro, con el rodete rojizo y los auriculares gamer al cuello (cuerpo entero `efb10edd…`). Diseño de las cinco criaturas para revisar: `3fc790ea…`. En Stitch,
   siempre el editor clásico.
 
 **Falta (fase 4):**
-- Arcadia: elegir una de las tres propuestas y hacer su hoja; las
+- Las
   criaturas (Glitch, Fantasma del Fotograma, Atraviesaparedes, Bucle Eterno, Fuga de Texturas); el fondo de Ciudad Arcadia;
   las escenas de cada micro-misión; el logo del curso y el de la moneda (créditos).
 - Las imágenes de referencia de cada juego para la Clase 0 (§ 1).

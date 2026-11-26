@@ -389,8 +389,14 @@ poco, como en los otros cursos: un concepto por micro-misión, todo muy explicad
   pintan con bordes nítidos, como SDL (antes salía medio píxel borroneado). Se sumaron `SDL_HasRectIntersection(Float)` y
   `SDL_PointInRect(Float)` al SDL.h de la plataforma.
 
+- **Imágenes (2026-11-26):** el proyecto de Kira (`4092585402994005468`) es del editor nuevo de Stitch y el MCP no ve sus
+  pantallas; el docente subió las Kiras al proyecto del Mirador (`7987528111863289727`, editor clásico, que ya tiene la
+  hoja de Gheco). Ahí quedó la **hoja de 8 ángulos de Kira de Arcadia** (`e45aeaf3…`, desde la imagen del guantelete con
+  el control, `15682724029684616970`) y tres propuestas de Arcadia (`84b59e79…`) para que el docente elija. En Stitch,
+  siempre el editor clásico.
+
 **Falta (fase 4):**
-- Kira versión videojuegos: su hoja de 8 ángulos (de la imagen elegida en Stitch); Arcadia (diseño y hoja); las
+- Arcadia: elegir una de las tres propuestas y hacer su hoja; las
   criaturas (Glitch, Fantasma del Fotograma, Atraviesaparedes, Bucle Eterno, Fuga de Texturas); el fondo de Ciudad Arcadia;
   las escenas de cada micro-misión; el logo del curso y el de la moneda (créditos).
 - Las imágenes de referencia de cada juego para la Clase 0 (§ 1).

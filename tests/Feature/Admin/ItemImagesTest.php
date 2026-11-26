@@ -47,3 +47,23 @@ test('la imagen chica de un ítem se arma la primera vez y, sin imagen, no hay n
         ->and(getimagesize(Storage::disk('public')->path('item-thumbs/grande.webp'))[0])->toBe(Item::THUMB_PX)
         ->and(Item::create(['code' => 'nada', 'name' => 'Nada', 'kind' => 'weapon'])->thumbUrl())->toBeNull();
 });
+
+test('app:item-images crea el ítem de historia de una micro-misión para ponerle la imagen antes de que alguien lo gane', function () {
+    Storage::fake('public');
+    ['course' => $course, 'root' => $root] = makeCourse(['slug' => 'arcadia']);
+    \App\Models\NodeStep::create(['node_id' => $root->id, 'code' => 'R00-N01-P1', 'position' => 1, 'title' => 'Revancha', 'expected_output' => 'ok', 'solution' => 'ok', 'xp_reward' => 10, 'coin_reward' => 0, 'item' => 'Fotograma Congelado']);
+    $dir = storage_path('framework/testing/items-'.uniqid());
+    File::ensureDirectoryExists($dir);
+    file_put_contents($dir.'/arcadia-fotograma-congelado.png', base64_decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='));
+
+    $this->artisan('app:item-images', ['path' => $dir])->expectsOutputToContain('ítem de historia')->assertSuccessful();
+    expect(Item::where('code', 'arcadia-fotograma-congelado')->exists())->toBeFalse();
+
+    $this->artisan('app:item-images', ['path' => $dir, '--apply' => true])->assertSuccessful();
+    $item = Item::where('code', 'arcadia-fotograma-congelado')->first();
+    expect($item->name)->toBe('Fotograma Congelado')
+        ->and($item->course_id)->toBe($course->id)
+        ->and(Storage::disk('public')->exists($item->image_path))->toBeTrue();
+
+    File::deleteDirectory($dir);
+});

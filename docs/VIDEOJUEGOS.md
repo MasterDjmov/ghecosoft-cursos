@@ -403,7 +403,16 @@ poco, como en los otros cursos: un concepto por micro-misión, todo muy explicad
 
 **Falta (fase 4):**
 - Escenas: las 49 hechas (2026-11-26); las de cada nodo nuevo, con `pendientes.py cursos/videojuegos`.
-- La tienda de Ciudad Arcadia (con sus ítems e imágenes) y la temporada de inglés.
+- La temporada de inglés.
+
+**La tienda (2026-11-26):** **el canje de Doña Ficha**, en la Boletería (eligió el docente una señora mayor del
+canje de fichas; ficha en `PERSONAJES.md`, cuerpo entero `f96862195ad64ac2bc97f9b90f4af2d4`, hoja
+`c77594160117474e872345d7abe6c296`). 16 ítems en `GameItems::CATALOG['videojuegos']` (5 armas, 4 ropas, 3
+accesorios, la Gaseosa de la Boletería y 3 del taller, con sus recetas en `config('game.recipes')`) y el ítem del jefe
+de R01, el **Fotograma Congelado** (`item:` en R01-N10-P4). Imágenes en `cursos/videojuegos/items/`, cargadas con
+`php artisan app:game-items` y `php artisan app:item-images cursos/videojuegos/items --apply` (**también en
+producción**); el comando ahora crea el ítem de historia de una micro-misión si el archivo tiene su código, para que
+tenga imagen antes de que alguien lo gane.
 
 **La Enciclopedia (2026-11-26):** en `docs/historias/PERSONAJES.md`, la sección «Ciudad Arcadia (Videojuegos)» con
 Kira, Forjadora de Mundos, Arcadia y las cinco criaturas (cada una se descubre en su nodo); `Encyclopedia::WORLDS`

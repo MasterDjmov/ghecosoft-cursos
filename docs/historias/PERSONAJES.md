@@ -1647,6 +1647,22 @@ Historia en [../VIDEOJUEGOS.md](../VIDEOJUEGOS.md) § 2. La ciudad de los videoj
 - **Moneda de la región:** los **créditos** (INSERT COIN).
 - **Primera aparición:** Videojuegos, Clase 0.
 
+### Doña Ficha
+- **Curso y rol:** Videojuegos, Ciudad Arcadia. Atiende **el canje de fichas de la Boletería**, la entrada de la ciudad: la tienda del curso (cambia oro por armas, ropa y gaseosas).
+- **Edad y sexo:** unos 70, mujer.
+- **Altura y contextura:** bajita y redonda, más baja que Kira.
+- **Rasgos:** **pelo gris en rodete con un lápiz clavado**; **anteojos redondos con cadenita**; sonrisa de abuela.
+- **Ropa:** **cárdigan violeta cerrado** de mangas largas, pollera larga oscura, zapatos cómodos y un **delantal de lona** con bolsillos llenos de fichas doradas. Ropa opaca y cerrada.
+- **Objeto:** **un tubo contador de fichas de bronce**.
+- **Color:** violeta y dorado.
+- **Personalidad:** charlatana, cariñosa y muy buena para los números: cuenta fichas sin mirar. Le dice «querida» a todo el mundo.
+- **Le gusta:** las fichas viejas (las guarda todas), las gaseosas frías con sorbete, que alguien le gane a Arcadia en la Cancha.
+- **Defecto o miedo:** fía de más; le da miedo que la Boletería cierre para siempre, como cuando se fue el Vidriero.
+- **Frase:** «Fichas viejas por cosas nuevas, querida.»
+- **Relaciones:** conoce a Arcadia desde chica; dice que el Vidriero le pagó la primera ficha de la ciudad.
+- **Imágenes:** cuerpo entero `f96862195ad64ac2bc97f9b90f4af2d4` y hoja de 8 ángulos `c77594160117474e872345d7abe6c296` en el proyecto de Stitch de Ciudad Arcadia.
+- **Primera aparición:** Videojuegos, Clase 0.
+
 ### El Bucle Eterno
 - **Rol:** la criatura de la Clase 0 y del teclado (R01-N02) de Videojuegos.
 - **Qué error representa:** la ventana que no responde: un bucle que no lee los eventos.

@@ -213,6 +213,9 @@ return [
             // Su ficha de la Enciclopedia es la de Ciudad Arcadia («Kira, Forjadora de Mundos»), no la de los protagonistas
             // (esa es la Kira de las Forjas).
             'own_sheet' => false,
+            // El canje de fichas de Doña Ficha, en la Boletería (la entrada de la ciudad).
+            'shop' => ['name' => 'El canje de Doña Ficha', 'keeper' => 'Doña Ficha', 'portrait' => 'img/personajes/dona-ficha.webp', 'figure' => 'img/personajes/dona-ficha-cuerpo.webp',
+                'greeting' => '—¡Pasá, pasá, querida! Fichas viejas por cosas nuevas. Y si no te alcanza, te fío una gaseosa: a una Forjadora de Mundos no se le niega nada.'],
             'expeditions' => [
                 'opens_after' => 'R01-N05',
                 'map' => 'img/mundos/arcadia/mapa.webp',
@@ -712,6 +715,11 @@ return [
         ['code' => 'llave-de-dientes', 'gives' => ['llave-de-dientes' => 1], 'needs' => ['llave-de-aprendiz' => 1, 'diente-de-goblin' => 4, 'hueso-de-esqueleto' => 3], 'minutes' => 15, 'min_level' => 5],
         ['code' => 'guardapolvo-forrado', 'gives' => ['guardapolvo-forrado' => 1], 'needs' => ['guardapolvo-de-la-fundicion' => 1, 'musgo-de-troll' => 3, 'diente-de-goblin' => 4], 'minutes' => 15, 'min_level' => 6],
         ['code' => 'calibre-de-la-garra', 'gives' => ['calibre-de-la-garra' => 1], 'needs' => ['calibre-del-mirador' => 1, 'garra-de-ogro' => 4, 'escama-de-dragon' => 2], 'minutes' => 30, 'min_level' => 10],
+        // Ciudad Arcadia (Videojuegos): los mismos materiales, con los ítems del canje de Doña Ficha.
+        ['code' => 'gaseosa-doble', 'gives' => ['gaseosa-de-la-boleteria' => 2], 'needs' => ['baba-de-slime' => 3], 'minutes' => 5, 'min_level' => 1],
+        ['code' => 'paleta-dentada', 'gives' => ['paleta-dentada' => 1], 'needs' => ['paleta-de-la-cancha' => 1, 'diente-de-goblin' => 4, 'hueso-de-esqueleto' => 3], 'minutes' => 15, 'min_level' => 5],
+        ['code' => 'buzo-forrado', 'gives' => ['buzo-forrado' => 1], 'needs' => ['buzo-de-jugadora' => 1, 'musgo-de-troll' => 3, 'baba-de-slime' => 4], 'minutes' => 15, 'min_level' => 6],
+        ['code' => 'lanzafichas-de-la-garra', 'gives' => ['lanzafichas-de-la-garra' => 1], 'needs' => ['lanzafichas' => 1, 'garra-de-ogro' => 4, 'escama-de-dragon' => 2], 'minutes' => 30, 'min_level' => 10],
         // El Corazón del Gólem (Ensamblador): los mismos materiales, con los ítems de la taberna del pie.
         ['code' => 'aceite-doble', 'gives' => ['aceite-de-rodilla' => 2], 'needs' => ['baba-de-slime' => 3], 'minutes' => 5, 'min_level' => 1],
         ['code' => 'llave-dentada', 'gives' => ['llave-dentada' => 1], 'needs' => ['llave-de-palanca' => 1, 'diente-de-goblin' => 4, 'hueso-de-esqueleto' => 3], 'minutes' => 15, 'min_level' => 5],

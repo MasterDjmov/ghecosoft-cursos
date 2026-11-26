@@ -8109,6 +8109,7 @@ personajes: Kira, Gheco, Arcadia
 criatura: fantasma_fotograma
 carta: Volver a jugar | con R y terminado: puntos = 0; tiempo = 10; terminado = false; posiciones de nuevo
 recompensa: xp 20, monedas 4
+item: Fotograma Congelado
 ```
 
 #### Escena
@@ -8345,6 +8346,9 @@ mapa del Vidriero**. Este tiene una torre que no para de crecer.
 
 {mentor} lo mira mucho rato. —Ese lugar existe —dice—. Pero queda lejos todavía. Primero, la Cancha:
 ya te está llamando.
+
+Donde estaba el Fantasma quedó un cuadrito de vidrio celeste con su silueta quieta adentro, sin una sola copia: el
+**Fotograma Congelado**. Gheco lo guarda en tu mochila antes de que se escape.
 
 #### Imagen
 - El gabinete de Junta las gemas encendido a pleno, con luces en los costados; en la pantalla, un pedazo de mapa antiguo con una torre muy alta.

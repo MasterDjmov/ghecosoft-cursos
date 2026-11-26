@@ -323,6 +323,30 @@ class GameItems extends Command
             ['code' => 'guardapolvo-forrado', 'name' => 'Guardapolvo Forrado', 'kind' => 'armor', 'rarity' => 'rare', 'defense' => 5, 'dexterity' => 2, 'description' => 'El Guardapolvo de la Fundición forrado con musgo de troll: no deja pasar ni el calor de la caldera.'],
             ['code' => 'calibre-de-la-garra', 'name' => 'Calibre de la Garra', 'kind' => 'weapon', 'rarity' => 'epic', 'attack' => 10, 'intelligence' => 4, 'description' => 'El Calibre del Mirador con garras de ogro en las mordazas y escamas de dragón en la regla: mide y muerde.'],
         ],
+        // Ciudad Arcadia (Videojuegos, D126, docs/VIDEOJUEGOS.md): el canje de fichas de Doña Ficha, en la Boletería.
+        'videojuegos' => [
+            // Armas
+            ['code' => 'paleta-de-la-cancha', 'name' => 'Paleta de la Cancha', 'kind' => 'weapon', 'rarity' => 'common', 'attack' => 2, 'price' => 120, 'min_level' => 1, 'droppable' => true, 'description' => 'Una paleta blanca de las máquinas viejas de la Cancha. Devuelve todo lo que le tiran, si llegás a tiempo.'],
+            ['code' => 'joystick-de-hierro', 'name' => 'Joystick de Hierro', 'kind' => 'weapon', 'rarity' => 'common', 'attack' => 3, 'strength' => 1, 'price' => 300, 'min_level' => 3, 'droppable' => true, 'description' => 'La palanca de una máquina desarmada, con la bola roja bien gastada. Doña Ficha jura que era de un campeón.'],
+            ['code' => 'lanzafichas', 'name' => 'Lanzafichas', 'kind' => 'weapon', 'rarity' => 'rare', 'attack' => 5, 'intelligence' => 2, 'price' => 900, 'min_level' => 6, 'droppable' => true, 'description' => 'Una gomera de neón que tira fichas doradas. Los glitches salen corriendo cuando la ven.'],
+            ['code' => 'espada-de-pixeles', 'name' => 'Espada de Píxeles', 'kind' => 'weapon', 'rarity' => 'rare', 'attack' => 6, 'dexterity' => 2, 'price' => 1200, 'min_level' => 8, 'droppable' => true, 'description' => 'Cuadrada, cian y un poco escalonada en los bordes, como en los juegos de antes. Corta derecho, nunca en diagonal.'],
+            ['code' => 'baston-del-cubo', 'name' => 'Bastón del Cubo', 'kind' => 'weapon', 'rarity' => 'epic', 'attack' => 9, 'intelligence' => 4, 'droppable' => true, 'description' => 'Un bastón negro con un cubo de colores en la punta que gira solo. Cuando pega, cada cara brilla de otro color.'],
+            // Ropa
+            ['code' => 'campera-de-la-boleteria', 'name' => 'Campera de la Boletería', 'kind' => 'armor', 'rarity' => 'common', 'defense' => 2, 'price' => 100, 'min_level' => 1, 'droppable' => true, 'description' => 'Violeta, cerrada, con un bolsillo para las fichas y otro para las fichas de repuesto.'],
+            ['code' => 'buzo-de-jugadora', 'name' => 'Buzo de Jugadora', 'kind' => 'armor', 'rarity' => 'common', 'defense' => 3, 'dexterity' => 1, 'price' => 280, 'min_level' => 3, 'droppable' => true, 'description' => 'Con capucha y ribetes de neón magenta. Para las partidas largas de noche.'],
+            ['code' => 'mono-de-maquinista', 'name' => 'Mono de Maquinista', 'kind' => 'armor', 'rarity' => 'rare', 'defense' => 5, 'strength' => 1, 'price' => 850, 'min_level' => 6, 'droppable' => true, 'description' => 'Mostaza y cerrado, como el de Arcadia, con rodilleras para meterse abajo de los gabinetes.'],
+            ['code' => 'armadura-de-neon', 'name' => 'Armadura de Neón', 'kind' => 'armor', 'rarity' => 'epic', 'defense' => 9, 'intelligence' => 3, 'luck' => 1, 'droppable' => true, 'description' => 'Placas negras con líneas de luz cian que se encienden cuando algo choca. Ningún Atraviesaparedes pasa.'],
+            // Accesorios
+            ['code' => 'auriculares-gamer', 'name' => 'Auriculares Gamer', 'kind' => 'accessory', 'rarity' => 'common', 'intelligence' => 1, 'luck' => 1, 'price' => 150, 'min_level' => 2, 'droppable' => true, 'description' => 'Grandes y acolchados, con una lucecita en cada oreja. Se escucha venir al Bucle Eterno desde lejos.'],
+            ['code' => 'ficha-dorada', 'name' => 'Ficha Dorada', 'kind' => 'accessory', 'rarity' => 'rare', 'intelligence' => 2, 'price' => 900, 'min_level' => 7, 'droppable' => true, 'description' => 'Una de las fichas más viejas de Doña Ficha, con un joystick grabado. Nunca la quiso cambiar por nada, hasta hoy.'],
+            ['code' => 'cubo-de-colores', 'name' => 'Cubo de Colores', 'kind' => 'accessory', 'rarity' => 'epic', 'intelligence' => 2, 'luck' => 3, 'droppable' => true, 'description' => 'Un cubo chico que brilla desde adentro, primo del de Arcadia. Cambia de cara cuando algo encaja.'],
+            // Pociones
+            ['code' => 'gaseosa-de-la-boleteria', 'name' => 'Gaseosa de la Boletería', 'kind' => 'potion', 'rarity' => 'common', 'heal' => 40, 'price' => 30, 'min_level' => 1, 'description' => 'Burbujeante y violeta, en botella de vidrio. Doña Ficha la vende fría y con sorbete.'],
+            // Solo se fabrican en el taller (D93)
+            ['code' => 'paleta-dentada', 'name' => 'Paleta Dentada', 'kind' => 'weapon', 'rarity' => 'rare', 'attack' => 5, 'intelligence' => 2, 'description' => 'La Paleta de la Cancha con dientes de goblin en el borde y huesos en el mango. Ya no devuelve: muerde.'],
+            ['code' => 'buzo-forrado', 'name' => 'Buzo Forrado', 'kind' => 'armor', 'rarity' => 'rare', 'defense' => 5, 'dexterity' => 2, 'description' => 'El Buzo de Jugadora forrado con musgo de troll: abriga en las noches más frías de la ciudad.'],
+            ['code' => 'lanzafichas-de-la-garra', 'name' => 'Lanzafichas de la Garra', 'kind' => 'weapon', 'rarity' => 'epic', 'attack' => 10, 'intelligence' => 4, 'description' => 'El Lanzafichas con garras de ogro en la horqueta y escamas de dragón en la goma: tira fichas que arden.'],
+        ],
         // El Corazón del Gólem (Ensamblador, D110, docs/historias/ensamblador.md): la taberna del pie. Armas
         'ensamblador' => [
             ['code' => 'llave-de-palanca', 'name' => 'Llave de Palanca', 'kind' => 'weapon', 'rarity' => 'common', 'attack' => 2, 'price' => 120, 'min_level' => 1, 'droppable' => true, 'description' => 'Una llave de bronce del largo de un brazo. Destraba palancas viejas… y espanta goblins.'],
@@ -669,6 +693,24 @@ class GameItems extends Command
         'typescript-collar-del-cerbero' => 'Un collar de latón con tres vidrios redondos engarzados: uno azul, uno verde y uno naranja.',
         'typescript-lente-del-espejismo' => 'Una lente redonda de vidrio transparente con marco fino de latón y un reflejo violeta pálido adentro.',
         'typescript-calibre-del-vidriero' => 'Un calibre antiguo de latón dorado con incrustaciones de estrellas de vidrio celeste, brillando suave.',
+        // Videojuegos: Ciudad Arcadia (neón violeta y cian, máquinas de juegos)
+        'paleta-de-la-cancha' => 'Una paleta rectangular blanca de máquina de juegos vieja, con mango negro y un brillo de neón cian.',
+        'joystick-de-hierro' => 'Una palanca de joystick de hierro con una bola roja gastada en la punta y la base cuadrada arrancada.',
+        'lanzafichas' => 'Una gomera de neón violeta cargada con una ficha dorada brillante.',
+        'espada-de-pixeles' => 'Una espada cian hecha de píxeles cuadrados, con bordes escalonados y empuñadura negra.',
+        'baston-del-cubo' => 'Un bastón negro con un cubo de colores brillante en la punta, girando con chispas.',
+        'campera-de-la-boleteria' => 'Una campera violeta cerrada con dos bolsillos llenos de fichas doradas, de frente.',
+        'buzo-de-jugadora' => 'Un buzo oscuro con capucha y ribetes de neón magenta, cerrado, de frente.',
+        'mono-de-maquinista' => 'Un mono de trabajo mostaza cerrado con rodilleras y muchos bolsillos, de frente.',
+        'armadura-de-neon' => 'Una armadura de placas negras con líneas de luz cian encendidas, de frente.',
+        'auriculares-gamer' => 'Unos auriculares gamer grandes y acolchados con una lucecita violeta en cada oreja.',
+        'ficha-dorada' => 'Una ficha de máquina de juegos dorada y vieja con un joystick grabado, brillando.',
+        'cubo-de-colores' => 'Un cubo chico de colores que brilla desde adentro, flotando con chispas.',
+        'gaseosa-de-la-boleteria' => 'Una botella de vidrio con gaseosa violeta burbujeante y un sorbete a rayas.',
+        'paleta-dentada' => 'Una paleta blanca de máquina de juegos con dientes blancos de goblin en el borde y huesitos atados al mango.',
+        'buzo-forrado' => 'Un buzo oscuro con capucha, acolchado, con musgo verde asomando en el cuello y los puños.',
+        'lanzafichas-de-la-garra' => 'Una gomera oscura con garras curvas de ogro en la horqueta y escamas rojas, cargada con una ficha en llamas.',
+        'videojuegos-fotograma-congelado' => 'Un cuadrito de vidrio celeste translúcido con la silueta de un fantasma redondo quieta adentro, sin copias.',
         // Ensamblador: el Corazón del Gólem (bronce, pátina verde, engranajes y luz cian)
         'llave-de-palanca' => 'Una llave inglesa grande de bronce con pátina verde, del largo de un brazo, con un remache brillante en el mango.',
         'martillo-de-remaches' => 'Un martillo de herrero de cabeza cuadrada de bronce, con remaches incrustados en la cabeza y polvo dorado.',

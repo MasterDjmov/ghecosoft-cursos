@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             CsharpCourseSeeder::class,
             JavascriptCourseSeeder::class,
             TypescriptCourseSeeder::class,
+            VideojuegosCourseSeeder::class,
             UpcomingCoursesSeeder::class,
             DemoEnrollmentSeeder::class,
             DemoTeacherSeeder::class,

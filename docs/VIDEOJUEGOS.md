@@ -1,4 +1,4 @@
-# Videojuegos: Ciudad Arcadia (D126) — fases 1, 2 y 3 hechas, a probar
+# Videojuegos: Ciudad Arcadia (D126) — fases 1, 2 y 3 hechas; fase 4 empezada (el robot y la Clase 0), a probar
 
 Pedido del docente (2026-11-25): un curso de **videojuegos** que arranque con **SDL3** y siga con SFML, Phaser y algo de
 OpenGL. Es pedagógico ante todo: que el alumno aprenda a hacer juegos de verdad, de a poco, con juegos simples y
@@ -349,3 +349,31 @@ volver a jugar), editable, con **Jugar**, **Bajar**, **Cerrar el juego** y **Pan
 
 **Pedagogía (pedido del docente, 2026-11-25):** el Pong de la prueba es el juego terminado. En el curso se arma de a
 poco, como en los otros cursos: un concepto por micro-misión, todo muy explicado, y el juego entero al final de la rama.
+
+## 10. Fase 4: el curso (empezada el 2026-11-25, a probar)
+
+**Hecho:**
+- **El robot de Arcadia** (las micro-misiones de juego que se comprueban solas, § 4.2): el SDL3 de la plataforma tiene un
+  **modo prueba** (`workers/sdl-run.worker.js`): reloj de mentira (cada cuadro con VSync son 16,7 ms y `SDL_Delay` suma
+  lo que pide sin esperar; `time()` y `SDL_GetTicks` también), azar con semilla fija (`SDL_rand`), las teclas, el mouse
+  y un joystick de prueba que llegan en el cuadro que dice la prueba, y al final un informe: `ventana`, `pixel X Y`,
+  `buscar #rrggbb`, `textos`, `sonido`, `terminó`. El mismo código da siempre lo mismo. Formato en FORMATO-CURSO § 6 bis.
+- **Comprobar** al lado de **Jugar** en cada micro-misión de juego; los renglones que no coinciden salen con ✓ y ✗ en el
+  tablero del juego. Sin «pegá la salida de tu compu» (un juego no imprime su pantalla).
+- `App\Support\GameMission` (el importador junta Eventos y Estado en `checks` y avisa lo que no entiende) y
+  `node scripts/videojuegos/probar-curso.mjs cursos/videojuegos [--only=R00] [--fill] [--force]`.
+- **`cursos/videojuegos/00-curso.md`**: el curso (sin publicar, `requiere: c:R02-N07`), el diccionario (créditos,
+  Arcadia, Ciudad Arcadia, los cinco glitches del bestiario, la historia de entrada y de cierre) y la **Clase 0, «La
+  máquina que se enciende»** (la Boletería): la ventana, los colores RGB, el bucle del juego y cerrar bien, con 5
+  micro-misiones (el título, el fondo violeta, la cruz de la ventana, ESC e INSERT COIN). La última muestra el primer
+  pedazo del mapa del Vidriero. Lo carga el seeder local (`VideojuegosCourseSeeder`).
+- Tests: `tests/Feature/Student/GameMissionTest.php`.
+
+**Falta (fase 4):**
+- R01, el Banco de Pruebas de Arcadia (los 11 nodos de § 4), con el mismo formato.
+- Kira versión videojuegos: su hoja de 8 ángulos (de la imagen elegida en Stitch); Arcadia (diseño y hoja); las
+  criaturas (Glitch, Fantasma del Fotograma, Atraviesaparedes, Bucle Eterno, Fuga de Texturas); el fondo de Ciudad Arcadia;
+  las escenas de cada micro-misión; el logo del curso y el de la moneda (créditos).
+- Las imágenes de referencia de cada juego para la Clase 0 (§ 1).
+- Recorrer ALTA-DE-CURSOS-Y-PERSONAJES.md (PERSONAJES.md, enciclopedia, Mis Crónicas, juego, universo, inglés).
+

@@ -203,6 +203,48 @@ return [
                 6 => 'Escarcha Arcana',
             ],
         ],
+        // Videojuegos: Ciudad Arcadia (D126, docs/VIDEOJUEGOS.md): es C, pero con su propia Kira (la Forjadora de Mundos)
+        // y su mapa; cada lugar es una máquina de la escalera (los que todavía no tienen nodo quedan cerrados). La tienda,
+        // cuando estén sus ítems.
+        'videojuegos' => [
+            'name' => 'Kira',
+            'slug' => 'kira-arcadia',
+            'title' => 'Forjadora de Mundos',
+            'expeditions' => [
+                'opens_after' => 'R01-N05',
+                'map' => 'img/mundos/arcadia/mapa.webp',
+                'places' => [
+                    ['code' => 'boleteria', 'name' => 'La Boletería', 'node' => 'R00-N01', 'level' => 1, 'creatures' => ['slime'], 'x' => 15, 'y' => 80,
+                        'text' => 'La entrada de la ciudad. La ranura de las fichas todavía está tibia.'],
+                    ['code' => 'banco-de-pruebas', 'name' => 'El Banco de Pruebas', 'node' => 'R01-N01', 'level' => 2, 'creatures' => ['slime', 'goblin'], 'x' => 43, 'y' => 80,
+                        'text' => 'El galpón de Arcadia: mesas llenas de pantallas chiquitas y joysticks desarmados.'],
+                    ['code' => 'cancha-de-las-paletas', 'name' => 'La Cancha de las Paletas', 'node' => 'R02-N01', 'level' => 3, 'creatures' => ['goblin'], 'x' => 65, 'y' => 80,
+                        'text' => 'La máquina más vieja de la ciudad: dos paletas y una pelota que no se cansa.'],
+                    ['code' => 'muro-de-ladrillos', 'name' => 'El Muro de Ladrillos', 'node' => 'R03-N01', 'level' => 4, 'creatures' => ['goblin', 'esqueleto'], 'x' => 36, 'y' => 61,
+                        'text' => 'Ladrillos de colores que se rompen de a uno. Algunos piden dos golpes.'],
+                    ['code' => 'jardin-de-la-serpiente', 'name' => 'El Jardín de la Serpiente', 'node' => 'R04-N01', 'level' => 5, 'creatures' => ['esqueleto'], 'x' => 77, 'y' => 61,
+                        'text' => 'Un laberinto de cercos donde algo largo crece cada vez que come.'],
+                    ['code' => 'torre-que-no-para', 'name' => 'La Torre que no para', 'node' => 'R05-N01', 'level' => 6, 'creatures' => ['esqueleto', 'orco'], 'x' => 88, 'y' => 58,
+                        'text' => 'Bloques que caen y caen. Cuando una fila se llena, desaparece.'],
+                    ['code' => 'pista-de-los-biplanos', 'name' => 'La Pista de los Biplanos', 'node' => 'R06-N01', 'level' => 7, 'creatures' => ['orco'], 'x' => 28, 'y' => 33,
+                        'text' => 'Aviones de juguete que despegan en oleadas. El cielo nunca está quieto.'],
+                    ['code' => 'tren-fantasma', 'name' => 'El Tren Fantasma', 'node' => 'R07-N01', 'level' => 8, 'creatures' => ['orco', 'ogro'], 'x' => 16, 'y' => 38,
+                        'text' => 'Un laberinto oscuro con cuatro fantasmas que tienen sus propias reglas.'],
+                    ['code' => 'montana-rusa', 'name' => 'La Montaña Rusa', 'node' => 'R08-N01', 'level' => 9, 'creatures' => ['ogro', 'troll'], 'x' => 78, 'y' => 33,
+                        'text' => 'Subir, saltar y caer. La gravedad acá tiene reglas propias.'],
+                    ['code' => 'castillo-del-vidriero', 'name' => 'El Castillo del Vidriero', 'node' => 'R09-N01', 'level' => 10, 'creatures' => ['troll', 'dragon'], 'x' => 54, 'y' => 38,
+                        'text' => 'El centro de la ciudad, de vidrio de colores. Ahí está el último pedazo del mapa.'],
+                ],
+            ],
+            'looks' => [
+                1 => 'Forjadora de Mundos',
+                2 => 'Jugadora Nocturna',
+                3 => 'Piloto de Biplanos',
+                4 => 'Campeona de la Cancha',
+                5 => 'Cazadora de Glitches',
+                6 => 'Guardiana del Cubo',
+            ],
+        ],
         // C++ (docs/historias/cpp.md): la tienda y las expediciones de la Ciudadela se suman cuando estén sus imágenes y el mapa.
         // HTML y CSS (docs/historias/html.md).
         'html' => [

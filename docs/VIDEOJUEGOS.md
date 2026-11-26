@@ -402,8 +402,18 @@ poco, como en los otros cursos: un concepto por micro-misión, todo muy explicad
   pelota que acelera, la IA simple, el menú y el fin) es la fase 5. Escenas: la Clase 0 y R01-N01 a N04 hechas.
 
 **Falta (fase 4):**
-- El fondo de Ciudad Arcadia;
-  las escenas de cada micro-misión; el logo del curso y el de la moneda (créditos).
+- Las escenas que faltan de cada micro-misión (hechas: la Clase 0 y R01-N01 a N04).
+- La tienda de Ciudad Arcadia (con sus ítems e imágenes), las fichas de Arcadia, Kira de Arcadia y las criaturas en
+  `PERSONAJES.md` (para la Enciclopedia), la figura de cuerpo entero para Mis Crónicas y la temporada de inglés.
+
+**La presentación (2026-11-26):** en `cursos/videojuegos/marca/` el logo (Gheco con el joystick, «GhecoSoft -
+Videojuegos»), la moneda (la ficha de crédito con el joystick), el retrato de Arcadia y el fondo de la ciudad
+(`mundo_arcadia.webp`, sin personajes de juegos ajenos); cargados con `app:course-brand videojuegos
+cursos/videojuegos/marca` y `app:glossary-portraits cursos/videojuegos/marca --apply` (**también en producción**). El
+mapa, `public/img/mundos/arcadia/mapa.webp`, con los trece lugares de § 2.1. En `config/game.php`, el curso tiene su
+propia protagonista (`protagonists.videojuegos`: Kira, Forjadora de Mundos, con 6 aspectos en
+`public/img/protagonistas/kira-arcadia/`) y las expediciones de Ciudad Arcadia: un lugar por máquina de la escalera,
+con el primer nodo de cada rama (R03-N01 Arkanoid … R09-N01 el Castillo); los que todavía no existen quedan cerrados.
 - Las imágenes de referencia de cada juego para la Clase 0 (§ 1).
 - Recorrer ALTA-DE-CURSOS-Y-PERSONAJES.md (PERSONAJES.md, enciclopedia, Mis Crónicas, juego, universo, inglés).
 

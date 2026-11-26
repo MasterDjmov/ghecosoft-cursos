@@ -409,7 +409,7 @@ REFS = {
             '04-el-jardin-de-la-serpiente.md': 'en el Jardín de la Serpiente: un jardín escondido de noche, con canteros de flores de vidrio que brillan, caminitos de baldosas y, en el medio, una máquina de juegos vieja de madera',
         },
         'chars': [
-            (r'\bKira\b', 'Kira de Arcadia', ['15682724029684616970'], 'Kira es una chica joven de estatura mediana, delgada, con la ropa cerrada.'),
+            (r'\bKira\b', 'Kira de Arcadia', ['15682724029684616970'], 'Kira es una chica joven de estatura mediana, delgada, con la ropa cerrada y SIEMPRE con su brazal de control de juego (cruz, botones y palanquita) en el antebrazo izquierdo, como en su hoja.'),
             (r'\bArcadia\b', 'Arcadia', ['efb10edd28fd4699932a55b33f87d88b'], 'Arcadia es una mujer adulta, un poco más alta que Kira, con el mono mostaza y el chaleco negro cerrados.'),
             (r'Doña Ficha', 'Doña Ficha', ['f96862195ad64ac2bc97f9b90f4af2d4'], 'Doña Ficha es una señora mayor, bajita y redonda, más baja que Kira.'),
             (r'Campeón Invicto|del Campeón', 'el Campeón Invicto', ['91ec10cbb0bb4b55a1bd331740e76815'], 'El Campeón Invicto es una máquina de juegos enorme de madera, más alta que Arcadia.'),

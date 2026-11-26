@@ -40,3 +40,5 @@ yarn-error.log
 
 # graphify (mapa del proyecto, se regenera con /graphify --update)
 /graphify-out
+
+__pycache__/

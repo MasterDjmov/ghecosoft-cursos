@@ -416,8 +416,32 @@ micro-misiones, todas comprobadas por el robot):
 
 Se escribieron con un generador de plantillas por nodo (cada micro-misión es el mismo programa con los bloques de las
 anteriores puestos y un «/* acá */» donde va lo suyo); el .md es la fuente. El Campeón Invicto tiene ficha en
-`PERSONAJES.md` e imágenes en la Enciclopedia. **Faltan:** las 24 escenas de R02-N02 a N07 y la hoja de 8 ángulos del
-Campeón. Sigue la máquina siguiente: **el Muro de Ladrillos (Arkanoid)**, R03.
+`PERSONAJES.md` e imágenes en la Enciclopedia. Las 73 escenas y la hoja de 8 ángulos del Campeón, hechas
+(2026-11-26).
+
+**R03 · El Muro de Ladrillos: Arkanoid, completa** (`cursos/videojuegos/03-el-muro-de-ladrillos.md`, 7 nodos y 28
+micro-misiones, todas comprobadas por el robot; plantillas en `scripts/videojuegos/escalera/r03/`, se genera entero con
+`gen.py r03 n01 … n07`):
+1. La paleta y la pelota (la paleta de abajo con tope, tres paredes, la paleta devuelve, la pelota pegada hasta el
+   espacio).
+2. Una fila de ladrillos (un arreglo de `struct Ladrillo`, armar con `for`, romper y rebotar, puntos, `break` contra el
+   Atraviesaparedes de la junta).
+3. La pared entera (dos `for` en un arreglo largo `f * COLUMNAS + c`, un color por fila, más puntos arriba, la fila de
+   metal con dos golpes).
+4. Rebote según dónde pega (el ángulo de la paleta, el golpe de costado mirando dónde estaba la pelota un cuadro antes,
+   la pelota que se apura con tope, la paleta con el mouse).
+5. Vidas, fin y revancha (tres vidas, `enum` con PERDISTE y GANASTE, contar los que quedan, la función `armarPared` y
+   la R).
+6. Menú, niveles y sonido (el menú, el nivel dibujado con letras `#`, `.` y `M`, dos niveles con `nivel` global, el
+   toc, el tic y el bum).
+7. Jefe: El Muro Gruñón (el muro que baja cada 8 s con un temporizador, la cápsula al azar que agranda la paleta, el
+   récord, el cartel centrado): el cuarto pedazo del mapa del Vidriero (el Jardín de la Serpiente) y el **Ladrillo
+   Arcoíris** (imagen en `cursos/videojuegos/items/`).
+
+El Muro Gruñón tiene ficha en `PERSONAJES.md` e imágenes en la Enciclopedia (cuerpo entero
+`818b2e4d39a341e1b9154b8ec4c2fa8d`). **Faltan:** las 28 escenas de R03 y la hoja de 8 ángulos del Muro. Para probar las
+micro-misiones nuevas: `probar-curso.mjs --fill` escribe la salida y recién la pasada **sin** `--fill` compara con el
+código inicial. Sigue la máquina siguiente: **el Jardín de la Serpiente (Snake)**, R04.
 
 **Falta (fase 4):**
 - Escenas: las 49 hechas (2026-11-26); las de cada nodo nuevo, con `pendientes.py cursos/videojuegos`.

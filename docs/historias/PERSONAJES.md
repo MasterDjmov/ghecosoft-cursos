@@ -1704,8 +1704,17 @@ Historia en [../VIDEOJUEGOS.md](../VIDEOJUEGOS.md) § 2. La ciudad de los videoj
 - **Cómo se lo vence:** con un rival que se apura según el marcador, el saque al azar, la dificultad para elegir y el cartel del final centrado.
 - **Qué es:** una **máquina de juegos enorme y viva, de madera oscura**, con una placa de bronce lisa, dos paletas gastadas, patitas de bronce y una coronita dorada torcida; en la pantalla, dos ojos de píxeles y una sonrisa confiada. El Vidriero le enseñó a jugar sola y nadie le ganó en treinta años. Orgulloso, no malo: apto para chicos.
 - **Cómo termina:** cuando por fin pierde, dice «LE GANASTE AL CAMPEON», muestra otro pedazo del mapa del Vidriero (un muro de ladrillos de colores) y deja la **Paleta del Campeón**.
-- **Imágenes:** cuerpo entero `91ec10cbb0bb4b55a1bd331740e76815` en el proyecto de Stitch de Ciudad Arcadia (falta su hoja de 8 ángulos).
+- **Imágenes:** cuerpo entero `91ec10cbb0bb4b55a1bd331740e76815` y hoja de 8 ángulos `13b3706d66f8442cbba0f712285a8171` en el proyecto de Stitch de Ciudad Arcadia.
 - **Primera aparición:** Videojuegos, R02-N07.
+
+### El Muro Gruñón
+- **Rol:** el jefe de R03 de Videojuegos: el paredón de ladrillos de vidrio de la plaza del Muro de Ladrillos.
+- **Qué error representa:** un juego que no aprieta ni premia: una pared quieta que espera para siempre, sin sorpresas, sin récord que pasar y con un final escrito a ojo.
+- **Cómo se lo vence:** con un temporizador que hace bajar la pared, cápsulas al azar que agrandan la paleta, un récord que queda entre partidas y el cartel del final centrado.
+- **Qué es:** un **paredón vivo de ladrillos de vidrio** de colores (rosa, naranja, verde, violeta y metal), con dos ojos redondos de vidrio, cejas de ladrillitos, bracitos de ladrillo cruzados y dos pies cuadrados. Gruñe como un abuelo, pero está contento de que alguien juegue en serio después de treinta años. Apto para chicos.
+- **Cómo termina:** cuando por fin lo vencen, se sienta en el piso de la plaza riéndose, dice «EL MURO SE RINDE», muestra otro pedazo del mapa del Vidriero (un jardín con una serpiente de luz enroscada entre flores) y le da a Kira el **Ladrillo Arcoíris**.
+- **Imágenes:** cuerpo entero `818b2e4d39a341e1b9154b8ec4c2fa8d` en el proyecto de Stitch de Ciudad Arcadia (falta su hoja de 8 ángulos).
+- **Primera aparición:** Videojuegos, R03-N07.
 
 ## Las Crónicas en Inglés (Primaria y Secundaria)
 

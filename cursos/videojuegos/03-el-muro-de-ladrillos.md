@@ -5941,3 +5941,7653 @@ ya hay otros dos esperando para probar.
 - Un chico del barrio con abrigo cerrado mueve un mouse al costado de la máquina, con cara de asombro.
 - En la pantalla, la paleta celeste sigue al mouse; Kira le explica algo al chico.
 - Gheco, sentado arriba de la máquina, levanta el pulgar.
+
+## R03-N05 · Vidas, fin y revancha
+
+```meta
+tipo: tema
+criatura: bucle_eterno
+padre: R03-N04
+precio: 10
+temas: juegos.estados
+usa: prog.funciones, col.arrays
+```
+
+### Crónica
+
+Los chicos del barrio ya hacen fila para jugar al Muro. Pero hay un problema: la pelota se cae, vuelve, se cae,
+vuelve… y el juego no termina nunca. Un chico juega media hora sin parar y se va aburrido. Debajo de la máquina
+se enrosca una serpiente de luz violeta que se muerde la cola: el **Bucle Eterno**. —Un juego sin final no es un
+juego —dice {mentor}—. Hacen falta vidas, un cartel de fin y una forma de volver a empezar.
+
+### Objetivos
+
+Darle **tres vidas** al jugador, **perder** cuando se terminan, **contar los ladrillos que quedan** para saber
+cuándo **ganaste** y armar una **función** que arme la pared, para usarla al empezar y en la **revancha** con la R.
+
+### Antes de empezar
+
+R03-N04. Del Pong: los estados con `enum` (R02-N05). Del curso de C: las funciones y pasar un arreglo a una
+función.
+
+### Explicación
+
+#### Las vidas
+Una variable `int vidas = 3;`. Cada vez que la pelota se cae por abajo, `vidas--;` (una menos). Se muestra
+arriba a la derecha.
+
+#### Los estados del juego
+Como en el Pong (R02-N05), un `enum` le pone nombre a cada momento del juego: `JUGANDO`, `PERDISTE` y
+`GANASTE`. Cuando las vidas llegan a 0, el estado pasa a `PERDISTE`, y mientras no se esté jugando, el espacio no
+saca la pelota.
+
+#### ¿Cuántos quedan?
+En cada cuadro, un `for` cuenta los ladrillos que siguen vivos. Si no queda ninguno, ganaste. Contar en cada
+cuadro es rapidísimo para la compu: son solo 50.
+
+#### Una función para armar la pared
+Los `for` que arman la pared hacen falta **dos veces**: al empezar y en la revancha. En lugar de copiarlos, se
+los pone en una **función**:
+```c
+static void armarPared(Ladrillo pared[])
+{
+    /* … los mismos for de antes … */
+}
+```
+`Ladrillo pared[]` dice que recibe un arreglo de ladrillos. Un arreglo que se pasa a una función **no se
+copia**: la función trabaja sobre el mismo arreglo, así que lo que arma queda armado en `main`.
+
+#### La revancha
+Con la R, si no se está jugando: la pared entera (`armarPared`), 3 vidas, 0 puntos, la pelota pegada y otra vez
+`JUGANDO`.
+
+### Código de ejemplo
+
+```c
+#include <SDL3/SDL.h>
+
+static bool toca(SDL_FRect a, SDL_FRect b)
+{
+    return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
+}
+
+/* Un ladrillo: dónde está y si sigue entero */
+typedef struct {
+    SDL_FRect caja;
+    bool vivo;
+    int fila;     /* 0 es la de arriba */
+    int golpes;   /* cuántos golpes le faltan para romperse */
+} Ladrillo;
+
+#define COLUMNAS 10
+#define FILAS 5
+
+enum Estado { JUGANDO, PERDISTE, GANASTE };
+
+/* Arma los 50 ladrillos enteros, con los de metal abajo */
+static void armarPared(Ladrillo pared[])
+{
+    for (int f = 0; f < FILAS; f++) {
+        for (int c = 0; c < COLUMNAS; c++) {
+            int i = f * COLUMNAS + c;   /* el número de ladrillo */
+            pared[i].caja = (SDL_FRect){ 22 + c * 60, 60 + f * 24, 56, 20 };
+            pared[i].vivo = true;
+            pared[i].fila = f;
+        }
+    }
+    for (int i = 0; i < FILAS * COLUMNAS; i++) {
+        pared[i].golpes = (pared[i].fila == FILAS - 1) ? 2 : 1;
+    }
+}
+
+int main(void)
+{
+    SDL_Init(SDL_INIT_VIDEO);
+
+    SDL_Window *ventana = NULL;
+    SDL_Renderer *lapiz = NULL;
+    SDL_CreateWindowAndRenderer("El Muro de Ladrillos", 640, 480, 0, &ventana, &lapiz);
+
+    SDL_FRect paleta = { 280, 440, 80, 12 };   /* abajo, en el medio */
+    SDL_FRect pelota = { 315, 300, 10, 10 };
+    float vx = 150;    /* + derecha, - izquierda */
+    float vy = -300;   /* - sube, + baja */
+    bool pegada = true;   /* true: la pelota espera arriba de la paleta */
+    int puntos = 0;
+    int vidas = 3;
+    enum Estado estado = JUGANDO;
+
+    Ladrillo pared[FILAS * COLUMNAS] = { 0 };   /* 5 filas de 10: 50 ladrillos */
+    armarPared(pared);
+    SDL_Color colores[FILAS] = {
+        { 255, 60, 100, 255 },    /* rosa */
+        { 255, 150, 40, 255 },    /* naranja */
+        { 80, 220, 100, 255 },    /* verde */
+        { 150, 100, 255, 255 },   /* violeta */
+        { 180, 180, 200, 255 },   /* metal */
+    };
+    Uint64 antes = SDL_GetTicks();
+
+    bool jugando = true;
+    while (jugando) {
+        SDL_Event evento;
+        while (SDL_PollEvent(&evento)) {
+            if (evento.type == SDL_EVENT_QUIT) {
+                jugando = false;
+            }
+            if (evento.type == SDL_EVENT_MOUSE_MOTION) {
+                paleta.x = evento.motion.x - paleta.w / 2;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_R && estado != JUGANDO) {
+                armarPared(pared);
+                vidas = 3;
+                puntos = 0;
+                pegada = true;
+                estado = JUGANDO;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_SPACE && pegada && estado == JUGANDO) {
+                pegada = false;
+                vx = 150;
+                vy = -300;
+            }
+        }
+
+        Uint64 ahora = SDL_GetTicks();
+        float dt = (ahora - antes) / 1000.0f;
+        antes = ahora;
+
+        const bool *teclas = SDL_GetKeyboardState(NULL);
+        if (teclas[SDL_SCANCODE_LEFT]) paleta.x -= 400 * dt;
+        if (teclas[SDL_SCANCODE_RIGHT]) paleta.x += 400 * dt;
+        paleta.x = SDL_clamp(paleta.x, 0, 640 - paleta.w);
+
+        SDL_FRect previa = pelota;
+        if (pegada) {
+            pelota.x = paleta.x + paleta.w / 2 - pelota.w / 2;
+            pelota.y = paleta.y - pelota.h;
+        } else {
+            pelota.x += vx * dt;
+            pelota.y += vy * dt;
+        }
+
+        /* las paredes: los dos costados y el techo (abajo no hay pared) */
+        if (pelota.x < 0) {
+            pelota.x = 0;
+            vx = -vx;
+        }
+        if (pelota.x + pelota.w > 640) {
+            pelota.x = 640 - pelota.w;
+            vx = -vx;
+        }
+        if (pelota.y < 0) {
+            pelota.y = 0;
+            vy = -vy;
+        }
+
+        if (toca(pelota, paleta) && vy > 0) {
+            pelota.y = paleta.y - pelota.h;
+            vy = -vy;
+            vx = ((pelota.x + pelota.w / 2) - (paleta.x + paleta.w / 2)) * 6;
+        }
+
+        /* los ladrillos: ¿la pelota toca alguno? */
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo && toca(pelota, pared[i].caja)) {
+                pared[i].golpes--;
+                if (pared[i].golpes == 0) {
+                    pared[i].vivo = false;
+                }
+                SDL_FRect caja = pared[i].caja;
+                bool aLaAltura = previa.y + previa.h > caja.y && previa.y < caja.y + caja.h;
+                if (aLaAltura) {
+                    vx = -vx;
+                } else {
+                    vy = -vy;
+                }
+                vy = SDL_clamp(vy * 1.03f, -480, 480);
+                puntos += 10 * (FILAS - pared[i].fila);
+                break;
+            }
+        }
+
+        /* ¿se cayó por abajo? */
+        if (pelota.y > 480) {
+            pegada = true;
+            vidas--;
+            if (vidas == 0) {
+                estado = PERDISTE;
+            }
+        }
+
+        int quedan = 0;
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo) {
+                quedan++;
+            }
+        }
+        if (quedan == 0) {
+            estado = GANASTE;
+        }
+
+        SDL_SetRenderDrawColor(lapiz, 20, 12, 40, 255);
+        SDL_RenderClear(lapiz);
+        SDL_SetRenderDrawColor(lapiz, 255, 60, 100, 255);
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo) {
+                SDL_Color color = colores[pared[i].fila];
+                SDL_SetRenderDrawColor(lapiz, color.r, color.g, color.b, 255);
+                SDL_RenderFillRect(lapiz, &pared[i].caja);
+            }
+        }
+        SDL_SetRenderDrawColor(lapiz, 0, 229, 255, 255);
+        SDL_RenderFillRect(lapiz, &paleta);
+        SDL_SetRenderDrawColor(lapiz, 255, 220, 0, 255);
+        SDL_RenderFillRect(lapiz, &pelota);
+        SDL_SetRenderDrawColor(lapiz, 255, 255, 255, 255);
+        SDL_RenderDebugTextFormat(lapiz, 10, 10, "PUNTOS %d", puntos);
+        SDL_RenderDebugTextFormat(lapiz, 560, 10, "VIDAS %d", vidas);
+        SDL_RenderDebugTextFormat(lapiz, 272, 10, "QUEDAN %d", quedan);
+        if (estado == GANASTE) {
+            SDL_RenderDebugText(lapiz, 280, 300, "PARED ROTA");
+        }
+        if (estado == PERDISTE) {
+            SDL_RenderDebugText(lapiz, 288, 300, "PERDISTE");
+        }
+        if (estado != JUGANDO) {
+            SDL_RenderDebugText(lapiz, 276, 320, "R: OTRA VEZ");
+        }
+        SDL_RenderPresent(lapiz);
+        SDL_Delay(16);
+    }
+
+    SDL_DestroyRenderer(lapiz);
+    SDL_DestroyWindow(ventana);
+    SDL_Quit();
+    return 0;
+}
+```
+
+### ¿Para qué sirve?
+
+Vidas, fin y volver a empezar son lo que hace que una partida sea una partida. Y una función que deja todo como
+al principio es lo que usan todos los juegos para «empezar de nuevo» o «pasar al nivel siguiente».
+
+### Errores habituales
+
+**Bucle Eterno: el juego que no termina.** Sin un estado de fin, las vidas siguen bajando (2, 1, 0, -1…) y la
+partida no termina nunca.
+
+**Restar vidas en cada cuadro.** Si `vidas--` queda afuera del `if` de la caída, se pierden 60 vidas por
+segundo.
+
+**Contar sin volver a cero.** Si `int quedan = 0;` queda afuera del bucle del juego, cada cuadro suma 50 más.
+
+**Revancha a medias.** Si la R arma la pared pero no devuelve las vidas, la partida nueva empieza perdida.
+
+### Micro-misión R03-N05-P1 · Tres vidas
+
+```meta
+lugar: El Muro de Ladrillos
+personajes: Kira, Gheco, Arcadia
+carta: Vidas | int vidas = 3 · al caerse: vidas-- · VIDAS %d arriba a la derecha
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+La pelota se cae por quinta vez y vuelve como si nada. —En el Muro había tres vidas —dice {mentor}, y
+dibuja tres paletitas con el dedo en el vidrio empañado—. Cada pelota que se te cae, una menos.
+
+#### Gheco sugiere
+Ya está la variable `int vidas = 3;`. Dos cosas:
+1. Cuando la pelota se cae (adentro del `if (pelota.y > 480)`): `vidas--;` (es `vidas = vidas - 1;`).
+2. Mostrarlas arriba a la derecha, al lado del puntaje:
+```c
+SDL_RenderDebugTextFormat(lapiz, 560, 10, "VIDAS %d", vidas);
+```
+El robot va a sacar una vez y dejar que la pelota se caiga.
+
+#### Desafío
+Restá una vida cada vez que la pelota se cae y mostrá las vidas arriba a la derecha.
+
+#### Pasos
+1. Buscá `/* acá: una vida menos */` (adentro del `if` de la caída) y escribí `vidas--;`.
+2. Buscá `/* acá: las vidas arriba a la derecha */` y escribí la línea de `VIDAS`.
+3. Tocá **Jugar**, dejá caer la pelota y mirá las vidas. Después, **Comprobar**.
+
+#### Código inicial
+```c
+#include <SDL3/SDL.h>
+
+static bool toca(SDL_FRect a, SDL_FRect b)
+{
+    return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
+}
+
+/* Un ladrillo: dónde está y si sigue entero */
+typedef struct {
+    SDL_FRect caja;
+    bool vivo;
+    int fila;     /* 0 es la de arriba */
+    int golpes;   /* cuántos golpes le faltan para romperse */
+} Ladrillo;
+
+#define COLUMNAS 10
+#define FILAS 5
+
+enum Estado { JUGANDO, PERDISTE, GANASTE };
+
+
+int main(void)
+{
+    SDL_Init(SDL_INIT_VIDEO);
+
+    SDL_Window *ventana = NULL;
+    SDL_Renderer *lapiz = NULL;
+    SDL_CreateWindowAndRenderer("El Muro de Ladrillos", 640, 480, 0, &ventana, &lapiz);
+
+    SDL_FRect paleta = { 280, 440, 80, 12 };   /* abajo, en el medio */
+    SDL_FRect pelota = { 315, 300, 10, 10 };
+    float vx = 150;    /* + derecha, - izquierda */
+    float vy = -300;   /* - sube, + baja */
+    bool pegada = true;   /* true: la pelota espera arriba de la paleta */
+    int puntos = 0;
+    int vidas = 3;
+
+    Ladrillo pared[FILAS * COLUMNAS] = { 0 };   /* 5 filas de 10: 50 ladrillos */
+    for (int f = 0; f < FILAS; f++) {
+        for (int c = 0; c < COLUMNAS; c++) {
+            int i = f * COLUMNAS + c;   /* el número de ladrillo */
+            pared[i].caja = (SDL_FRect){ 22 + c * 60, 60 + f * 24, 56, 20 };
+            pared[i].vivo = true;
+            pared[i].fila = f;
+        }
+    }
+    for (int i = 0; i < FILAS * COLUMNAS; i++) {
+        pared[i].golpes = (pared[i].fila == FILAS - 1) ? 2 : 1;
+    }
+    SDL_Color colores[FILAS] = {
+        { 255, 60, 100, 255 },    /* rosa */
+        { 255, 150, 40, 255 },    /* naranja */
+        { 80, 220, 100, 255 },    /* verde */
+        { 150, 100, 255, 255 },   /* violeta */
+        { 180, 180, 200, 255 },   /* metal */
+    };
+    Uint64 antes = SDL_GetTicks();
+
+    bool jugando = true;
+    while (jugando) {
+        SDL_Event evento;
+        while (SDL_PollEvent(&evento)) {
+            if (evento.type == SDL_EVENT_QUIT) {
+                jugando = false;
+            }
+            if (evento.type == SDL_EVENT_MOUSE_MOTION) {
+                paleta.x = evento.motion.x - paleta.w / 2;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_SPACE && pegada) {
+                pegada = false;
+                vx = 150;
+                vy = -300;
+            }
+        }
+
+        Uint64 ahora = SDL_GetTicks();
+        float dt = (ahora - antes) / 1000.0f;
+        antes = ahora;
+
+        const bool *teclas = SDL_GetKeyboardState(NULL);
+        if (teclas[SDL_SCANCODE_LEFT]) paleta.x -= 400 * dt;
+        if (teclas[SDL_SCANCODE_RIGHT]) paleta.x += 400 * dt;
+        paleta.x = SDL_clamp(paleta.x, 0, 640 - paleta.w);
+
+        SDL_FRect previa = pelota;
+        if (pegada) {
+            pelota.x = paleta.x + paleta.w / 2 - pelota.w / 2;
+            pelota.y = paleta.y - pelota.h;
+        } else {
+            pelota.x += vx * dt;
+            pelota.y += vy * dt;
+        }
+
+        /* las paredes: los dos costados y el techo (abajo no hay pared) */
+        if (pelota.x < 0) {
+            pelota.x = 0;
+            vx = -vx;
+        }
+        if (pelota.x + pelota.w > 640) {
+            pelota.x = 640 - pelota.w;
+            vx = -vx;
+        }
+        if (pelota.y < 0) {
+            pelota.y = 0;
+            vy = -vy;
+        }
+
+        if (toca(pelota, paleta) && vy > 0) {
+            pelota.y = paleta.y - pelota.h;
+            vy = -vy;
+            vx = ((pelota.x + pelota.w / 2) - (paleta.x + paleta.w / 2)) * 6;
+        }
+
+        /* los ladrillos: ¿la pelota toca alguno? */
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo && toca(pelota, pared[i].caja)) {
+                pared[i].golpes--;
+                if (pared[i].golpes == 0) {
+                    pared[i].vivo = false;
+                }
+                SDL_FRect caja = pared[i].caja;
+                bool aLaAltura = previa.y + previa.h > caja.y && previa.y < caja.y + caja.h;
+                if (aLaAltura) {
+                    vx = -vx;
+                } else {
+                    vy = -vy;
+                }
+                vy = SDL_clamp(vy * 1.03f, -480, 480);
+                puntos += 10 * (FILAS - pared[i].fila);
+                break;
+            }
+        }
+
+        /* ¿se cayó por abajo? */
+        if (pelota.y > 480) {
+            pegada = true;
+            /* acá: una vida menos */
+        }
+
+
+        SDL_SetRenderDrawColor(lapiz, 20, 12, 40, 255);
+        SDL_RenderClear(lapiz);
+        SDL_SetRenderDrawColor(lapiz, 255, 60, 100, 255);
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo) {
+                SDL_Color color = colores[pared[i].fila];
+                SDL_SetRenderDrawColor(lapiz, color.r, color.g, color.b, 255);
+                SDL_RenderFillRect(lapiz, &pared[i].caja);
+            }
+        }
+        SDL_SetRenderDrawColor(lapiz, 0, 229, 255, 255);
+        SDL_RenderFillRect(lapiz, &paleta);
+        SDL_SetRenderDrawColor(lapiz, 255, 220, 0, 255);
+        SDL_RenderFillRect(lapiz, &pelota);
+        SDL_SetRenderDrawColor(lapiz, 255, 255, 255, 255);
+        SDL_RenderDebugTextFormat(lapiz, 10, 10, "PUNTOS %d", puntos);
+        /* acá: las vidas arriba a la derecha */
+        SDL_RenderPresent(lapiz);
+        SDL_Delay(16);
+    }
+
+    SDL_DestroyRenderer(lapiz);
+    SDL_DestroyWindow(ventana);
+    SDL_Quit();
+    return 0;
+}
+```
+
+#### Eventos
+```
+tecla Espacio
+cuadros 150
+```
+
+#### Estado
+```
+textos
+```
+
+#### Salida esperada
+```
+── Estado ──
+textos: PUNTOS 10 | VIDAS 2
+```
+
+#### Solución
+```c
+#include <SDL3/SDL.h>
+
+static bool toca(SDL_FRect a, SDL_FRect b)
+{
+    return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
+}
+
+/* Un ladrillo: dónde está y si sigue entero */
+typedef struct {
+    SDL_FRect caja;
+    bool vivo;
+    int fila;     /* 0 es la de arriba */
+    int golpes;   /* cuántos golpes le faltan para romperse */
+} Ladrillo;
+
+#define COLUMNAS 10
+#define FILAS 5
+
+enum Estado { JUGANDO, PERDISTE, GANASTE };
+
+
+int main(void)
+{
+    SDL_Init(SDL_INIT_VIDEO);
+
+    SDL_Window *ventana = NULL;
+    SDL_Renderer *lapiz = NULL;
+    SDL_CreateWindowAndRenderer("El Muro de Ladrillos", 640, 480, 0, &ventana, &lapiz);
+
+    SDL_FRect paleta = { 280, 440, 80, 12 };   /* abajo, en el medio */
+    SDL_FRect pelota = { 315, 300, 10, 10 };
+    float vx = 150;    /* + derecha, - izquierda */
+    float vy = -300;   /* - sube, + baja */
+    bool pegada = true;   /* true: la pelota espera arriba de la paleta */
+    int puntos = 0;
+    int vidas = 3;
+
+    Ladrillo pared[FILAS * COLUMNAS] = { 0 };   /* 5 filas de 10: 50 ladrillos */
+    for (int f = 0; f < FILAS; f++) {
+        for (int c = 0; c < COLUMNAS; c++) {
+            int i = f * COLUMNAS + c;   /* el número de ladrillo */
+            pared[i].caja = (SDL_FRect){ 22 + c * 60, 60 + f * 24, 56, 20 };
+            pared[i].vivo = true;
+            pared[i].fila = f;
+        }
+    }
+    for (int i = 0; i < FILAS * COLUMNAS; i++) {
+        pared[i].golpes = (pared[i].fila == FILAS - 1) ? 2 : 1;
+    }
+    SDL_Color colores[FILAS] = {
+        { 255, 60, 100, 255 },    /* rosa */
+        { 255, 150, 40, 255 },    /* naranja */
+        { 80, 220, 100, 255 },    /* verde */
+        { 150, 100, 255, 255 },   /* violeta */
+        { 180, 180, 200, 255 },   /* metal */
+    };
+    Uint64 antes = SDL_GetTicks();
+
+    bool jugando = true;
+    while (jugando) {
+        SDL_Event evento;
+        while (SDL_PollEvent(&evento)) {
+            if (evento.type == SDL_EVENT_QUIT) {
+                jugando = false;
+            }
+            if (evento.type == SDL_EVENT_MOUSE_MOTION) {
+                paleta.x = evento.motion.x - paleta.w / 2;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_SPACE && pegada) {
+                pegada = false;
+                vx = 150;
+                vy = -300;
+            }
+        }
+
+        Uint64 ahora = SDL_GetTicks();
+        float dt = (ahora - antes) / 1000.0f;
+        antes = ahora;
+
+        const bool *teclas = SDL_GetKeyboardState(NULL);
+        if (teclas[SDL_SCANCODE_LEFT]) paleta.x -= 400 * dt;
+        if (teclas[SDL_SCANCODE_RIGHT]) paleta.x += 400 * dt;
+        paleta.x = SDL_clamp(paleta.x, 0, 640 - paleta.w);
+
+        SDL_FRect previa = pelota;
+        if (pegada) {
+            pelota.x = paleta.x + paleta.w / 2 - pelota.w / 2;
+            pelota.y = paleta.y - pelota.h;
+        } else {
+            pelota.x += vx * dt;
+            pelota.y += vy * dt;
+        }
+
+        /* las paredes: los dos costados y el techo (abajo no hay pared) */
+        if (pelota.x < 0) {
+            pelota.x = 0;
+            vx = -vx;
+        }
+        if (pelota.x + pelota.w > 640) {
+            pelota.x = 640 - pelota.w;
+            vx = -vx;
+        }
+        if (pelota.y < 0) {
+            pelota.y = 0;
+            vy = -vy;
+        }
+
+        if (toca(pelota, paleta) && vy > 0) {
+            pelota.y = paleta.y - pelota.h;
+            vy = -vy;
+            vx = ((pelota.x + pelota.w / 2) - (paleta.x + paleta.w / 2)) * 6;
+        }
+
+        /* los ladrillos: ¿la pelota toca alguno? */
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo && toca(pelota, pared[i].caja)) {
+                pared[i].golpes--;
+                if (pared[i].golpes == 0) {
+                    pared[i].vivo = false;
+                }
+                SDL_FRect caja = pared[i].caja;
+                bool aLaAltura = previa.y + previa.h > caja.y && previa.y < caja.y + caja.h;
+                if (aLaAltura) {
+                    vx = -vx;
+                } else {
+                    vy = -vy;
+                }
+                vy = SDL_clamp(vy * 1.03f, -480, 480);
+                puntos += 10 * (FILAS - pared[i].fila);
+                break;
+            }
+        }
+
+        /* ¿se cayó por abajo? */
+        if (pelota.y > 480) {
+            pegada = true;
+            vidas--;
+        }
+
+
+        SDL_SetRenderDrawColor(lapiz, 20, 12, 40, 255);
+        SDL_RenderClear(lapiz);
+        SDL_SetRenderDrawColor(lapiz, 255, 60, 100, 255);
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo) {
+                SDL_Color color = colores[pared[i].fila];
+                SDL_SetRenderDrawColor(lapiz, color.r, color.g, color.b, 255);
+                SDL_RenderFillRect(lapiz, &pared[i].caja);
+            }
+        }
+        SDL_SetRenderDrawColor(lapiz, 0, 229, 255, 255);
+        SDL_RenderFillRect(lapiz, &paleta);
+        SDL_SetRenderDrawColor(lapiz, 255, 220, 0, 255);
+        SDL_RenderFillRect(lapiz, &pelota);
+        SDL_SetRenderDrawColor(lapiz, 255, 255, 255, 255);
+        SDL_RenderDebugTextFormat(lapiz, 10, 10, "PUNTOS %d", puntos);
+        SDL_RenderDebugTextFormat(lapiz, 560, 10, "VIDAS %d", vidas);
+        SDL_RenderPresent(lapiz);
+        SDL_Delay(16);
+    }
+
+    SDL_DestroyRenderer(lapiz);
+    SDL_DestroyWindow(ventana);
+    SDL_Quit();
+    return 0;
+}
+```
+
+#### Al superarla
+Arriba a la derecha aparece **VIDAS 3**, y cuando la pelota se cae, **VIDAS 2**. Kira se pone seria: ahora
+cada pelota cuenta.
+
+#### Imagen
+- La pantalla con el texto de las vidas arriba a la derecha y la pelota cayendo por abajo de la paleta.
+- Arcadia dibuja tres paletitas con el dedo en el vidrio de la máquina; Kira mira atenta.
+- Gheco, sentado arriba de la máquina, levanta tres dedos.
+
+### Micro-misión R03-N05-P2 · Perdiste
+
+```meta
+lugar: El Muro de Ladrillos
+personajes: Kira, Gheco, Arcadia
+criatura: bucle_eterno
+carta: Fin | enum Estado { JUGANDO, PERDISTE, GANASTE } · vidas == 0: estado = PERDISTE · sacar solo si JUGANDO
+recompensa: xp 10, monedas 4
+```
+
+#### Escena
+Las vidas llegan a 0… y después a -1, -2, -3. El Bucle Eterno se ríe, enroscado debajo de la máquina. —El
+juego no sabe terminar —dice {mentor}—. Cuando se acaban las vidas, se acabó.
+
+#### Gheco sugiere
+Ya están el `enum Estado { JUGANDO, PERDISTE, GANASTE };` (como en el Pong, R02-N05) y la variable
+`estado`, que arranca en `JUGANDO`. Tres cosas:
+1. Cuando se cae la pelota, después de restar la vida:
+```c
+if (vidas == 0) {
+    estado = PERDISTE;
+}
+```
+2. Que el espacio saque **solo si se está jugando**: agregale `&& estado == JUGANDO` al `if` del espacio.
+3. El cartel, después del puntaje:
+```c
+if (estado == PERDISTE) {
+    SDL_RenderDebugText(lapiz, 288, 300, "PERDISTE");
+}
+```
+El robot va a sacar cuatro veces y dejar que se caiga.
+
+#### Desafío
+Hacé que con 0 vidas el juego termine, con el cartel PERDISTE y sin poder sacar más.
+
+#### Pasos
+1. Buscá `/* acá: sin vidas, perdiste */` (en la caída) y escribí el `if (vidas == 0)`.
+2. Buscá `/* acá: solo se saca si se está jugando */` y agregale `&& estado == JUGANDO` a la condición del `if` de abajo.
+3. Buscá `/* acá: el cartel de perdiste */` y escribí el `if` con `PERDISTE`.
+4. Tocá **Jugar** y perdé las tres vidas. Después, **Comprobar**.
+
+#### Código inicial
+```c
+#include <SDL3/SDL.h>
+
+static bool toca(SDL_FRect a, SDL_FRect b)
+{
+    return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
+}
+
+/* Un ladrillo: dónde está y si sigue entero */
+typedef struct {
+    SDL_FRect caja;
+    bool vivo;
+    int fila;     /* 0 es la de arriba */
+    int golpes;   /* cuántos golpes le faltan para romperse */
+} Ladrillo;
+
+#define COLUMNAS 10
+#define FILAS 5
+
+enum Estado { JUGANDO, PERDISTE, GANASTE };
+
+
+int main(void)
+{
+    SDL_Init(SDL_INIT_VIDEO);
+
+    SDL_Window *ventana = NULL;
+    SDL_Renderer *lapiz = NULL;
+    SDL_CreateWindowAndRenderer("El Muro de Ladrillos", 640, 480, 0, &ventana, &lapiz);
+
+    SDL_FRect paleta = { 280, 440, 80, 12 };   /* abajo, en el medio */
+    SDL_FRect pelota = { 315, 300, 10, 10 };
+    float vx = 150;    /* + derecha, - izquierda */
+    float vy = -300;   /* - sube, + baja */
+    bool pegada = true;   /* true: la pelota espera arriba de la paleta */
+    int puntos = 0;
+    int vidas = 3;
+    enum Estado estado = JUGANDO;
+
+    Ladrillo pared[FILAS * COLUMNAS] = { 0 };   /* 5 filas de 10: 50 ladrillos */
+    for (int f = 0; f < FILAS; f++) {
+        for (int c = 0; c < COLUMNAS; c++) {
+            int i = f * COLUMNAS + c;   /* el número de ladrillo */
+            pared[i].caja = (SDL_FRect){ 22 + c * 60, 60 + f * 24, 56, 20 };
+            pared[i].vivo = true;
+            pared[i].fila = f;
+        }
+    }
+    for (int i = 0; i < FILAS * COLUMNAS; i++) {
+        pared[i].golpes = (pared[i].fila == FILAS - 1) ? 2 : 1;
+    }
+    SDL_Color colores[FILAS] = {
+        { 255, 60, 100, 255 },    /* rosa */
+        { 255, 150, 40, 255 },    /* naranja */
+        { 80, 220, 100, 255 },    /* verde */
+        { 150, 100, 255, 255 },   /* violeta */
+        { 180, 180, 200, 255 },   /* metal */
+    };
+    Uint64 antes = SDL_GetTicks();
+
+    bool jugando = true;
+    while (jugando) {
+        SDL_Event evento;
+        while (SDL_PollEvent(&evento)) {
+            if (evento.type == SDL_EVENT_QUIT) {
+                jugando = false;
+            }
+            if (evento.type == SDL_EVENT_MOUSE_MOTION) {
+                paleta.x = evento.motion.x - paleta.w / 2;
+            }
+            /* acá: solo se saca si se está jugando */
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_SPACE && pegada) {
+                pegada = false;
+                vx = 150;
+                vy = -300;
+            }
+        }
+
+        Uint64 ahora = SDL_GetTicks();
+        float dt = (ahora - antes) / 1000.0f;
+        antes = ahora;
+
+        const bool *teclas = SDL_GetKeyboardState(NULL);
+        if (teclas[SDL_SCANCODE_LEFT]) paleta.x -= 400 * dt;
+        if (teclas[SDL_SCANCODE_RIGHT]) paleta.x += 400 * dt;
+        paleta.x = SDL_clamp(paleta.x, 0, 640 - paleta.w);
+
+        SDL_FRect previa = pelota;
+        if (pegada) {
+            pelota.x = paleta.x + paleta.w / 2 - pelota.w / 2;
+            pelota.y = paleta.y - pelota.h;
+        } else {
+            pelota.x += vx * dt;
+            pelota.y += vy * dt;
+        }
+
+        /* las paredes: los dos costados y el techo (abajo no hay pared) */
+        if (pelota.x < 0) {
+            pelota.x = 0;
+            vx = -vx;
+        }
+        if (pelota.x + pelota.w > 640) {
+            pelota.x = 640 - pelota.w;
+            vx = -vx;
+        }
+        if (pelota.y < 0) {
+            pelota.y = 0;
+            vy = -vy;
+        }
+
+        if (toca(pelota, paleta) && vy > 0) {
+            pelota.y = paleta.y - pelota.h;
+            vy = -vy;
+            vx = ((pelota.x + pelota.w / 2) - (paleta.x + paleta.w / 2)) * 6;
+        }
+
+        /* los ladrillos: ¿la pelota toca alguno? */
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo && toca(pelota, pared[i].caja)) {
+                pared[i].golpes--;
+                if (pared[i].golpes == 0) {
+                    pared[i].vivo = false;
+                }
+                SDL_FRect caja = pared[i].caja;
+                bool aLaAltura = previa.y + previa.h > caja.y && previa.y < caja.y + caja.h;
+                if (aLaAltura) {
+                    vx = -vx;
+                } else {
+                    vy = -vy;
+                }
+                vy = SDL_clamp(vy * 1.03f, -480, 480);
+                puntos += 10 * (FILAS - pared[i].fila);
+                break;
+            }
+        }
+
+        /* ¿se cayó por abajo? */
+        if (pelota.y > 480) {
+            pegada = true;
+            vidas--;
+            /* acá: sin vidas, perdiste */
+        }
+
+
+        SDL_SetRenderDrawColor(lapiz, 20, 12, 40, 255);
+        SDL_RenderClear(lapiz);
+        SDL_SetRenderDrawColor(lapiz, 255, 60, 100, 255);
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo) {
+                SDL_Color color = colores[pared[i].fila];
+                SDL_SetRenderDrawColor(lapiz, color.r, color.g, color.b, 255);
+                SDL_RenderFillRect(lapiz, &pared[i].caja);
+            }
+        }
+        SDL_SetRenderDrawColor(lapiz, 0, 229, 255, 255);
+        SDL_RenderFillRect(lapiz, &paleta);
+        SDL_SetRenderDrawColor(lapiz, 255, 220, 0, 255);
+        SDL_RenderFillRect(lapiz, &pelota);
+        SDL_SetRenderDrawColor(lapiz, 255, 255, 255, 255);
+        SDL_RenderDebugTextFormat(lapiz, 10, 10, "PUNTOS %d", puntos);
+        SDL_RenderDebugTextFormat(lapiz, 560, 10, "VIDAS %d", vidas);
+        /* acá: el cartel de perdiste */
+        SDL_RenderPresent(lapiz);
+        SDL_Delay(16);
+    }
+
+    SDL_DestroyRenderer(lapiz);
+    SDL_DestroyWindow(ventana);
+    SDL_Quit();
+    return 0;
+}
+```
+
+#### Eventos
+```
+tecla Espacio
+cuadros 150
+tecla Espacio
+cuadros 150
+tecla Espacio
+cuadros 150
+tecla Espacio
+cuadros 30
+```
+
+#### Estado
+```
+textos
+```
+
+#### Salida esperada
+```
+── Estado ──
+textos: PUNTOS 40 | VIDAS 0 | PERDISTE
+```
+
+#### Solución
+```c
+#include <SDL3/SDL.h>
+
+static bool toca(SDL_FRect a, SDL_FRect b)
+{
+    return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
+}
+
+/* Un ladrillo: dónde está y si sigue entero */
+typedef struct {
+    SDL_FRect caja;
+    bool vivo;
+    int fila;     /* 0 es la de arriba */
+    int golpes;   /* cuántos golpes le faltan para romperse */
+} Ladrillo;
+
+#define COLUMNAS 10
+#define FILAS 5
+
+enum Estado { JUGANDO, PERDISTE, GANASTE };
+
+
+int main(void)
+{
+    SDL_Init(SDL_INIT_VIDEO);
+
+    SDL_Window *ventana = NULL;
+    SDL_Renderer *lapiz = NULL;
+    SDL_CreateWindowAndRenderer("El Muro de Ladrillos", 640, 480, 0, &ventana, &lapiz);
+
+    SDL_FRect paleta = { 280, 440, 80, 12 };   /* abajo, en el medio */
+    SDL_FRect pelota = { 315, 300, 10, 10 };
+    float vx = 150;    /* + derecha, - izquierda */
+    float vy = -300;   /* - sube, + baja */
+    bool pegada = true;   /* true: la pelota espera arriba de la paleta */
+    int puntos = 0;
+    int vidas = 3;
+    enum Estado estado = JUGANDO;
+
+    Ladrillo pared[FILAS * COLUMNAS] = { 0 };   /* 5 filas de 10: 50 ladrillos */
+    for (int f = 0; f < FILAS; f++) {
+        for (int c = 0; c < COLUMNAS; c++) {
+            int i = f * COLUMNAS + c;   /* el número de ladrillo */
+            pared[i].caja = (SDL_FRect){ 22 + c * 60, 60 + f * 24, 56, 20 };
+            pared[i].vivo = true;
+            pared[i].fila = f;
+        }
+    }
+    for (int i = 0; i < FILAS * COLUMNAS; i++) {
+        pared[i].golpes = (pared[i].fila == FILAS - 1) ? 2 : 1;
+    }
+    SDL_Color colores[FILAS] = {
+        { 255, 60, 100, 255 },    /* rosa */
+        { 255, 150, 40, 255 },    /* naranja */
+        { 80, 220, 100, 255 },    /* verde */
+        { 150, 100, 255, 255 },   /* violeta */
+        { 180, 180, 200, 255 },   /* metal */
+    };
+    Uint64 antes = SDL_GetTicks();
+
+    bool jugando = true;
+    while (jugando) {
+        SDL_Event evento;
+        while (SDL_PollEvent(&evento)) {
+            if (evento.type == SDL_EVENT_QUIT) {
+                jugando = false;
+            }
+            if (evento.type == SDL_EVENT_MOUSE_MOTION) {
+                paleta.x = evento.motion.x - paleta.w / 2;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_SPACE && pegada && estado == JUGANDO) {
+                pegada = false;
+                vx = 150;
+                vy = -300;
+            }
+        }
+
+        Uint64 ahora = SDL_GetTicks();
+        float dt = (ahora - antes) / 1000.0f;
+        antes = ahora;
+
+        const bool *teclas = SDL_GetKeyboardState(NULL);
+        if (teclas[SDL_SCANCODE_LEFT]) paleta.x -= 400 * dt;
+        if (teclas[SDL_SCANCODE_RIGHT]) paleta.x += 400 * dt;
+        paleta.x = SDL_clamp(paleta.x, 0, 640 - paleta.w);
+
+        SDL_FRect previa = pelota;
+        if (pegada) {
+            pelota.x = paleta.x + paleta.w / 2 - pelota.w / 2;
+            pelota.y = paleta.y - pelota.h;
+        } else {
+            pelota.x += vx * dt;
+            pelota.y += vy * dt;
+        }
+
+        /* las paredes: los dos costados y el techo (abajo no hay pared) */
+        if (pelota.x < 0) {
+            pelota.x = 0;
+            vx = -vx;
+        }
+        if (pelota.x + pelota.w > 640) {
+            pelota.x = 640 - pelota.w;
+            vx = -vx;
+        }
+        if (pelota.y < 0) {
+            pelota.y = 0;
+            vy = -vy;
+        }
+
+        if (toca(pelota, paleta) && vy > 0) {
+            pelota.y = paleta.y - pelota.h;
+            vy = -vy;
+            vx = ((pelota.x + pelota.w / 2) - (paleta.x + paleta.w / 2)) * 6;
+        }
+
+        /* los ladrillos: ¿la pelota toca alguno? */
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo && toca(pelota, pared[i].caja)) {
+                pared[i].golpes--;
+                if (pared[i].golpes == 0) {
+                    pared[i].vivo = false;
+                }
+                SDL_FRect caja = pared[i].caja;
+                bool aLaAltura = previa.y + previa.h > caja.y && previa.y < caja.y + caja.h;
+                if (aLaAltura) {
+                    vx = -vx;
+                } else {
+                    vy = -vy;
+                }
+                vy = SDL_clamp(vy * 1.03f, -480, 480);
+                puntos += 10 * (FILAS - pared[i].fila);
+                break;
+            }
+        }
+
+        /* ¿se cayó por abajo? */
+        if (pelota.y > 480) {
+            pegada = true;
+            vidas--;
+            if (vidas == 0) {
+                estado = PERDISTE;
+            }
+        }
+
+
+        SDL_SetRenderDrawColor(lapiz, 20, 12, 40, 255);
+        SDL_RenderClear(lapiz);
+        SDL_SetRenderDrawColor(lapiz, 255, 60, 100, 255);
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo) {
+                SDL_Color color = colores[pared[i].fila];
+                SDL_SetRenderDrawColor(lapiz, color.r, color.g, color.b, 255);
+                SDL_RenderFillRect(lapiz, &pared[i].caja);
+            }
+        }
+        SDL_SetRenderDrawColor(lapiz, 0, 229, 255, 255);
+        SDL_RenderFillRect(lapiz, &paleta);
+        SDL_SetRenderDrawColor(lapiz, 255, 220, 0, 255);
+        SDL_RenderFillRect(lapiz, &pelota);
+        SDL_SetRenderDrawColor(lapiz, 255, 255, 255, 255);
+        SDL_RenderDebugTextFormat(lapiz, 10, 10, "PUNTOS %d", puntos);
+        SDL_RenderDebugTextFormat(lapiz, 560, 10, "VIDAS %d", vidas);
+        if (estado == PERDISTE) {
+            SDL_RenderDebugText(lapiz, 288, 300, "PERDISTE");
+        }
+        SDL_RenderPresent(lapiz);
+        SDL_Delay(16);
+    }
+
+    SDL_DestroyRenderer(lapiz);
+    SDL_DestroyWindow(ventana);
+    SDL_Quit();
+    return 0;
+}
+```
+
+#### Al superarla
+La tercera pelota se cae y la pantalla dice **PERDISTE**. Se queda quieta, esperando. El Bucle Eterno suelta
+su cola, confundido: el juego ya sabe terminar.
+
+#### Imagen
+- La pantalla de la máquina quieta, con un cartel blanco en el medio (sin texto legible) y la pelota quieta sobre la paleta.
+- Una serpiente de luz violeta suelta su propia cola, confundida, debajo de la máquina.
+- Kira suspira con una sonrisa; Gheco le da una palmadita en el hombro.
+
+### Micro-misión R03-N05-P3 · ¿Cuántos quedan?
+
+```meta
+lugar: El Muro de Ladrillos
+personajes: Kira, Gheco, Arcadia
+carta: Contar | quedan = 0 · for: si vivo, quedan++ · quedan == 0: GANASTE
+recompensa: xp 10, monedas 4
+```
+
+#### Escena
+—¿Y cuándo se gana? —pregunta un chico de la fila. Kira mira la pared: le faltan un montón. —Cuando no
+queda ninguno —dice {mentor}—. Pero la máquina tiene que saber contarlos.
+
+#### Gheco sugiere
+En cada cuadro, después de la caída, se cuentan los ladrillos vivos:
+```c
+int quedan = 0;
+for (int i = 0; i < FILAS * COLUMNAS; i++) {
+    if (pared[i].vivo) {
+        quedan++;
+    }
+}
+if (quedan == 0) {
+    estado = GANASTE;
+}
+```
+`quedan` arranca en 0 **en cada cuadro** y suma uno por cada ladrillo vivo. Y para que se vea, arriba en
+el medio, con el cartel si ganaste:
+```c
+SDL_RenderDebugTextFormat(lapiz, 272, 10, "QUEDAN %d", quedan);
+if (estado == GANASTE) {
+    SDL_RenderDebugText(lapiz, 280, 300, "PARED ROTA");
+}
+```
+
+#### Desafío
+Contá los ladrillos que quedan, mostralos arriba y hacé que ganes cuando no queda ninguno.
+
+#### Pasos
+1. Buscá `/* acá: contar los ladrillos que quedan; si no queda ninguno, ganaste */` y escribí el `for` y el `if` de la sugerencia.
+2. Buscá `/* acá: cuántos quedan, arriba en el medio, y el cartel si ganaste */` y escribí las líneas de `QUEDAN` y `PARED ROTA`.
+3. Tocá **Jugar** y rompé uno: el número tiene que bajar. Después, **Comprobar**.
+
+#### Código inicial
+```c
+#include <SDL3/SDL.h>
+
+static bool toca(SDL_FRect a, SDL_FRect b)
+{
+    return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
+}
+
+/* Un ladrillo: dónde está y si sigue entero */
+typedef struct {
+    SDL_FRect caja;
+    bool vivo;
+    int fila;     /* 0 es la de arriba */
+    int golpes;   /* cuántos golpes le faltan para romperse */
+} Ladrillo;
+
+#define COLUMNAS 10
+#define FILAS 5
+
+enum Estado { JUGANDO, PERDISTE, GANASTE };
+
+
+int main(void)
+{
+    SDL_Init(SDL_INIT_VIDEO);
+
+    SDL_Window *ventana = NULL;
+    SDL_Renderer *lapiz = NULL;
+    SDL_CreateWindowAndRenderer("El Muro de Ladrillos", 640, 480, 0, &ventana, &lapiz);
+
+    SDL_FRect paleta = { 280, 440, 80, 12 };   /* abajo, en el medio */
+    SDL_FRect pelota = { 315, 300, 10, 10 };
+    float vx = 150;    /* + derecha, - izquierda */
+    float vy = -300;   /* - sube, + baja */
+    bool pegada = true;   /* true: la pelota espera arriba de la paleta */
+    int puntos = 0;
+    int vidas = 3;
+    enum Estado estado = JUGANDO;
+
+    Ladrillo pared[FILAS * COLUMNAS] = { 0 };   /* 5 filas de 10: 50 ladrillos */
+    for (int f = 0; f < FILAS; f++) {
+        for (int c = 0; c < COLUMNAS; c++) {
+            int i = f * COLUMNAS + c;   /* el número de ladrillo */
+            pared[i].caja = (SDL_FRect){ 22 + c * 60, 60 + f * 24, 56, 20 };
+            pared[i].vivo = true;
+            pared[i].fila = f;
+        }
+    }
+    for (int i = 0; i < FILAS * COLUMNAS; i++) {
+        pared[i].golpes = (pared[i].fila == FILAS - 1) ? 2 : 1;
+    }
+    SDL_Color colores[FILAS] = {
+        { 255, 60, 100, 255 },    /* rosa */
+        { 255, 150, 40, 255 },    /* naranja */
+        { 80, 220, 100, 255 },    /* verde */
+        { 150, 100, 255, 255 },   /* violeta */
+        { 180, 180, 200, 255 },   /* metal */
+    };
+    Uint64 antes = SDL_GetTicks();
+
+    bool jugando = true;
+    while (jugando) {
+        SDL_Event evento;
+        while (SDL_PollEvent(&evento)) {
+            if (evento.type == SDL_EVENT_QUIT) {
+                jugando = false;
+            }
+            if (evento.type == SDL_EVENT_MOUSE_MOTION) {
+                paleta.x = evento.motion.x - paleta.w / 2;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_SPACE && pegada && estado == JUGANDO) {
+                pegada = false;
+                vx = 150;
+                vy = -300;
+            }
+        }
+
+        Uint64 ahora = SDL_GetTicks();
+        float dt = (ahora - antes) / 1000.0f;
+        antes = ahora;
+
+        const bool *teclas = SDL_GetKeyboardState(NULL);
+        if (teclas[SDL_SCANCODE_LEFT]) paleta.x -= 400 * dt;
+        if (teclas[SDL_SCANCODE_RIGHT]) paleta.x += 400 * dt;
+        paleta.x = SDL_clamp(paleta.x, 0, 640 - paleta.w);
+
+        SDL_FRect previa = pelota;
+        if (pegada) {
+            pelota.x = paleta.x + paleta.w / 2 - pelota.w / 2;
+            pelota.y = paleta.y - pelota.h;
+        } else {
+            pelota.x += vx * dt;
+            pelota.y += vy * dt;
+        }
+
+        /* las paredes: los dos costados y el techo (abajo no hay pared) */
+        if (pelota.x < 0) {
+            pelota.x = 0;
+            vx = -vx;
+        }
+        if (pelota.x + pelota.w > 640) {
+            pelota.x = 640 - pelota.w;
+            vx = -vx;
+        }
+        if (pelota.y < 0) {
+            pelota.y = 0;
+            vy = -vy;
+        }
+
+        if (toca(pelota, paleta) && vy > 0) {
+            pelota.y = paleta.y - pelota.h;
+            vy = -vy;
+            vx = ((pelota.x + pelota.w / 2) - (paleta.x + paleta.w / 2)) * 6;
+        }
+
+        /* los ladrillos: ¿la pelota toca alguno? */
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo && toca(pelota, pared[i].caja)) {
+                pared[i].golpes--;
+                if (pared[i].golpes == 0) {
+                    pared[i].vivo = false;
+                }
+                SDL_FRect caja = pared[i].caja;
+                bool aLaAltura = previa.y + previa.h > caja.y && previa.y < caja.y + caja.h;
+                if (aLaAltura) {
+                    vx = -vx;
+                } else {
+                    vy = -vy;
+                }
+                vy = SDL_clamp(vy * 1.03f, -480, 480);
+                puntos += 10 * (FILAS - pared[i].fila);
+                break;
+            }
+        }
+
+        /* ¿se cayó por abajo? */
+        if (pelota.y > 480) {
+            pegada = true;
+            vidas--;
+            if (vidas == 0) {
+                estado = PERDISTE;
+            }
+        }
+
+        /* acá: contar los ladrillos que quedan; si no queda ninguno, ganaste */
+
+        SDL_SetRenderDrawColor(lapiz, 20, 12, 40, 255);
+        SDL_RenderClear(lapiz);
+        SDL_SetRenderDrawColor(lapiz, 255, 60, 100, 255);
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo) {
+                SDL_Color color = colores[pared[i].fila];
+                SDL_SetRenderDrawColor(lapiz, color.r, color.g, color.b, 255);
+                SDL_RenderFillRect(lapiz, &pared[i].caja);
+            }
+        }
+        SDL_SetRenderDrawColor(lapiz, 0, 229, 255, 255);
+        SDL_RenderFillRect(lapiz, &paleta);
+        SDL_SetRenderDrawColor(lapiz, 255, 220, 0, 255);
+        SDL_RenderFillRect(lapiz, &pelota);
+        SDL_SetRenderDrawColor(lapiz, 255, 255, 255, 255);
+        SDL_RenderDebugTextFormat(lapiz, 10, 10, "PUNTOS %d", puntos);
+        SDL_RenderDebugTextFormat(lapiz, 560, 10, "VIDAS %d", vidas);
+        /* acá: cuántos quedan, arriba en el medio, y el cartel si ganaste */
+        if (estado == PERDISTE) {
+            SDL_RenderDebugText(lapiz, 288, 300, "PERDISTE");
+        }
+        SDL_RenderPresent(lapiz);
+        SDL_Delay(16);
+    }
+
+    SDL_DestroyRenderer(lapiz);
+    SDL_DestroyWindow(ventana);
+    SDL_Quit();
+    return 0;
+}
+```
+
+#### Eventos
+```
+tecla Espacio
+cuadros 150
+tecla Espacio
+cuadros 100
+```
+
+#### Estado
+```
+textos
+```
+
+#### Salida esperada
+```
+── Estado ──
+textos: PUNTOS 20 | VIDAS 2 | QUEDAN 49
+```
+
+#### Solución
+```c
+#include <SDL3/SDL.h>
+
+static bool toca(SDL_FRect a, SDL_FRect b)
+{
+    return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
+}
+
+/* Un ladrillo: dónde está y si sigue entero */
+typedef struct {
+    SDL_FRect caja;
+    bool vivo;
+    int fila;     /* 0 es la de arriba */
+    int golpes;   /* cuántos golpes le faltan para romperse */
+} Ladrillo;
+
+#define COLUMNAS 10
+#define FILAS 5
+
+enum Estado { JUGANDO, PERDISTE, GANASTE };
+
+
+int main(void)
+{
+    SDL_Init(SDL_INIT_VIDEO);
+
+    SDL_Window *ventana = NULL;
+    SDL_Renderer *lapiz = NULL;
+    SDL_CreateWindowAndRenderer("El Muro de Ladrillos", 640, 480, 0, &ventana, &lapiz);
+
+    SDL_FRect paleta = { 280, 440, 80, 12 };   /* abajo, en el medio */
+    SDL_FRect pelota = { 315, 300, 10, 10 };
+    float vx = 150;    /* + derecha, - izquierda */
+    float vy = -300;   /* - sube, + baja */
+    bool pegada = true;   /* true: la pelota espera arriba de la paleta */
+    int puntos = 0;
+    int vidas = 3;
+    enum Estado estado = JUGANDO;
+
+    Ladrillo pared[FILAS * COLUMNAS] = { 0 };   /* 5 filas de 10: 50 ladrillos */
+    for (int f = 0; f < FILAS; f++) {
+        for (int c = 0; c < COLUMNAS; c++) {
+            int i = f * COLUMNAS + c;   /* el número de ladrillo */
+            pared[i].caja = (SDL_FRect){ 22 + c * 60, 60 + f * 24, 56, 20 };
+            pared[i].vivo = true;
+            pared[i].fila = f;
+        }
+    }
+    for (int i = 0; i < FILAS * COLUMNAS; i++) {
+        pared[i].golpes = (pared[i].fila == FILAS - 1) ? 2 : 1;
+    }
+    SDL_Color colores[FILAS] = {
+        { 255, 60, 100, 255 },    /* rosa */
+        { 255, 150, 40, 255 },    /* naranja */
+        { 80, 220, 100, 255 },    /* verde */
+        { 150, 100, 255, 255 },   /* violeta */
+        { 180, 180, 200, 255 },   /* metal */
+    };
+    Uint64 antes = SDL_GetTicks();
+
+    bool jugando = true;
+    while (jugando) {
+        SDL_Event evento;
+        while (SDL_PollEvent(&evento)) {
+            if (evento.type == SDL_EVENT_QUIT) {
+                jugando = false;
+            }
+            if (evento.type == SDL_EVENT_MOUSE_MOTION) {
+                paleta.x = evento.motion.x - paleta.w / 2;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_SPACE && pegada && estado == JUGANDO) {
+                pegada = false;
+                vx = 150;
+                vy = -300;
+            }
+        }
+
+        Uint64 ahora = SDL_GetTicks();
+        float dt = (ahora - antes) / 1000.0f;
+        antes = ahora;
+
+        const bool *teclas = SDL_GetKeyboardState(NULL);
+        if (teclas[SDL_SCANCODE_LEFT]) paleta.x -= 400 * dt;
+        if (teclas[SDL_SCANCODE_RIGHT]) paleta.x += 400 * dt;
+        paleta.x = SDL_clamp(paleta.x, 0, 640 - paleta.w);
+
+        SDL_FRect previa = pelota;
+        if (pegada) {
+            pelota.x = paleta.x + paleta.w / 2 - pelota.w / 2;
+            pelota.y = paleta.y - pelota.h;
+        } else {
+            pelota.x += vx * dt;
+            pelota.y += vy * dt;
+        }
+
+        /* las paredes: los dos costados y el techo (abajo no hay pared) */
+        if (pelota.x < 0) {
+            pelota.x = 0;
+            vx = -vx;
+        }
+        if (pelota.x + pelota.w > 640) {
+            pelota.x = 640 - pelota.w;
+            vx = -vx;
+        }
+        if (pelota.y < 0) {
+            pelota.y = 0;
+            vy = -vy;
+        }
+
+        if (toca(pelota, paleta) && vy > 0) {
+            pelota.y = paleta.y - pelota.h;
+            vy = -vy;
+            vx = ((pelota.x + pelota.w / 2) - (paleta.x + paleta.w / 2)) * 6;
+        }
+
+        /* los ladrillos: ¿la pelota toca alguno? */
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo && toca(pelota, pared[i].caja)) {
+                pared[i].golpes--;
+                if (pared[i].golpes == 0) {
+                    pared[i].vivo = false;
+                }
+                SDL_FRect caja = pared[i].caja;
+                bool aLaAltura = previa.y + previa.h > caja.y && previa.y < caja.y + caja.h;
+                if (aLaAltura) {
+                    vx = -vx;
+                } else {
+                    vy = -vy;
+                }
+                vy = SDL_clamp(vy * 1.03f, -480, 480);
+                puntos += 10 * (FILAS - pared[i].fila);
+                break;
+            }
+        }
+
+        /* ¿se cayó por abajo? */
+        if (pelota.y > 480) {
+            pegada = true;
+            vidas--;
+            if (vidas == 0) {
+                estado = PERDISTE;
+            }
+        }
+
+        int quedan = 0;
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo) {
+                quedan++;
+            }
+        }
+        if (quedan == 0) {
+            estado = GANASTE;
+        }
+
+        SDL_SetRenderDrawColor(lapiz, 20, 12, 40, 255);
+        SDL_RenderClear(lapiz);
+        SDL_SetRenderDrawColor(lapiz, 255, 60, 100, 255);
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo) {
+                SDL_Color color = colores[pared[i].fila];
+                SDL_SetRenderDrawColor(lapiz, color.r, color.g, color.b, 255);
+                SDL_RenderFillRect(lapiz, &pared[i].caja);
+            }
+        }
+        SDL_SetRenderDrawColor(lapiz, 0, 229, 255, 255);
+        SDL_RenderFillRect(lapiz, &paleta);
+        SDL_SetRenderDrawColor(lapiz, 255, 220, 0, 255);
+        SDL_RenderFillRect(lapiz, &pelota);
+        SDL_SetRenderDrawColor(lapiz, 255, 255, 255, 255);
+        SDL_RenderDebugTextFormat(lapiz, 10, 10, "PUNTOS %d", puntos);
+        SDL_RenderDebugTextFormat(lapiz, 560, 10, "VIDAS %d", vidas);
+        SDL_RenderDebugTextFormat(lapiz, 272, 10, "QUEDAN %d", quedan);
+        if (estado == GANASTE) {
+            SDL_RenderDebugText(lapiz, 280, 300, "PARED ROTA");
+        }
+        if (estado == PERDISTE) {
+            SDL_RenderDebugText(lapiz, 288, 300, "PERDISTE");
+        }
+        SDL_RenderPresent(lapiz);
+        SDL_Delay(16);
+    }
+
+    SDL_DestroyRenderer(lapiz);
+    SDL_DestroyWindow(ventana);
+    SDL_Quit();
+    return 0;
+}
+```
+
+#### Al superarla
+Arriba aparece **QUEDAN 50** y baja con cada ladrillo roto. Los chicos de la fila cuentan en voz alta junto
+con la pantalla: —¡Cuarenta y nueve! ¡Cuarenta y ocho!
+
+#### Imagen
+- La pantalla con el contador blanco arriba en el medio y la pared de colores con varios huecos.
+- Chicos del barrio con abrigos cerrados cuentan en voz alta, señalando la pantalla.
+- Kira juega concentrada; Gheco, sobre la máquina, cuenta con la cola.
+
+### Micro-misión R03-N05-P4 · Revancha
+
+```meta
+lugar: El Muro de Ladrillos
+personajes: Kira, Gheco, Arcadia
+carta: Función y revancha | static void armarPared(Ladrillo pared[]) · R: armarPared, 3 vidas, 0 puntos, JUGANDO
+recompensa: xp 10, monedas 4
+```
+
+#### Escena
+El chico pierde y se queda mirando el cartel. —¿Y ahora? —pregunta. Para volver a jugar hay que apagar la
+máquina y prenderla otra vez. —Una revancha —dice {mentor}—. Con la R.
+
+#### Gheco sugiere
+Para la revancha hay que volver a armar la pared, y esos `for` ya están al principio. En lugar de copiarlos,
+van a una **función** (antes del `main`):
+```c
+static void armarPared(Ladrillo pared[])
+{
+    /* acá van los mismos for de antes: cortalos de main y pegalos acá */
+}
+```
+`Ladrillo pared[]` recibe el arreglo. Un arreglo **no se copia** al pasarlo: la función arma el mismo de
+`main`. En `main`, donde estaban los `for`, queda solo `armarPared(pared);`.
+
+Y en los eventos, con la R, si no se está jugando:
+```c
+if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_R && estado != JUGANDO) {
+    armarPared(pared);
+    vidas = 3;
+    puntos = 0;
+    pegada = true;
+    estado = JUGANDO;
+}
+```
+Y un cartelito que avise: `R: OTRA VEZ`, cuando no se está jugando.
+
+#### Desafío
+Pasá el armado de la pared a una función y usala para volver a jugar con la R.
+
+#### Pasos
+1. Buscá `/* acá: una función que arma la pared … */` (antes del `main`) y escribí la función `armarPared` con los mismos `for`.
+2. Buscá `/* acá: armar la pared con la función */` (en `main`), borrá los `for` de abajo y escribí `armarPared(pared);`.
+3. Buscá `/* acá: con la R, otra partida … */` (en los eventos) y escribí el `if` con `SDLK_R`.
+4. Buscá `/* acá: cómo volver a jugar */` y escribí el cartel `R: OTRA VEZ` cuando `estado != JUGANDO`.
+5. Tocá **Jugar**, perdé y apretá la R. Después, **Comprobar**.
+
+#### Código inicial
+```c
+#include <SDL3/SDL.h>
+
+static bool toca(SDL_FRect a, SDL_FRect b)
+{
+    return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
+}
+
+/* Un ladrillo: dónde está y si sigue entero */
+typedef struct {
+    SDL_FRect caja;
+    bool vivo;
+    int fila;     /* 0 es la de arriba */
+    int golpes;   /* cuántos golpes le faltan para romperse */
+} Ladrillo;
+
+#define COLUMNAS 10
+#define FILAS 5
+
+enum Estado { JUGANDO, PERDISTE, GANASTE };
+
+/* acá: una función que arma la pared (los mismos for de antes, para usarlos dos veces) */
+
+int main(void)
+{
+    SDL_Init(SDL_INIT_VIDEO);
+
+    SDL_Window *ventana = NULL;
+    SDL_Renderer *lapiz = NULL;
+    SDL_CreateWindowAndRenderer("El Muro de Ladrillos", 640, 480, 0, &ventana, &lapiz);
+
+    SDL_FRect paleta = { 280, 440, 80, 12 };   /* abajo, en el medio */
+    SDL_FRect pelota = { 315, 300, 10, 10 };
+    float vx = 150;    /* + derecha, - izquierda */
+    float vy = -300;   /* - sube, + baja */
+    bool pegada = true;   /* true: la pelota espera arriba de la paleta */
+    int puntos = 0;
+    int vidas = 3;
+    enum Estado estado = JUGANDO;
+
+    Ladrillo pared[FILAS * COLUMNAS] = { 0 };   /* 5 filas de 10: 50 ladrillos */
+    /* acá: armar la pared con la función */
+    for (int f = 0; f < FILAS; f++) {
+        for (int c = 0; c < COLUMNAS; c++) {
+            int i = f * COLUMNAS + c;   /* el número de ladrillo */
+            pared[i].caja = (SDL_FRect){ 22 + c * 60, 60 + f * 24, 56, 20 };
+            pared[i].vivo = true;
+            pared[i].fila = f;
+        }
+    }
+    for (int i = 0; i < FILAS * COLUMNAS; i++) {
+        pared[i].golpes = (pared[i].fila == FILAS - 1) ? 2 : 1;
+    }
+    SDL_Color colores[FILAS] = {
+        { 255, 60, 100, 255 },    /* rosa */
+        { 255, 150, 40, 255 },    /* naranja */
+        { 80, 220, 100, 255 },    /* verde */
+        { 150, 100, 255, 255 },   /* violeta */
+        { 180, 180, 200, 255 },   /* metal */
+    };
+    Uint64 antes = SDL_GetTicks();
+
+    bool jugando = true;
+    while (jugando) {
+        SDL_Event evento;
+        while (SDL_PollEvent(&evento)) {
+            if (evento.type == SDL_EVENT_QUIT) {
+                jugando = false;
+            }
+            if (evento.type == SDL_EVENT_MOUSE_MOTION) {
+                paleta.x = evento.motion.x - paleta.w / 2;
+            }
+            /* acá: con la R, otra partida: la pared entera, 3 vidas y 0 puntos */
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_SPACE && pegada && estado == JUGANDO) {
+                pegada = false;
+                vx = 150;
+                vy = -300;
+            }
+        }
+
+        Uint64 ahora = SDL_GetTicks();
+        float dt = (ahora - antes) / 1000.0f;
+        antes = ahora;
+
+        const bool *teclas = SDL_GetKeyboardState(NULL);
+        if (teclas[SDL_SCANCODE_LEFT]) paleta.x -= 400 * dt;
+        if (teclas[SDL_SCANCODE_RIGHT]) paleta.x += 400 * dt;
+        paleta.x = SDL_clamp(paleta.x, 0, 640 - paleta.w);
+
+        SDL_FRect previa = pelota;
+        if (pegada) {
+            pelota.x = paleta.x + paleta.w / 2 - pelota.w / 2;
+            pelota.y = paleta.y - pelota.h;
+        } else {
+            pelota.x += vx * dt;
+            pelota.y += vy * dt;
+        }
+
+        /* las paredes: los dos costados y el techo (abajo no hay pared) */
+        if (pelota.x < 0) {
+            pelota.x = 0;
+            vx = -vx;
+        }
+        if (pelota.x + pelota.w > 640) {
+            pelota.x = 640 - pelota.w;
+            vx = -vx;
+        }
+        if (pelota.y < 0) {
+            pelota.y = 0;
+            vy = -vy;
+        }
+
+        if (toca(pelota, paleta) && vy > 0) {
+            pelota.y = paleta.y - pelota.h;
+            vy = -vy;
+            vx = ((pelota.x + pelota.w / 2) - (paleta.x + paleta.w / 2)) * 6;
+        }
+
+        /* los ladrillos: ¿la pelota toca alguno? */
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo && toca(pelota, pared[i].caja)) {
+                pared[i].golpes--;
+                if (pared[i].golpes == 0) {
+                    pared[i].vivo = false;
+                }
+                SDL_FRect caja = pared[i].caja;
+                bool aLaAltura = previa.y + previa.h > caja.y && previa.y < caja.y + caja.h;
+                if (aLaAltura) {
+                    vx = -vx;
+                } else {
+                    vy = -vy;
+                }
+                vy = SDL_clamp(vy * 1.03f, -480, 480);
+                puntos += 10 * (FILAS - pared[i].fila);
+                break;
+            }
+        }
+
+        /* ¿se cayó por abajo? */
+        if (pelota.y > 480) {
+            pegada = true;
+            vidas--;
+            if (vidas == 0) {
+                estado = PERDISTE;
+            }
+        }
+
+        int quedan = 0;
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo) {
+                quedan++;
+            }
+        }
+        if (quedan == 0) {
+            estado = GANASTE;
+        }
+
+        SDL_SetRenderDrawColor(lapiz, 20, 12, 40, 255);
+        SDL_RenderClear(lapiz);
+        SDL_SetRenderDrawColor(lapiz, 255, 60, 100, 255);
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo) {
+                SDL_Color color = colores[pared[i].fila];
+                SDL_SetRenderDrawColor(lapiz, color.r, color.g, color.b, 255);
+                SDL_RenderFillRect(lapiz, &pared[i].caja);
+            }
+        }
+        SDL_SetRenderDrawColor(lapiz, 0, 229, 255, 255);
+        SDL_RenderFillRect(lapiz, &paleta);
+        SDL_SetRenderDrawColor(lapiz, 255, 220, 0, 255);
+        SDL_RenderFillRect(lapiz, &pelota);
+        SDL_SetRenderDrawColor(lapiz, 255, 255, 255, 255);
+        SDL_RenderDebugTextFormat(lapiz, 10, 10, "PUNTOS %d", puntos);
+        SDL_RenderDebugTextFormat(lapiz, 560, 10, "VIDAS %d", vidas);
+        SDL_RenderDebugTextFormat(lapiz, 272, 10, "QUEDAN %d", quedan);
+        if (estado == GANASTE) {
+            SDL_RenderDebugText(lapiz, 280, 300, "PARED ROTA");
+        }
+        if (estado == PERDISTE) {
+            SDL_RenderDebugText(lapiz, 288, 300, "PERDISTE");
+        }
+        /* acá: cómo volver a jugar */
+        SDL_RenderPresent(lapiz);
+        SDL_Delay(16);
+    }
+
+    SDL_DestroyRenderer(lapiz);
+    SDL_DestroyWindow(ventana);
+    SDL_Quit();
+    return 0;
+}
+```
+
+#### Eventos
+```
+tecla Espacio
+cuadros 150
+tecla Espacio
+cuadros 150
+tecla Espacio
+cuadros 150
+tecla Espacio
+cuadros 30
+tecla R
+cuadros 5
+```
+
+#### Estado
+```
+textos
+```
+
+#### Salida esperada
+```
+── Estado ──
+textos: PUNTOS 0 | VIDAS 3 | QUEDAN 50
+```
+
+#### Solución
+```c
+#include <SDL3/SDL.h>
+
+static bool toca(SDL_FRect a, SDL_FRect b)
+{
+    return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
+}
+
+/* Un ladrillo: dónde está y si sigue entero */
+typedef struct {
+    SDL_FRect caja;
+    bool vivo;
+    int fila;     /* 0 es la de arriba */
+    int golpes;   /* cuántos golpes le faltan para romperse */
+} Ladrillo;
+
+#define COLUMNAS 10
+#define FILAS 5
+
+enum Estado { JUGANDO, PERDISTE, GANASTE };
+
+/* Arma los 50 ladrillos enteros, con los de metal abajo */
+static void armarPared(Ladrillo pared[])
+{
+    for (int f = 0; f < FILAS; f++) {
+        for (int c = 0; c < COLUMNAS; c++) {
+            int i = f * COLUMNAS + c;   /* el número de ladrillo */
+            pared[i].caja = (SDL_FRect){ 22 + c * 60, 60 + f * 24, 56, 20 };
+            pared[i].vivo = true;
+            pared[i].fila = f;
+        }
+    }
+    for (int i = 0; i < FILAS * COLUMNAS; i++) {
+        pared[i].golpes = (pared[i].fila == FILAS - 1) ? 2 : 1;
+    }
+}
+
+int main(void)
+{
+    SDL_Init(SDL_INIT_VIDEO);
+
+    SDL_Window *ventana = NULL;
+    SDL_Renderer *lapiz = NULL;
+    SDL_CreateWindowAndRenderer("El Muro de Ladrillos", 640, 480, 0, &ventana, &lapiz);
+
+    SDL_FRect paleta = { 280, 440, 80, 12 };   /* abajo, en el medio */
+    SDL_FRect pelota = { 315, 300, 10, 10 };
+    float vx = 150;    /* + derecha, - izquierda */
+    float vy = -300;   /* - sube, + baja */
+    bool pegada = true;   /* true: la pelota espera arriba de la paleta */
+    int puntos = 0;
+    int vidas = 3;
+    enum Estado estado = JUGANDO;
+
+    Ladrillo pared[FILAS * COLUMNAS] = { 0 };   /* 5 filas de 10: 50 ladrillos */
+    armarPared(pared);
+    SDL_Color colores[FILAS] = {
+        { 255, 60, 100, 255 },    /* rosa */
+        { 255, 150, 40, 255 },    /* naranja */
+        { 80, 220, 100, 255 },    /* verde */
+        { 150, 100, 255, 255 },   /* violeta */
+        { 180, 180, 200, 255 },   /* metal */
+    };
+    Uint64 antes = SDL_GetTicks();
+
+    bool jugando = true;
+    while (jugando) {
+        SDL_Event evento;
+        while (SDL_PollEvent(&evento)) {
+            if (evento.type == SDL_EVENT_QUIT) {
+                jugando = false;
+            }
+            if (evento.type == SDL_EVENT_MOUSE_MOTION) {
+                paleta.x = evento.motion.x - paleta.w / 2;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_R && estado != JUGANDO) {
+                armarPared(pared);
+                vidas = 3;
+                puntos = 0;
+                pegada = true;
+                estado = JUGANDO;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_SPACE && pegada && estado == JUGANDO) {
+                pegada = false;
+                vx = 150;
+                vy = -300;
+            }
+        }
+
+        Uint64 ahora = SDL_GetTicks();
+        float dt = (ahora - antes) / 1000.0f;
+        antes = ahora;
+
+        const bool *teclas = SDL_GetKeyboardState(NULL);
+        if (teclas[SDL_SCANCODE_LEFT]) paleta.x -= 400 * dt;
+        if (teclas[SDL_SCANCODE_RIGHT]) paleta.x += 400 * dt;
+        paleta.x = SDL_clamp(paleta.x, 0, 640 - paleta.w);
+
+        SDL_FRect previa = pelota;
+        if (pegada) {
+            pelota.x = paleta.x + paleta.w / 2 - pelota.w / 2;
+            pelota.y = paleta.y - pelota.h;
+        } else {
+            pelota.x += vx * dt;
+            pelota.y += vy * dt;
+        }
+
+        /* las paredes: los dos costados y el techo (abajo no hay pared) */
+        if (pelota.x < 0) {
+            pelota.x = 0;
+            vx = -vx;
+        }
+        if (pelota.x + pelota.w > 640) {
+            pelota.x = 640 - pelota.w;
+            vx = -vx;
+        }
+        if (pelota.y < 0) {
+            pelota.y = 0;
+            vy = -vy;
+        }
+
+        if (toca(pelota, paleta) && vy > 0) {
+            pelota.y = paleta.y - pelota.h;
+            vy = -vy;
+            vx = ((pelota.x + pelota.w / 2) - (paleta.x + paleta.w / 2)) * 6;
+        }
+
+        /* los ladrillos: ¿la pelota toca alguno? */
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo && toca(pelota, pared[i].caja)) {
+                pared[i].golpes--;
+                if (pared[i].golpes == 0) {
+                    pared[i].vivo = false;
+                }
+                SDL_FRect caja = pared[i].caja;
+                bool aLaAltura = previa.y + previa.h > caja.y && previa.y < caja.y + caja.h;
+                if (aLaAltura) {
+                    vx = -vx;
+                } else {
+                    vy = -vy;
+                }
+                vy = SDL_clamp(vy * 1.03f, -480, 480);
+                puntos += 10 * (FILAS - pared[i].fila);
+                break;
+            }
+        }
+
+        /* ¿se cayó por abajo? */
+        if (pelota.y > 480) {
+            pegada = true;
+            vidas--;
+            if (vidas == 0) {
+                estado = PERDISTE;
+            }
+        }
+
+        int quedan = 0;
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo) {
+                quedan++;
+            }
+        }
+        if (quedan == 0) {
+            estado = GANASTE;
+        }
+
+        SDL_SetRenderDrawColor(lapiz, 20, 12, 40, 255);
+        SDL_RenderClear(lapiz);
+        SDL_SetRenderDrawColor(lapiz, 255, 60, 100, 255);
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo) {
+                SDL_Color color = colores[pared[i].fila];
+                SDL_SetRenderDrawColor(lapiz, color.r, color.g, color.b, 255);
+                SDL_RenderFillRect(lapiz, &pared[i].caja);
+            }
+        }
+        SDL_SetRenderDrawColor(lapiz, 0, 229, 255, 255);
+        SDL_RenderFillRect(lapiz, &paleta);
+        SDL_SetRenderDrawColor(lapiz, 255, 220, 0, 255);
+        SDL_RenderFillRect(lapiz, &pelota);
+        SDL_SetRenderDrawColor(lapiz, 255, 255, 255, 255);
+        SDL_RenderDebugTextFormat(lapiz, 10, 10, "PUNTOS %d", puntos);
+        SDL_RenderDebugTextFormat(lapiz, 560, 10, "VIDAS %d", vidas);
+        SDL_RenderDebugTextFormat(lapiz, 272, 10, "QUEDAN %d", quedan);
+        if (estado == GANASTE) {
+            SDL_RenderDebugText(lapiz, 280, 300, "PARED ROTA");
+        }
+        if (estado == PERDISTE) {
+            SDL_RenderDebugText(lapiz, 288, 300, "PERDISTE");
+        }
+        if (estado != JUGANDO) {
+            SDL_RenderDebugText(lapiz, 276, 320, "R: OTRA VEZ");
+        }
+        SDL_RenderPresent(lapiz);
+        SDL_Delay(16);
+    }
+
+    SDL_DestroyRenderer(lapiz);
+    SDL_DestroyWindow(ventana);
+    SDL_Quit();
+    return 0;
+}
+```
+
+#### Al superarla
+El chico aprieta la R y la pared se arma entera de nuevo, con sus tres vidas. Se ríe y juega otra vez. Detrás
+de él, la fila es cada vez más larga. Debajo de la máquina, el Bucle Eterno se escurre y desaparece.
+
+#### Imagen
+- La máquina del Muro encendida, con la pared de colores entera otra vez en la pantalla.
+- Un chico del barrio con abrigo cerrado aprieta un botón, feliz; detrás, una fila de chicos espera.
+- Kira y Arcadia chocan los cinco; Gheco, arriba de la máquina, saluda a los chicos.
+
+## R03-N06 · Menú, niveles y sonido
+
+```meta
+tipo: tema
+criatura: glitch
+padre: R03-N05
+precio: 10
+usa: juegos.estados, juegos.sonido, col.matrices, prog.cadenas
+```
+
+### Crónica
+
+En la plaza ya hay más chicos que lugar. {mentor} saca de un cajón un cuaderno viejo, con las tapas de
+cartón gastadas. Adentro, en cada hoja, hay un muro dibujado con numerales, puntitos y letras M. —Los niveles
+del Vidriero —dice—. Los dibujaba así, con letras, y la máquina los armaba. Pero la máquina arranca de golpe,
+sin menú, y muda. Un **glitch** pasa las hojas del cuaderno muy rápido, para que nadie pueda leerlas.
+
+### Objetivos
+
+Que el juego empiece en un **menú**, que la pared salga de un **mapa dibujado con letras**, que haya **dos
+niveles** (para elegir en el menú, y al romper el primero se pasa al segundo) y que suene: el toc de la paleta,
+el tic de los ladrillos y el bum de la pelota que se cae.
+
+### Antes de empezar
+
+R03-N05. Del Pong: el menú (R02-N05) y el sonido con `pitido` (R02-N06). Del curso de C: las cadenas como
+arreglos de `char`.
+
+### Explicación
+
+#### El menú
+Un estado más en el `enum`, el primero: `MENU`. El juego arranca ahí; con el espacio pasa a `JUGANDO`. Como en el
+Pong, el título va grande con la escala.
+
+#### Un nivel dibujado con letras
+Cada fila de la pared es una **cadena** de 10 letras:
+```c
+"#.#.#.#.#."
+```
+`#` es un ladrillo, `.` es un hueco y `M` es uno de metal. Cinco cadenas, una por fila, son el dibujo del nivel.
+Una cadena es un arreglo de `char`, así que la letra de la fila `f` y la columna `c` es `MAPA[f][c]`. Al armar
+la pared, cada ladrillo mira su letra: si es un punto, no está vivo; si es una M, tiene dos golpes.
+
+Así, para hacer un nivel nuevo no hay que tocar el código: alcanza con dibujarlo.
+
+#### Dos niveles
+`MAPAS[NIVELES][FILAS]` guarda varios dibujos: `MAPAS[0]` es el primero y `MAPAS[1]`, el segundo. Una variable
+`nivel` dice cuál se juega. Es **global** (está afuera de `main`, como `mudo` en el Pong) para que `armarPared`
+la pueda leer sin cambiarle los parámetros. En el menú, el 1 y el 2 lo eligen. Cuando no quedan ladrillos, si
+hay otro nivel, se pasa a ese; si no, ganaste.
+
+#### El sonido
+La función `pitido` del Pong (R02-N06): un sonido de una frecuencia y una duración. Una nota para cada cosa: 440
+para la paleta, 880 (más agudo) para los ladrillos y 150 (grave y largo) cuando se cae la pelota.
+
+### Código de ejemplo
+
+```c
+#include <SDL3/SDL.h>
+
+static bool toca(SDL_FRect a, SDL_FRect b)
+{
+    return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
+}
+
+/* Un ladrillo: dónde está y si sigue entero */
+typedef struct {
+    SDL_FRect caja;
+    bool vivo;
+    int fila;     /* 0 es la de arriba */
+    int golpes;   /* cuántos golpes le faltan para romperse */
+} Ladrillo;
+
+#define COLUMNAS 10
+#define FILAS 5
+#define NIVELES 2
+
+/* Cada nivel, dibujado con letras: # ladrillo · M metal (dos golpes) · . vacío */
+static const char *MAPAS[NIVELES][FILAS] = {
+    {
+        "#.#.#.#.#.",
+        ".#.#.#.#.#",
+        "##########",
+        "#...##...#",
+        "MMMMMMMMMM",
+    },
+    {
+        "..######..",
+        ".########.",
+        "##..##..##",
+        "##########",
+        "MM.MMMM.MM",
+    },
+};
+static int nivel = 0;   /* el nivel que se juega: 0 es el primero */
+
+/* Un pitido de «frecuencia» vueltas por segundo durante «segundos» (el de R01-N09) */
+static void pitido(SDL_AudioStream *parlante, float frecuencia, float segundos)
+{
+    int muestras = (int)(44100 * segundos);
+    float *onda = SDL_malloc(muestras * sizeof(float));
+    for (int i = 0; i < muestras; i++) {
+        onda[i] = 0.2f * SDL_sinf(2 * SDL_PI_F * frecuencia * i / 44100);
+    }
+    SDL_PutAudioStreamData(parlante, onda, muestras * sizeof(float));
+    SDL_free(onda);
+}
+
+enum Estado { MENU, JUGANDO, PERDISTE, GANASTE };
+
+/* Arma la pared del nivel */
+static void armarPared(Ladrillo pared[])
+{
+    for (int f = 0; f < FILAS; f++) {
+        for (int c = 0; c < COLUMNAS; c++) {
+            int i = f * COLUMNAS + c;   /* el número de ladrillo */
+            pared[i].caja = (SDL_FRect){ 22 + c * 60, 60 + f * 24, 56, 20 };
+            char letra = MAPAS[nivel][f][c];
+            pared[i].vivo = letra != '.';
+            pared[i].golpes = (letra == 'M') ? 2 : 1;
+            pared[i].fila = f;
+        }
+    }
+}
+
+int main(void)
+{
+    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
+
+    SDL_Window *ventana = NULL;
+    SDL_Renderer *lapiz = NULL;
+    SDL_CreateWindowAndRenderer("El Muro de Ladrillos", 640, 480, 0, &ventana, &lapiz);
+
+    SDL_AudioSpec formato = { SDL_AUDIO_F32, 1, 44100 };
+    SDL_AudioStream *parlante = SDL_OpenAudioDeviceStream(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, &formato, NULL, NULL);
+    SDL_ResumeAudioStreamDevice(parlante);
+
+    SDL_FRect paleta = { 280, 440, 80, 12 };   /* abajo, en el medio */
+    SDL_FRect pelota = { 315, 300, 10, 10 };
+    float vx = 150;    /* + derecha, - izquierda */
+    float vy = -300;   /* - sube, + baja */
+    bool pegada = true;   /* true: la pelota espera arriba de la paleta */
+    int puntos = 0;
+    int vidas = 3;
+    enum Estado estado = MENU;
+
+    Ladrillo pared[FILAS * COLUMNAS] = { 0 };   /* 5 filas de 10: 50 ladrillos */
+    armarPared(pared);
+    SDL_Color colores[FILAS] = {
+        { 255, 60, 100, 255 },    /* rosa */
+        { 255, 150, 40, 255 },    /* naranja */
+        { 80, 220, 100, 255 },    /* verde */
+        { 150, 100, 255, 255 },   /* violeta */
+        { 180, 180, 200, 255 },   /* metal */
+    };
+    Uint64 antes = SDL_GetTicks();
+
+    bool jugando = true;
+    while (jugando) {
+        SDL_Event evento;
+        while (SDL_PollEvent(&evento)) {
+            if (evento.type == SDL_EVENT_QUIT) {
+                jugando = false;
+            }
+            if (evento.type == SDL_EVENT_MOUSE_MOTION) {
+                paleta.x = evento.motion.x - paleta.w / 2;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_R && estado != JUGANDO) {
+                armarPared(pared);
+                vidas = 3;
+                puntos = 0;
+                pegada = true;
+                estado = JUGANDO;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_SPACE && pegada && estado == JUGANDO) {
+                pegada = false;
+                vx = 150;
+                vy = -300;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_SPACE && estado == MENU) {
+                estado = JUGANDO;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && estado == MENU && (evento.key.key == SDLK_1 || evento.key.key == SDLK_2)) {
+                nivel = (evento.key.key == SDLK_1) ? 0 : 1;
+                armarPared(pared);
+            }
+        }
+
+        Uint64 ahora = SDL_GetTicks();
+        float dt = (ahora - antes) / 1000.0f;
+        antes = ahora;
+
+        const bool *teclas = SDL_GetKeyboardState(NULL);
+        if (teclas[SDL_SCANCODE_LEFT]) paleta.x -= 400 * dt;
+        if (teclas[SDL_SCANCODE_RIGHT]) paleta.x += 400 * dt;
+        paleta.x = SDL_clamp(paleta.x, 0, 640 - paleta.w);
+
+        SDL_FRect previa = pelota;
+        if (pegada) {
+            pelota.x = paleta.x + paleta.w / 2 - pelota.w / 2;
+            pelota.y = paleta.y - pelota.h;
+        } else {
+            pelota.x += vx * dt;
+            pelota.y += vy * dt;
+        }
+
+        /* las paredes: los dos costados y el techo (abajo no hay pared) */
+        if (pelota.x < 0) {
+            pelota.x = 0;
+            vx = -vx;
+        }
+        if (pelota.x + pelota.w > 640) {
+            pelota.x = 640 - pelota.w;
+            vx = -vx;
+        }
+        if (pelota.y < 0) {
+            pelota.y = 0;
+            vy = -vy;
+        }
+
+        if (toca(pelota, paleta) && vy > 0) {
+            pelota.y = paleta.y - pelota.h;
+            vy = -vy;
+            vx = ((pelota.x + pelota.w / 2) - (paleta.x + paleta.w / 2)) * 6;
+            pitido(parlante, 440, 0.05f);
+        }
+
+        /* los ladrillos: ¿la pelota toca alguno? */
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo && toca(pelota, pared[i].caja)) {
+                pared[i].golpes--;
+                if (pared[i].golpes == 0) {
+                    pared[i].vivo = false;
+                }
+                SDL_FRect caja = pared[i].caja;
+                bool aLaAltura = previa.y + previa.h > caja.y && previa.y < caja.y + caja.h;
+                if (aLaAltura) {
+                    vx = -vx;
+                } else {
+                    vy = -vy;
+                }
+                vy = SDL_clamp(vy * 1.03f, -480, 480);
+                puntos += 10 * (FILAS - pared[i].fila);
+                pitido(parlante, 880, 0.04f);
+                break;
+            }
+        }
+
+        /* ¿se cayó por abajo? */
+        if (pelota.y > 480) {
+            pegada = true;
+            vidas--;
+            pitido(parlante, 150, 0.3f);
+            if (vidas == 0) {
+                estado = PERDISTE;
+            }
+        }
+
+        int quedan = 0;
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo) {
+                quedan++;
+            }
+        }
+        if (quedan == 0) {
+            if (nivel + 1 < NIVELES) {
+                nivel++;
+                armarPared(pared);
+                pegada = true;
+            } else {
+                estado = GANASTE;
+            }
+        }
+
+        SDL_SetRenderDrawColor(lapiz, 20, 12, 40, 255);
+        SDL_RenderClear(lapiz);
+        SDL_SetRenderDrawColor(lapiz, 255, 60, 100, 255);
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo) {
+                SDL_Color color = colores[pared[i].fila];
+                SDL_SetRenderDrawColor(lapiz, color.r, color.g, color.b, 255);
+                SDL_RenderFillRect(lapiz, &pared[i].caja);
+            }
+        }
+        SDL_SetRenderDrawColor(lapiz, 0, 229, 255, 255);
+        SDL_RenderFillRect(lapiz, &paleta);
+        SDL_SetRenderDrawColor(lapiz, 255, 220, 0, 255);
+        SDL_RenderFillRect(lapiz, &pelota);
+        SDL_SetRenderDrawColor(lapiz, 255, 255, 255, 255);
+        SDL_RenderDebugTextFormat(lapiz, 10, 10, "PUNTOS %d", puntos);
+        SDL_RenderDebugTextFormat(lapiz, 560, 10, "VIDAS %d", vidas);
+        SDL_RenderDebugTextFormat(lapiz, 272, 10, "QUEDAN %d", quedan);
+        if (estado == GANASTE) {
+            SDL_RenderDebugText(lapiz, 280, 300, "PARED ROTA");
+        }
+        if (estado == PERDISTE) {
+            SDL_RenderDebugText(lapiz, 288, 300, "PERDISTE");
+        }
+        if (estado == PERDISTE || estado == GANASTE) {
+            SDL_RenderDebugText(lapiz, 276, 320, "R: OTRA VEZ");
+        }
+        if (estado == MENU) {
+            SDL_SetRenderDrawColor(lapiz, 255, 220, 0, 255);
+            SDL_SetRenderScale(lapiz, 5, 5);
+            SDL_RenderDebugText(lapiz, 36, 50, "EL MURO");
+            SDL_SetRenderScale(lapiz, 1, 1);
+            SDL_SetRenderDrawColor(lapiz, 255, 255, 255, 255);
+            SDL_RenderDebugText(lapiz, 264, 320, "ESPACIO: JUGAR");
+        }
+        if (estado == MENU) {
+            SDL_RenderDebugTextFormat(lapiz, 256, 345, "NIVEL %d (1 O 2)", nivel + 1);
+        }
+        SDL_RenderPresent(lapiz);
+        SDL_Delay(16);
+    }
+
+    SDL_DestroyAudioStream(parlante);
+    SDL_DestroyRenderer(lapiz);
+    SDL_DestroyWindow(ventana);
+    SDL_Quit();
+    return 0;
+}
+```
+
+### ¿Para qué sirve?
+
+Los niveles dibujados con letras son la forma más simple de hacer **muchos niveles sin escribir código**: lo
+vas a usar para el laberinto del Pac-Man y para los mapas de un juego de plataformas.
+
+### Errores habituales
+
+**Una fila más corta.** Si una cadena tiene 9 letras en lugar de 10, la columna 9 lee el `'\0'` del final (o
+algo peor): cada fila tiene que tener exactamente `COLUMNAS` letras.
+
+**Comparar con comillas dobles.** `letra == "."` compara con una cadena, no con una letra. Una letra va entre
+comillas simples: `letra == '.'`.
+
+**Glitch: el espacio que hace dos cosas.** Si el `if` del menú va antes del `if` que saca la pelota, el mismo
+espacio pasa a `JUGANDO` y saca en el mismo momento. Por eso el del menú va después.
+
+**Pasar de nivel sin armar la pared.** Si se cambia `nivel` pero no se llama a `armarPared`, la pared sigue vacía
+y se gana enseguida.
+
+### Micro-misión R03-N06-P1 · El menú del Muro
+
+```meta
+lugar: El Muro de Ladrillos
+personajes: Kira, Gheco
+carta: Menú | enum { MENU, JUGANDO, … } · arrancar en MENU · espacio en el menú: JUGANDO
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Un chico se acerca y la máquina ya está jugando sola, sin esperarlo. —Las máquinas de verdad te esperan
+con un cartel —dice {mentor}—. El nombre bien grande y cómo empezar.
+
+#### Gheco sugiere
+Como en el Pong (R02-N05), un estado nuevo, el **primero** del `enum`: `MENU`. Cinco cositas:
+1. El `enum`: `enum Estado { MENU, JUGANDO, PERDISTE, GANASTE };`
+2. Arrancar en el menú: `enum Estado estado = MENU;`
+3. En los eventos, **después** del `if` que saca la pelota:
+```c
+if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_SPACE && estado == MENU) {
+    estado = JUGANDO;
+}
+```
+Va después para que el mismo espacio no empiece y saque a la vez.
+4. El cartel de la revancha, solo al final: `if (estado == PERDISTE || estado == GANASTE)`.
+5. El menú, al final del dibujo:
+```c
+if (estado == MENU) {
+    SDL_SetRenderDrawColor(lapiz, 255, 220, 0, 255);
+    SDL_SetRenderScale(lapiz, 5, 5);
+    SDL_RenderDebugText(lapiz, 36, 50, "EL MURO");
+    SDL_SetRenderScale(lapiz, 1, 1);
+    SDL_SetRenderDrawColor(lapiz, 255, 255, 255, 255);
+    SDL_RenderDebugText(lapiz, 264, 320, "ESPACIO: JUGAR");
+}
+```
+
+#### Desafío
+Hacé que el juego empiece en un menú con el nombre grande y que el espacio arranque la partida.
+
+#### Pasos
+1. Buscá `/* acá: un estado más, el primero: el menú */` y cambiá el `enum` de abajo por el de la sugerencia.
+2. Buscá `/* acá: arrancar en el menú */` y cambiá `JUGANDO` por `MENU`.
+3. Buscá `/* acá: en el menú, el espacio empieza la partida */` y escribí el `if` de la sugerencia.
+4. Buscá `/* acá: la revancha solo al final (en el menú no) */` y cambiá la condición del `if` de abajo.
+5. Buscá `/* acá: el menú: el nombre grande y cómo empezar */` y escribí el `if (estado == MENU)` con los dos textos.
+6. Tocá **Jugar**: tiene que esperar en el menú. Después, **Comprobar**.
+
+#### Código inicial
+```c
+#include <SDL3/SDL.h>
+
+static bool toca(SDL_FRect a, SDL_FRect b)
+{
+    return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
+}
+
+/* Un ladrillo: dónde está y si sigue entero */
+typedef struct {
+    SDL_FRect caja;
+    bool vivo;
+    int fila;     /* 0 es la de arriba */
+    int golpes;   /* cuántos golpes le faltan para romperse */
+} Ladrillo;
+
+#define COLUMNAS 10
+#define FILAS 5
+
+/* El nivel, dibujado con letras: # ladrillo · M metal (dos golpes) · . vacío */
+static const char *MAPA[FILAS] = {
+    "#.#.#.#.#.",
+    ".#.#.#.#.#",
+    "##########",
+    "#...##...#",
+    "MMMMMMMMMM",
+};
+
+
+/* acá: un estado más, el primero: el menú */
+enum Estado { JUGANDO, PERDISTE, GANASTE };
+
+/* Arma la pared del nivel */
+static void armarPared(Ladrillo pared[])
+{
+    for (int f = 0; f < FILAS; f++) {
+        for (int c = 0; c < COLUMNAS; c++) {
+            int i = f * COLUMNAS + c;   /* el número de ladrillo */
+            pared[i].caja = (SDL_FRect){ 22 + c * 60, 60 + f * 24, 56, 20 };
+            char letra = MAPA[f][c];
+            pared[i].vivo = true;
+            pared[i].fila = f;
+        }
+    }
+    for (int i = 0; i < FILAS * COLUMNAS; i++) {
+        pared[i].golpes = (pared[i].fila == FILAS - 1) ? 2 : 1;
+    }
+}
+
+int main(void)
+{
+    SDL_Init(SDL_INIT_VIDEO);
+
+    SDL_Window *ventana = NULL;
+    SDL_Renderer *lapiz = NULL;
+    SDL_CreateWindowAndRenderer("El Muro de Ladrillos", 640, 480, 0, &ventana, &lapiz);
+
+    SDL_FRect paleta = { 280, 440, 80, 12 };   /* abajo, en el medio */
+    SDL_FRect pelota = { 315, 300, 10, 10 };
+    float vx = 150;    /* + derecha, - izquierda */
+    float vy = -300;   /* - sube, + baja */
+    bool pegada = true;   /* true: la pelota espera arriba de la paleta */
+    int puntos = 0;
+    int vidas = 3;
+    /* acá: arrancar en el menú */
+    enum Estado estado = JUGANDO;
+
+    Ladrillo pared[FILAS * COLUMNAS] = { 0 };   /* 5 filas de 10: 50 ladrillos */
+    armarPared(pared);
+    SDL_Color colores[FILAS] = {
+        { 255, 60, 100, 255 },    /* rosa */
+        { 255, 150, 40, 255 },    /* naranja */
+        { 80, 220, 100, 255 },    /* verde */
+        { 150, 100, 255, 255 },   /* violeta */
+        { 180, 180, 200, 255 },   /* metal */
+    };
+    Uint64 antes = SDL_GetTicks();
+
+    bool jugando = true;
+    while (jugando) {
+        SDL_Event evento;
+        while (SDL_PollEvent(&evento)) {
+            if (evento.type == SDL_EVENT_QUIT) {
+                jugando = false;
+            }
+            if (evento.type == SDL_EVENT_MOUSE_MOTION) {
+                paleta.x = evento.motion.x - paleta.w / 2;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_R && estado != JUGANDO) {
+                armarPared(pared);
+                vidas = 3;
+                puntos = 0;
+                pegada = true;
+                estado = JUGANDO;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_SPACE && pegada && estado == JUGANDO) {
+                pegada = false;
+                vx = 150;
+                vy = -300;
+            }
+            /* acá: en el menú, el espacio empieza la partida */
+        }
+
+        Uint64 ahora = SDL_GetTicks();
+        float dt = (ahora - antes) / 1000.0f;
+        antes = ahora;
+
+        const bool *teclas = SDL_GetKeyboardState(NULL);
+        if (teclas[SDL_SCANCODE_LEFT]) paleta.x -= 400 * dt;
+        if (teclas[SDL_SCANCODE_RIGHT]) paleta.x += 400 * dt;
+        paleta.x = SDL_clamp(paleta.x, 0, 640 - paleta.w);
+
+        SDL_FRect previa = pelota;
+        if (pegada) {
+            pelota.x = paleta.x + paleta.w / 2 - pelota.w / 2;
+            pelota.y = paleta.y - pelota.h;
+        } else {
+            pelota.x += vx * dt;
+            pelota.y += vy * dt;
+        }
+
+        /* las paredes: los dos costados y el techo (abajo no hay pared) */
+        if (pelota.x < 0) {
+            pelota.x = 0;
+            vx = -vx;
+        }
+        if (pelota.x + pelota.w > 640) {
+            pelota.x = 640 - pelota.w;
+            vx = -vx;
+        }
+        if (pelota.y < 0) {
+            pelota.y = 0;
+            vy = -vy;
+        }
+
+        if (toca(pelota, paleta) && vy > 0) {
+            pelota.y = paleta.y - pelota.h;
+            vy = -vy;
+            vx = ((pelota.x + pelota.w / 2) - (paleta.x + paleta.w / 2)) * 6;
+        }
+
+        /* los ladrillos: ¿la pelota toca alguno? */
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo && toca(pelota, pared[i].caja)) {
+                pared[i].golpes--;
+                if (pared[i].golpes == 0) {
+                    pared[i].vivo = false;
+                }
+                SDL_FRect caja = pared[i].caja;
+                bool aLaAltura = previa.y + previa.h > caja.y && previa.y < caja.y + caja.h;
+                if (aLaAltura) {
+                    vx = -vx;
+                } else {
+                    vy = -vy;
+                }
+                vy = SDL_clamp(vy * 1.03f, -480, 480);
+                puntos += 10 * (FILAS - pared[i].fila);
+                break;
+            }
+        }
+
+        /* ¿se cayó por abajo? */
+        if (pelota.y > 480) {
+            pegada = true;
+            vidas--;
+            if (vidas == 0) {
+                estado = PERDISTE;
+            }
+        }
+
+        int quedan = 0;
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo) {
+                quedan++;
+            }
+        }
+        if (quedan == 0) {
+            estado = GANASTE;
+        }
+
+        SDL_SetRenderDrawColor(lapiz, 20, 12, 40, 255);
+        SDL_RenderClear(lapiz);
+        SDL_SetRenderDrawColor(lapiz, 255, 60, 100, 255);
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo) {
+                SDL_Color color = colores[pared[i].fila];
+                SDL_SetRenderDrawColor(lapiz, color.r, color.g, color.b, 255);
+                SDL_RenderFillRect(lapiz, &pared[i].caja);
+            }
+        }
+        SDL_SetRenderDrawColor(lapiz, 0, 229, 255, 255);
+        SDL_RenderFillRect(lapiz, &paleta);
+        SDL_SetRenderDrawColor(lapiz, 255, 220, 0, 255);
+        SDL_RenderFillRect(lapiz, &pelota);
+        SDL_SetRenderDrawColor(lapiz, 255, 255, 255, 255);
+        SDL_RenderDebugTextFormat(lapiz, 10, 10, "PUNTOS %d", puntos);
+        SDL_RenderDebugTextFormat(lapiz, 560, 10, "VIDAS %d", vidas);
+        SDL_RenderDebugTextFormat(lapiz, 272, 10, "QUEDAN %d", quedan);
+        if (estado == GANASTE) {
+            SDL_RenderDebugText(lapiz, 280, 300, "PARED ROTA");
+        }
+        if (estado == PERDISTE) {
+            SDL_RenderDebugText(lapiz, 288, 300, "PERDISTE");
+        }
+        /* acá: la revancha solo al final (en el menú no) */
+        if (estado != JUGANDO) {
+            SDL_RenderDebugText(lapiz, 276, 320, "R: OTRA VEZ");
+        }
+        /* acá: el menú: el nombre grande y cómo empezar */
+        SDL_RenderPresent(lapiz);
+        SDL_Delay(16);
+    }
+
+    SDL_DestroyRenderer(lapiz);
+    SDL_DestroyWindow(ventana);
+    SDL_Quit();
+    return 0;
+}
+```
+
+#### Eventos
+```
+cuadros 5
+```
+
+#### Estado
+```
+textos
+```
+
+#### Salida esperada
+```
+── Estado ──
+textos: PUNTOS 0 | VIDAS 3 | QUEDAN 50 | EL MURO | ESPACIO: JUGAR
+```
+
+#### Solución
+```c
+#include <SDL3/SDL.h>
+
+static bool toca(SDL_FRect a, SDL_FRect b)
+{
+    return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
+}
+
+/* Un ladrillo: dónde está y si sigue entero */
+typedef struct {
+    SDL_FRect caja;
+    bool vivo;
+    int fila;     /* 0 es la de arriba */
+    int golpes;   /* cuántos golpes le faltan para romperse */
+} Ladrillo;
+
+#define COLUMNAS 10
+#define FILAS 5
+
+/* El nivel, dibujado con letras: # ladrillo · M metal (dos golpes) · . vacío */
+static const char *MAPA[FILAS] = {
+    "#.#.#.#.#.",
+    ".#.#.#.#.#",
+    "##########",
+    "#...##...#",
+    "MMMMMMMMMM",
+};
+
+
+enum Estado { MENU, JUGANDO, PERDISTE, GANASTE };
+
+/* Arma la pared del nivel */
+static void armarPared(Ladrillo pared[])
+{
+    for (int f = 0; f < FILAS; f++) {
+        for (int c = 0; c < COLUMNAS; c++) {
+            int i = f * COLUMNAS + c;   /* el número de ladrillo */
+            pared[i].caja = (SDL_FRect){ 22 + c * 60, 60 + f * 24, 56, 20 };
+            char letra = MAPA[f][c];
+            pared[i].vivo = true;
+            pared[i].fila = f;
+        }
+    }
+    for (int i = 0; i < FILAS * COLUMNAS; i++) {
+        pared[i].golpes = (pared[i].fila == FILAS - 1) ? 2 : 1;
+    }
+}
+
+int main(void)
+{
+    SDL_Init(SDL_INIT_VIDEO);
+
+    SDL_Window *ventana = NULL;
+    SDL_Renderer *lapiz = NULL;
+    SDL_CreateWindowAndRenderer("El Muro de Ladrillos", 640, 480, 0, &ventana, &lapiz);
+
+    SDL_FRect paleta = { 280, 440, 80, 12 };   /* abajo, en el medio */
+    SDL_FRect pelota = { 315, 300, 10, 10 };
+    float vx = 150;    /* + derecha, - izquierda */
+    float vy = -300;   /* - sube, + baja */
+    bool pegada = true;   /* true: la pelota espera arriba de la paleta */
+    int puntos = 0;
+    int vidas = 3;
+    enum Estado estado = MENU;
+
+    Ladrillo pared[FILAS * COLUMNAS] = { 0 };   /* 5 filas de 10: 50 ladrillos */
+    armarPared(pared);
+    SDL_Color colores[FILAS] = {
+        { 255, 60, 100, 255 },    /* rosa */
+        { 255, 150, 40, 255 },    /* naranja */
+        { 80, 220, 100, 255 },    /* verde */
+        { 150, 100, 255, 255 },   /* violeta */
+        { 180, 180, 200, 255 },   /* metal */
+    };
+    Uint64 antes = SDL_GetTicks();
+
+    bool jugando = true;
+    while (jugando) {
+        SDL_Event evento;
+        while (SDL_PollEvent(&evento)) {
+            if (evento.type == SDL_EVENT_QUIT) {
+                jugando = false;
+            }
+            if (evento.type == SDL_EVENT_MOUSE_MOTION) {
+                paleta.x = evento.motion.x - paleta.w / 2;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_R && estado != JUGANDO) {
+                armarPared(pared);
+                vidas = 3;
+                puntos = 0;
+                pegada = true;
+                estado = JUGANDO;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_SPACE && pegada && estado == JUGANDO) {
+                pegada = false;
+                vx = 150;
+                vy = -300;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_SPACE && estado == MENU) {
+                estado = JUGANDO;
+            }
+        }
+
+        Uint64 ahora = SDL_GetTicks();
+        float dt = (ahora - antes) / 1000.0f;
+        antes = ahora;
+
+        const bool *teclas = SDL_GetKeyboardState(NULL);
+        if (teclas[SDL_SCANCODE_LEFT]) paleta.x -= 400 * dt;
+        if (teclas[SDL_SCANCODE_RIGHT]) paleta.x += 400 * dt;
+        paleta.x = SDL_clamp(paleta.x, 0, 640 - paleta.w);
+
+        SDL_FRect previa = pelota;
+        if (pegada) {
+            pelota.x = paleta.x + paleta.w / 2 - pelota.w / 2;
+            pelota.y = paleta.y - pelota.h;
+        } else {
+            pelota.x += vx * dt;
+            pelota.y += vy * dt;
+        }
+
+        /* las paredes: los dos costados y el techo (abajo no hay pared) */
+        if (pelota.x < 0) {
+            pelota.x = 0;
+            vx = -vx;
+        }
+        if (pelota.x + pelota.w > 640) {
+            pelota.x = 640 - pelota.w;
+            vx = -vx;
+        }
+        if (pelota.y < 0) {
+            pelota.y = 0;
+            vy = -vy;
+        }
+
+        if (toca(pelota, paleta) && vy > 0) {
+            pelota.y = paleta.y - pelota.h;
+            vy = -vy;
+            vx = ((pelota.x + pelota.w / 2) - (paleta.x + paleta.w / 2)) * 6;
+        }
+
+        /* los ladrillos: ¿la pelota toca alguno? */
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo && toca(pelota, pared[i].caja)) {
+                pared[i].golpes--;
+                if (pared[i].golpes == 0) {
+                    pared[i].vivo = false;
+                }
+                SDL_FRect caja = pared[i].caja;
+                bool aLaAltura = previa.y + previa.h > caja.y && previa.y < caja.y + caja.h;
+                if (aLaAltura) {
+                    vx = -vx;
+                } else {
+                    vy = -vy;
+                }
+                vy = SDL_clamp(vy * 1.03f, -480, 480);
+                puntos += 10 * (FILAS - pared[i].fila);
+                break;
+            }
+        }
+
+        /* ¿se cayó por abajo? */
+        if (pelota.y > 480) {
+            pegada = true;
+            vidas--;
+            if (vidas == 0) {
+                estado = PERDISTE;
+            }
+        }
+
+        int quedan = 0;
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo) {
+                quedan++;
+            }
+        }
+        if (quedan == 0) {
+            estado = GANASTE;
+        }
+
+        SDL_SetRenderDrawColor(lapiz, 20, 12, 40, 255);
+        SDL_RenderClear(lapiz);
+        SDL_SetRenderDrawColor(lapiz, 255, 60, 100, 255);
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo) {
+                SDL_Color color = colores[pared[i].fila];
+                SDL_SetRenderDrawColor(lapiz, color.r, color.g, color.b, 255);
+                SDL_RenderFillRect(lapiz, &pared[i].caja);
+            }
+        }
+        SDL_SetRenderDrawColor(lapiz, 0, 229, 255, 255);
+        SDL_RenderFillRect(lapiz, &paleta);
+        SDL_SetRenderDrawColor(lapiz, 255, 220, 0, 255);
+        SDL_RenderFillRect(lapiz, &pelota);
+        SDL_SetRenderDrawColor(lapiz, 255, 255, 255, 255);
+        SDL_RenderDebugTextFormat(lapiz, 10, 10, "PUNTOS %d", puntos);
+        SDL_RenderDebugTextFormat(lapiz, 560, 10, "VIDAS %d", vidas);
+        SDL_RenderDebugTextFormat(lapiz, 272, 10, "QUEDAN %d", quedan);
+        if (estado == GANASTE) {
+            SDL_RenderDebugText(lapiz, 280, 300, "PARED ROTA");
+        }
+        if (estado == PERDISTE) {
+            SDL_RenderDebugText(lapiz, 288, 300, "PERDISTE");
+        }
+        if (estado == PERDISTE || estado == GANASTE) {
+            SDL_RenderDebugText(lapiz, 276, 320, "R: OTRA VEZ");
+        }
+        if (estado == MENU) {
+            SDL_SetRenderDrawColor(lapiz, 255, 220, 0, 255);
+            SDL_SetRenderScale(lapiz, 5, 5);
+            SDL_RenderDebugText(lapiz, 36, 50, "EL MURO");
+            SDL_SetRenderScale(lapiz, 1, 1);
+            SDL_SetRenderDrawColor(lapiz, 255, 255, 255, 255);
+            SDL_RenderDebugText(lapiz, 264, 320, "ESPACIO: JUGAR");
+        }
+        SDL_RenderPresent(lapiz);
+        SDL_Delay(16);
+    }
+
+    SDL_DestroyRenderer(lapiz);
+    SDL_DestroyWindow(ventana);
+    SDL_Quit();
+    return 0;
+}
+```
+
+#### Al superarla
+La pantalla se enciende con **EL MURO** en letras amarillas enormes y, abajo, **ESPACIO: JUGAR**. El chico
+aprieta el espacio, sonríe y la partida empieza recién cuando él quiere.
+
+#### Imagen
+- La pantalla de la máquina con un título enorme de bloques amarillos arriba y un renglón blanco abajo (sin texto legible), con la pared de colores detrás.
+- Un chico del barrio con abrigo cerrado aprieta la barra espaciadora, feliz.
+- Kira le muestra cómo; Gheco, arriba de la máquina, levanta los brazos.
+
+### Micro-misión R03-N06-P2 · El muro dibujado con letras
+
+```meta
+lugar: El Muro de Ladrillos
+personajes: Kira, Gheco, Arcadia
+carta: Mapa con letras | letra = MAPA[f][c] · vivo = letra != '.' · golpes = letra == 'M' ? 2 : 1
+recompensa: xp 10, monedas 4
+```
+
+#### Escena
+{mentor} abre el cuaderno del Vidriero en la primera hoja: un muro dibujado con numerales y puntitos, como
+un tablero de damas, y una fila de letras M abajo. —Este era su primer nivel —dice—. Que la máquina lo lea.
+
+#### Gheco sugiere
+Arriba del programa ya está el dibujo del nivel, `MAPA`: cinco cadenas de diez letras. `#` es un ladrillo,
+`.` un hueco y `M` uno de metal. Y en `armarPared` ya está la letra de cada ladrillo:
+`char letra = MAPA[f][c];` (la fila `f`, la letra `c`).
+
+Falta usarla. En lugar de `pared[i].vivo = true;`:
+```c
+pared[i].vivo = letra != '.';                 /* con un punto, no hay ladrillo */
+pared[i].golpes = (letra == 'M') ? 2 : 1;     /* con una M, dos golpes */
+```
+- Una letra va entre comillas **simples**: `'.'`, `'M'`.
+- `letra != '.'` es `true` si la letra **no** es un punto.
+
+Y como los golpes ahora salen del mapa, el `for` de los golpes de la fila de abajo ya no hace falta:
+borralo.
+
+#### Desafío
+Hacé que la pared se arme leyendo el dibujo del nivel: sin ladrillo en los puntos y de metal en las M.
+
+#### Pasos
+1. Buscá `/* acá: con un punto no hay ladrillo; con una M, dos golpes */` y cambiá la línea de abajo por las dos de la sugerencia.
+2. Buscá `/* acá: borrá este for: ahora los golpes salen del mapa */` y borrá el `for` de abajo.
+3. Tocá **Jugar**: la pared tiene que verse como el dibujo. Después, **Comprobar**.
+
+#### Código inicial
+```c
+#include <SDL3/SDL.h>
+
+static bool toca(SDL_FRect a, SDL_FRect b)
+{
+    return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
+}
+
+/* Un ladrillo: dónde está y si sigue entero */
+typedef struct {
+    SDL_FRect caja;
+    bool vivo;
+    int fila;     /* 0 es la de arriba */
+    int golpes;   /* cuántos golpes le faltan para romperse */
+} Ladrillo;
+
+#define COLUMNAS 10
+#define FILAS 5
+
+/* El nivel, dibujado con letras: # ladrillo · M metal (dos golpes) · . vacío */
+static const char *MAPA[FILAS] = {
+    "#.#.#.#.#.",
+    ".#.#.#.#.#",
+    "##########",
+    "#...##...#",
+    "MMMMMMMMMM",
+};
+
+
+enum Estado { MENU, JUGANDO, PERDISTE, GANASTE };
+
+/* Arma la pared del nivel */
+static void armarPared(Ladrillo pared[])
+{
+    for (int f = 0; f < FILAS; f++) {
+        for (int c = 0; c < COLUMNAS; c++) {
+            int i = f * COLUMNAS + c;   /* el número de ladrillo */
+            pared[i].caja = (SDL_FRect){ 22 + c * 60, 60 + f * 24, 56, 20 };
+            char letra = MAPA[f][c];
+            /* acá: con un punto no hay ladrillo; con una M, dos golpes */
+            pared[i].vivo = true;
+            pared[i].fila = f;
+        }
+    }
+    /* acá: borrá este for: ahora los golpes salen del mapa */
+    for (int i = 0; i < FILAS * COLUMNAS; i++) {
+        pared[i].golpes = (pared[i].fila == FILAS - 1) ? 2 : 1;
+    }
+}
+
+int main(void)
+{
+    SDL_Init(SDL_INIT_VIDEO);
+
+    SDL_Window *ventana = NULL;
+    SDL_Renderer *lapiz = NULL;
+    SDL_CreateWindowAndRenderer("El Muro de Ladrillos", 640, 480, 0, &ventana, &lapiz);
+
+    SDL_FRect paleta = { 280, 440, 80, 12 };   /* abajo, en el medio */
+    SDL_FRect pelota = { 315, 300, 10, 10 };
+    float vx = 150;    /* + derecha, - izquierda */
+    float vy = -300;   /* - sube, + baja */
+    bool pegada = true;   /* true: la pelota espera arriba de la paleta */
+    int puntos = 0;
+    int vidas = 3;
+    enum Estado estado = MENU;
+
+    Ladrillo pared[FILAS * COLUMNAS] = { 0 };   /* 5 filas de 10: 50 ladrillos */
+    armarPared(pared);
+    SDL_Color colores[FILAS] = {
+        { 255, 60, 100, 255 },    /* rosa */
+        { 255, 150, 40, 255 },    /* naranja */
+        { 80, 220, 100, 255 },    /* verde */
+        { 150, 100, 255, 255 },   /* violeta */
+        { 180, 180, 200, 255 },   /* metal */
+    };
+    Uint64 antes = SDL_GetTicks();
+
+    bool jugando = true;
+    while (jugando) {
+        SDL_Event evento;
+        while (SDL_PollEvent(&evento)) {
+            if (evento.type == SDL_EVENT_QUIT) {
+                jugando = false;
+            }
+            if (evento.type == SDL_EVENT_MOUSE_MOTION) {
+                paleta.x = evento.motion.x - paleta.w / 2;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_R && estado != JUGANDO) {
+                armarPared(pared);
+                vidas = 3;
+                puntos = 0;
+                pegada = true;
+                estado = JUGANDO;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_SPACE && pegada && estado == JUGANDO) {
+                pegada = false;
+                vx = 150;
+                vy = -300;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_SPACE && estado == MENU) {
+                estado = JUGANDO;
+            }
+        }
+
+        Uint64 ahora = SDL_GetTicks();
+        float dt = (ahora - antes) / 1000.0f;
+        antes = ahora;
+
+        const bool *teclas = SDL_GetKeyboardState(NULL);
+        if (teclas[SDL_SCANCODE_LEFT]) paleta.x -= 400 * dt;
+        if (teclas[SDL_SCANCODE_RIGHT]) paleta.x += 400 * dt;
+        paleta.x = SDL_clamp(paleta.x, 0, 640 - paleta.w);
+
+        SDL_FRect previa = pelota;
+        if (pegada) {
+            pelota.x = paleta.x + paleta.w / 2 - pelota.w / 2;
+            pelota.y = paleta.y - pelota.h;
+        } else {
+            pelota.x += vx * dt;
+            pelota.y += vy * dt;
+        }
+
+        /* las paredes: los dos costados y el techo (abajo no hay pared) */
+        if (pelota.x < 0) {
+            pelota.x = 0;
+            vx = -vx;
+        }
+        if (pelota.x + pelota.w > 640) {
+            pelota.x = 640 - pelota.w;
+            vx = -vx;
+        }
+        if (pelota.y < 0) {
+            pelota.y = 0;
+            vy = -vy;
+        }
+
+        if (toca(pelota, paleta) && vy > 0) {
+            pelota.y = paleta.y - pelota.h;
+            vy = -vy;
+            vx = ((pelota.x + pelota.w / 2) - (paleta.x + paleta.w / 2)) * 6;
+        }
+
+        /* los ladrillos: ¿la pelota toca alguno? */
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo && toca(pelota, pared[i].caja)) {
+                pared[i].golpes--;
+                if (pared[i].golpes == 0) {
+                    pared[i].vivo = false;
+                }
+                SDL_FRect caja = pared[i].caja;
+                bool aLaAltura = previa.y + previa.h > caja.y && previa.y < caja.y + caja.h;
+                if (aLaAltura) {
+                    vx = -vx;
+                } else {
+                    vy = -vy;
+                }
+                vy = SDL_clamp(vy * 1.03f, -480, 480);
+                puntos += 10 * (FILAS - pared[i].fila);
+                break;
+            }
+        }
+
+        /* ¿se cayó por abajo? */
+        if (pelota.y > 480) {
+            pegada = true;
+            vidas--;
+            if (vidas == 0) {
+                estado = PERDISTE;
+            }
+        }
+
+        int quedan = 0;
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo) {
+                quedan++;
+            }
+        }
+        if (quedan == 0) {
+            estado = GANASTE;
+        }
+
+        SDL_SetRenderDrawColor(lapiz, 20, 12, 40, 255);
+        SDL_RenderClear(lapiz);
+        SDL_SetRenderDrawColor(lapiz, 255, 60, 100, 255);
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo) {
+                SDL_Color color = colores[pared[i].fila];
+                SDL_SetRenderDrawColor(lapiz, color.r, color.g, color.b, 255);
+                SDL_RenderFillRect(lapiz, &pared[i].caja);
+            }
+        }
+        SDL_SetRenderDrawColor(lapiz, 0, 229, 255, 255);
+        SDL_RenderFillRect(lapiz, &paleta);
+        SDL_SetRenderDrawColor(lapiz, 255, 220, 0, 255);
+        SDL_RenderFillRect(lapiz, &pelota);
+        SDL_SetRenderDrawColor(lapiz, 255, 255, 255, 255);
+        SDL_RenderDebugTextFormat(lapiz, 10, 10, "PUNTOS %d", puntos);
+        SDL_RenderDebugTextFormat(lapiz, 560, 10, "VIDAS %d", vidas);
+        SDL_RenderDebugTextFormat(lapiz, 272, 10, "QUEDAN %d", quedan);
+        if (estado == GANASTE) {
+            SDL_RenderDebugText(lapiz, 280, 300, "PARED ROTA");
+        }
+        if (estado == PERDISTE) {
+            SDL_RenderDebugText(lapiz, 288, 300, "PERDISTE");
+        }
+        if (estado == PERDISTE || estado == GANASTE) {
+            SDL_RenderDebugText(lapiz, 276, 320, "R: OTRA VEZ");
+        }
+        if (estado == MENU) {
+            SDL_SetRenderDrawColor(lapiz, 255, 220, 0, 255);
+            SDL_SetRenderScale(lapiz, 5, 5);
+            SDL_RenderDebugText(lapiz, 36, 50, "EL MURO");
+            SDL_SetRenderScale(lapiz, 1, 1);
+            SDL_SetRenderDrawColor(lapiz, 255, 255, 255, 255);
+            SDL_RenderDebugText(lapiz, 264, 320, "ESPACIO: JUGAR");
+        }
+        SDL_RenderPresent(lapiz);
+        SDL_Delay(16);
+    }
+
+    SDL_DestroyRenderer(lapiz);
+    SDL_DestroyWindow(ventana);
+    SDL_Quit();
+    return 0;
+}
+```
+
+#### Eventos
+```
+cuadros 3
+```
+
+#### Estado
+```
+pixel 110 70
+pixel 50 70
+```
+
+#### Salida esperada
+```
+── Estado ──
+pixel 110 70: #140c28
+pixel 50 70: #ff3c64
+```
+
+#### Solución
+```c
+#include <SDL3/SDL.h>
+
+static bool toca(SDL_FRect a, SDL_FRect b)
+{
+    return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
+}
+
+/* Un ladrillo: dónde está y si sigue entero */
+typedef struct {
+    SDL_FRect caja;
+    bool vivo;
+    int fila;     /* 0 es la de arriba */
+    int golpes;   /* cuántos golpes le faltan para romperse */
+} Ladrillo;
+
+#define COLUMNAS 10
+#define FILAS 5
+
+/* El nivel, dibujado con letras: # ladrillo · M metal (dos golpes) · . vacío */
+static const char *MAPA[FILAS] = {
+    "#.#.#.#.#.",
+    ".#.#.#.#.#",
+    "##########",
+    "#...##...#",
+    "MMMMMMMMMM",
+};
+
+
+enum Estado { MENU, JUGANDO, PERDISTE, GANASTE };
+
+/* Arma la pared del nivel */
+static void armarPared(Ladrillo pared[])
+{
+    for (int f = 0; f < FILAS; f++) {
+        for (int c = 0; c < COLUMNAS; c++) {
+            int i = f * COLUMNAS + c;   /* el número de ladrillo */
+            pared[i].caja = (SDL_FRect){ 22 + c * 60, 60 + f * 24, 56, 20 };
+            char letra = MAPA[f][c];
+            pared[i].vivo = letra != '.';
+            pared[i].golpes = (letra == 'M') ? 2 : 1;
+            pared[i].fila = f;
+        }
+    }
+}
+
+int main(void)
+{
+    SDL_Init(SDL_INIT_VIDEO);
+
+    SDL_Window *ventana = NULL;
+    SDL_Renderer *lapiz = NULL;
+    SDL_CreateWindowAndRenderer("El Muro de Ladrillos", 640, 480, 0, &ventana, &lapiz);
+
+    SDL_FRect paleta = { 280, 440, 80, 12 };   /* abajo, en el medio */
+    SDL_FRect pelota = { 315, 300, 10, 10 };
+    float vx = 150;    /* + derecha, - izquierda */
+    float vy = -300;   /* - sube, + baja */
+    bool pegada = true;   /* true: la pelota espera arriba de la paleta */
+    int puntos = 0;
+    int vidas = 3;
+    enum Estado estado = MENU;
+
+    Ladrillo pared[FILAS * COLUMNAS] = { 0 };   /* 5 filas de 10: 50 ladrillos */
+    armarPared(pared);
+    SDL_Color colores[FILAS] = {
+        { 255, 60, 100, 255 },    /* rosa */
+        { 255, 150, 40, 255 },    /* naranja */
+        { 80, 220, 100, 255 },    /* verde */
+        { 150, 100, 255, 255 },   /* violeta */
+        { 180, 180, 200, 255 },   /* metal */
+    };
+    Uint64 antes = SDL_GetTicks();
+
+    bool jugando = true;
+    while (jugando) {
+        SDL_Event evento;
+        while (SDL_PollEvent(&evento)) {
+            if (evento.type == SDL_EVENT_QUIT) {
+                jugando = false;
+            }
+            if (evento.type == SDL_EVENT_MOUSE_MOTION) {
+                paleta.x = evento.motion.x - paleta.w / 2;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_R && estado != JUGANDO) {
+                armarPared(pared);
+                vidas = 3;
+                puntos = 0;
+                pegada = true;
+                estado = JUGANDO;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_SPACE && pegada && estado == JUGANDO) {
+                pegada = false;
+                vx = 150;
+                vy = -300;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_SPACE && estado == MENU) {
+                estado = JUGANDO;
+            }
+        }
+
+        Uint64 ahora = SDL_GetTicks();
+        float dt = (ahora - antes) / 1000.0f;
+        antes = ahora;
+
+        const bool *teclas = SDL_GetKeyboardState(NULL);
+        if (teclas[SDL_SCANCODE_LEFT]) paleta.x -= 400 * dt;
+        if (teclas[SDL_SCANCODE_RIGHT]) paleta.x += 400 * dt;
+        paleta.x = SDL_clamp(paleta.x, 0, 640 - paleta.w);
+
+        SDL_FRect previa = pelota;
+        if (pegada) {
+            pelota.x = paleta.x + paleta.w / 2 - pelota.w / 2;
+            pelota.y = paleta.y - pelota.h;
+        } else {
+            pelota.x += vx * dt;
+            pelota.y += vy * dt;
+        }
+
+        /* las paredes: los dos costados y el techo (abajo no hay pared) */
+        if (pelota.x < 0) {
+            pelota.x = 0;
+            vx = -vx;
+        }
+        if (pelota.x + pelota.w > 640) {
+            pelota.x = 640 - pelota.w;
+            vx = -vx;
+        }
+        if (pelota.y < 0) {
+            pelota.y = 0;
+            vy = -vy;
+        }
+
+        if (toca(pelota, paleta) && vy > 0) {
+            pelota.y = paleta.y - pelota.h;
+            vy = -vy;
+            vx = ((pelota.x + pelota.w / 2) - (paleta.x + paleta.w / 2)) * 6;
+        }
+
+        /* los ladrillos: ¿la pelota toca alguno? */
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo && toca(pelota, pared[i].caja)) {
+                pared[i].golpes--;
+                if (pared[i].golpes == 0) {
+                    pared[i].vivo = false;
+                }
+                SDL_FRect caja = pared[i].caja;
+                bool aLaAltura = previa.y + previa.h > caja.y && previa.y < caja.y + caja.h;
+                if (aLaAltura) {
+                    vx = -vx;
+                } else {
+                    vy = -vy;
+                }
+                vy = SDL_clamp(vy * 1.03f, -480, 480);
+                puntos += 10 * (FILAS - pared[i].fila);
+                break;
+            }
+        }
+
+        /* ¿se cayó por abajo? */
+        if (pelota.y > 480) {
+            pegada = true;
+            vidas--;
+            if (vidas == 0) {
+                estado = PERDISTE;
+            }
+        }
+
+        int quedan = 0;
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo) {
+                quedan++;
+            }
+        }
+        if (quedan == 0) {
+            estado = GANASTE;
+        }
+
+        SDL_SetRenderDrawColor(lapiz, 20, 12, 40, 255);
+        SDL_RenderClear(lapiz);
+        SDL_SetRenderDrawColor(lapiz, 255, 60, 100, 255);
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo) {
+                SDL_Color color = colores[pared[i].fila];
+                SDL_SetRenderDrawColor(lapiz, color.r, color.g, color.b, 255);
+                SDL_RenderFillRect(lapiz, &pared[i].caja);
+            }
+        }
+        SDL_SetRenderDrawColor(lapiz, 0, 229, 255, 255);
+        SDL_RenderFillRect(lapiz, &paleta);
+        SDL_SetRenderDrawColor(lapiz, 255, 220, 0, 255);
+        SDL_RenderFillRect(lapiz, &pelota);
+        SDL_SetRenderDrawColor(lapiz, 255, 255, 255, 255);
+        SDL_RenderDebugTextFormat(lapiz, 10, 10, "PUNTOS %d", puntos);
+        SDL_RenderDebugTextFormat(lapiz, 560, 10, "VIDAS %d", vidas);
+        SDL_RenderDebugTextFormat(lapiz, 272, 10, "QUEDAN %d", quedan);
+        if (estado == GANASTE) {
+            SDL_RenderDebugText(lapiz, 280, 300, "PARED ROTA");
+        }
+        if (estado == PERDISTE) {
+            SDL_RenderDebugText(lapiz, 288, 300, "PERDISTE");
+        }
+        if (estado == PERDISTE || estado == GANASTE) {
+            SDL_RenderDebugText(lapiz, 276, 320, "R: OTRA VEZ");
+        }
+        if (estado == MENU) {
+            SDL_SetRenderDrawColor(lapiz, 255, 220, 0, 255);
+            SDL_SetRenderScale(lapiz, 5, 5);
+            SDL_RenderDebugText(lapiz, 36, 50, "EL MURO");
+            SDL_SetRenderScale(lapiz, 1, 1);
+            SDL_SetRenderDrawColor(lapiz, 255, 255, 255, 255);
+            SDL_RenderDebugText(lapiz, 264, 320, "ESPACIO: JUGAR");
+        }
+        SDL_RenderPresent(lapiz);
+        SDL_Delay(16);
+    }
+
+    SDL_DestroyRenderer(lapiz);
+    SDL_DestroyWindow(ventana);
+    SDL_Quit();
+    return 0;
+}
+```
+
+#### Al superarla
+La pared aparece igual que la hoja del cuaderno: un tablero de damas arriba, una fila llena, dos agujeros y
+el metal abajo. {mentor} pasa el dedo por la hoja y por la pantalla, comparando. —Idéntico.
+
+#### Imagen
+- La pantalla con una pared de ladrillos con forma de tablero de damas arriba y huecos, igual a un dibujo.
+- Arcadia sostiene un cuaderno viejo abierto con un dibujo de puntitos y cuadraditos (sin letras), al lado de la pantalla.
+- Kira compara el cuaderno con la pantalla; Gheco, en la palma de Kira, señala la hoja.
+
+### Micro-misión R03-N06-P3 · Dos niveles
+
+```meta
+lugar: El Muro de Ladrillos
+personajes: Kira, Gheco, Arcadia
+carta: Niveles | MAPAS[nivel][f][c] · 1 o 2 en el menú · sin ladrillos: nivel++ y armarPared, o GANASTE
+recompensa: xp 10, monedas 4
+```
+
+#### Escena
+—¿Y la segunda hoja? —pregunta Kira, y da vuelta la página: otro muro, con forma de castillo. —Cuando
+rompías el primero, la máquina te ponía este —dice {mentor}—. Y los que ya sabían, lo elegían de entrada.
+
+#### Gheco sugiere
+Ahora hay **dos** dibujos: `MAPAS[NIVELES][FILAS]` (`MAPAS[0]` y `MAPAS[1]`) y una variable `nivel` que
+dice cuál se juega. Es **global** (afuera de `main`), así `armarPared` la puede leer. Cinco cosas:
+1. Cambiá el `MAPA` de arriba por `MAPAS`, con los dos niveles de la sugerencia de abajo y `nivel`.
+2. En `armarPared`, la letra del nivel que se juega: `char letra = MAPAS[nivel][f][c];`
+3. En el menú, el 1 y el 2 eligen el nivel y arman la pared otra vez:
+```c
+if (evento.type == SDL_EVENT_KEY_DOWN && estado == MENU && (evento.key.key == SDLK_1 || evento.key.key == SDLK_2)) {
+    nivel = (evento.key.key == SDLK_1) ? 0 : 1;
+    armarPared(pared);
+}
+```
+4. Cuando no quedan ladrillos, si hay otro nivel, a ese; si no, ganaste:
+```c
+if (nivel + 1 < NIVELES) {
+    nivel++;
+    armarPared(pared);
+    pegada = true;
+} else {
+    estado = GANASTE;
+}
+```
+5. En el menú, cuál está elegido:
+`SDL_RenderDebugTextFormat(lapiz, 256, 345, "NIVEL %d (1 O 2)", nivel + 1);` adentro de un
+`if (estado == MENU)`. Se muestra `nivel + 1` porque para las personas el primero es el 1.
+
+El segundo nivel:
+```c
+"..######..",
+".########.",
+"##..##..##",
+"##########",
+"MM.MMMM.MM",
+```
+
+#### Desafío
+Agregá un segundo nivel, que se pueda elegir en el menú y al que se pase al romper el primero.
+
+#### Pasos
+1. Buscá `/* acá: un segundo nivel, con otro dibujo */` y cambiá el `MAPA` de abajo por `MAPAS[NIVELES][FILAS]` con los dos dibujos, y agregá `static int nivel = 0;`.
+2. Buscá `/* acá: la letra sale del mapa del nivel que se juega */` y cambiá `MAPA[f][c]` por `MAPAS[nivel][f][c]`.
+3. Buscá `/* acá: en el menú, el 1 y el 2 eligen el nivel */` y escribí el `if` de la sugerencia.
+4. Buscá `/* acá: si hay otro nivel, pasar a ese; si no, ganaste */` y cambiá la línea de abajo por el `if` de la sugerencia.
+5. Buscá `/* acá: en el menú, qué nivel está elegido */` y escribí el texto del nivel.
+6. Tocá **Jugar**, apretá el 2 en el menú y mirá la pared. Después, **Comprobar**.
+
+#### Código inicial
+```c
+#include <SDL3/SDL.h>
+
+static bool toca(SDL_FRect a, SDL_FRect b)
+{
+    return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
+}
+
+/* Un ladrillo: dónde está y si sigue entero */
+typedef struct {
+    SDL_FRect caja;
+    bool vivo;
+    int fila;     /* 0 es la de arriba */
+    int golpes;   /* cuántos golpes le faltan para romperse */
+} Ladrillo;
+
+#define COLUMNAS 10
+#define FILAS 5
+#define NIVELES 2
+
+/* acá: un segundo nivel, con otro dibujo */
+/* El nivel, dibujado con letras: # ladrillo · M metal (dos golpes) · . vacío */
+static const char *MAPA[FILAS] = {
+    "#.#.#.#.#.",
+    ".#.#.#.#.#",
+    "##########",
+    "#...##...#",
+    "MMMMMMMMMM",
+};
+
+
+enum Estado { MENU, JUGANDO, PERDISTE, GANASTE };
+
+/* Arma la pared del nivel */
+static void armarPared(Ladrillo pared[])
+{
+    for (int f = 0; f < FILAS; f++) {
+        for (int c = 0; c < COLUMNAS; c++) {
+            int i = f * COLUMNAS + c;   /* el número de ladrillo */
+            pared[i].caja = (SDL_FRect){ 22 + c * 60, 60 + f * 24, 56, 20 };
+            /* acá: la letra sale del mapa del nivel que se juega */
+            char letra = MAPA[f][c];
+            pared[i].vivo = letra != '.';
+            pared[i].golpes = (letra == 'M') ? 2 : 1;
+            pared[i].fila = f;
+        }
+    }
+}
+
+int main(void)
+{
+    SDL_Init(SDL_INIT_VIDEO);
+
+    SDL_Window *ventana = NULL;
+    SDL_Renderer *lapiz = NULL;
+    SDL_CreateWindowAndRenderer("El Muro de Ladrillos", 640, 480, 0, &ventana, &lapiz);
+
+    SDL_FRect paleta = { 280, 440, 80, 12 };   /* abajo, en el medio */
+    SDL_FRect pelota = { 315, 300, 10, 10 };
+    float vx = 150;    /* + derecha, - izquierda */
+    float vy = -300;   /* - sube, + baja */
+    bool pegada = true;   /* true: la pelota espera arriba de la paleta */
+    int puntos = 0;
+    int vidas = 3;
+    enum Estado estado = MENU;
+
+    Ladrillo pared[FILAS * COLUMNAS] = { 0 };   /* 5 filas de 10: 50 ladrillos */
+    armarPared(pared);
+    SDL_Color colores[FILAS] = {
+        { 255, 60, 100, 255 },    /* rosa */
+        { 255, 150, 40, 255 },    /* naranja */
+        { 80, 220, 100, 255 },    /* verde */
+        { 150, 100, 255, 255 },   /* violeta */
+        { 180, 180, 200, 255 },   /* metal */
+    };
+    Uint64 antes = SDL_GetTicks();
+
+    bool jugando = true;
+    while (jugando) {
+        SDL_Event evento;
+        while (SDL_PollEvent(&evento)) {
+            if (evento.type == SDL_EVENT_QUIT) {
+                jugando = false;
+            }
+            if (evento.type == SDL_EVENT_MOUSE_MOTION) {
+                paleta.x = evento.motion.x - paleta.w / 2;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_R && estado != JUGANDO) {
+                armarPared(pared);
+                vidas = 3;
+                puntos = 0;
+                pegada = true;
+                estado = JUGANDO;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_SPACE && pegada && estado == JUGANDO) {
+                pegada = false;
+                vx = 150;
+                vy = -300;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_SPACE && estado == MENU) {
+                estado = JUGANDO;
+            }
+            /* acá: en el menú, el 1 y el 2 eligen el nivel */
+        }
+
+        Uint64 ahora = SDL_GetTicks();
+        float dt = (ahora - antes) / 1000.0f;
+        antes = ahora;
+
+        const bool *teclas = SDL_GetKeyboardState(NULL);
+        if (teclas[SDL_SCANCODE_LEFT]) paleta.x -= 400 * dt;
+        if (teclas[SDL_SCANCODE_RIGHT]) paleta.x += 400 * dt;
+        paleta.x = SDL_clamp(paleta.x, 0, 640 - paleta.w);
+
+        SDL_FRect previa = pelota;
+        if (pegada) {
+            pelota.x = paleta.x + paleta.w / 2 - pelota.w / 2;
+            pelota.y = paleta.y - pelota.h;
+        } else {
+            pelota.x += vx * dt;
+            pelota.y += vy * dt;
+        }
+
+        /* las paredes: los dos costados y el techo (abajo no hay pared) */
+        if (pelota.x < 0) {
+            pelota.x = 0;
+            vx = -vx;
+        }
+        if (pelota.x + pelota.w > 640) {
+            pelota.x = 640 - pelota.w;
+            vx = -vx;
+        }
+        if (pelota.y < 0) {
+            pelota.y = 0;
+            vy = -vy;
+        }
+
+        if (toca(pelota, paleta) && vy > 0) {
+            pelota.y = paleta.y - pelota.h;
+            vy = -vy;
+            vx = ((pelota.x + pelota.w / 2) - (paleta.x + paleta.w / 2)) * 6;
+        }
+
+        /* los ladrillos: ¿la pelota toca alguno? */
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo && toca(pelota, pared[i].caja)) {
+                pared[i].golpes--;
+                if (pared[i].golpes == 0) {
+                    pared[i].vivo = false;
+                }
+                SDL_FRect caja = pared[i].caja;
+                bool aLaAltura = previa.y + previa.h > caja.y && previa.y < caja.y + caja.h;
+                if (aLaAltura) {
+                    vx = -vx;
+                } else {
+                    vy = -vy;
+                }
+                vy = SDL_clamp(vy * 1.03f, -480, 480);
+                puntos += 10 * (FILAS - pared[i].fila);
+                break;
+            }
+        }
+
+        /* ¿se cayó por abajo? */
+        if (pelota.y > 480) {
+            pegada = true;
+            vidas--;
+            if (vidas == 0) {
+                estado = PERDISTE;
+            }
+        }
+
+        int quedan = 0;
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo) {
+                quedan++;
+            }
+        }
+        if (quedan == 0) {
+            /* acá: si hay otro nivel, pasar a ese; si no, ganaste */
+            estado = GANASTE;
+        }
+
+        SDL_SetRenderDrawColor(lapiz, 20, 12, 40, 255);
+        SDL_RenderClear(lapiz);
+        SDL_SetRenderDrawColor(lapiz, 255, 60, 100, 255);
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo) {
+                SDL_Color color = colores[pared[i].fila];
+                SDL_SetRenderDrawColor(lapiz, color.r, color.g, color.b, 255);
+                SDL_RenderFillRect(lapiz, &pared[i].caja);
+            }
+        }
+        SDL_SetRenderDrawColor(lapiz, 0, 229, 255, 255);
+        SDL_RenderFillRect(lapiz, &paleta);
+        SDL_SetRenderDrawColor(lapiz, 255, 220, 0, 255);
+        SDL_RenderFillRect(lapiz, &pelota);
+        SDL_SetRenderDrawColor(lapiz, 255, 255, 255, 255);
+        SDL_RenderDebugTextFormat(lapiz, 10, 10, "PUNTOS %d", puntos);
+        SDL_RenderDebugTextFormat(lapiz, 560, 10, "VIDAS %d", vidas);
+        SDL_RenderDebugTextFormat(lapiz, 272, 10, "QUEDAN %d", quedan);
+        if (estado == GANASTE) {
+            SDL_RenderDebugText(lapiz, 280, 300, "PARED ROTA");
+        }
+        if (estado == PERDISTE) {
+            SDL_RenderDebugText(lapiz, 288, 300, "PERDISTE");
+        }
+        if (estado == PERDISTE || estado == GANASTE) {
+            SDL_RenderDebugText(lapiz, 276, 320, "R: OTRA VEZ");
+        }
+        if (estado == MENU) {
+            SDL_SetRenderDrawColor(lapiz, 255, 220, 0, 255);
+            SDL_SetRenderScale(lapiz, 5, 5);
+            SDL_RenderDebugText(lapiz, 36, 50, "EL MURO");
+            SDL_SetRenderScale(lapiz, 1, 1);
+            SDL_SetRenderDrawColor(lapiz, 255, 255, 255, 255);
+            SDL_RenderDebugText(lapiz, 264, 320, "ESPACIO: JUGAR");
+        }
+        /* acá: en el menú, qué nivel está elegido */
+        SDL_RenderPresent(lapiz);
+        SDL_Delay(16);
+    }
+
+    SDL_DestroyRenderer(lapiz);
+    SDL_DestroyWindow(ventana);
+    SDL_Quit();
+    return 0;
+}
+```
+
+#### Eventos
+```
+tecla 2
+cuadros 3
+```
+
+#### Estado
+```
+pixel 50 70
+textos
+```
+
+#### Salida esperada
+```
+── Estado ──
+pixel 50 70: #140c28
+textos: PUNTOS 0 | VIDAS 3 | QUEDAN 38 | EL MURO | ESPACIO: JUGAR | NIVEL 2 (1 O 2)
+```
+
+#### Solución
+```c
+#include <SDL3/SDL.h>
+
+static bool toca(SDL_FRect a, SDL_FRect b)
+{
+    return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
+}
+
+/* Un ladrillo: dónde está y si sigue entero */
+typedef struct {
+    SDL_FRect caja;
+    bool vivo;
+    int fila;     /* 0 es la de arriba */
+    int golpes;   /* cuántos golpes le faltan para romperse */
+} Ladrillo;
+
+#define COLUMNAS 10
+#define FILAS 5
+#define NIVELES 2
+
+/* Cada nivel, dibujado con letras: # ladrillo · M metal (dos golpes) · . vacío */
+static const char *MAPAS[NIVELES][FILAS] = {
+    {
+        "#.#.#.#.#.",
+        ".#.#.#.#.#",
+        "##########",
+        "#...##...#",
+        "MMMMMMMMMM",
+    },
+    {
+        "..######..",
+        ".########.",
+        "##..##..##",
+        "##########",
+        "MM.MMMM.MM",
+    },
+};
+static int nivel = 0;   /* el nivel que se juega: 0 es el primero */
+
+
+enum Estado { MENU, JUGANDO, PERDISTE, GANASTE };
+
+/* Arma la pared del nivel */
+static void armarPared(Ladrillo pared[])
+{
+    for (int f = 0; f < FILAS; f++) {
+        for (int c = 0; c < COLUMNAS; c++) {
+            int i = f * COLUMNAS + c;   /* el número de ladrillo */
+            pared[i].caja = (SDL_FRect){ 22 + c * 60, 60 + f * 24, 56, 20 };
+            char letra = MAPAS[nivel][f][c];
+            pared[i].vivo = letra != '.';
+            pared[i].golpes = (letra == 'M') ? 2 : 1;
+            pared[i].fila = f;
+        }
+    }
+}
+
+int main(void)
+{
+    SDL_Init(SDL_INIT_VIDEO);
+
+    SDL_Window *ventana = NULL;
+    SDL_Renderer *lapiz = NULL;
+    SDL_CreateWindowAndRenderer("El Muro de Ladrillos", 640, 480, 0, &ventana, &lapiz);
+
+    SDL_FRect paleta = { 280, 440, 80, 12 };   /* abajo, en el medio */
+    SDL_FRect pelota = { 315, 300, 10, 10 };
+    float vx = 150;    /* + derecha, - izquierda */
+    float vy = -300;   /* - sube, + baja */
+    bool pegada = true;   /* true: la pelota espera arriba de la paleta */
+    int puntos = 0;
+    int vidas = 3;
+    enum Estado estado = MENU;
+
+    Ladrillo pared[FILAS * COLUMNAS] = { 0 };   /* 5 filas de 10: 50 ladrillos */
+    armarPared(pared);
+    SDL_Color colores[FILAS] = {
+        { 255, 60, 100, 255 },    /* rosa */
+        { 255, 150, 40, 255 },    /* naranja */
+        { 80, 220, 100, 255 },    /* verde */
+        { 150, 100, 255, 255 },   /* violeta */
+        { 180, 180, 200, 255 },   /* metal */
+    };
+    Uint64 antes = SDL_GetTicks();
+
+    bool jugando = true;
+    while (jugando) {
+        SDL_Event evento;
+        while (SDL_PollEvent(&evento)) {
+            if (evento.type == SDL_EVENT_QUIT) {
+                jugando = false;
+            }
+            if (evento.type == SDL_EVENT_MOUSE_MOTION) {
+                paleta.x = evento.motion.x - paleta.w / 2;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_R && estado != JUGANDO) {
+                armarPared(pared);
+                vidas = 3;
+                puntos = 0;
+                pegada = true;
+                estado = JUGANDO;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_SPACE && pegada && estado == JUGANDO) {
+                pegada = false;
+                vx = 150;
+                vy = -300;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_SPACE && estado == MENU) {
+                estado = JUGANDO;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && estado == MENU && (evento.key.key == SDLK_1 || evento.key.key == SDLK_2)) {
+                nivel = (evento.key.key == SDLK_1) ? 0 : 1;
+                armarPared(pared);
+            }
+        }
+
+        Uint64 ahora = SDL_GetTicks();
+        float dt = (ahora - antes) / 1000.0f;
+        antes = ahora;
+
+        const bool *teclas = SDL_GetKeyboardState(NULL);
+        if (teclas[SDL_SCANCODE_LEFT]) paleta.x -= 400 * dt;
+        if (teclas[SDL_SCANCODE_RIGHT]) paleta.x += 400 * dt;
+        paleta.x = SDL_clamp(paleta.x, 0, 640 - paleta.w);
+
+        SDL_FRect previa = pelota;
+        if (pegada) {
+            pelota.x = paleta.x + paleta.w / 2 - pelota.w / 2;
+            pelota.y = paleta.y - pelota.h;
+        } else {
+            pelota.x += vx * dt;
+            pelota.y += vy * dt;
+        }
+
+        /* las paredes: los dos costados y el techo (abajo no hay pared) */
+        if (pelota.x < 0) {
+            pelota.x = 0;
+            vx = -vx;
+        }
+        if (pelota.x + pelota.w > 640) {
+            pelota.x = 640 - pelota.w;
+            vx = -vx;
+        }
+        if (pelota.y < 0) {
+            pelota.y = 0;
+            vy = -vy;
+        }
+
+        if (toca(pelota, paleta) && vy > 0) {
+            pelota.y = paleta.y - pelota.h;
+            vy = -vy;
+            vx = ((pelota.x + pelota.w / 2) - (paleta.x + paleta.w / 2)) * 6;
+        }
+
+        /* los ladrillos: ¿la pelota toca alguno? */
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo && toca(pelota, pared[i].caja)) {
+                pared[i].golpes--;
+                if (pared[i].golpes == 0) {
+                    pared[i].vivo = false;
+                }
+                SDL_FRect caja = pared[i].caja;
+                bool aLaAltura = previa.y + previa.h > caja.y && previa.y < caja.y + caja.h;
+                if (aLaAltura) {
+                    vx = -vx;
+                } else {
+                    vy = -vy;
+                }
+                vy = SDL_clamp(vy * 1.03f, -480, 480);
+                puntos += 10 * (FILAS - pared[i].fila);
+                break;
+            }
+        }
+
+        /* ¿se cayó por abajo? */
+        if (pelota.y > 480) {
+            pegada = true;
+            vidas--;
+            if (vidas == 0) {
+                estado = PERDISTE;
+            }
+        }
+
+        int quedan = 0;
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo) {
+                quedan++;
+            }
+        }
+        if (quedan == 0) {
+            if (nivel + 1 < NIVELES) {
+                nivel++;
+                armarPared(pared);
+                pegada = true;
+            } else {
+                estado = GANASTE;
+            }
+        }
+
+        SDL_SetRenderDrawColor(lapiz, 20, 12, 40, 255);
+        SDL_RenderClear(lapiz);
+        SDL_SetRenderDrawColor(lapiz, 255, 60, 100, 255);
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo) {
+                SDL_Color color = colores[pared[i].fila];
+                SDL_SetRenderDrawColor(lapiz, color.r, color.g, color.b, 255);
+                SDL_RenderFillRect(lapiz, &pared[i].caja);
+            }
+        }
+        SDL_SetRenderDrawColor(lapiz, 0, 229, 255, 255);
+        SDL_RenderFillRect(lapiz, &paleta);
+        SDL_SetRenderDrawColor(lapiz, 255, 220, 0, 255);
+        SDL_RenderFillRect(lapiz, &pelota);
+        SDL_SetRenderDrawColor(lapiz, 255, 255, 255, 255);
+        SDL_RenderDebugTextFormat(lapiz, 10, 10, "PUNTOS %d", puntos);
+        SDL_RenderDebugTextFormat(lapiz, 560, 10, "VIDAS %d", vidas);
+        SDL_RenderDebugTextFormat(lapiz, 272, 10, "QUEDAN %d", quedan);
+        if (estado == GANASTE) {
+            SDL_RenderDebugText(lapiz, 280, 300, "PARED ROTA");
+        }
+        if (estado == PERDISTE) {
+            SDL_RenderDebugText(lapiz, 288, 300, "PERDISTE");
+        }
+        if (estado == PERDISTE || estado == GANASTE) {
+            SDL_RenderDebugText(lapiz, 276, 320, "R: OTRA VEZ");
+        }
+        if (estado == MENU) {
+            SDL_SetRenderDrawColor(lapiz, 255, 220, 0, 255);
+            SDL_SetRenderScale(lapiz, 5, 5);
+            SDL_RenderDebugText(lapiz, 36, 50, "EL MURO");
+            SDL_SetRenderScale(lapiz, 1, 1);
+            SDL_SetRenderDrawColor(lapiz, 255, 255, 255, 255);
+            SDL_RenderDebugText(lapiz, 264, 320, "ESPACIO: JUGAR");
+        }
+        if (estado == MENU) {
+            SDL_RenderDebugTextFormat(lapiz, 256, 345, "NIVEL %d (1 O 2)", nivel + 1);
+        }
+        SDL_RenderPresent(lapiz);
+        SDL_Delay(16);
+    }
+
+    SDL_DestroyRenderer(lapiz);
+    SDL_DestroyWindow(ventana);
+    SDL_Quit();
+    return 0;
+}
+```
+
+#### Al superarla
+Kira aprieta el 2 y la pared se transforma: ahora es un castillo, con almenas y ventanas. Los chicos de la
+fila aplauden. —Hay más hojas en el cuaderno —dice {mentor}, y lo guarda con cuidado—. Para otro día.
+
+#### Imagen
+- La pantalla con una pared de ladrillos con forma de castillo, con almenas y huecos como ventanas.
+- Kira aprieta un botón; los chicos del barrio con abrigos cerrados aplauden detrás.
+- Arcadia guarda un cuaderno viejo en el bolsillo del chaleco; Gheco la mira con curiosidad.
+
+### Micro-misión R03-N06-P4 · El muro suena
+
+```meta
+lugar: El Muro de Ladrillos
+personajes: Kira, Gheco, Arcadia
+carta: Sonido | paleta: pitido 440 · ladrillo: 880 · caída: 150 durante 0.3 s
+recompensa: xp 10, monedas 4
+```
+
+#### Escena
+La máquina funciona, pero en silencio. —El Muro sonaba como una lluvia de vidrio —recuerda {mentor}—. Toc
+en la paleta, tic en cada ladrillo, y un bum cuando se te caía la pelota.
+
+#### Gheco sugiere
+Ya está todo para el sonido: el parlante abierto (`parlante`) y la función `pitido` del Pong (R02-N06):
+`pitido(parlante, frecuencia, segundos)`. A más frecuencia, más agudo. Faltan tres llamadas:
+1. Cuando la paleta devuelve la pelota: `pitido(parlante, 440, 0.05f);`
+2. Cuando la pelota golpea un ladrillo, más agudo: `pitido(parlante, 880, 0.04f);`
+3. Cuando la pelota se cae, grave y más largo: `pitido(parlante, 150, 0.3f);`
+
+El robot va a empezar, sacar y escuchar si la máquina suena.
+
+#### Desafío
+Hacé que suene la paleta, cada ladrillo y la pelota que se cae, cada uno con su nota.
+
+#### Pasos
+1. Buscá `/* acá: el toc de la paleta */` y escribí `pitido(parlante, 440, 0.05f);`.
+2. Buscá `/* acá: el tic del ladrillo, más agudo */` y escribí `pitido(parlante, 880, 0.04f);`.
+3. Buscá `/* acá: el bum de la pelota que se cae */` y escribí `pitido(parlante, 150, 0.3f);`.
+4. Tocá **Jugar** (con el volumen prendido) y escuchá. Después, **Comprobar**.
+
+#### Código inicial
+```c
+#include <SDL3/SDL.h>
+
+static bool toca(SDL_FRect a, SDL_FRect b)
+{
+    return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
+}
+
+/* Un ladrillo: dónde está y si sigue entero */
+typedef struct {
+    SDL_FRect caja;
+    bool vivo;
+    int fila;     /* 0 es la de arriba */
+    int golpes;   /* cuántos golpes le faltan para romperse */
+} Ladrillo;
+
+#define COLUMNAS 10
+#define FILAS 5
+#define NIVELES 2
+
+/* Cada nivel, dibujado con letras: # ladrillo · M metal (dos golpes) · . vacío */
+static const char *MAPAS[NIVELES][FILAS] = {
+    {
+        "#.#.#.#.#.",
+        ".#.#.#.#.#",
+        "##########",
+        "#...##...#",
+        "MMMMMMMMMM",
+    },
+    {
+        "..######..",
+        ".########.",
+        "##..##..##",
+        "##########",
+        "MM.MMMM.MM",
+    },
+};
+static int nivel = 0;   /* el nivel que se juega: 0 es el primero */
+
+/* Un pitido de «frecuencia» vueltas por segundo durante «segundos» (el de R01-N09) */
+static void pitido(SDL_AudioStream *parlante, float frecuencia, float segundos)
+{
+    int muestras = (int)(44100 * segundos);
+    float *onda = SDL_malloc(muestras * sizeof(float));
+    for (int i = 0; i < muestras; i++) {
+        onda[i] = 0.2f * SDL_sinf(2 * SDL_PI_F * frecuencia * i / 44100);
+    }
+    SDL_PutAudioStreamData(parlante, onda, muestras * sizeof(float));
+    SDL_free(onda);
+}
+
+enum Estado { MENU, JUGANDO, PERDISTE, GANASTE };
+
+/* Arma la pared del nivel */
+static void armarPared(Ladrillo pared[])
+{
+    for (int f = 0; f < FILAS; f++) {
+        for (int c = 0; c < COLUMNAS; c++) {
+            int i = f * COLUMNAS + c;   /* el número de ladrillo */
+            pared[i].caja = (SDL_FRect){ 22 + c * 60, 60 + f * 24, 56, 20 };
+            char letra = MAPAS[nivel][f][c];
+            pared[i].vivo = letra != '.';
+            pared[i].golpes = (letra == 'M') ? 2 : 1;
+            pared[i].fila = f;
+        }
+    }
+}
+
+int main(void)
+{
+    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
+
+    SDL_Window *ventana = NULL;
+    SDL_Renderer *lapiz = NULL;
+    SDL_CreateWindowAndRenderer("El Muro de Ladrillos", 640, 480, 0, &ventana, &lapiz);
+
+    SDL_AudioSpec formato = { SDL_AUDIO_F32, 1, 44100 };
+    SDL_AudioStream *parlante = SDL_OpenAudioDeviceStream(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, &formato, NULL, NULL);
+    SDL_ResumeAudioStreamDevice(parlante);
+
+    SDL_FRect paleta = { 280, 440, 80, 12 };   /* abajo, en el medio */
+    SDL_FRect pelota = { 315, 300, 10, 10 };
+    float vx = 150;    /* + derecha, - izquierda */
+    float vy = -300;   /* - sube, + baja */
+    bool pegada = true;   /* true: la pelota espera arriba de la paleta */
+    int puntos = 0;
+    int vidas = 3;
+    enum Estado estado = MENU;
+
+    Ladrillo pared[FILAS * COLUMNAS] = { 0 };   /* 5 filas de 10: 50 ladrillos */
+    armarPared(pared);
+    SDL_Color colores[FILAS] = {
+        { 255, 60, 100, 255 },    /* rosa */
+        { 255, 150, 40, 255 },    /* naranja */
+        { 80, 220, 100, 255 },    /* verde */
+        { 150, 100, 255, 255 },   /* violeta */
+        { 180, 180, 200, 255 },   /* metal */
+    };
+    Uint64 antes = SDL_GetTicks();
+
+    bool jugando = true;
+    while (jugando) {
+        SDL_Event evento;
+        while (SDL_PollEvent(&evento)) {
+            if (evento.type == SDL_EVENT_QUIT) {
+                jugando = false;
+            }
+            if (evento.type == SDL_EVENT_MOUSE_MOTION) {
+                paleta.x = evento.motion.x - paleta.w / 2;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_R && estado != JUGANDO) {
+                armarPared(pared);
+                vidas = 3;
+                puntos = 0;
+                pegada = true;
+                estado = JUGANDO;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_SPACE && pegada && estado == JUGANDO) {
+                pegada = false;
+                vx = 150;
+                vy = -300;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_SPACE && estado == MENU) {
+                estado = JUGANDO;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && estado == MENU && (evento.key.key == SDLK_1 || evento.key.key == SDLK_2)) {
+                nivel = (evento.key.key == SDLK_1) ? 0 : 1;
+                armarPared(pared);
+            }
+        }
+
+        Uint64 ahora = SDL_GetTicks();
+        float dt = (ahora - antes) / 1000.0f;
+        antes = ahora;
+
+        const bool *teclas = SDL_GetKeyboardState(NULL);
+        if (teclas[SDL_SCANCODE_LEFT]) paleta.x -= 400 * dt;
+        if (teclas[SDL_SCANCODE_RIGHT]) paleta.x += 400 * dt;
+        paleta.x = SDL_clamp(paleta.x, 0, 640 - paleta.w);
+
+        SDL_FRect previa = pelota;
+        if (pegada) {
+            pelota.x = paleta.x + paleta.w / 2 - pelota.w / 2;
+            pelota.y = paleta.y - pelota.h;
+        } else {
+            pelota.x += vx * dt;
+            pelota.y += vy * dt;
+        }
+
+        /* las paredes: los dos costados y el techo (abajo no hay pared) */
+        if (pelota.x < 0) {
+            pelota.x = 0;
+            vx = -vx;
+        }
+        if (pelota.x + pelota.w > 640) {
+            pelota.x = 640 - pelota.w;
+            vx = -vx;
+        }
+        if (pelota.y < 0) {
+            pelota.y = 0;
+            vy = -vy;
+        }
+
+        if (toca(pelota, paleta) && vy > 0) {
+            pelota.y = paleta.y - pelota.h;
+            vy = -vy;
+            vx = ((pelota.x + pelota.w / 2) - (paleta.x + paleta.w / 2)) * 6;
+            /* acá: el toc de la paleta */
+        }
+
+        /* los ladrillos: ¿la pelota toca alguno? */
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo && toca(pelota, pared[i].caja)) {
+                pared[i].golpes--;
+                if (pared[i].golpes == 0) {
+                    pared[i].vivo = false;
+                }
+                SDL_FRect caja = pared[i].caja;
+                bool aLaAltura = previa.y + previa.h > caja.y && previa.y < caja.y + caja.h;
+                if (aLaAltura) {
+                    vx = -vx;
+                } else {
+                    vy = -vy;
+                }
+                vy = SDL_clamp(vy * 1.03f, -480, 480);
+                puntos += 10 * (FILAS - pared[i].fila);
+                /* acá: el tic del ladrillo, más agudo */
+                break;
+            }
+        }
+
+        /* ¿se cayó por abajo? */
+        if (pelota.y > 480) {
+            pegada = true;
+            vidas--;
+            /* acá: el bum de la pelota que se cae */
+            if (vidas == 0) {
+                estado = PERDISTE;
+            }
+        }
+
+        int quedan = 0;
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo) {
+                quedan++;
+            }
+        }
+        if (quedan == 0) {
+            if (nivel + 1 < NIVELES) {
+                nivel++;
+                armarPared(pared);
+                pegada = true;
+            } else {
+                estado = GANASTE;
+            }
+        }
+
+        SDL_SetRenderDrawColor(lapiz, 20, 12, 40, 255);
+        SDL_RenderClear(lapiz);
+        SDL_SetRenderDrawColor(lapiz, 255, 60, 100, 255);
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo) {
+                SDL_Color color = colores[pared[i].fila];
+                SDL_SetRenderDrawColor(lapiz, color.r, color.g, color.b, 255);
+                SDL_RenderFillRect(lapiz, &pared[i].caja);
+            }
+        }
+        SDL_SetRenderDrawColor(lapiz, 0, 229, 255, 255);
+        SDL_RenderFillRect(lapiz, &paleta);
+        SDL_SetRenderDrawColor(lapiz, 255, 220, 0, 255);
+        SDL_RenderFillRect(lapiz, &pelota);
+        SDL_SetRenderDrawColor(lapiz, 255, 255, 255, 255);
+        SDL_RenderDebugTextFormat(lapiz, 10, 10, "PUNTOS %d", puntos);
+        SDL_RenderDebugTextFormat(lapiz, 560, 10, "VIDAS %d", vidas);
+        SDL_RenderDebugTextFormat(lapiz, 272, 10, "QUEDAN %d", quedan);
+        if (estado == GANASTE) {
+            SDL_RenderDebugText(lapiz, 280, 300, "PARED ROTA");
+        }
+        if (estado == PERDISTE) {
+            SDL_RenderDebugText(lapiz, 288, 300, "PERDISTE");
+        }
+        if (estado == PERDISTE || estado == GANASTE) {
+            SDL_RenderDebugText(lapiz, 276, 320, "R: OTRA VEZ");
+        }
+        if (estado == MENU) {
+            SDL_SetRenderDrawColor(lapiz, 255, 220, 0, 255);
+            SDL_SetRenderScale(lapiz, 5, 5);
+            SDL_RenderDebugText(lapiz, 36, 50, "EL MURO");
+            SDL_SetRenderScale(lapiz, 1, 1);
+            SDL_SetRenderDrawColor(lapiz, 255, 255, 255, 255);
+            SDL_RenderDebugText(lapiz, 264, 320, "ESPACIO: JUGAR");
+        }
+        if (estado == MENU) {
+            SDL_RenderDebugTextFormat(lapiz, 256, 345, "NIVEL %d (1 O 2)", nivel + 1);
+        }
+        SDL_RenderPresent(lapiz);
+        SDL_Delay(16);
+    }
+
+    SDL_DestroyAudioStream(parlante);
+    SDL_DestroyRenderer(lapiz);
+    SDL_DestroyWindow(ventana);
+    SDL_Quit();
+    return 0;
+}
+```
+
+#### Eventos
+```
+tecla Espacio
+cuadros 2
+tecla Espacio
+cuadros 80
+```
+
+#### Estado
+```
+sonido
+```
+
+#### Salida esperada
+```
+── Estado ──
+sonido: sí
+```
+
+#### Solución
+```c
+#include <SDL3/SDL.h>
+
+static bool toca(SDL_FRect a, SDL_FRect b)
+{
+    return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
+}
+
+/* Un ladrillo: dónde está y si sigue entero */
+typedef struct {
+    SDL_FRect caja;
+    bool vivo;
+    int fila;     /* 0 es la de arriba */
+    int golpes;   /* cuántos golpes le faltan para romperse */
+} Ladrillo;
+
+#define COLUMNAS 10
+#define FILAS 5
+#define NIVELES 2
+
+/* Cada nivel, dibujado con letras: # ladrillo · M metal (dos golpes) · . vacío */
+static const char *MAPAS[NIVELES][FILAS] = {
+    {
+        "#.#.#.#.#.",
+        ".#.#.#.#.#",
+        "##########",
+        "#...##...#",
+        "MMMMMMMMMM",
+    },
+    {
+        "..######..",
+        ".########.",
+        "##..##..##",
+        "##########",
+        "MM.MMMM.MM",
+    },
+};
+static int nivel = 0;   /* el nivel que se juega: 0 es el primero */
+
+/* Un pitido de «frecuencia» vueltas por segundo durante «segundos» (el de R01-N09) */
+static void pitido(SDL_AudioStream *parlante, float frecuencia, float segundos)
+{
+    int muestras = (int)(44100 * segundos);
+    float *onda = SDL_malloc(muestras * sizeof(float));
+    for (int i = 0; i < muestras; i++) {
+        onda[i] = 0.2f * SDL_sinf(2 * SDL_PI_F * frecuencia * i / 44100);
+    }
+    SDL_PutAudioStreamData(parlante, onda, muestras * sizeof(float));
+    SDL_free(onda);
+}
+
+enum Estado { MENU, JUGANDO, PERDISTE, GANASTE };
+
+/* Arma la pared del nivel */
+static void armarPared(Ladrillo pared[])
+{
+    for (int f = 0; f < FILAS; f++) {
+        for (int c = 0; c < COLUMNAS; c++) {
+            int i = f * COLUMNAS + c;   /* el número de ladrillo */
+            pared[i].caja = (SDL_FRect){ 22 + c * 60, 60 + f * 24, 56, 20 };
+            char letra = MAPAS[nivel][f][c];
+            pared[i].vivo = letra != '.';
+            pared[i].golpes = (letra == 'M') ? 2 : 1;
+            pared[i].fila = f;
+        }
+    }
+}
+
+int main(void)
+{
+    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
+
+    SDL_Window *ventana = NULL;
+    SDL_Renderer *lapiz = NULL;
+    SDL_CreateWindowAndRenderer("El Muro de Ladrillos", 640, 480, 0, &ventana, &lapiz);
+
+    SDL_AudioSpec formato = { SDL_AUDIO_F32, 1, 44100 };
+    SDL_AudioStream *parlante = SDL_OpenAudioDeviceStream(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, &formato, NULL, NULL);
+    SDL_ResumeAudioStreamDevice(parlante);
+
+    SDL_FRect paleta = { 280, 440, 80, 12 };   /* abajo, en el medio */
+    SDL_FRect pelota = { 315, 300, 10, 10 };
+    float vx = 150;    /* + derecha, - izquierda */
+    float vy = -300;   /* - sube, + baja */
+    bool pegada = true;   /* true: la pelota espera arriba de la paleta */
+    int puntos = 0;
+    int vidas = 3;
+    enum Estado estado = MENU;
+
+    Ladrillo pared[FILAS * COLUMNAS] = { 0 };   /* 5 filas de 10: 50 ladrillos */
+    armarPared(pared);
+    SDL_Color colores[FILAS] = {
+        { 255, 60, 100, 255 },    /* rosa */
+        { 255, 150, 40, 255 },    /* naranja */
+        { 80, 220, 100, 255 },    /* verde */
+        { 150, 100, 255, 255 },   /* violeta */
+        { 180, 180, 200, 255 },   /* metal */
+    };
+    Uint64 antes = SDL_GetTicks();
+
+    bool jugando = true;
+    while (jugando) {
+        SDL_Event evento;
+        while (SDL_PollEvent(&evento)) {
+            if (evento.type == SDL_EVENT_QUIT) {
+                jugando = false;
+            }
+            if (evento.type == SDL_EVENT_MOUSE_MOTION) {
+                paleta.x = evento.motion.x - paleta.w / 2;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_R && estado != JUGANDO) {
+                armarPared(pared);
+                vidas = 3;
+                puntos = 0;
+                pegada = true;
+                estado = JUGANDO;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_SPACE && pegada && estado == JUGANDO) {
+                pegada = false;
+                vx = 150;
+                vy = -300;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_SPACE && estado == MENU) {
+                estado = JUGANDO;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && estado == MENU && (evento.key.key == SDLK_1 || evento.key.key == SDLK_2)) {
+                nivel = (evento.key.key == SDLK_1) ? 0 : 1;
+                armarPared(pared);
+            }
+        }
+
+        Uint64 ahora = SDL_GetTicks();
+        float dt = (ahora - antes) / 1000.0f;
+        antes = ahora;
+
+        const bool *teclas = SDL_GetKeyboardState(NULL);
+        if (teclas[SDL_SCANCODE_LEFT]) paleta.x -= 400 * dt;
+        if (teclas[SDL_SCANCODE_RIGHT]) paleta.x += 400 * dt;
+        paleta.x = SDL_clamp(paleta.x, 0, 640 - paleta.w);
+
+        SDL_FRect previa = pelota;
+        if (pegada) {
+            pelota.x = paleta.x + paleta.w / 2 - pelota.w / 2;
+            pelota.y = paleta.y - pelota.h;
+        } else {
+            pelota.x += vx * dt;
+            pelota.y += vy * dt;
+        }
+
+        /* las paredes: los dos costados y el techo (abajo no hay pared) */
+        if (pelota.x < 0) {
+            pelota.x = 0;
+            vx = -vx;
+        }
+        if (pelota.x + pelota.w > 640) {
+            pelota.x = 640 - pelota.w;
+            vx = -vx;
+        }
+        if (pelota.y < 0) {
+            pelota.y = 0;
+            vy = -vy;
+        }
+
+        if (toca(pelota, paleta) && vy > 0) {
+            pelota.y = paleta.y - pelota.h;
+            vy = -vy;
+            vx = ((pelota.x + pelota.w / 2) - (paleta.x + paleta.w / 2)) * 6;
+            pitido(parlante, 440, 0.05f);
+        }
+
+        /* los ladrillos: ¿la pelota toca alguno? */
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo && toca(pelota, pared[i].caja)) {
+                pared[i].golpes--;
+                if (pared[i].golpes == 0) {
+                    pared[i].vivo = false;
+                }
+                SDL_FRect caja = pared[i].caja;
+                bool aLaAltura = previa.y + previa.h > caja.y && previa.y < caja.y + caja.h;
+                if (aLaAltura) {
+                    vx = -vx;
+                } else {
+                    vy = -vy;
+                }
+                vy = SDL_clamp(vy * 1.03f, -480, 480);
+                puntos += 10 * (FILAS - pared[i].fila);
+                pitido(parlante, 880, 0.04f);
+                break;
+            }
+        }
+
+        /* ¿se cayó por abajo? */
+        if (pelota.y > 480) {
+            pegada = true;
+            vidas--;
+            pitido(parlante, 150, 0.3f);
+            if (vidas == 0) {
+                estado = PERDISTE;
+            }
+        }
+
+        int quedan = 0;
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo) {
+                quedan++;
+            }
+        }
+        if (quedan == 0) {
+            if (nivel + 1 < NIVELES) {
+                nivel++;
+                armarPared(pared);
+                pegada = true;
+            } else {
+                estado = GANASTE;
+            }
+        }
+
+        SDL_SetRenderDrawColor(lapiz, 20, 12, 40, 255);
+        SDL_RenderClear(lapiz);
+        SDL_SetRenderDrawColor(lapiz, 255, 60, 100, 255);
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo) {
+                SDL_Color color = colores[pared[i].fila];
+                SDL_SetRenderDrawColor(lapiz, color.r, color.g, color.b, 255);
+                SDL_RenderFillRect(lapiz, &pared[i].caja);
+            }
+        }
+        SDL_SetRenderDrawColor(lapiz, 0, 229, 255, 255);
+        SDL_RenderFillRect(lapiz, &paleta);
+        SDL_SetRenderDrawColor(lapiz, 255, 220, 0, 255);
+        SDL_RenderFillRect(lapiz, &pelota);
+        SDL_SetRenderDrawColor(lapiz, 255, 255, 255, 255);
+        SDL_RenderDebugTextFormat(lapiz, 10, 10, "PUNTOS %d", puntos);
+        SDL_RenderDebugTextFormat(lapiz, 560, 10, "VIDAS %d", vidas);
+        SDL_RenderDebugTextFormat(lapiz, 272, 10, "QUEDAN %d", quedan);
+        if (estado == GANASTE) {
+            SDL_RenderDebugText(lapiz, 280, 300, "PARED ROTA");
+        }
+        if (estado == PERDISTE) {
+            SDL_RenderDebugText(lapiz, 288, 300, "PERDISTE");
+        }
+        if (estado == PERDISTE || estado == GANASTE) {
+            SDL_RenderDebugText(lapiz, 276, 320, "R: OTRA VEZ");
+        }
+        if (estado == MENU) {
+            SDL_SetRenderDrawColor(lapiz, 255, 220, 0, 255);
+            SDL_SetRenderScale(lapiz, 5, 5);
+            SDL_RenderDebugText(lapiz, 36, 50, "EL MURO");
+            SDL_SetRenderScale(lapiz, 1, 1);
+            SDL_SetRenderDrawColor(lapiz, 255, 255, 255, 255);
+            SDL_RenderDebugText(lapiz, 264, 320, "ESPACIO: JUGAR");
+        }
+        if (estado == MENU) {
+            SDL_RenderDebugTextFormat(lapiz, 256, 345, "NIVEL %d (1 O 2)", nivel + 1);
+        }
+        SDL_RenderPresent(lapiz);
+        SDL_Delay(16);
+    }
+
+    SDL_DestroyAudioStream(parlante);
+    SDL_DestroyRenderer(lapiz);
+    SDL_DestroyWindow(ventana);
+    SDL_Quit();
+    return 0;
+}
+```
+
+#### Al superarla
+*Toc… tic, tic… toc.* La máquina suena como una lluvia de vidrio, y toda la plaza se da vuelta a mirar. El
+glitch que pasaba las hojas del cuaderno se tapa los oídos y se deshace en píxeles.
+
+#### Imagen
+- La máquina del Muro con anillos de sonido cian saliendo de la pantalla en cada golpe.
+- Un glitch pixelado se tapa los oídos y se deshace en píxeles al costado de la máquina.
+- Kira juega sonriendo; Arcadia cierra los ojos para escuchar; Gheco mueve la cabeza al ritmo.
+
+## R03-N07 · Jefe: El Muro Gruñón
+
+```meta
+tipo: jefe
+criatura: atraviesaparedes
+padre: R03-N06
+precio: 10
+insignia: Sello del Muro de Ladrillos
+insignia_descripcion: Venciste al Muro Gruñón: un Arkanoid entero, con una pared de struct dibujada con letras, rebotes de costado, vidas, niveles, menú, sonido, cápsulas, récord y un muro que baja.
+temas: juegos.guardado
+usa: juegos.estados, juegos.colisiones, prog.matematica-azar, col.registros
+```
+
+### Crónica
+
+Es de noche y la plaza está llena. Kira rompe el último ladrillo del segundo nivel y, en vez del cartel, se
+escucha un ruido como de piedras que se acomodan. El paredón de la plaza **abre dos ojos de vidrio** y frunce
+unas cejas de ladrillo. —¡Por fin alguien que juega en serio! —gruñe, con una voz de escalera vieja—. Treinta
+años esperando. Pero conmigo no alcanza con romper: yo **bajo**. Y cuando llegue a tu paleta, se terminó. Es
+**El Muro Gruñón**, el jefe del Muro de Ladrillos. {mentor} se ríe bajito: —Está contento. Se le nota.
+
+### Objetivos
+
+Terminar el Arkanoid completo contra El Muro Gruñón: un muro que **baja** cada 8 segundos (y si llega a la
+paleta, perdiste), **cápsulas** que caen a veces de los ladrillos rotos y agrandan la paleta, un **récord** que
+se guarda entre partidas y un **cartel del Muro** centrado al terminar.
+
+### Antes de empezar
+
+Toda la rama R03. Del Pong: la espera con un temporizador (R02-N02) y el cartel centrado (R02-N07). De R01: el azar
+con `SDL_rand` (N10).
+
+### Explicación
+
+#### Un temporizador
+Como la espera antes del saque en el Pong (R02-N02): una variable `reloj` con los segundos que faltan. En cada
+cuadro se le resta `dt`; cuando llega a 0, pasa algo (el muro baja) y vuelve a 8.
+
+#### Mover todos los ladrillos
+Para que el muro baje, un `for` le suma 12 a la `y` de la caja de cada ladrillo. En el mismo `for` se pregunta si
+algún ladrillo vivo ya llegó a la altura de la paleta: si llegó, perdiste.
+
+#### La cápsula
+Una sola cápsula a la vez: un rectángulo y un `bool cayendo`. Cuando se rompe un ladrillo, `SDL_rand(3)` da un
+número del 0 al 2: si sale 0 (una vez cada tres, más o menos) y no hay otra cayendo, aparece donde estaba el
+ladrillo. Cae sola a 120 píxeles por segundo; si toca la paleta, la paleta pasa a medir 120 de ancho.
+
+#### El récord
+Una variable que **no** se pone en 0 en la revancha: `record`. En cada cuadro, si los puntos la pasan, ese es el
+récord nuevo. Como solo vuelven a 0 los puntos, el récord queda de una partida a la otra (mientras la máquina
+esté prendida; guardarlo en un archivo es para más adelante).
+
+#### El cartel centrado
+Como en el Pong (R02-N07): cada letra mide 8 píxeles, así que un texto de `n` letras mide `n * 8`. Para que quede
+en el medio, empieza en `320 - n * 4`. `SDL_strlen(cartel)` cuenta las letras. El cartel cambia según cómo
+terminó la partida, con `condición ? a : b`.
+
+### Código de ejemplo
+
+```c
+#include <SDL3/SDL.h>
+
+static bool toca(SDL_FRect a, SDL_FRect b)
+{
+    return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
+}
+
+/* Un ladrillo: dónde está y si sigue entero */
+typedef struct {
+    SDL_FRect caja;
+    bool vivo;
+    int fila;     /* 0 es la de arriba */
+    int golpes;   /* cuántos golpes le faltan para romperse */
+} Ladrillo;
+
+#define COLUMNAS 10
+#define FILAS 5
+#define NIVELES 2
+
+/* Cada nivel, dibujado con letras: # ladrillo · M metal (dos golpes) · . vacío */
+static const char *MAPAS[NIVELES][FILAS] = {
+    {
+        "#.#.#.#.#.",
+        ".#.#.#.#.#",
+        "##########",
+        "#...##...#",
+        "MMMMMMMMMM",
+    },
+    {
+        "..######..",
+        ".########.",
+        "##..##..##",
+        "##########",
+        "MM.MMMM.MM",
+    },
+};
+static int nivel = 0;   /* el nivel que se juega: 0 es el primero */
+
+/* Un pitido de «frecuencia» vueltas por segundo durante «segundos» (el de R01-N09) */
+static void pitido(SDL_AudioStream *parlante, float frecuencia, float segundos)
+{
+    int muestras = (int)(44100 * segundos);
+    float *onda = SDL_malloc(muestras * sizeof(float));
+    for (int i = 0; i < muestras; i++) {
+        onda[i] = 0.2f * SDL_sinf(2 * SDL_PI_F * frecuencia * i / 44100);
+    }
+    SDL_PutAudioStreamData(parlante, onda, muestras * sizeof(float));
+    SDL_free(onda);
+}
+
+enum Estado { MENU, JUGANDO, PERDISTE, GANASTE };
+
+/* Arma la pared del nivel */
+static void armarPared(Ladrillo pared[])
+{
+    for (int f = 0; f < FILAS; f++) {
+        for (int c = 0; c < COLUMNAS; c++) {
+            int i = f * COLUMNAS + c;   /* el número de ladrillo */
+            pared[i].caja = (SDL_FRect){ 22 + c * 60, 60 + f * 24, 56, 20 };
+            char letra = MAPAS[nivel][f][c];
+            pared[i].vivo = letra != '.';
+            pared[i].golpes = (letra == 'M') ? 2 : 1;
+            pared[i].fila = f;
+        }
+    }
+}
+
+int main(void)
+{
+    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
+
+    SDL_Window *ventana = NULL;
+    SDL_Renderer *lapiz = NULL;
+    SDL_CreateWindowAndRenderer("El Muro Grunon", 640, 480, 0, &ventana, &lapiz);
+
+    SDL_AudioSpec formato = { SDL_AUDIO_F32, 1, 44100 };
+    SDL_AudioStream *parlante = SDL_OpenAudioDeviceStream(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, &formato, NULL, NULL);
+    SDL_ResumeAudioStreamDevice(parlante);
+
+    SDL_FRect paleta = { 280, 440, 80, 12 };   /* abajo, en el medio */
+    SDL_FRect pelota = { 315, 300, 10, 10 };
+    float vx = 150;    /* + derecha, - izquierda */
+    float vy = -300;   /* - sube, + baja */
+    bool pegada = true;   /* true: la pelota espera arriba de la paleta */
+    int puntos = 0;
+    int vidas = 3;
+    enum Estado estado = MENU;
+    float reloj = 8;          /* segundos que faltan para que el muro baje */
+    SDL_FRect capsula = { 0, 0, 24, 10 };
+    bool cayendo = false;     /* true: hay una cápsula cayendo */
+    int record = 0;           /* el mejor puntaje desde que se prendió la máquina */
+
+    Ladrillo pared[FILAS * COLUMNAS] = { 0 };   /* 5 filas de 10: 50 ladrillos */
+    armarPared(pared);
+    SDL_Color colores[FILAS] = {
+        { 255, 60, 100, 255 },    /* rosa */
+        { 255, 150, 40, 255 },    /* naranja */
+        { 80, 220, 100, 255 },    /* verde */
+        { 150, 100, 255, 255 },   /* violeta */
+        { 180, 180, 200, 255 },   /* metal */
+    };
+    Uint64 antes = SDL_GetTicks();
+
+    bool jugando = true;
+    while (jugando) {
+        SDL_Event evento;
+        while (SDL_PollEvent(&evento)) {
+            if (evento.type == SDL_EVENT_QUIT) {
+                jugando = false;
+            }
+            if (evento.type == SDL_EVENT_MOUSE_MOTION) {
+                paleta.x = evento.motion.x - paleta.w / 2;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_R && estado != JUGANDO) {
+                armarPared(pared);
+                vidas = 3;
+                puntos = 0;
+                pegada = true;
+                estado = JUGANDO;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_SPACE && pegada && estado == JUGANDO) {
+                pegada = false;
+                vx = 150;
+                vy = -300;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_SPACE && estado == MENU) {
+                estado = JUGANDO;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && estado == MENU && (evento.key.key == SDLK_1 || evento.key.key == SDLK_2)) {
+                nivel = (evento.key.key == SDLK_1) ? 0 : 1;
+                armarPared(pared);
+            }
+        }
+
+        Uint64 ahora = SDL_GetTicks();
+        float dt = (ahora - antes) / 1000.0f;
+        antes = ahora;
+
+        const bool *teclas = SDL_GetKeyboardState(NULL);
+        if (teclas[SDL_SCANCODE_LEFT]) paleta.x -= 400 * dt;
+        if (teclas[SDL_SCANCODE_RIGHT]) paleta.x += 400 * dt;
+        paleta.x = SDL_clamp(paleta.x, 0, 640 - paleta.w);
+
+        SDL_FRect previa = pelota;
+        if (pegada) {
+            pelota.x = paleta.x + paleta.w / 2 - pelota.w / 2;
+            pelota.y = paleta.y - pelota.h;
+        } else {
+            pelota.x += vx * dt;
+            pelota.y += vy * dt;
+        }
+
+        /* las paredes: los dos costados y el techo (abajo no hay pared) */
+        if (pelota.x < 0) {
+            pelota.x = 0;
+            vx = -vx;
+        }
+        if (pelota.x + pelota.w > 640) {
+            pelota.x = 640 - pelota.w;
+            vx = -vx;
+        }
+        if (pelota.y < 0) {
+            pelota.y = 0;
+            vy = -vy;
+        }
+
+        if (toca(pelota, paleta) && vy > 0) {
+            pelota.y = paleta.y - pelota.h;
+            vy = -vy;
+            vx = ((pelota.x + pelota.w / 2) - (paleta.x + paleta.w / 2)) * 6;
+            pitido(parlante, 440, 0.05f);
+        }
+
+        /* los ladrillos: ¿la pelota toca alguno? */
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo && toca(pelota, pared[i].caja)) {
+                pared[i].golpes--;
+                if (pared[i].golpes == 0) {
+                    pared[i].vivo = false;
+                    if (!cayendo && SDL_rand(3) == 0) {
+                        cayendo = true;
+                        capsula.x = pared[i].caja.x + 16;
+                        capsula.y = pared[i].caja.y;
+                    }
+                }
+                SDL_FRect caja = pared[i].caja;
+                bool aLaAltura = previa.y + previa.h > caja.y && previa.y < caja.y + caja.h;
+                if (aLaAltura) {
+                    vx = -vx;
+                } else {
+                    vy = -vy;
+                }
+                vy = SDL_clamp(vy * 1.03f, -480, 480);
+                puntos += 10 * (FILAS - pared[i].fila);
+                pitido(parlante, 880, 0.04f);
+                break;
+            }
+        }
+
+        /* ¿se cayó por abajo? */
+        if (pelota.y > 480) {
+            pegada = true;
+            vidas--;
+            pitido(parlante, 150, 0.3f);
+            if (vidas == 0) {
+                estado = PERDISTE;
+            }
+        }
+
+        if (cayendo) {
+            capsula.y += 120 * dt;
+            if (toca(capsula, paleta)) {
+                cayendo = false;
+                paleta.w = 120;
+            }
+            if (capsula.y > 480) {
+                cayendo = false;
+            }
+        }
+
+        if (estado == JUGANDO) {
+            reloj -= dt;
+            if (reloj <= 0) {
+                reloj = 8;
+                for (int i = 0; i < FILAS * COLUMNAS; i++) {
+                    pared[i].caja.y += 12;
+                    if (pared[i].vivo && pared[i].caja.y + pared[i].caja.h >= paleta.y) {
+                        estado = PERDISTE;
+                    }
+                }
+            }
+        }
+
+        if (puntos > record) {
+            record = puntos;
+        }
+
+        int quedan = 0;
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo) {
+                quedan++;
+            }
+        }
+        if (quedan == 0) {
+            if (nivel + 1 < NIVELES) {
+                nivel++;
+                armarPared(pared);
+                pegada = true;
+            } else {
+                estado = GANASTE;
+            }
+        }
+
+        SDL_SetRenderDrawColor(lapiz, 20, 12, 40, 255);
+        SDL_RenderClear(lapiz);
+        SDL_SetRenderDrawColor(lapiz, 255, 60, 100, 255);
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo) {
+                SDL_Color color = colores[pared[i].fila];
+                SDL_SetRenderDrawColor(lapiz, color.r, color.g, color.b, 255);
+                SDL_RenderFillRect(lapiz, &pared[i].caja);
+            }
+        }
+        SDL_SetRenderDrawColor(lapiz, 0, 229, 255, 255);
+        SDL_RenderFillRect(lapiz, &paleta);
+        SDL_SetRenderDrawColor(lapiz, 255, 220, 0, 255);
+        SDL_RenderFillRect(lapiz, &pelota);
+        if (cayendo) {
+            SDL_SetRenderDrawColor(lapiz, 80, 255, 150, 255);
+            SDL_RenderFillRect(lapiz, &capsula);
+        }
+        SDL_SetRenderDrawColor(lapiz, 255, 255, 255, 255);
+        SDL_RenderDebugTextFormat(lapiz, 10, 10, "PUNTOS %d", puntos);
+        SDL_RenderDebugTextFormat(lapiz, 560, 10, "VIDAS %d", vidas);
+        SDL_RenderDebugTextFormat(lapiz, 272, 10, "QUEDAN %d", quedan);
+        SDL_RenderDebugTextFormat(lapiz, 10, 24, "RECORD %d", record);
+        if (estado == PERDISTE || estado == GANASTE) {
+            const char *cartel = (estado == GANASTE) ? "EL MURO SE RINDE" : "EL MURO SIGUE EN PIE";
+            SDL_SetRenderDrawColor(lapiz, 255, 220, 0, 255);
+            SDL_RenderDebugText(lapiz, 320 - SDL_strlen(cartel) * 4.0f, 300, cartel);
+            SDL_SetRenderDrawColor(lapiz, 255, 255, 255, 255);
+        }
+        if (estado == PERDISTE || estado == GANASTE) {
+            SDL_RenderDebugText(lapiz, 276, 320, "R: OTRA VEZ");
+        }
+        if (estado == MENU) {
+            SDL_SetRenderDrawColor(lapiz, 255, 220, 0, 255);
+            SDL_SetRenderScale(lapiz, 5, 5);
+            SDL_RenderDebugText(lapiz, 36, 50, "EL MURO");
+            SDL_SetRenderScale(lapiz, 1, 1);
+            SDL_SetRenderDrawColor(lapiz, 255, 255, 255, 255);
+            SDL_RenderDebugText(lapiz, 264, 320, "ESPACIO: JUGAR");
+        }
+        if (estado == MENU) {
+            SDL_RenderDebugTextFormat(lapiz, 256, 345, "NIVEL %d (1 O 2)", nivel + 1);
+        }
+        SDL_RenderPresent(lapiz);
+        SDL_Delay(16);
+    }
+
+    SDL_DestroyAudioStream(parlante);
+    SDL_DestroyRenderer(lapiz);
+    SDL_DestroyWindow(ventana);
+    SDL_Quit();
+    return 0;
+}
+```
+
+### ¿Para qué sirve?
+
+Un temporizador que hace que pasen cosas, los premios que caen y el récord están en casi todos los juegos de
+acción. Y el Arkanoid completo es tu segundo juego entero: lo vas a poder bajar y jugar en tu compu.
+
+### Errores habituales
+
+**El muro que baja de golpe.** Sin volver `reloj` a 8, el muro baja en todos los cuadros y llega a la paleta en un
+segundo.
+
+**Bajar solo los vivos.** Si se bajan solo los ladrillos vivos, cuando se rompe uno y vuelve a armarse la pared,
+quedan desparejos. Se bajan todos: los rotos no se ven igual.
+
+**Muchas cápsulas a la vez.** Sin el `!cayendo`, una cápsula nueva pisa a la que venía cayendo.
+
+**Perder el récord.** Si `record = 0;` va en la revancha, el récord se borra en cada partida.
+
+### Micro-misión R03-N07-P1 · El muro baja
+
+```meta
+lugar: El Muro de Ladrillos
+personajes: Kira, Gheco, Arcadia, el Muro Gruñón
+carta: Temporizador | reloj -= dt · si reloj <= 0: reloj = 8 y todos los ladrillos y += 12 · si llega a la paleta: PERDISTE
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+—¡Ahí voy! —gruñe El Muro, y da un paso para abajo. La pared de la pantalla, en cambio, se queda quieta. El
+Muro se ofende: —¿No me ves bajar? ¡Hacé que la máquina baje conmigo!
+
+#### Gheco sugiere
+Ya está la variable `float reloj = 8;`: los segundos que faltan para que el muro baje. Como la espera del
+Pong (R02-N02), en cada cuadro se le resta el tiempo que pasó:
+```c
+if (estado == JUGANDO) {
+    reloj -= dt;
+    if (reloj <= 0) {
+        reloj = 8;                                   /* otros 8 segundos */
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            pared[i].caja.y += 12;                   /* un escalón más abajo */
+            if (pared[i].vivo && pared[i].caja.y + pared[i].caja.h >= paleta.y) {
+                estado = PERDISTE;                   /* llegó a la paleta */
+            }
+        }
+    }
+}
+```
+- Solo corre mientras se juega: en el menú el muro espera.
+- `caja.y + caja.h` es el borde de abajo del ladrillo: si llega a la `y` de la paleta, te alcanzó.
+
+El robot va a empezar y esperar 9 segundos, sin sacar.
+
+#### Desafío
+Hacé que cada 8 segundos el muro baje un escalón, y que pierdas si llega a la paleta.
+
+#### Pasos
+1. Buscá `/* acá: cada 8 segundos, el muro baja un escalón; si llega a la paleta, perdiste */`.
+2. Debajo, escribí el `if (estado == JUGANDO)` de la sugerencia, con el `for` adentro.
+3. Tocá **Jugar**, empezá y esperá: a los 8 segundos la pared tiene que bajar. Después, **Comprobar**.
+
+#### Código inicial
+```c
+#include <SDL3/SDL.h>
+
+static bool toca(SDL_FRect a, SDL_FRect b)
+{
+    return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
+}
+
+/* Un ladrillo: dónde está y si sigue entero */
+typedef struct {
+    SDL_FRect caja;
+    bool vivo;
+    int fila;     /* 0 es la de arriba */
+    int golpes;   /* cuántos golpes le faltan para romperse */
+} Ladrillo;
+
+#define COLUMNAS 10
+#define FILAS 5
+#define NIVELES 2
+
+/* Cada nivel, dibujado con letras: # ladrillo · M metal (dos golpes) · . vacío */
+static const char *MAPAS[NIVELES][FILAS] = {
+    {
+        "#.#.#.#.#.",
+        ".#.#.#.#.#",
+        "##########",
+        "#...##...#",
+        "MMMMMMMMMM",
+    },
+    {
+        "..######..",
+        ".########.",
+        "##..##..##",
+        "##########",
+        "MM.MMMM.MM",
+    },
+};
+static int nivel = 0;   /* el nivel que se juega: 0 es el primero */
+
+/* Un pitido de «frecuencia» vueltas por segundo durante «segundos» (el de R01-N09) */
+static void pitido(SDL_AudioStream *parlante, float frecuencia, float segundos)
+{
+    int muestras = (int)(44100 * segundos);
+    float *onda = SDL_malloc(muestras * sizeof(float));
+    for (int i = 0; i < muestras; i++) {
+        onda[i] = 0.2f * SDL_sinf(2 * SDL_PI_F * frecuencia * i / 44100);
+    }
+    SDL_PutAudioStreamData(parlante, onda, muestras * sizeof(float));
+    SDL_free(onda);
+}
+
+enum Estado { MENU, JUGANDO, PERDISTE, GANASTE };
+
+/* Arma la pared del nivel */
+static void armarPared(Ladrillo pared[])
+{
+    for (int f = 0; f < FILAS; f++) {
+        for (int c = 0; c < COLUMNAS; c++) {
+            int i = f * COLUMNAS + c;   /* el número de ladrillo */
+            pared[i].caja = (SDL_FRect){ 22 + c * 60, 60 + f * 24, 56, 20 };
+            char letra = MAPAS[nivel][f][c];
+            pared[i].vivo = letra != '.';
+            pared[i].golpes = (letra == 'M') ? 2 : 1;
+            pared[i].fila = f;
+        }
+    }
+}
+
+int main(void)
+{
+    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
+
+    SDL_Window *ventana = NULL;
+    SDL_Renderer *lapiz = NULL;
+    SDL_CreateWindowAndRenderer("El Muro Grunon", 640, 480, 0, &ventana, &lapiz);
+
+    SDL_AudioSpec formato = { SDL_AUDIO_F32, 1, 44100 };
+    SDL_AudioStream *parlante = SDL_OpenAudioDeviceStream(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, &formato, NULL, NULL);
+    SDL_ResumeAudioStreamDevice(parlante);
+
+    SDL_FRect paleta = { 280, 440, 80, 12 };   /* abajo, en el medio */
+    SDL_FRect pelota = { 315, 300, 10, 10 };
+    float vx = 150;    /* + derecha, - izquierda */
+    float vy = -300;   /* - sube, + baja */
+    bool pegada = true;   /* true: la pelota espera arriba de la paleta */
+    int puntos = 0;
+    int vidas = 3;
+    enum Estado estado = MENU;
+    float reloj = 8;          /* segundos que faltan para que el muro baje */
+
+    Ladrillo pared[FILAS * COLUMNAS] = { 0 };   /* 5 filas de 10: 50 ladrillos */
+    armarPared(pared);
+    SDL_Color colores[FILAS] = {
+        { 255, 60, 100, 255 },    /* rosa */
+        { 255, 150, 40, 255 },    /* naranja */
+        { 80, 220, 100, 255 },    /* verde */
+        { 150, 100, 255, 255 },   /* violeta */
+        { 180, 180, 200, 255 },   /* metal */
+    };
+    Uint64 antes = SDL_GetTicks();
+
+    bool jugando = true;
+    while (jugando) {
+        SDL_Event evento;
+        while (SDL_PollEvent(&evento)) {
+            if (evento.type == SDL_EVENT_QUIT) {
+                jugando = false;
+            }
+            if (evento.type == SDL_EVENT_MOUSE_MOTION) {
+                paleta.x = evento.motion.x - paleta.w / 2;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_R && estado != JUGANDO) {
+                armarPared(pared);
+                vidas = 3;
+                puntos = 0;
+                pegada = true;
+                estado = JUGANDO;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_SPACE && pegada && estado == JUGANDO) {
+                pegada = false;
+                vx = 150;
+                vy = -300;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_SPACE && estado == MENU) {
+                estado = JUGANDO;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && estado == MENU && (evento.key.key == SDLK_1 || evento.key.key == SDLK_2)) {
+                nivel = (evento.key.key == SDLK_1) ? 0 : 1;
+                armarPared(pared);
+            }
+        }
+
+        Uint64 ahora = SDL_GetTicks();
+        float dt = (ahora - antes) / 1000.0f;
+        antes = ahora;
+
+        const bool *teclas = SDL_GetKeyboardState(NULL);
+        if (teclas[SDL_SCANCODE_LEFT]) paleta.x -= 400 * dt;
+        if (teclas[SDL_SCANCODE_RIGHT]) paleta.x += 400 * dt;
+        paleta.x = SDL_clamp(paleta.x, 0, 640 - paleta.w);
+
+        SDL_FRect previa = pelota;
+        if (pegada) {
+            pelota.x = paleta.x + paleta.w / 2 - pelota.w / 2;
+            pelota.y = paleta.y - pelota.h;
+        } else {
+            pelota.x += vx * dt;
+            pelota.y += vy * dt;
+        }
+
+        /* las paredes: los dos costados y el techo (abajo no hay pared) */
+        if (pelota.x < 0) {
+            pelota.x = 0;
+            vx = -vx;
+        }
+        if (pelota.x + pelota.w > 640) {
+            pelota.x = 640 - pelota.w;
+            vx = -vx;
+        }
+        if (pelota.y < 0) {
+            pelota.y = 0;
+            vy = -vy;
+        }
+
+        if (toca(pelota, paleta) && vy > 0) {
+            pelota.y = paleta.y - pelota.h;
+            vy = -vy;
+            vx = ((pelota.x + pelota.w / 2) - (paleta.x + paleta.w / 2)) * 6;
+            pitido(parlante, 440, 0.05f);
+        }
+
+        /* los ladrillos: ¿la pelota toca alguno? */
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo && toca(pelota, pared[i].caja)) {
+                pared[i].golpes--;
+                if (pared[i].golpes == 0) {
+                    pared[i].vivo = false;
+                }
+                SDL_FRect caja = pared[i].caja;
+                bool aLaAltura = previa.y + previa.h > caja.y && previa.y < caja.y + caja.h;
+                if (aLaAltura) {
+                    vx = -vx;
+                } else {
+                    vy = -vy;
+                }
+                vy = SDL_clamp(vy * 1.03f, -480, 480);
+                puntos += 10 * (FILAS - pared[i].fila);
+                pitido(parlante, 880, 0.04f);
+                break;
+            }
+        }
+
+        /* ¿se cayó por abajo? */
+        if (pelota.y > 480) {
+            pegada = true;
+            vidas--;
+            pitido(parlante, 150, 0.3f);
+            if (vidas == 0) {
+                estado = PERDISTE;
+            }
+        }
+
+
+        /* acá: cada 8 segundos, el muro baja un escalón; si llega a la paleta, perdiste */
+
+
+        int quedan = 0;
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo) {
+                quedan++;
+            }
+        }
+        if (quedan == 0) {
+            if (nivel + 1 < NIVELES) {
+                nivel++;
+                armarPared(pared);
+                pegada = true;
+            } else {
+                estado = GANASTE;
+            }
+        }
+
+        SDL_SetRenderDrawColor(lapiz, 20, 12, 40, 255);
+        SDL_RenderClear(lapiz);
+        SDL_SetRenderDrawColor(lapiz, 255, 60, 100, 255);
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo) {
+                SDL_Color color = colores[pared[i].fila];
+                SDL_SetRenderDrawColor(lapiz, color.r, color.g, color.b, 255);
+                SDL_RenderFillRect(lapiz, &pared[i].caja);
+            }
+        }
+        SDL_SetRenderDrawColor(lapiz, 0, 229, 255, 255);
+        SDL_RenderFillRect(lapiz, &paleta);
+        SDL_SetRenderDrawColor(lapiz, 255, 220, 0, 255);
+        SDL_RenderFillRect(lapiz, &pelota);
+        SDL_SetRenderDrawColor(lapiz, 255, 255, 255, 255);
+        SDL_RenderDebugTextFormat(lapiz, 10, 10, "PUNTOS %d", puntos);
+        SDL_RenderDebugTextFormat(lapiz, 560, 10, "VIDAS %d", vidas);
+        SDL_RenderDebugTextFormat(lapiz, 272, 10, "QUEDAN %d", quedan);
+        if (estado == GANASTE) {
+            SDL_RenderDebugText(lapiz, 280, 300, "PARED ROTA");
+        }
+        if (estado == PERDISTE) {
+            SDL_RenderDebugText(lapiz, 288, 300, "PERDISTE");
+        }
+        if (estado == PERDISTE || estado == GANASTE) {
+            SDL_RenderDebugText(lapiz, 276, 320, "R: OTRA VEZ");
+        }
+        if (estado == MENU) {
+            SDL_SetRenderDrawColor(lapiz, 255, 220, 0, 255);
+            SDL_SetRenderScale(lapiz, 5, 5);
+            SDL_RenderDebugText(lapiz, 36, 50, "EL MURO");
+            SDL_SetRenderScale(lapiz, 1, 1);
+            SDL_SetRenderDrawColor(lapiz, 255, 255, 255, 255);
+            SDL_RenderDebugText(lapiz, 264, 320, "ESPACIO: JUGAR");
+        }
+        if (estado == MENU) {
+            SDL_RenderDebugTextFormat(lapiz, 256, 345, "NIVEL %d (1 O 2)", nivel + 1);
+        }
+        SDL_RenderPresent(lapiz);
+        SDL_Delay(16);
+    }
+
+    SDL_DestroyAudioStream(parlante);
+    SDL_DestroyRenderer(lapiz);
+    SDL_DestroyWindow(ventana);
+    SDL_Quit();
+    return 0;
+}
+```
+
+#### Eventos
+```
+tecla Espacio
+cuadros 540
+```
+
+#### Estado
+```
+buscar #50dc64
+```
+
+#### Salida esperada
+```
+── Estado ──
+buscar #50dc64: x 22, y 120, ancho 596, alto 20
+```
+
+#### Solución
+```c
+#include <SDL3/SDL.h>
+
+static bool toca(SDL_FRect a, SDL_FRect b)
+{
+    return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
+}
+
+/* Un ladrillo: dónde está y si sigue entero */
+typedef struct {
+    SDL_FRect caja;
+    bool vivo;
+    int fila;     /* 0 es la de arriba */
+    int golpes;   /* cuántos golpes le faltan para romperse */
+} Ladrillo;
+
+#define COLUMNAS 10
+#define FILAS 5
+#define NIVELES 2
+
+/* Cada nivel, dibujado con letras: # ladrillo · M metal (dos golpes) · . vacío */
+static const char *MAPAS[NIVELES][FILAS] = {
+    {
+        "#.#.#.#.#.",
+        ".#.#.#.#.#",
+        "##########",
+        "#...##...#",
+        "MMMMMMMMMM",
+    },
+    {
+        "..######..",
+        ".########.",
+        "##..##..##",
+        "##########",
+        "MM.MMMM.MM",
+    },
+};
+static int nivel = 0;   /* el nivel que se juega: 0 es el primero */
+
+/* Un pitido de «frecuencia» vueltas por segundo durante «segundos» (el de R01-N09) */
+static void pitido(SDL_AudioStream *parlante, float frecuencia, float segundos)
+{
+    int muestras = (int)(44100 * segundos);
+    float *onda = SDL_malloc(muestras * sizeof(float));
+    for (int i = 0; i < muestras; i++) {
+        onda[i] = 0.2f * SDL_sinf(2 * SDL_PI_F * frecuencia * i / 44100);
+    }
+    SDL_PutAudioStreamData(parlante, onda, muestras * sizeof(float));
+    SDL_free(onda);
+}
+
+enum Estado { MENU, JUGANDO, PERDISTE, GANASTE };
+
+/* Arma la pared del nivel */
+static void armarPared(Ladrillo pared[])
+{
+    for (int f = 0; f < FILAS; f++) {
+        for (int c = 0; c < COLUMNAS; c++) {
+            int i = f * COLUMNAS + c;   /* el número de ladrillo */
+            pared[i].caja = (SDL_FRect){ 22 + c * 60, 60 + f * 24, 56, 20 };
+            char letra = MAPAS[nivel][f][c];
+            pared[i].vivo = letra != '.';
+            pared[i].golpes = (letra == 'M') ? 2 : 1;
+            pared[i].fila = f;
+        }
+    }
+}
+
+int main(void)
+{
+    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
+
+    SDL_Window *ventana = NULL;
+    SDL_Renderer *lapiz = NULL;
+    SDL_CreateWindowAndRenderer("El Muro Grunon", 640, 480, 0, &ventana, &lapiz);
+
+    SDL_AudioSpec formato = { SDL_AUDIO_F32, 1, 44100 };
+    SDL_AudioStream *parlante = SDL_OpenAudioDeviceStream(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, &formato, NULL, NULL);
+    SDL_ResumeAudioStreamDevice(parlante);
+
+    SDL_FRect paleta = { 280, 440, 80, 12 };   /* abajo, en el medio */
+    SDL_FRect pelota = { 315, 300, 10, 10 };
+    float vx = 150;    /* + derecha, - izquierda */
+    float vy = -300;   /* - sube, + baja */
+    bool pegada = true;   /* true: la pelota espera arriba de la paleta */
+    int puntos = 0;
+    int vidas = 3;
+    enum Estado estado = MENU;
+    float reloj = 8;          /* segundos que faltan para que el muro baje */
+
+    Ladrillo pared[FILAS * COLUMNAS] = { 0 };   /* 5 filas de 10: 50 ladrillos */
+    armarPared(pared);
+    SDL_Color colores[FILAS] = {
+        { 255, 60, 100, 255 },    /* rosa */
+        { 255, 150, 40, 255 },    /* naranja */
+        { 80, 220, 100, 255 },    /* verde */
+        { 150, 100, 255, 255 },   /* violeta */
+        { 180, 180, 200, 255 },   /* metal */
+    };
+    Uint64 antes = SDL_GetTicks();
+
+    bool jugando = true;
+    while (jugando) {
+        SDL_Event evento;
+        while (SDL_PollEvent(&evento)) {
+            if (evento.type == SDL_EVENT_QUIT) {
+                jugando = false;
+            }
+            if (evento.type == SDL_EVENT_MOUSE_MOTION) {
+                paleta.x = evento.motion.x - paleta.w / 2;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_R && estado != JUGANDO) {
+                armarPared(pared);
+                vidas = 3;
+                puntos = 0;
+                pegada = true;
+                estado = JUGANDO;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_SPACE && pegada && estado == JUGANDO) {
+                pegada = false;
+                vx = 150;
+                vy = -300;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_SPACE && estado == MENU) {
+                estado = JUGANDO;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && estado == MENU && (evento.key.key == SDLK_1 || evento.key.key == SDLK_2)) {
+                nivel = (evento.key.key == SDLK_1) ? 0 : 1;
+                armarPared(pared);
+            }
+        }
+
+        Uint64 ahora = SDL_GetTicks();
+        float dt = (ahora - antes) / 1000.0f;
+        antes = ahora;
+
+        const bool *teclas = SDL_GetKeyboardState(NULL);
+        if (teclas[SDL_SCANCODE_LEFT]) paleta.x -= 400 * dt;
+        if (teclas[SDL_SCANCODE_RIGHT]) paleta.x += 400 * dt;
+        paleta.x = SDL_clamp(paleta.x, 0, 640 - paleta.w);
+
+        SDL_FRect previa = pelota;
+        if (pegada) {
+            pelota.x = paleta.x + paleta.w / 2 - pelota.w / 2;
+            pelota.y = paleta.y - pelota.h;
+        } else {
+            pelota.x += vx * dt;
+            pelota.y += vy * dt;
+        }
+
+        /* las paredes: los dos costados y el techo (abajo no hay pared) */
+        if (pelota.x < 0) {
+            pelota.x = 0;
+            vx = -vx;
+        }
+        if (pelota.x + pelota.w > 640) {
+            pelota.x = 640 - pelota.w;
+            vx = -vx;
+        }
+        if (pelota.y < 0) {
+            pelota.y = 0;
+            vy = -vy;
+        }
+
+        if (toca(pelota, paleta) && vy > 0) {
+            pelota.y = paleta.y - pelota.h;
+            vy = -vy;
+            vx = ((pelota.x + pelota.w / 2) - (paleta.x + paleta.w / 2)) * 6;
+            pitido(parlante, 440, 0.05f);
+        }
+
+        /* los ladrillos: ¿la pelota toca alguno? */
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo && toca(pelota, pared[i].caja)) {
+                pared[i].golpes--;
+                if (pared[i].golpes == 0) {
+                    pared[i].vivo = false;
+                }
+                SDL_FRect caja = pared[i].caja;
+                bool aLaAltura = previa.y + previa.h > caja.y && previa.y < caja.y + caja.h;
+                if (aLaAltura) {
+                    vx = -vx;
+                } else {
+                    vy = -vy;
+                }
+                vy = SDL_clamp(vy * 1.03f, -480, 480);
+                puntos += 10 * (FILAS - pared[i].fila);
+                pitido(parlante, 880, 0.04f);
+                break;
+            }
+        }
+
+        /* ¿se cayó por abajo? */
+        if (pelota.y > 480) {
+            pegada = true;
+            vidas--;
+            pitido(parlante, 150, 0.3f);
+            if (vidas == 0) {
+                estado = PERDISTE;
+            }
+        }
+
+
+        if (estado == JUGANDO) {
+            reloj -= dt;
+            if (reloj <= 0) {
+                reloj = 8;
+                for (int i = 0; i < FILAS * COLUMNAS; i++) {
+                    pared[i].caja.y += 12;
+                    if (pared[i].vivo && pared[i].caja.y + pared[i].caja.h >= paleta.y) {
+                        estado = PERDISTE;
+                    }
+                }
+            }
+        }
+
+
+        int quedan = 0;
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo) {
+                quedan++;
+            }
+        }
+        if (quedan == 0) {
+            if (nivel + 1 < NIVELES) {
+                nivel++;
+                armarPared(pared);
+                pegada = true;
+            } else {
+                estado = GANASTE;
+            }
+        }
+
+        SDL_SetRenderDrawColor(lapiz, 20, 12, 40, 255);
+        SDL_RenderClear(lapiz);
+        SDL_SetRenderDrawColor(lapiz, 255, 60, 100, 255);
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo) {
+                SDL_Color color = colores[pared[i].fila];
+                SDL_SetRenderDrawColor(lapiz, color.r, color.g, color.b, 255);
+                SDL_RenderFillRect(lapiz, &pared[i].caja);
+            }
+        }
+        SDL_SetRenderDrawColor(lapiz, 0, 229, 255, 255);
+        SDL_RenderFillRect(lapiz, &paleta);
+        SDL_SetRenderDrawColor(lapiz, 255, 220, 0, 255);
+        SDL_RenderFillRect(lapiz, &pelota);
+        SDL_SetRenderDrawColor(lapiz, 255, 255, 255, 255);
+        SDL_RenderDebugTextFormat(lapiz, 10, 10, "PUNTOS %d", puntos);
+        SDL_RenderDebugTextFormat(lapiz, 560, 10, "VIDAS %d", vidas);
+        SDL_RenderDebugTextFormat(lapiz, 272, 10, "QUEDAN %d", quedan);
+        if (estado == GANASTE) {
+            SDL_RenderDebugText(lapiz, 280, 300, "PARED ROTA");
+        }
+        if (estado == PERDISTE) {
+            SDL_RenderDebugText(lapiz, 288, 300, "PERDISTE");
+        }
+        if (estado == PERDISTE || estado == GANASTE) {
+            SDL_RenderDebugText(lapiz, 276, 320, "R: OTRA VEZ");
+        }
+        if (estado == MENU) {
+            SDL_SetRenderDrawColor(lapiz, 255, 220, 0, 255);
+            SDL_SetRenderScale(lapiz, 5, 5);
+            SDL_RenderDebugText(lapiz, 36, 50, "EL MURO");
+            SDL_SetRenderScale(lapiz, 1, 1);
+            SDL_SetRenderDrawColor(lapiz, 255, 255, 255, 255);
+            SDL_RenderDebugText(lapiz, 264, 320, "ESPACIO: JUGAR");
+        }
+        if (estado == MENU) {
+            SDL_RenderDebugTextFormat(lapiz, 256, 345, "NIVEL %d (1 O 2)", nivel + 1);
+        }
+        SDL_RenderPresent(lapiz);
+        SDL_Delay(16);
+    }
+
+    SDL_DestroyAudioStream(parlante);
+    SDL_DestroyRenderer(lapiz);
+    SDL_DestroyWindow(ventana);
+    SDL_Quit();
+    return 0;
+}
+```
+
+#### Al superarla
+La pared de la pantalla baja un escalón justo cuando El Muro da su paso en la plaza: *¡pum!* Las dos al mismo
+tiempo. —¡Eso! —gruñe El Muro, contentísimo—. Ahora tenés que apurarte.
+
+#### Imagen
+- El Muro Gruñón, un paredón vivo de ladrillos de vidrio de colores con ojos y cejas, da un paso hacia abajo en la plaza.
+- En la máquina, la pared de la pantalla baja un escalón con una flecha.
+- Kira, decidida, con las manos en los controles; Arcadia sonríe; Gheco se agarra de la máquina.
+
+### Micro-misión R03-N07-P2 · La cápsula
+
+```meta
+lugar: El Muro de Ladrillos
+personajes: Kira, Gheco, Arcadia, el Muro Gruñón
+carta: Premio al azar | al romper: si !cayendo y SDL_rand(3) == 0, cae una cápsula · si toca la paleta: paleta.w = 120
+recompensa: xp 10, monedas 4
+```
+
+#### Escena
+De un ladrillo roto cae una chispa verde y rueda por el piso de la plaza. Gheco la levanta: es una cápsula
+tibia. —El Vidriero escondía premios adentro del muro —dice {mentor}—. Si la agarrabas con la paleta, la
+paleta crecía.
+
+#### Gheco sugiere
+Ya están la `capsula` (un rectángulo de 24 × 10) y `bool cayendo`. Tres cosas:
+1. **Cuando se rompe un ladrillo** (adentro del `if (pared[i].golpes == 0)`), a veces aparece:
+```c
+if (!cayendo && SDL_rand(3) == 0) {
+    cayendo = true;
+    capsula.x = pared[i].caja.x + 16;   /* en el medio del ladrillo */
+    capsula.y = pared[i].caja.y;
+}
+```
+`SDL_rand(3)` da 0, 1 o 2: que salga 0 pasa una vez cada tres, más o menos.
+2. **En cada cuadro**, si está cayendo, baja; si la paleta la agarra, la paleta crece; si se va por
+abajo, se pierde:
+```c
+if (cayendo) {
+    capsula.y += 120 * dt;
+    if (toca(capsula, paleta)) {
+        cayendo = false;
+        paleta.w = 120;
+    }
+    if (capsula.y > 480) {
+        cayendo = false;
+    }
+}
+```
+3. **Dibujarla** en verde, después de la pelota:
+```c
+if (cayendo) {
+    SDL_SetRenderDrawColor(lapiz, 80, 255, 150, 255);
+    SDL_RenderFillRect(lapiz, &capsula);
+}
+```
+
+#### Desafío
+Hacé que a veces caiga una cápsula de un ladrillo roto y que la paleta crezca si la agarra.
+
+#### Pasos
+1. Buscá `/* acá: a veces, del ladrillo roto cae una cápsula */` y escribí el primer `if` de la sugerencia.
+2. Buscá `/* acá: la cápsula cae; si la paleta la agarra, la paleta crece */` y escribí el `if (cayendo)`.
+3. Buscá `/* acá: dibujar la cápsula, verde */` y escribí el dibujo.
+4. Tocá **Jugar**, rompé ladrillos y tratá de agarrar una cápsula. Después, **Comprobar**.
+
+#### Código inicial
+```c
+#include <SDL3/SDL.h>
+
+static bool toca(SDL_FRect a, SDL_FRect b)
+{
+    return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
+}
+
+/* Un ladrillo: dónde está y si sigue entero */
+typedef struct {
+    SDL_FRect caja;
+    bool vivo;
+    int fila;     /* 0 es la de arriba */
+    int golpes;   /* cuántos golpes le faltan para romperse */
+} Ladrillo;
+
+#define COLUMNAS 10
+#define FILAS 5
+#define NIVELES 2
+
+/* Cada nivel, dibujado con letras: # ladrillo · M metal (dos golpes) · . vacío */
+static const char *MAPAS[NIVELES][FILAS] = {
+    {
+        "#.#.#.#.#.",
+        ".#.#.#.#.#",
+        "##########",
+        "#...##...#",
+        "MMMMMMMMMM",
+    },
+    {
+        "..######..",
+        ".########.",
+        "##..##..##",
+        "##########",
+        "MM.MMMM.MM",
+    },
+};
+static int nivel = 0;   /* el nivel que se juega: 0 es el primero */
+
+/* Un pitido de «frecuencia» vueltas por segundo durante «segundos» (el de R01-N09) */
+static void pitido(SDL_AudioStream *parlante, float frecuencia, float segundos)
+{
+    int muestras = (int)(44100 * segundos);
+    float *onda = SDL_malloc(muestras * sizeof(float));
+    for (int i = 0; i < muestras; i++) {
+        onda[i] = 0.2f * SDL_sinf(2 * SDL_PI_F * frecuencia * i / 44100);
+    }
+    SDL_PutAudioStreamData(parlante, onda, muestras * sizeof(float));
+    SDL_free(onda);
+}
+
+enum Estado { MENU, JUGANDO, PERDISTE, GANASTE };
+
+/* Arma la pared del nivel */
+static void armarPared(Ladrillo pared[])
+{
+    for (int f = 0; f < FILAS; f++) {
+        for (int c = 0; c < COLUMNAS; c++) {
+            int i = f * COLUMNAS + c;   /* el número de ladrillo */
+            pared[i].caja = (SDL_FRect){ 22 + c * 60, 60 + f * 24, 56, 20 };
+            char letra = MAPAS[nivel][f][c];
+            pared[i].vivo = letra != '.';
+            pared[i].golpes = (letra == 'M') ? 2 : 1;
+            pared[i].fila = f;
+        }
+    }
+}
+
+int main(void)
+{
+    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
+
+    SDL_Window *ventana = NULL;
+    SDL_Renderer *lapiz = NULL;
+    SDL_CreateWindowAndRenderer("El Muro Grunon", 640, 480, 0, &ventana, &lapiz);
+
+    SDL_AudioSpec formato = { SDL_AUDIO_F32, 1, 44100 };
+    SDL_AudioStream *parlante = SDL_OpenAudioDeviceStream(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, &formato, NULL, NULL);
+    SDL_ResumeAudioStreamDevice(parlante);
+
+    SDL_FRect paleta = { 280, 440, 80, 12 };   /* abajo, en el medio */
+    SDL_FRect pelota = { 315, 300, 10, 10 };
+    float vx = 150;    /* + derecha, - izquierda */
+    float vy = -300;   /* - sube, + baja */
+    bool pegada = true;   /* true: la pelota espera arriba de la paleta */
+    int puntos = 0;
+    int vidas = 3;
+    enum Estado estado = MENU;
+    float reloj = 8;          /* segundos que faltan para que el muro baje */
+    SDL_FRect capsula = { 0, 0, 24, 10 };
+    bool cayendo = false;     /* true: hay una cápsula cayendo */
+
+    Ladrillo pared[FILAS * COLUMNAS] = { 0 };   /* 5 filas de 10: 50 ladrillos */
+    armarPared(pared);
+    SDL_Color colores[FILAS] = {
+        { 255, 60, 100, 255 },    /* rosa */
+        { 255, 150, 40, 255 },    /* naranja */
+        { 80, 220, 100, 255 },    /* verde */
+        { 150, 100, 255, 255 },   /* violeta */
+        { 180, 180, 200, 255 },   /* metal */
+    };
+    Uint64 antes = SDL_GetTicks();
+
+    bool jugando = true;
+    while (jugando) {
+        SDL_Event evento;
+        while (SDL_PollEvent(&evento)) {
+            if (evento.type == SDL_EVENT_QUIT) {
+                jugando = false;
+            }
+            if (evento.type == SDL_EVENT_MOUSE_MOTION) {
+                paleta.x = evento.motion.x - paleta.w / 2;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_R && estado != JUGANDO) {
+                armarPared(pared);
+                vidas = 3;
+                puntos = 0;
+                pegada = true;
+                estado = JUGANDO;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_SPACE && pegada && estado == JUGANDO) {
+                pegada = false;
+                vx = 150;
+                vy = -300;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_SPACE && estado == MENU) {
+                estado = JUGANDO;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && estado == MENU && (evento.key.key == SDLK_1 || evento.key.key == SDLK_2)) {
+                nivel = (evento.key.key == SDLK_1) ? 0 : 1;
+                armarPared(pared);
+            }
+        }
+
+        Uint64 ahora = SDL_GetTicks();
+        float dt = (ahora - antes) / 1000.0f;
+        antes = ahora;
+
+        const bool *teclas = SDL_GetKeyboardState(NULL);
+        if (teclas[SDL_SCANCODE_LEFT]) paleta.x -= 400 * dt;
+        if (teclas[SDL_SCANCODE_RIGHT]) paleta.x += 400 * dt;
+        paleta.x = SDL_clamp(paleta.x, 0, 640 - paleta.w);
+
+        SDL_FRect previa = pelota;
+        if (pegada) {
+            pelota.x = paleta.x + paleta.w / 2 - pelota.w / 2;
+            pelota.y = paleta.y - pelota.h;
+        } else {
+            pelota.x += vx * dt;
+            pelota.y += vy * dt;
+        }
+
+        /* las paredes: los dos costados y el techo (abajo no hay pared) */
+        if (pelota.x < 0) {
+            pelota.x = 0;
+            vx = -vx;
+        }
+        if (pelota.x + pelota.w > 640) {
+            pelota.x = 640 - pelota.w;
+            vx = -vx;
+        }
+        if (pelota.y < 0) {
+            pelota.y = 0;
+            vy = -vy;
+        }
+
+        if (toca(pelota, paleta) && vy > 0) {
+            pelota.y = paleta.y - pelota.h;
+            vy = -vy;
+            vx = ((pelota.x + pelota.w / 2) - (paleta.x + paleta.w / 2)) * 6;
+            pitido(parlante, 440, 0.05f);
+        }
+
+        /* los ladrillos: ¿la pelota toca alguno? */
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo && toca(pelota, pared[i].caja)) {
+                pared[i].golpes--;
+                if (pared[i].golpes == 0) {
+                    pared[i].vivo = false;
+                    /* acá: a veces, del ladrillo roto cae una cápsula */
+                }
+                SDL_FRect caja = pared[i].caja;
+                bool aLaAltura = previa.y + previa.h > caja.y && previa.y < caja.y + caja.h;
+                if (aLaAltura) {
+                    vx = -vx;
+                } else {
+                    vy = -vy;
+                }
+                vy = SDL_clamp(vy * 1.03f, -480, 480);
+                puntos += 10 * (FILAS - pared[i].fila);
+                pitido(parlante, 880, 0.04f);
+                break;
+            }
+        }
+
+        /* ¿se cayó por abajo? */
+        if (pelota.y > 480) {
+            pegada = true;
+            vidas--;
+            pitido(parlante, 150, 0.3f);
+            if (vidas == 0) {
+                estado = PERDISTE;
+            }
+        }
+
+        /* acá: la cápsula cae; si la paleta la agarra, la paleta crece */
+
+        if (estado == JUGANDO) {
+            reloj -= dt;
+            if (reloj <= 0) {
+                reloj = 8;
+                for (int i = 0; i < FILAS * COLUMNAS; i++) {
+                    pared[i].caja.y += 12;
+                    if (pared[i].vivo && pared[i].caja.y + pared[i].caja.h >= paleta.y) {
+                        estado = PERDISTE;
+                    }
+                }
+            }
+        }
+
+
+        int quedan = 0;
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo) {
+                quedan++;
+            }
+        }
+        if (quedan == 0) {
+            if (nivel + 1 < NIVELES) {
+                nivel++;
+                armarPared(pared);
+                pegada = true;
+            } else {
+                estado = GANASTE;
+            }
+        }
+
+        SDL_SetRenderDrawColor(lapiz, 20, 12, 40, 255);
+        SDL_RenderClear(lapiz);
+        SDL_SetRenderDrawColor(lapiz, 255, 60, 100, 255);
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo) {
+                SDL_Color color = colores[pared[i].fila];
+                SDL_SetRenderDrawColor(lapiz, color.r, color.g, color.b, 255);
+                SDL_RenderFillRect(lapiz, &pared[i].caja);
+            }
+        }
+        SDL_SetRenderDrawColor(lapiz, 0, 229, 255, 255);
+        SDL_RenderFillRect(lapiz, &paleta);
+        SDL_SetRenderDrawColor(lapiz, 255, 220, 0, 255);
+        SDL_RenderFillRect(lapiz, &pelota);
+        /* acá: dibujar la cápsula, verde */
+        SDL_SetRenderDrawColor(lapiz, 255, 255, 255, 255);
+        SDL_RenderDebugTextFormat(lapiz, 10, 10, "PUNTOS %d", puntos);
+        SDL_RenderDebugTextFormat(lapiz, 560, 10, "VIDAS %d", vidas);
+        SDL_RenderDebugTextFormat(lapiz, 272, 10, "QUEDAN %d", quedan);
+        if (estado == GANASTE) {
+            SDL_RenderDebugText(lapiz, 280, 300, "PARED ROTA");
+        }
+        if (estado == PERDISTE) {
+            SDL_RenderDebugText(lapiz, 288, 300, "PERDISTE");
+        }
+        if (estado == PERDISTE || estado == GANASTE) {
+            SDL_RenderDebugText(lapiz, 276, 320, "R: OTRA VEZ");
+        }
+        if (estado == MENU) {
+            SDL_SetRenderDrawColor(lapiz, 255, 220, 0, 255);
+            SDL_SetRenderScale(lapiz, 5, 5);
+            SDL_RenderDebugText(lapiz, 36, 50, "EL MURO");
+            SDL_SetRenderScale(lapiz, 1, 1);
+            SDL_SetRenderDrawColor(lapiz, 255, 255, 255, 255);
+            SDL_RenderDebugText(lapiz, 264, 320, "ESPACIO: JUGAR");
+        }
+        if (estado == MENU) {
+            SDL_RenderDebugTextFormat(lapiz, 256, 345, "NIVEL %d (1 O 2)", nivel + 1);
+        }
+        SDL_RenderPresent(lapiz);
+        SDL_Delay(16);
+    }
+
+    SDL_DestroyAudioStream(parlante);
+    SDL_DestroyRenderer(lapiz);
+    SDL_DestroyWindow(ventana);
+    SDL_Quit();
+    return 0;
+}
+```
+
+#### Eventos
+```
+tecla Espacio
+cuadros 2
+tecla Espacio
+cuadros 150
+tecla Espacio
+cuadros 100
+```
+
+#### Estado
+```
+buscar #50ff96
+```
+
+#### Salida esperada
+```
+── Estado ──
+buscar #50ff96: x 458, y 262, ancho 24, alto 10
+```
+
+#### Solución
+```c
+#include <SDL3/SDL.h>
+
+static bool toca(SDL_FRect a, SDL_FRect b)
+{
+    return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
+}
+
+/* Un ladrillo: dónde está y si sigue entero */
+typedef struct {
+    SDL_FRect caja;
+    bool vivo;
+    int fila;     /* 0 es la de arriba */
+    int golpes;   /* cuántos golpes le faltan para romperse */
+} Ladrillo;
+
+#define COLUMNAS 10
+#define FILAS 5
+#define NIVELES 2
+
+/* Cada nivel, dibujado con letras: # ladrillo · M metal (dos golpes) · . vacío */
+static const char *MAPAS[NIVELES][FILAS] = {
+    {
+        "#.#.#.#.#.",
+        ".#.#.#.#.#",
+        "##########",
+        "#...##...#",
+        "MMMMMMMMMM",
+    },
+    {
+        "..######..",
+        ".########.",
+        "##..##..##",
+        "##########",
+        "MM.MMMM.MM",
+    },
+};
+static int nivel = 0;   /* el nivel que se juega: 0 es el primero */
+
+/* Un pitido de «frecuencia» vueltas por segundo durante «segundos» (el de R01-N09) */
+static void pitido(SDL_AudioStream *parlante, float frecuencia, float segundos)
+{
+    int muestras = (int)(44100 * segundos);
+    float *onda = SDL_malloc(muestras * sizeof(float));
+    for (int i = 0; i < muestras; i++) {
+        onda[i] = 0.2f * SDL_sinf(2 * SDL_PI_F * frecuencia * i / 44100);
+    }
+    SDL_PutAudioStreamData(parlante, onda, muestras * sizeof(float));
+    SDL_free(onda);
+}
+
+enum Estado { MENU, JUGANDO, PERDISTE, GANASTE };
+
+/* Arma la pared del nivel */
+static void armarPared(Ladrillo pared[])
+{
+    for (int f = 0; f < FILAS; f++) {
+        for (int c = 0; c < COLUMNAS; c++) {
+            int i = f * COLUMNAS + c;   /* el número de ladrillo */
+            pared[i].caja = (SDL_FRect){ 22 + c * 60, 60 + f * 24, 56, 20 };
+            char letra = MAPAS[nivel][f][c];
+            pared[i].vivo = letra != '.';
+            pared[i].golpes = (letra == 'M') ? 2 : 1;
+            pared[i].fila = f;
+        }
+    }
+}
+
+int main(void)
+{
+    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
+
+    SDL_Window *ventana = NULL;
+    SDL_Renderer *lapiz = NULL;
+    SDL_CreateWindowAndRenderer("El Muro Grunon", 640, 480, 0, &ventana, &lapiz);
+
+    SDL_AudioSpec formato = { SDL_AUDIO_F32, 1, 44100 };
+    SDL_AudioStream *parlante = SDL_OpenAudioDeviceStream(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, &formato, NULL, NULL);
+    SDL_ResumeAudioStreamDevice(parlante);
+
+    SDL_FRect paleta = { 280, 440, 80, 12 };   /* abajo, en el medio */
+    SDL_FRect pelota = { 315, 300, 10, 10 };
+    float vx = 150;    /* + derecha, - izquierda */
+    float vy = -300;   /* - sube, + baja */
+    bool pegada = true;   /* true: la pelota espera arriba de la paleta */
+    int puntos = 0;
+    int vidas = 3;
+    enum Estado estado = MENU;
+    float reloj = 8;          /* segundos que faltan para que el muro baje */
+    SDL_FRect capsula = { 0, 0, 24, 10 };
+    bool cayendo = false;     /* true: hay una cápsula cayendo */
+
+    Ladrillo pared[FILAS * COLUMNAS] = { 0 };   /* 5 filas de 10: 50 ladrillos */
+    armarPared(pared);
+    SDL_Color colores[FILAS] = {
+        { 255, 60, 100, 255 },    /* rosa */
+        { 255, 150, 40, 255 },    /* naranja */
+        { 80, 220, 100, 255 },    /* verde */
+        { 150, 100, 255, 255 },   /* violeta */
+        { 180, 180, 200, 255 },   /* metal */
+    };
+    Uint64 antes = SDL_GetTicks();
+
+    bool jugando = true;
+    while (jugando) {
+        SDL_Event evento;
+        while (SDL_PollEvent(&evento)) {
+            if (evento.type == SDL_EVENT_QUIT) {
+                jugando = false;
+            }
+            if (evento.type == SDL_EVENT_MOUSE_MOTION) {
+                paleta.x = evento.motion.x - paleta.w / 2;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_R && estado != JUGANDO) {
+                armarPared(pared);
+                vidas = 3;
+                puntos = 0;
+                pegada = true;
+                estado = JUGANDO;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_SPACE && pegada && estado == JUGANDO) {
+                pegada = false;
+                vx = 150;
+                vy = -300;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_SPACE && estado == MENU) {
+                estado = JUGANDO;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && estado == MENU && (evento.key.key == SDLK_1 || evento.key.key == SDLK_2)) {
+                nivel = (evento.key.key == SDLK_1) ? 0 : 1;
+                armarPared(pared);
+            }
+        }
+
+        Uint64 ahora = SDL_GetTicks();
+        float dt = (ahora - antes) / 1000.0f;
+        antes = ahora;
+
+        const bool *teclas = SDL_GetKeyboardState(NULL);
+        if (teclas[SDL_SCANCODE_LEFT]) paleta.x -= 400 * dt;
+        if (teclas[SDL_SCANCODE_RIGHT]) paleta.x += 400 * dt;
+        paleta.x = SDL_clamp(paleta.x, 0, 640 - paleta.w);
+
+        SDL_FRect previa = pelota;
+        if (pegada) {
+            pelota.x = paleta.x + paleta.w / 2 - pelota.w / 2;
+            pelota.y = paleta.y - pelota.h;
+        } else {
+            pelota.x += vx * dt;
+            pelota.y += vy * dt;
+        }
+
+        /* las paredes: los dos costados y el techo (abajo no hay pared) */
+        if (pelota.x < 0) {
+            pelota.x = 0;
+            vx = -vx;
+        }
+        if (pelota.x + pelota.w > 640) {
+            pelota.x = 640 - pelota.w;
+            vx = -vx;
+        }
+        if (pelota.y < 0) {
+            pelota.y = 0;
+            vy = -vy;
+        }
+
+        if (toca(pelota, paleta) && vy > 0) {
+            pelota.y = paleta.y - pelota.h;
+            vy = -vy;
+            vx = ((pelota.x + pelota.w / 2) - (paleta.x + paleta.w / 2)) * 6;
+            pitido(parlante, 440, 0.05f);
+        }
+
+        /* los ladrillos: ¿la pelota toca alguno? */
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo && toca(pelota, pared[i].caja)) {
+                pared[i].golpes--;
+                if (pared[i].golpes == 0) {
+                    pared[i].vivo = false;
+                    if (!cayendo && SDL_rand(3) == 0) {
+                        cayendo = true;
+                        capsula.x = pared[i].caja.x + 16;
+                        capsula.y = pared[i].caja.y;
+                    }
+                }
+                SDL_FRect caja = pared[i].caja;
+                bool aLaAltura = previa.y + previa.h > caja.y && previa.y < caja.y + caja.h;
+                if (aLaAltura) {
+                    vx = -vx;
+                } else {
+                    vy = -vy;
+                }
+                vy = SDL_clamp(vy * 1.03f, -480, 480);
+                puntos += 10 * (FILAS - pared[i].fila);
+                pitido(parlante, 880, 0.04f);
+                break;
+            }
+        }
+
+        /* ¿se cayó por abajo? */
+        if (pelota.y > 480) {
+            pegada = true;
+            vidas--;
+            pitido(parlante, 150, 0.3f);
+            if (vidas == 0) {
+                estado = PERDISTE;
+            }
+        }
+
+        if (cayendo) {
+            capsula.y += 120 * dt;
+            if (toca(capsula, paleta)) {
+                cayendo = false;
+                paleta.w = 120;
+            }
+            if (capsula.y > 480) {
+                cayendo = false;
+            }
+        }
+
+        if (estado == JUGANDO) {
+            reloj -= dt;
+            if (reloj <= 0) {
+                reloj = 8;
+                for (int i = 0; i < FILAS * COLUMNAS; i++) {
+                    pared[i].caja.y += 12;
+                    if (pared[i].vivo && pared[i].caja.y + pared[i].caja.h >= paleta.y) {
+                        estado = PERDISTE;
+                    }
+                }
+            }
+        }
+
+
+        int quedan = 0;
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo) {
+                quedan++;
+            }
+        }
+        if (quedan == 0) {
+            if (nivel + 1 < NIVELES) {
+                nivel++;
+                armarPared(pared);
+                pegada = true;
+            } else {
+                estado = GANASTE;
+            }
+        }
+
+        SDL_SetRenderDrawColor(lapiz, 20, 12, 40, 255);
+        SDL_RenderClear(lapiz);
+        SDL_SetRenderDrawColor(lapiz, 255, 60, 100, 255);
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo) {
+                SDL_Color color = colores[pared[i].fila];
+                SDL_SetRenderDrawColor(lapiz, color.r, color.g, color.b, 255);
+                SDL_RenderFillRect(lapiz, &pared[i].caja);
+            }
+        }
+        SDL_SetRenderDrawColor(lapiz, 0, 229, 255, 255);
+        SDL_RenderFillRect(lapiz, &paleta);
+        SDL_SetRenderDrawColor(lapiz, 255, 220, 0, 255);
+        SDL_RenderFillRect(lapiz, &pelota);
+        if (cayendo) {
+            SDL_SetRenderDrawColor(lapiz, 80, 255, 150, 255);
+            SDL_RenderFillRect(lapiz, &capsula);
+        }
+        SDL_SetRenderDrawColor(lapiz, 255, 255, 255, 255);
+        SDL_RenderDebugTextFormat(lapiz, 10, 10, "PUNTOS %d", puntos);
+        SDL_RenderDebugTextFormat(lapiz, 560, 10, "VIDAS %d", vidas);
+        SDL_RenderDebugTextFormat(lapiz, 272, 10, "QUEDAN %d", quedan);
+        if (estado == GANASTE) {
+            SDL_RenderDebugText(lapiz, 280, 300, "PARED ROTA");
+        }
+        if (estado == PERDISTE) {
+            SDL_RenderDebugText(lapiz, 288, 300, "PERDISTE");
+        }
+        if (estado == PERDISTE || estado == GANASTE) {
+            SDL_RenderDebugText(lapiz, 276, 320, "R: OTRA VEZ");
+        }
+        if (estado == MENU) {
+            SDL_SetRenderDrawColor(lapiz, 255, 220, 0, 255);
+            SDL_SetRenderScale(lapiz, 5, 5);
+            SDL_RenderDebugText(lapiz, 36, 50, "EL MURO");
+            SDL_SetRenderScale(lapiz, 1, 1);
+            SDL_SetRenderDrawColor(lapiz, 255, 255, 255, 255);
+            SDL_RenderDebugText(lapiz, 264, 320, "ESPACIO: JUGAR");
+        }
+        if (estado == MENU) {
+            SDL_RenderDebugTextFormat(lapiz, 256, 345, "NIVEL %d (1 O 2)", nivel + 1);
+        }
+        SDL_RenderPresent(lapiz);
+        SDL_Delay(16);
+    }
+
+    SDL_DestroyAudioStream(parlante);
+    SDL_DestroyRenderer(lapiz);
+    SDL_DestroyWindow(ventana);
+    SDL_Quit();
+    return 0;
+}
+```
+
+#### Al superarla
+Una cápsula verde cae haciendo zigzag y Kira la atrapa con la punta de la paleta. La paleta se estira con un
+brillo. —¡Eh, eso es trampa! —gruñe El Muro, pero se le escapa una sonrisa de ladrillo.
+
+#### Imagen
+- Una cápsula verde brillante cae de un ladrillo roto hacia la paleta celeste, en la pantalla de la máquina.
+- Gheco sostiene en la palma una cápsula verde tibia de verdad, asombrado; Arcadia se ríe.
+- El Muro Gruñón, el paredón vivo de ladrillos de colores, frunce las cejas de costado.
+
+### Micro-misión R03-N07-P3 · El récord
+
+```meta
+lugar: El Muro de Ladrillos
+personajes: Kira, Gheco, Arcadia, el Muro Gruñón
+carta: Récord | int record = 0 (no vuelve a 0) · si puntos > record: record = puntos · RECORD %d
+recompensa: xp 10, monedas 4
+```
+
+#### Escena
+Un chico pierde con 80 puntos, aprieta la R… y sus 80 puntos desaparecen. —¿Y cómo sabe el que viene cuánto
+hay que pasar? —pregunta. {mentor} asiente: —Un récord. El número que todos quieren pasar.
+
+#### Gheco sugiere
+Ya está la variable `int record = 0;`, afuera del bucle. La revancha pone `puntos` en 0, pero a `record`
+no lo toca: por eso queda de una partida a la otra. Dos cosas:
+1. En cada cuadro, si los puntos pasaron el récord, hay récord nuevo:
+```c
+if (puntos > record) {
+    record = puntos;
+}
+```
+2. Mostrarlo debajo de los puntos:
+```c
+SDL_RenderDebugTextFormat(lapiz, 10, 24, "RECORD %d", record);
+```
+El robot va a perder las tres vidas y apretar la R: los puntos vuelven a 0, el récord no.
+
+#### Desafío
+Guardá el mejor puntaje en un récord que no se borre en la revancha, y mostralo debajo de los puntos.
+
+#### Pasos
+1. Buscá `/* acá: si hiciste más puntos que el récord, hay récord nuevo */` y escribí el `if` de la sugerencia.
+2. Buscá `/* acá: el récord, debajo de los puntos */` y escribí la línea de `RECORD`.
+3. Tocá **Jugar**, hacé puntos, perdé y apretá la R. Después, **Comprobar**.
+
+#### Código inicial
+```c
+#include <SDL3/SDL.h>
+
+static bool toca(SDL_FRect a, SDL_FRect b)
+{
+    return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
+}
+
+/* Un ladrillo: dónde está y si sigue entero */
+typedef struct {
+    SDL_FRect caja;
+    bool vivo;
+    int fila;     /* 0 es la de arriba */
+    int golpes;   /* cuántos golpes le faltan para romperse */
+} Ladrillo;
+
+#define COLUMNAS 10
+#define FILAS 5
+#define NIVELES 2
+
+/* Cada nivel, dibujado con letras: # ladrillo · M metal (dos golpes) · . vacío */
+static const char *MAPAS[NIVELES][FILAS] = {
+    {
+        "#.#.#.#.#.",
+        ".#.#.#.#.#",
+        "##########",
+        "#...##...#",
+        "MMMMMMMMMM",
+    },
+    {
+        "..######..",
+        ".########.",
+        "##..##..##",
+        "##########",
+        "MM.MMMM.MM",
+    },
+};
+static int nivel = 0;   /* el nivel que se juega: 0 es el primero */
+
+/* Un pitido de «frecuencia» vueltas por segundo durante «segundos» (el de R01-N09) */
+static void pitido(SDL_AudioStream *parlante, float frecuencia, float segundos)
+{
+    int muestras = (int)(44100 * segundos);
+    float *onda = SDL_malloc(muestras * sizeof(float));
+    for (int i = 0; i < muestras; i++) {
+        onda[i] = 0.2f * SDL_sinf(2 * SDL_PI_F * frecuencia * i / 44100);
+    }
+    SDL_PutAudioStreamData(parlante, onda, muestras * sizeof(float));
+    SDL_free(onda);
+}
+
+enum Estado { MENU, JUGANDO, PERDISTE, GANASTE };
+
+/* Arma la pared del nivel */
+static void armarPared(Ladrillo pared[])
+{
+    for (int f = 0; f < FILAS; f++) {
+        for (int c = 0; c < COLUMNAS; c++) {
+            int i = f * COLUMNAS + c;   /* el número de ladrillo */
+            pared[i].caja = (SDL_FRect){ 22 + c * 60, 60 + f * 24, 56, 20 };
+            char letra = MAPAS[nivel][f][c];
+            pared[i].vivo = letra != '.';
+            pared[i].golpes = (letra == 'M') ? 2 : 1;
+            pared[i].fila = f;
+        }
+    }
+}
+
+int main(void)
+{
+    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
+
+    SDL_Window *ventana = NULL;
+    SDL_Renderer *lapiz = NULL;
+    SDL_CreateWindowAndRenderer("El Muro Grunon", 640, 480, 0, &ventana, &lapiz);
+
+    SDL_AudioSpec formato = { SDL_AUDIO_F32, 1, 44100 };
+    SDL_AudioStream *parlante = SDL_OpenAudioDeviceStream(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, &formato, NULL, NULL);
+    SDL_ResumeAudioStreamDevice(parlante);
+
+    SDL_FRect paleta = { 280, 440, 80, 12 };   /* abajo, en el medio */
+    SDL_FRect pelota = { 315, 300, 10, 10 };
+    float vx = 150;    /* + derecha, - izquierda */
+    float vy = -300;   /* - sube, + baja */
+    bool pegada = true;   /* true: la pelota espera arriba de la paleta */
+    int puntos = 0;
+    int vidas = 3;
+    enum Estado estado = MENU;
+    float reloj = 8;          /* segundos que faltan para que el muro baje */
+    SDL_FRect capsula = { 0, 0, 24, 10 };
+    bool cayendo = false;     /* true: hay una cápsula cayendo */
+    int record = 0;           /* el mejor puntaje desde que se prendió la máquina */
+
+    Ladrillo pared[FILAS * COLUMNAS] = { 0 };   /* 5 filas de 10: 50 ladrillos */
+    armarPared(pared);
+    SDL_Color colores[FILAS] = {
+        { 255, 60, 100, 255 },    /* rosa */
+        { 255, 150, 40, 255 },    /* naranja */
+        { 80, 220, 100, 255 },    /* verde */
+        { 150, 100, 255, 255 },   /* violeta */
+        { 180, 180, 200, 255 },   /* metal */
+    };
+    Uint64 antes = SDL_GetTicks();
+
+    bool jugando = true;
+    while (jugando) {
+        SDL_Event evento;
+        while (SDL_PollEvent(&evento)) {
+            if (evento.type == SDL_EVENT_QUIT) {
+                jugando = false;
+            }
+            if (evento.type == SDL_EVENT_MOUSE_MOTION) {
+                paleta.x = evento.motion.x - paleta.w / 2;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_R && estado != JUGANDO) {
+                armarPared(pared);
+                vidas = 3;
+                puntos = 0;
+                pegada = true;
+                estado = JUGANDO;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_SPACE && pegada && estado == JUGANDO) {
+                pegada = false;
+                vx = 150;
+                vy = -300;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_SPACE && estado == MENU) {
+                estado = JUGANDO;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && estado == MENU && (evento.key.key == SDLK_1 || evento.key.key == SDLK_2)) {
+                nivel = (evento.key.key == SDLK_1) ? 0 : 1;
+                armarPared(pared);
+            }
+        }
+
+        Uint64 ahora = SDL_GetTicks();
+        float dt = (ahora - antes) / 1000.0f;
+        antes = ahora;
+
+        const bool *teclas = SDL_GetKeyboardState(NULL);
+        if (teclas[SDL_SCANCODE_LEFT]) paleta.x -= 400 * dt;
+        if (teclas[SDL_SCANCODE_RIGHT]) paleta.x += 400 * dt;
+        paleta.x = SDL_clamp(paleta.x, 0, 640 - paleta.w);
+
+        SDL_FRect previa = pelota;
+        if (pegada) {
+            pelota.x = paleta.x + paleta.w / 2 - pelota.w / 2;
+            pelota.y = paleta.y - pelota.h;
+        } else {
+            pelota.x += vx * dt;
+            pelota.y += vy * dt;
+        }
+
+        /* las paredes: los dos costados y el techo (abajo no hay pared) */
+        if (pelota.x < 0) {
+            pelota.x = 0;
+            vx = -vx;
+        }
+        if (pelota.x + pelota.w > 640) {
+            pelota.x = 640 - pelota.w;
+            vx = -vx;
+        }
+        if (pelota.y < 0) {
+            pelota.y = 0;
+            vy = -vy;
+        }
+
+        if (toca(pelota, paleta) && vy > 0) {
+            pelota.y = paleta.y - pelota.h;
+            vy = -vy;
+            vx = ((pelota.x + pelota.w / 2) - (paleta.x + paleta.w / 2)) * 6;
+            pitido(parlante, 440, 0.05f);
+        }
+
+        /* los ladrillos: ¿la pelota toca alguno? */
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo && toca(pelota, pared[i].caja)) {
+                pared[i].golpes--;
+                if (pared[i].golpes == 0) {
+                    pared[i].vivo = false;
+                    if (!cayendo && SDL_rand(3) == 0) {
+                        cayendo = true;
+                        capsula.x = pared[i].caja.x + 16;
+                        capsula.y = pared[i].caja.y;
+                    }
+                }
+                SDL_FRect caja = pared[i].caja;
+                bool aLaAltura = previa.y + previa.h > caja.y && previa.y < caja.y + caja.h;
+                if (aLaAltura) {
+                    vx = -vx;
+                } else {
+                    vy = -vy;
+                }
+                vy = SDL_clamp(vy * 1.03f, -480, 480);
+                puntos += 10 * (FILAS - pared[i].fila);
+                pitido(parlante, 880, 0.04f);
+                break;
+            }
+        }
+
+        /* ¿se cayó por abajo? */
+        if (pelota.y > 480) {
+            pegada = true;
+            vidas--;
+            pitido(parlante, 150, 0.3f);
+            if (vidas == 0) {
+                estado = PERDISTE;
+            }
+        }
+
+        if (cayendo) {
+            capsula.y += 120 * dt;
+            if (toca(capsula, paleta)) {
+                cayendo = false;
+                paleta.w = 120;
+            }
+            if (capsula.y > 480) {
+                cayendo = false;
+            }
+        }
+
+        if (estado == JUGANDO) {
+            reloj -= dt;
+            if (reloj <= 0) {
+                reloj = 8;
+                for (int i = 0; i < FILAS * COLUMNAS; i++) {
+                    pared[i].caja.y += 12;
+                    if (pared[i].vivo && pared[i].caja.y + pared[i].caja.h >= paleta.y) {
+                        estado = PERDISTE;
+                    }
+                }
+            }
+        }
+
+        /* acá: si hiciste más puntos que el récord, hay récord nuevo */
+
+        int quedan = 0;
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo) {
+                quedan++;
+            }
+        }
+        if (quedan == 0) {
+            if (nivel + 1 < NIVELES) {
+                nivel++;
+                armarPared(pared);
+                pegada = true;
+            } else {
+                estado = GANASTE;
+            }
+        }
+
+        SDL_SetRenderDrawColor(lapiz, 20, 12, 40, 255);
+        SDL_RenderClear(lapiz);
+        SDL_SetRenderDrawColor(lapiz, 255, 60, 100, 255);
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo) {
+                SDL_Color color = colores[pared[i].fila];
+                SDL_SetRenderDrawColor(lapiz, color.r, color.g, color.b, 255);
+                SDL_RenderFillRect(lapiz, &pared[i].caja);
+            }
+        }
+        SDL_SetRenderDrawColor(lapiz, 0, 229, 255, 255);
+        SDL_RenderFillRect(lapiz, &paleta);
+        SDL_SetRenderDrawColor(lapiz, 255, 220, 0, 255);
+        SDL_RenderFillRect(lapiz, &pelota);
+        if (cayendo) {
+            SDL_SetRenderDrawColor(lapiz, 80, 255, 150, 255);
+            SDL_RenderFillRect(lapiz, &capsula);
+        }
+        SDL_SetRenderDrawColor(lapiz, 255, 255, 255, 255);
+        SDL_RenderDebugTextFormat(lapiz, 10, 10, "PUNTOS %d", puntos);
+        SDL_RenderDebugTextFormat(lapiz, 560, 10, "VIDAS %d", vidas);
+        SDL_RenderDebugTextFormat(lapiz, 272, 10, "QUEDAN %d", quedan);
+        /* acá: el récord, debajo de los puntos */
+        if (estado == GANASTE) {
+            SDL_RenderDebugText(lapiz, 280, 300, "PARED ROTA");
+        }
+        if (estado == PERDISTE) {
+            SDL_RenderDebugText(lapiz, 288, 300, "PERDISTE");
+        }
+        if (estado == PERDISTE || estado == GANASTE) {
+            SDL_RenderDebugText(lapiz, 276, 320, "R: OTRA VEZ");
+        }
+        if (estado == MENU) {
+            SDL_SetRenderDrawColor(lapiz, 255, 220, 0, 255);
+            SDL_SetRenderScale(lapiz, 5, 5);
+            SDL_RenderDebugText(lapiz, 36, 50, "EL MURO");
+            SDL_SetRenderScale(lapiz, 1, 1);
+            SDL_SetRenderDrawColor(lapiz, 255, 255, 255, 255);
+            SDL_RenderDebugText(lapiz, 264, 320, "ESPACIO: JUGAR");
+        }
+        if (estado == MENU) {
+            SDL_RenderDebugTextFormat(lapiz, 256, 345, "NIVEL %d (1 O 2)", nivel + 1);
+        }
+        SDL_RenderPresent(lapiz);
+        SDL_Delay(16);
+    }
+
+    SDL_DestroyAudioStream(parlante);
+    SDL_DestroyRenderer(lapiz);
+    SDL_DestroyWindow(ventana);
+    SDL_Quit();
+    return 0;
+}
+```
+
+#### Eventos
+```
+tecla Espacio
+cuadros 2
+tecla Espacio
+cuadros 150
+tecla Espacio
+cuadros 150
+tecla Espacio
+cuadros 150
+tecla Espacio
+cuadros 30
+tecla R
+cuadros 5
+```
+
+#### Estado
+```
+textos
+```
+
+#### Salida esperada
+```
+── Estado ──
+textos: PUNTOS 0 | VIDAS 3 | QUEDAN 34 | RECORD 50
+```
+
+#### Solución
+```c
+#include <SDL3/SDL.h>
+
+static bool toca(SDL_FRect a, SDL_FRect b)
+{
+    return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
+}
+
+/* Un ladrillo: dónde está y si sigue entero */
+typedef struct {
+    SDL_FRect caja;
+    bool vivo;
+    int fila;     /* 0 es la de arriba */
+    int golpes;   /* cuántos golpes le faltan para romperse */
+} Ladrillo;
+
+#define COLUMNAS 10
+#define FILAS 5
+#define NIVELES 2
+
+/* Cada nivel, dibujado con letras: # ladrillo · M metal (dos golpes) · . vacío */
+static const char *MAPAS[NIVELES][FILAS] = {
+    {
+        "#.#.#.#.#.",
+        ".#.#.#.#.#",
+        "##########",
+        "#...##...#",
+        "MMMMMMMMMM",
+    },
+    {
+        "..######..",
+        ".########.",
+        "##..##..##",
+        "##########",
+        "MM.MMMM.MM",
+    },
+};
+static int nivel = 0;   /* el nivel que se juega: 0 es el primero */
+
+/* Un pitido de «frecuencia» vueltas por segundo durante «segundos» (el de R01-N09) */
+static void pitido(SDL_AudioStream *parlante, float frecuencia, float segundos)
+{
+    int muestras = (int)(44100 * segundos);
+    float *onda = SDL_malloc(muestras * sizeof(float));
+    for (int i = 0; i < muestras; i++) {
+        onda[i] = 0.2f * SDL_sinf(2 * SDL_PI_F * frecuencia * i / 44100);
+    }
+    SDL_PutAudioStreamData(parlante, onda, muestras * sizeof(float));
+    SDL_free(onda);
+}
+
+enum Estado { MENU, JUGANDO, PERDISTE, GANASTE };
+
+/* Arma la pared del nivel */
+static void armarPared(Ladrillo pared[])
+{
+    for (int f = 0; f < FILAS; f++) {
+        for (int c = 0; c < COLUMNAS; c++) {
+            int i = f * COLUMNAS + c;   /* el número de ladrillo */
+            pared[i].caja = (SDL_FRect){ 22 + c * 60, 60 + f * 24, 56, 20 };
+            char letra = MAPAS[nivel][f][c];
+            pared[i].vivo = letra != '.';
+            pared[i].golpes = (letra == 'M') ? 2 : 1;
+            pared[i].fila = f;
+        }
+    }
+}
+
+int main(void)
+{
+    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
+
+    SDL_Window *ventana = NULL;
+    SDL_Renderer *lapiz = NULL;
+    SDL_CreateWindowAndRenderer("El Muro Grunon", 640, 480, 0, &ventana, &lapiz);
+
+    SDL_AudioSpec formato = { SDL_AUDIO_F32, 1, 44100 };
+    SDL_AudioStream *parlante = SDL_OpenAudioDeviceStream(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, &formato, NULL, NULL);
+    SDL_ResumeAudioStreamDevice(parlante);
+
+    SDL_FRect paleta = { 280, 440, 80, 12 };   /* abajo, en el medio */
+    SDL_FRect pelota = { 315, 300, 10, 10 };
+    float vx = 150;    /* + derecha, - izquierda */
+    float vy = -300;   /* - sube, + baja */
+    bool pegada = true;   /* true: la pelota espera arriba de la paleta */
+    int puntos = 0;
+    int vidas = 3;
+    enum Estado estado = MENU;
+    float reloj = 8;          /* segundos que faltan para que el muro baje */
+    SDL_FRect capsula = { 0, 0, 24, 10 };
+    bool cayendo = false;     /* true: hay una cápsula cayendo */
+    int record = 0;           /* el mejor puntaje desde que se prendió la máquina */
+
+    Ladrillo pared[FILAS * COLUMNAS] = { 0 };   /* 5 filas de 10: 50 ladrillos */
+    armarPared(pared);
+    SDL_Color colores[FILAS] = {
+        { 255, 60, 100, 255 },    /* rosa */
+        { 255, 150, 40, 255 },    /* naranja */
+        { 80, 220, 100, 255 },    /* verde */
+        { 150, 100, 255, 255 },   /* violeta */
+        { 180, 180, 200, 255 },   /* metal */
+    };
+    Uint64 antes = SDL_GetTicks();
+
+    bool jugando = true;
+    while (jugando) {
+        SDL_Event evento;
+        while (SDL_PollEvent(&evento)) {
+            if (evento.type == SDL_EVENT_QUIT) {
+                jugando = false;
+            }
+            if (evento.type == SDL_EVENT_MOUSE_MOTION) {
+                paleta.x = evento.motion.x - paleta.w / 2;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_R && estado != JUGANDO) {
+                armarPared(pared);
+                vidas = 3;
+                puntos = 0;
+                pegada = true;
+                estado = JUGANDO;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_SPACE && pegada && estado == JUGANDO) {
+                pegada = false;
+                vx = 150;
+                vy = -300;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_SPACE && estado == MENU) {
+                estado = JUGANDO;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && estado == MENU && (evento.key.key == SDLK_1 || evento.key.key == SDLK_2)) {
+                nivel = (evento.key.key == SDLK_1) ? 0 : 1;
+                armarPared(pared);
+            }
+        }
+
+        Uint64 ahora = SDL_GetTicks();
+        float dt = (ahora - antes) / 1000.0f;
+        antes = ahora;
+
+        const bool *teclas = SDL_GetKeyboardState(NULL);
+        if (teclas[SDL_SCANCODE_LEFT]) paleta.x -= 400 * dt;
+        if (teclas[SDL_SCANCODE_RIGHT]) paleta.x += 400 * dt;
+        paleta.x = SDL_clamp(paleta.x, 0, 640 - paleta.w);
+
+        SDL_FRect previa = pelota;
+        if (pegada) {
+            pelota.x = paleta.x + paleta.w / 2 - pelota.w / 2;
+            pelota.y = paleta.y - pelota.h;
+        } else {
+            pelota.x += vx * dt;
+            pelota.y += vy * dt;
+        }
+
+        /* las paredes: los dos costados y el techo (abajo no hay pared) */
+        if (pelota.x < 0) {
+            pelota.x = 0;
+            vx = -vx;
+        }
+        if (pelota.x + pelota.w > 640) {
+            pelota.x = 640 - pelota.w;
+            vx = -vx;
+        }
+        if (pelota.y < 0) {
+            pelota.y = 0;
+            vy = -vy;
+        }
+
+        if (toca(pelota, paleta) && vy > 0) {
+            pelota.y = paleta.y - pelota.h;
+            vy = -vy;
+            vx = ((pelota.x + pelota.w / 2) - (paleta.x + paleta.w / 2)) * 6;
+            pitido(parlante, 440, 0.05f);
+        }
+
+        /* los ladrillos: ¿la pelota toca alguno? */
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo && toca(pelota, pared[i].caja)) {
+                pared[i].golpes--;
+                if (pared[i].golpes == 0) {
+                    pared[i].vivo = false;
+                    if (!cayendo && SDL_rand(3) == 0) {
+                        cayendo = true;
+                        capsula.x = pared[i].caja.x + 16;
+                        capsula.y = pared[i].caja.y;
+                    }
+                }
+                SDL_FRect caja = pared[i].caja;
+                bool aLaAltura = previa.y + previa.h > caja.y && previa.y < caja.y + caja.h;
+                if (aLaAltura) {
+                    vx = -vx;
+                } else {
+                    vy = -vy;
+                }
+                vy = SDL_clamp(vy * 1.03f, -480, 480);
+                puntos += 10 * (FILAS - pared[i].fila);
+                pitido(parlante, 880, 0.04f);
+                break;
+            }
+        }
+
+        /* ¿se cayó por abajo? */
+        if (pelota.y > 480) {
+            pegada = true;
+            vidas--;
+            pitido(parlante, 150, 0.3f);
+            if (vidas == 0) {
+                estado = PERDISTE;
+            }
+        }
+
+        if (cayendo) {
+            capsula.y += 120 * dt;
+            if (toca(capsula, paleta)) {
+                cayendo = false;
+                paleta.w = 120;
+            }
+            if (capsula.y > 480) {
+                cayendo = false;
+            }
+        }
+
+        if (estado == JUGANDO) {
+            reloj -= dt;
+            if (reloj <= 0) {
+                reloj = 8;
+                for (int i = 0; i < FILAS * COLUMNAS; i++) {
+                    pared[i].caja.y += 12;
+                    if (pared[i].vivo && pared[i].caja.y + pared[i].caja.h >= paleta.y) {
+                        estado = PERDISTE;
+                    }
+                }
+            }
+        }
+
+        if (puntos > record) {
+            record = puntos;
+        }
+
+        int quedan = 0;
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo) {
+                quedan++;
+            }
+        }
+        if (quedan == 0) {
+            if (nivel + 1 < NIVELES) {
+                nivel++;
+                armarPared(pared);
+                pegada = true;
+            } else {
+                estado = GANASTE;
+            }
+        }
+
+        SDL_SetRenderDrawColor(lapiz, 20, 12, 40, 255);
+        SDL_RenderClear(lapiz);
+        SDL_SetRenderDrawColor(lapiz, 255, 60, 100, 255);
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo) {
+                SDL_Color color = colores[pared[i].fila];
+                SDL_SetRenderDrawColor(lapiz, color.r, color.g, color.b, 255);
+                SDL_RenderFillRect(lapiz, &pared[i].caja);
+            }
+        }
+        SDL_SetRenderDrawColor(lapiz, 0, 229, 255, 255);
+        SDL_RenderFillRect(lapiz, &paleta);
+        SDL_SetRenderDrawColor(lapiz, 255, 220, 0, 255);
+        SDL_RenderFillRect(lapiz, &pelota);
+        if (cayendo) {
+            SDL_SetRenderDrawColor(lapiz, 80, 255, 150, 255);
+            SDL_RenderFillRect(lapiz, &capsula);
+        }
+        SDL_SetRenderDrawColor(lapiz, 255, 255, 255, 255);
+        SDL_RenderDebugTextFormat(lapiz, 10, 10, "PUNTOS %d", puntos);
+        SDL_RenderDebugTextFormat(lapiz, 560, 10, "VIDAS %d", vidas);
+        SDL_RenderDebugTextFormat(lapiz, 272, 10, "QUEDAN %d", quedan);
+        SDL_RenderDebugTextFormat(lapiz, 10, 24, "RECORD %d", record);
+        if (estado == GANASTE) {
+            SDL_RenderDebugText(lapiz, 280, 300, "PARED ROTA");
+        }
+        if (estado == PERDISTE) {
+            SDL_RenderDebugText(lapiz, 288, 300, "PERDISTE");
+        }
+        if (estado == PERDISTE || estado == GANASTE) {
+            SDL_RenderDebugText(lapiz, 276, 320, "R: OTRA VEZ");
+        }
+        if (estado == MENU) {
+            SDL_SetRenderDrawColor(lapiz, 255, 220, 0, 255);
+            SDL_SetRenderScale(lapiz, 5, 5);
+            SDL_RenderDebugText(lapiz, 36, 50, "EL MURO");
+            SDL_SetRenderScale(lapiz, 1, 1);
+            SDL_SetRenderDrawColor(lapiz, 255, 255, 255, 255);
+            SDL_RenderDebugText(lapiz, 264, 320, "ESPACIO: JUGAR");
+        }
+        if (estado == MENU) {
+            SDL_RenderDebugTextFormat(lapiz, 256, 345, "NIVEL %d (1 O 2)", nivel + 1);
+        }
+        SDL_RenderPresent(lapiz);
+        SDL_Delay(16);
+    }
+
+    SDL_DestroyAudioStream(parlante);
+    SDL_DestroyRenderer(lapiz);
+    SDL_DestroyWindow(ventana);
+    SDL_Quit();
+    return 0;
+}
+```
+
+#### Al superarla
+Los puntos vuelven a 0, pero arriba queda **RECORD** con el número del chico. El que sigue en la fila lo lee
+en voz alta y se arremanga. El Muro Gruñón resopla: —Récords… En mi época éramos menos competitivos.
+
+#### Imagen
+- La pantalla con dos renglones blancos arriba a la izquierda (sin texto legible) y la pared de colores.
+- Chicos del barrio con abrigos cerrados señalan la pantalla, entusiasmados; uno se arremanga.
+- Kira y Gheco sonríen; al fondo, El Muro Gruñón resopla polvo de ladrillo.
+
+### Micro-misión R03-N07-P4 · El cartel del Muro
+
+```meta
+lugar: El Muro de Ladrillos
+personajes: Kira, Gheco, Arcadia, el Muro Gruñón
+carta: Cartel centrado | cartel = GANASTE ? "EL MURO SE RINDE" : "EL MURO SIGUE EN PIE" · x = 320 - SDL_strlen(cartel) * 4
+recompensa: xp 20, monedas 5
+item: Ladrillo Arcoíris
+```
+
+#### Escena
+—Cuando alguien me gane —dice El Muro—, quiero que la máquina lo diga bien claro, en el medio. Y si me ganás
+vos a mí, que se sepa que sigo en pie. —Se acomoda las cejas—. Tengo una reputación.
+
+#### Gheco sugiere
+En lugar de los dos carteles de antes (`PARED ROTA` y `PERDISTE`, corridos a ojo), uno solo, centrado, que
+cambia según cómo terminó:
+```c
+if (estado == PERDISTE || estado == GANASTE) {
+    const char *cartel = (estado == GANASTE) ? "EL MURO SE RINDE" : "EL MURO SIGUE EN PIE";
+    SDL_SetRenderDrawColor(lapiz, 255, 220, 0, 255);
+    SDL_RenderDebugText(lapiz, 320 - SDL_strlen(cartel) * 4.0f, 300, cartel);
+    SDL_SetRenderDrawColor(lapiz, 255, 255, 255, 255);
+}
+```
+- `const char *cartel` guarda una cadena; con `? :` elige cuál.
+- Cada letra mide 8 píxeles: un texto de `n` letras mide `n * 8`, y para que quede en el medio empieza en
+  `320 - n * 4` (como el cartel del Campeón, R02-N07).
+- Se pinta amarillo y después se vuelve al blanco, para que lo que se dibuja abajo no salga amarillo.
+
+El robot va a perder las tres vidas.
+
+#### Desafío
+Cambiá los dos carteles del final por uno solo del Muro, centrado, que diga cómo terminó.
+
+#### Pasos
+1. Buscá `/* acá: el cartel del Muro, centrado */` y borrá los dos `if` de abajo (los de `PARED ROTA` y `PERDISTE`).
+2. En su lugar, escribí el `if` de la sugerencia.
+3. Tocá **Jugar** y jugá hasta el final. Después, **Comprobar**.
+
+#### Código inicial
+```c
+#include <SDL3/SDL.h>
+
+static bool toca(SDL_FRect a, SDL_FRect b)
+{
+    return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
+}
+
+/* Un ladrillo: dónde está y si sigue entero */
+typedef struct {
+    SDL_FRect caja;
+    bool vivo;
+    int fila;     /* 0 es la de arriba */
+    int golpes;   /* cuántos golpes le faltan para romperse */
+} Ladrillo;
+
+#define COLUMNAS 10
+#define FILAS 5
+#define NIVELES 2
+
+/* Cada nivel, dibujado con letras: # ladrillo · M metal (dos golpes) · . vacío */
+static const char *MAPAS[NIVELES][FILAS] = {
+    {
+        "#.#.#.#.#.",
+        ".#.#.#.#.#",
+        "##########",
+        "#...##...#",
+        "MMMMMMMMMM",
+    },
+    {
+        "..######..",
+        ".########.",
+        "##..##..##",
+        "##########",
+        "MM.MMMM.MM",
+    },
+};
+static int nivel = 0;   /* el nivel que se juega: 0 es el primero */
+
+/* Un pitido de «frecuencia» vueltas por segundo durante «segundos» (el de R01-N09) */
+static void pitido(SDL_AudioStream *parlante, float frecuencia, float segundos)
+{
+    int muestras = (int)(44100 * segundos);
+    float *onda = SDL_malloc(muestras * sizeof(float));
+    for (int i = 0; i < muestras; i++) {
+        onda[i] = 0.2f * SDL_sinf(2 * SDL_PI_F * frecuencia * i / 44100);
+    }
+    SDL_PutAudioStreamData(parlante, onda, muestras * sizeof(float));
+    SDL_free(onda);
+}
+
+enum Estado { MENU, JUGANDO, PERDISTE, GANASTE };
+
+/* Arma la pared del nivel */
+static void armarPared(Ladrillo pared[])
+{
+    for (int f = 0; f < FILAS; f++) {
+        for (int c = 0; c < COLUMNAS; c++) {
+            int i = f * COLUMNAS + c;   /* el número de ladrillo */
+            pared[i].caja = (SDL_FRect){ 22 + c * 60, 60 + f * 24, 56, 20 };
+            char letra = MAPAS[nivel][f][c];
+            pared[i].vivo = letra != '.';
+            pared[i].golpes = (letra == 'M') ? 2 : 1;
+            pared[i].fila = f;
+        }
+    }
+}
+
+int main(void)
+{
+    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
+
+    SDL_Window *ventana = NULL;
+    SDL_Renderer *lapiz = NULL;
+    SDL_CreateWindowAndRenderer("El Muro Grunon", 640, 480, 0, &ventana, &lapiz);
+
+    SDL_AudioSpec formato = { SDL_AUDIO_F32, 1, 44100 };
+    SDL_AudioStream *parlante = SDL_OpenAudioDeviceStream(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, &formato, NULL, NULL);
+    SDL_ResumeAudioStreamDevice(parlante);
+
+    SDL_FRect paleta = { 280, 440, 80, 12 };   /* abajo, en el medio */
+    SDL_FRect pelota = { 315, 300, 10, 10 };
+    float vx = 150;    /* + derecha, - izquierda */
+    float vy = -300;   /* - sube, + baja */
+    bool pegada = true;   /* true: la pelota espera arriba de la paleta */
+    int puntos = 0;
+    int vidas = 3;
+    enum Estado estado = MENU;
+    float reloj = 8;          /* segundos que faltan para que el muro baje */
+    SDL_FRect capsula = { 0, 0, 24, 10 };
+    bool cayendo = false;     /* true: hay una cápsula cayendo */
+    int record = 0;           /* el mejor puntaje desde que se prendió la máquina */
+
+    Ladrillo pared[FILAS * COLUMNAS] = { 0 };   /* 5 filas de 10: 50 ladrillos */
+    armarPared(pared);
+    SDL_Color colores[FILAS] = {
+        { 255, 60, 100, 255 },    /* rosa */
+        { 255, 150, 40, 255 },    /* naranja */
+        { 80, 220, 100, 255 },    /* verde */
+        { 150, 100, 255, 255 },   /* violeta */
+        { 180, 180, 200, 255 },   /* metal */
+    };
+    Uint64 antes = SDL_GetTicks();
+
+    bool jugando = true;
+    while (jugando) {
+        SDL_Event evento;
+        while (SDL_PollEvent(&evento)) {
+            if (evento.type == SDL_EVENT_QUIT) {
+                jugando = false;
+            }
+            if (evento.type == SDL_EVENT_MOUSE_MOTION) {
+                paleta.x = evento.motion.x - paleta.w / 2;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_R && estado != JUGANDO) {
+                armarPared(pared);
+                vidas = 3;
+                puntos = 0;
+                pegada = true;
+                estado = JUGANDO;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_SPACE && pegada && estado == JUGANDO) {
+                pegada = false;
+                vx = 150;
+                vy = -300;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_SPACE && estado == MENU) {
+                estado = JUGANDO;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && estado == MENU && (evento.key.key == SDLK_1 || evento.key.key == SDLK_2)) {
+                nivel = (evento.key.key == SDLK_1) ? 0 : 1;
+                armarPared(pared);
+            }
+        }
+
+        Uint64 ahora = SDL_GetTicks();
+        float dt = (ahora - antes) / 1000.0f;
+        antes = ahora;
+
+        const bool *teclas = SDL_GetKeyboardState(NULL);
+        if (teclas[SDL_SCANCODE_LEFT]) paleta.x -= 400 * dt;
+        if (teclas[SDL_SCANCODE_RIGHT]) paleta.x += 400 * dt;
+        paleta.x = SDL_clamp(paleta.x, 0, 640 - paleta.w);
+
+        SDL_FRect previa = pelota;
+        if (pegada) {
+            pelota.x = paleta.x + paleta.w / 2 - pelota.w / 2;
+            pelota.y = paleta.y - pelota.h;
+        } else {
+            pelota.x += vx * dt;
+            pelota.y += vy * dt;
+        }
+
+        /* las paredes: los dos costados y el techo (abajo no hay pared) */
+        if (pelota.x < 0) {
+            pelota.x = 0;
+            vx = -vx;
+        }
+        if (pelota.x + pelota.w > 640) {
+            pelota.x = 640 - pelota.w;
+            vx = -vx;
+        }
+        if (pelota.y < 0) {
+            pelota.y = 0;
+            vy = -vy;
+        }
+
+        if (toca(pelota, paleta) && vy > 0) {
+            pelota.y = paleta.y - pelota.h;
+            vy = -vy;
+            vx = ((pelota.x + pelota.w / 2) - (paleta.x + paleta.w / 2)) * 6;
+            pitido(parlante, 440, 0.05f);
+        }
+
+        /* los ladrillos: ¿la pelota toca alguno? */
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo && toca(pelota, pared[i].caja)) {
+                pared[i].golpes--;
+                if (pared[i].golpes == 0) {
+                    pared[i].vivo = false;
+                    if (!cayendo && SDL_rand(3) == 0) {
+                        cayendo = true;
+                        capsula.x = pared[i].caja.x + 16;
+                        capsula.y = pared[i].caja.y;
+                    }
+                }
+                SDL_FRect caja = pared[i].caja;
+                bool aLaAltura = previa.y + previa.h > caja.y && previa.y < caja.y + caja.h;
+                if (aLaAltura) {
+                    vx = -vx;
+                } else {
+                    vy = -vy;
+                }
+                vy = SDL_clamp(vy * 1.03f, -480, 480);
+                puntos += 10 * (FILAS - pared[i].fila);
+                pitido(parlante, 880, 0.04f);
+                break;
+            }
+        }
+
+        /* ¿se cayó por abajo? */
+        if (pelota.y > 480) {
+            pegada = true;
+            vidas--;
+            pitido(parlante, 150, 0.3f);
+            if (vidas == 0) {
+                estado = PERDISTE;
+            }
+        }
+
+        if (cayendo) {
+            capsula.y += 120 * dt;
+            if (toca(capsula, paleta)) {
+                cayendo = false;
+                paleta.w = 120;
+            }
+            if (capsula.y > 480) {
+                cayendo = false;
+            }
+        }
+
+        if (estado == JUGANDO) {
+            reloj -= dt;
+            if (reloj <= 0) {
+                reloj = 8;
+                for (int i = 0; i < FILAS * COLUMNAS; i++) {
+                    pared[i].caja.y += 12;
+                    if (pared[i].vivo && pared[i].caja.y + pared[i].caja.h >= paleta.y) {
+                        estado = PERDISTE;
+                    }
+                }
+            }
+        }
+
+        if (puntos > record) {
+            record = puntos;
+        }
+
+        int quedan = 0;
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo) {
+                quedan++;
+            }
+        }
+        if (quedan == 0) {
+            if (nivel + 1 < NIVELES) {
+                nivel++;
+                armarPared(pared);
+                pegada = true;
+            } else {
+                estado = GANASTE;
+            }
+        }
+
+        SDL_SetRenderDrawColor(lapiz, 20, 12, 40, 255);
+        SDL_RenderClear(lapiz);
+        SDL_SetRenderDrawColor(lapiz, 255, 60, 100, 255);
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo) {
+                SDL_Color color = colores[pared[i].fila];
+                SDL_SetRenderDrawColor(lapiz, color.r, color.g, color.b, 255);
+                SDL_RenderFillRect(lapiz, &pared[i].caja);
+            }
+        }
+        SDL_SetRenderDrawColor(lapiz, 0, 229, 255, 255);
+        SDL_RenderFillRect(lapiz, &paleta);
+        SDL_SetRenderDrawColor(lapiz, 255, 220, 0, 255);
+        SDL_RenderFillRect(lapiz, &pelota);
+        if (cayendo) {
+            SDL_SetRenderDrawColor(lapiz, 80, 255, 150, 255);
+            SDL_RenderFillRect(lapiz, &capsula);
+        }
+        SDL_SetRenderDrawColor(lapiz, 255, 255, 255, 255);
+        SDL_RenderDebugTextFormat(lapiz, 10, 10, "PUNTOS %d", puntos);
+        SDL_RenderDebugTextFormat(lapiz, 560, 10, "VIDAS %d", vidas);
+        SDL_RenderDebugTextFormat(lapiz, 272, 10, "QUEDAN %d", quedan);
+        SDL_RenderDebugTextFormat(lapiz, 10, 24, "RECORD %d", record);
+        /* acá: el cartel del Muro, centrado */
+        if (estado == GANASTE) {
+            SDL_RenderDebugText(lapiz, 280, 300, "PARED ROTA");
+        }
+        if (estado == PERDISTE) {
+            SDL_RenderDebugText(lapiz, 288, 300, "PERDISTE");
+        }
+        if (estado == PERDISTE || estado == GANASTE) {
+            SDL_RenderDebugText(lapiz, 276, 320, "R: OTRA VEZ");
+        }
+        if (estado == MENU) {
+            SDL_SetRenderDrawColor(lapiz, 255, 220, 0, 255);
+            SDL_SetRenderScale(lapiz, 5, 5);
+            SDL_RenderDebugText(lapiz, 36, 50, "EL MURO");
+            SDL_SetRenderScale(lapiz, 1, 1);
+            SDL_SetRenderDrawColor(lapiz, 255, 255, 255, 255);
+            SDL_RenderDebugText(lapiz, 264, 320, "ESPACIO: JUGAR");
+        }
+        if (estado == MENU) {
+            SDL_RenderDebugTextFormat(lapiz, 256, 345, "NIVEL %d (1 O 2)", nivel + 1);
+        }
+        SDL_RenderPresent(lapiz);
+        SDL_Delay(16);
+    }
+
+    SDL_DestroyAudioStream(parlante);
+    SDL_DestroyRenderer(lapiz);
+    SDL_DestroyWindow(ventana);
+    SDL_Quit();
+    return 0;
+}
+```
+
+#### Eventos
+```
+tecla Espacio
+cuadros 2
+tecla Espacio
+cuadros 150
+tecla Espacio
+cuadros 150
+tecla Espacio
+cuadros 150
+tecla Espacio
+cuadros 30
+```
+
+#### Estado
+```
+textos
+```
+
+#### Salida esperada
+```
+── Estado ──
+textos: PUNTOS 50 | VIDAS 0 | QUEDAN 32 | RECORD 50 | EL MURO SIGUE EN PIE | R: OTRA VEZ
+```
+
+#### Solución
+```c
+#include <SDL3/SDL.h>
+
+static bool toca(SDL_FRect a, SDL_FRect b)
+{
+    return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
+}
+
+/* Un ladrillo: dónde está y si sigue entero */
+typedef struct {
+    SDL_FRect caja;
+    bool vivo;
+    int fila;     /* 0 es la de arriba */
+    int golpes;   /* cuántos golpes le faltan para romperse */
+} Ladrillo;
+
+#define COLUMNAS 10
+#define FILAS 5
+#define NIVELES 2
+
+/* Cada nivel, dibujado con letras: # ladrillo · M metal (dos golpes) · . vacío */
+static const char *MAPAS[NIVELES][FILAS] = {
+    {
+        "#.#.#.#.#.",
+        ".#.#.#.#.#",
+        "##########",
+        "#...##...#",
+        "MMMMMMMMMM",
+    },
+    {
+        "..######..",
+        ".########.",
+        "##..##..##",
+        "##########",
+        "MM.MMMM.MM",
+    },
+};
+static int nivel = 0;   /* el nivel que se juega: 0 es el primero */
+
+/* Un pitido de «frecuencia» vueltas por segundo durante «segundos» (el de R01-N09) */
+static void pitido(SDL_AudioStream *parlante, float frecuencia, float segundos)
+{
+    int muestras = (int)(44100 * segundos);
+    float *onda = SDL_malloc(muestras * sizeof(float));
+    for (int i = 0; i < muestras; i++) {
+        onda[i] = 0.2f * SDL_sinf(2 * SDL_PI_F * frecuencia * i / 44100);
+    }
+    SDL_PutAudioStreamData(parlante, onda, muestras * sizeof(float));
+    SDL_free(onda);
+}
+
+enum Estado { MENU, JUGANDO, PERDISTE, GANASTE };
+
+/* Arma la pared del nivel */
+static void armarPared(Ladrillo pared[])
+{
+    for (int f = 0; f < FILAS; f++) {
+        for (int c = 0; c < COLUMNAS; c++) {
+            int i = f * COLUMNAS + c;   /* el número de ladrillo */
+            pared[i].caja = (SDL_FRect){ 22 + c * 60, 60 + f * 24, 56, 20 };
+            char letra = MAPAS[nivel][f][c];
+            pared[i].vivo = letra != '.';
+            pared[i].golpes = (letra == 'M') ? 2 : 1;
+            pared[i].fila = f;
+        }
+    }
+}
+
+int main(void)
+{
+    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
+
+    SDL_Window *ventana = NULL;
+    SDL_Renderer *lapiz = NULL;
+    SDL_CreateWindowAndRenderer("El Muro Grunon", 640, 480, 0, &ventana, &lapiz);
+
+    SDL_AudioSpec formato = { SDL_AUDIO_F32, 1, 44100 };
+    SDL_AudioStream *parlante = SDL_OpenAudioDeviceStream(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, &formato, NULL, NULL);
+    SDL_ResumeAudioStreamDevice(parlante);
+
+    SDL_FRect paleta = { 280, 440, 80, 12 };   /* abajo, en el medio */
+    SDL_FRect pelota = { 315, 300, 10, 10 };
+    float vx = 150;    /* + derecha, - izquierda */
+    float vy = -300;   /* - sube, + baja */
+    bool pegada = true;   /* true: la pelota espera arriba de la paleta */
+    int puntos = 0;
+    int vidas = 3;
+    enum Estado estado = MENU;
+    float reloj = 8;          /* segundos que faltan para que el muro baje */
+    SDL_FRect capsula = { 0, 0, 24, 10 };
+    bool cayendo = false;     /* true: hay una cápsula cayendo */
+    int record = 0;           /* el mejor puntaje desde que se prendió la máquina */
+
+    Ladrillo pared[FILAS * COLUMNAS] = { 0 };   /* 5 filas de 10: 50 ladrillos */
+    armarPared(pared);
+    SDL_Color colores[FILAS] = {
+        { 255, 60, 100, 255 },    /* rosa */
+        { 255, 150, 40, 255 },    /* naranja */
+        { 80, 220, 100, 255 },    /* verde */
+        { 150, 100, 255, 255 },   /* violeta */
+        { 180, 180, 200, 255 },   /* metal */
+    };
+    Uint64 antes = SDL_GetTicks();
+
+    bool jugando = true;
+    while (jugando) {
+        SDL_Event evento;
+        while (SDL_PollEvent(&evento)) {
+            if (evento.type == SDL_EVENT_QUIT) {
+                jugando = false;
+            }
+            if (evento.type == SDL_EVENT_MOUSE_MOTION) {
+                paleta.x = evento.motion.x - paleta.w / 2;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_R && estado != JUGANDO) {
+                armarPared(pared);
+                vidas = 3;
+                puntos = 0;
+                pegada = true;
+                estado = JUGANDO;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_SPACE && pegada && estado == JUGANDO) {
+                pegada = false;
+                vx = 150;
+                vy = -300;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && evento.key.key == SDLK_SPACE && estado == MENU) {
+                estado = JUGANDO;
+            }
+            if (evento.type == SDL_EVENT_KEY_DOWN && estado == MENU && (evento.key.key == SDLK_1 || evento.key.key == SDLK_2)) {
+                nivel = (evento.key.key == SDLK_1) ? 0 : 1;
+                armarPared(pared);
+            }
+        }
+
+        Uint64 ahora = SDL_GetTicks();
+        float dt = (ahora - antes) / 1000.0f;
+        antes = ahora;
+
+        const bool *teclas = SDL_GetKeyboardState(NULL);
+        if (teclas[SDL_SCANCODE_LEFT]) paleta.x -= 400 * dt;
+        if (teclas[SDL_SCANCODE_RIGHT]) paleta.x += 400 * dt;
+        paleta.x = SDL_clamp(paleta.x, 0, 640 - paleta.w);
+
+        SDL_FRect previa = pelota;
+        if (pegada) {
+            pelota.x = paleta.x + paleta.w / 2 - pelota.w / 2;
+            pelota.y = paleta.y - pelota.h;
+        } else {
+            pelota.x += vx * dt;
+            pelota.y += vy * dt;
+        }
+
+        /* las paredes: los dos costados y el techo (abajo no hay pared) */
+        if (pelota.x < 0) {
+            pelota.x = 0;
+            vx = -vx;
+        }
+        if (pelota.x + pelota.w > 640) {
+            pelota.x = 640 - pelota.w;
+            vx = -vx;
+        }
+        if (pelota.y < 0) {
+            pelota.y = 0;
+            vy = -vy;
+        }
+
+        if (toca(pelota, paleta) && vy > 0) {
+            pelota.y = paleta.y - pelota.h;
+            vy = -vy;
+            vx = ((pelota.x + pelota.w / 2) - (paleta.x + paleta.w / 2)) * 6;
+            pitido(parlante, 440, 0.05f);
+        }
+
+        /* los ladrillos: ¿la pelota toca alguno? */
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo && toca(pelota, pared[i].caja)) {
+                pared[i].golpes--;
+                if (pared[i].golpes == 0) {
+                    pared[i].vivo = false;
+                    if (!cayendo && SDL_rand(3) == 0) {
+                        cayendo = true;
+                        capsula.x = pared[i].caja.x + 16;
+                        capsula.y = pared[i].caja.y;
+                    }
+                }
+                SDL_FRect caja = pared[i].caja;
+                bool aLaAltura = previa.y + previa.h > caja.y && previa.y < caja.y + caja.h;
+                if (aLaAltura) {
+                    vx = -vx;
+                } else {
+                    vy = -vy;
+                }
+                vy = SDL_clamp(vy * 1.03f, -480, 480);
+                puntos += 10 * (FILAS - pared[i].fila);
+                pitido(parlante, 880, 0.04f);
+                break;
+            }
+        }
+
+        /* ¿se cayó por abajo? */
+        if (pelota.y > 480) {
+            pegada = true;
+            vidas--;
+            pitido(parlante, 150, 0.3f);
+            if (vidas == 0) {
+                estado = PERDISTE;
+            }
+        }
+
+        if (cayendo) {
+            capsula.y += 120 * dt;
+            if (toca(capsula, paleta)) {
+                cayendo = false;
+                paleta.w = 120;
+            }
+            if (capsula.y > 480) {
+                cayendo = false;
+            }
+        }
+
+        if (estado == JUGANDO) {
+            reloj -= dt;
+            if (reloj <= 0) {
+                reloj = 8;
+                for (int i = 0; i < FILAS * COLUMNAS; i++) {
+                    pared[i].caja.y += 12;
+                    if (pared[i].vivo && pared[i].caja.y + pared[i].caja.h >= paleta.y) {
+                        estado = PERDISTE;
+                    }
+                }
+            }
+        }
+
+        if (puntos > record) {
+            record = puntos;
+        }
+
+        int quedan = 0;
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo) {
+                quedan++;
+            }
+        }
+        if (quedan == 0) {
+            if (nivel + 1 < NIVELES) {
+                nivel++;
+                armarPared(pared);
+                pegada = true;
+            } else {
+                estado = GANASTE;
+            }
+        }
+
+        SDL_SetRenderDrawColor(lapiz, 20, 12, 40, 255);
+        SDL_RenderClear(lapiz);
+        SDL_SetRenderDrawColor(lapiz, 255, 60, 100, 255);
+        for (int i = 0; i < FILAS * COLUMNAS; i++) {
+            if (pared[i].vivo) {
+                SDL_Color color = colores[pared[i].fila];
+                SDL_SetRenderDrawColor(lapiz, color.r, color.g, color.b, 255);
+                SDL_RenderFillRect(lapiz, &pared[i].caja);
+            }
+        }
+        SDL_SetRenderDrawColor(lapiz, 0, 229, 255, 255);
+        SDL_RenderFillRect(lapiz, &paleta);
+        SDL_SetRenderDrawColor(lapiz, 255, 220, 0, 255);
+        SDL_RenderFillRect(lapiz, &pelota);
+        if (cayendo) {
+            SDL_SetRenderDrawColor(lapiz, 80, 255, 150, 255);
+            SDL_RenderFillRect(lapiz, &capsula);
+        }
+        SDL_SetRenderDrawColor(lapiz, 255, 255, 255, 255);
+        SDL_RenderDebugTextFormat(lapiz, 10, 10, "PUNTOS %d", puntos);
+        SDL_RenderDebugTextFormat(lapiz, 560, 10, "VIDAS %d", vidas);
+        SDL_RenderDebugTextFormat(lapiz, 272, 10, "QUEDAN %d", quedan);
+        SDL_RenderDebugTextFormat(lapiz, 10, 24, "RECORD %d", record);
+        if (estado == PERDISTE || estado == GANASTE) {
+            const char *cartel = (estado == GANASTE) ? "EL MURO SE RINDE" : "EL MURO SIGUE EN PIE";
+            SDL_SetRenderDrawColor(lapiz, 255, 220, 0, 255);
+            SDL_RenderDebugText(lapiz, 320 - SDL_strlen(cartel) * 4.0f, 300, cartel);
+            SDL_SetRenderDrawColor(lapiz, 255, 255, 255, 255);
+        }
+        if (estado == PERDISTE || estado == GANASTE) {
+            SDL_RenderDebugText(lapiz, 276, 320, "R: OTRA VEZ");
+        }
+        if (estado == MENU) {
+            SDL_SetRenderDrawColor(lapiz, 255, 220, 0, 255);
+            SDL_SetRenderScale(lapiz, 5, 5);
+            SDL_RenderDebugText(lapiz, 36, 50, "EL MURO");
+            SDL_SetRenderScale(lapiz, 1, 1);
+            SDL_SetRenderDrawColor(lapiz, 255, 255, 255, 255);
+            SDL_RenderDebugText(lapiz, 264, 320, "ESPACIO: JUGAR");
+        }
+        if (estado == MENU) {
+            SDL_RenderDebugTextFormat(lapiz, 256, 345, "NIVEL %d (1 O 2)", nivel + 1);
+        }
+        SDL_RenderPresent(lapiz);
+        SDL_Delay(16);
+    }
+
+    SDL_DestroyAudioStream(parlante);
+    SDL_DestroyRenderer(lapiz);
+    SDL_DestroyWindow(ventana);
+    SDL_Quit();
+    return 0;
+}
+```
+
+#### Al superarla
+La última fila cae y la pantalla dice, en el medio y en amarillo, **EL MURO SE RINDE**. En la plaza, El Muro
+Gruñón se sienta en el piso con un ruido de cascotes y se ríe por primera vez en treinta años. —Bien jugado,
+Forjadora.
+
+Los ladrillos de vidrio del paredón se encienden todos juntos y, en la pantalla, aparece un dibujo nuevo:
+**otro pedazo del mapa del Vidriero**. Este muestra un jardín con una serpiente de luz enroscada entre las
+flores. {mentor} lo mira mucho rato. —El Jardín de la Serpiente —dice—. Ahí vamos.
+
+El Muro se saca de la frente un ladrillo que brilla con todos los colores y se lo da a Kira: el **Ladrillo
+Arcoíris**. —Para que te acuerdes de mí —gruñe, ya sin bronca.
+
+#### Imagen
+- El Muro Gruñón, el paredón vivo de ladrillos de vidrio de colores, sentado en el piso de la plaza, riéndose, con todos sus ladrillos encendidos.
+- En la pantalla de la máquina, un pedazo de mapa antiguo con un jardín y una serpiente de luz enroscada entre flores.
+- Kira recibe un ladrillo que brilla con todos los colores; Arcadia aplaude; Gheco abraza la máquina; detrás, los chicos del barrio festejan.

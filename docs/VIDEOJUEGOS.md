@@ -1,4 +1,4 @@
-# Videojuegos: Ciudad Arcadia (D126) — fase 1 (prototipo) hecha, a probar
+# Videojuegos: Ciudad Arcadia (D126) — fases 1, 2 y 3 hechas, a probar
 
 Pedido del docente (2026-11-25): un curso de **videojuegos** que arranque con **SDL3** y siga con SFML, Phaser y algo de
 OpenGL. Es pedagógico ante todo: que el alumno aprenda a hacer juegos de verdad, de a poco, con juegos simples y
@@ -279,8 +279,23 @@ Se comparó cada función de SDL que usan los capítulos 14–23 y los 8 juegos 
 - Si no lo cumple, el curso lo dice claro: «Para avanzar se requiere **«Arrays de structs»** (el jefe de la rama R02)
   del curso **Las Forjas de Hierro (C)**», con un botón para ir ahí.
 - Usos: **Videojuegos** pide C hasta R02-N07; **Ensamblador 32/64** pide el curso de **8086**.
-- Falta decidir: ¿bloquea solo inscribirse, o también la Clase 0 de prueba? (propuesta: la Clase 0 se puede probar
-  igual, y el cartel aparece al querer inscribirse o abrir el primer nodo).
+- Decidido (§ 8): la Clase 0 se prueba igual; el cartel aparece al querer inscribirse o abrir el primer nodo.
+
+**Hecho (fase 2, 2026-11-25, a probar):**
+- Tabla `course_prerequisites` (curso → nodo de otro curso), `Course::prerequisites()` y
+  `TreeAccess::missingPrerequisites()`: lo que le falta al alumno (el staff no tiene requisitos; un nodo o un curso sin
+  publicar no se exige, porque no se podría cumplir).
+- **Sin cumplirlo:** no se pide la inscripción (`EnrollmentRequester`; renovar sí, porque ya lo venía cursando) y no se
+  abre el raíz (`TreeAccess::BLOCK_PREREQUISITES`). La Clase 0 de prueba sigue abierta.
+- **La ficha del curso** muestra el cartel «Este curso se apoya en otro» con la frase («Para avanzar se requiere
+  «Arrays de structs» del curso «Las Forjas de Hierro».»), un botón **Ir a** cada curso que falte y, en lugar de
+  «Solicitar inscripción», que se pide cuando lo complete.
+- **Cargarlos:** en *Admin → Cursos → Editar*, «Requisitos de otros cursos» (curso y nodo, Agregar/Quitar), o en el
+  meta del curso al importar: `requiere: c:R02-N07` (FORMATO-CURSO § 2).
+- El docente que aprueba un pago a mano no se frena (es su decisión), pero el alumno igual no abre el raíz hasta
+  cumplirlo.
+- Se cargan cuando existan los cursos: Videojuegos → `c:R02-N07`; Ensamblador 32/64 → el jefe final de 8086.
+- Tests: `tests/Feature/Student/CoursePrerequisitesTest.php`.
 
 ## 7. Fases (se frena al final de cada una)
 

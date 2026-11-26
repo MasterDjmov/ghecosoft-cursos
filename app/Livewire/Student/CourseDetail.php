@@ -133,6 +133,8 @@ class CourseDetail extends Component
                 ->where('status', '!=', 'pending')->latest()->limit(5)->get(),
             'whatsappAvailable' => $requester->whatsappUrl($user, $this->course, $kind) !== null,
             'nodeCount' => $this->course->nodes()->where('is_published', true)->count(),
+            // D126: los nodos de otros cursos que este pide antes (vacío = nada que cumplir).
+            'missingPrerequisites' => $rootOpen ? [] : $access->missingPrerequisites($user, $this->course),
         ])->title($this->course->title);
     }
 }

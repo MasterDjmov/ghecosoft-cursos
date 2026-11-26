@@ -32,6 +32,7 @@ class UnlockMessages
                 TreeAccess::BLOCK_SEASON_INCOMPLETE => self::seasonMissing($user, $node, $access),
                 TreeAccess::BLOCK_REQUIREMENTS_INCOMPLETE => self::missingRequirements($user, $node, $access),
                 TreeAccess::BLOCK_INSUFFICIENT_FUNDS => self::missingFunds($user, $node, $access),
+                TreeAccess::BLOCK_PREREQUISITES => self::prerequisites($access->missingPrerequisites($user, $course)),
                 default => null,
             };
         }, $blockers)));
@@ -54,6 +55,22 @@ class UnlockMessages
         }
 
         return 'Aprobá también las '.term('practice', $node->course, 2).' obligatorias de '.$titles->join(', de ', ' y de ').'.';
+    }
+
+    /**
+     * D126: «Para avanzar se requiere «Arrays de structs» del curso «Las Forjas de Hierro».»
+     *
+     * @param  list<Node>  $missing
+     */
+    public static function prerequisites(array $missing): ?string
+    {
+        if ($missing === []) {
+            return null;
+        }
+
+        $parts = collect($missing)->map(fn (Node $node) => '«'.$node->title.'» del curso «'.$node->course->title.'»');
+
+        return 'Para avanzar se requiere '.$parts->join(', ', ' y ').'.';
     }
 
     private static function missingFunds(User $user, Node $node, TreeAccess $access): string

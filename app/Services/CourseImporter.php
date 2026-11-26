@@ -236,6 +236,7 @@ class CourseImporter
         $nodes = $this->applyNodes($data['nodes'], $branches);
         $this->applyParents($data['nodes'], $nodes);
         $this->applyRequirements($data['nodes'], $nodes);
+        $this->applyPrerequisites($data['course']['meta']);
         $this->checkCycles();
         $this->checkEconomy($data['nodes'], $nodes);
         $this->reportLeftovers($data, $nodes);
@@ -785,6 +786,45 @@ class CourseImporter
     }
 
     /** Requisitos extra ("requiere: R03-N02, R05-N01"), además del padre. */
+    /**
+     * D126: `requiere: c:R02-N07, ensamblador:R05-N10` en el meta del curso (el slug del otro curso y el código del nodo).
+     * Sin la clave no se toca lo que esté cargado desde el admin; con la clave, queda exactamente esa lista.
+     */
+    private function applyPrerequisites(array $meta): void
+    {
+        if (! array_key_exists('requiere', $meta)) {
+            return;
+        }
+
+        $ids = [];
+        foreach (preg_split('/[\s,;]+/', (string) $meta['requiere'], -1, PREG_SPLIT_NO_EMPTY) as $item) {
+            if (! preg_match('/^([a-z0-9]+(?:-[a-z0-9]+)*):([A-Za-z0-9-]+)$/', $item, $m)) {
+                $this->report->error("# CURSO: el requisito «{$item}» no se entiende: va el curso y el nodo, por ejemplo «c:R02-N07».");
+
+                continue;
+            }
+            if ($m[1] === $this->course->slug) {
+                $this->report->error("# CURSO: el requisito «{$item}» es del mismo curso: para eso está «requiere» en el nodo.");
+
+                continue;
+            }
+            $required = Node::whereHas('course', fn ($q) => $q->where('slug', $m[1]))->where('code', Str::upper($m[2]))->first();
+            if (! $required) {
+                $this->report->warning("# CURSO: el requisito «{$item}» no existe todavía (¿falta importar ese curso?). Se ignora; volvé a importar cuando esté.");
+
+                continue;
+            }
+            $ids[] = $required->id;
+        }
+
+        $before = $this->course->prerequisites()->pluck('nodes.id')->sort()->values()->all();
+        $after = collect($ids)->unique()->sort()->values()->all();
+        if ($before !== $after) {
+            $this->course->prerequisites()->sync($after);
+            $this->report->count('requisitos de otros cursos', 'updated');
+        }
+    }
+
     private function applyRequirements(array $nodes, array $models): void
     {
         foreach ($nodes as $node) {

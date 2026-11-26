@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\Storage;
@@ -71,6 +72,12 @@ class Course extends Model
     public function logoUrl(): ?string
     {
         return $this->logo ? Storage::disk('public')->url($this->logo) : null;
+    }
+
+    /** D126: los nodos de otros cursos que hay que completar antes de inscribirse o abrir este. */
+    public function prerequisites(): BelongsToMany
+    {
+        return $this->belongsToMany(Node::class, 'course_prerequisites', 'course_id', 'required_node_id')->withTimestamps();
     }
 
     public function cohorts(): HasMany

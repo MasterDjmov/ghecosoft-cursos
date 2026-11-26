@@ -66,7 +66,13 @@ destacado: si             # sale en la landing entre los cursos que más se dict
 proximamente: no          # "Próximamente": se ve con su temario pero no se abre (solo si no está publicado)
 publicado: no             # solo al crearlo (por defecto, borrador); después se publica desde el admin
 micromisiones_completan: no  # D111: si, las micro-misiones completan el nodo (con las obligatorias que le queden)
+requiere: c:R02-N07       # D126: nodos de OTROS cursos que hay que completar antes (curso:nodo, separados por comas)
 ```
+
+- `requiere` (D126, requisitos entre cursos): sin cumplirlos, el alumno no puede pedir la inscripción ni abrir el raíz
+  (la Clase 0 se prueba igual) y la ficha del curso le dice qué le falta, con un botón para ir al otro curso. Si un
+  requisito todavía no existe (el otro curso no se importó), se avisa y se ignora: reimportar cuando esté. Con la
+  clave, la lista queda exactamente así; sin la clave, no se toca lo cargado en *Admin → Cursos → Editar*.
 
 - `### Descripción`: texto largo de la ficha del curso.
 - `### Temario`: una lista corta (un tema por línea, con `-`; admite `código`). La tarjeta del catálogo y de la landing muestra los 5 primeros y el botón **Ver temario** abre la lista completa. No hace falta nombrar las Sendas: el modal las agrega solo, como opcionales (ver § 4).

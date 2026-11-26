@@ -56,6 +56,9 @@ class TreeAccess
 
     public const BLOCK_INSUFFICIENT_FUNDS = 'insufficient_funds';
 
+    /** D126: el curso pide antes un nodo de otro curso (requisitos entre cursos). */
+    public const BLOCK_PREREQUISITES = 'prerequisites';
+
     /** D106: el primer episodio de una temporada se abre con la mayor parte del tronco de la anterior. */
     public const BLOCK_SEASON_INCOMPLETE = 'season_incomplete';
 
@@ -215,6 +218,10 @@ class TreeAccess
             $blockers[] = self::BLOCK_NO_SUBSCRIPTION;
         }
 
+        if ($node->isRoot() && $this->missingPrerequisites($user, $node->course) !== []) {
+            $blockers[] = self::BLOCK_PREREQUISITES;
+        }
+
         if (! $node->isRoot()) {
             if (! $this->isRootOpen($user, $node->course)) {
                 $blockers[] = self::BLOCK_ROOT_CLOSED;
@@ -318,6 +325,28 @@ class TreeAccess
     public function incompleteRequirements(User $user, Node $node): array
     {
         return $node->requirements
+            ->reject(fn (Node $required) => $this->isCompleted($user, $required))
+            ->values()
+            ->all();
+    }
+
+    /**
+     * D126: los nodos de otros cursos que este curso pide y el alumno todavía no completó (vacío = puede). El staff no
+     * tiene requisitos. Un nodo sin publicar o de un curso sin publicar no se exige (no se podría cumplir).
+     *
+     * @return list<Node>
+     */
+    public function missingPrerequisites(User $user, Course $course): array
+    {
+        if ($user->isStaff()) {
+            return [];
+        }
+
+        return $course->prerequisites()
+            ->with('course')
+            ->where('nodes.is_published', true)
+            ->whereHas('course', fn ($q) => $q->where('is_published', true))
+            ->get()
             ->reject(fn (Node $required) => $this->isCompleted($user, $required))
             ->values()
             ->all();

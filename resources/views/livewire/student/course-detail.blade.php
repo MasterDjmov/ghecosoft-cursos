@@ -3,8 +3,9 @@
     // Los días cuentan hasta el final de lo pagado (con la renovación ya aprobada, si la hay).
     $daysLeft = $paidUntil ? (int) ceil(now()->diffInDays($paidUntil, false)) : null;
     // Se puede pedir: sin solicitud pendiente y sin abono, o con el abono vencido o por vencer (7 días).
-    $canRequest = ! $pending && (! $subscription || $daysLeft <= 7);
     $isRenewal = $kind === \App\Enums\RequestKind::Renewal;
+    // D126: si el curso pide antes otro, la inscripción espera a que lo cumpla (renovar, no).
+    $canRequest = ! $pending && (! $subscription || $daysLeft <= 7) && ($isRenewal || $missingPrerequisites === []);
     // D106: un curso de inglés se recorre como una biblioteca de episodios, sin monedas ni correcciones.
     // D110: el de Ensamblador también se comprueba solo, pero con el árbol de siempre.
     $selfChecked = $course->language->isSelfChecked();
@@ -84,6 +85,22 @@
             </div>
         @endif
 
+        {{-- D126: requisitos entre cursos. La Clase 0 se prueba igual; para inscribirse o abrir el curso, antes el otro. --}}
+        @if ($missingPrerequisites !== [])
+            <div class="flex flex-col gap-3 rounded-lg border border-warning/40 bg-warning/10 p-4" data-test="course-prerequisites">
+                <div class="flex flex-col gap-1">
+                    <p class="flex items-center gap-2 font-medium text-white"><flux:icon name="link" variant="micro" class="text-warning" /> Este curso se apoya en otro</p>
+                    <p class="text-sm text-ink">{{ \App\Support\UnlockMessages::prerequisites($missingPrerequisites) }}</p>
+                    <p class="text-sm text-ink-muted">Cuando lo completes, vas a poder {{ $subscription ? 'abrir este curso' : 'pedir la inscripción' }}.{{ $canTry ? ' Mientras tanto, la clase 0 se puede probar igual.' : '' }}</p>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    @foreach (collect($missingPrerequisites)->unique('course_id') as $required)
+                        <flux:button variant="primary" icon="arrow-right" :href="route('student.course', $required->course)" wire:navigate>Ir a {{ $required->course->title }}</flux:button>
+                    @endforeach
+                </div>
+            </div>
+        @endif
+
         {{-- Clase 0 de prueba (D71): sin abono de este curso, se entra gratis a leer y practicar. --}}
         @if ($canTry)
             <div class="flex flex-col gap-3 rounded-lg border border-secondary/40 bg-secondary/10 p-4" data-test="trial-offer">
@@ -118,7 +135,7 @@
                 @endif
                 <div class="flex flex-wrap gap-2">
                     <flux:modal.trigger name="request">
-                        <flux:button :variant="$subscription || $rootOpen ? 'primary' : 'primary'" icon="document-arrow-up">
+                        <flux:button :variant="$subscription || $rootOpen ? 'primary' : 'primary'" icon="document-arrow-up" data-test="request-enrollment">
                             {{ $isRenewal ? 'Renovar abono' : 'Solicitar inscripción' }}
                         </flux:button>
                     </flux:modal.trigger>

@@ -11,6 +11,7 @@ use App\Models\EnrollmentRequest;
 use App\Models\Setting;
 use App\Models\User;
 use App\Notifications\PlatformNotification;
+use App\Support\UnlockMessages;
 use DomainException;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
@@ -42,6 +43,11 @@ class EnrollmentRequester
     {
         if (! $course->is_published) {
             throw new DomainException('El curso no está disponible.');
+        }
+        // D126: un curso que pide otro antes no se paga hasta cumplirlo (renovar sí: ya lo venía cursando).
+        if ($this->kindFor($user, $course) === RequestKind::New
+            && ($missing = app(TreeAccess::class)->missingPrerequisites($user, $course)) !== []) {
+            throw new DomainException(UnlockMessages::prerequisites($missing));
         }
         if ($this->pending($user, $course)) {
             throw new DomainException('Ya tenés una solicitud pendiente para este curso.');

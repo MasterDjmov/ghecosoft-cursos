@@ -15,6 +15,7 @@ Se vienen **JavaScript, C#, React Native y Laravel**: cada uno trae su región, 
 | Lenguaje | el `case` del enum, `label()`, extensión, si el alumno puede ejecutar | `app/Enums/Language.php` |
 | Contenido | la carpeta del curso en el formato del importador; temas en `cursos/temas.md` | `cursos/<slug>/`, [FORMATO-CURSO.md](FORMATO-CURSO.md) |
 | Pruebas de las prácticas | salidas de referencia | `php artisan app:course-tests cursos/<slug> --fill` |
+| Requisitos de otros cursos | si se apoya en otro curso (D126: Videojuegos pide C; Ensamblador 32/64, 8086) | `requiere: curso:nodo` en el meta, o *Admin → Cursos → Editar* |
 | Seeder y deploy | que el seeder local lo importe; `scripts/deploy.sh --cursos` lo reimporte | `database/seeders/`, `scripts/deploy.sh` |
 | Landing | logo, moneda, «destacado», Próximamente/Avisame | `LandingController` (`IMAGES`), `CourseCatalog`, *Admin → Cursos* |
 | Universo | color del curso en el mapa 3D | `app/Support/UniverseGraph.php` |

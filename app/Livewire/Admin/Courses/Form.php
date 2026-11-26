@@ -6,6 +6,7 @@ use App\Enums\CourseLevel;
 use App\Enums\Language;
 use App\Exceptions\TreeEditRefused;
 use App\Models\Course;
+use App\Models\Node;
 use App\Services\CourseDeleter;
 use App\Services\TreeEditor;
 use App\Support\Reorder;
@@ -53,6 +54,11 @@ class Form extends Component
     public int $root_price = 10;
 
     public int $subscription_days = 30;
+
+    /** D126: requisitos entre cursos. El curso y el nodo que se está por agregar. */
+    public ?int $prerequisiteCourse = null;
+
+    public ?int $prerequisiteNode = null;
 
     /** @var TemporaryUploadedFile|null */
     public $logo = null;
@@ -174,11 +180,41 @@ class Form extends Component
         return $this->redirectRoute('admin.courses.index', navigate: true);
     }
 
+    /** D126: este curso pide antes un nodo de otro curso (se guarda en el momento, como el árbol). */
+    public function addPrerequisite(): void
+    {
+        abort_unless($this->course, 404);
+        $this->validate([
+            'prerequisiteNode' => ['required', 'integer', Rule::exists('nodes', 'id')->where(fn ($q) => $q->where('course_id', '!=', $this->course->id))],
+        ], ['prerequisiteNode.required' => 'Elegí el nodo que tiene que haber completado.'], ['prerequisiteNode' => 'nodo']);
+
+        $this->course->prerequisites()->syncWithoutDetaching([$this->prerequisiteNode]);
+        $this->reset('prerequisiteNode');
+        Flux::toast(variant: 'success', text: 'Requisito agregado.');
+    }
+
+    public function removePrerequisite(int $nodeId): void
+    {
+        abort_unless($this->course, 404);
+        $this->course->prerequisites()->detach($nodeId);
+        Flux::toast(text: 'Requisito quitado.');
+    }
+
+    public function updatedPrerequisiteCourse(): void
+    {
+        $this->reset('prerequisiteNode');
+    }
+
     public function render()
     {
         return view('livewire.admin.courses.form', [
             'languages' => Language::cases(), 'levels' => CourseLevel::cases(),
             'impact' => $this->course ? app(CourseDeleter::class)->impact($this->course) : null,
+            'prerequisites' => $this->course?->prerequisites()->with('course')->get() ?? collect(),
+            'otherCourses' => $this->course ? Course::whereKeyNot($this->course->id)->orderBy('position')->get(['id', 'title']) : collect(),
+            'courseNodes' => $this->prerequisiteCourse
+                ? Node::where('course_id', $this->prerequisiteCourse)->orderBy('code')->orderBy('position')->get(['id', 'code', 'title'])
+                : collect(),
         ])
             ->title($this->course ? 'Editar '.$this->course->title : 'Nuevo curso');
     }

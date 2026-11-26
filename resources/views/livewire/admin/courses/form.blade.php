@@ -83,6 +83,38 @@
             <flux:switch wire:model="is_featured" label="Destacado" description="Sale en la landing entre los cursos que más se dictan." />
         </div>
 
+        {{-- D126: requisitos entre cursos --}}
+        @if ($course)
+            <section class="flex flex-col gap-3 rounded-lg border border-outline p-4" data-test="course-prerequisites-admin">
+                <div>
+                    <flux:heading size="sm">Requisitos de otros cursos</flux:heading>
+                    <flux:text class="text-xs">Antes de inscribirse o abrir este curso, el alumno tiene que haber completado estos nodos. La clase 0 se prueba igual. Ejemplo: Videojuegos pide el jefe de R02 de C.</flux:text>
+                </div>
+                @forelse ($prerequisites as $required)
+                    <div class="flex items-center justify-between gap-2 rounded-md bg-surface-high/50 px-3 py-2 text-sm" wire:key="prerequisite-{{ $required->id }}">
+                        <span class="text-ink"><span class="text-ink-muted">{{ $required->course->title }} ·</span> {{ $required->code ? $required->code.' · ' : '' }}{{ $required->title }}</span>
+                        <flux:button size="xs" variant="ghost" icon="x-mark" wire:click="removePrerequisite({{ $required->id }})" aria-label="Quitar" />
+                    </div>
+                @empty
+                    <flux:text class="text-xs">Ninguno: cualquiera se puede inscribir.</flux:text>
+                @endforelse
+                <div class="grid gap-2 sm:grid-cols-[1fr_1fr_auto] sm:items-end">
+                    <flux:select wire:model.live="prerequisiteCourse" label="Curso" placeholder="Elegí el curso">
+                        @foreach ($otherCourses as $other)
+                            <flux:select.option :value="$other->id">{{ $other->title }}</flux:select.option>
+                        @endforeach
+                    </flux:select>
+                    <flux:select wire:model="prerequisiteNode" label="Nodo que tiene que completar" placeholder="Elegí el nodo" :disabled="$courseNodes->isEmpty()">
+                        @foreach ($courseNodes as $node)
+                            <flux:select.option :value="$node->id">{{ $node->code ? $node->code.' · ' : '' }}{{ $node->title }}</flux:select.option>
+                        @endforeach
+                    </flux:select>
+                    <flux:button icon="plus" wire:click="addPrerequisite" data-test="add-prerequisite">Agregar</flux:button>
+                </div>
+                <flux:error name="prerequisiteNode" />
+            </section>
+        @endif
+
         <div class="flex flex-wrap items-center justify-between gap-3">
             <flux:button variant="primary" type="submit">{{ $course ? 'Guardar' : 'Crear curso' }}</flux:button>
             @if ($course)

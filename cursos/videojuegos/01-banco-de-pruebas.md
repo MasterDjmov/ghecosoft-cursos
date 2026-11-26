@@ -282,7 +282,7 @@ La caja se queda quieta en el centro y deja de temblar. El glitch se desarma en 
 - El Banco de Pruebas de Arcadia: un galpón largo con mesas llenas de pantallas chiquitas, cables y piezas sueltas, luces de neón violetas.
 - Kira (versión videojuegos: mono oscuro cerrado con líneas cian, visor, auricular, cinturón de herramientas, brazal con un control de juego) frente a una pantalla donde un cuadrado blanco queda en el centro.
 - Un glitch (una criatura chiquita hecha de chispas de colores y píxeles sueltos) se desarma al costado de la pantalla.
-- Arcadia (overol cerrado con fichas y destornilladores) mira por encima del hombro de Kira; Gheco sobre la mesa.
+- Arcadia (pelo rojizo en rodete, auriculares al cuello, mono mostaza con chaleco negro) mira por encima del hombro de Kira; Gheco sobre la mesa.
 
 ### Micro-misión R01-N01-P2 · El marco de la pantalla
 
@@ -6455,12 +6455,12 @@ int main(void)
 La Kira de cuadraditos se da vuelta al cambiar de dirección. La Kira de verdad se queda mirando la
 pantalla un rato largo. —El Vidriero me dibujó —dice bajito—. Antes de que yo llegara.
 
-{mentor} no contesta. Pero guarda el cuaderno en su overol, cerca del corazón.
+{mentor} no contesta. Pero guarda el cuaderno en el bolsillo del chaleco, cerca del corazón.
 
 #### Imagen
 - Un cuaderno abierto en una página con una chica de pelo corto y un mechón dibujada con cuadraditos.
 - En la pantalla, la misma figura blanca mirando hacia la izquierda.
-- Kira mira la pantalla muy seria; Arcadia guarda el cuaderno en el bolsillo del overol; al fondo del estante, una niebla de imágenes repetidas (la Fuga de Texturas) se disipa.
+- Kira mira la pantalla muy seria; Arcadia guarda el cuaderno en el bolsillo del chaleco; al fondo del estante, una niebla de imágenes repetidas (la Fuga de Texturas) se disipa.
 
 ## R01-N09 · Sonido
 

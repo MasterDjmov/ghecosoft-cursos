@@ -38,7 +38,7 @@ juego, como en los demás cursos.
   del Código por un portal; ahora aprende a construir los suyos. Es la misma Kira, mejorada (como Nova en Ensamblador
   32/64): por eso el curso pide C.
 - **La mentora: Arcadia**, la maquinista de la ciudad (la ciudad lleva su nombre porque es la única que se quedó a cuidarla). Aprendiz de Maese Ferrum, como Tesla y Tesela, pero eligió las
-  máquinas que juegan. Overol cerrado lleno de fichas y destornilladores; conoce cada máquina por su ruido.
+  máquinas que juegan. Pelo rojizo en rodete, auriculares gamer al cuello, mono mostaza cerrado con chaleco negro de bolsillos llenos de fichas, y un cubo de colores que brilla desde adentro (diseño elegido el 2026-11-26); conoce cada máquina por su ruido.
   Su frase (propuesta): *«Un juego es un bucle que nunca deja de escuchar.»*
 - **El hilo con el misterio.** Cada atracción que Kira hace andar muestra, en su pantalla de *Game Over*, un pedazo
   del mapa del Vidriero. La última revela para qué construyó el portal.

@@ -62,7 +62,7 @@ usa: prog.bucles, prog.funciones
 
 Kira despierta de cara al piso, junto a un vitral apagado. Ya conoce ese vitral: es el mismo portal que la llevó a las Forjas. Pero esto no son las Forjas. Es una **ciudad**: calles con letreros de neón apagados, máquinas de juegos en cada esquina, una vuelta al mundo quieta contra el cielo y una montaña rusa que no se mueve.
 
-En la entrada hay una **boletería** con una ventanita. Del otro lado, una mujer de overol lleno de fichas y destornilladores le pega con la palma a una máquina vieja, que no hace nada. —No anda desde que él se fue —dice sin darse vuelta—. Ninguna anda.
+En la entrada hay una **boletería** con una ventanita. Del otro lado, una mujer de mono mostaza y chaleco negro, con auriculares al cuello y el pelo rojizo atado, le pega con la palma a una máquina vieja, que no hace nada. —No anda desde que él se fue —dice sin darse vuelta—. Ninguna anda.
 
 Es **{mentor}**, la maquinista. Mira el brazal de Kira, que tiene un control de juego en lugar de escudo, y se le iluminan los ojos. —¿Vos sabés C? Entonces sabés más de lo que creés. Acá cada máquina es un programa. Vamos a encender la primera.
 
@@ -346,7 +346,7 @@ La pantalla de la máquina parpadea una vez y se queda prendida, negra. Arriba s
 #### Imagen
 - La entrada de Ciudad Arcadia de noche: una boletería de neón apagado, calles con máquinas de juegos quietas, una vuelta al mundo y una montaña rusa detenidas al fondo, contra el cielo.
 - Kira, versión videojuegos (mono oscuro cerrado con líneas cian, visor, auricular, cinturón de herramientas y un brazal con un control de juego), se agacha frente a una máquina vieja con la tapa de atrás abierta.
-- Arcadia (overol cerrado lleno de fichas y destornilladores, pelo atado, guantes de trabajo) sostiene la tapa y señala la pantalla, que acaba de prenderse.
+- Arcadia (pelo rojizo en rodete, auriculares gamer al cuello, mono mostaza cerrado con chaleco negro) sostiene la tapa y señala la pantalla, que acaba de prenderse.
 - Gheco, el gecko cian con antiparras, sobre el hombro de Kira.
 
 ### Micro-misión R00-N01-P2 · El color de la noche

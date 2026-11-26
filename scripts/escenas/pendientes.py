@@ -394,6 +394,28 @@ REFS = {
             (r'Drag[oó]n', 'el Dragón del Imperio', ['3a3e7acaf4ab4cd390da27dcf3116c2a'], ''),
         ],
     },
+    'videojuegos': {
+        # Ciudad Arcadia (D126). Mismo proyecto que el Mirador: ahí están Gheco (oficial) y las Kiras que subió el docente
+        # (el proyecto «Kira Game Designer Concept» es del editor nuevo de Stitch y el MCP no lo ve).
+        'project': '7987528111863289727',
+        'region': 'Ciudad Arcadia',
+        'cierre': 'Imagen solo de dibujo, sin escritura; carteles, letreros de neón, pantallas y papeles sin letras, números ni símbolos.',
+        'ambiente': 'en una ciudad de videojuegos de noche, con calles de neón violeta y cian, máquinas de juegos en las esquinas y atracciones de parque al fondo, sin apuestas ni casino',
+        'ambientes': {
+            '00-curso.md': 'en la entrada de una ciudad de videojuegos de noche: una boletería de neón, calles con máquinas de juegos apagadas, una vuelta al mundo y una montaña rusa quietas al fondo',
+            '01-banco-de-pruebas.md': 'en el Banco de Pruebas: un galpón largo de taller con mesas llenas de pantallas chiquitas, cables, joysticks y piezas de máquinas de juegos, con luces de neón violeta y cian, de noche',
+        },
+        'chars': [
+            (r'\bKira\b', 'Kira de Arcadia', ['15682724029684616970'], 'Kira es una chica joven de estatura mediana, delgada, con la ropa cerrada.'),
+            (r'\bArcadia\b', 'Arcadia', ['efb10edd28fd4699932a55b33f87d88b'], 'Arcadia es una mujer adulta, un poco más alta que Kira, con el mono mostaza y el chaleco negro cerrados.'),
+            (r'Gheco|gecko', 'Gheco', ['10934227677483509139'], 'Gheco es un gecko chiquito, que cabe en la palma de una mano, exactamente como en su referencia: mascota de caricatura FLACA y ALARGADA (cuello largo, torso angosto, patas finas, cola larga y fina; nunca gordito ni chibi), aguamarina claro translúcido y liso con brillo cian, finas líneas de circuito, antiparras de aviador con lente redondo y visor holográfico al costado, sin manchas.'),
+            (r'[Gg]litch', 'el Glitch', ['3fc790eaa72749f19625c488f35503b4'], 'El glitch es chiquito, como un gato.'),
+            (r'Fantasma del Fotograma', 'el Fantasma del Fotograma', ['3fc790eaa72749f19625c488f35503b4'], ''),
+            (r'Atraviesaparedes', 'el Atraviesaparedes', ['3fc790eaa72749f19625c488f35503b4'], 'El Atraviesaparedes es chiquito, del tamaño de una pelota.'),
+            (r'Bucle Eterno', 'el Bucle Eterno', ['3fc790eaa72749f19625c488f35503b4'], ''),
+            (r'Fuga de Texturas', 'la Fuga de Texturas', ['3fc790eaa72749f19625c488f35503b4'], ''),
+        ],
+    },
 }
 
 # Hojas de personaje (8 ángulos, docs/ESCENAS.md): una hoja aprobada reemplaza a las referencias sueltas de ese personaje.
@@ -446,7 +468,7 @@ def prompt(course: str, scene: dict) -> dict:
     cfg = REFS[course]
     found = [c for c in cfg['chars'] if re.search(c[0], scene['imagen'])]
     screens, notes = [], []
-    has_kira = any(c[1] == 'Kira' for c in found)
+    has_kira = any(c[1] in ('Kira', 'Kira de Arcadia') for c in found)
     has_iris = any(c[1] == 'Iris' for c in found)
     for _, name, ids, note in found:
         screens += ids

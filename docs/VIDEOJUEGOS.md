@@ -441,7 +441,23 @@ micro-misiones, todas comprobadas por el robot; plantillas en `scripts/videojueg
 El Muro Gruñón tiene ficha en `PERSONAJES.md` e imágenes en la Enciclopedia (cuerpo entero
 `818b2e4d39a341e1b9154b8ec4c2fa8d`). Las 28 escenas de R03 y la hoja de 8 ángulos del Muro (`766633aa7c5849dea015f5bbcb740d71`), hechas (2026-11-26). Para probar las
 micro-misiones nuevas: `probar-curso.mjs --fill` escribe la salida y recién la pasada **sin** `--fill` compara con el
-código inicial. Sigue la máquina siguiente: **el Jardín de la Serpiente (Snake)**, R04.
+código inicial. 
+**R04 · El Jardín de la Serpiente: Snake, completa** (`cursos/videojuegos/04-el-jardin-de-la-serpiente.md`, corta como
+pedía § 4: 5 nodos y 20 micro-misiones, todas comprobadas por el robot; plantillas en `scripts/videojuegos/escalera/r04/`):
+1. La grilla y la cabeza (la grilla con dos `for`, celdas en lugar de píxeles, avanzar con un reloj, las flechas, dar la
+   vuelta con `%`).
+2. La cola que sigue (la serpiente en dos arreglos, dibujarla, armarla en fila, cada parte adonde estaba la de adelante
+   recorriendo de atrás para adelante, sin media vuelta).
+3. La fruta y crecer (comer comparando celdas, la fruta al azar, crecer copiando la última parte, cada vez más rápido
+   con tope).
+4. Morderse, menú y revancha (`enum`, el reloj solo corre jugando, la R deja todo como al principio, el sonido).
+5. Jefe: La Serpiente Jardinera (macetas que hay que esquivar, la función `libre` y el `do … while` para que la fruta
+   caiga en un lugar libre, la fruta dorada con temporizador, el cartel final centrado que pide 15 anillos): el quinto
+   pedazo del mapa (la Torre que no para) y la **Escama de Luz**. Una maceta está justo donde cae la primera fruta con la
+   semilla fija, para que el robot pueda comprobar la función `libre`.
+
+La Serpiente Jardinera tiene ficha en `PERSONAJES.md`, imágenes en la Enciclopedia y hoja de 8 ángulos. **Faltan:** las
+20 escenas de R04. Sigue la máquina siguiente: **la Torre que no para (Tetris)**, R05.
 
 **Falta (fase 4):**
 - Escenas: las 49 hechas (2026-11-26); las de cada nodo nuevo, con `pendientes.py cursos/videojuegos`.

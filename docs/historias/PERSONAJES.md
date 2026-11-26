@@ -1716,6 +1716,15 @@ Historia en [../VIDEOJUEGOS.md](../VIDEOJUEGOS.md) § 2. La ciudad de los videoj
 - **Imágenes:** cuerpo entero `818b2e4d39a341e1b9154b8ec4c2fa8d` y hoja de 8 ángulos `766633aa7c5849dea015f5bbcb740d71` en el proyecto de Stitch de Ciudad Arcadia.
 - **Primera aparición:** Videojuegos, R03-N07.
 
+### La Serpiente Jardinera
+- **Rol:** el jefe de R04 de Videojuegos: la que el Vidriero dejó cuidando el Jardín de la Serpiente (un guiño al Valle de Ofidia).
+- **Qué error representa:** un juego de grilla descuidado: premios que caen debajo de los obstáculos, nada que apure ni sorprenda y un final que no dice cómo te fue.
+- **Cómo se la vence:** con macetas que hay que esquivar, una función que busca una celda libre para cada fruta, una fruta dorada con temporizador y el cartel final centrado (llegando a 15 anillos).
+- **Qué es:** una **serpiente enorme y amable de luz verde y dorada**, enroscada, con ojos redondos y sonrisa de abuela, un **sombrerito de paja** de jardinera y una **regadera** colgada de la punta de la cola. Sin colmillos: apta para chicos. Riega a quien le gana.
+- **Cómo termina:** cuando alguien llega a quince anillos, la máquina dice «EL JARDIN FLORECE», se encienden todas las flores de vidrio, muestra otro pedazo del mapa del Vidriero (una torre altísima de bloques de colores) y le da a Kira la **Escama de Luz**.
+- **Imágenes:** cuerpo entero `f362c3dd3ea94a2a8e11303b304f10c0` y hoja de 8 ángulos `b560c0577cfd41488c8a846afb4fc925` en el proyecto de Stitch de Ciudad Arcadia.
+- **Primera aparición:** Videojuegos, R04-N05.
+
 ## Las Crónicas en Inglés (Primaria y Secundaria)
 
 La historia unificada de los cursos de inglés ([ingles.md](ingles.md)). Imágenes generadas en Stitch el 2026-10-13, en el proyecto de los Talleres (`9229721314509917104`); los archivos, en `publicidad/logos cursos/personajes/Crónicas en Inglés/`.

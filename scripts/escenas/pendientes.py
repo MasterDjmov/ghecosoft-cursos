@@ -406,6 +406,7 @@ REFS = {
             '01-banco-de-pruebas.md': 'en el Banco de Pruebas: un galpón largo de taller con mesas llenas de pantallas chiquitas, cables, joysticks y piezas de máquinas de juegos, con luces de neón violeta y cian, de noche',
             '02-la-cancha-de-las-paletas.md': 'en la Cancha de las Paletas: un salón enorme con el piso pintado como una cancha de tenis de neón y, en el medio, la máquina de juegos más vieja de la ciudad (dos paletas y una pelota), de noche',
             '03-el-muro-de-ladrillos.md': 'en la plaza del Muro de Ladrillos: una plaza de noche con un paredón altísimo de ladrillos de vidrio de colores y, al pie, una máquina de juegos vieja de madera',
+            '04-el-jardin-de-la-serpiente.md': 'en el Jardín de la Serpiente: un jardín escondido de noche, con canteros de flores de vidrio que brillan, caminitos de baldosas y, en el medio, una máquina de juegos vieja de madera',
         },
         'chars': [
             (r'\bKira\b', 'Kira de Arcadia', ['15682724029684616970'], 'Kira es una chica joven de estatura mediana, delgada, con la ropa cerrada.'),
@@ -413,6 +414,7 @@ REFS = {
             (r'Doña Ficha', 'Doña Ficha', ['f96862195ad64ac2bc97f9b90f4af2d4'], 'Doña Ficha es una señora mayor, bajita y redonda, más baja que Kira.'),
             (r'Campeón Invicto|del Campeón', 'el Campeón Invicto', ['91ec10cbb0bb4b55a1bd331740e76815'], 'El Campeón Invicto es una máquina de juegos enorme de madera, más alta que Arcadia.'),
             (r'Muro Gruñón|El Muro\b', 'el Muro Gruñón', ['818b2e4d39a341e1b9154b8ec4c2fa8d'], 'El Muro Gruñón es un paredón vivo de ladrillos de vidrio de colores, con ojos y cejas, mucho más alto y ancho que Arcadia.'),
+            (r'Serpiente Jardinera', 'la Serpiente Jardinera', ['f362c3dd3ea94a2a8e11303b304f10c0'], 'La Serpiente Jardinera es una serpiente de luz enorme y amable, enroscada, mucho más alta que Arcadia.'),
             (r'Gheco|gecko', 'Gheco', ['10934227677483509139'], 'Gheco es un gecko chiquito, que cabe en la palma de una mano, exactamente como en su referencia: mascota de caricatura FLACA y ALARGADA (cuello largo, torso angosto, patas finas, cola larga y fina; nunca gordito ni chibi), aguamarina claro translúcido y liso con brillo cian, finas líneas de circuito, antiparras de aviador con lente redondo y visor holográfico al costado, sin manchas.'),
             (r'[Gg]litch', 'el Glitch', ['3fc790eaa72749f19625c488f35503b4'], 'El glitch es chiquito, como un gato.'),
             (r'Fantasma del Fotograma', 'el Fantasma del Fotograma', ['3fc790eaa72749f19625c488f35503b4'], ''),

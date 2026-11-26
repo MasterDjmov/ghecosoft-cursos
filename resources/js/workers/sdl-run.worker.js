@@ -26,6 +26,9 @@ let keyCount = 0;
 let started = 0;
 let lastYield = 0;
 let lastAlive = 0;
+let vsync = 0;
+let lastFrame = 0; // cuándo se presentó el último cuadro (para el VSync)
+let frames = 0; // cuadros presentados desde el último aviso (los cuadros por segundo, para las pruebas)
 const queue = [];
 const mouse = { x: 0, y: 0, buttons: 0 };
 const pads = new Map(); // id → { name, axes[], buttons[] }
@@ -76,12 +79,16 @@ const fill = () => `rgba(${color[0]},${color[1]},${color[2]},${blend === 0 ? 1 :
 function pause(ms) {
     const now = performance.now();
     // Que la página sepa que el juego sigue vivo (sin mandarle un mensaje por cuadro).
-    if (now - lastAlive > 250) {
-        post({ type: 'alive' });
+    if (now - lastAlive > 1000) {
+        post({ type: 'alive', fps: Math.round((frames * 1000) / (now - lastAlive)) });
         lastAlive = now;
+        frames = 0;
     }
     lastYield = now;
     feedAudio();
+    // Ceder sin esperar: un mensaje a uno mismo no tiene el mínimo de 4 ms de setTimeout (si no, SDL_Delay(16) daría
+    // unos 47 cuadros por segundo en vez de 60).
+    if (ms <= 0) return new Promise((resolve) => { const channel = new MessageChannel(); channel.port1.onmessage = () => resolve(); channel.port2.postMessage(0); });
     return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
@@ -181,23 +188,36 @@ function glyph(code) {
     return glyphs.get(code);
 }
 
-let tile = null;
+// Cada letra, ya pintada de un color, se guarda: el texto de cada cuadro se arma copiando (rápido).
+const painted = new Map(); // `${código}|${color}` → lienzo de 8 x 8
+
+function paintedGlyph(code, color) {
+    const key = `${code}|${color}`;
+    let tile = painted.get(key);
+    if (tile === undefined) {
+        const image = glyph(code);
+        tile = null;
+        if (image) {
+            tile = new OffscreenCanvas(8, 8);
+            const c = tile.getContext('2d');
+            c.putImageData(image, 0, 0);
+            c.globalCompositeOperation = 'source-in';
+            c.fillStyle = color;
+            c.fillRect(0, 0, 8, 8);
+        }
+        if (painted.size > 4000) painted.clear();
+        painted.set(key, tile);
+    }
+    return tile;
+}
 
 /** Texto de 8 x 8 píxeles como SDL_RenderDebugText, del color de dibujo. */
 function drawText(x, y, text) {
-    tile ??= new OffscreenCanvas(8, 8);
-    const tileCtx = tile.getContext('2d');
+    const color = fill();
     let cx = x;
     for (const char of text) {
-        const image = glyph(char.codePointAt(0));
-        if (image) {
-            tileCtx.globalCompositeOperation = 'copy';
-            tileCtx.putImageData(image, 0, 0);
-            tileCtx.globalCompositeOperation = 'source-in';
-            tileCtx.fillStyle = fill();
-            tileCtx.fillRect(0, 0, 8, 8);
-            ctx.drawImage(tile, cx, y);
-        }
+        const tile = paintedGlyph(char.codePointAt(0), color);
+        if (tile) ctx.drawImage(tile, cx, y);
         cx += 8;
     }
 }
@@ -292,12 +312,23 @@ const sdl = {
             screenCtx.globalCompositeOperation = 'copy';
             screenCtx.drawImage(back, 0, 0);
         }
-        await pause(0);
+        frames++;
+        // Con VSync, se espera hasta el próximo cuadro (60 por segundo); sin VSync, solo se cede un momento.
+        const wait = vsync ? Math.max(0, lastFrame + 1000 / 60 - performance.now()) : 0;
+        await pause(wait);
+        lastFrame = performance.now();
         return 1;
     }),
     delay: suspending(async (ms) => {
         await pause(Math.min(ms >>> 0, 1000));
     }),
+    set_vsync(value) {
+        vsync = value ? 1 : 0;
+        return 1;
+    },
+    get_vsync() {
+        return vsync;
+    },
     ticks() {
         return performance.now() - started;
     },

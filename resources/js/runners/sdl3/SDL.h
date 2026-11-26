@@ -326,6 +326,7 @@ SDLW_IMPORT(line) bool sdlw_line(float x1, float y1, float x2, float y2);
 SDLW_IMPORT(point) bool sdlw_point(float x, float y);
 SDLW_IMPORT(text) bool sdlw_text(float x, float y, const char *text);
 SDLW_IMPORT(present) bool sdlw_present(void);
+SDLW_IMPORT(get_vsync) int sdlw_get_vsync(void);
 SDLW_IMPORT(delay) void sdlw_delay(Uint32 ms);
 SDLW_IMPORT(ticks) double sdlw_ticks(void);
 SDLW_IMPORT(poll) int sdlw_poll(Sint32 *out, void *raw);
@@ -397,7 +398,10 @@ static inline bool SDL_CreateWindowAndRenderer(const char *title, int w, int h, 
 static inline bool SDL_SetWindowTitle(SDL_Window *window, const char *title) { (void)window; return sdlw_set_title(title); }
 static inline void SDL_DestroyRenderer(SDL_Renderer *renderer) { (void)renderer; }
 static inline void SDL_DestroyWindow(SDL_Window *window) { (void)window; }
-static inline bool SDL_SetRenderVSync(SDL_Renderer *renderer, int vsync) { (void)renderer; (void)vsync; return true; }
+SDLW_IMPORT(set_vsync) bool sdlw_set_vsync(int vsync);
+/* Con VSync, SDL_RenderPresent espera al próximo cuadro de la pantalla (unos 60 por segundo), como en la compu. */
+static inline bool SDL_SetRenderVSync(SDL_Renderer *renderer, int vsync) { (void)renderer; return sdlw_set_vsync(vsync); }
+static inline bool SDL_GetRenderVSync(SDL_Renderer *renderer, int *vsync);
 
 static inline bool SDL_SetRenderDrawColor(SDL_Renderer *renderer, Uint8 r, Uint8 g, Uint8 b, Uint8 a) { (void)renderer; return sdlw_set_color(r, g, b, a); }
 static inline bool SDL_GetRenderDrawColor(SDL_Renderer *renderer, Uint8 *r, Uint8 *g, Uint8 *b, Uint8 *a)
@@ -419,6 +423,7 @@ static inline bool SDL_RenderRect(SDL_Renderer *renderer, const SDL_FRect *rect)
 static inline bool SDL_RenderLine(SDL_Renderer *renderer, float x1, float y1, float x2, float y2) { (void)renderer; return sdlw_line(x1, y1, x2, y2); }
 static inline bool SDL_RenderPoint(SDL_Renderer *renderer, float x, float y) { (void)renderer; return sdlw_point(x, y); }
 static inline bool SDL_RenderPresent(SDL_Renderer *renderer) { (void)renderer; return sdlw_present(); }
+static inline bool SDL_GetRenderVSync(SDL_Renderer *renderer, int *vsync) { (void)renderer; if (vsync) *vsync = sdlw_get_vsync(); return true; }
 
 /* El texto de depuración de SDL3: letras de 8 x 8 píxeles (solo ASCII, sin tildes). */
 #define SDL_DEBUG_TEXT_FONT_CHARACTER_SIZE 8

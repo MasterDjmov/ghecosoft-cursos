@@ -103,7 +103,7 @@ try {
         }
         const code = fs.readFileSync(program.file, 'utf8');
         const usesAudio = /SDL_PutAudioStreamData|MIX_Play/.test(code);
-        await js(`window.sdlAudioChunks = 0; ${runner}.editor.setDoc(${JSON.stringify(code)})`);
+        await js(`window.sdlAudioChunks = 0; window.sdlFps = 0; ${runner}.editor.setDoc(${JSON.stringify(code)})`);
         await js(`void ${runner}.run()`);
         const started = await until(`${runner}.gamePlaying || (! ${runner}.running && ${runner}.status !== '' && ! ${runner}.status.startsWith('Compilando'))`, 180000);
         await sleep(1200);
@@ -153,15 +153,18 @@ try {
         const seen = state.playing ? await colors() : { count: 0 };
         if (SHOTS && seen.data) fs.writeFileSync(path.join(SHOTS, `${program.stage}-${program.dir}.png`), Buffer.from(seen.data, 'base64'));
         const audio = await js('window.sdlAudioChunks ?? 0');
+        const fps = await js('window.sdlFps ?? 0');
         const problems = [];
         if (!started) problems.push('no arrancó');
         if (state.error) problems.push(`${state.status}: ${(state.output ?? '').slice(-400)}`);
         if (!state.error && !state.playing && !/terminó \(devolvió 0\)/.test(state.status)) problems.push(`terminó solo: ${state.status}`);
         if (state.playing && seen.count < 2) problems.push('la pantalla está vacía');
+        // Un juego con VSync tiene que ir a unos 60 cuadros por segundo (ni trabado ni a lo loco).
+        if (state.playing && /SDL_SetRenderVSync\(\w+,\s*1\)/.test(code) && (fps < 45 || fps > 75)) problems.push(`va a ${fps} cuadros por segundo (con VSync tienen que ser unos 60)`);
         if (usesAudio && state.playing && audio === 0) problems.push('no sonó');
         if (process.env.SALIDA) console.log((state.output ?? '').trim().split('\n').slice(-12).map((l) => `    | ${l}`).join('\n'));
         if (problems.length) fails++;
-        console.log(`${problems.length ? '✗' : '✓'} ${name}${state.playing ? ` (${seen.count} colores${usesAudio ? `, ${audio} sonidos` : ''})` : ''}${problems.length ? ': ' + problems.join(' · ') : ''}`);
+        console.log(`${problems.length ? '✗' : '✓'} ${name}${state.playing ? ` (${seen.count} colores${usesAudio ? `, ${audio} sonidos` : ''}, ${fps} cuadros/s)` : ''}${problems.length ? ': ' + problems.join(' · ') : ''}`);
         await js(`${runner}.gameControl?.kill()`);
         await sleep(300);
     }

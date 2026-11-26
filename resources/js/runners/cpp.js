@@ -30,7 +30,8 @@ export function compile(code, language, onLoaded, sdl = false) {
             }
             resolve(data);
         };
-        worker.postMessage({ id, code, language, sdl });
+        // Un carácter nulo que vino al pegar (de la terminal u otro programa) no es código: se saca antes de compilar.
+        worker.postMessage({ id, code: code.replace(/\u0000/g, ''), language, sdl });
     });
 }
 

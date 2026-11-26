@@ -230,9 +230,17 @@ prompt de esta charla y el 2026-11-25 FullCursos ya lo trae, marcado «(agregado
 | Rama final: Pong para dos compus | `29-Juegos-SDL3` 08 |
 | Proyecto final | `08-ProyectoFinal` (C++) o un juego propio |
 
+**Velocidad (2026-11-25, el docente vio que el 1942 se trababa):** con `SDL_SetRenderVSync(renderer, 1)`,
+`SDL_RenderPresent` espera al próximo cuadro (60 por segundo, como en la compu: antes corría a lo loco); las letras de
+`SDL_RenderDebugText` se pintan una vez por color y se reusan; ceder sin esperar no suma los 4 ms de `setTimeout`.
+Con VSync todos van a 60–62 cuadros por segundo (la prueba lo controla); con `SDL_Delay(16)`, a 53–56; sin ninguno
+de los dos (06-GameLoop), a lo que dé, igual que en la compu. Un carácter nulo pegado se saca antes de compilar.
+
 **Para corregir en FullCursos** (aviso de Clang, 2026-11-25): en `29-Juegos-SDL3/08-PongEnRed/main.c`, salir con Escape o
 cerrar la ventana desde el menú hace `goto salir` antes de `int ret = 0;`, y `return ret;` devuelve un valor sin
-iniciar. Se arregla declarando `int ret = 0;` antes del menú.
+iniciar. Se arregla declarando `int ret = 0;` antes del menú. Y en `05-Naves`, el renglón «Mover: flechas/WASD (o
+gamepad). Disparar: Espacio (o boton A).» del menú es más ancho que la ventana (560 px) y se corta a la derecha,
+también en la compu.
 
 El Pong de la fase 1 (`resources/games/pong.c`) era solo la prueba técnica: el curso usa el de
 `29-Juegos-SDL3/01-Pong`, armado de a poco con micro-misiones.

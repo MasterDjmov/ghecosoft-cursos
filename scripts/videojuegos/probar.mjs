@@ -232,6 +232,12 @@ int main(void) {
     }
     check('lo que guarda en SDL_GetPrefPath sigue ahí la próxima vez', laps, ['vuelta 1', 'vuelta 2']);
 
+    // Un carácter nulo pegado al final (pasa al copiar de la terminal) no molesta: se saca antes de compilar.
+    await js(`${runner}.editor.setDoc('#include <stdio.h>\\nint main(void) { printf("limpio\\\\n"); return 0; }\\n\\u0000')`);
+    await js(`void ${runner}.run()`);
+    await until(`${runner}.status.startsWith('El juego terminó')`, 60000);
+    check('un carácter nulo pegado no da aviso del compilador', await js(`${runner}.output.trim()`), 'limpio');
+
     check('sin errores de JavaScript en la página', errors, []);
 } catch (e) {
     fails++;

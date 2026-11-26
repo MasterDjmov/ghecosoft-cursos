@@ -85,6 +85,7 @@ export async function runGame(code, { container, onStatus, onOutput, onWindow, s
 
     worker.onmessage = ({ data }) => {
         alive = performance.now();
+        if (data.type === 'alive' && data.fps !== undefined) window.sdlFps = data.fps; // para las pruebas
         if (data.type === 'window') {
             size = { w: data.w, h: data.h };
             // Lo más grande que entre a lo ancho y en dos tercios del alto de la pantalla, sin deformarse.

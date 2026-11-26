@@ -261,6 +261,8 @@ document.addEventListener('alpine:init', () => {
         consoleDockOpen: false,
         // Juegos con SDL3 (D126): el juego que corre, su ventana y los joysticks que ve.
         gameStarted: false,
+        // La prueba del robot de Arcadia (micro-misión de juego): { events, checks }.
+        gameTest: config.gameTest ?? null,
         gamePlaying: false,
         gameTitle: '',
         gamePads: 0,
@@ -442,6 +444,7 @@ document.addEventListener('alpine:init', () => {
             const round = (this.gameRound = (this.gameRound ?? 0) + 1);
             this.running = true;
             this.error = false;
+            this.lines = null;
             this.output = '';
             this.gameTitle = '';
             const { runGame } = await import('./runners/sdl.js');
@@ -484,6 +487,59 @@ document.addEventListener('alpine:init', () => {
                 this.status = result.stopped ? 'Cerraste el juego.' : `El juego terminó (devolvió ${result.exit}).`;
                 this.error = !result.stopped && result.exit !== 0;
             }
+        },
+
+        /**
+         * Micro-misión de juego (D126, fase 4): el robot de Arcadia juega solo con las teclas de la prueba, con un reloj
+         * de mentira (da siempre lo mismo), y su informe (la consola y «── Estado ──») se compara con lo esperado.
+         */
+        async gameCheck() {
+            if (this.running || !this.gameTest) return;
+            this.gameControl?.kill();
+            this.gameSecondStop();
+            const round = (this.gameRound = (this.gameRound ?? 0) + 1);
+            this.running = true;
+            this.error = false;
+            this.matches = null;
+            this.mismatch = null;
+            this.lines = null;
+            this.output = '';
+            this.gameTitle = '';
+            let printed = '';
+            const { runGame } = await import('./runners/sdl.js');
+            const started = await runGame(this.runSource ?? this.code, {
+                container: this.$refs.gameScreen,
+                onStatus: () => (this.status = 'Compilando…'),
+                onOutput: (text) => (printed = (printed + text).slice(-20000)),
+                onWindow: ({ title }) => (this.gameTitle = title),
+                // Una copia común (el Proxy de Alpine no se puede mandar al worker).
+                test: JSON.parse(JSON.stringify(this.gameTest)),
+            });
+            if (!started.ok) {
+                this.running = false;
+                this.error = true;
+                this.status = started.error;
+                this.output = started.diagnostics ? `── Compilador ──\n${started.diagnostics.trimEnd()}` : started.error;
+                return;
+            }
+            this.gameStarted = true;
+            this.status = '🤖 El robot de Arcadia está probando tu juego…';
+            const result = await started.done;
+            if (this.gameRound !== round) return;
+            this.running = false;
+            if (result.error) {
+                this.error = true;
+                this.status = result.hung ? 'Se colgó (el Bucle Eterno)' : 'Error';
+                this.output = (printed ? printed.replace(/\n*$/, '\n') : '') + result.error;
+                return;
+            }
+            const report = result.test ?? [];
+            const output = (printed.replace(/\n+$/, '') + (report.length ? `${printed.trim() ? '\n' : ''}── Estado ──\n${report.join('\n')}` : '')).trim();
+            this.output = output || '(sin salida)';
+            this.mismatch = describeDifference(config.expected ?? '', output);
+            this.matches = this.mismatch === null;
+            if (!this.matches) this.lines = compareLines(config.expected ?? '', output);
+            this.status = this.matches ? '✓ El robot vio lo que se esperaba.' : 'El robot terminó la prueba: mirá los renglones en ámbar.';
         },
 
         gameStop() {

@@ -198,6 +198,8 @@
 
                     {{-- Una micro-misión puede ser de otro lenguaje que el curso (SQL en Java, con SQLite en el navegador). --}}
                     @php($stepLanguage = $step->runLanguage($course))
+                    {{-- D126: una micro-misión de juego (C con SDL3) la comprueba el robot de Arcadia, no la consola. --}}
+                    @php($stepGame = $stepLanguage === \App\Enums\Language::C && str_contains((string) $step->starter_code, '<SDL3/'))
                     <x-code-runner :code="(string) $step->starter_code" :stdin="(string) $step->sample_input" :expected="$step->expected_output"
                         :language="$stepLanguage->value" :name="strtolower($step->code)" :runnable="$stepLanguage->studentCanRun()" :checks="$step->checks"
                         :show-stdin="filled($step->sample_input)">
@@ -205,7 +207,7 @@
                             {{-- Al coincidir la salida, se avisa una sola vez. --}}
                             <div x-data="{ sent: false }" x-effect="if (matches === true && ! sent) { sent = true; $wire.completeStep({{ $step->id }}, output, code).then((r) => { result = r; if (! r.ok) sent = false }) }">
                                 <p x-show="matches === false" x-cloak class="flex items-center gap-2 text-sm text-warning" data-test="step-mismatch">
-                                    <flux:icon name="exclamation-triangle" variant="micro" /> {{ $stepLanguage === \App\Enums\Language::Asm ? 'Todavía no: el Gólem no quedó como se esperaba. Probá con Paso a paso y mirá qué cambia.' : (filled($step->checks) ? 'Todavía no: el inspector no encontró lo que se espera. Mirá los renglones en ámbar.' : 'Todavía no: tu salida no es igual a la esperada. Comparalas línea por línea.') }}
+                                    <flux:icon name="exclamation-triangle" variant="micro" /> {{ $stepLanguage === \App\Enums\Language::Asm ? 'Todavía no: el Gólem no quedó como se esperaba. Probá con Paso a paso y mirá qué cambia.' : ($stepGame ? 'Todavía no: el robot de Arcadia no vio lo que se espera. Mirá los renglones en ámbar, cambiá el código y volvé a tocar Comprobar.' : (filled($step->checks) ? 'Todavía no: el inspector no encontró lo que se espera. Mirá los renglones en ámbar.' : 'Todavía no: tu salida no es igual a la esperada. Comparalas línea por línea.')) }}
                                 </p>
                                 <p x-show="matches === false && mismatch" x-cloak class="mt-1 text-xs text-ink-muted" x-text="mismatch" data-test="step-mismatch-detail"></p>
                                 <p x-show="result && ! result.ok" x-cloak class="flex items-center gap-2 text-sm text-danger" x-text="result?.error"></p>
@@ -217,7 +219,7 @@
                                 x-effect="if (! running && matches === false) fail('{{ filled($step->checks) ? 'checks' : 'output' }}'); else if (! running && error) fail('error')"></div>
                             {{-- Java (D85) sin el ejecutor abierto, o C y C++ (D98, D100) si el compilador del navegador no carga: se corre
                                  en la compu o el IDE y se pega la salida. --}}
-                            @if ($stepLanguage->runsOnLocalRunner() || in_array($stepLanguage, [\App\Enums\Language::C, \App\Enums\Language::Cpp], true))
+                            @if (! $stepGame && ($stepLanguage->runsOnLocalRunner() || in_array($stepLanguage, [\App\Enums\Language::C, \App\Enums\Language::Cpp], true)))
                                 <details class="mt-2 rounded-lg border border-outline/70 px-3 py-2 text-sm" x-show="! result?.ok" x-data="{ pasted: '', checking: false, wrong: false }" data-test="step-paste">
                                     <summary class="cursor-pointer text-ink-muted hover:text-white">{{ $stepLanguage->runsOnLocalRunner()
                                         ? '¿No tenés el ejecutor abierto? Corré el programa en tu compu y pegá acá lo que mostró'

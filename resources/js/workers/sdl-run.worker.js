@@ -64,6 +64,18 @@ const netServers = new Map(); // id → { port, pending: [socket ids] }
 const netSockets = new Map(); // id → { status, conn, inbox: [Uint8Array], closed, waiters: [] }
 let netSeq = 0;
 
+// La prueba de una micro-misión (D126, fase 4): el «robot de Arcadia» juega solo. Con un reloj de mentira (cada cuadro
+// con VSync son 16,7 ms y SDL_Delay suma lo que pide, sin esperar de verdad) y el azar con semilla fija, el mismo
+// código da siempre el mismo resultado. Las teclas llegan en el cuadro que dice la prueba; al final se arma el informe.
+let test = null; // { timeline: [{ at, message }], end, checks: [renglones] }
+let testFrame = 0;
+let virtualMs = 0;
+let seed = 0;
+let windowTitle = '';
+let frameTexts = []; // lo escrito con SDL_RenderDebugText en el cuadro que se está dibujando
+let shownTexts = []; // … y en el último cuadro presentado
+let soundUsed = false;
+
 const bytes = () => new Uint8Array(memory.buffer);
 const view = () => new DataView(memory.buffer);
 const string = (pointer) => {
@@ -110,6 +122,78 @@ const suspending = (body) => new WebAssembly.Suspending((...args) => {
         return value;
     });
 });
+
+/** El azar de la prueba: siempre la misma serie (mulberry32). */
+function seededRandom() {
+    seed = (seed + 0x6d2b79f5) | 0;
+    let t = seed;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+}
+
+/** Lo que le toca al cuadro que se acaba de presentar en la prueba: las teclas que siguen, o el informe si terminó. */
+function testFrameDone() {
+    virtualMs += vsync ? 1000 / 60 : 1;
+    testFrame++;
+    deliverTest();
+    if (testFrame >= test.end) {
+        post({ type: 'test', report: testReport(false) });
+        return new Promise(() => {}); // el juego queda quieto: la página lo corta
+    }
+    return pause(0);
+}
+
+/** Entrega las teclas, el mouse y el joystick de la prueba que tocan hasta este cuadro. */
+function deliverTest() {
+    while (test.timeline.length && test.timeline[0].at <= testFrame) receive(test.timeline.shift().message);
+}
+
+const hex = (r, g, b) => '#' + [r, g, b].map((v) => v.toString(16).padStart(2, '0')).join('');
+
+/**
+ * El informe de la prueba, un renglón por pedido de «Estado» (lo mismo arma la solución al escribir la salida esperada):
+ * ventana · pixel X Y · buscar #rrggbb · textos · sonido · terminó.
+ */
+function testReport(exited, exit = 0) {
+    let image = null;
+    const pixels = () => {
+        if (!image) image = screen.getContext('2d').getImageData(0, 0, screen.width, screen.height);
+        return image;
+    };
+    return test.checks.map((line) => {
+        const words = line.trim().split(/\s+/);
+        const what = words[0].toLowerCase();
+        if (what === 'ventana') return size.w ? `ventana: «${windowTitle}» ${size.w}x${size.h}` : 'ventana: no se abrió';
+        if (what === 'pixel') {
+            const x = Number(words[1]);
+            const y = Number(words[2]);
+            if (!size.w) return `pixel ${x} ${y}: no hay ventana`;
+            if (!(x >= 0 && y >= 0 && x < screen.width && y < screen.height)) return `pixel ${x} ${y}: afuera de la ventana`;
+            const { data, width } = pixels();
+            const i = (y * width + x) * 4;
+            return `pixel ${x} ${y}: ${hex(data[i], data[i + 1], data[i + 2])}`;
+        }
+        if (what === 'buscar') {
+            const wanted = (words[1] ?? '').toLowerCase();
+            if (!size.w) return `buscar ${wanted}: no hay ventana`;
+            const { data, width, height } = pixels();
+            let x1 = Infinity, y1 = Infinity, x2 = -1, y2 = -1;
+            for (let y = 0; y < height; y++) {
+                for (let x = 0; x < width; x++) {
+                    const i = (y * width + x) * 4;
+                    if (hex(data[i], data[i + 1], data[i + 2]) !== wanted) continue;
+                    x1 = Math.min(x1, x); y1 = Math.min(y1, y); x2 = Math.max(x2, x); y2 = Math.max(y2, y);
+                }
+            }
+            return x2 < 0 ? `buscar ${wanted}: no está` : `buscar ${wanted}: x ${x1}, y ${y1}, ancho ${x2 - x1 + 1}, alto ${y2 - y1 + 1}`;
+        }
+        if (what === 'textos') return `textos: ${shownTexts.filter(Boolean).join(' | ') || '(ninguno)'}`;
+        if (what === 'sonido') return `sonido: ${soundUsed ? 'sí' : 'no'}`;
+        if (what === 'terminó' || what === 'termino') return `terminó: ${exited ? `sí (devolvió ${exit})` : 'no'}`;
+        return `${line.trim()}: no se entiende`;
+    });
+}
 
 /** Guarda bytes para que C los copie (sdlw_blob_copy) cuando ya reservó la memoria. */
 function keepBlob(data) {
@@ -237,10 +321,12 @@ const sdl = {
         ctx = back.getContext('2d');
         ctx.imageSmoothingEnabled = false;
         target = 0;
-        post({ type: 'window', title: string(title), w: size.w, h: size.h });
+        windowTitle = string(title);
+        post({ type: 'window', title: windowTitle, w: size.w, h: size.h });
         return 1;
     },
     set_title(title) {
+        windowTitle = string(title);
         post({ type: 'title', title: string(title) });
         return 1;
     },
@@ -303,6 +389,7 @@ const sdl = {
         return 1;
     },
     text(x, y, pointer) {
+        if (!target) frameTexts.push(string(pointer).trim());
         drawText(x, y, string(pointer));
         return 1;
     },
@@ -313,6 +400,9 @@ const sdl = {
             screenCtx.drawImage(back, 0, 0);
         }
         frames++;
+        shownTexts = frameTexts;
+        frameTexts = [];
+        if (test) return testFrameDone();
         // Con VSync, se espera hasta el próximo cuadro (60 por segundo); sin VSync, solo se cede un momento.
         const wait = vsync ? Math.max(0, lastFrame + 1000 / 60 - performance.now()) : 0;
         await pause(wait);
@@ -320,6 +410,10 @@ const sdl = {
         return 1;
     }),
     delay: suspending(async (ms) => {
+        if (test) {
+            virtualMs += ms >>> 0;
+            return pause(0);
+        }
         await pause(Math.min(ms >>> 0, 1000));
     }),
     set_vsync(value) {
@@ -330,6 +424,7 @@ const sdl = {
         return vsync;
     },
     ticks() {
+        if (test) return virtualMs;
         return performance.now() - started;
     },
     // Si el bucle no se pausa nunca, igual se cede de vez en cuando (si no, la página no le puede mandar teclas).
@@ -380,6 +475,7 @@ const sdl = {
         return 1;
     },
     random() {
+        if (test) return seededRandom();
         return Math.random();
     },
     log(pointer) {
@@ -411,6 +507,7 @@ const sdl = {
         const samples = toFloat(stream.format, pointer, length);
         const ms = (samples.length / stream.channels / stream.freq) * 1000;
         const now = performance.now();
+        soundUsed = true;
         if (stream.paused) stream.pendingMs += ms;
         else stream.playEnd = Math.max(now, stream.playEnd) + ms;
         post({ type: 'audio', action: 'put', id, samples }, [samples.buffer]);
@@ -636,6 +733,7 @@ const sdl = {
             case 9: mixAudios.delete(id); break;
             default: break;
         }
+        if (what === 2 || what === 8) soundUsed = true;
         post({ type: 'mix', action: ['', 'set', 'play', 'pause', 'resume', 'stop', 'gain', '', 'fire', 'free-audio', 'free-track', 'free-mixer', 'master'][what], id, arg, value });
         return 1;
     },
@@ -979,6 +1077,10 @@ self.onmessage = async ({ data }) => {
 
     screen = data.canvas;
     display = data.display ?? display;
+    if (data.test) {
+        test = { timeline: [...data.test.timeline], end: Math.max(1, data.test.end), checks: data.test.checks ?? [] };
+        seed = 20261125;
+    }
     files = new PreopenDirectory('.', restoreFiles(data.files));
     // Los archivos que trae el juego (fuentes, imágenes, sonidos): solo para leer.
     for (const [path, content] of Object.entries(data.assets ?? {})) {
@@ -999,12 +1101,21 @@ self.onmessage = async ({ data }) => {
     ];
     try {
         const wasi = new WASI(['juego', ...(data.args ?? [])], [], fds);
+        if (test) {
+            // time() y clock() también con el reloj de mentira (srand(time(NULL)) da siempre lo mismo).
+            wasi.wasiImport.clock_time_get = (id, precision, pointer) => {
+                const base = id === 0 ? 1_780_000_000_000n : 0n; // REALTIME: un día fijo
+                new DataView(memory.buffer).setBigUint64(pointer, (base + BigInt(Math.round(virtualMs))) * 1_000_000n, true);
+                return 0;
+            };
+        }
         const module = await WebAssembly.compile(data.wasm);
         const instance = await WebAssembly.instantiate(module, { wasi_snapshot_preview1: wasi.wasiImport, sdl });
         memory = instance.exports.memory;
         exports = instance.exports;
         wasi.inst = instance;
         started = lastYield = performance.now();
+        if (test) deliverTest();
         let exit = 0;
         try {
             await WebAssembly.promising(instance.exports._start)();
@@ -1018,6 +1129,7 @@ self.onmessage = async ({ data }) => {
             clearTimeout(filesTimer);
             saveFiles();
         }
+        if (test) post({ type: 'test', report: testReport(true, exit) });
         post({ type: 'exit', exit });
     } catch (e) {
         crash(e);

@@ -25,6 +25,7 @@ use App\Support\AsmState;
 use App\Support\CourseImport\CourseFileParser;
 use App\Support\CourseImport\ImportReport;
 use App\Support\EnglishExercise;
+use App\Support\GameMission;
 use App\Support\Glossary;
 use App\Support\JsMission;
 use App\Support\PracticeReferences;
@@ -179,6 +180,12 @@ class CourseImporter
                 // JavaScript (D115): los eventos y lo guardado al empezar, en renglones que la caja entienda.
                 if (in_array($courseLanguage, [Language::JavaScript, Language::TypeScript], true)) {
                     foreach (JsMission::problems($step['fields']) as $problem) {
+                        $this->report->error("{$step['where']}: la micro-misión {$step['code']} {$problem}.");
+                    }
+                }
+                // Juegos (D126): la prueba del robot de Arcadia, en renglones que entienda.
+                if ($courseLanguage === Language::C && GameMission::isGame($step['fields']['starter_code'] ?? null)) {
+                    foreach (GameMission::problems($step['fields']) as $problem) {
                         $this->report->error("{$step['where']}: la micro-misión {$step['code']} {$problem}.");
                     }
                 }
@@ -583,6 +590,10 @@ class CourseImporter
             // JavaScript (D115): la página, los eventos, el Estado y lo guardado viajan juntos (JSON) en `checks`.
             if (in_array($this->course->language, [Language::JavaScript, Language::TypeScript], true)) {
                 $fields['checks'] = JsMission::encode($fields);
+            }
+            // Juegos (D126): los eventos y lo que se mira al final viajan juntos (JSON) en `checks`.
+            if ($this->course->language === Language::C && GameMission::isGame($fields['starter_code'] ?? null)) {
+                $fields['checks'] = GameMission::encode($fields);
             }
             $model->fill([
                 'position' => $index + 1,

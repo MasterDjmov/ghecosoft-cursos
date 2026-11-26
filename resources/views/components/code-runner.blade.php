@@ -46,6 +46,10 @@
     $isJs = in_array($language, ['javascript', 'typescript'], true);
     $jsMission = $isJs && filled($checks) ? (json_decode((string) $checks, true) ?: ['checks' => (string) $checks]) : [];
     $jsHasPage = $isJs && (filled($jsMission['page'] ?? null) || str_starts_with(ltrim((string) $code), '<'));
+    // D126: un programa de C que incluye SDL3 es un juego (se juega en un lienzo). En una micro-misión, `checks` trae
+    // la prueba del robot de Arcadia (App\Support\GameMission: los eventos y qué revisar) y aparece «Comprobar».
+    $game = $game || ($language === 'c' && str_contains((string) $code, '<SDL3/'));
+    $gameTest = $game && filled($checks) ? json_decode((string) $checks, true) : null;
     $barButton = 'inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-xs font-medium transition disabled:opacity-50';
 @endphp
 
@@ -60,6 +64,7 @@
         'references' => (object) array_filter($references), 'checks' => ($isHtml || $language === 'asm') && filled($checks) ? (string) $checks : null,
         'jsMission' => (object) $jsMission, 'jsHasPage' => $jsHasPage, 'fenced' => $fenced,
         'keep' => $keep ? 'practice:'.auth()->id().':'.$keep : null, 'autocomplete' => $autocomplete, 'game' => $game,
+        'gameTest' => $gameTest ? ['events' => (string) ($gameTest['events'] ?? ''), 'checks' => array_values($gameTest['checks'] ?? [])] : null,
     ]))">
     <div class="code-window overflow-hidden rounded-lg border border-outline bg-surface-lowest transition focus-within:border-primary-bright/60">
         {{-- Barra de la ventana --}}
@@ -98,6 +103,13 @@
                     <button type="button" x-on:click="run" x-bind:disabled="running" title="Ejecutar (Ctrl+Enter)"
                         class="{{ $barButton }} bg-primary/15 text-primary-bright hover:bg-primary/25">
                         <flux:icon name="play" variant="micro" /> <span class="hidden sm:inline" x-text="running ? 'Ejecutando…' : '{{ $isHtml ? 'Ver' : ($game ? 'Jugar' : 'Ejecutar') }}'">{{ $isHtml ? 'Ver' : ($game ? 'Jugar' : 'Ejecutar') }}</span>
+                    </button>
+                @endif
+                @if ($canRun && $gameTest)
+                    <button type="button" x-on:click="gameCheck" x-bind:disabled="running" data-test="game-check"
+                        title="El robot de Arcadia juega solo con tu código y revisa si quedó como se pide"
+                        class="{{ $barButton }} bg-success/15 text-success hover:bg-success/25">
+                        <flux:icon name="check-badge" variant="micro" /> <span class="hidden sm:inline">Comprobar</span>
                     </button>
                 @endif
                 {{ $actions ?? '' }}

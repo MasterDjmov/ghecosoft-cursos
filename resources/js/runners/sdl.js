@@ -31,6 +31,89 @@ function modifiers(event) {
     return (event.shiftKey ? 0x0001 : 0) | (event.ctrlKey ? 0x0040 : 0) | (event.altKey ? 0x0100 : 0);
 }
 
+// ---------------- La prueba de una micro-misión (D126, fase 4): el robot de Arcadia juega solo
+
+// Los nombres de las teclas en la prueba, en castellano o como los dice el navegador (KeyW, ArrowUp…).
+const KEY_NAMES = {
+    arriba: 'ArrowUp', abajo: 'ArrowDown', izquierda: 'ArrowLeft', derecha: 'ArrowRight',
+    espacio: 'Space', enter: 'Enter', escape: 'Escape', esc: 'Escape', tab: 'Tab', borrar: 'Backspace',
+    shift: 'ShiftLeft', control: 'ControlLeft', ctrl: 'ControlLeft', alt: 'AltLeft',
+};
+// Los botones del joystick (mapeo estándar del navegador) y la palanca izquierda.
+const PAD_BUTTON_NAMES = { a: 0, b: 1, x: 2, y: 3, lb: 4, rb: 5, back: 8, start: 9, arriba: 12, abajo: 13, izquierda: 14, derecha: 15 };
+const STICK = { centro: [0, 0], izquierda: [-1, 0], derecha: [1, 0], arriba: [0, -1], abajo: [0, 1] };
+
+function scancodeOf(name) {
+    const lower = name.toLowerCase();
+    const code = KEY_NAMES[lower] ?? (/^[a-z]$/.test(lower) ? `Key${lower.toUpperCase()}` : /^[0-9]$/.test(lower) ? `Digit${lower}` : name);
+    return SCANCODES[code];
+}
+
+/**
+ * Lee los «Eventos» de una micro-misión de juego, un renglón por paso, y arma qué le llega al juego en cada cuadro:
+ *   cuadros 30 · tecla W (apretar y soltar) · apretar Arriba · soltar Arriba · mouse 100 200 · clic 100 200 ·
+ *   boton A · apretar boton A · soltar boton A · palanca izquierda|derecha|arriba|abajo|centro · cerrar
+ * Si no hay eventos, el juego corre 30 cuadros. Devuelve { timeline, end, problems }.
+ */
+export function parseGameTest(text = '') {
+    const timeline = [];
+    const problems = [];
+    let at = 0;
+    let usesPad = false;
+    const pad = { index: 0, name: 'Joystick de prueba', axes: [0, 0, 0, 0], buttons: Array(17).fill(0) };
+    const padMessage = () => ({ type: 'pads', pads: [{ ...pad, axes: [...pad.axes], buttons: [...pad.buttons] }] });
+    const key = (scancode, down) => ({ type: 'key', down, scancode, key: keycode(scancode), mod: 0, repeat: false });
+    const lines = String(text).split('\n').map((line) => line.trim()).filter((line) => line && !line.startsWith('//'));
+    for (const line of lines) {
+        const words = line.split(/\s+/);
+        const verb = words[0].toLowerCase();
+        const wrong = () => problems.push(line);
+        if (verb === 'cuadros') {
+            const n = Number(words[1]);
+            if (!Number.isInteger(n) || n < 1 || n > 3600) wrong();
+            else at += n;
+        } else if ((verb === 'tecla' || verb === 'apretar' || verb === 'soltar') && words[1]?.toLowerCase() !== 'boton') {
+            const scancode = scancodeOf(words[1] ?? '');
+            if (!scancode) { wrong(); continue; }
+            if (verb !== 'soltar') timeline.push({ at, message: key(scancode, true) });
+            if (verb === 'tecla') at++;
+            if (verb !== 'apretar') timeline.push({ at, message: key(scancode, false) });
+        } else if (verb === 'mouse' || verb === 'clic') {
+            const [x, y] = [Number(words[1]), Number(words[2])];
+            if (!Number.isFinite(x) || !Number.isFinite(y)) { wrong(); continue; }
+            timeline.push({ at, message: { type: 'mouse', kind: 'move', x, y } });
+            if (verb === 'clic') {
+                timeline.push({ at, message: { type: 'mouse', kind: 'down', button: 1, x, y } });
+                at++;
+                timeline.push({ at, message: { type: 'mouse', kind: 'up', button: 1, x, y } });
+            }
+        } else if (verb === 'boton' || verb === 'botón' || ((verb === 'apretar' || verb === 'soltar') && words[1]?.toLowerCase() === 'boton')) {
+            const name = (verb === 'boton' || verb === 'botón' ? words[1] : words[2])?.toLowerCase();
+            const index = PAD_BUTTON_NAMES[name];
+            if (index === undefined) { wrong(); continue; }
+            usesPad = true;
+            if (verb !== 'soltar') { pad.buttons[index] = 1; timeline.push({ at, message: padMessage() }); }
+            if (verb === 'boton' || verb === 'botón') at++;
+            if (verb !== 'apretar') { pad.buttons[index] = 0; timeline.push({ at, message: padMessage() }); }
+        } else if (verb === 'palanca') {
+            const axes = STICK[words[1]?.toLowerCase()];
+            if (!axes) { wrong(); continue; }
+            usesPad = true;
+            [pad.axes[0], pad.axes[1]] = axes;
+            timeline.push({ at, message: padMessage() });
+        } else if (verb === 'cerrar') {
+            timeline.push({ at, message: { type: 'quit' } });
+        } else {
+            wrong();
+        }
+    }
+    // El joystick de prueba está enchufado desde el principio.
+    if (usesPad) timeline.unshift({ at: 0, message: { type: 'pads', pads: [{ index: 0, name: pad.name, axes: [0, 0, 0, 0], buttons: Array(17).fill(0) }] } });
+    timeline.sort((a, b) => a.at - b.at);
+    const last = timeline.length ? timeline.at(-1).at + 1 : 0;
+    return { timeline, end: Math.max(lines.length ? at : 30, last, 1), problems };
+}
+
 /** ¿Este navegador puede pausar el bucle del juego? (JSPI: Chrome y Edge desde 2025; Firefox, en camino). */
 export function gamesSupported() {
     return typeof WebAssembly.Suspending === 'function' && typeof WebAssembly.promising === 'function'
@@ -42,12 +125,15 @@ export function gamesSupported() {
  *
  * @returns {Promise<{ok: boolean, error?: string, diagnostics?: string, stop?: () => void, done?: Promise<{exit?: number, error?: string}>}>}
  */
-export async function runGame(code, { container, onStatus, onOutput, onWindow, storageKey = 'sdl', args = [], watchdog = 3000 } = {}) {
+export async function runGame(code, { container, onStatus, onOutput, onWindow, storageKey = 'sdl', args = [], watchdog = 3000, test = null } = {}) {
     if (!gamesSupported()) {
         return { ok: false, error: 'Este navegador no puede correr los juegos todavía: abrilo en Chrome o en Edge (actualizados).' };
     }
     // El audio se prende con el clic en Jugar (el navegador no deja sonar sin que la persona toque algo).
-    const audio = startAudio();
+    // En la prueba no suena nada ni se usan los récords guardados: arranca siempre igual.
+    const audio = test ? { handle() {}, mix() {}, close() {} } : startAudio();
+    const plan = test ? parseGameTest(test.events) : null;
+    if (plan?.problems.length) return { ok: false, error: `La prueba tiene renglones que no se entienden: ${plan.problems.join(' · ')}` };
     onStatus?.('Compilando…');
     const compiled = await compile(code, 'c', () => onStatus?.('Compilando…'), true);
     if (compiled.type === 'loadFailed') return { ok: false, error: `No se pudo cargar el compilador: ${compiled.message}` };
@@ -100,7 +186,9 @@ export async function runGame(code, { container, onStatus, onOutput, onWindow, s
             audio.mix(data);
         } else if (data.type === 'net') {
             network.handle(worker, data);
-        } else if (data.type === 'files') {
+        } else if (data.type === 'test') {
+            end({ test: data.report });
+        } else if (data.type === 'files' && !test) {
             saveFiles(storageKey, data.files, onOutput);
         } else if (data.type === 'output') {
             onOutput?.(data.text);
@@ -122,6 +210,7 @@ export async function runGame(code, { container, onStatus, onOutput, onWindow, s
 
     // El teclado, solo con el juego enfocado (para no robarle las teclas al editor).
     const onKey = (event) => {
+        if (test) return;
         const scancode = SCANCODES[event.code];
         if (!scancode) return;
         event.preventDefault();
@@ -138,6 +227,7 @@ export async function runGame(code, { container, onStatus, onOutput, onWindow, s
         };
     };
     const onMouse = (event) => {
+        if (test) return;
         if (event.type === 'mousedown') canvas.focus();
         const kind = { mousemove: 'move', mousedown: 'down', mouseup: 'up' }[event.type];
         worker.postMessage({ type: 'mouse', kind, button: event.button === 1 ? 2 : event.button === 2 ? 3 : 1, ...point(event) });
@@ -161,7 +251,7 @@ export async function runGame(code, { container, onStatus, onOutput, onWindow, s
             buttons: pad.buttons.map((button) => button.value),
         }));
         const json = JSON.stringify(pads);
-        if (json !== lastPads) {
+        if (json !== lastPads && !test) {
             lastPads = json;
             worker.postMessage({ type: 'pads', pads });
         }
@@ -171,13 +261,14 @@ export async function runGame(code, { container, onStatus, onOutput, onWindow, s
     cleanups.push(() => cancelAnimationFrame(frame));
 
     // Abajo se ve si las teclas van al juego o no (si el foco quedó en el editor, las teclas escriben ahí).
-    const focusStatus = () => !finished && onStatus?.(document.activeElement === canvas
+    const focusStatus = () => !finished && !test && onStatus?.(document.activeElement === canvas
         ? '🎮 El teclado está en el juego (ESC vuelve al menú)'
         : 'Hacé clic en el juego para usar el teclado');
     canvas.addEventListener('focus', focusStatus);
     canvas.addEventListener('blur', focusStatus);
     worker.postMessage({
-        type: 'start', wasm: compiled.wasm, canvas: offscreen, files: loadFiles(storageKey), assets, args,
+        type: 'start', wasm: compiled.wasm, canvas: offscreen, files: test ? {} : loadFiles(storageKey), assets, args,
+        test: plan ? { timeline: plan.timeline, end: plan.end, checks: test.checks ?? [] } : null,
         display: { w: screen.width, h: screen.height, density: devicePixelRatio || 1 },
     }, [offscreen]);
     canvas.focus();

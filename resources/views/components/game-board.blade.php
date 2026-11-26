@@ -25,7 +25,7 @@
 
     {{-- La pantalla: el lienzo se estira al ancho y conserva la forma de la ventana del juego. --}}
     <div class="grid min-h-48 items-center bg-black" x-bind:class="gameSecond && 'gap-1 lg:grid-cols-2'" data-test="game-screen">
-        <p class="p-6 text-center text-sm text-ink-muted" x-show="! gameStarted">Tocá <strong class="text-ink">Jugar</strong> para compilar y abrir la ventana del juego.</p>
+        <p class="p-6 text-center text-sm text-ink-muted" x-show="! gameStarted">Tocá <strong class="text-ink">Jugar</strong> para compilar y abrir la ventana del juego<span x-show="gameTest" x-cloak>, o <strong class="text-ink">Comprobar</strong> para que el robot de Arcadia lo pruebe solo</span>.</p>
         <div x-ref="gameScreen" wire:ignore x-show="gameStarted" x-cloak
             class="w-full [&_canvas]:mx-auto [&_canvas]:block [&_canvas]:outline-none [&_canvas]:[image-rendering:pixelated] [&_canvas:focus]:ring-2 [&_canvas:focus]:ring-primary-bright/60"></div>
         <div x-show="gameSecond" x-cloak class="flex flex-col" data-test="game-second-screen">
@@ -40,6 +40,17 @@
 
     <p class="border-t border-outline/60 px-3 py-1.5 font-mono text-[11px]" data-test="game-status"
         x-bind:class="error ? 'text-danger' : (running ? 'text-primary-bright motion-safe:animate-pulse' : 'text-ink-muted')" x-text="status"></p>
-    <pre class="max-h-48 overflow-auto border-t border-outline/60 px-3 py-2 font-mono text-xs whitespace-pre-wrap" x-show="output" x-cloak
+    <pre class="max-h-48 overflow-auto border-t border-outline/60 px-3 py-2 font-mono text-xs whitespace-pre-wrap" x-show="output && ! lines" x-cloak
         data-test="game-output" x-bind:class="error ? 'text-danger' : 'text-success'" x-text="output"></pre>
+    {{-- Comprobar (micro-misión): lo que vio el robot, renglón por renglón, con ✓ o ✗ frente a lo esperado. --}}
+    <div class="max-h-60 overflow-auto border-t border-outline/60 px-3 py-2 font-mono text-xs" x-show="lines" x-cloak data-test="game-lines">
+        <template x-for="(line, i) in lines ?? []" :key="i">
+            <div class="flex gap-2" x-bind:class="line.ok ? 'text-success' : 'text-warning'">
+                <span class="w-4 shrink-0 select-none text-center" x-text="line.ok ? '✓' : '✗'"></span>
+                <span class="min-w-0 whitespace-pre-wrap" x-bind:class="line.missing && 'italic opacity-80'"
+                    x-text="line.missing ? 'Falta: «' + line.text + '»' : (line.text === '' ? ' ' : line.text)"></span>
+            </div>
+        </template>
+        <p class="mt-1 text-[11px] text-ink-muted">✓ igual a lo esperado · ✗ revisá ese renglón</p>
+    </div>
 </div>

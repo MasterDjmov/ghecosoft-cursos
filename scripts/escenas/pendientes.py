@@ -404,6 +404,7 @@ REFS = {
         'ambientes': {
             '00-curso.md': 'en la entrada de una ciudad de videojuegos de noche: una boletería de neón, calles con máquinas de juegos apagadas, una vuelta al mundo y una montaña rusa quietas al fondo',
             '01-banco-de-pruebas.md': 'en el Banco de Pruebas: un galpón largo de taller con mesas llenas de pantallas chiquitas, cables, joysticks y piezas de máquinas de juegos, con luces de neón violeta y cian, de noche',
+            '02-la-cancha-de-las-paletas.md': 'en la Cancha de las Paletas: un salón enorme con el piso pintado como una cancha de tenis de neón y, en el medio, la máquina de juegos más vieja de la ciudad (dos paletas y una pelota), de noche',
         },
         'chars': [
             (r'\bKira\b', 'Kira de Arcadia', ['15682724029684616970'], 'Kira es una chica joven de estatura mediana, delgada, con la ropa cerrada.'),

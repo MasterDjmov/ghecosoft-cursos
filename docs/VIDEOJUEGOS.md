@@ -399,10 +399,10 @@ poco, como en los otros cursos: un concepto por micro-misión, todo muy explicad
   nodo de la escalera, **`cursos/videojuegos/02-la-cancha-de-las-paletas.md`**: R02-N01 «La cancha y las dos paletas»
   (la red con un `for`, dos jugadores en un teclado, la pelota con `vx`/`vy` que rebota arriba y abajo, y la paleta que
   la devuelve; se juega de a dos). Las 4 micro-misiones, comprobadas por el robot. Lo que sigue de Pong (los puntos, la
-  pelota que acelera, la IA simple, el menú y el fin) es la fase 5. Escenas: la Clase 0 y R01-N01 a N04 hechas.
+  pelota que acelera, la IA simple, el menú y el fin) es la fase 5. Escenas: las 49 hechas.
 
 **Falta (fase 4):**
-- Las escenas que faltan de cada micro-misión (hechas: la Clase 0 y R01-N01 a N04).
+- Escenas: las 49 hechas (2026-11-26); las de cada nodo nuevo, con `pendientes.py cursos/videojuegos`.
 - La tienda de Ciudad Arcadia (con sus ítems e imágenes), las fichas de Arcadia, Kira de Arcadia y las criaturas en
   `PERSONAJES.md` (para la Enciclopedia), la figura de cuerpo entero para Mis Crónicas y la temporada de inglés.
 

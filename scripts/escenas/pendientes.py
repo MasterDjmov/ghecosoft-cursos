@@ -407,6 +407,7 @@ REFS = {
             '02-la-cancha-de-las-paletas.md': 'en la Cancha de las Paletas: un salón enorme con el piso pintado como una cancha de tenis de neón y, en el medio, la máquina de juegos más vieja de la ciudad (dos paletas y una pelota), de noche',
             '03-el-muro-de-ladrillos.md': 'en la plaza del Muro de Ladrillos: una plaza de noche con un paredón altísimo de ladrillos de vidrio de colores y, al pie, una máquina de juegos vieja de madera',
             '04-el-jardin-de-la-serpiente.md': 'en el Jardín de la Serpiente: un jardín escondido de noche, con canteros de flores de vidrio que brillan, caminitos de baldosas y, en el medio, una máquina de juegos vieja de madera',
+            '06-la-pista-de-los-biplanos.md': 'en la Pista de los Biplanos: un hangar de madera de noche en las afueras de la ciudad, con biplanos de juguete con alas de tela colgados del techo, una pista larga de pasto afuera y, en el medio, una máquina de juegos vieja con un volante de avión',
             '05-la-torre-que-no-para.md': 'al pie de la Torre que no para: una torre altísima de noche, hecha de bloques de colores apilados, que se pierde entre las nubes, con bloques que caen despacio desde arriba y, al pie, una máquina de juegos vieja de madera con la pantalla angosta y alta',
         },
         'chars': [

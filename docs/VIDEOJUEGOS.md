@@ -482,7 +482,27 @@ micro-misiones, todas comprobadas por el robot; plantillas en `scripts/videojueg
 La Torre que no para tiene ficha en `PERSONAJES.md` y el pedido de imagen de la Pieza Dorada en `GameItems`.
 **Faltan (esperan el cupo de Stitch):** el cuerpo entero y la hoja de 8 ángulos de la Torre (después, su renglón en
 `chars` de `pendientes.py`, con la imagen, y en `hojas.json`), sus imágenes de la Enciclopedia, la imagen de la Pieza
-Dorada y las 24 escenas. Sigue la máquina siguiente: **la Pista de los Biplanos (naves tipo 1942)**, R06.
+Dorada y las 24 escenas.
+
+**R06 · La Pista de los Biplanos: naves, completa** (`cursos/videojuegos/06-la-pista-de-los-biplanos.md`, 6 nodos y 24
+micro-misiones, todas comprobadas por el robot; plantillas en `scripts/videojuegos/escalera/r06/`):
+1. El biplano y el cielo (cuatro flechas mantenidas, `SDL_clamp`, nubes en un arreglo que bajan y vuelven arriba).
+2. Las balas (un arreglo de `struct Bala` con `viva`: disparar buscando una libre con `break`, subir, apagarse al
+   salir para reusarlas, el cargador que muestra las libres).
+3. Los enemigos (otra pileta, uno por segundo con un temporizador, bajan y se escapan, cada bala contra cada enemigo
+   con dos `for` y `SDL_HasRectIntersectionFloat`, los puntos).
+4. Oleadas (el zigzag con `SDL_sinf`, oleadas de cinco con un respiro de 3 s, más rápidas en cada oleada, los
+   enemigos que tiran: los tiros son otra pileta de `struct Bala`).
+5. Vidas, menú y revancha (`dt = 0` fuera de la partida congela todo; el golpe se junta en un `bool` y resta una sola
+   vida; dos segundos de parpadeo; la R apaga las tres piletas).
+6. Jefe: La Nave Nodriza (aparece a los 20 s y va y viene, 20 vidas con su barra, bombas de agua de los dos
+   costados con un contador `puestas`, `GANASTE` y el cartel centrado): el séptimo pedazo del mapa (el Tren Fantasma)
+   y la **Hélice de Plata**.
+
+Los globos son de juguete y la Nodriza moja, no lastima (apto para chicos). Para la prueba del jefe, el robot
+esconde el biplano en la esquina izquierda: con la semilla fija, ahí llega vivo a los 20 segundos.
+**Faltan (esperan Stitch):** el cuerpo y la hoja de la Nodriza (y su renglón en `chars`), sus imágenes de la
+Enciclopedia, la imagen de la Hélice de Plata y las 24 escenas. Sigue **el Tren Fantasma (Pac-Man)**, R07.
 
 **Falta (fase 4):**
 - Escenas: las 49 hechas (2026-11-26); las de cada nodo nuevo, con `pendientes.py cursos/videojuegos`.

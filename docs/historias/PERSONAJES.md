@@ -1734,6 +1734,15 @@ Historia en [../VIDEOJUEGOS.md](../VIDEOJUEGOS.md) § 2. La ciudad de los videoj
 - **Imágenes:** faltan (cuerpo entero y hoja de 8 ángulos en el proyecto de Stitch de Ciudad Arcadia, cuando vuelva el cupo).
 - **Primera aparición:** Videojuegos, R05-N06.
 
+### La Nave Nodriza
+- **Rol:** el jefe de R06 de Videojuegos: el dirigible que lleva los globos de la Pista de los Biplanos. Hace treinta años que los suelta sin que ningún piloto se los reviente.
+- **Qué error representa:** un juego de naves sin clímax: enemigos que nunca cambian, sin un rival grande, sin una vida que se vea bajar y sin un final que diga cómo te fue.
+- **Cómo se la vence:** aguantando 20 segundos hasta que aparece, sacándole las 20 vidas de su barra con las balas, esquivando sus bombas de agua de los dos costados; el cartel final centrado.
+- **Qué es:** un **dirigible de juguete enorme**, del tamaño de una casa, hecho de **retazos de tela de colores**, con **hélices** que zumban, **dos ojos de buzo redondos** en la proa, una sonrisa de lona y una **canasta llena de globos rojos** colgando abajo, con dos regaderas. Habla con voz de altoparlante. Juguetona, nunca mala: moja, no lastima.
+- **Cómo termina:** cuando le sacan la última vida, la máquina dice «LA NODRIZA ATERRIZA», el dirigible baja al pasto de la pista, empapado y feliz, le da a Kira la **Hélice de Plata** y la pantalla muestra otro pedazo del mapa del Vidriero (el Tren Fantasma).
+- **Imágenes:** faltan (cuerpo entero y hoja de 8 ángulos en el proyecto de Stitch de Ciudad Arcadia).
+- **Primera aparición:** Videojuegos, R06-N06.
+
 ## Las Crónicas en Inglés (Primaria y Secundaria)
 
 La historia unificada de los cursos de inglés ([ingles.md](ingles.md)). Imágenes generadas en Stitch el 2026-10-13, en el proyecto de los Talleres (`9229721314509917104`); los archivos, en `publicidad/logos cursos/personajes/Crónicas en Inglés/`.

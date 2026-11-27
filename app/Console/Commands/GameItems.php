@@ -711,6 +711,7 @@ class GameItems extends Command
         'buzo-forrado' => 'Un buzo oscuro con capucha, acolchado, con musgo verde asomando en el cuello y los puños.',
         'lanzafichas-de-la-garra' => 'Una gomera oscura con garras curvas de ogro en la horqueta y escamas rojas, cargada con una ficha en llamas.',
         'videojuegos-paleta-del-campeon' => 'Una paleta rectangular vieja de madera oscura pulida, gastada en la punta, con un anillo de bronce en el mango y un brillo dorado.',
+        'videojuegos-helice-de-plata' => 'Una hélice chiquita de avión de juguete, de dos palas, de plata brillante, con un remache de bronce en el centro y una estela de viento celeste.',
         'videojuegos-pieza-dorada' => 'Una pieza de cuatro cubitos de oro pegados en forma de T, que brilla suave desde adentro, liviana como una pluma, con chispitas doradas.',
         'videojuegos-escama-de-luz' => 'Una escama redondeada de vidrio translúcido que brilla verde y dorada como un vitral, con florcitas de vidrio reflejadas adentro.',
         'videojuegos-ladrillo-arcoiris' => 'Un ladrillo rectangular de vidrio biselado que brilla desde adentro con remolinos rosa, naranja, verde y violeta, con chispitas violetas y cian.',

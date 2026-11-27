@@ -27,6 +27,7 @@ Se vienen **JavaScript, C#, React Native y Laravel**: cada uno trae su región, 
 | Simulación | correr el súper test antes de abrirlo | `php artisan app:simulate-course <slug>` |
 | **Inglés** | **su temporada en las Crónicas en Inglés (Primaria y Secundaria)**, ver § 4 | [INGLES.md](INGLES.md) § 8 |
 | Herramientas | si es un lenguaje nuevo, su lugar para practicar y sus sugerencias | `PracticeTools::TOOLS`, `completions.js`, [HERRAMIENTAS.md](HERRAMIENTAS.md) |
+| Propaganda | su afiche vertical con el molde de C# (protagonista, un Gheco, panel de código, WhatsApp) y, si suma héroe, rehacer los dos fondos del elenco | `publicidad/logos cursos/propaganda/` (fuera del repo); proyecto de Stitch `8756355334894081106` |
 | CLAUDE.md | la carpeta del curso en «Documentos» | `CLAUDE.md` |
 
 ## 2. Un personaje nuevo (héroe, líder, secundario o jefe)

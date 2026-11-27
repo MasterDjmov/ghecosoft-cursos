@@ -407,6 +407,7 @@ REFS = {
             '02-la-cancha-de-las-paletas.md': 'en la Cancha de las Paletas: un salón enorme con el piso pintado como una cancha de tenis de neón y, en el medio, la máquina de juegos más vieja de la ciudad (dos paletas y una pelota), de noche',
             '03-el-muro-de-ladrillos.md': 'en la plaza del Muro de Ladrillos: una plaza de noche con un paredón altísimo de ladrillos de vidrio de colores y, al pie, una máquina de juegos vieja de madera',
             '04-el-jardin-de-la-serpiente.md': 'en el Jardín de la Serpiente: un jardín escondido de noche, con canteros de flores de vidrio que brillan, caminitos de baldosas y, en el medio, una máquina de juegos vieja de madera',
+            '05-la-torre-que-no-para.md': 'al pie de la Torre que no para: una torre altísima de noche, hecha de bloques de colores apilados, que se pierde entre las nubes, con bloques que caen despacio desde arriba y, al pie, una máquina de juegos vieja de madera con la pantalla angosta y alta',
         },
         'chars': [
             (r'\bKira\b', 'Kira de Arcadia', ['15682724029684616970'], 'Kira es una chica joven de estatura mediana, delgada, con la ropa cerrada y SIEMPRE con su brazal de control de juego (cruz, botones y palanquita) en el antebrazo izquierdo, como en su hoja.'),

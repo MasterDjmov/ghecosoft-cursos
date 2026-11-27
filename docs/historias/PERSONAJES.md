@@ -1725,6 +1725,15 @@ Historia en [../VIDEOJUEGOS.md](../VIDEOJUEGOS.md) § 2. La ciudad de los videoj
 - **Imágenes:** cuerpo entero `f362c3dd3ea94a2a8e11303b304f10c0` y hoja de 8 ángulos `b560c0577cfd41488c8a846afb4fc925` en el proyecto de Stitch de Ciudad Arcadia.
 - **Primera aparición:** Videojuegos, R04-N05.
 
+### La Torre que no para
+- **Rol:** el jefe de R05 de Videojuegos: la torre que el Vidriero hizo para jugar a apilar, en el borde de Ciudad Arcadia. Hace treinta años que apila sola, sin nadie que la acomode, y no sabe frenar.
+- **Qué error representa:** un juego que nunca termina ni se pone difícil de a poco: piezas sin aviso, sin presión y sin un final que diga cómo te fue.
+- **Cómo se la vence:** mostrando la pieza siguiente, aguantando los escombros que empuja desde abajo cada 10 segundos, con la caída que se acelera cada 20 y el cartel final centrado (borrando 10 líneas).
+- **Qué es:** un **gigante bonachón hecho de bloques de colores** (celestes, amarillos, violetas, verdes, rojos, azules y naranjas, como las piezas), con **dos ventanas encendidas por ojos**, siempre medio dormidas, y una **pieza que gira arriba de la cabeza como un sombrero**. Bosteza con ruido de piedras. Apto para chicos: cansado, no malo.
+- **Cómo termina:** cuando alguien borra diez líneas, la máquina dice «LA TORRE SE DETIENE», la Torre se sienta, apoya la cabeza en las nubes y se duerme por primera vez en treinta años; de su sombrero cae la **Pieza Dorada**, y la pantalla muestra otro pedazo del mapa del Vidriero (la Pista de los Biplanos).
+- **Imágenes:** faltan (cuerpo entero y hoja de 8 ángulos en el proyecto de Stitch de Ciudad Arcadia, cuando vuelva el cupo).
+- **Primera aparición:** Videojuegos, R05-N06.
+
 ## Las Crónicas en Inglés (Primaria y Secundaria)
 
 La historia unificada de los cursos de inglés ([ingles.md](ingles.md)). Imágenes generadas en Stitch el 2026-10-13, en el proyecto de los Talleres (`9229721314509917104`); los archivos, en `publicidad/logos cursos/personajes/Crónicas en Inglés/`.

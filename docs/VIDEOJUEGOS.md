@@ -456,8 +456,33 @@ pedía § 4: 5 nodos y 20 micro-misiones, todas comprobadas por el robot; planti
    pedazo del mapa (la Torre que no para) y la **Escama de Luz**. Una maceta está justo donde cae la primera fruta con la
    semilla fija, para que el robot pueda comprobar la función `libre`.
 
-La Serpiente Jardinera tiene ficha en `PERSONAJES.md`, imágenes en la Enciclopedia y hoja de 8 ángulos. **Faltan:** las
-20 escenas de R04. Sigue la máquina siguiente: **la Torre que no para (Tetris)**, R05.
+La Serpiente Jardinera tiene ficha en `PERSONAJES.md`, imágenes en la Enciclopedia y hoja de 8 ángulos. Escenas: 9 de
+20 (2026-11-26); las 11 que faltan esperan el cupo diario de Stitch. Desde R04-N02 los pedidos nombran el brazal de
+control de juego de Kira (antes casi nunca salía).
+
+**R05 · La Torre que no para: Tetris, completa** (`cursos/videojuegos/05-la-torre-que-no-para.md`, 6 nodos y 24
+micro-misiones, todas comprobadas por el robot; plantillas en `scripts/videojuegos/escalera/r05/`, se genera entero con
+`gen.py r05 n01 … n06`). El pozo es de 10 × 20 casillas de 24 píxeles, centrado (`OX` 200):
+1. El pozo y la pieza (el tablero como matriz con dos `for`, la pieza en una cajita de 4 × 4, bajar con un reloj, las
+   flechas).
+2. Chocar y quedarse (la función `cabe` que pregunta antes de mover: paredes, piso y casillas ocupadas; fijar la pieza
+   en el pozo y sacar otra; apenas no puede bajar, se queda).
+3. Girar y las siete piezas (girar armando otra matriz, `girada[f][c] = pieza[3 - c][f]`; si no cabe, tres giros más;
+   las tablas `PIEZAS[7][4][4]` y `COLORES`, `SDL_rand(7)`; el pozo guarda `tipo + 1`).
+4. Líneas completas (caer de golpe con el espacio; `borrarLineas` revisa de abajo para arriba, baja todo y repite la
+   fila con `f++`, y devuelve cuántas borró; líneas y puntos con la tabla `PREMIO`). El pozo arranca con una fila de
+   escombros con un hueco en la columna 4, justo donde cae la pata de la primera T: así el robot puede comprobar el
+   borrado.
+5. Menú, fin y revancha (`enum`; se empieza con Enter porque el espacio hace caer; se pierde si la pieza nueva no cabe;
+   la función `armar` arma el pozo al principio y en la revancha; el toc y el tin).
+6. Jefe: La Torre que no para (la pieza siguiente, escombros desde abajo cada 10 s con un hueco al azar, el nivel cada
+   20 s con la caída × 0,8 y tope de 0,1, el cartel final centrado que pide 10 líneas): el sexto pedazo del mapa (la
+   Pista de los Biplanos) y la **Pieza Dorada**.
+
+La Torre que no para tiene ficha en `PERSONAJES.md` y el pedido de imagen de la Pieza Dorada en `GameItems`.
+**Faltan (esperan el cupo de Stitch):** el cuerpo entero y la hoja de 8 ángulos de la Torre (después, su renglón en
+`chars` de `pendientes.py`, con la imagen, y en `hojas.json`), sus imágenes de la Enciclopedia, la imagen de la Pieza
+Dorada y las 24 escenas. Sigue la máquina siguiente: **la Pista de los Biplanos (naves tipo 1942)**, R06.
 
 **Falta (fase 4):**
 - Escenas: las 49 hechas (2026-11-26); las de cada nodo nuevo, con `pendientes.py cursos/videojuegos`.
